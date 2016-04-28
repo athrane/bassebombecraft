@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.BassebombeCraft;
 import bassebombecraft.item.action.mist.block.RainbowSpiralMist;
+import bassebombecraft.item.book.FallingAnvilBook;
 import bassebombecraft.item.book.BaconBazookaBook;
 import bassebombecraft.item.book.BeastmasterBook;
 import bassebombecraft.item.book.BeastmasterMistBook;
@@ -298,7 +299,7 @@ public class ItemInitializer {
 		logger.info("initializing item: " + IceBlockBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(iceBlockBook), "xyy", "   ", "   ", 'x', Items.book, 'y',
 				Items.snowball);
-
+		
 		Item lavaBlockBook = new LavaBlockBook();
 		lavaBlockBook.setCreativeTab(targetTab);
 		GameRegistry.registerItem(lavaBlockBook, LavaBlockBook.ITEM_NAME);
@@ -306,6 +307,13 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(lavaBlockBook), "xyy", "   ", "   ", 'x', Items.book, 'y',
 				Items.lava_bucket);
 
+		Item fallingAnvilBook = new FallingAnvilBook();
+		fallingAnvilBook.setCreativeTab(targetTab);
+		GameRegistry.registerItem(fallingAnvilBook, FallingAnvilBook.ITEM_NAME);
+		logger.info("initializing item: " + FallingAnvilBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(fallingAnvilBook), "xy ", "   ", "   ", 'x', Items.book, 'y',
+				Blocks.anvil);
+		
 		Item emitHorizontalForceBook = new EmitHorizontalForceBook();
 		emitHorizontalForceBook.setCreativeTab(targetTab);
 		GameRegistry.registerItem(emitHorizontalForceBook, EmitHorizontalForceBook.ITEM_NAME);

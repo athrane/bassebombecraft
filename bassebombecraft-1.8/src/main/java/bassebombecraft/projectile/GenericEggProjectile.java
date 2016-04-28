@@ -37,9 +37,6 @@ public class GenericEggProjectile extends EntityThrowable {
 	 * Called when this EntityThrowable hits a block or entity.
 	 */
 	protected void onImpact(MovingObjectPosition movObjPos) {
-		if (movObjPos.entityHit != null) {
-			movObjPos.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), 0.0F);
-		}
 
 		// exit if on server
 		if (this.worldObj.isRemote) return;
