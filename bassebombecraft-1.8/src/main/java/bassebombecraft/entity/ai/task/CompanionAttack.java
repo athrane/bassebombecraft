@@ -14,6 +14,7 @@ import bassebombecraft.item.action.mist.entity.VacuumMist;
 import bassebombecraft.projectile.action.EmitHorizontalForce;
 import bassebombecraft.projectile.action.EmitVerticalForce;
 import bassebombecraft.projectile.action.ProjectileAction;
+import bassebombecraft.projectile.action.SpawnAnvil;
 import bassebombecraft.projectile.action.SpawnCobweb;
 import bassebombecraft.projectile.action.SpawnIceBlock;
 import bassebombecraft.projectile.action.SpawnLavaBlock;
@@ -36,6 +37,7 @@ public class CompanionAttack extends EntityAIBase {
 	static final ProjectileAction EMIT_FORCE_PROJECTILE_ACTION = new EmitHorizontalForce();
 	static final ProjectileAction EMIT_VERTICAL_FORCE_PROJECTILE_ACTION = new EmitVerticalForce();
 	static final ProjectileAction SPAWN_SQUID_PROJECTILE_ACTION = new SpawnSquid();
+	static final ProjectileAction FALLING_ANVIL_PROJECTILE_ACTION = new SpawnAnvil();	
 	static final EntityMistActionStrategy SPAWN_VACUUM_MIST_PROJECTILE_ACTION = new VacuumMist();		
 	static final EntityMistActionStrategy TOXIC_MIST_STRATEGY	 = new ToxicMist();		
 	
@@ -120,7 +122,7 @@ public class CompanionAttack extends EntityAIBase {
 	 * Mists are not used due to update problems.
 	 */
 	void doCloseRangeAction() {
-		int choice = entity.getRNG().nextInt(8);
+		int choice = entity.getRNG().nextInt(9);
 
 		switch (choice) {
 
@@ -160,6 +162,11 @@ public class CompanionAttack extends EntityAIBase {
 			break;
 
 		case 7:
+			RightClickedItemAction faAction = new GenericShootEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION);
+			faAction.onRightClick(entity.worldObj, entity);
+			break;
+			
+		case 8:
 			RightClickedItemAction svmAction = new GenericEntityMist(SPAWN_VACUUM_MIST_PROJECTILE_ACTION);
 			svmAction.onRightClick(entity.worldObj, entity);
 			break;
@@ -175,7 +182,7 @@ public class CompanionAttack extends EntityAIBase {
 	 * Mists are not used due to update problems.
 	 */
 	void doLongRangeAction() {
-		int choice = entity.getRNG().nextInt(4);
+		int choice = entity.getRNG().nextInt(7);
 
 		switch (choice) {
 
@@ -207,6 +214,11 @@ public class CompanionAttack extends EntityAIBase {
 		case 5:
 			RightClickedItemAction sasAction = new GenericShootEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION);
 			sasAction.onRightClick(entity.worldObj, entity);
+			break;
+
+		case 6:
+			RightClickedItemAction faAction = new GenericShootEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION);
+			faAction.onRightClick(entity.worldObj, entity);
 			break;
 			
 		default:
