@@ -45,6 +45,7 @@ import bassebombecraft.item.book.SpawnFlamingChickenBook;
 import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnManyCowsBook;
 import bassebombecraft.item.book.SpawnSquidBook;
+import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.book.WitherMistBook;
@@ -97,6 +98,15 @@ public class ItemInitializer {
 				Items.stick);
 
 		// Initialise books
+		
+		Item teleportBook = new TeleportBook();
+		teleportBook.setCreativeTab(targetTab);
+		GameRegistry.registerItem(teleportBook, TeleportBook.ITEM_NAME);
+		logger.info("initializing item: " + TeleportBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(teleportBook), "xy ", "   ", "   ", 'x', Items.book, 'y',
+				Blocks.diamond_ore);
+			
+		
 		Item smallFireballBook = new SmallFireballBook();
 		smallFireballBook.setCreativeTab(targetTab);
 		GameRegistry.registerItem(smallFireballBook, SmallFireballBook.ITEM_NAME);

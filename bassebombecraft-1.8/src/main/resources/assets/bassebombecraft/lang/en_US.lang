@@ -39,6 +39,7 @@ item.SpawnGuardianBook.name=Book of Guardian
 # weapons and stuff
 item.MultipleArrowsBook.name=Book of Multiple Arrows
 item.FallingAnvilBook.name=Book of Falling Anvil
+item.TeleportBook.name=Book of Teleport
 
 # Beastmaster
 item.BeastmasterMistBook.name=Book of Beast Charming Mist
