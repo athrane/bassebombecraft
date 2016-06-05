@@ -71,3 +71,7 @@ item.RainbownizeBook.name=Book of Rainbownize
 
 item.CopyPasteBlocksBook.name=Book of Copy and Paste
 item.DuplicateBlockBook.name=Book of Duplication
+
+#blocks
+tile.RandomBookBlock.name=Block of Random Books
+

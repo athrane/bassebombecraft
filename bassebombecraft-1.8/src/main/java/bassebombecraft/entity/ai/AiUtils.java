@@ -3,6 +3,7 @@ package bassebombecraft.entity.ai;
 import com.google.common.collect.Lists;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 
 /**
  * AI utility class.
@@ -30,4 +31,15 @@ public class AiUtils {
 	public static void buildCharmedMobAi(EntityLiving entity) {
 		charmedMobAiBuilder.build(entity);
 	}
+	
+	/**
+	 * Build AI for charmed mob.
+	 * 
+	 * @param entity entity which will configured will charmed AI.
+	 * @param owner entity which charmed mob.
+	 */
+	public static void buildCharmedMobAi(EntityLiving entity, EntityLivingBase owner) {
+		charmedMobAiBuilder.build(entity, owner);
+	}
+	
 }

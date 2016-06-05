@@ -65,9 +65,6 @@ public class CompanionAttack extends EntityAIBase {
 	@Override
 	public boolean shouldExecute() {
 
-		GenericEntityMist action = new GenericEntityMist(new ToxicMist());
-		action.onRightClick(entity.worldObj, entity);
-
 		EntityLivingBase targetCandidate = this.entity.getAttackTarget();
 
 		if (targetCandidate == null) {

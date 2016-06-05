@@ -8,6 +8,7 @@ import static bassebombecraft.ModConstants.VERSION;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import bassebombecraft.block.BlockInitializer;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.block.DefaultBlockDirectiveRepository;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventListener;
@@ -103,7 +104,8 @@ public class BassebombeCraft {
 
 		ItemInitializer.getInstance().initialize(modTab);
 		ProjectileInitializer.getInstance().initialize(this, modTab);
-		initializeEventListeners();
+		BlockInitializer.getInstance().initialize(modTab);						
+		initializeEventListeners();		
 		logger.info("Initialized BasseBombeCraft");
 	}
 

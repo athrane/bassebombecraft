@@ -4,6 +4,7 @@ import bassebombecraft.entity.ai.task.CompanionAttack;
 import bassebombecraft.entity.ai.task.FollowClosestPlayer;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIFindEntityNearest;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -43,9 +44,30 @@ public class CharmedMobAiBuilder implements EntityAiBuilder {
 					SHOULD_CHECK_SIGHT, NEARBY_ONLY));
 		} else {
 			entity.targetTasks.addTask(1, new EntityAIFindEntityNearest(entity, EntityMob.class));
+		}		
+	}
+
+	@Override
+	public void build(EntityLiving entity, EntityLivingBase owner) {
+		
+		// set tasks
+		entity.tasks.addTask(0, new EntityAISwimming(entity));
+		entity.tasks.addTask(1, new CompanionAttack(entity));
+		entity.tasks.addTask(2, new EntityAIWatchClosest(entity, EntityMob.class, WATCH_DIST));		
+		entity.tasks.addTask(3, new FollowClosestPlayer(entity, MINIMUM_DIST, MOVEMENT_SPEED));
+		entity.tasks.addTask(4, new EntityAILookIdle(entity));
+
+		// set targeting task
+		if (entity instanceof EntityCreature) {
+			EntityCreature entityCreature = EntityCreature.class.cast(entity);
+			entity.targetTasks.addTask(1, new EntityAIHurtByTarget(entityCreature, DONT_CALL_FOR_HELP, new Class[0]));						
+			entity.targetTasks.addTask(2, new EntityAINearestAttackableTarget(entityCreature, EntityLiving.class,
+					SHOULD_CHECK_SIGHT, NEARBY_ONLY));
+		} else {
+			entity.targetTasks.addTask(1, new EntityAIFindEntityNearest(entity, EntityMob.class));
 		}
 		
 	
-	}
-
+	}	
+	
 }
