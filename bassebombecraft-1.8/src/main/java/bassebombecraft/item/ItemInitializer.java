@@ -104,8 +104,7 @@ public class ItemInitializer {
 		GameRegistry.registerItem(teleportBook, TeleportBook.ITEM_NAME);
 		logger.info("initializing item: " + TeleportBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(teleportBook), "xy ", "   ", "   ", 'x', Items.book, 'y',
-				Blocks.diamond_ore);
-			
+				Items.ender_pearl);			
 		
 		Item smallFireballBook = new SmallFireballBook();
 		smallFireballBook.setCreativeTab(targetTab);
