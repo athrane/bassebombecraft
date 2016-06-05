@@ -22,7 +22,7 @@ import net.minecraft.world.World;
  */
 public class SpawnLavaBlock implements ProjectileAction {
 
-	static final int DURATION = 100;
+	static final int DURATION = 200;
 	static final boolean DONT_HARVEST = false;
 
 	static TemporaryBlockRepository tempBlockRepository = getBassebombeCraft().getTemporaryBlockRepository();
