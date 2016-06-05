@@ -10,7 +10,7 @@ public class ModConstants {
 
 	public static final String NAME = "BasseBombeCraft";
     public static final String MODID = "bassebombecraft";
-    public static final String VERSION = "1.8-1.11";
+    public static final String VERSION = "1.8-1.12";
 
     public static final String TAB_NAME= "BasseBombeCraft";
         

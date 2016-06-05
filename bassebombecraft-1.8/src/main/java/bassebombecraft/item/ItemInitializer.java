@@ -27,6 +27,7 @@ import bassebombecraft.item.book.IceBlockBook;
 import bassebombecraft.item.book.LargeFireballBook;
 import bassebombecraft.item.book.LavaBlockBook;
 import bassebombecraft.item.book.LavaSpiralMistBook;
+import bassebombecraft.item.book.LightningBoltBook;
 import bassebombecraft.item.book.LingeringFlameBook;
 import bassebombecraft.item.book.LingeringFuryBook;
 import bassebombecraft.item.book.MovingIceMultiMistBook;
@@ -316,6 +317,13 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(lavaBlockBook), "xyy", "   ", "   ", 'x', Items.book, 'y',
 				Items.lava_bucket);
 
+		Item lightningBoltBook = new LightningBoltBook();
+		lightningBoltBook.setCreativeTab(targetTab);
+		GameRegistry.registerItem(lightningBoltBook, LightningBoltBook.ITEM_NAME);
+		logger.info("initializing item: " + LightningBoltBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(lightningBoltBook), "xyy", "   ", "   ", 'x', Items.book, 'y',
+				Items.gold_ingot);
+		
 		Item fallingAnvilBook = new FallingAnvilBook();
 		fallingAnvilBook.setCreativeTab(targetTab);
 		GameRegistry.registerItem(fallingAnvilBook, FallingAnvilBook.ITEM_NAME);

@@ -51,6 +51,9 @@ item.IceBlockBook.name=Book of Freezing Death
 item.MovingIceMultiMistBook.name=Book of Frozen Doom
 item.MovingWaterMultiMistBook.name=Book of Atlantic Rage
 
+# electricity
+item.ThunderBook=Book of Thunder 
+
 # Rainbow
 item.MovingRainbowMistBook.name=Book of DJ Snake
 
