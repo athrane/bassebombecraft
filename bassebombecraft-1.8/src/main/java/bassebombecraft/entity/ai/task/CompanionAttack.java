@@ -9,6 +9,7 @@ import bassebombecraft.item.action.ShootSmallFireball;
 import bassebombecraft.item.action.ShootWitherSkull;
 import bassebombecraft.item.action.mist.entity.EntityMistActionStrategy;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
+import bassebombecraft.item.action.mist.entity.LightningBoltMist;
 import bassebombecraft.item.action.mist.entity.ToxicMist;
 import bassebombecraft.item.action.mist.entity.VacuumMist;
 import bassebombecraft.projectile.action.EmitHorizontalForce;
@@ -41,7 +42,8 @@ public class CompanionAttack extends EntityAIBase {
 	static final ProjectileAction SPAWN_SQUID_PROJECTILE_ACTION = new SpawnSquid();
 	static final ProjectileAction FALLING_ANVIL_PROJECTILE_ACTION = new SpawnAnvil();	
 	static final EntityMistActionStrategy SPAWN_VACUUM_MIST_PROJECTILE_ACTION = new VacuumMist();		
-	static final EntityMistActionStrategy TOXIC_MIST_STRATEGY	 = new ToxicMist();		
+	static final EntityMistActionStrategy TOXIC_MIST_STRATEGY = new ToxicMist();		
+	static final EntityMistActionStrategy LIGHTNING_MIST_STRATEGY = new LightningBoltMist();		
 	
 	static final int MINIMUM_RANGE = 5;
 	static final int UPDATE_FREQUENCY = 10; // Measured in ticks
@@ -121,7 +123,7 @@ public class CompanionAttack extends EntityAIBase {
 	 * Mists are not used due to update problems.
 	 */
 	void doCloseRangeAction() {
-		int choice = entity.getRNG().nextInt(10);
+		int choice = entity.getRNG().nextInt(11);
 
 		switch (choice) {
 
@@ -173,6 +175,11 @@ public class CompanionAttack extends EntityAIBase {
 		case 9:
 			RightClickedItemAction lbpAction = new GenericShootEggProjectile(LIGHTNING_PROJECTILE_ACTION);
 			lbpAction.onRightClick(entity.worldObj, entity);
+			break;
+			
+		case 10:
+			RightClickedItemAction lbmAction =  new GenericEntityMist(LIGHTNING_MIST_STRATEGY);
+			lbmAction.onRightClick(entity.worldObj, entity);
 			break;
 			
 		default:

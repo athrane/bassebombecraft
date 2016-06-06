@@ -3,45 +3,48 @@ package bassebombecraft.item.action.mist.entity;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 /**
  * Implementation of {@linkplain EntityMistActionStrategy} for construction of mist
- * action. This class creates a lingering flame which explodes when a mob comes
- * near.
+ * action. This class builds a mist with a lightning bolt effect.
  */
-public class LingeringFlameMist implements EntityMistActionStrategy {
-	
-	static final boolean IS_SMOKING = true;
-	int explosionRadius;
-	ParticleRenderingInfo[] infos;
+public class LightningBoltMist implements EntityMistActionStrategy {
 
+	static final int EFFECT_DURATION = 500; // Measured in ticks	
+	ParticleRenderingInfo[] infos;
+	
+	
 	/**
-	 * LingeringFlameMist constructor.
 	 * 
-	 * @param explosionRadius explosion radius in blocks.
 	 */
-	public LingeringFlameMist(int explosionRadius) {
-		this.explosionRadius = explosionRadius;
+	public LightningBoltMist() {
+		super();
 		
 		// initiate particle rendering info 
 		float r = 0.75F;
-		float g = 0.25F;
-		float b = 0.25F;		
-		int numbers = 4;
-		EnumParticleTypes type = EnumParticleTypes.FLAME;
+		float g = 0.75F;
+		float b = 0.75F;		
+		int numbers = 5;
+		EnumParticleTypes type = EnumParticleTypes.CLOUD;
 		int duration = 20;		
-		double speed = 0.075;
+		double speed = 0.1;
 		ParticleRenderingInfo flame = getInstance(type, numbers, duration, r, g, b, speed);
 		
-		r = 0.75F;
-		g = 0.25F;
+		r = 0.0F;
+		g = 0.0F;
 		b = 0.25F;		
 		numbers = 1;
-		type = EnumParticleTypes.LAVA;
+		type = EnumParticleTypes.WATER_DROP;
 		duration = 20;		
 		speed = 0.01;		
 		ParticleRenderingInfo lava = getInstance(type, numbers, duration, r, g, b, speed);
@@ -52,13 +55,22 @@ public class LingeringFlameMist implements EntityMistActionStrategy {
 
 	@Override
 	public void applyEffectToEntity(EntityLivingBase target, Vec3 mistPos) {
-		World world = target.worldObj;
-		world.createExplosion(target, mistPos.xCoord, mistPos.yCoord, mistPos.zCoord, explosionRadius, IS_SMOKING);
+		World world = target.getEntityWorld();
+		
+		AxisAlignedBB aabb = target.getEntityBoundingBox();
+		BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);
+		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
+		for (Object pos : BlockPos.getAllInBox(min, max)) {
+			BlockPos typedPos = (BlockPos) pos;
+			EntityLightningBolt bolt = new EntityLightningBolt(world, typedPos.getX(), typedPos.getY(),
+					typedPos.getZ());
+			world.addWeatherEffect(bolt);
+		}
 	}
 
 	@Override
 	public int getEffectDuration() {
-		return 600;
+		return EFFECT_DURATION;
 	}
 
 	@Override
@@ -73,18 +85,17 @@ public class LingeringFlameMist implements EntityMistActionStrategy {
 
 	@Override
 	public boolean isOneShootEffect() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public int getEffectRange() {
-		return 2;
+		return 5;
 	}
-	
+
 	@Override
 	public ParticleRenderingInfo[] getRenderingInfos() {
 		return infos;
 	}
-	
-	
+
 }

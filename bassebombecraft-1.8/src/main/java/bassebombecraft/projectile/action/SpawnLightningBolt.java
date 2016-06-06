@@ -1,19 +1,16 @@
 package bassebombecraft.projectile.action;
 
-import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
-
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain ProjectileAction} which spawns a lightning bolt a the hit mob.
+ * Implementation of the {@linkplain ProjectileAction} which spawns a lightning
+ * bolt a the hit mob.
  * 
  * If a block is hit then an lightning bolt is spawned where the projectile hit.
  */
@@ -28,7 +25,8 @@ public class SpawnLightningBolt implements ProjectileAction {
 		// spawn a lightning bolt if no entity was hit
 		if (movObjPos.entityHit == null) {
 			BlockPos spawnPosition = calculatePosition(world, movObjPos);
-			EntityLightningBolt bolt = new EntityLightningBolt(world, spawnPosition.getX(), spawnPosition.getY(),spawnPosition.getZ());
+			EntityLightningBolt bolt = new EntityLightningBolt(world, spawnPosition.getX(), spawnPosition.getY(),
+					spawnPosition.getZ());
 			world.addWeatherEffect(bolt);
 			return;
 		}
@@ -40,7 +38,8 @@ public class SpawnLightningBolt implements ProjectileAction {
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
 		for (Object pos : BlockPos.getAllInBox(min, max)) {
 			BlockPos typedPos = (BlockPos) pos;
-			EntityLightningBolt bolt = new EntityLightningBolt(world, typedPos.getX(), typedPos.getY(),typedPos.getZ());
+			EntityLightningBolt bolt = new EntityLightningBolt(world, typedPos.getX(), typedPos.getY(),
+					typedPos.getZ());
 			world.addWeatherEffect(bolt);
 		}
 

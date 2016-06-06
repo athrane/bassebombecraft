@@ -47,6 +47,7 @@ import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnManyCowsBook;
 import bassebombecraft.item.book.SpawnSquidBook;
 import bassebombecraft.item.book.TeleportBook;
+import bassebombecraft.item.book.LightningBoltMistBook;
 import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.book.WitherMistBook;
@@ -323,6 +324,13 @@ public class ItemInitializer {
 		logger.info("initializing item: " + LightningBoltBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(lightningBoltBook), "xyy", "   ", "   ", 'x', Items.book, 'y',
 				Items.gold_ingot);
+		
+		Item thunderMistBook = new LightningBoltMistBook();
+		thunderMistBook.setCreativeTab(targetTab);
+		GameRegistry.registerItem(thunderMistBook, LightningBoltMistBook.ITEM_NAME);
+		logger.info("initializing item: " + LightningBoltMistBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(thunderMistBook), "xyz", "   ", "   ", 'x', Items.book, 'y',
+				Items.gold_ingot, 'z', Items.ghast_tear);		
 		
 		Item fallingAnvilBook = new FallingAnvilBook();
 		fallingAnvilBook.setCreativeTab(targetTab);

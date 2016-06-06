@@ -4,6 +4,7 @@ import static bassebombecraft.ModConstants.MODID;
 
 import java.util.Random;
 
+import bassebombecraft.item.action.mist.entity.LightningBoltMist;
 import bassebombecraft.item.book.BaconBazookaBook;
 import bassebombecraft.item.book.BeastmasterBook;
 import bassebombecraft.item.book.BeastmasterMistBook;
@@ -27,6 +28,7 @@ import bassebombecraft.item.book.LargeFireballBook;
 import bassebombecraft.item.book.LavaBlockBook;
 import bassebombecraft.item.book.LavaSpiralMistBook;
 import bassebombecraft.item.book.LightningBoltBook;
+import bassebombecraft.item.book.LightningBoltMistBook;
 import bassebombecraft.item.book.LingeringFlameBook;
 import bassebombecraft.item.book.LingeringFuryBook;
 import bassebombecraft.item.book.MovingIceMultiMistBook;
@@ -71,7 +73,7 @@ public class RandomBookBlock extends Block {
 
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		int number = rand.nextInt(47);
+		int number = rand.nextInt(48);
 
 		switch (number) {
 		case 0:
@@ -166,6 +168,8 @@ public class RandomBookBlock extends Block {
 			return GameRegistry.findItem(MODID, RainbownizeBook.ITEM_NAME);
 		case 46:
 			return GameRegistry.findItem(MODID, LightningBoltBook.ITEM_NAME);
+		case 47:
+			return GameRegistry.findItem(MODID, LightningBoltMistBook.ITEM_NAME);
 
 		default:
 			return super.getItemDropped(state, rand, fortune);
