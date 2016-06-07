@@ -72,21 +72,6 @@ public class GenericBlockClickedBook extends Item {
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-		return super.onItemRightClick(itemStackIn, worldIn, playerIn);
-	}
-
-	@Override
-	public boolean onLeftClickEntity(ItemStack stack, EntityPlayer player, Entity entity) {
-		return super.onLeftClickEntity(stack, player, entity);
-	}
-
-	@Override
-	public boolean onBlockStartBreak(ItemStack itemstack, BlockPos blockPosition, EntityPlayer player) {
-		return super.onBlockStartBreak(itemstack, blockPosition, player);
-	}
-
-	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
