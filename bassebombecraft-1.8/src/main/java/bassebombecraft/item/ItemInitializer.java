@@ -52,6 +52,7 @@ import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.book.WitherMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
+import bassebombecraft.item.inventory.ChickenizeIdolInventoryItem;
 import bassebombecraft.item.inventory.RainIdolInventoryItem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
@@ -443,6 +444,13 @@ public class ItemInitializer {
 		logger.info("initializing item: " + RainIdolInventoryItem.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(rainIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.clay_ball, 'y',
 				Items.water_bucket);			
+
+		Item chickenizeIdolInventoryItem = new ChickenizeIdolInventoryItem();
+		chickenizeIdolInventoryItem.setCreativeTab(targetTab);
+		GameRegistry.registerItem(chickenizeIdolInventoryItem, ChickenizeIdolInventoryItem.ITEM_NAME);
+		logger.info("initializing item: " + ChickenizeIdolInventoryItem.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(chickenizeIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.clay_ball, 'y',
+				Items.chicken);			
 		
 	}
 

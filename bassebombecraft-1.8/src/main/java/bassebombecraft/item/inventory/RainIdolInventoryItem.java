@@ -3,7 +3,7 @@ package bassebombecraft.item.inventory;
 import bassebombecraft.item.action.SpawnRain;
 
 /**
- * Book of rain idol implementation.
+ * Rain idol implementation.
  */
 public class RainIdolInventoryItem extends GenericInventoryItem {
 

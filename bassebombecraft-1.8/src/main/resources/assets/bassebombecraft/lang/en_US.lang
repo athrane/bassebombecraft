@@ -78,6 +78,7 @@ item.DuplicateBlockBook.name=Book of Duplication
 
 # inventory items
 item.RainIdolInventoryItem.name=Idol of Rain
+item.ChickenizeIdolInventoryItem.name=Idol of Chickenize
 
 #blocks
 tile.RandomBookBlock.name=Block of Random Books

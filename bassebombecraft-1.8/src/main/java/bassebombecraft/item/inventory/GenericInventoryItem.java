@@ -1,6 +1,9 @@
 package bassebombecraft.item.inventory;
 
 import static bassebombecraft.ModConstants.MODID;
+import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
+
+import java.util.List;
 
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.client.Minecraft;
@@ -10,6 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 /**
@@ -29,6 +33,8 @@ public class GenericInventoryItem extends Item {
 	 */
 	static final int EFFECT_UPDATE_FREQUENCY = 200; // Measured in ticks
 
+	final static int AOE_RANGE = 5;
+	
 	/**
 	 * Ticks counter.
 	 */
@@ -40,7 +46,7 @@ public class GenericInventoryItem extends Item {
 	RightClickedItemAction action;
 
 	/**
-	 * Generic book constructor.
+	 * GenericInventoryItem constructor.
 	 * 
 	 * @param name
 	 *            item name.
@@ -54,6 +60,11 @@ public class GenericInventoryItem extends Item {
 		registerForRendering(this);
 	}
 
+	boolean isEffectAppliedToInvoker() {
+		return false;
+	}
+	
+	
 	/**
 	 * Register item for rendering.
 	 * 
@@ -66,6 +77,44 @@ public class GenericInventoryItem extends Item {
 		location = new ModelResourceLocation(MODID + ":" + getUnlocalizedName().substring(5), "inventory");
 		renderItem.getItemModelMesher().register(item, 0, location);
 	}
+
+	/**
+	 * Apply effect to creatures within range.
+	 * 
+	 * @param world
+	 *            world object
+	 * @param invokingEntity
+	 *            entity object
+	 */
+	void applyEffect(World world, EntityLivingBase invokingEntity) {
+
+		// get entities within AABB
+		AxisAlignedBB aabb = AxisAlignedBB.fromBounds(invokingEntity.posX - AOE_RANGE, invokingEntity.posY - AOE_RANGE,
+				invokingEntity.posZ - AOE_RANGE, invokingEntity.posX + AOE_RANGE, invokingEntity.posY + AOE_RANGE,
+				invokingEntity.posZ + AOE_RANGE);
+		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, aabb);
+
+		for (EntityLivingBase foundEntity : entities) {
+
+			// skip invoking entity if strategy specifies it
+			if (hasIdenticalUniqueID(invokingEntity, foundEntity)) {
+				if (!isEffectAppliedToInvoker())
+					continue;
+			}
+
+			// apply effect
+			action.onRightClick(world, foundEntity);
+
+			/**
+			// exit if strategy is one shot effect
+			if (strategy.isOneShootEffect()) {
+				isActive = false;
+				return;
+			}
+			**/
+		}
+	}
+	
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
@@ -84,14 +133,15 @@ public class GenericInventoryItem extends Item {
 
 		// update game effect
 		if (ticksCounter % EFFECT_UPDATE_FREQUENCY == 0) {
+			
 
 			// exit if entity isn't a EntityLivingBase
 			if (!(entityIn instanceof EntityLivingBase))
 				return;
 			EntityLivingBase entityLivingBase = (EntityLivingBase) entityIn;
 
-			// do action
-			action.onRightClick(worldIn, entityLivingBase);
+			// apply effect
+			applyEffect(worldIn, entityLivingBase);						
 		}
 
 		// do update
