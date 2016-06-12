@@ -82,7 +82,10 @@ public class GenericBlockMist implements RightClickedItemAction {
 	 */
 	BlockMistActionStrategy strategy;
 
-	private ParticleRenderingRepository particleRepository;
+	/**
+	 * Particle repository.
+	 */
+	ParticleRenderingRepository particleRepository;
 
 	/**
 	 * GenericBlockMist constructor.

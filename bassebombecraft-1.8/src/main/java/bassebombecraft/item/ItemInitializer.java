@@ -52,7 +52,10 @@ import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.book.WitherMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
+import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.ChickenizeIdolInventoryItem;
+import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
+import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
 import bassebombecraft.item.inventory.RainIdolInventoryItem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
@@ -451,6 +454,27 @@ public class ItemInitializer {
 		logger.info("initializing item: " + ChickenizeIdolInventoryItem.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(chickenizeIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.clay_ball, 'y',
 				Items.chicken);			
+
+		Item angelIdolInventoryItem = new AngelIdolInventoryItem();
+		angelIdolInventoryItem.setCreativeTab(targetTab);
+		GameRegistry.registerItem(angelIdolInventoryItem, AngelIdolInventoryItem.ITEM_NAME);
+		logger.info("initializing item: " + AngelIdolInventoryItem.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(angelIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.clay_ball, 'y',
+				Items.golden_apple);			
+
+		Item lightningBoltIdolInventoryItem = new LightningBoltIdolInventoryItem();
+		lightningBoltIdolInventoryItem.setCreativeTab(targetTab);
+		GameRegistry.registerItem(lightningBoltIdolInventoryItem, LightningBoltIdolInventoryItem.ITEM_NAME);
+		logger.info("initializing item: " + LightningBoltIdolInventoryItem.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(lightningBoltIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.clay_ball, 'y',
+				Items.gold_ingot);			
+
+		Item flowerIdolInventoryItem = new FlowerIdolInventoryItem();
+		flowerIdolInventoryItem .setCreativeTab(targetTab);
+		GameRegistry.registerItem(flowerIdolInventoryItem , FlowerIdolInventoryItem.ITEM_NAME);
+		logger.info("initializing item: " + FlowerIdolInventoryItem .ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(flowerIdolInventoryItem ), "xy ", "   ", "   ", 'x', Items.clay_ball, 'y',
+				Items.flower_pot);			
 		
 	}
 

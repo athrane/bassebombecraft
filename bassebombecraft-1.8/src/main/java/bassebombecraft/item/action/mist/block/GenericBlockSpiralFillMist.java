@@ -2,18 +2,15 @@ package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
+import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
-import java.util.Random;
 
-import bassebombecraft.block.BlockUtils;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.geom.GeometryUtils;
 import bassebombecraft.item.action.RightClickedItemAction;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
@@ -31,6 +28,11 @@ import net.minecraft.world.World;
 public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 
 	/**
+	 * Vertical blocks to query for a "ground block".
+	 */
+	static final int ITERATIONS_TO_QUERY = 256;
+	
+	/**
 	 * Rendering frequency in ticks.
 	 */
 	static final int RENDERING_FREQUENCY = 5;
@@ -39,7 +41,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	 * Effect frequency when targeted mob are affect by most. Frequency is
 	 * measured in ticks.
 	 */
-	static final int EFFECT_UPDATE_FREQUENCY = 5; 
+	static final int EFFECT_UPDATE_FREQUENCY = 5;
 
 	/**
 	 * Spawn distance of mist from invoker. Distance is measured in blocks.
@@ -50,8 +52,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	 * Spiral size.
 	 */
 	static final int SPIRAL_SIZE = 20;
-	
-	
+
 	/**
 	 * Ticks counter.
 	 */
@@ -111,9 +112,9 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	public GenericBlockSpiralFillMist(BlockMistActionStrategy strategy) {
 		this.strategy = strategy;
 		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
-		
+
 		// calculate spiral
-		spiralCoordinates = GeometryUtils.calculateSpiral(SPIRAL_SIZE, SPIRAL_SIZE);		
+		spiralCoordinates = GeometryUtils.calculateSpiral(SPIRAL_SIZE, SPIRAL_SIZE);
 	}
 
 	@Override
@@ -172,8 +173,8 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	 */
 	void initializeMistPostition(World world, EntityLivingBase entity) {
 		spiralCounter = strategy.getSpiralOffset();
-		spiralCenter = new BlockPos(entity);	
- 	}
+		spiralCenter = new BlockPos(entity);
+	}
 
 	/**
 	 * Apply effect to block.
@@ -184,7 +185,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	void applyEffect(World world) {
 		strategy.applyEffectToBlock(mistPosition, world);
 	}
-	
+
 	/**
 	 * Render mist in world.
 	 * 
@@ -192,10 +193,10 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	 *            world object.
 	 */
 	void render(World world) {
-		updateMistPosition(world);		
+		updateMistPosition(world);
 
 		// render mists
-		// iterate over rendering info's		
+		// iterate over rendering info's
 		for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
 			ParticleRendering particle = getInstance(mistPosition, info);
 			particleRepository.add(particle);
@@ -209,74 +210,26 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	 *            world object.
 	 */
 	void updateMistPosition(World world) {
-		
+
 		// exit if entire spiral is processed
-		if (spiralCounter >= spiralCoordinates.size()) return;
-		
+		if (spiralCounter >= spiralCoordinates.size())
+			return;
+
 		// get next spiral coordinate
 		BlockPos spiralCoord = spiralCoordinates.get(spiralCounter);
-		
+
 		// calculate ground coordinates
 		int x = spiralCenter.getX() + spiralCoord.getX();
 		int y = spiralCenter.getY();
 		int z = spiralCenter.getZ() + spiralCoord.getZ();
-		BlockPos groundCandidate = new BlockPos(x,y,z);
-		
+		BlockPos groundCandidate = new BlockPos(x, y, z);
+
 		// locate ground block
-		mistPosition = locateGroundBlockPos(groundCandidate, world);
-		
+		mistPosition = locateGroundBlockPos(groundCandidate, ITERATIONS_TO_QUERY, world);
+
 		spiralCounter++;
 	}
 
-	/**
-	 * Locate ground block, i.e. a block with air/water above and solid ground
-	 * below.
-	 * 
-	 * If block is air/water block then move down until ground block is located.
-	 * If block is ground block then move up until block above air/water.
-	 * 
-	 * @param target
-	 *            block to process.
-	 * @param world
-	 *            world object.
-	 * @return ground block, i.e. a block with air/water above and solid ground
-	 *         below.
-	 */
-	BlockPos locateGroundBlockPos(BlockPos target, World world) {
-		
-		// if upper block isn't useful - then move up
-		if (!isUsefullAirTypeBlock(target.up(), world)) {
-			//System.out.println("upper isn't useful air block - go up.");
-			return locateGroundBlockPos(target.up(), world);			
-		}
-
-		// if upper is OK - but current isn't - then move down
-		if (!isUsefulGroundBlock(target, world)) {
-			//System.out.println("useful air block - not useful ground block - go down.");			
-			return locateGroundBlockPos(target.down(), world);			
-		}
-
-		return target;
-	}
-
-	boolean isUsefulGroundBlock(BlockPos target, World world) {
-		Block candidateBlock = BlockUtils.getBlockFromPosition(target, world);
-		if(candidateBlock.getMaterial().isLiquid()) return false;
-		//System.out.println("isn't liquid.");					
-		if(candidateBlock.getMaterial() == Material.air) return false;
-		//System.out.println("isn't air.");					
-		return true;
-	}
-
-	boolean isUsefullAirTypeBlock(BlockPos target, World world) {
-		Block candidateBlock = BlockUtils.getBlockFromPosition(target, world);
-		if(candidateBlock.getMaterial().isLiquid()) return true;
-		if(candidateBlock.getMaterial() == Material.air) return true;
-		if(candidateBlock.getMaterial() == Material.plants) return true;
-		if(candidateBlock.getMaterial() == Material.grass) return true;
-		
-		return false;
-	}	
 	@Override
 	public String toString() {
 		return super.toString() + ", strategy=" + strategy;

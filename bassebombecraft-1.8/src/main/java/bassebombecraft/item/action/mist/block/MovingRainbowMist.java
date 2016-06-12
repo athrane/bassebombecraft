@@ -1,14 +1,11 @@
 package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
-import bassebombecraft.block.BlockUtils;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -45,7 +42,7 @@ public class MovingRainbowMist implements BlockMistActionStrategy {
 	public void applyEffectToBlock(BlockPos target, World world) {
 		colorCounter++;
 
-		// create wool block
+		// create flower block
 		BlockDirective directive = new BlockDirective(target, Blocks.wool, DONT_HARVEST);
 		directive.setState(selectWoolColor());
 
@@ -91,7 +88,7 @@ public class MovingRainbowMist implements BlockMistActionStrategy {
 	public int getEffectDuration() {
 		return EFFECT_DURATION;
 	}
-	
+
 	@Override
 	public int getNumberMists() {
 		return 1;
@@ -111,11 +108,10 @@ public class MovingRainbowMist implements BlockMistActionStrategy {
 	public ParticleRenderingInfo[] getRenderingInfos() {
 		return INFOS;
 	}
-	
+
 	@Override
 	public int getSpiralOffset() {
 		return 0;
-	}	
-	
+	}
 
 }

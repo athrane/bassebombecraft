@@ -77,8 +77,11 @@ item.CopyPasteBlocksBook.name=Book of Copy and Paste
 item.DuplicateBlockBook.name=Book of Duplication
 
 # inventory items
-item.RainIdolInventoryItem.name=Idol of Rain
-item.ChickenizeIdolInventoryItem.name=Idol of Chickenize
+item.RainIdolInventoryItem.name=Rain Idol
+item.ChickenizeIdolInventoryItem.name=Chickenize Idol
+item.AngelIdolInventoryItem.name=Angel Idol
+item.LightningBoltIdolInventoryItem.name=Pikachu Idol
+item.FlowerIdolInventoryItem.name=Naturalize Idol
 
 #blocks
 tile.RandomBookBlock.name=Block of Random Books

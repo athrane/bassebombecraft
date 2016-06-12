@@ -104,8 +104,8 @@ public class BassebombeCraft {
 
 		ItemInitializer.getInstance().initialize(modTab);
 		ProjectileInitializer.getInstance().initialize(this, modTab);
-		BlockInitializer.getInstance().initialize(modTab);						
-		initializeEventListeners();		
+		BlockInitializer.getInstance().initialize(modTab);
+		initializeEventListeners();
 		logger.info("Initialized BasseBombeCraft");
 	}
 
@@ -121,10 +121,10 @@ public class BassebombeCraft {
 		m.modId = NAME;
 		m.version = VERSION;
 		m.name = NAME;
-		m.description = "Adds Minecraft stuff needed by BasseBombe.";
+		m.description = "A collection of 40+ magical books, idols and blocks for adventuring and construction. The magic needed by BasseBombe when he plays Minecraft.";
 		m.authorList.add("einheriii@gmail.com");
 		m.logoFile = "assets/bassebombecraft/logo/logo.png";
-		m.url = "https://plus.google.com/u/0/110706917632690666926/posts";
+		m.url = "http://minecraft.curseforge.com/projects/bassebombecraft";
 		m.credits = "Allan & Andreas Thrane Andersen";
 	}
 
@@ -192,7 +192,7 @@ public class BassebombeCraft {
 	public TemporaryBlockRepository getTemporaryBlockRepository() {
 		return tempBlockRepository;
 	}
-	
+
 	/**
 	 * Particle rendering repository.
 	 * 

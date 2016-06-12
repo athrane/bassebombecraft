@@ -1,11 +1,16 @@
 package bassebombecraft.item.inventory;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.MODID;
+import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
 
 import java.util.List;
 
-import bassebombecraft.item.action.RightClickedItemAction;
+import bassebombecraft.event.particle.ParticleRendering;
+import bassebombecraft.event.particle.ParticleRenderingInfo;
+import bassebombecraft.event.particle.ParticleRenderingRepository;
+import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -14,6 +19,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 
 /**
@@ -31,40 +38,38 @@ public class GenericInventoryItem extends Item {
 	/**
 	 * Effect frequency when effect is invoked. Frequency is measured in ticks.
 	 */
-	static final int EFFECT_UPDATE_FREQUENCY = 200; // Measured in ticks
+	static final int EFFECT_UPDATE_FREQUENCY = 5; // Measured in ticks
 
-	final static int AOE_RANGE = 5;
-	
 	/**
 	 * Ticks counter.
 	 */
 	int ticksCounter = 0;
 
 	/**
-	 * Item action.
+	 * Item strategy.
 	 */
-	RightClickedItemAction action;
+	InventoryItemActionStrategy strategy;
+
+	/**
+	 * Particle repository.
+	 */
+	ParticleRenderingRepository particleRepository;
 
 	/**
 	 * GenericInventoryItem constructor.
 	 * 
 	 * @param name
 	 *            item name.
-	 * @param action
-	 *            item action object which is invoked when item is right
-	 *            clicked.
+	 * @param strategy
+	 *            inventory item strategy.
 	 */
-	public GenericInventoryItem(String name, RightClickedItemAction action) {
+	public GenericInventoryItem(String name, InventoryItemActionStrategy strategy) {
 		setUnlocalizedName(name);
-		this.action = action;
+		this.strategy = strategy;
 		registerForRendering(this);
+		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
 	}
 
-	boolean isEffectAppliedToInvoker() {
-		return false;
-	}
-	
-	
 	/**
 	 * Register item for rendering.
 	 * 
@@ -87,37 +92,33 @@ public class GenericInventoryItem extends Item {
 	 *            entity object
 	 */
 	void applyEffect(World world, EntityLivingBase invokingEntity) {
+		int aoeRange = strategy.getEffectRange();
 
 		// get entities within AABB
-		AxisAlignedBB aabb = AxisAlignedBB.fromBounds(invokingEntity.posX - AOE_RANGE, invokingEntity.posY - AOE_RANGE,
-				invokingEntity.posZ - AOE_RANGE, invokingEntity.posX + AOE_RANGE, invokingEntity.posY + AOE_RANGE,
-				invokingEntity.posZ + AOE_RANGE);
+		AxisAlignedBB aabb = AxisAlignedBB.fromBounds(invokingEntity.posX - aoeRange, invokingEntity.posY - aoeRange,
+				invokingEntity.posZ - aoeRange, invokingEntity.posX + aoeRange, invokingEntity.posY + aoeRange,
+				invokingEntity.posZ + aoeRange);
 		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, aabb);
 
 		for (EntityLivingBase foundEntity : entities) {
 
-			// skip invoking entity if strategy specifies it
-			if (hasIdenticalUniqueID(invokingEntity, foundEntity)) {
-				if (!isEffectAppliedToInvoker())
-					continue;
-			}
-
-			// apply effect
-			action.onRightClick(world, foundEntity);
-
-			/**
-			// exit if strategy is one shot effect
-			if (strategy.isOneShootEffect()) {
-				isActive = false;
-				return;
-			}
-			**/
+			// determine if target is invoker
+			boolean isInvoker = hasIdenticalUniqueID(invokingEntity, foundEntity);
+			
+			// apply effect			
+			if(strategy.shouldApplyEffect(foundEntity, isInvoker)) {
+				strategy.applyEffect(foundEntity, world);				
+				
+				// render effect
+				renderEffect(foundEntity.getPositionVector());				
+			}			
 		}
 	}
-	
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		ticksCounter++;
+				
 		// only apply the action at server side since we updates the world
 		if (isWorldAtClientSide(worldIn))
 			return;
@@ -126,31 +127,30 @@ public class GenericInventoryItem extends Item {
 		if (!isInHotbar(itemSlot))
 			return;
 
+		// exit if item isn't selected
+		if (!isSelected)
+			return;
+
 		// render effect
 		if (ticksCounter % RENDERING_FREQUENCY == 0) {
-			// render(worldIn);
+			// NO-OP
 		}
 
 		// update game effect
 		if (ticksCounter % EFFECT_UPDATE_FREQUENCY == 0) {
-			
 
 			// exit if entity isn't a EntityLivingBase
 			if (!(entityIn instanceof EntityLivingBase))
 				return;
-			EntityLivingBase entityLivingBase = (EntityLivingBase) entityIn;
 
 			// apply effect
-			applyEffect(worldIn, entityLivingBase);						
+			applyEffect(worldIn, (EntityLivingBase) entityIn);
 		}
 
-		// do update
-		// action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
-		ticksCounter++;
 	}
 
 	/**
-	 * Returns true if item is is user hotbar.
+	 * Returns true if item is in user hotbar.
 	 * 
 	 * @param itemSlot
 	 *            user item slot. the hotbar is between 0 and 8 inclusive.
@@ -173,4 +173,21 @@ public class GenericInventoryItem extends Item {
 		return world.isRemote;
 	}
 
+	/**
+	 * Render a effect at some position.
+	 * 
+	 * @param position
+	 *            effect position.
+	 */
+	void renderEffect(Vec3 position) {
+
+		// register particle for rendering
+		BlockPos pos = new BlockPos(position);
+
+		// iterate over rendering info's
+		for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
+			ParticleRendering particle = getInstance(pos, info);
+			particleRepository.add(particle);
+		}
+	}
 }

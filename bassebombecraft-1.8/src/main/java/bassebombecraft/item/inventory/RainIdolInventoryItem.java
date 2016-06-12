@@ -1,6 +1,6 @@
 package bassebombecraft.item.inventory;
 
-import bassebombecraft.item.action.SpawnRain;
+import bassebombecraft.item.action.inventory.SpawnRain;
 
 /**
  * Rain idol implementation.

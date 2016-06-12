@@ -3,7 +3,7 @@ package bassebombecraft.geom;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.ModConstants.HARVEST;
 import static bassebombecraft.ModConstants.ORIGIN_BLOCK_POS;
-import static bassebombecraft.block.BlockUtils.containsAirBlocksOnly;
+import static bassebombecraft.block.BlockUtils.*;
 import static bassebombecraft.block.BlockUtils.getBlockFromPosition;
 import static bassebombecraft.block.BlockUtils.getBlockStateFromPosition;
 import static bassebombecraft.block.BlockUtils.rotateBlockStateWithFacingProperty;
@@ -11,15 +11,21 @@ import static bassebombecraft.block.BlockUtils.rotateBlockStateWithFacingPropert
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import bassebombecraft.block.BlockUtils;
 import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.player.PlayerUtils;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFlower.EnumFlowerType;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
 
 /**
  * Utility for calculating geometric structures.
@@ -411,4 +417,147 @@ public class GeometryUtils {
 
 		return coords;
 	}
+
+	/**
+	 * Locate ground block, i.e. a block with air/water above and solid ground
+	 * below.
+	 * 
+	 * If block is air/water block then move down until ground block is located.
+	 * If block is ground block then move up until block above air/water.
+	 * 
+	 * @param target
+	 *            block to process.
+	 * @param iterations
+	 *            number of blocks to query before returning null. Should be a
+	 *            positive integer.
+	 * 
+	 * @param world
+	 *            world object.
+	 * @return ground block, i.e. a block with air/water above and solid ground
+	 *         below. If no block was found then original block position is
+	 *         returned.
+	 */
+	public static BlockPos locateGroundBlockPos(BlockPos target, int iterations, World world) {
+		if (iterations == 0)
+			return target;
+		if (iterations < 0)
+			return target;
+
+		int newIterations = iterations - 1;
+
+		// if upper block isn't useful - then move up
+		if (!isUsefullAirTypeBlock(target.up(), world)) {
+			// System.out.println("upper isn't useful air block - go up.");
+			return locateGroundBlockPos(target.up(), newIterations, world);
+		}
+
+		// if upper is OK - but current isn't - then move down
+		if (!isUsefulGroundBlock(target, world)) {
+			// System.out.println("useful air block - not useful ground block -
+			// go down.");
+			return locateGroundBlockPos(target.down(), newIterations, world);
+		}
+
+		return target;
+	}
+
+	/**
+	 * Returns true if block is a useful "ground" type block, i.e. NOT liquid,
+	 * air, plants or grass.
+	 * 
+	 * @param target
+	 *            target block.
+	 * @param world
+	 *            world object
+	 * @return
+	 */
+	static boolean isUsefulGroundBlock(BlockPos target, World world) {
+		Block candidateBlock = getBlockFromPosition(target, world);
+		Material material = candidateBlock.getMaterial();
+		return (material.isSolid());
+	}
+
+	/**
+	 * Returns true if block is a useful "air" type block, i.e. liquid, air,
+	 * plants or grass.
+	 * 
+	 * @param target
+	 *            target block.
+	 * @param world
+	 *            world object
+	 * 
+	 * @return true if block is a useful "air" type block.
+	 */
+	static boolean isUsefullAirTypeBlock(BlockPos target, World world) {
+		Block candidateBlock = getBlockFromPosition(target, world);
+		Material material = candidateBlock.getMaterial();
+		return (!material.isSolid());
+	}
+
+	/**
+	 * Creates block directive with flower.
+	 * 
+	 * @param position
+	 *            block position for flower.
+	 * @param random
+	 *            random generator.
+	 * @return block directive with flower.
+	 */
+	public static BlockDirective createFlowerDirective(BlockPos position, Random random) {
+		int flowerType = random.nextInt(6);
+
+		switch (flowerType) {
+
+		case 0:
+			BlockDirective yellow = new BlockDirective(position, Blocks.yellow_flower, DONT_HARVEST);
+			return yellow;
+		case 1:
+		default:			
+			BlockDirective red = new BlockDirective(position, Blocks.red_flower, DONT_HARVEST);
+			red.setState(selectRedFlowerType(random));
+			return red;
+		}			
+	}
+
+	/**
+	 * Select flower.
+	 * 
+	 * @return Select flower type.
+	 */
+	static IBlockState selectRedFlowerType(Random random) {
+		int flowerType = random.nextInt(7);
+
+		switch (flowerType) {
+
+		case 0:
+			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+					EnumFlowerType.ALLIUM);
+		case 1:
+			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+					EnumFlowerType.BLUE_ORCHID);
+		case 2:
+			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+					EnumFlowerType.HOUSTONIA);
+		case 3:
+			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+					EnumFlowerType.ORANGE_TULIP);
+		case 4:
+			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+					EnumFlowerType.OXEYE_DAISY);
+		case 5:
+			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+					EnumFlowerType.PINK_TULIP);
+		case 6:
+			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+					EnumFlowerType.POPPY);
+		case 7:
+			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+					EnumFlowerType.WHITE_TULIP);
+		default:
+			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+					EnumFlowerType.POPPY);
+		}
+
+	}
+
 }
