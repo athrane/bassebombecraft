@@ -1,4 +1,4 @@
-
+'
 itemGroup.BasseBombeCraft=BasseBombeCraft items
 item.ExplosionStaff.name=Staff of Exploding Fist
 item.GardenStaff.name=Staff of Power Flower Love
@@ -82,6 +82,7 @@ item.ChickenizeIdolInventoryItem.name=Chickenize Idol
 item.AngelIdolInventoryItem.name=Angel Idol
 item.LightningBoltIdolInventoryItem.name=Pikachu Idol
 item.FlowerIdolInventoryItem.name=Naturalize Idol
+item.FlameBlastIdolInventoryItem.name=Flameblast Dragon Idol
 
 #blocks
 tile.RandomBookBlock.name=Block of Random Books

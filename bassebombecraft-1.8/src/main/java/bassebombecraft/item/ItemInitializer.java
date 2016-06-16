@@ -54,6 +54,7 @@ import bassebombecraft.item.book.WitherMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.ChickenizeIdolInventoryItem;
+import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
 import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
 import bassebombecraft.item.inventory.RainIdolInventoryItem;
@@ -470,11 +471,18 @@ public class ItemInitializer {
 				Items.gold_ingot);			
 
 		Item flowerIdolInventoryItem = new FlowerIdolInventoryItem();
-		flowerIdolInventoryItem .setCreativeTab(targetTab);
+		flowerIdolInventoryItem.setCreativeTab(targetTab);
 		GameRegistry.registerItem(flowerIdolInventoryItem , FlowerIdolInventoryItem.ITEM_NAME);
-		logger.info("initializing item: " + FlowerIdolInventoryItem .ITEM_NAME);
+		logger.info("initializing item: " + FlowerIdolInventoryItem.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(flowerIdolInventoryItem ), "xy ", "   ", "   ", 'x', Items.clay_ball, 'y',
 				Items.flower_pot);			
+
+		Item flameBlastIdolInventoryItem = new FlameBlastIdolInventoryItem();
+		flameBlastIdolInventoryItem.setCreativeTab(targetTab);
+		GameRegistry.registerItem(flameBlastIdolInventoryItem, FlameBlastIdolInventoryItem.ITEM_NAME);
+		logger.info("initializing item: " + FlameBlastIdolInventoryItem.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(flameBlastIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.clay_ball, 'y',
+				Items.fire_charge);			
 		
 	}
 
