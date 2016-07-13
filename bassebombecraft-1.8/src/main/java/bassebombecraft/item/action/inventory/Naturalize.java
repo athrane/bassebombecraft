@@ -50,13 +50,20 @@ public class Naturalize implements InventoryItemActionStrategy {
 	 */
 	BlockDirectivesRepository directivesRepository;
 
+	/**
+	 * Naturalize constructor.
+	 */
 	public Naturalize() {
 		super();
 
 		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
-
 	}
 
+	@Override
+	public boolean applyOnlyIfSelected() {
+		return true;
+	}
+	
 	@Override
 	public boolean shouldApplyEffect(Entity target, boolean targetIsInvoker) {
 		return targetIsInvoker;

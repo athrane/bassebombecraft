@@ -104,21 +104,21 @@ public class GenericInventoryItem extends Item {
 
 			// determine if target is invoker
 			boolean isInvoker = hasIdenticalUniqueID(invokingEntity, foundEntity);
-			
-			// apply effect			
-			if(strategy.shouldApplyEffect(foundEntity, isInvoker)) {
-				strategy.applyEffect(foundEntity, world);				
-				
+
+			// apply effect
+			if (strategy.shouldApplyEffect(foundEntity, isInvoker)) {
+				strategy.applyEffect(foundEntity, world);
+
 				// render effect
-				renderEffect(foundEntity.getPositionVector());				
-			}			
+				renderEffect(foundEntity.getPositionVector());
+			}
 		}
 	}
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		ticksCounter++;
-				
+
 		// only apply the action at server side since we updates the world
 		if (isWorldAtClientSide(worldIn))
 			return;
@@ -127,9 +127,11 @@ public class GenericInventoryItem extends Item {
 		if (!isInHotbar(itemSlot))
 			return;
 
-		// exit if item isn't selected
-		if (!isSelected)
-			return;
+		// exit if item requires selection and it isn't selected
+		if (strategy.applyOnlyIfSelected()) {
+			if (!isSelected)
+				return;
+		}
 
 		// render effect
 		if (ticksCounter % RENDERING_FREQUENCY == 0) {

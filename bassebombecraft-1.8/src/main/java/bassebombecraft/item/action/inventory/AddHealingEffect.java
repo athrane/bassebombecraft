@@ -30,6 +30,11 @@ public class AddHealingEffect implements InventoryItemActionStrategy {
 	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
 
 	@Override
+	public boolean applyOnlyIfSelected() {
+		return true;
+	}
+	
+	@Override
 	public boolean shouldApplyEffect(Entity target, boolean targetIsInvoker) {
 		return targetIsInvoker;
 	}

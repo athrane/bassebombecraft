@@ -57,6 +57,7 @@ import bassebombecraft.item.inventory.ChickenizeIdolInventoryItem;
 import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
 import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
+import bassebombecraft.item.inventory.PvpIdolInventoryItem;
 import bassebombecraft.item.inventory.RainIdolInventoryItem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
@@ -483,6 +484,13 @@ public class ItemInitializer {
 		logger.info("initializing item: " + FlameBlastIdolInventoryItem.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(flameBlastIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.clay_ball, 'y',
 				Items.fire_charge);			
+
+		Item pvpIdolInventoryItem = new PvpIdolInventoryItem();
+		pvpIdolInventoryItem.setCreativeTab(targetTab);
+		GameRegistry.registerItem(pvpIdolInventoryItem, PvpIdolInventoryItem.ITEM_NAME);
+		logger.info("initializing item: " + PvpIdolInventoryItem.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(pvpIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.clay_ball, 'y',
+				Items.iron_sword);			
 		
 	}
 

@@ -31,6 +31,11 @@ public class Chickenize implements InventoryItemActionStrategy {
 	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
 
 	@Override
+	public boolean applyOnlyIfSelected() {
+		return true;
+	}
+	
+	@Override
 	public boolean shouldApplyEffect(Entity target, boolean targetIsInvoker) {
 		if (targetIsInvoker) return false;
 		if (target instanceof EntityChicken) return false;

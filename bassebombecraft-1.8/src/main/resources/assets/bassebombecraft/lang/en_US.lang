@@ -83,6 +83,7 @@ item.AngelIdolInventoryItem.name=Angel Idol
 item.LightningBoltIdolInventoryItem.name=Pikachu Idol
 item.FlowerIdolInventoryItem.name=Naturalize Idol
 item.FlameBlastIdolInventoryItem.name=Flameblast Dragon Idol
+item.PvpIdolInventoryItem.name=Cracked Skull
 
 #blocks
 tile.RandomBookBlock.name=Block of Random Books

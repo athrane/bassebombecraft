@@ -22,6 +22,9 @@ import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRenderingEventListener;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.item.ItemInitializer;
+import bassebombecraft.player.pvp.DefaultPvpRepository;
+import bassebombecraft.player.pvp.PvpEventListener;
+import bassebombecraft.player.pvp.PvpRepository;
 import bassebombecraft.projectile.ProjectileInitializer;
 import bassebombecraft.server.CommonProxy;
 import bassebombecraft.tab.CreativeTabFactory;
@@ -77,6 +80,11 @@ public class BassebombeCraft {
 	 */
 	TemporaryBlockRepository tempBlockRepository;
 
+	/**
+	 * PVPrepository.
+	 */
+	PvpRepository  pvpRepository;
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		logger = event.getModLog();
@@ -93,6 +101,9 @@ public class BassebombeCraft {
 		// Initialise particle rendering repository
 		particleRepository = DefaultParticleRenderingRepository.getInstance();
 
+		// Initialise PVP repository
+		pvpRepository = DefaultPvpRepository.getInstance();
+		
 		initializeModMetadata(event);
 		initializeCreativeTab();
 		logger.info("Pre-initialized BassebombeCraft");
@@ -163,6 +174,11 @@ public class BassebombeCraft {
 		MinecraftForge.EVENT_BUS.register(particleEventListener);
 		FMLCommonHandler.instance().bus().register(particleEventListener);
 
+		// Initialise PVP event listener
+		PvpEventListener pvpEventListener = new PvpEventListener(pvpRepository);
+		MinecraftForge.EVENT_BUS.register(pvpEventListener);
+		FMLCommonHandler.instance().bus().register(pvpEventListener);
+		
 		proxy.registerRenderers();
 	}
 
@@ -202,6 +218,15 @@ public class BassebombeCraft {
 		return particleRepository;
 	}
 
+	/**
+	 * Particle PVP repository.
+	 * 
+	 * @return PVP repository.
+	 */
+	public PvpRepository getPvpRepository() {
+		return pvpRepository;
+	}
+	
 	/**
 	 * Get mod instance.
 	 * 

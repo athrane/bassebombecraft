@@ -10,6 +10,15 @@ import net.minecraft.world.World;
 public interface InventoryItemActionStrategy {
 
 	/**
+	 * Return true if effect only should be applied if item is selected in
+	 * hotbar.
+	 * 
+	 * @return true if effect only should be applied if item is selected in
+	 *         hotbar.
+	 */
+	boolean applyOnlyIfSelected();
+	
+	/**
 	 * Returns true if effect should be applied to target entity. This method is
 	 * used to control whether the effect is applied to target, using the
 	 * applyEffect method.
@@ -18,6 +27,8 @@ public interface InventoryItemActionStrategy {
 	 *            target entity.
 	 * @param targetIsInvoker
 	 *            is true if the target is the invoker.
+	 * 
+	 * @return true if effect should be applied to target entity
 	 */
 	boolean shouldApplyEffect(Entity target, boolean targetIsInvoker);
 
