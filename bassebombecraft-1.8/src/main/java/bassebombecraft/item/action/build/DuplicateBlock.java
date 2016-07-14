@@ -1,0 +1,152 @@
+package bassebombecraft.item.action.build;
+
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.block.BlockUtils.getBlockFromPosition;
+import static bassebombecraft.block.BlockUtils.getBlockStateFromPosition;
+import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
+import static bassebombecraft.geom.GeometryUtils.calculateYOffsetFromBlock;
+import static bassebombecraft.player.PlayerUtils.calculatePlayerFeetPosititionAsInt;
+import static bassebombecraft.player.PlayerUtils.getPlayerDirection;
+
+import java.util.List;
+import java.util.Random;
+
+import bassebombecraft.event.block.BlockDirectivesRepository;
+import bassebombecraft.geom.BlockDirective;
+import bassebombecraft.geom.WorldQuery;
+import bassebombecraft.geom.WorldQueryImpl;
+import bassebombecraft.item.action.BlockClickedItemAction;
+import bassebombecraft.player.PlayerDirection;
+import bassebombecraft.structure.ChildStructure;
+import bassebombecraft.structure.CompositeStructure;
+import bassebombecraft.structure.Structure;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.world.World;
+
+/**
+ * Implementation of the {@linkplain BlockClickedItemAction} which duplicate a
+ * block into 4x copies.
+ */
+public class DuplicateBlock implements BlockClickedItemAction {
+
+	static final boolean USED_ITEM = true;
+	static final boolean DIDNT_USED_ITEM = false;
+
+	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
+
+	static final int X_SIZE = 3;
+	static final int Y_SIZE = 1;
+	static final int Z_SIZE = 10;
+	static final int X_OFFSET = -1;
+	static final int Y_OFFSET_DOWN = 0;
+	static final Structure NULL_STRUCTURE = new CompositeStructure();
+
+	/**
+	 * Random generator.
+	 */
+	Random random = new Random();
+
+	/**
+	 * Ticks exists since first marker was set.
+	 */
+	int ticksExisted = 0;
+
+	/**
+	 * Process block directives repository.
+	 */
+	BlockDirectivesRepository repository;
+
+	/**
+	 * CreateRoad constructor.
+	 */
+	public DuplicateBlock() {
+		super();
+		repository = getBassebombeCraft().getBlockDirectivesRepository();
+	}
+
+	@Override
+	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side,
+			float hitX, float hitY, float hitZ) {
+
+		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
+			return DIDNT_USED_ITEM;
+
+		// create world query
+		WorldQueryImpl worldQuery = new WorldQueryImpl(playerIn, pos);
+
+		// calculate structure
+		Block sourceBlock = getBlockFromPosition(worldQuery.getTargetBlockPosition(), worldIn);
+		Structure structure = createDuplicatedBlock(sourceBlock, worldQuery);
+
+		// calculate Y offset in structure
+		int yOffset = calculatePlayerFeetPosititionAsInt(playerIn);
+
+		// get player direction
+		PlayerDirection playerDirection = getPlayerDirection(playerIn);
+
+		// calculate set of block directives
+		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
+		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
+
+		// add directives
+		repository.addAll(directives);
+
+		return USED_ITEM;
+	}
+
+	@Override
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		// NO-OP
+	}
+
+	/**
+	 * Create structure.
+	 * 
+	 * @return created structure.
+	 */
+	Structure createDuplicatedBlock(Block sourceBlock, WorldQuery worldQuery) {
+		CompositeStructure composite = new CompositeStructure();
+
+		// calculate offset from selected block
+		BlockPos blockPosition = worldQuery.getTargetBlockPosition();
+		int yOffset = calculateYOffsetFromBlock(worldQuery.getPlayer(), blockPosition);
+
+		// calculate block
+		BlockPos offset = new BlockPos(-1, yOffset, 0);
+		BlockPos size = new BlockPos(2, 2, 2);
+
+		// create TNT variant
+		if (createTntVariant()) {
+			composite.add(new ChildStructure(offset, size, Blocks.tnt));
+
+			// add red stone for TNT
+			offset = new BlockPos(0, yOffset + 2, 0);
+			size = new BlockPos(1, 1, 1);
+			composite.add(new ChildStructure(offset, size, Blocks.redstone_block));
+			return composite;
+		}
+
+		// create regular variant
+		IBlockState blockState = getBlockStateFromPosition(blockPosition, worldQuery);
+		composite.add(new ChildStructure(offset, size, sourceBlock, blockState));
+		return composite;
+	}
+
+	/**
+	 * Returns true if TNT variant of duplicated block should be created.
+	 * 
+	 * @return true if TNT variant of duplicated block should be created.
+	 */
+	boolean createTntVariant() {
+		int randomValue = random.nextInt(25);
+		return (randomValue == 0);
+	}
+
+}
