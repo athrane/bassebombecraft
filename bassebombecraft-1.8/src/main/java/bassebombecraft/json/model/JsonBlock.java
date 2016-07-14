@@ -26,6 +26,7 @@ public class JsonBlock {
 	public int meta;
 
 	public JsonBlock(BlockDirective directive, String name) {
+		/**
 		this.position = directive.getBlockPosition();
 		this.name = name;
 				
@@ -62,7 +63,8 @@ public class JsonBlock {
 			System.out.println("name:" +property.getName());
 			System.out.println("value class:"+property.getValueClass());			
 			System.out.println("state value:"+state.getValue(property));
-		}		
+		}	
+		**/	
 	}
 	
 

@@ -52,8 +52,7 @@ public class ShootCreeperCannon implements RightClickedItemAction {
 		creeper.addVelocity(motionVecForced.xCoord, motionVecForced.yCoord, motionVecForced.zCoord);
 		
 		if(isPrimed) {
-			creeper.func_146079_cb();
-			creeper.setCreeperState(1);					
+			creeper.ignite();
 		}
 	}
 

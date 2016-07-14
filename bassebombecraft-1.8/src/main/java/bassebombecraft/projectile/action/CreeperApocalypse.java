@@ -32,8 +32,7 @@ public class CreeperApocalypse implements ProjectileAction {
 					PITCH);
 
 			// prime
-			creeper.func_146079_cb();
-			creeper.setCreeperState(1);
+			creeper.ignite();
 
 			// add potion effect
 			creeper.addPotionEffect(createEffect());

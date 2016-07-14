@@ -19,6 +19,7 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 /**
@@ -156,10 +157,10 @@ public class BlockUtils {
 
 		// get facing property
 		ImmutableMap properties = sourceState.getProperties();
-		Comparable facing = sourceState.getValue(FACING);
+		EnumFacing facing = sourceState.getValue(FACING);
 
 		// calculate new orientation
-		Comparable value = calculateFacingProperty(facing, orientation);
+		EnumFacing value = calculateFacingProperty(facing, orientation);
 
 		// create now rotated state
 		IBlockState rotatedState = sourceState.withProperty(FACING, value);
@@ -179,7 +180,7 @@ public class BlockUtils {
 	 *            orientation in degrees to rotate the property.
 	 * @return rotated facing property.
 	 */
-	public static Comparable calculateFacingProperty(Comparable sourceFacing, double orientation) {
+	public static EnumFacing calculateFacingProperty(EnumFacing sourceFacing, double orientation) {
 		if (orientation == 0)
 			return sourceFacing;
 
