@@ -11,18 +11,18 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
     }
 }
 
-apply plugin: 'forge'
+apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "1.8-1.14"
+version = "1.8.9-1.15"
 group= "com.bassebombecraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "BasseBombeCraft"
 
 minecraft {
-    version = "1.8-11.14.3.1502"
+    version = "1.8.9-11.15.1.1722"
     runDir = "eclipse"
     
     // the mappings can be changed at any time, and must be in the following format.
@@ -30,7 +30,9 @@ minecraft {
     // stable_#            stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not allways work.
     // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = "snapshot_20141130"
+    
+    // See http://export.mcpbot.bspk.rs/ for the latest mappings.
+    mappings = "stable_22"
 }
 
 dependencies {
