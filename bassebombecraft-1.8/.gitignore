@@ -1,6 +1,6 @@
 
 bin
-build
+
 run
 eclipse
 
@@ -12,3 +12,4 @@ eclipse
 /.project
 
 /.gradle/
+/build/
