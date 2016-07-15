@@ -350,21 +350,15 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 */
 	void captureWorldContent(WorldQuery worldQuery) {
 
+		// get player direction
+		PlayerDirection playerDirection = getPlayerDirection(worldQuery.getPlayer());
+
 		// calculate lower and upper bounds
 		BlockPos lower = calculateLowerBound();
 		BlockPos upper = calculateUpperBound();
 		BlockPos captureOffset = new BlockPos(lower);
 		BlockPos captureSize = new BlockPos(upper.getX() - lower.getX(), upper.getY() - lower.getY(),
 				upper.getZ() - lower.getZ());
-				// System.out.println("lower: " + lower);
-				// System.out.println("upper: " + upper);
-
-		// System.out.println("Marker #1:" + firstMarker);
-		// System.out.println("Marker #2:" + secondMarker);
-		// System.out.println("target block:" +
-		// worldQuery.getTargetBlockPosition());
-		// System.out.println("captureOffset:" + captureOffset);
-		// System.out.println("captureSize :" + captureSize);
 
 		// Rule: if height == 0 set height to 1 to copy plane
 		if (captureSize.getY() == 0) {
@@ -374,18 +368,9 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		// capture
 		capturedBlocks = captureRectangle(captureOffset, captureSize, worldQuery);
 
-		for (BlockDirective bd : capturedBlocks) {
-			System.out.println("block: " + bd.toString());
-		}
-
 		// translate
-		BlockPos translation = calculateTranslationVector(captureOffset);
-		System.out.println("translation vector:" + translation);
+		BlockPos translation = calculateTranslationVector(captureOffset, captureSize, playerDirection);
 		capturedBlocks = translate(translation, capturedBlocks);
-
-		for (BlockDirective bd : capturedBlocks) {
-			System.out.println("translated block: " + bd.toString());
-		}
 	}
 
 	/**
@@ -454,16 +439,32 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * Calculate translation vector.
 	 * 
 	 * @param captureOffset
+	 *            capture offset.
+	 * @param captureSize
+	 *            capture size.
+	 * @param playerDirection
+	 *            player direction.
 	 * 
 	 * @return translation vector.
 	 */
-	BlockPos calculateTranslationVector(BlockPos captureOffset) {
+	BlockPos calculateTranslationVector(BlockPos captureOffset, BlockPos captureSize, PlayerDirection playerDirection) {
 		int translateX = captureOffset.getX();
 		int translateY = captureOffset.getY();
 		int translateZ = captureOffset.getZ();
 
-		BlockPos translation = new BlockPos(translateX, translateY, translateZ);
-		return translation;
+		switch (playerDirection) {
+
+		case South:
+			return new BlockPos(translateX + captureSize.getX() - 1, translateY, translateZ);
+		case West:
+			return new BlockPos(translateX + captureSize.getX() - 1, translateY, translateZ + captureSize.getZ() - 1);
+		case North:
+			return new BlockPos(translateX, translateY, translateZ + captureSize.getZ() - 1);
+		case East:
+			return new BlockPos(translateX, translateY, translateZ);
+		default:
+			return new BlockPos(translateX, translateY, translateZ);
+		}
 	}
 
 	/**
