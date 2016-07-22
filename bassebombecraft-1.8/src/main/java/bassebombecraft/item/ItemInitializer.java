@@ -485,13 +485,14 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(flameBlastIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.clay_ball, 'y',
 				Items.fire_charge);			
 
+		/**
 		Item pvpIdolInventoryItem = new PvpIdolInventoryItem();
 		pvpIdolInventoryItem.setCreativeTab(targetTab);
 		GameRegistry.registerItem(pvpIdolInventoryItem, PvpIdolInventoryItem.ITEM_NAME);
 		logger.info("initializing item: " + PvpIdolInventoryItem.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(pvpIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.clay_ball, 'y',
 				Items.iron_sword);			
-		
+		**/
 	}
 
 	public static ItemInitializer getInstance() {
