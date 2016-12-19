@@ -12,15 +12,15 @@ import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -95,7 +95,7 @@ public class GenericInventoryItem extends Item {
 		int aoeRange = strategy.getEffectRange();
 
 		// get entities within AABB
-		AxisAlignedBB aabb = AxisAlignedBB.fromBounds(invokingEntity.posX - aoeRange, invokingEntity.posY - aoeRange,
+		AxisAlignedBB aabb = new AxisAlignedBB(invokingEntity.posX - aoeRange, invokingEntity.posY - aoeRange,
 				invokingEntity.posZ - aoeRange, invokingEntity.posX + aoeRange, invokingEntity.posY + aoeRange,
 				invokingEntity.posZ + aoeRange);
 		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, aabb);
@@ -181,7 +181,7 @@ public class GenericInventoryItem extends Item {
 	 * @param position
 	 *            effect position.
 	 */
-	void renderEffect(Vec3 position) {
+	void renderEffect(Vec3d position) {
 
 		// register particle for rendering
 		BlockPos pos = new BlockPos(position);

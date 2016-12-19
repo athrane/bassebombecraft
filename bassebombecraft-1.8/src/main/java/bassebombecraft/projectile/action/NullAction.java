@@ -1,7 +1,7 @@
 package bassebombecraft.projectile.action;
 
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 public class NullAction implements ProjectileAction{
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, MovingObjectPosition movObjPos) {		
+	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {		
 		// NO-OP
 	}
 

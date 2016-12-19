@@ -6,7 +6,7 @@ import static bassebombecraft.entity.ai.AiUtils.clearAiTasks;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
@@ -16,14 +16,14 @@ import net.minecraft.world.World;
 public class SpawnGuardian implements ProjectileAction {
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, MovingObjectPosition movObjPos) {
+	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
 
 		EntityLivingBase owner = projectile.getThrower();
 		System.out.println("DEBUG: Guardinan create by player:"+owner);
 				
 		EntityIronGolem entity= new EntityIronGolem(world);
 		entity.setLocationAndAngles(projectile.posX, projectile.posY, projectile.posZ, projectile.rotationYaw, projectile.rotationPitch);
-		world.spawnEntityInWorld(entity);
+		world.spawnEntity(entity);
 		clearAiTasks(entity);
 		buildCharmedMobAi(entity, owner);		
 	}

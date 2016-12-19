@@ -1,16 +1,18 @@
 package bassebombecraft.event.charm;
 
 import java.util.List;
+import java.util.Set;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 
 /**
  * Charmed mob.
  */
 public class CharmedMob {
 
-	final List tasks; // captured AI tasks.
-	final List targetTasks; // captured AI target tasks.
+	final Set<EntityAITaskEntry> tasks; // captured AI tasks.
+	final Set<EntityAITaskEntry> targetTasks; // captured AI target tasks.
 	final EntityLiving entity; // charmed mob.
 	private int duration; // Measured in ticks.
 
@@ -30,11 +32,11 @@ public class CharmedMob {
 		this.duration = duration;
 	}
 
-	public List getTasks() {
+	public Set<EntityAITaskEntry> getTasks() {
 		return tasks;
 	}
 
-	public List getTargetTasks() {
+	public Set<EntityAITaskEntry> getTargetTasks() {
 		return targetTasks;
 	}
 

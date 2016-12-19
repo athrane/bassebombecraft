@@ -12,7 +12,7 @@ import net.minecraft.init.Blocks;
 public class DebuggingStructureFactory implements StructureFactory {
 
 	static final int DEBUGGING_Y_DISPLACEMENT = 20;
-	static final Block DEBUGGING_BLOCK_TYPE = Blocks.ice;
+	static final Block DEBUGGING_BLOCK_TYPE = Blocks.ICE;
 	StructureFactory factory;
 		
 	/**

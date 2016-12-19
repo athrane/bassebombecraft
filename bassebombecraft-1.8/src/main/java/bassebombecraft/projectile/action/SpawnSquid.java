@@ -3,8 +3,8 @@ package bassebombecraft.projectile.action;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -19,7 +19,7 @@ public class SpawnSquid implements ProjectileAction {
 	private static final float PITCH = 0.0F;
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, MovingObjectPosition movObjPos) {
+	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
 		
 		// NO-OP if no entity was hit
 		if (movObjPos.entityHit == null) {
@@ -28,17 +28,17 @@ public class SpawnSquid implements ProjectileAction {
 		}
 		
 		// get entity position
-		Entity entityHit = movObjPos.entityHit;
+		Entity entity = movObjPos.entityHit;
 
-		Vec3 posVec = entityHit.getPositionVector();
-		float height = entityHit.height;		
+		Vec3d posVec = entity.getPositionVector();
+		float height = entity.height;		
 		EntitySquid squid = new EntitySquid(world);
 		double lx = posVec.xCoord;
 		double ly = posVec.yCoord + height +Y_SPAWN_OFFSET;
 		double lz = posVec.zCoord;
 		float yaw = projectile.rotationYaw;
 		squid.setLocationAndAngles(lx, ly, lz, yaw, PITCH);
-		world.spawnEntityInWorld(squid);
+		entity.world.spawnEntity(projectile );
 	}
 
 }

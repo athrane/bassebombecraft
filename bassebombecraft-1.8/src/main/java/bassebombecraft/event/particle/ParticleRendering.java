@@ -2,7 +2,7 @@ package bassebombecraft.event.particle;
 
 import java.util.Random;
 
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 
 /**

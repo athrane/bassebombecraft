@@ -3,7 +3,7 @@ package bassebombecraft.geom;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 /**
  * Class for directing the creation/modification/harvesting of blocks.
@@ -20,7 +20,7 @@ public class BlockDirective {
 	 */
 	public BlockDirective() {
 		set(0, 0, 0);
-		this.block = Blocks.air;
+		this.block = Blocks.AIR;
 		this.harvest = true;
 	}
 
@@ -34,7 +34,7 @@ public class BlockDirective {
 	@Deprecated
 	public BlockDirective(int x, int y, int z) {
 		set(x, y, z);
-		this.block = Blocks.air;
+		this.block = Blocks.AIR;
 		this.harvest = true;
 	}
 
@@ -194,7 +194,7 @@ public class BlockDirective {
 	 * @return true if block should harvested.
 	 */
 	public boolean harvestBlock() {
-		if (getBlock() != Blocks.air)
+		if (getBlock() != Blocks.AIR)
 			return false;
 		return this.harvest;
 	}

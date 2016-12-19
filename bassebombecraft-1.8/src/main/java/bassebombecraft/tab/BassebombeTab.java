@@ -2,7 +2,7 @@ package bassebombecraft.tab;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 /**
  * Basic creative tab with a skull as icon.
@@ -17,9 +17,10 @@ class BassebombeTab extends CreativeTabs{
 		super(name);
 	}
 
+	
 	@Override
-	public Item getTabIconItem() {
-		return Items.skull;
+	public ItemStack getTabIconItem() {
+		return new ItemStack(Items.SKULL);
 	}
 
 

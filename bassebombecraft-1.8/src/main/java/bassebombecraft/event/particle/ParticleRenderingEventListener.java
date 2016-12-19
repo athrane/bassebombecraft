@@ -48,7 +48,7 @@ public class ParticleRenderingEventListener {
 
 		// get world
 		EntityPlayer player = event.player;
-		World world = player.worldObj;
+		World world = player.getEntityWorld();
 
 		// exit if world is undefined
 		if (world == null)

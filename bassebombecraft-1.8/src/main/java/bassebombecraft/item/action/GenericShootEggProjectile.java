@@ -6,8 +6,10 @@ import bassebombecraft.projectile.GenericEggProjectile;
 import bassebombecraft.projectile.action.ProjectileAction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -16,7 +18,7 @@ import net.minecraft.world.World;
  */
 public class GenericShootEggProjectile implements RightClickedItemAction {
 
-	private static final String SOUND = "mob.chicken.say";
+	static final SoundEvent SOUND = SoundEvents.ENTITY_CHICKEN_HURT;	
 	static Random random = new Random();
 	ProjectileAction action;
 
@@ -32,11 +34,11 @@ public class GenericShootEggProjectile implements RightClickedItemAction {
 
 	@Override
 	public void onRightClick(World world, EntityLivingBase entity) {
-		Vec3 v3 = entity.getLook(1);
+		Vec3d v3 = entity.getLook(1);
 
 		GenericEggProjectile projectile = new GenericEggProjectile(world, entity, action);
-		world.playSoundAtEntity(entity, SOUND, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
-		world.spawnEntityInWorld(projectile);
+		entity.playSound(SOUND, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 0.8F));
+		world.spawnEntity(projectile);
 	}
 
 	@Override

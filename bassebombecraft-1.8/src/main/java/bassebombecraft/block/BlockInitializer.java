@@ -6,12 +6,14 @@ import org.apache.logging.log4j.Logger;
 import static bassebombecraft.ModConstants.*;
 
 import bassebombecraft.BassebombeCraft;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
@@ -36,16 +38,33 @@ public class BlockInitializer {
 	 *            tab that item is added to.
 	 */
 	public void initialize(CreativeTabs targetTab) {
-		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 		
-		RandomBookBlock randomBookBlock = new RandomBookBlock(Material.ground);
-		randomBookBlock.setCreativeTab(targetTab);
-		GameRegistry.registerBlock(randomBookBlock, RandomBookBlock.BLOCK_NAME);
-		ModelResourceLocation location = new ModelResourceLocation(MODID+":"+RandomBookBlock.BLOCK_NAME, "inventory");
-		mesher.register(Item.getItemFromBlock(randomBookBlock), META, location);		
+		RandomBookBlock randomBookBlock = new RandomBookBlock(Material.GROUND);
+		registerBlock(targetTab, randomBookBlock, RandomBookBlock.BLOCK_NAME);
 		logger.info("initializing Block: " + RandomBookBlock.BLOCK_NAME);
 	}
 
+	/**
+	 * Helper method for registration of block.
+	 * 
+	 * @param targetTab target tab for block.
+	 * @param block block to register.
+	 * @param blockName block name.
+	 */
+	void registerBlock(CreativeTabs targetTab, Block block, String blockName) {
+		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+		
+		block.setCreativeTab(targetTab);
+		block.setRegistryName(blockName);
+		GameRegistry.register(block);
+		ItemBlock itemBlock = new ItemBlock(block);
+		itemBlock.setRegistryName(blockName);
+		GameRegistry.register(itemBlock);
+		ModelResourceLocation location = new ModelResourceLocation(MODID+":"+blockName, "inventory");
+		mesher.register(Item.getItemFromBlock(block), META, location);				
+		logger.info("initializing item: " + blockName);
+	}
+	
 	public static BlockInitializer getInstance() {
 		return new BlockInitializer();
 	}

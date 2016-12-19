@@ -7,7 +7,7 @@ import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 /**
  * Implementation of {@linkplain EntityMistActionStrategy} for construction of mist
@@ -29,7 +29,7 @@ public class BeastmasterMist implements EntityMistActionStrategy {
 	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
 
 	@Override
-	public void applyEffectToEntity(EntityLivingBase target, Vec3 mistPos) {
+	public void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos) {
 
 		// skip if entity can't be charmed
 		if (!(target instanceof EntityLiving))

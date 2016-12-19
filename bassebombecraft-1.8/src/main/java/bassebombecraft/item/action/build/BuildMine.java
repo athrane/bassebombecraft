@@ -25,8 +25,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
@@ -34,8 +36,8 @@ import net.minecraft.world.World;
  */
 public class BuildMine implements BlockClickedItemAction {
 
-	static final boolean USED_ITEM = true;
-	static final boolean DIDNT_USED_ITEM = false;
+	static final EnumActionResult USED_ITEM = EnumActionResult.SUCCESS;
+	static final EnumActionResult DIDNT_USED_ITEM = EnumActionResult.PASS;
 
 	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
 
@@ -69,24 +71,25 @@ public class BuildMine implements BlockClickedItemAction {
 		repository = getBassebombeCraft().getBlockDirectivesRepository();
 	}
 
+	
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side,
-			float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
+			EnumFacing facing, float hitX, float hitY, float hitZ) {
 
 		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
 			return DIDNT_USED_ITEM;
 
 		// calculate if selected block is a ground block
-		boolean isGroundBlock = isBelowPlayerYPosition(pos.getY(), playerIn);
+		boolean isGroundBlock = isBelowPlayerYPosition(pos.getY(), player);
 
 		// calculate structure
 		Structure structure = createStructure(isGroundBlock);
 
 		// calculate Y offset in structure
-		int yOffset = calculatePlayerFeetPosititionAsInt(playerIn);
+		int yOffset = calculatePlayerFeetPosititionAsInt(player);
 
 		// get player direction
-		PlayerDirection playerDirection = getPlayerDirection(playerIn);
+		PlayerDirection playerDirection = getPlayerDirection(player);
 
 		// calculate set of block directives
 		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
@@ -332,7 +335,7 @@ public class BuildMine implements BlockClickedItemAction {
 		// lava floor
 		offset = new BlockPos(-4, -9, 1);
 		size = new BlockPos(8, 1, 8);
-		composite.add(new ChildStructure(offset, size, Blocks.lava));
+		composite.add(new ChildStructure(offset, size, Blocks.LAVA));
 		
 		// main room of air
 		offset = new BlockPos(-4, -8, 1);
@@ -347,7 +350,7 @@ public class BuildMine implements BlockClickedItemAction {
 		// add bridge
 		offset = new BlockPos(-1, -1, 1);
 		size = new BlockPos(2, 1, 8);
-		composite.add(new ChildStructure(offset, size, Blocks.brick_block));		
+		composite.add(new ChildStructure(offset, size, Blocks.BRICK_BLOCK));		
 		
 		// door entry - back
 		addDoorEntryFront(composite, new BlockPos(0, 0, 9));
@@ -391,15 +394,15 @@ public class BuildMine implements BlockClickedItemAction {
 		// space above ground
 		BlockPos offset = new BlockPos(0, 0, 0);
 		BlockPos size = new BlockPos(2, 1, 5);
-		composite.add(new ChildStructure(offset, size, Blocks.air));
+		composite.add(new ChildStructure(offset, size, Blocks.AIR));
 		offset = new BlockPos(-1, 1, 1);
 		size = new BlockPos(4, 2, 5);
-		composite.add(new ChildStructure(offset, size, Blocks.air));
+		composite.add(new ChildStructure(offset, size, Blocks.AIR));
 
 		// stone fence - left side
 		offset = new BlockPos(2, 0, 0);
 		size = new BlockPos(1, 1, 6);
-		composite.add(new ChildStructure(offset, size, Blocks.cobblestone_wall));
+		composite.add(new ChildStructure(offset, size, Blocks.COBBLESTONE_WALL));
 		offset = new BlockPos(2, 1, 0);
 		size = new BlockPos(1, 1, 1);
 		composite.add(createTorchStructure(offset, size));
@@ -407,7 +410,7 @@ public class BuildMine implements BlockClickedItemAction {
 		// stone fence - right side
 		offset = new BlockPos(-1, 0, 0);
 		size = new BlockPos(1, 1, 6);
-		composite.add(new ChildStructure(offset, size, Blocks.cobblestone_wall));
+		composite.add(new ChildStructure(offset, size, Blocks.COBBLESTONE_WALL));
 		offset = new BlockPos(-1, 1, 0);
 		size = new BlockPos(1, 1, 1);
 		composite.add(createTorchStructure(offset, size));
@@ -415,7 +418,7 @@ public class BuildMine implements BlockClickedItemAction {
 		// stone fence - end
 		offset = new BlockPos(0, 0, 5);
 		size = new BlockPos(2, 1, 1);
-		composite.add(new ChildStructure(offset, size, Blocks.cobblestone_wall));
+		composite.add(new ChildStructure(offset, size, Blocks.COBBLESTONE_WALL));
 
 		// bottom plateau
 		offset = new BlockPos(0, -11, 10);
@@ -598,16 +601,16 @@ public class BuildMine implements BlockClickedItemAction {
 	void addPlateauStairDown(Structure structure, BlockPos globalOffset) {
 		BlockPos offset = new BlockPos(globalOffset);
 		BlockPos size = new BlockPos(2, 1, 1);
-		structure.add(new ChildStructure(offset, size, Blocks.brick_stairs));
+		structure.add(new ChildStructure(offset, size, Blocks.BRICK_STAIRS));
 		offset = new BlockPos(globalOffset.getX(), globalOffset.getY() - 3, globalOffset.getZ()+1);
 		size = new BlockPos(2, 3, 1);
-		structure.add(new ChildStructure(offset, size, Blocks.brick_stairs));
+		structure.add(new ChildStructure(offset, size, Blocks.BRICK_STAIRS));
 		offset = new BlockPos(globalOffset.getX(), globalOffset.getY() - 3, globalOffset.getZ() + 2);
 		size = new BlockPos(2, 2, 1);
-		structure.add(new ChildStructure(offset, size, Blocks.brick_stairs));
+		structure.add(new ChildStructure(offset, size, Blocks.BRICK_STAIRS));
 		offset = new BlockPos(globalOffset.getX(), globalOffset.getY() - 3, globalOffset.getZ() + 3);
 		size = new BlockPos(2, 1, 1);
-		structure.add(new ChildStructure(offset, size, Blocks.brick_stairs));
+		structure.add(new ChildStructure(offset, size, Blocks.BRICK_STAIRS));
 	}
 
 	/**
@@ -633,11 +636,11 @@ public class BuildMine implements BlockClickedItemAction {
 		// column
 		offset = new BlockDirective(globalOffset.getX() - 1, globalOffset.getY(), globalOffset.getZ() - 1);
 		size = new BlockDirective(2, 9, 2);
-		structure.add(new ChildStructure(offset, size, Blocks.quartz_block));
+		structure.add(new ChildStructure(offset, size, Blocks.QUARTZ_BLOCK));
 
 		offset = new BlockDirective(globalOffset.getX() - 2, globalOffset.getY() + 9, globalOffset.getZ() - 2);
 		size = new BlockDirective(4, 1, 4);
-		structure.add(new ChildStructure(offset, size, Blocks.quartz_block));
+		structure.add(new ChildStructure(offset, size, Blocks.QUARTZ_BLOCK));
 	}
 
 	/**
@@ -650,10 +653,10 @@ public class BuildMine implements BlockClickedItemAction {
 	 */
 	void addTorch(Structure structure, BlockPos globalOffset) {
 		BlockPos offset = globalOffset;
-		structure.add(new ChildStructure(offset, UNITY_BLOCK_SIZE, Blocks.torch));
+		structure.add(new ChildStructure(offset, UNITY_BLOCK_SIZE, Blocks.TORCH));
 
 		offset = globalOffset.add(0, -1, 0);
-		structure.add(new ChildStructure(offset, UNITY_BLOCK_SIZE, Blocks.oak_fence));
+		structure.add(new ChildStructure(offset, UNITY_BLOCK_SIZE, Blocks.OAK_FENCE));
 	}
 
 	/**
@@ -674,7 +677,7 @@ public class BuildMine implements BlockClickedItemAction {
 
 		for(int i=0; i < columns; i++) {
 			offset = new BlockPos(globalOffset.getX(), globalOffset.getY(), globalOffset.getZ() +(i*2));
-			structure.add(new ChildStructure(offset, size, Blocks.brick_block));			
+			structure.add(new ChildStructure(offset, size, Blocks.BRICK_BLOCK));			
 		}
 	}
 

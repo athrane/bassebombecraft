@@ -19,8 +19,10 @@ import bassebombecraft.structure.Structure;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
@@ -33,8 +35,8 @@ public class BuildAbyss implements BlockClickedItemAction {
 	private static final int WATER_HEIGHT = 2;
 	private static final int HOLE_HEIGHT = 50;
 
-	static final boolean USED_ITEM = true;
-	static final boolean DIDNT_USED_ITEM = false;
+	static final EnumActionResult USED_ITEM = EnumActionResult.SUCCESS;
+	static final EnumActionResult DIDNT_USED_ITEM = EnumActionResult.PASS;
 
 	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
 
@@ -61,9 +63,10 @@ public class BuildAbyss implements BlockClickedItemAction {
 		repository = getBassebombeCraft().getBlockDirectivesRepository();
 	}
 
+	
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side,
-			float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
+			EnumFacing facing, float hitX, float hitY, float hitZ) {
 
 		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
 			return DIDNT_USED_ITEM;
@@ -72,10 +75,10 @@ public class BuildAbyss implements BlockClickedItemAction {
 		Structure structure = createStructure();
 
 		// calculate Y offset in structure
-		int yOffset = calculatePlayerFeetPosititionAsInt(playerIn);
+		int yOffset = calculatePlayerFeetPosititionAsInt(player);
 
 		// get player direction
-		PlayerDirection playerDirection = getPlayerDirection(playerIn);
+		PlayerDirection playerDirection = getPlayerDirection(player);
 
 		// calculate set of block directives
 		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
@@ -89,7 +92,7 @@ public class BuildAbyss implements BlockClickedItemAction {
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-
+		// NO-OP
 	}
 
 	/**

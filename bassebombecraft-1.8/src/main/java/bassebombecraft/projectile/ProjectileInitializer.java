@@ -6,7 +6,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.BassebombeCraft;
+import static bassebombecraft.ModConstants.*;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 /**
@@ -32,7 +34,8 @@ public class ProjectileInitializer {
 		int trackingRange = 20;
 		int updateFrequency = 10;
 		boolean sendsVelocityUpdates = true;
-		EntityRegistry.registerModEntity(GenericEggProjectile.class, PROJECTILE_NAME, ++modEntityID, mod, trackingRange, updateFrequency , sendsVelocityUpdates);
+		ResourceLocation location = new ResourceLocation(MODID, GenericEggProjectile.PROJECTILE_NAME);
+		EntityRegistry.registerModEntity(location, GenericEggProjectile.class, PROJECTILE_NAME, ++modEntityID, mod, trackingRange, updateFrequency , sendsVelocityUpdates);
 		logger.info("initializing item: " + GenericEggProjectile.PROJECTILE_NAME);
 		
 	}

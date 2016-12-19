@@ -10,7 +10,7 @@ import net.minecraft.block.BlockColored;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
@@ -43,7 +43,7 @@ public class MovingRainbowMist implements BlockMistActionStrategy {
 		colorCounter++;
 
 		// create flower block
-		BlockDirective directive = new BlockDirective(target, Blocks.wool, DONT_HARVEST);
+		BlockDirective directive = new BlockDirective(target, Blocks.WOOL, DONT_HARVEST);
 		directive.setState(selectWoolColor());
 
 		// create temporary block
@@ -54,7 +54,7 @@ public class MovingRainbowMist implements BlockMistActionStrategy {
 	/**
 	 * Select block based on wool color.
 	 * 
-	 * @return block based on wool color..
+	 * @return block based on wool color.
 	 */
 	IBlockState selectWoolColor() {
 		int colorSelector = colorCounter % NUMBER_COLORS;
@@ -62,23 +62,23 @@ public class MovingRainbowMist implements BlockMistActionStrategy {
 		switch (colorSelector) {
 
 		case 0:
-			return Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.MAGENTA);
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.MAGENTA);
 		case 1:
-			return Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.PURPLE);
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.PURPLE);
 		case 2:
-			return Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.BLUE);
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.BLUE);
 		case 3:
-			return Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIGHT_BLUE);
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIGHT_BLUE);
 		case 4:
-			return Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIME);
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIME);
 		case 5:
-			return Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.YELLOW);
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.YELLOW);
 		case 6:
-			return Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE);
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE);
 		case 7:
-			return Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.RED);
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.RED);
 		default:
-			return Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.WHITE);
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.WHITE);
 
 		}
 

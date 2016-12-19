@@ -1,12 +1,14 @@
 package bassebombecraft.event.charm;
 
 import static bassebombecraft.entity.ai.AiUtils.buildCharmedMobAi;
-import static bassebombecraft.entity.ai.AiUtils.clearAiTasks;
+import static bassebombecraft.entity.ai.AiUtils.*;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 
 /**
  * Default implementation of the {@linkplain CharmedMobsRepository.
@@ -40,11 +42,17 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 		
 		// restore AI tasks
 		CharmedMob charmedMob = charmedMobs.get(entity);
-		clearAiTasks(entity);		
-		entity.tasks.taskEntries = charmedMob.getTasks();
-		entity.targetTasks.taskEntries = charmedMob.getTargetTasks();
+		clearAiTasks(entity);	
+		assignAiTasks(entity, charmedMob.getTasks());
+		assignAiTargetTasks(entity, charmedMob.getTargetTasks());
 		
+		// remove mob from repository 
 		charmedMobs.remove(entity);
+	}
+
+	void assignAiTasks(EntityLiving entity, Set<EntityAITaskEntry> tasks) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override

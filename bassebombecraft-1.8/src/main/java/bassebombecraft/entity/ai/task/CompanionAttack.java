@@ -129,57 +129,57 @@ public class CompanionAttack extends EntityAIBase {
 
 		case 0:
 			RightClickedItemAction tmAction =  new GenericEntityMist(TOXIC_MIST_STRATEGY);
-			tmAction.onRightClick(entity.worldObj, entity);
+			tmAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 		
 		case 1:
 			RightClickedItemAction cwAction = new GenericShootEggProjectile(COWEB_PROJECTILE_ACTION);
-			cwAction.onRightClick(entity.worldObj, entity);
+			cwAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 
 		case 2:
 			RightClickedItemAction efAction = new GenericShootEggProjectile(EMIT_FORCE_PROJECTILE_ACTION);
-			efAction.onRightClick(entity.worldObj, entity);
+			efAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 
 		case 3:
 			RightClickedItemAction evfAction = new GenericShootEggProjectile(EMIT_VERTICAL_FORCE_PROJECTILE_ACTION);
-			evfAction.onRightClick(entity.worldObj, entity);
+			evfAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 
 		case 4:
 			RightClickedItemAction ibAction = new GenericShootEggProjectile(ICEBLOCK_PROJECTILE_ACTION);
-			ibAction.onRightClick(entity.worldObj, entity);
+			ibAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 
 		case 5:
 			RightClickedItemAction lbAction = new GenericShootEggProjectile(LAVABLOCK_PROJECTILE_ACTION);
-			lbAction.onRightClick(entity.worldObj, entity);
+			lbAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 			
 		case 6:
 			RightClickedItemAction sasAction = new GenericShootEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION);
-			sasAction.onRightClick(entity.worldObj, entity);
+			sasAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 
 		case 7:
 			RightClickedItemAction faAction = new GenericShootEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION);
-			faAction.onRightClick(entity.worldObj, entity);
+			faAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 			
 		case 8:
 			RightClickedItemAction svmAction = new GenericEntityMist(SPAWN_VACUUM_MIST_PROJECTILE_ACTION);
-			svmAction.onRightClick(entity.worldObj, entity);
+			svmAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 
 		case 9:
 			RightClickedItemAction lbpAction = new GenericShootEggProjectile(LIGHTNING_PROJECTILE_ACTION);
-			lbpAction.onRightClick(entity.worldObj, entity);
+			lbpAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 			
 		case 10:
 			RightClickedItemAction lbmAction =  new GenericEntityMist(LIGHTNING_MIST_STRATEGY);
-			lbmAction.onRightClick(entity.worldObj, entity);
+			lbmAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 			
 		default:
@@ -199,42 +199,42 @@ public class CompanionAttack extends EntityAIBase {
 
 		case 0:
 			RightClickedItemAction sfAction = new ShootSmallFireball();
-			sfAction.onRightClick(entity.worldObj, entity);
+			sfAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 
 		case 1:
 			RightClickedItemAction lfAction = new ShootLargeFireball();
-			lfAction.onRightClick(entity.worldObj, entity);
+			lfAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 
 		case 2:
 			RightClickedItemAction wsAction = new ShootWitherSkull();
-			wsAction.onRightClick(entity.worldObj, entity);
+			wsAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 
 		case 3:
 			RightClickedItemAction maAction = new ShootMultipleArrows();
-			maAction.onRightClick(entity.worldObj, entity);
+			maAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 
 		case 4:
 			RightClickedItemAction bbAction = new ShootBaconBazooka();
-			bbAction.onRightClick(entity.worldObj, entity);
+			bbAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 			
 		case 5:
 			RightClickedItemAction sasAction = new GenericShootEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION);
-			sasAction.onRightClick(entity.worldObj, entity);
+			sasAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 
 		case 6:
 			RightClickedItemAction faAction = new GenericShootEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION);
-			faAction.onRightClick(entity.worldObj, entity);
+			faAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 			
 		case 7:
 			RightClickedItemAction lbpAction = new GenericShootEggProjectile(LIGHTNING_PROJECTILE_ACTION);
-			lbpAction.onRightClick(entity.worldObj, entity);
+			lbpAction.onRightClick(entity.getEntityWorld(), entity);
 			break;
 			
 		default:

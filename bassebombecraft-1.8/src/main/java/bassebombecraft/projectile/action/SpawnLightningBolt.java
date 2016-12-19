@@ -1,11 +1,13 @@
 package bassebombecraft.projectile.action;
 
+import static bassebombecraft.ModConstants.LIGHTNING_NOT_EFFECT_ONLY;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
@@ -20,13 +22,13 @@ public class SpawnLightningBolt implements ProjectileAction {
 	static final boolean DONT_HARVEST = false;
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, MovingObjectPosition movObjPos) {
+	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
 
 		// spawn a lightning bolt if no entity was hit
 		if (movObjPos.entityHit == null) {
 			BlockPos spawnPosition = calculatePosition(world, movObjPos);
 			EntityLightningBolt bolt = new EntityLightningBolt(world, spawnPosition.getX(), spawnPosition.getY(),
-					spawnPosition.getZ());
+					spawnPosition.getZ(), LIGHTNING_NOT_EFFECT_ONLY);
 			world.addWeatherEffect(bolt);
 			return;
 		}
@@ -38,8 +40,8 @@ public class SpawnLightningBolt implements ProjectileAction {
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
 		for (Object pos : BlockPos.getAllInBox(min, max)) {
 			BlockPos typedPos = (BlockPos) pos;
-			EntityLightningBolt bolt = new EntityLightningBolt(world, typedPos.getX(), typedPos.getY(),
-					typedPos.getZ());
+			EntityLightningBolt bolt = new EntityLightningBolt(world, typedPos.getX(), typedPos.getY(), typedPos.getZ(),
+					LIGHTNING_NOT_EFFECT_ONLY);
 			world.addWeatherEffect(bolt);
 		}
 
@@ -56,7 +58,7 @@ public class SpawnLightningBolt implements ProjectileAction {
 	 * 
 	 * @return position where block should be spawned.
 	 */
-	BlockPos calculatePosition(World world, MovingObjectPosition movObjPos) {
+	BlockPos calculatePosition(World world, RayTraceResult movObjPos) {
 		switch (movObjPos.sideHit) {
 
 		case UP:

@@ -4,7 +4,6 @@ import static bassebombecraft.ModConstants.MODID;
 
 import java.util.Random;
 
-import bassebombecraft.item.action.mist.entity.LightningBoltMist;
 import bassebombecraft.item.book.BaconBazookaBook;
 import bassebombecraft.item.book.BeastmasterBook;
 import bassebombecraft.item.book.BeastmasterMistBook;
@@ -56,7 +55,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 /**
  * Random book block which drops a random book when destroyed.
@@ -77,99 +77,99 @@ public class RandomBookBlock extends Block {
 
 		switch (number) {
 		case 0:
-			return GameRegistry.findItem(MODID, TeleportBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, TeleportBook.ITEM_NAME));
 		case 1:
-			return GameRegistry.findItem(MODID, SmallFireballBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, SmallFireballBook.ITEM_NAME));
 		case 2:
-			return GameRegistry.findItem(MODID, LargeFireballBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, LargeFireballBook.ITEM_NAME));
 		case 3:
-			return GameRegistry.findItem(MODID, LingeringFlameBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, LingeringFlameBook.ITEM_NAME));
 		case 5:
-			return GameRegistry.findItem(MODID, LingeringFuryBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, LingeringFuryBook.ITEM_NAME));
 		case 6:
-			return GameRegistry.findItem(MODID, LavaSpiralMistBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, LavaSpiralMistBook.ITEM_NAME));
 		case 7:
-			return GameRegistry.findItem(MODID, ToxicMistBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, ToxicMistBook.ITEM_NAME));
 		case 8:
-			return GameRegistry.findItem(MODID, WitherSkullBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, WitherSkullBook.ITEM_NAME));
 		case 9:
-			return GameRegistry.findItem(MODID, WitherMistBook.ITEM_NAME);			
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, WitherMistBook.ITEM_NAME));			
 		case 10:
-			return GameRegistry.findItem(MODID, MovingWitherMistBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, MovingWitherMistBook.ITEM_NAME));
 		case 11:
-			return GameRegistry.findItem(MODID, MovingLavaMistBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, MovingLavaMistBook.ITEM_NAME));
 		case 12:
-			return GameRegistry.findItem(MODID, MovingLavaMultiMistBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, MovingLavaMultiMistBook.ITEM_NAME));
 		case 13:
-			return GameRegistry.findItem(MODID, MovingIceMultiMistBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, MovingIceMultiMistBook.ITEM_NAME));
 		case 14:
-			return GameRegistry.findItem(MODID, MovingWaterMultiMistBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, MovingWaterMultiMistBook.ITEM_NAME));
 		case 15:
-			return GameRegistry.findItem(MODID, MovingRainbowMistBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, MovingRainbowMistBook.ITEM_NAME));
 		case 16:
-			return GameRegistry.findItem(MODID, HealingMistBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, HealingMistBook.ITEM_NAME));
 		case 17:
-			return GameRegistry.findItem(MODID, SpawnFlamingChickenBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, SpawnFlamingChickenBook.ITEM_NAME));
 		case 18:
-			return GameRegistry.findItem(MODID, SpawnSquidBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, SpawnSquidBook.ITEM_NAME));
 		case 19:
-			return GameRegistry.findItem(MODID, BaconBazookaBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, BaconBazookaBook.ITEM_NAME));
 		case 20:
-			return GameRegistry.findItem(MODID, CreeperCannonBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, CreeperCannonBook.ITEM_NAME));
 		case 21:
-			return GameRegistry.findItem(MODID, PrimedCreeperCannonBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, PrimedCreeperCannonBook.ITEM_NAME));
 		case 22:
-			return GameRegistry.findItem(MODID, CreeperApocalypseBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, CreeperApocalypseBook.ITEM_NAME));
 		case 23:
-			return GameRegistry.findItem(MODID, Spawn100ChickensBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, Spawn100ChickensBook.ITEM_NAME));
 		case 24:
-			return GameRegistry.findItem(MODID, SpawnManyCowsBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, SpawnManyCowsBook.ITEM_NAME));
 		case 25:
-			return GameRegistry.findItem(MODID, BeastmasterMistBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, BeastmasterMistBook.ITEM_NAME));
 		case 26:
-			return GameRegistry.findItem(MODID, BeastmasterBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, BeastmasterBook.ITEM_NAME));
 		case 27:
-			return GameRegistry.findItem(MODID, SpawnGuardianBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, SpawnGuardianBook.ITEM_NAME));
 		case 28:
-			return GameRegistry.findItem(MODID, MultipleArrowsBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, MultipleArrowsBook.ITEM_NAME));
 		case 29:
-			return GameRegistry.findItem(MODID, CobwebBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, CobwebBook.ITEM_NAME));
 		case 30:
-			return GameRegistry.findItem(MODID, IceBlockBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, IceBlockBook.ITEM_NAME));
 		case 31:
-			return GameRegistry.findItem(MODID, LavaBlockBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, LavaBlockBook.ITEM_NAME));
 		case 32:
-			return GameRegistry.findItem(MODID, FallingAnvilBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, FallingAnvilBook.ITEM_NAME));
 		case 33:
-			return GameRegistry.findItem(MODID, EmitHorizontalForceBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, EmitHorizontalForceBook.ITEM_NAME));
 		case 34:
-			return GameRegistry.findItem(MODID, EmitVerticalForceBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, EmitVerticalForceBook.ITEM_NAME));
 		case 35:
-			return GameRegistry.findItem(MODID, EmitVerticalForceMistBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, EmitVerticalForceMistBook.ITEM_NAME));
 		case 36:
-			return GameRegistry.findItem(MODID, VacuumMistBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, VacuumMistBook.ITEM_NAME));
 		case 37:
-			return GameRegistry.findItem(MODID, CopyPasteBlocksBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, CopyPasteBlocksBook.ITEM_NAME));
 		case 38:
-			return GameRegistry.findItem(MODID, DuplicateBlockBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, DuplicateBlockBook.ITEM_NAME));
 		case 39:
-			return GameRegistry.findItem(MODID, BuildRoadBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, BuildRoadBook.ITEM_NAME));
 		case 40:
-			return GameRegistry.findItem(MODID, BuildRainbowRoadBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, BuildRainbowRoadBook.ITEM_NAME));
 		case 41:
-			return GameRegistry.findItem(MODID, BuildMineBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, BuildMineBook.ITEM_NAME));
 		case 42:
-			return GameRegistry.findItem(MODID, BuildAbyssBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, BuildAbyssBook.ITEM_NAME));
 		case 43:
-			return GameRegistry.findItem(MODID, BuildSmallHoleBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, BuildSmallHoleBook.ITEM_NAME));
 		case 44:
-			return GameRegistry.findItem(MODID, NaturalizeBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, NaturalizeBook.ITEM_NAME));
 		case 45:
-			return GameRegistry.findItem(MODID, RainbownizeBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, RainbownizeBook.ITEM_NAME));
 		case 46:
-			return GameRegistry.findItem(MODID, LightningBoltBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, LightningBoltBook.ITEM_NAME));
 		case 47:
-			return GameRegistry.findItem(MODID, LightningBoltMistBook.ITEM_NAME);
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, LightningBoltMistBook.ITEM_NAME));
 
 		default:
 			return super.getItemDropped(state, rand, fortune);

@@ -32,7 +32,7 @@ public class GardenStructureFactory implements StructureFactory {
 	static Structure createAboveGroundRoom() {		
 		BlockDirective offset = new BlockDirective(0,0,0);
 		BlockDirective size = new BlockDirective(2,1,6);
-		return new ChildStructure(offset, size, Blocks.farmland);
+		return new ChildStructure(offset, size, Blocks.FARMLAND);
 	}
 
 	static Structure createEnclosure() {	
@@ -41,38 +41,38 @@ public class GardenStructureFactory implements StructureFactory {
 		// left front
 		BlockDirective offset = new BlockDirective(1,0,0);
 		BlockDirective size = new BlockDirective(4, 2, 1);
-		composite.add(new ChildStructure(offset, size, Blocks.leaves2));			
+		composite.add(new ChildStructure(offset, size, Blocks.LEAVES2));			
 
 		// right front
 		offset = new BlockDirective(-5,0,0);
 		size = new BlockDirective(4, 2, 1);
-		composite.add(new ChildStructure(offset, size, Blocks.leaves2));			
+		composite.add(new ChildStructure(offset, size, Blocks.LEAVES2));			
 
 		// portal
 		offset = new BlockDirective(1,2,0);
 		size = new BlockDirective(1, 1, 1);
-		composite.add(new ChildStructure(offset, size, Blocks.leaves));			
+		composite.add(new ChildStructure(offset, size, Blocks.LEAVES));			
 		offset = new BlockDirective(-2,2,0);
 		size = new BlockDirective(1, 1, 1);
-		composite.add(new ChildStructure(offset, size, Blocks.leaves));					
+		composite.add(new ChildStructure(offset, size, Blocks.LEAVES));					
 		offset = new BlockDirective(-1,3,0);
 		size = new BlockDirective(2, 1, 1);
-		composite.add(new ChildStructure(offset, size, Blocks.leaves));			
+		composite.add(new ChildStructure(offset, size, Blocks.LEAVES));			
 
 		// left side
 		offset = new BlockDirective(4,0,1);
 		size = new BlockDirective(1, 2, 9);
-		composite.add(new ChildStructure(offset, size, Blocks.leaves2));			
+		composite.add(new ChildStructure(offset, size, Blocks.LEAVES2));			
 
 		// right side
 		offset = new BlockDirective(-5,0,1);
 		size = new BlockDirective(1, 2, 9);
-		composite.add(new ChildStructure(offset, size, Blocks.leaves2));			
+		composite.add(new ChildStructure(offset, size, Blocks.LEAVES2));			
 		
 		// back
 		offset = new BlockDirective(-5,0,10);
 		size = new BlockDirective(10, 2, 1);
-		composite.add(new ChildStructure(offset, size, Blocks.leaves2));			
+		composite.add(new ChildStructure(offset, size, Blocks.LEAVES2));			
 										
 		offset = new BlockDirective(-3,0,4);
 		size = new BlockDirective(6, 1, 6);
@@ -81,7 +81,7 @@ public class GardenStructureFactory implements StructureFactory {
 		// path
 		offset = new BlockDirective(-1,-1,0);
 		size = new BlockDirective(2, 1, 4);
-		composite.add(new ChildStructure(offset, size, Blocks.sandstone));			
+		composite.add(new ChildStructure(offset, size, Blocks.SANDSTONE));			
 		
 		
 		return composite;
@@ -89,11 +89,9 @@ public class GardenStructureFactory implements StructureFactory {
 
 	static Block calculateFlower() {
 		int flowerId = random.nextInt(2);	
-		if(flowerId==0) return Blocks.red_flower;
-		if(flowerId==1) return Blocks.yellow_flower;	
-		if(flowerId==1) return Blocks.yellow_flower;	
-		
-		return Blocks.cocoa;
+		if(flowerId==0) return Blocks.RED_FLOWER;
+		if(flowerId==1) return Blocks.YELLOW_FLOWER;			
+		return Blocks.COCOA;
 	}
 
 	static Structure createVegetables() {	
@@ -102,36 +100,36 @@ public class GardenStructureFactory implements StructureFactory {
 		// left part
 		BlockDirective offset = new BlockDirective(-4,0,0);
 		BlockDirective size = new BlockDirective(2, 1, 8);
-		composite.add(new ChildStructure(offset, size, Blocks.farmland));			
+		composite.add(new ChildStructure(offset, size, Blocks.FARMLAND));			
 
 		offset = new BlockDirective(-4,0,0);
 		size = new BlockDirective(2, 2, 8);
-		composite.add(new ChildStructure(offset, size, Blocks.carrots));			
+		composite.add(new ChildStructure(offset, size, Blocks.CARROTS));			
 
 		// right part
 		offset = new BlockDirective(0,0,0);
 		size = new BlockDirective(2, 1, 8);
-		composite.add(new ChildStructure(offset, size, Blocks.farmland));			
+		composite.add(new ChildStructure(offset, size, Blocks.FARMLAND));			
 
 		offset = new BlockDirective(0,0,0);
 		size = new BlockDirective(2, 2, 8);
-		composite.add(new ChildStructure(offset, size, Blocks.potatoes));			
+		composite.add(new ChildStructure(offset, size, Blocks.POTATOES));			
 		
 		// path
 		offset = new BlockDirective(-2,-1,0);
 		size = new BlockDirective(2, 1, 8);
-		composite.add(new ChildStructure(offset, size, Blocks.sandstone));			
+		composite.add(new ChildStructure(offset, size, Blocks.SANDSTONE));			
 		
 		// fence
 		offset = new BlockDirective(-5,0,0);
 		size = new BlockDirective(1, 1, 9);
-		composite.add(new ChildStructure(offset, size, Blocks.oak_fence));			
+		composite.add(new ChildStructure(offset, size, Blocks.OAK_FENCE));			
 		offset = new BlockDirective(2,0,0);
 		size = new BlockDirective(1, 1, 9);
-		composite.add(new ChildStructure(offset, size, Blocks.oak_fence));			
+		composite.add(new ChildStructure(offset, size, Blocks.OAK_FENCE));			
 		offset = new BlockDirective(-4,0,8);
 		size = new BlockDirective(6, 1, 1);
-		composite.add(new ChildStructure(offset, size, Blocks.oak_fence));			
+		composite.add(new ChildStructure(offset, size, Blocks.OAK_FENCE));			
 				
 		return composite;
 	}

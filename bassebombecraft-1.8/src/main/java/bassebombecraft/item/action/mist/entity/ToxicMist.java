@@ -4,10 +4,10 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.potion.Potion;
+import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 /**
  * Implementation of {@linkplain EntityMistActionStrategy} for construction of mist
@@ -34,11 +34,11 @@ public class ToxicMist implements EntityMistActionStrategy {
 	 * @return potion effect
 	 */
 	PotionEffect createEffect() {
-		return new PotionEffect(Potion.poison.id, getEffectDuration());
+		return new PotionEffect(MobEffects.POISON, getEffectDuration());
 	}
 
 	@Override
-	public void applyEffectToEntity(EntityLivingBase target, Vec3 mistPos) {
+	public void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos) {
 		target.addPotionEffect(createEffect());
 	}
 

@@ -3,7 +3,7 @@ package bassebombecraft.geom;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.ModConstants.HARVEST;
 import static bassebombecraft.ModConstants.ORIGIN_BLOCK_POS;
-import static bassebombecraft.block.BlockUtils.*;
+import static bassebombecraft.block.BlockUtils.containsAirBlocksOnly;
 import static bassebombecraft.block.BlockUtils.getBlockFromPosition;
 import static bassebombecraft.block.BlockUtils.getBlockStateFromPosition;
 import static bassebombecraft.block.BlockUtils.rotateBlockStateWithFacingProperty;
@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import bassebombecraft.block.BlockUtils;
 import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.player.PlayerUtils;
 import bassebombecraft.structure.Structure;
@@ -23,8 +22,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -181,14 +180,14 @@ public class GeometryUtils {
 	 * 
 	 * @return vector rotated around the Y-axis at origin.
 	 */
-	public static Vec3 rotateUnitVectorAroundYAxisAtOrigin(double angle, Vec3 vector) {
+	public static Vec3d rotateUnitVectorAroundYAxisAtOrigin(double angle, Vec3d vector) {
 		double originX = 0;
 		double originZ = 0;
 		AffineTransform transform = AffineTransform.getRotateInstance(Math.toRadians(angle), originX, originZ);
 
 		double[] rotationPoint = { vector.xCoord, vector.zCoord };
 		transform.transform(rotationPoint, 0, rotationPoint, 0, 1);
-		return new Vec3(rotationPoint[0], vector.yCoord, rotationPoint[1]);
+		return new Vec3d(rotationPoint[0], vector.yCoord, rotationPoint[1]);
 	}
 
 	/**
@@ -472,8 +471,9 @@ public class GeometryUtils {
 	 * @return
 	 */
 	static boolean isUsefulGroundBlock(BlockPos target, World world) {
-		Block candidateBlock = getBlockFromPosition(target, world);
-		Material material = candidateBlock.getMaterial();
+		Block block = getBlockFromPosition(target, world);
+		IBlockState defaultState = block.getDefaultState();
+		Material material = defaultState.getMaterial();
 		return (material.isSolid());
 	}
 
@@ -489,8 +489,9 @@ public class GeometryUtils {
 	 * @return true if block is a useful "air" type block.
 	 */
 	static boolean isUsefullAirTypeBlock(BlockPos target, World world) {
-		Block candidateBlock = getBlockFromPosition(target, world);
-		Material material = candidateBlock.getMaterial();
+		Block block = getBlockFromPosition(target, world);
+		IBlockState defaultState = block.getDefaultState();
+		Material material = defaultState.getMaterial();
 		return (!material.isSolid());
 	}
 
@@ -509,11 +510,11 @@ public class GeometryUtils {
 		switch (flowerType) {
 
 		case 0:
-			BlockDirective yellow = new BlockDirective(position, Blocks.yellow_flower, DONT_HARVEST);
+			BlockDirective yellow = new BlockDirective(position, Blocks.YELLOW_FLOWER, DONT_HARVEST);
 			return yellow;
 		case 1:
 		default:			
-			BlockDirective red = new BlockDirective(position, Blocks.red_flower, DONT_HARVEST);
+			BlockDirective red = new BlockDirective(position, Blocks.RED_FLOWER, DONT_HARVEST);
 			red.setState(selectRedFlowerType(random));
 			return red;
 		}			
@@ -530,31 +531,31 @@ public class GeometryUtils {
 		switch (flowerType) {
 
 		case 0:
-			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
 					EnumFlowerType.ALLIUM);
 		case 1:
-			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
 					EnumFlowerType.BLUE_ORCHID);
 		case 2:
-			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
 					EnumFlowerType.HOUSTONIA);
 		case 3:
-			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
 					EnumFlowerType.ORANGE_TULIP);
 		case 4:
-			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
 					EnumFlowerType.OXEYE_DAISY);
 		case 5:
-			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
 					EnumFlowerType.PINK_TULIP);
 		case 6:
-			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
 					EnumFlowerType.POPPY);
 		case 7:
-			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
 					EnumFlowerType.WHITE_TULIP);
 		default:
-			return Blocks.red_flower.getDefaultState().withProperty(Blocks.red_flower.getTypeProperty(),
+			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
 					EnumFlowerType.POPPY);
 		}
 

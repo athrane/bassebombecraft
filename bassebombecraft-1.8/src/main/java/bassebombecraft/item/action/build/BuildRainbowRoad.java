@@ -24,8 +24,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
 
 /**
@@ -33,8 +35,8 @@ import net.minecraft.world.World;
  */
 public class BuildRainbowRoad implements BlockClickedItemAction {
 
-	static final boolean USED_ITEM = true;
-	static final boolean DIDNT_USED_ITEM = true;
+	static final EnumActionResult USED_ITEM = EnumActionResult.SUCCESS;
+	static final EnumActionResult DIDNT_USED_ITEM = EnumActionResult.PASS;
 
 	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
 
@@ -70,14 +72,14 @@ public class BuildRainbowRoad implements BlockClickedItemAction {
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side,
-			float hitX, float hitY, float hitZ) {
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
+			EnumFacing facing, float hitX, float hitY, float hitZ) {
 
 		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
 			return DIDNT_USED_ITEM;
 
 		// calculate if selected block is a ground block
-		boolean isGroundBlock = isBelowPlayerYPosition(pos.getY(), playerIn);
+		boolean isGroundBlock = isBelowPlayerYPosition(pos.getY(), player);
 
 		// calculate structure
 		Structure structure = null;
@@ -87,10 +89,10 @@ public class BuildRainbowRoad implements BlockClickedItemAction {
 			return DIDNT_USED_ITEM;
 
 		// calculate Y offset in structure
-		int yOffset = calculatePlayerFeetPosititionAsInt(playerIn);
+		int yOffset = calculatePlayerFeetPosititionAsInt(player);
 
 		// get player direction
-		PlayerDirection playerDirection = getPlayerDirection(playerIn);
+		PlayerDirection playerDirection = getPlayerDirection(player);
 
 		// calculate set of block directives
 		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
@@ -104,7 +106,7 @@ public class BuildRainbowRoad implements BlockClickedItemAction {
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-
+		// NO-OP
 	}
 
 	/**
@@ -121,59 +123,59 @@ public class BuildRainbowRoad implements BlockClickedItemAction {
 			// create path
 			BlockPos offset = new BlockPos(displacement, Y_OFFSET_DOWN, Z_SIZE * index);
 			BlockPos size = new BlockPos(X_SIZE, Y_SIZE, 1);
-			IBlockState state = Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.MAGENTA);
-			composite.add(new ChildStructure(offset, size, Blocks.wool, state));
+			IBlockState state = Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.MAGENTA);
+			composite.add(new ChildStructure(offset, size, Blocks.WOOL, state));
 			
 			offset = new BlockPos(displacement, Y_OFFSET_DOWN, (Z_SIZE * index)+1);
 			size = new BlockPos(X_SIZE, Y_SIZE, 1);
-			state = Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.PURPLE);
-			composite.add(new ChildStructure(offset, size, Blocks.wool, state));
+			state = Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.PURPLE);
+			composite.add(new ChildStructure(offset, size, Blocks.WOOL, state));
 
 			offset = new BlockPos(displacement, Y_OFFSET_DOWN, (Z_SIZE * index)+2);
 			size = new BlockPos(X_SIZE, Y_SIZE, 1);
-			state = Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.BLUE);
-			composite.add(new ChildStructure(offset, size, Blocks.wool, state));
+			state = Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.BLUE);
+			composite.add(new ChildStructure(offset, size, Blocks.WOOL, state));
 
 			offset = new BlockPos(displacement, Y_OFFSET_DOWN, (Z_SIZE * index)+3);
 			size = new BlockPos(X_SIZE, Y_SIZE, 1);
-			state = Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIGHT_BLUE);
-			composite.add(new ChildStructure(offset, size, Blocks.wool, state));
+			state = Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIGHT_BLUE);
+			composite.add(new ChildStructure(offset, size, Blocks.WOOL, state));
 
 			offset = new BlockPos(displacement, Y_OFFSET_DOWN, (Z_SIZE * index)+4);
 			size = new BlockPos(X_SIZE, Y_SIZE, 1);
-			state = Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIME);
-			composite.add(new ChildStructure(offset, size, Blocks.wool, state));
+			state = Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIME);
+			composite.add(new ChildStructure(offset, size, Blocks.WOOL, state));
 			
 			offset = new BlockPos(displacement, Y_OFFSET_DOWN, (Z_SIZE * index)+5);
 			size = new BlockPos(X_SIZE, Y_SIZE, 1);
-			state = Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.YELLOW);
-			composite.add(new ChildStructure(offset, size, Blocks.wool, state));
+			state = Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.YELLOW);
+			composite.add(new ChildStructure(offset, size, Blocks.WOOL, state));
 
 			offset = new BlockPos(displacement, Y_OFFSET_DOWN, (Z_SIZE * index)+6);
 			size = new BlockPos(X_SIZE, Y_SIZE, 1);
-			state = Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE);
-			composite.add(new ChildStructure(offset, size, Blocks.wool, state));
+			state = Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE);
+			composite.add(new ChildStructure(offset, size, Blocks.WOOL, state));
 
 			offset = new BlockPos(displacement, Y_OFFSET_DOWN, (Z_SIZE * index)+7);
 			size = new BlockPos(X_SIZE, Y_SIZE, 1);
-			state = Blocks.wool.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.RED);
-			composite.add(new ChildStructure(offset, size, Blocks.wool, state));
+			state = Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.RED);
+			composite.add(new ChildStructure(offset, size, Blocks.WOOL, state));
 			
 			// air above the path
 			offset = new BlockPos(displacement, Y_OFFSET_DOWN + 1, (Z_SIZE) * index);
 			size = new BlockPos(X_SIZE + 1, Y_SIZE + 3, Z_SIZE);
-			composite.add(new ChildStructure(offset, size, Blocks.air));
+			composite.add(new ChildStructure(offset, size, Blocks.AIR));
 
 			// lightpole - right side
 			BlockPos offsetLightpole = new BlockPos(offset.getX() - 1, Y_OFFSET_DOWN, offset.getZ());
 			BlockPos sizeLightpole = new BlockPos(1, 1, 1);
-			composite.add(new ChildStructure(offsetLightpole, sizeLightpole, Blocks.oak_fence));
+			composite.add(new ChildStructure(offsetLightpole, sizeLightpole, Blocks.OAK_FENCE));
 
 			// torch
 			BlockPos offsetTorch = new BlockPos(offsetLightpole.getX(), offsetLightpole.getY() + sizeLightpole.getY(),
 					offsetLightpole.getZ());
 			BlockPos sizeTorch = UNITY_BLOCK_SIZE;
-			composite.add(new ChildStructure(offsetTorch, sizeTorch, Blocks.torch));
+			composite.add(new ChildStructure(offsetTorch, sizeTorch, Blocks.TORCH));
 
 		}
 

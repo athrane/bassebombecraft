@@ -1,7 +1,7 @@
 package bassebombecraft;
 
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 /**
  * Mod constants.
@@ -10,7 +10,7 @@ public class ModConstants {
 
 	public static final String NAME = "BasseBombeCraft";
     public static final String MODID = "bassebombecraft";
-    public static final String VERSION = "1.8.9-1.17";
+    public static final String VERSION = "1.11-1.18";
     public static final String TAB_NAME= "BasseBombeCraft";        
     public static final String MINECRAFT_DOMAIN= "minecraft";
 
@@ -68,5 +68,10 @@ public class ModConstants {
 	 * Flag which indicates that a block should be harvested when processed.
 	 */
 	public static final boolean HARVEST = true;
+	
+	/**
+	 * Lightning isn't created with effect only, but with block changes.
+	 */
+	public static final boolean LIGHTNING_NOT_EFFECT_ONLY = false; 
 	
 }

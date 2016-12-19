@@ -13,7 +13,7 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.WorldQueryImpl;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -82,7 +82,7 @@ public class ProcessBlockDirectivesEventListener {
 
 		// get world
 		EntityPlayer player = event.player;
-		World world = player.worldObj;
+		World world = player.getEntityWorld();
 
 		// exit if at client side
 		if (world.isRemote)

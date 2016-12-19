@@ -7,11 +7,11 @@ import java.util.Random;
 import bassebombecraft.geom.WorldQuery;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 public class ParkourStaffStructureFactory implements StructureFactory {
 
-	static final Block BLOCK_TYPE = Blocks.pumpkin;
+	static final Block BLOCK_TYPE = Blocks.PUMPKIN;
 	static Random random = new Random();
 	private BlockPos offset;
 
@@ -60,7 +60,7 @@ public class ParkourStaffStructureFactory implements StructureFactory {
 		BlockPos targetOffset = offset.add(0,0,1);
 		BlockPos size = new BlockPos(plateauSize,plateau_height,plateauSize);
 		updateOffsetWithDelta(0,0,plateauSize);
-		return new ChildStructure(targetOffset, size, Blocks.wool);
+		return new ChildStructure(targetOffset, size, Blocks.WOOL);
 	}
 	
 	Structure createBlock0x0x3() {		

@@ -5,7 +5,7 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
@@ -32,7 +32,7 @@ public class MovingWaterMultiMist implements BlockMistActionStrategy {
 
 	@Override
 	public void applyEffectToBlock(BlockPos target, World world) {
-		setTemporaryBlock(world, target, Blocks.water, EFFECT_DURATION);
+		setTemporaryBlock(world, target, Blocks.WATER, EFFECT_DURATION);
 	}
 
 	@Override

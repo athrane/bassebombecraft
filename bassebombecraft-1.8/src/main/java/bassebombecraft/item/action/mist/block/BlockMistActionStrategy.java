@@ -1,7 +1,7 @@
 package bassebombecraft.item.action.mist.block;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**

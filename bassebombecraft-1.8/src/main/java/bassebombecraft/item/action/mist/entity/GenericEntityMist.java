@@ -14,9 +14,9 @@ import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -57,7 +57,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 	/**
 	 * Mist position.
 	 */
-	Vec3 mistPos;
+	Vec3d mistPos;
 
 	/*
 	 * Invoking entity.
@@ -67,7 +67,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 	/**
 	 * Invoking entity look unit vector.
 	 */
-	Vec3 entityLook;
+	Vec3d entityLook;
 
 	/**
 	 * Defines whether behaviour is active.
@@ -109,7 +109,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 		int aoeRange = strategy.getEffectRange();
 
 		// get entities within AABB
-		AxisAlignedBB aabb = AxisAlignedBB.fromBounds(mistPos.xCoord - aoeRange, mistPos.yCoord - aoeRange,
+		AxisAlignedBB aabb = new AxisAlignedBB(mistPos.xCoord - aoeRange, mistPos.yCoord - aoeRange,
 				mistPos.zCoord - aoeRange, mistPos.xCoord + aoeRange, mistPos.yCoord + aoeRange,
 				mistPos.zCoord + aoeRange);
 		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, aabb);
@@ -182,9 +182,9 @@ public class GenericEntityMist implements RightClickedItemAction {
 
 	void calculateMistPostition(World world, EntityLivingBase entity) {
 		entityLook = entity.getLook(1);
-		Vec3 entityLookX4 = new Vec3(entityLook.xCoord * INVOCATION_DIST, entityLook.yCoord * INVOCATION_DIST,
+		Vec3d entityLookX4 = new Vec3d(entityLook.xCoord * INVOCATION_DIST, entityLook.yCoord * INVOCATION_DIST,
 				entityLook.zCoord * INVOCATION_DIST);
-		Vec3 entityPos = new Vec3(entity.posX, entity.posY, entity.posZ);
+		Vec3d entityPos = new Vec3d(entity.posX, entity.posY, entity.posZ);
 		double x = entityLookX4.xCoord;
 		float y = entity.getEyeHeight();
 		double z = entityLookX4.zCoord;

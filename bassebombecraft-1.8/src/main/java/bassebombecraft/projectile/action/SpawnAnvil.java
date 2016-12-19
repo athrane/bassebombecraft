@@ -5,12 +5,11 @@ import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -28,7 +27,7 @@ public class SpawnAnvil implements ProjectileAction {
 	static TemporaryBlockRepository tempBlockRepository = getBassebombeCraft().getTemporaryBlockRepository();
 	
 	@Override
-	public void execute(EntityThrowable projectile, World world, MovingObjectPosition movObjPos) {
+	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
 		
 		// NO-OP if no entity was hit
 		if (movObjPos.entityHit == null) {
@@ -39,14 +38,14 @@ public class SpawnAnvil implements ProjectileAction {
 		// get entity position
 		Entity entityHit = movObjPos.entityHit;
 
-		Vec3 posVec = entityHit.getPositionVector();
+		Vec3d posVec = entityHit.getPositionVector();
 		float height = entityHit.height;		
 		double lx = posVec.xCoord;
 		double ly = posVec.yCoord + height +Y_SPAWN_OFFSET;
 		double lz = posVec.zCoord;
 		
 		BlockPos blockpos = new BlockPos(lx, ly, lz);
-		setTemporaryBlock(world, blockpos, Blocks.anvil, DURATION);		
+		setTemporaryBlock(world, blockpos, Blocks.ANVIL, DURATION);		
 	}
 
 }

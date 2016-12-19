@@ -6,8 +6,11 @@ import bassebombecraft.geom.GeometryUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.EntityTippedArrow;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -15,8 +18,8 @@ import net.minecraft.world.World;
  */
 public class ShootMultipleArrows implements RightClickedItemAction {
 
+	static final SoundEvent SOUND = SoundEvents.ENTITY_SKELETON_SHOOT;
 	static final float INACCURACY = 1.0F;
-	static final String SOUND = "mob.ghast.fireball";
 	static final int ROTATE_DEGREES_M2 = -6;
 	static final int ROTATE_DEGREES_M1 = -3;
 	static final int ROTATE_DEGREES_1 = 3;
@@ -27,14 +30,14 @@ public class ShootMultipleArrows implements RightClickedItemAction {
 
 	@Override
 	public void onRightClick(World world, EntityLivingBase entity) {
-		Vec3 playerLook = entity.getLook(1);
+		Vec3d playerLook = entity.getLook(1);
 
-		EntityArrow projectile = new EntityArrow(world, entity, ARROW_FORCE);
-		world.playSoundAtEntity(entity, SOUND, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
-		world.spawnEntityInWorld(projectile);
+		EntityArrow projectile = new EntityTippedArrow(world, entity);
+        entity.playSound(SOUND, 1.0F, 1.0F / random.nextFloat() * 0.4F + 0.8F);
+        world.spawnEntity(projectile );
 
 		// rotate player look vector and create new rotated arrow
-		Vec3 orientation = GeometryUtils.rotateUnitVectorAroundYAxisAtOrigin(ROTATE_DEGREES_M2, playerLook);
+		Vec3d orientation = GeometryUtils.rotateUnitVectorAroundYAxisAtOrigin(ROTATE_DEGREES_M2, playerLook);
 		spawnArrow(world, entity, orientation);
 
 		orientation = GeometryUtils.rotateUnitVectorAroundYAxisAtOrigin(ROTATE_DEGREES_M1, playerLook);
@@ -57,14 +60,13 @@ public class ShootMultipleArrows implements RightClickedItemAction {
 	 * @param orientation
 	 *            modified entity orientation for the direction of the arrow.
 	 */
-	void spawnArrow(World world, EntityLivingBase entity, Vec3 orientation) {
-		EntityArrow projectile;
-		projectile = new EntityArrow(world, entity, ARROW_FORCE);
+	void spawnArrow(World world, EntityLivingBase entity, Vec3d orientation) {
+		EntityArrow projectile = new EntityTippedArrow(world, entity);
 		float velocity = ARROW_FORCE * FORCE_MODIFIER;
 		projectile.setThrowableHeading(orientation.xCoord, orientation.yCoord, orientation.zCoord, velocity,
 				INACCURACY);
-		world.playSoundAtEntity(entity, SOUND, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
-		world.spawnEntityInWorld(projectile);
+        entity.playSound(SOUND, 1.0F, 1.0F / random.nextFloat() * 0.4F + 0.8F);
+        entity.world.spawnEntity(projectile );
 	}
 
 	@Override

@@ -1,8 +1,9 @@
 package bassebombecraft.projectile.action;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.MoverType;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
@@ -16,7 +17,7 @@ public class EmitVerticalForce implements ProjectileAction {
 	static final int FORCE = 10; // Emit force
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, MovingObjectPosition movObjPos) {
+	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
 
 		// NO-OP if no entity was hit
 		if (movObjPos.entityHit == null) {
@@ -26,7 +27,7 @@ public class EmitVerticalForce implements ProjectileAction {
 
 		// push mob up
 		Entity entityHit = movObjPos.entityHit;
-		entityHit.moveEntity(0, FORCE, 0);
+		entityHit.move(MoverType.SELF,0, FORCE, 0);
 	}
 
 }

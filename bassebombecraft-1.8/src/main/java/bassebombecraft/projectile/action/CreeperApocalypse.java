@@ -2,9 +2,9 @@ package bassebombecraft.projectile.action;
 
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.potion.Potion;
+import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
@@ -17,15 +17,16 @@ public class CreeperApocalypse implements ProjectileAction {
 	static final float PITCH = 0.0F;
 	static final int EFFECT_DURATION = 200; // Measured in ticks
 	private static final int AMPLIFIER = 255;
+	private static final int CREEPER_FUSED = 1;
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, MovingObjectPosition movObjPos) {
+	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
 
 		for (int i = 0; i < NUMBER_CREEPER; i++) {
 			EntityCreeper creeper = new EntityCreeper(world);
 
 			// set powered
-			creeper.getDataWatcher().updateObject(17, Byte.valueOf((byte) 1));
+			creeper.setCreeperState(CREEPER_FUSED);
 
 			// set position
 			creeper.setLocationAndAngles(projectile.posX, projectile.posY, projectile.posZ, projectile.rotationYaw,
@@ -37,7 +38,7 @@ public class CreeperApocalypse implements ProjectileAction {
 			// add potion effect
 			creeper.addPotionEffect(createEffect());
 
-			world.spawnEntityInWorld(creeper);
+			world.spawnEntity(creeper);
 		}
 	}
 
@@ -47,7 +48,7 @@ public class CreeperApocalypse implements ProjectileAction {
 	 * @return potion effect
 	 */
 	PotionEffect createEffect() {
-		return new PotionEffect(Potion.resistance.id, EFFECT_DURATION, AMPLIFIER);
+		return new PotionEffect(MobEffects.RESISTANCE, EFFECT_DURATION, AMPLIFIER);
 	}
 
 }

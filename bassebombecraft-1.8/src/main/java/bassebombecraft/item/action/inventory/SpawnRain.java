@@ -4,7 +4,6 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 

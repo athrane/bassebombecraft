@@ -5,7 +5,7 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -51,8 +51,8 @@ public class LingeringFlameMist implements EntityMistActionStrategy {
 	}
 
 	@Override
-	public void applyEffectToEntity(EntityLivingBase target, Vec3 mistPos) {
-		World world = target.worldObj;
+	public void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos) {
+		World world = target.getEntityWorld();
 		world.createExplosion(target, mistPos.xCoord, mistPos.yCoord, mistPos.zCoord, explosionRadius, IS_SMOKING);
 	}
 

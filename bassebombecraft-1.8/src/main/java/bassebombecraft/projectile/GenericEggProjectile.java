@@ -6,9 +6,8 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class GenericEggProjectile extends EntityThrowable {
@@ -36,23 +35,26 @@ public class GenericEggProjectile extends EntityThrowable {
 	/**
 	 * Called when this EntityThrowable hits a block or entity.
 	 */
-	protected void onImpact(MovingObjectPosition movObjPos) {
+	protected void onImpact(RayTraceResult movObjPos) {
 
+		// get world
+		World worldObj = this.getEntityWorld();
+		
 		// exit if on server
-		if (this.worldObj.isRemote) return;
+		if (worldObj.isRemote) return;
 		
 		// execute behaviour
 		behaviour.execute(this, worldObj, movObjPos);
 				
 		double d0 = 0.08D;
 		for (int j = 0; j < 8; ++j) {
-			this.worldObj.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ,
+			worldObj.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ,
 					((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D,
-					((double) this.rand.nextFloat() - 0.5D) * 0.08D, new int[] { Item.getIdFromItem(Items.egg) });
+					((double) this.rand.nextFloat() - 0.5D) * 0.08D, new int[] { Item.getIdFromItem(Items.EGG) });
 		}
 
 		// destroy this projectile 
-		if (!this.worldObj.isRemote) {
+		if (!worldObj.isRemote) {
 			this.setDead();
 		}
 	}

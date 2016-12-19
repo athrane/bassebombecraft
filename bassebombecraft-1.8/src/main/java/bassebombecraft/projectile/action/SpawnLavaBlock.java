@@ -8,9 +8,9 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
@@ -28,12 +28,12 @@ public class SpawnLavaBlock implements ProjectileAction {
 	static TemporaryBlockRepository tempBlockRepository = getBassebombeCraft().getTemporaryBlockRepository();
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, MovingObjectPosition movObjPos) {
+	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
 
 		// spawn a temporary lava block if no entity was hit
 		if (movObjPos.entityHit == null) {
 			BlockPos spawnPosition = calculatePosition(world, movObjPos);
-			setTemporaryBlock(world, spawnPosition, Blocks.lava, DURATION);
+			setTemporaryBlock(world, spawnPosition, Blocks.LAVA, DURATION);
 			return;
 		}
 
@@ -44,7 +44,7 @@ public class SpawnLavaBlock implements ProjectileAction {
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
 		for (Object pos : BlockPos.getAllInBox(min, max)) {
 			BlockPos typedPos = (BlockPos) pos;
-			setTemporaryBlock(world, typedPos, Blocks.lava, DURATION);
+			setTemporaryBlock(world, typedPos, Blocks.LAVA, DURATION);
 		}
 	}
 
@@ -59,7 +59,7 @@ public class SpawnLavaBlock implements ProjectileAction {
 	 * 
 	 * @return position where block should be spawned.
 	 */
-	BlockPos calculatePosition(World world, MovingObjectPosition movObjPos) {
+	BlockPos calculatePosition(World world, RayTraceResult movObjPos) {
 		switch (movObjPos.sideHit) {
 
 		case UP:

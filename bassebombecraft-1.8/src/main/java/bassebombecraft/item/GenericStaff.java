@@ -16,17 +16,21 @@ import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.Structure;
 import bassebombecraft.structure.StructureFactory;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.RenderItem;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
@@ -39,7 +43,7 @@ public class GenericStaff extends Item {
 	public GenericStaff(String itemName, StructureFactory factory) {
 		setUnlocalizedName(itemName);
 		this.structureFactory = factory;
-		registerForRendering(this);		
+		registerForRendering(this);
 	}
 
 	/**
@@ -54,9 +58,14 @@ public class GenericStaff extends Item {
 		location = new ModelResourceLocation(MODID + ":" + getUnlocalizedName().substring(5), "inventory");
 		renderItem.getItemModelMesher().register(item, 0, location);
 	}
-	
+
 	@Override
-	public boolean canHarvestBlock(Block par1Block, ItemStack itemStack) {
+	public boolean canHarvestBlock(IBlockState blockIn) {
+		return true;
+	}
+
+	@Override
+	public boolean canHarvestBlock(IBlockState state, ItemStack stack) {
 		return true;
 	}
 
@@ -66,14 +75,15 @@ public class GenericStaff extends Item {
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side,
-			float hitX, float hitY, float hitZ) {
-		return apply(pos, playerIn);
+	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
+			EnumFacing facing, float hitX, float hitY, float hitZ) {
+		if (apply(pos, player)) return EnumActionResult.SUCCESS;
+		return EnumActionResult.PASS;
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn) {
-		return super.onItemRightClick(itemStackIn, worldIn, playerIn);
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+		return super.onItemRightClick(worldIn, playerIn, handIn);
 	}
 
 	@Override
@@ -83,25 +93,27 @@ public class GenericStaff extends Item {
 
 	@Override
 	public boolean onBlockStartBreak(ItemStack itemstack, BlockPos blockPosition, EntityPlayer player) {
-		return super.onBlockStartBreak(itemstack, blockPosition, player);		
+		return super.onBlockStartBreak(itemstack, blockPosition, player);
 	}
 
 	/**
 	 * Apply item logic.
 	 * 
 	 * @param blockPosition
+	 *            block position.
 	 * @param player
+	 *            player.
 	 */
 	boolean apply(BlockPos blockPosition, EntityPlayer player) {
 
 		// get block from block position
 		World world = player.getEntityWorld();
 		Block block = getBlockFromPosition(blockPosition, world);
-				
+
 		final boolean HitLiquids = false;
 
 		// get item position
-		MovingObjectPosition pos = getMovingObjectPositionFromPlayer(world, player, HitLiquids);
+		RayTraceResult pos = this.rayTrace(world, player, HitLiquids);
 
 		// validate item hit block
 		if (pos == null)
@@ -118,7 +130,7 @@ public class GenericStaff extends Item {
 
 		// get player direction
 		PlayerDirection playerDirection = getPlayerDirection(player);
-		
+
 		// create world query
 		WorldQueryImpl worldQuery = new WorldQueryImpl(player, blockPosition);
 

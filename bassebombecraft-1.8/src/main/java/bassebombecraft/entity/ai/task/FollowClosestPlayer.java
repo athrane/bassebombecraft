@@ -38,7 +38,7 @@ public class FollowClosestPlayer extends EntityAIBase {
 
 	@Override
 	public boolean shouldExecute() {
-		closestPlayer = this.entity.worldObj.getClosestPlayerToEntity(entity, WATCH_DIST);
+		closestPlayer = this.entity.getEntityWorld().getClosestPlayerToEntity(entity, WATCH_DIST);
 		return (closestPlayer != null);
 	}
 

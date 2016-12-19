@@ -1,16 +1,14 @@
 package bassebombecraft.item.action.inventory;
 
+import static bassebombecraft.ModConstants.LIGHTNING_NOT_EFFECT_ONLY;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
@@ -21,7 +19,7 @@ import net.minecraft.world.World;
 public class SpawnLightningBolt implements InventoryItemActionStrategy {
 
 	static final int EFFECT_DURATION = 200; // Measured in ticks
-	
+
 	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.SPELL_MOB;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
@@ -37,10 +35,11 @@ public class SpawnLightningBolt implements InventoryItemActionStrategy {
 	public boolean applyOnlyIfSelected() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean shouldApplyEffect(Entity target, boolean targetIsInvoker) {
-		if (targetIsInvoker) return false;
+		if (targetIsInvoker)
+			return false;
 		return true;
 	}
 
@@ -51,20 +50,20 @@ public class SpawnLightningBolt implements InventoryItemActionStrategy {
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
 		for (Object pos : BlockPos.getAllInBox(min, max)) {
 			BlockPos typedPos = (BlockPos) pos;
-			EntityLightningBolt bolt = new EntityLightningBolt(world, typedPos.getX(), typedPos.getY(),
-					typedPos.getZ());
+			EntityLightningBolt bolt = new EntityLightningBolt(world, typedPos.getX(), typedPos.getY(), typedPos.getZ(),
+					LIGHTNING_NOT_EFFECT_ONLY);
 			world.addWeatherEffect(bolt);
-		}		
+		}
 	}
 
 	@Override
 	public int getEffectRange() {
-		return 5; 
+		return 5;
 	}
 
 	@Override
 	public ParticleRenderingInfo[] getRenderingInfos() {
 		return INFOS;
 	}
-	
+
 }

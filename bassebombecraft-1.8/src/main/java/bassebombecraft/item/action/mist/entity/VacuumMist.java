@@ -4,8 +4,9 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.MoverType;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
 
 /**
  * Implementation of {@linkplain EntityMistActionStrategy} for construction of mist
@@ -29,19 +30,19 @@ public class VacuumMist implements EntityMistActionStrategy {
 	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
 
 	@Override
-	public void applyEffectToEntity(EntityLivingBase target, Vec3 mistPos) {
+	public void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos) {
 
 		// calculate pull vector
-		Vec3 targetPosVec = target.getPositionVector();
-		Vec3 pullVec = mistPos.subtract(targetPosVec);
+		Vec3d targetPosVec = target.getPositionVector();
+		Vec3d pullVec = mistPos.subtract(targetPosVec);
 		pullVec = pullVec.normalize();
 
 		// pull mob
 		double x = pullVec.xCoord * FORCE;
 		double y = pullVec.yCoord * FORCE;
 		double z = pullVec.zCoord * FORCE;
-		Vec3 motionVecForced = new Vec3(x, y, z);
-		target.moveEntity(motionVecForced.xCoord, motionVecForced.yCoord, motionVecForced.zCoord);
+		Vec3d motionVecForced = new Vec3d(x, y, z);
+		target.move(MoverType.SELF, motionVecForced.xCoord, motionVecForced.yCoord, motionVecForced.zCoord);
 	}
 
 	@Override

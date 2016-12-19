@@ -15,13 +15,13 @@ public class Coord3d  {
 		this.x = 0;
 		this.y = 0;
 		this.z = 0;
-		this.block = Blocks.air;
+		this.block = Blocks.AIR;
 		this.harvest = true;
 	}
 
 	public Coord3d(int x, int y, int z) {
 		set(x, y, z);
-		this.block = Blocks.air;
+		this.block = Blocks.AIR;
 		this.harvest = true;		
 	}
 
@@ -83,7 +83,7 @@ public class Coord3d  {
 	 * @return true if block should harvested.
 	 */
 	public boolean harvestBlock() {
-		if(getBlock() != Blocks.air) return false;
+		if(getBlock() != Blocks.AIR) return false;
 		return this.harvest;
 	}
 		

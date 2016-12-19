@@ -37,13 +37,13 @@ public class ExplosionStaffStructureFactory implements StructureFactory {
 					
 			BlockDirective offset = new BlockDirective(displacement, Y_OFFSET_DOWN, Z_OFFSET+(Z_SIZE)*index); 
 			BlockDirective size = new BlockDirective(X_SIZE,Y_SIZE,Z_SIZE);
-			composite.add(new ChildStructure(offset, size, Blocks.tnt));						
+			composite.add(new ChildStructure(offset, size, Blocks.TNT));						
 
 			if(index==0) {
 
 				offset = new BlockDirective(offset.getX(), offset.getY()+1, offset.getZ());
 				size = new BlockDirective(1, 1, 1);
-				composite.add(new ChildStructure(offset, size, Blocks.redstone_block));						
+				composite.add(new ChildStructure(offset, size, Blocks.REDSTONE_BLOCK));						
 			}
 		}
 				
@@ -55,19 +55,19 @@ public class ExplosionStaffStructureFactory implements StructureFactory {
 		
 		BlockDirective offset = new BlockDirective(0,0,0);
 		BlockDirective size = new BlockDirective(1, 5, 1);
-		composite.add(new ChildStructure(offset, size, Blocks.tnt));
+		composite.add(new ChildStructure(offset, size, Blocks.TNT));
 
 		offset = new BlockDirective(-1,0,0);
 		size = new BlockDirective(1, 3, 1);
-		composite.add(new ChildStructure(offset, size, Blocks.tnt));
+		composite.add(new ChildStructure(offset, size, Blocks.TNT));
 
 		offset = new BlockDirective(0,0,1);
 		size = new BlockDirective(1, 7, 1);
-		composite.add(new ChildStructure(offset, size, Blocks.tnt));
+		composite.add(new ChildStructure(offset, size, Blocks.TNT));
 				
 		offset = new BlockDirective(1,0,0);
 		size = new BlockDirective(1, 2, 1);
-		composite.add(new ChildStructure(offset, size, Blocks.redstone_block));		
+		composite.add(new ChildStructure(offset, size, Blocks.REDSTONE_BLOCK));		
 		
 		return composite;
 	}

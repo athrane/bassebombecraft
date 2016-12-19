@@ -4,7 +4,7 @@ import bassebombecraft.geom.BlockDirective;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 /**
  * Implementation of the {@linkplain Structure} interface which implements
@@ -25,7 +25,7 @@ public class ChildStructure implements Structure {
 	 * @param size structure size.
 	 */
 	public ChildStructure(BlockPos offset, BlockPos size) {
-		this(offset, size, Blocks.air);
+		this(offset, size, Blocks.AIR);
 	}
 	
 	/**
@@ -36,7 +36,7 @@ public class ChildStructure implements Structure {
 	 */
 	@Deprecated
 	public ChildStructure(BlockDirective offset, BlockDirective size) {
-		this(offset, size, Blocks.air);
+		this(offset, size, Blocks.AIR);
 	}
 
 	/**
@@ -166,36 +166,36 @@ public class ChildStructure implements Structure {
 	}
 	
 	public static Structure createWaterStructure(BlockDirective offset, BlockDirective size) {
-		return new ChildStructure(offset, size, Blocks.water);
+		return new ChildStructure(offset, size, Blocks.WATER);
 	}
 	
 	public static Structure createWaterStructure(BlockPos offset, BlockPos size) {
-		return new ChildStructure(offset, size, Blocks.water);
+		return new ChildStructure(offset, size, Blocks.WATER);
 	}
 	
 	public static Structure createIceStructure(BlockDirective offset, BlockDirective size) {
-		return new ChildStructure(offset, size, Blocks.ice);
+		return new ChildStructure(offset, size, Blocks.ICE);
 	}	
 
 	public static Structure createIceStructure(BlockPos offset, BlockPos size) {
-		return new ChildStructure(offset, size, Blocks.ice);
+		return new ChildStructure(offset, size, Blocks.ICE);
 	}	
 	
 	public static Structure createWoodStructure(BlockDirective offset, BlockDirective size) {
-		return new ChildStructure(offset, size, Blocks.planks);
+		return new ChildStructure(offset, size, Blocks.PLANKS);
 	}	
 
 	public static Structure createOakFenceStructure(BlockPos offset, BlockPos size) {
-		return new ChildStructure(offset, size, Blocks.oak_fence);
+		return new ChildStructure(offset, size, Blocks.OAK_FENCE);
 	}	
 
 	@Deprecated
 	public static Structure createTorchStructure(BlockDirective offset, BlockDirective size) {
-		return new ChildStructure(offset, size, Blocks.torch);
+		return new ChildStructure(offset, size, Blocks.TORCH);
 	}	
 
 	public static Structure createTorchStructure(BlockPos offset, BlockPos size) {
-		return new ChildStructure(offset, size, Blocks.torch);
+		return new ChildStructure(offset, size, Blocks.TORCH);
 	}
 	
 }

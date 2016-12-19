@@ -5,8 +5,10 @@ import java.util.Random;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -15,8 +17,8 @@ import net.minecraft.world.World;
  */
 public class ShootCreeperCannon implements RightClickedItemAction {
 
+	static final SoundEvent SOUND = SoundEvents.ENTITY_CREEPER_HURT;	
 	static final int FORCE = 3; // Emit force
-	static final String SOUND = "mob.creeper.say";
 	boolean isPrimed;
 
 	/**
@@ -30,7 +32,7 @@ public class ShootCreeperCannon implements RightClickedItemAction {
 
 	@Override
 	public void onRightClick(World world, EntityLivingBase entity) {
-		Vec3 v3 = entity.getLookVec();
+		Vec3d v3 = entity.getLookVec();
 
 		// get random
 		Random random = entity.getRNG();
@@ -41,14 +43,14 @@ public class ShootCreeperCannon implements RightClickedItemAction {
 		creeper.posX = entity.posX + v3.xCoord;
 		creeper.posY = entity.posY + entity.getEyeHeight();
 		creeper.posZ = entity.posZ + v3.zCoord;
-		world.playSoundAtEntity(entity, SOUND, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
-		world.spawnEntityInWorld(creeper);
+        entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
+        world.spawnEntity(creeper);
 
 		// push mob
 		double x = v3.xCoord * FORCE;
 		double y = v3.yCoord * FORCE;
 		double z = v3.zCoord * FORCE;
-		Vec3 motionVecForced = new Vec3(x, y, z);
+		Vec3d motionVecForced = new Vec3d(x, y, z);
 		creeper.addVelocity(motionVecForced.xCoord, motionVecForced.yCoord, motionVecForced.zCoord);
 		
 		if(isPrimed) {

@@ -14,8 +14,8 @@ import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -66,7 +66,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	/**
 	 * Invoking entity look unit vector.
 	 */
-	Vec3 entityLook;
+	Vec3d entityLook;
 
 	/**
 	 * Defines whether behaviour is active.

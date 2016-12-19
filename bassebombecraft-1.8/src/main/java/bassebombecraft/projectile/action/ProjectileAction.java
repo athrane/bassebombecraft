@@ -1,7 +1,7 @@
 package bassebombecraft.projectile.action;
 
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
@@ -19,5 +19,5 @@ public interface ProjectileAction {
 	 * @param movObjPos
 	 *            position of hit object.
 	 */
-	void execute(EntityThrowable projectile, World world, MovingObjectPosition movObjPos);
+	void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos);
 }

@@ -7,7 +7,7 @@ import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -58,13 +58,13 @@ public class CharmedMobEventListener {
 
 	@SubscribeEvent
 	public void onLivingUpdate(LivingUpdateEvent event) {
-		if (event.entityLiving == null)
+		if (event.getEntityLiving() == null)
 			return;
-		if (!(event.entityLiving instanceof EntityLiving))
+		if (!(event.getEntityLiving() instanceof EntityLiving))
 			return;
 
 		// cast
-		EntityLiving entityLiving = EntityLiving.class.cast(event.entityLiving);
+		EntityLiving entityLiving = EntityLiving.class.cast(event.getEntityLiving());
 
 		// exit if entity isn't charmed
 		if (!repository.contains(entityLiving))
@@ -77,7 +77,7 @@ public class CharmedMobEventListener {
 		if (ticksCounter % SPAWN_PARTICLES_FREQUENCY == 0) {
 
 			// register directive for rendering
-			BlockPos pos = event.entityLiving.getPosition();
+			BlockPos pos = entityLiving.getPosition();
 			ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
 			particleRepository.add(particle);
 		}
@@ -85,13 +85,13 @@ public class CharmedMobEventListener {
 
 	@SubscribeEvent
 	public void onLivingDeath(LivingDeathEvent event) {
-		if (event.entityLiving == null)
+		if (event.getEntityLiving() == null)
 			return;
-		if (!(event.entityLiving instanceof EntityLiving))
+		if (!(event.getEntityLiving() instanceof EntityLiving))
 			return;
 
 		// cast
-		EntityLiving entityLiving = EntityLiving.class.cast(event.entityLiving);
+		EntityLiving entityLiving = EntityLiving.class.cast(event.getEntityLiving());
 
 		// remove
 		repository.remove(entityLiving);

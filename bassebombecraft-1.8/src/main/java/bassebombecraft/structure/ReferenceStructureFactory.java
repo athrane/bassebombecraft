@@ -6,7 +6,7 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.WorldQuery;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 public class ReferenceStructureFactory implements StructureFactory {
 
@@ -31,13 +31,13 @@ public class ReferenceStructureFactory implements StructureFactory {
 	static Structure createAboveGroundRoom() {		
 		BlockPos offset = new BlockPos(0,0,0); 
 		BlockPos size = new BlockPos(2,4,6);			
-		return new ChildStructure(offset, size, Blocks.cobblestone);
+		return new ChildStructure(offset, size, Blocks.COBBLESTONE);
 	}
 	
 	static Structure createGroundRoom() {		
 		BlockDirective offset = new BlockDirective(0,0,0);
 		BlockDirective size = new BlockDirective(2, 4, 6);
-		return new ChildStructure(offset, size, Blocks.ice);
+		return new ChildStructure(offset, size, Blocks.ICE);
 	}
 			
 }

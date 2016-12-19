@@ -7,8 +7,10 @@ import java.util.Random;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.util.BlockPos;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
 /**
@@ -17,8 +19,7 @@ import net.minecraft.world.World;
  */
 public class Chickenize implements InventoryItemActionStrategy {
 	static final int CHILD_AGE = 0;
-	static final String SOUND = "mob.chicken.say";
-
+	SoundEvent SOUND = SoundEvents.ENTITY_CHICKEN_HURT;
 	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.FIREWORKS_SPARK;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
@@ -57,11 +58,11 @@ public class Chickenize implements InventoryItemActionStrategy {
 		EntityChicken chicken = new EntityChicken(world);
 		chicken.setGrowingAge(CHILD_AGE);
 		chicken.setLocationAndAngles(position.getX(), position.getY(), position.getZ(), yaw, pitch);
-		world.spawnEntityInWorld(chicken);
+		world.spawnEntity(chicken);
 
 		// play sound
 		Random random = chicken.getRNG();
-		world.playSoundAtEntity(chicken, SOUND, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+		chicken.playSound(SOUND, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
 	}	
 	
 	@Override

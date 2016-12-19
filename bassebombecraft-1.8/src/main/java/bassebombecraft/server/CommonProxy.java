@@ -2,9 +2,8 @@ package bassebombecraft.server;
 
 import bassebombecraft.projectile.GenericEggProjectile;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelChicken;
+import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.entity.RenderChicken;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
@@ -24,7 +23,7 @@ public class CommonProxy {
         
         RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
         RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-        RenderChicken renderer = new RenderChicken(renderManager, new ModelChicken(), 1.0f);
+        RenderChicken renderer = new RenderChicken(renderManager);
 		RenderingRegistry.registerEntityRenderingHandler(GenericEggProjectile.class, renderer);
     }	
 }

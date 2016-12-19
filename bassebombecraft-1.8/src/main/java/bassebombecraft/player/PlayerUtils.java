@@ -2,10 +2,10 @@ package bassebombecraft.player;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * Utility for calculating information about the player.
@@ -60,8 +60,8 @@ public class PlayerUtils {
 	 * 
 	 * @return player eye position.
 	 */
-	public static Vec3 getPlayerEyePos(EntityPlayer player) {
-		Vec3 eyePosition = new Vec3(player.posX, player.posY + (player.worldObj.isRemote
+	public static Vec3d getPlayerEyePos(EntityPlayer player) {
+		Vec3d eyePosition = new Vec3d(player.posX, player.posY + (player.getEntityWorld().isRemote
 				? player.getEyeHeight() - player.getDefaultEyeHeight() : player.getEyeHeight()), player.posZ);
 
 		return eyePosition;
@@ -77,7 +77,7 @@ public class PlayerUtils {
 	 * @return player direction as an integer between 0 to 3.
 	 */
 	public static PlayerDirection getPlayerDirection(EntityPlayer player) {
-		int direction = MathHelper.floor_double((double) ((player.rotationYaw * 4F) / 360F) + 0.5D) & 3;
+		int direction = MathHelper.floor((double) ((player.rotationYaw * 4F) / 360F) + 0.5D) & 3;
 		return PlayerDirection.getById(direction);
 	}
 
@@ -90,8 +90,8 @@ public class PlayerUtils {
 	 *            message to send to player.
 	 */
 	public static void sendChatMessageToPlayer(EntityPlayer player, String string) {
-		IChatComponent message = new ChatComponentText(string);
-		player.addChatMessage(message);
+		ITextComponent message = new TextComponentString(string);
+		player.sendMessage(message);
 	}
 
 	/**

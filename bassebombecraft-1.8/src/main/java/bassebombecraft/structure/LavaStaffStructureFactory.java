@@ -36,7 +36,7 @@ public class LavaStaffStructureFactory implements StructureFactory {
 					
 			BlockDirective offset = new BlockDirective(displacement, Y_OFFSET_DOWN, (Z_SIZE)*index); 
 			BlockDirective size = new BlockDirective(X_SIZE,Y_SIZE,Z_SIZE);
-			composite.add(new ChildStructure(offset, size, Blocks.lava));						
+			composite.add(new ChildStructure(offset, size, Blocks.LAVA));						
 		}
  				
 		return composite;
@@ -45,7 +45,7 @@ public class LavaStaffStructureFactory implements StructureFactory {
 	static Structure createSpikeOfLava() {		
 		BlockDirective offset = new BlockDirective(0,0,0);
 		BlockDirective size = new BlockDirective(1, 5, 1);
-		return new ChildStructure(offset, size, Blocks.lava);
+		return new ChildStructure(offset, size, Blocks.LAVA);
 	}
 
 	static int calculateDisplacement(int index, int displacement) {

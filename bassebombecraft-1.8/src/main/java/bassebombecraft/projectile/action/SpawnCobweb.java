@@ -5,9 +5,9 @@ import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
@@ -22,12 +22,12 @@ public class SpawnCobweb implements ProjectileAction {
 	static final boolean DONT_HARVEST = false;
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, MovingObjectPosition movObjPos) {
+	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
 
 		// spawn a cobweb if no entity was hit
 		if (movObjPos.entityHit == null) {
 			BlockPos spawnPosition = calculatePosition(world, movObjPos);
-			setTemporaryBlock(world, spawnPosition, Blocks.web, DURATION);
+			setTemporaryBlock(world, spawnPosition, Blocks.WEB, DURATION);
 			return;
 		}
 
@@ -38,7 +38,7 @@ public class SpawnCobweb implements ProjectileAction {
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
 		for (Object pos : BlockPos.getAllInBox(min, max)) {
 			BlockPos typedPos = (BlockPos) pos;
-			setTemporaryBlock(world, typedPos, Blocks.web, DURATION);
+			setTemporaryBlock(world, typedPos, Blocks.WEB, DURATION);
 		}
 
 	}
@@ -54,7 +54,7 @@ public class SpawnCobweb implements ProjectileAction {
 	 * 
 	 * @return position where block should be spawned.
 	 */
-	BlockPos calculatePosition(World world, MovingObjectPosition movObjPos) {
+	BlockPos calculatePosition(World world, RayTraceResult movObjPos) {
 		switch (movObjPos.sideHit) {
 
 		case UP:

@@ -4,7 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 public class CharmEntity implements ProjectileAction {
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, MovingObjectPosition movObjPos) {
+	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
 
 		// exit if no mob was hit
 		if (movObjPos.entityHit == null)
