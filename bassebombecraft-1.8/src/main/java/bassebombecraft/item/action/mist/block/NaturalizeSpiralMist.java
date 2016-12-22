@@ -25,7 +25,6 @@ public class NaturalizeSpiralMist implements BlockMistActionStrategy {
 
 	static final float FLOWER_CHANCE = 0.75F;
 
-	private static final int NUMBER_COLORS = 8;
 	static final boolean DONT_HARVEST = false;
 	static final int EFFECT_DURATION = 400; // Measured in ticks
 
