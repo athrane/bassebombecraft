@@ -19,8 +19,8 @@ import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
@@ -37,11 +37,6 @@ public class BlockUtils {
 	 * Don't harvest temporary block.
 	 */
 	public static final boolean DONT_HARVEST = false;
-
-	/**
-	 * Null item stack.
-	 */
-	static final ItemStack NULL_ITEM_STACK = null;
 
 	/**
 	 * Create single block of designated block type.
@@ -66,10 +61,13 @@ public class BlockUtils {
 		// get world
 		World world = worldQuery.getWorld();
 
+		
+		
 		// harvest block
 		if (blockDirective.harvestBlock()) {
 			IBlockState blockState = getBlockStateFromPosition(blockPosition, worldQuery);
-			block.harvestBlock(worldQuery.getWorld(), worldQuery.getPlayer(), blockPosition, blockState, NULL_TILE_ENTITY, NULL_ITEM_STACK);
+			ItemStack emptyItemStack = new ItemStack(block);
+			block.harvestBlock(worldQuery.getWorld(), worldQuery.getPlayer(), blockPosition, blockState, NULL_TILE_ENTITY, emptyItemStack );
 		}
 
 		// set block state
