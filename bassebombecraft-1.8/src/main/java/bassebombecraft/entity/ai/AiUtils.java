@@ -1,10 +1,12 @@
 package bassebombecraft.entity.ai;
 
+import java.util.Iterator;
 import java.util.Set;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 
 /**
@@ -21,23 +23,31 @@ public class AiUtils {
 	 *            to clear AI tasks for.
 	 */
 	public static void clearAiTasks(EntityLiving entity) {
-
-		Set<EntityAITaskEntry> entries = entity.tasks.taskEntries;
-		for (EntityAITaskEntry entry : entries) {
-			EntityAIBase task = entry.action;
-			entry.using = true; // to force removal;
-			entity.tasks.removeTask(task);
-		}
-
-		entries = entity.targetTasks.taskEntries;
-		for (EntityAITaskEntry entry : entries) {
-			EntityAIBase task = entry.action;
-			entry.using = true; // to force removal;
-			entity.tasks.removeTask(task);
-		}
-
+		removeTasks(entity.tasks);		
+		removeTasks(entity.targetTasks);		
 	}
 
+	/**
+	 * Remove tasks in a concurrently safe way
+	 * 
+	 * @param tasks AI tasks.
+	 */
+	static void removeTasks(EntityAITasks tasks) {		
+		Set<EntityAITaskEntry> entries = tasks.taskEntries;				
+		EntityAITaskEntry[] entriesArray = entries.toArray(new EntityAITaskEntry[entries.size()]);		
+		
+		for(EntityAITaskEntry entry : entriesArray) {
+			// get task
+			EntityAIBase task = entry.action;
+			
+			// set to true to force removal
+			entry.using = true;
+			
+			// remove
+			tasks.removeTask(task);			
+		}
+	}
+	
 	/**
 	 * Assign passive AI tasks.
 	 * 
