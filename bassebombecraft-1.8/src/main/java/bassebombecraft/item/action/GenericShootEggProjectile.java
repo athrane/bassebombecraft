@@ -9,7 +9,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -18,6 +17,9 @@ import net.minecraft.world.World;
  */
 public class GenericShootEggProjectile implements RightClickedItemAction {
 
+	static final float PITCH_OFFSET = 0.0F;
+	static final float VELOCITY = 3.0F;
+	static final float INACCURANCY = 1.0F;
 	static final SoundEvent SOUND = SoundEvents.ENTITY_CHICKEN_HURT;	
 	static Random random = new Random();
 	ProjectileAction action;
@@ -34,9 +36,9 @@ public class GenericShootEggProjectile implements RightClickedItemAction {
 
 	@Override
 	public void onRightClick(World world, EntityLivingBase entity) {
-		Vec3d v3 = entity.getLook(1);
 
 		GenericEggProjectile projectile = new GenericEggProjectile(world, entity, action);
+		projectile.setHeadingFromThrower(entity, entity.rotationPitch, entity.rotationYaw, PITCH_OFFSET, VELOCITY, INACCURANCY);
 		entity.playSound(SOUND, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 0.8F));
 		world.spawnEntity(projectile);
 	}

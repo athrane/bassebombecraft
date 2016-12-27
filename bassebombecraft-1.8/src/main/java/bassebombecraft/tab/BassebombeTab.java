@@ -20,7 +20,7 @@ class BassebombeTab extends CreativeTabs{
 	
 	@Override
 	public ItemStack getTabIconItem() {
-		return new ItemStack(Items.SKULL);
+		return new ItemStack(Items.BOOK);
 	}
 
 

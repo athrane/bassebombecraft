@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 
 public class GenericEggProjectile extends EntityThrowable {
 	
-	public final static String PROJECTILE_NAME = "EggProjectile ";
+	public final static String PROJECTILE_NAME = "EggProjectile";
 	ProjectileAction behaviour = new NullAction();
 	
 	public GenericEggProjectile(World worldIn) {
@@ -46,7 +46,6 @@ public class GenericEggProjectile extends EntityThrowable {
 		// execute behaviour
 		behaviour.execute(this, worldObj, movObjPos);
 				
-		double d0 = 0.08D;
 		for (int j = 0; j < 8; ++j) {
 			worldObj.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ,
 					((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D,

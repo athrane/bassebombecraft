@@ -2,8 +2,6 @@ package bassebombecraft.item.book;
 
 import bassebombecraft.item.action.GenericShootEggProjectile;
 import bassebombecraft.projectile.action.ProjectileAction;
-import bassebombecraft.projectile.action.SpawnAnvil;
-import bassebombecraft.projectile.action.SpawnIceBlock;
 import bassebombecraft.projectile.action.TeleportEntity;
 
 /**
