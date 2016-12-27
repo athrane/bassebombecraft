@@ -1,5 +1,7 @@
 package bassebombecraft.tab;
 
+import bassebombecraft.item.book.TeleportBook;
+import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -20,8 +22,7 @@ class BassebombeTab extends CreativeTabs{
 	
 	@Override
 	public ItemStack getTabIconItem() {
-		return new ItemStack(Items.BOOK);
+		return new ItemStack(new LightningBoltIdolInventoryItem());
 	}
-
 
 }
