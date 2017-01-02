@@ -84,7 +84,7 @@ public class AiUtils {
 	 * Build AI for charmed mob.
 	 * 
 	 * @param entity
-	 *            entity which will configured will charmed AI.
+	 *            entity which will configured with charmed AI.
 	 */
 	public static void buildCharmedMobAi(EntityLiving entity) {
 		charmedMobAiBuilder.build(entity);
@@ -94,7 +94,7 @@ public class AiUtils {
 	 * Build AI for charmed mob.
 	 * 
 	 * @param entity
-	 *            entity which will configured will charmed AI.
+	 *            entity which will configured with charmed AI.
 	 * @param owner
 	 *            entity which charmed mob.
 	 */
