@@ -18,8 +18,7 @@ import net.minecraft.world.World;
  */
 public class SpawnCobweb implements ProjectileAction {
 
-	static final int DURATION = 200;
-	static final boolean DONT_HARVEST = false;
+	static final int DURATION = 400;
 
 	@Override
 	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {

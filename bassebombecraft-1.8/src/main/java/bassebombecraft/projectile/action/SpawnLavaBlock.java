@@ -4,7 +4,6 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
@@ -22,8 +21,7 @@ import net.minecraft.world.World;
  */
 public class SpawnLavaBlock implements ProjectileAction {
 
-	static final int DURATION = 200;
-	static final boolean DONT_HARVEST = false;
+	static final int DURATION = 400;
 
 	static TemporaryBlockRepository tempBlockRepository = getBassebombeCraft().getTemporaryBlockRepository();
 

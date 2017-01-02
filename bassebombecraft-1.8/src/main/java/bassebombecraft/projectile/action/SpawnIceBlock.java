@@ -2,7 +2,6 @@ package bassebombecraft.projectile.action;
 
 import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
@@ -19,8 +18,7 @@ import net.minecraft.world.World;
  */
 public class SpawnIceBlock implements ProjectileAction {
 
-	static final int DURATION = 200;
-	static final boolean DONT_HARVEST = false;
+	static final int DURATION = 400;
 
 	@Override
 	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {

@@ -18,9 +18,6 @@ import net.minecraft.world.World;
  */
 public class SpawnLightningBolt implements ProjectileAction {
 
-	static final int DURATION = 200;
-	static final boolean DONT_HARVEST = false;
-
 	@Override
 	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
 
