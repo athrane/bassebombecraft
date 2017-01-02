@@ -42,6 +42,7 @@ import bassebombecraft.item.book.PrimedCreeperCannonBook;
 import bassebombecraft.item.book.RainbownizeBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.Spawn100ChickensBook;
+import bassebombecraft.item.book.Spawn100RainingLlamasBook;
 import bassebombecraft.item.book.SpawnFlamingChickenBook;
 import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnManyCowsBook;
@@ -221,6 +222,11 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(spawnManyCowsBook), "xyy", "yyy", "yyy", 'x', Items.BOOK, 'y',
 				Items.BEEF);
 
+		Item spawn100RainingLlamasBook = new Spawn100RainingLlamasBook();
+		registerItem(targetTab, spawn100RainingLlamasBook, Spawn100RainingLlamasBook.ITEM_NAME);		
+		GameRegistry.addShapedRecipe(new ItemStack(spawn100RainingLlamasBook), "xyy", "yyy", "yyy", 'x', Items.BOOK, 'y',
+				Items.LEATHER);
+		
 		Item beastmasterMistBook = new BeastmasterMistBook();
 		registerItem(targetTab, beastmasterMistBook, BeastmasterMistBook.ITEM_NAME);		
 		GameRegistry.addShapedRecipe(new ItemStack(beastmasterMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
