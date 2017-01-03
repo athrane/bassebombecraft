@@ -56,6 +56,7 @@ import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.ChickenizeIdolInventoryItem;
 import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
+import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
 import bassebombecraft.item.inventory.RainIdolInventoryItem;
 import net.minecraft.creativetab.CreativeTabs;
@@ -362,6 +363,11 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(angelIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.CLAY_BALL, 'y',
 				Items.GOLDEN_APPLE);			
 
+		Item levitationIdolInventoryItem = new LevitationIdolInventoryItem();
+		registerItem(targetTab, levitationIdolInventoryItem, LevitationIdolInventoryItem.ITEM_NAME);		
+		GameRegistry.addShapedRecipe(new ItemStack(levitationIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.CLAY_BALL, 'y',
+				Items.FEATHER);			
+		
 		Item lightningBoltIdolInventoryItem = new LightningBoltIdolInventoryItem();
 		registerItem(targetTab, lightningBoltIdolInventoryItem, LightningBoltIdolInventoryItem.ITEM_NAME);		
 		GameRegistry.addShapedRecipe(new ItemStack(lightningBoltIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.CLAY_BALL, 'y',
