@@ -53,6 +53,7 @@ import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.book.WitherMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
+import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
 import bassebombecraft.item.inventory.ChickenizeIdolInventoryItem;
 import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
@@ -383,6 +384,11 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(flameBlastIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.CLAY_BALL, 'y',
 				Items.FIRE_CHARGE);			
 
+		Item charmBeastIdolInventoryItem = new CharmBeastIdolInventoryItem();
+		registerItem(targetTab, charmBeastIdolInventoryItem, CharmBeastIdolInventoryItem.ITEM_NAME);		
+		GameRegistry.addShapedRecipe(new ItemStack(charmBeastIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.CLAY_BALL, 'y',
+				Items.NAME_TAG);			
+		
 		/**
 		Item pvpIdolInventoryItem = new PvpIdolInventoryItem();
 		pvpIdolInventoryItem.setCreativeTab(targetTab);

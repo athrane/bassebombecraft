@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "bassebombecraft:items/AngelIdolInventoryItem"
+        "layer0": "bassebombecraft:items/BeastCharmIdolInventoryItem"
     },
     "display": {
         "thirdperson": {
