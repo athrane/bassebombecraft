@@ -8,6 +8,6 @@ public class ClientProxy extends CommonProxy {
     // Client stuff
 	@Override
     public void registerRenderers() {
-        System.out.println("ClientProxy:registerRenderers");		
+        //System.out.println("ClientProxy:registerRenderers");		
     }	
 }

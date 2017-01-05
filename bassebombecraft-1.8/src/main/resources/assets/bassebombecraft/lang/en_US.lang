@@ -86,6 +86,8 @@ item.LightningBoltIdolInventoryItem.name=Pikachu Idol
 item.FlowerIdolInventoryItem.name=Naturalize Idol
 item.FlameBlastIdolInventoryItem.name=Flameblast Dragon Idol
 item.CharmBeastIdolInventoryItem.name=Beast Charm Idol
+item.RainbownizeIdolInventoryItem.name=Rainbownize Idol
+
 item.PvpIdolInventoryItem.name=Cracked Skull
 
 #blocks

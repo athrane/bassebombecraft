@@ -1,31 +1,30 @@
 package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.block.BlockUtils.selectWoolColor;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
-import static bassebombecraft.geom.GeometryUtils.createFlowerDirective;
+import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
+import java.util.List;
 import java.util.Random;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
+import bassebombecraft.geom.GeometryUtils;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
- * of inventory item actions. This class naturalizes the areas around the
+ * of inventory item actions. This class rainbownizes the areas around the
  * invoker.
  */
 public class Rainbownize implements InventoryItemActionStrategy {
-
-	/**
-	 * Vertical blocks to query for a "ground block".
-	 */
-	static final int ITERATIONS_TO_QUERY = 256;
 
 	static final boolean DONT_HARVEST = false;
 
@@ -41,6 +40,11 @@ public class Rainbownize implements InventoryItemActionStrategy {
 	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
 
 	/**
+	 * Spiral size.
+	 */
+	static final int SPIRAL_SIZE = 20;
+
+	/**
 	 * Random generator
 	 */
 	Random random = new Random();
@@ -51,19 +55,42 @@ public class Rainbownize implements InventoryItemActionStrategy {
 	BlockDirectivesRepository directivesRepository;
 
 	/**
+	 * Current color counter.
+	 */
+	int colorCounter = 0;
+
+	/**
+	 * Spiral counter.
+	 */
+	int spiralCounter;
+
+	/**
+	 * Global centre of the spiral.
+	 */
+	BlockPos spiralCenter;
+
+	/**
+	 * Spiral coordinates.
+	 */
+	List<BlockPos> spiralCoordinates;
+
+	/**
 	 * Naturalize constructor.
 	 */
 	public Rainbownize() {
 		super();
 
 		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
+
+		// calculate spiral
+		spiralCoordinates = GeometryUtils.calculateSpiral(SPIRAL_SIZE, SPIRAL_SIZE);
 	}
 
 	@Override
 	public boolean applyOnlyIfSelected() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean shouldApplyEffect(Entity target, boolean targetIsInvoker) {
 		return targetIsInvoker;
@@ -71,17 +98,64 @@ public class Rainbownize implements InventoryItemActionStrategy {
 
 	@Override
 	public void applyEffect(Entity target, World world) {
+		colorCounter++;
+
+		// calculate position
+		BlockPos targetPosition = calculatePostion(target);
 
 		// locate ground block
-		BlockPos groundPosition = locateGroundBlockPos(target.getPosition(), ITERATIONS_TO_QUERY, world);
+		BlockPos groundPosition = locateGroundBlockPos(targetPosition, ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK, world);
 
-
-		// create flower block
-		BlockPos flowerPos = groundPosition.up();
-		BlockDirective directive = createFlowerDirective(flowerPos, random);
+		// create wool block
+		BlockDirective directive = new BlockDirective(groundPosition, Blocks.WOOL, DONT_HARVEST);
+		directive.setState(selectWoolColor(colorCounter));
 
 		// create block
+		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 		directivesRepository.add(directive);
+	}
+
+	/**
+	 * Calculate target position in spiral.
+	 * 
+	 * @param target
+	 *            target to calculate position for.
+	 * 
+	 * @return target position in spiral
+	 */
+	BlockPos calculatePostion(Entity target) {
+
+		// initialize if no last position or a new position
+		if (spiralCenter == null) initializeSpiral(target);		
+		if (!spiralCenter.equals(target.getPosition())) initializeSpiral(target);
+		
+		// exit if entire spiral is processed
+		if (spiralCounter >= spiralCoordinates.size())
+			return target.getPosition();
+
+		// get next spiral coordinate
+		BlockPos spiralCoord = spiralCoordinates.get(spiralCounter);
+
+		// calculate ground coordinates
+		int x = spiralCenter.getX() + spiralCoord.getX();
+		int y = spiralCenter.getY();
+		int z = spiralCenter.getZ() + spiralCoord.getZ();
+		BlockPos groundCandidate = new BlockPos(x, y, z);	
+		
+		// update spiral
+		spiralCounter++;	
+				
+		return groundCandidate;
+	}
+	
+	/**
+	 * Initialize spiral
+	 * 
+	 * @param target target to initialize spiral from from.
+	 */
+	void initializeSpiral(Entity target) {
+		spiralCounter = 0;
+		spiralCenter = new BlockPos(target);		
 	}
 
 	@Override

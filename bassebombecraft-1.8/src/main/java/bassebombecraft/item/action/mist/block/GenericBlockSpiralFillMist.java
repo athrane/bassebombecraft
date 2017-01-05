@@ -2,6 +2,7 @@ package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
+import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
@@ -27,11 +28,6 @@ import net.minecraft.world.World;
  */
 public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 
-	/**
-	 * Vertical blocks to query for a "ground block".
-	 */
-	static final int ITERATIONS_TO_QUERY = 256;
-	
 	/**
 	 * Rendering frequency in ticks.
 	 */
@@ -101,7 +97,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	/**
 	 * Current position in the mist.
 	 */
-	private BlockPos mistPosition;
+	BlockPos mistPosition;
 
 	/**
 	 * GenericBlockMist constructor.
@@ -225,7 +221,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 		BlockPos groundCandidate = new BlockPos(x, y, z);
 
 		// locate ground block
-		mistPosition = locateGroundBlockPos(groundCandidate, ITERATIONS_TO_QUERY, world);
+		mistPosition = locateGroundBlockPos(groundCandidate, ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK, world);
 
 		spiralCounter++;
 	}

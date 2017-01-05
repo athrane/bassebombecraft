@@ -150,7 +150,7 @@ public class GenericInventoryItem extends Item {
 		}
 
 	}
-
+		
 	/**
 	 * Returns true if item is in user hotbar.
 	 * 
@@ -192,4 +192,5 @@ public class GenericInventoryItem extends Item {
 			particleRepository.add(particle);
 		}
 	}
+	
 }

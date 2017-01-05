@@ -37,6 +37,11 @@ public class GeometryUtils {
 	public static final int DEGREES_270 = 270;
 
 	/**
+	 * Vertical blocks to query for a "ground block".
+	 */
+	public static final int ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK = 256;
+	
+	/**
 	 * Capture block directives from set of blocks defined in the game world.
 	 * 
 	 * Block and block state are captured individually for each block position.

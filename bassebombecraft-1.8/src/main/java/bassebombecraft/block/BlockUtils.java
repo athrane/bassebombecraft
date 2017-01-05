@@ -15,9 +15,11 @@ import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.WorldQuery;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockColored;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -38,6 +40,12 @@ public class BlockUtils {
 	 */
 	public static final boolean DONT_HARVEST = false;
 
+	
+	/**
+	 * Number of wool colors.
+	 */
+	static final int NUMBER_COLORS = 8;
+	
 	/**
 	 * Create single block of designated block type.
 	 * 
@@ -286,4 +294,38 @@ public class BlockUtils {
 		tempBlockRepository.add(temporaryBlock);
 	}
 
+	/**
+	 * Select block based on wool color.
+	 * 
+	 * @param colorCounter current color counter between 0..8.
+	 * 
+	 * @return block based on wool color.
+	 */
+	public static IBlockState selectWoolColor(int colorCounter) {
+		int colorSelector = colorCounter % NUMBER_COLORS;
+
+		switch (colorSelector) {
+
+		case 0:
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.MAGENTA);
+		case 1:
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.PURPLE);
+		case 2:
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.BLUE);
+		case 3:
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIGHT_BLUE);
+		case 4:
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIME);
+		case 5:
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.YELLOW);
+		case 6:
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE);
+		case 7:
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.RED);
+		default:
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.WHITE);
+
+		}
+
+	}	
 }

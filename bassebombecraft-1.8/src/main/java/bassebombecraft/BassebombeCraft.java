@@ -83,8 +83,8 @@ public class BassebombeCraft {
 	/**
 	 * PVPrepository.
 	 */
-	PvpRepository  pvpRepository;
-	
+	PvpRepository pvpRepository;
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		logger = event.getModLog();
@@ -103,7 +103,7 @@ public class BassebombeCraft {
 
 		// Initialise PVP repository
 		pvpRepository = DefaultPvpRepository.getInstance();
-		
+
 		initializeModMetadata(event);
 		initializeCreativeTab();
 		logger.info("Pre-initialized BassebombeCraft");
@@ -178,7 +178,7 @@ public class BassebombeCraft {
 		PvpEventListener pvpEventListener = new PvpEventListener(pvpRepository);
 		MinecraftForge.EVENT_BUS.register(pvpEventListener);
 		FMLCommonHandler.instance().bus().register(pvpEventListener);
-		
+
 		proxy.registerRenderers();
 	}
 
@@ -226,7 +226,7 @@ public class BassebombeCraft {
 	public PvpRepository getPvpRepository() {
 		return pvpRepository;
 	}
-	
+
 	/**
 	 * Get mod instance.
 	 * 

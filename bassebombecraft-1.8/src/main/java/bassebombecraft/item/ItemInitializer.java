@@ -1,9 +1,5 @@
 package bassebombecraft.item;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.item.book.BaconBazookaBook;
 import bassebombecraft.item.book.BeastmasterBook;
 import bassebombecraft.item.book.BeastmasterMistBook;
@@ -60,6 +56,7 @@ import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
 import bassebombecraft.item.inventory.RainIdolInventoryItem;
+import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -71,11 +68,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  * Class for initializing items.
  */
 public class ItemInitializer {
-
-	/**
-	 * Logger.
-	 */
-	static Logger logger = LogManager.getLogger(BassebombeCraft.class);
 
 	/**
 	 * Initialize items.
@@ -97,29 +89,29 @@ public class ItemInitializer {
 				Items.STICK);
 
 		Item parkourStaff = new ParkourStaff();
-		registerItem(targetTab, parkourStaff, ParkourStaff.ITEM_NAME);		
+		registerItem(targetTab, parkourStaff, ParkourStaff.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(parkourStaff), "  x", " / ", "/  ", 'x', Items.LEATHER_LEGGINGS, '/',
 				Items.STICK);
 
 		// Initialise books
-		
+
 		Item teleportBook = new TeleportBook();
-		registerItem(targetTab, teleportBook, TeleportBook.ITEM_NAME);		
+		registerItem(targetTab, teleportBook, TeleportBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(teleportBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.ENDER_PEARL);			
-		
+				Items.ENDER_PEARL);
+
 		Item smallFireballBook = new SmallFireballBook();
-		registerItem(targetTab, smallFireballBook, SmallFireballBook.ITEM_NAME);		
+		registerItem(targetTab, smallFireballBook, SmallFireballBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(smallFireballBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.BLAZE_POWDER);
 
 		Item largeFireballBook = new LargeFireballBook();
-		registerItem(targetTab, largeFireballBook, LargeFireballBook.ITEM_NAME);		
+		registerItem(targetTab, largeFireballBook, LargeFireballBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(largeFireballBook), "xyy", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.MAGMA_CREAM);
 
 		Item lingeringFlameBook = new LingeringFlameBook();
-		registerItem(targetTab, lingeringFlameBook, LingeringFlameBook.ITEM_NAME);		
+		registerItem(targetTab, lingeringFlameBook, LingeringFlameBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(lingeringFlameBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.BLAZE_POWDER, 'z', Items.GHAST_TEAR);
 
@@ -132,7 +124,7 @@ public class ItemInitializer {
 		registerItem(targetTab, lavaSpiralMistBook, LavaSpiralMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(lavaSpiralMistBook), "xyz", "xxx", "xxx", 'x', Items.BOOK, 'y',
 				Items.LAVA_BUCKET, 'z', Items.GHAST_TEAR);
-		
+
 		Item toxicMistBook = new ToxicMistBook();
 		registerItem(targetTab, toxicMistBook, ToxicMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(toxicMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
@@ -171,19 +163,19 @@ public class ItemInitializer {
 		registerItem(targetTab, movingWaterMultiMistBook, MovingWaterMultiMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(movingWaterMultiMistBook), "xyz", "yzy", "   ", 'x', Items.BOOK, 'y',
 				Items.WATER_BUCKET, 'z', Items.GHAST_TEAR);
-		
+
 		Item movingRainbowMistBook = new MovingRainbowMistBook();
 		registerItem(targetTab, movingRainbowMistBook, MovingRainbowMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(movingRainbowMistBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.RECORD_13);
-						
+
 		Item healingMistBook = new HealingMistBook();
 		registerItem(targetTab, healingMistBook, HealingMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(healingMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.GOLDEN_APPLE, 'z', Items.GHAST_TEAR);
 
 		// books of creature spawning
-		
+
 		Item spawnFlamingChickenBook = new SpawnFlamingChickenBook();
 		registerItem(targetTab, spawnFlamingChickenBook, SpawnFlamingChickenBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(spawnFlamingChickenBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
@@ -207,210 +199,219 @@ public class ItemInitializer {
 		Item primedCreeperCannonBook = new PrimedCreeperCannonBook();
 		registerItem(targetTab, primedCreeperCannonBook, PrimedCreeperCannonBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(primedCreeperCannonBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.GUNPOWDER,'z', Blocks.IRON_BLOCK);
+				Items.GUNPOWDER, 'z', Blocks.IRON_BLOCK);
 
 		Item creeperApocalypseBook = new CreeperApocalypseBook();
-		registerItem(targetTab, creeperApocalypseBook, CreeperApocalypseBook.ITEM_NAME);		
-		GameRegistry.addShapedRecipe(new ItemStack(creeperApocalypseBook ), "xyz", "yzy", "zyz", 'x', Items.BOOK, 'y',
-				Items.GUNPOWDER,'z', Blocks.IRON_BLOCK);
-		
+		registerItem(targetTab, creeperApocalypseBook, CreeperApocalypseBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(creeperApocalypseBook), "xyz", "yzy", "zyz", 'x', Items.BOOK, 'y',
+				Items.GUNPOWDER, 'z', Blocks.IRON_BLOCK);
+
 		Item spawn100ChickensBook = new Spawn100ChickensBook();
-		registerItem(targetTab, spawn100ChickensBook, Spawn100ChickensBook.ITEM_NAME);		
+		registerItem(targetTab, spawn100ChickensBook, Spawn100ChickensBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(spawn100ChickensBook), "xyy", "yyy", "yyy", 'x', Items.BOOK, 'y',
 				Items.CHICKEN);
 
 		Item spawnManyCowsBook = new SpawnManyCowsBook();
-		registerItem(targetTab, spawnManyCowsBook, SpawnManyCowsBook.ITEM_NAME);		
+		registerItem(targetTab, spawnManyCowsBook, SpawnManyCowsBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(spawnManyCowsBook), "xyy", "yyy", "yyy", 'x', Items.BOOK, 'y',
 				Items.BEEF);
 
 		Item spawn100RainingLlamasBook = new Spawn100RainingLlamasBook();
-		registerItem(targetTab, spawn100RainingLlamasBook, Spawn100RainingLlamasBook.ITEM_NAME);		
-		GameRegistry.addShapedRecipe(new ItemStack(spawn100RainingLlamasBook), "xyy", "yyy", "yyy", 'x', Items.BOOK, 'y',
-				Items.LEATHER);
-		
+		registerItem(targetTab, spawn100RainingLlamasBook, Spawn100RainingLlamasBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(spawn100RainingLlamasBook), "xyy", "yyy", "yyy", 'x', Items.BOOK,
+				'y', Items.LEATHER);
+
 		Item beastmasterMistBook = new BeastmasterMistBook();
-		registerItem(targetTab, beastmasterMistBook, BeastmasterMistBook.ITEM_NAME);		
+		registerItem(targetTab, beastmasterMistBook, BeastmasterMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(beastmasterMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.NAME_TAG, 'z', Items.GHAST_TEAR);
 
 		Item beastmasterBook = new BeastmasterBook();
-		registerItem(targetTab, beastmasterBook, BeastmasterBook.ITEM_NAME);		
+		registerItem(targetTab, beastmasterBook, BeastmasterBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(beastmasterBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.NAME_TAG);
 
 		Item spawnGuardianBook = new SpawnGuardianBook();
-		registerItem(targetTab, spawnGuardianBook, SpawnGuardianBook.ITEM_NAME);		
+		registerItem(targetTab, spawnGuardianBook, SpawnGuardianBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(spawnGuardianBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.NAME_TAG, 'z', Items.IRON_INGOT);
 
 		Item multipleArrowsBook = new MultipleArrowsBook();
-		registerItem(targetTab, multipleArrowsBook, MultipleArrowsBook.ITEM_NAME);		
-		GameRegistry.addShapedRecipe(new ItemStack(multipleArrowsBook), "xyy", "yyy", "yyy", 'x', Items.BOOK, 'y', Items.ARROW);
+		registerItem(targetTab, multipleArrowsBook, MultipleArrowsBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(multipleArrowsBook), "xyy", "yyy", "yyy", 'x', Items.BOOK, 'y',
+				Items.ARROW);
 
 		Item cobwebBook = new CobwebBook();
-		registerItem(targetTab, cobwebBook, CobwebBook.ITEM_NAME);		
+		registerItem(targetTab, cobwebBook, CobwebBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(cobwebBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y', Items.STRING,
 				'z', Items.SPIDER_EYE);
 
 		Item iceBlockBook = new IceBlockBook();
-		registerItem(targetTab, iceBlockBook, IceBlockBook.ITEM_NAME);		
+		registerItem(targetTab, iceBlockBook, IceBlockBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(iceBlockBook), "xyy", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.SNOWBALL);
-		
+
 		Item lavaBlockBook = new LavaBlockBook();
-		registerItem(targetTab, lavaBlockBook, LavaBlockBook.ITEM_NAME);		
+		registerItem(targetTab, lavaBlockBook, LavaBlockBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(lavaBlockBook), "xyy", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.LAVA_BUCKET);
 
 		Item lightningBoltBook = new LightningBoltBook();
-		registerItem(targetTab, lightningBoltBook, LightningBoltBook.ITEM_NAME);		
+		registerItem(targetTab, lightningBoltBook, LightningBoltBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(lightningBoltBook), "xyy", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.GOLD_INGOT);
-		
+
 		Item lightningBoltMistBook = new LightningBoltMistBook();
-		registerItem(targetTab, lightningBoltMistBook, LightningBoltMistBook.ITEM_NAME);		
+		registerItem(targetTab, lightningBoltMistBook, LightningBoltMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(lightningBoltMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.GOLD_INGOT, 'z', Items.GHAST_TEAR);		
-		
+				Items.GOLD_INGOT, 'z', Items.GHAST_TEAR);
+
 		Item fallingAnvilBook = new FallingAnvilBook();
-		registerItem(targetTab, fallingAnvilBook, FallingAnvilBook.ITEM_NAME);		
+		registerItem(targetTab, fallingAnvilBook, FallingAnvilBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(fallingAnvilBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
 				Blocks.ANVIL);
-		
+
 		Item emitHorizontalForceBook = new EmitHorizontalForceBook();
-		registerItem(targetTab, emitHorizontalForceBook, EmitHorizontalForceBook.ITEM_NAME);		
+		registerItem(targetTab, emitHorizontalForceBook, EmitHorizontalForceBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(emitHorizontalForceBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.RABBIT_FOOT, 'z', Items.FERMENTED_SPIDER_EYE);
 
 		Item emitVerticalForceBook = new EmitVerticalForceBook();
-		registerItem(targetTab, emitVerticalForceBook, EmitVerticalForceBook.ITEM_NAME);		
+		registerItem(targetTab, emitVerticalForceBook, EmitVerticalForceBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(emitVerticalForceBook), "x  ", "y  ", "z  ", 'x', Items.BOOK, 'y',
 				Items.RABBIT_FOOT, 'z', Items.FERMENTED_SPIDER_EYE);
 
 		Item emitVerticalForceMistBook = new EmitVerticalForceMistBook();
-		registerItem(targetTab, emitVerticalForceMistBook, EmitVerticalForceMistBook.ITEM_NAME);		
-		GameRegistry.addShapedRecipe(new ItemStack(emitVerticalForceMistBook), "x  ", "y  ", "z  ", 'x', Items.BOOK, 'y',
-				Items.RABBIT_FOOT, 'z', Items.GHAST_TEAR);
-		
+		registerItem(targetTab, emitVerticalForceMistBook, EmitVerticalForceMistBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(emitVerticalForceMistBook), "x  ", "y  ", "z  ", 'x', Items.BOOK,
+				'y', Items.RABBIT_FOOT, 'z', Items.GHAST_TEAR);
+
 		Item vacuumMistBook = new VacuumMistBook();
-		registerItem(targetTab, vacuumMistBook, VacuumMistBook.ITEM_NAME);		
+		registerItem(targetTab, vacuumMistBook, VacuumMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(vacuumMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.RABBIT_FOOT, 'z', Items.GHAST_TEAR);
 
 		// books of block manipulation
 
 		Item copyPasteBlocksBook = new CopyPasteBlocksBook();
-		registerItem(targetTab, copyPasteBlocksBook, CopyPasteBlocksBook.ITEM_NAME);		
+		registerItem(targetTab, copyPasteBlocksBook, CopyPasteBlocksBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(copyPasteBlocksBook), "xyz", "   ", "   ", 'x', Items.WRITTEN_BOOK,
 				'y', Items.NETHER_STAR, 'z', Items.FERMENTED_SPIDER_EYE);
 
 		Item duplicateBlockBook = new DuplicateBlockBook();
-		registerItem(targetTab, duplicateBlockBook, DuplicateBlockBook.ITEM_NAME);		
+		registerItem(targetTab, duplicateBlockBook, DuplicateBlockBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(duplicateBlockBook), "xyz", "   ", "   ", 'x', Items.WRITTEN_BOOK,
 				'y', Items.NETHER_STAR, 'z', Items.ENDER_PEARL);
 
 		// books of construction
 
 		Item buildRoadBook = new BuildRoadBook();
-		registerItem(targetTab, buildRoadBook, BuildRoadBook.ITEM_NAME);		
+		registerItem(targetTab, buildRoadBook, BuildRoadBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(buildRoadBook), "xy ", "   ", "   ", 'x', Items.WRITTEN_BOOK, 'y',
 				Items.STONE_PICKAXE);
 
 		Item buildRainbowRoadBook = new BuildRainbowRoadBook();
-		registerItem(targetTab, buildRainbowRoadBook, BuildRainbowRoadBook.ITEM_NAME);		
+		registerItem(targetTab, buildRainbowRoadBook, BuildRainbowRoadBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(buildRainbowRoadBook), "xyy", "yyy", "yyy", 'x', Items.WRITTEN_BOOK,
 				'y', Items.DYE);
 
 		Item buildMineBook = new BuildMineBook();
-		registerItem(targetTab, buildMineBook, BuildMineBook.ITEM_NAME);		
+		registerItem(targetTab, buildMineBook, BuildMineBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(buildMineBook), "xy ", "   ", "   ", 'x', Items.WRITTEN_BOOK, 'y',
 				Items.DIAMOND_PICKAXE);
 
 		Item buildAbyssBook = new BuildAbyssBook();
-		registerItem(targetTab, buildAbyssBook, BuildAbyssBook.ITEM_NAME);		
+		registerItem(targetTab, buildAbyssBook, BuildAbyssBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(buildAbyssBook), "xyz", "   ", "   ", 'x', Items.WRITTEN_BOOK, 'y',
 				Items.IRON_PICKAXE, 'z', Items.WATER_BUCKET);
 
 		Item buildSmallHoleBook = new BuildSmallHoleBook();
-		registerItem(targetTab, buildSmallHoleBook, BuildSmallHoleBook.ITEM_NAME);		
+		registerItem(targetTab, buildSmallHoleBook, BuildSmallHoleBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(buildSmallHoleBook), "xy ", "   ", "   ", 'x', Items.WRITTEN_BOOK,
 				'y', Items.IRON_PICKAXE);
 
 		Item naturalizeBook = new NaturalizeBook();
-		registerItem(targetTab, naturalizeBook, NaturalizeBook.ITEM_NAME);		
+		registerItem(targetTab, naturalizeBook, NaturalizeBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(naturalizeBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.FLOWER_POT);
 
 		Item rainbownizeBook = new RainbownizeBook();
-		registerItem(targetTab, rainbownizeBook, RainbownizeBook.ITEM_NAME);		
+		registerItem(targetTab, rainbownizeBook, RainbownizeBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(rainbownizeBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.RECORD_11);
-		
+
 		// Initialise inventory items
-		
+
 		Item rainIdolInventoryItem = new RainIdolInventoryItem();
-		registerItem(targetTab, rainIdolInventoryItem, RainIdolInventoryItem.ITEM_NAME);		
-		GameRegistry.addShapedRecipe(new ItemStack(rainIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.CLAY_BALL, 'y',
-				Items.WATER_BUCKET);			
+		registerItem(targetTab, rainIdolInventoryItem, RainIdolInventoryItem.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(rainIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.CLAY_BALL,
+				'y', Items.WATER_BUCKET);
 
 		Item chickenizeIdolInventoryItem = new ChickenizeIdolInventoryItem();
-		registerItem(targetTab, chickenizeIdolInventoryItem, ChickenizeIdolInventoryItem.ITEM_NAME);		
-		GameRegistry.addShapedRecipe(new ItemStack(chickenizeIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.CLAY_BALL, 'y',
-				Items.CHICKEN);			
+		registerItem(targetTab, chickenizeIdolInventoryItem, ChickenizeIdolInventoryItem.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(chickenizeIdolInventoryItem), "xy ", "   ", "   ", 'x',
+				Items.CLAY_BALL, 'y', Items.CHICKEN);
 
 		Item angelIdolInventoryItem = new AngelIdolInventoryItem();
-		registerItem(targetTab, angelIdolInventoryItem, AngelIdolInventoryItem.ITEM_NAME);		
-		GameRegistry.addShapedRecipe(new ItemStack(angelIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.CLAY_BALL, 'y',
-				Items.GOLDEN_APPLE);			
+		registerItem(targetTab, angelIdolInventoryItem, AngelIdolInventoryItem.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(angelIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.CLAY_BALL,
+				'y', Items.GOLDEN_APPLE);
 
 		Item levitationIdolInventoryItem = new LevitationIdolInventoryItem();
-		registerItem(targetTab, levitationIdolInventoryItem, LevitationIdolInventoryItem.ITEM_NAME);		
-		GameRegistry.addShapedRecipe(new ItemStack(levitationIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.CLAY_BALL, 'y',
-				Items.FEATHER);			
-		
+		registerItem(targetTab, levitationIdolInventoryItem, LevitationIdolInventoryItem.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(levitationIdolInventoryItem), "xy ", "   ", "   ", 'x',
+				Items.CLAY_BALL, 'y', Items.FEATHER);
+
 		Item lightningBoltIdolInventoryItem = new LightningBoltIdolInventoryItem();
-		registerItem(targetTab, lightningBoltIdolInventoryItem, LightningBoltIdolInventoryItem.ITEM_NAME);		
-		GameRegistry.addShapedRecipe(new ItemStack(lightningBoltIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.CLAY_BALL, 'y',
-				Items.GOLD_INGOT);			
+		registerItem(targetTab, lightningBoltIdolInventoryItem, LightningBoltIdolInventoryItem.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(lightningBoltIdolInventoryItem), "xy ", "   ", "   ", 'x',
+				Items.CLAY_BALL, 'y', Items.GOLD_INGOT);
 
 		Item flowerIdolInventoryItem = new FlowerIdolInventoryItem();
-		registerItem(targetTab, flowerIdolInventoryItem, FlowerIdolInventoryItem.ITEM_NAME);		
-		GameRegistry.addShapedRecipe(new ItemStack(flowerIdolInventoryItem ), "xy ", "   ", "   ", 'x', Items.CLAY_BALL, 'y',
-				Items.FLOWER_POT);			
+		registerItem(targetTab, flowerIdolInventoryItem, FlowerIdolInventoryItem.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(flowerIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.CLAY_BALL,
+				'y', Items.FLOWER_POT);
+
+		Item rainbownizeIdolInventoryItem = new RainbownizeIdolInventoryItem();
+		registerItem(targetTab, rainbownizeIdolInventoryItem, RainbownizeIdolInventoryItem.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(rainbownizeIdolInventoryItem), "xy ", "   ", "   ", 'x',
+				Items.CLAY_BALL, 'y', Items.RECORD_11);
 
 		Item flameBlastIdolInventoryItem = new FlameBlastIdolInventoryItem();
-		registerItem(targetTab, flameBlastIdolInventoryItem, FlameBlastIdolInventoryItem.ITEM_NAME);		
-		GameRegistry.addShapedRecipe(new ItemStack(flameBlastIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.CLAY_BALL, 'y',
-				Items.FIRE_CHARGE);			
+		registerItem(targetTab, flameBlastIdolInventoryItem, FlameBlastIdolInventoryItem.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(flameBlastIdolInventoryItem), "xy ", "   ", "   ", 'x',
+				Items.CLAY_BALL, 'y', Items.FIRE_CHARGE);
 
 		Item charmBeastIdolInventoryItem = new CharmBeastIdolInventoryItem();
-		registerItem(targetTab, charmBeastIdolInventoryItem, CharmBeastIdolInventoryItem.ITEM_NAME);		
-		GameRegistry.addShapedRecipe(new ItemStack(charmBeastIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.CLAY_BALL, 'y',
-				Items.NAME_TAG);			
-		
+		registerItem(targetTab, charmBeastIdolInventoryItem, CharmBeastIdolInventoryItem.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(charmBeastIdolInventoryItem), "xy ", "   ", "   ", 'x',
+				Items.CLAY_BALL, 'y', Items.NAME_TAG);
+
 		/**
-		Item pvpIdolInventoryItem = new PvpIdolInventoryItem();
-		pvpIdolInventoryItem.setCreativeTab(targetTab);
-		GameRegistry.registerItem(pvpIdolInventoryItem, PvpIdolInventoryItem.ITEM_NAME);
-		logger.info("initializing item: " + PvpIdolInventoryItem.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(pvpIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.clay_ball, 'y',
-				Items.iron_sword);			
-		**/
+		 * Item pvpIdolInventoryItem = new PvpIdolInventoryItem();
+		 * pvpIdolInventoryItem.setCreativeTab(targetTab);
+		 * GameRegistry.registerItem(pvpIdolInventoryItem,
+		 * PvpIdolInventoryItem.ITEM_NAME); logger.info("initializing item: " +
+		 * PvpIdolInventoryItem.ITEM_NAME); GameRegistry.addShapedRecipe(new
+		 * ItemStack(pvpIdolInventoryItem), "xy ", " ", " ", 'x',
+		 * Items.clay_ball, 'y', Items.iron_sword);
+		 **/
 	}
 
 	/**
 	 * Helper method for registration of item.
 	 * 
-	 * @param targetTab target tab for item.
-	 * @param item item to register.
-	 * @param itemName item name.
+	 * @param targetTab
+	 *            target tab for item.
+	 * @param item
+	 *            item to register.
+	 * @param itemName
+	 *            item name.
 	 */
 	void registerItem(CreativeTabs targetTab, Item item, String itemName) {
 		item.setCreativeTab(targetTab);
 		item.setRegistryName(itemName);
 		GameRegistry.register(item);
-		logger.info("initializing item: " + itemName);
 	}
 
 	public static ItemInitializer getInstance() {

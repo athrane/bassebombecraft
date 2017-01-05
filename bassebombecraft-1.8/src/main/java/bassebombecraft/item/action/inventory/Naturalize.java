@@ -2,6 +2,7 @@ package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.createFlowerDirective;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
@@ -11,8 +12,8 @@ import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
@@ -21,11 +22,6 @@ import net.minecraft.world.World;
  * invoker.
  */
 public class Naturalize implements InventoryItemActionStrategy {
-
-	/**
-	 * Vertical blocks to query for a "ground block".
-	 */
-	static final int ITERATIONS_TO_QUERY = 256;
 
 	static final boolean DONT_HARVEST = false;
 
@@ -63,7 +59,7 @@ public class Naturalize implements InventoryItemActionStrategy {
 	public boolean applyOnlyIfSelected() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean shouldApplyEffect(Entity target, boolean targetIsInvoker) {
 		return targetIsInvoker;
@@ -73,8 +69,8 @@ public class Naturalize implements InventoryItemActionStrategy {
 	public void applyEffect(Entity target, World world) {
 
 		// locate ground block
-		BlockPos groundPosition = locateGroundBlockPos(target.getPosition(), ITERATIONS_TO_QUERY, world);
-
+		BlockPos groundPosition = locateGroundBlockPos(target.getPosition(), ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK,
+				world);
 
 		// create flower block
 		BlockPos flowerPos = groundPosition.up();
