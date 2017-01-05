@@ -115,6 +115,16 @@ public class Rainbownize implements InventoryItemActionStrategy {
 		directivesRepository.add(directive);
 	}
 
+	@Override
+	public int getEffectRange() {
+		return 1; // Not a AOE effect
+	}
+
+	@Override
+	public ParticleRenderingInfo[] getRenderingInfos() {
+		return INFOS;
+	}
+
 	/**
 	 * Calculate target position in spiral.
 	 * 
@@ -157,15 +167,5 @@ public class Rainbownize implements InventoryItemActionStrategy {
 		spiralCounter = 0;
 		spiralCenter = new BlockPos(target);		
 	}
-
-	@Override
-	public int getEffectRange() {
-		return 1; // Not a AOE effect
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return INFOS;
-	}
-
+	
 }
