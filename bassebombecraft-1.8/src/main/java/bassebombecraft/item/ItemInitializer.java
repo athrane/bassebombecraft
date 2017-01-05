@@ -30,6 +30,7 @@ import bassebombecraft.item.book.MovingIceMultiMistBook;
 import bassebombecraft.item.book.MovingLavaMistBook;
 import bassebombecraft.item.book.MovingLavaMultiMistBook;
 import bassebombecraft.item.book.MovingRainbowMistBook;
+import bassebombecraft.item.book.MovingTntMistBook;
 import bassebombecraft.item.book.MovingWaterMultiMistBook;
 import bassebombecraft.item.book.MovingWitherMistBook;
 import bassebombecraft.item.book.MultipleArrowsBook;
@@ -82,11 +83,6 @@ public class ItemInitializer {
 		registerItem(targetTab, gardenStaff, GardenStaff.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(gardenStaff), "  x", " / ", "/  ", 'x', Items.FLOWER_POT, '/',
 				Items.IRON_SHOVEL);
-
-		Item explosionStaff = new ExplosionStaff();
-		registerItem(targetTab, explosionStaff, ExplosionStaff.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(explosionStaff), "  x", " / ", "/  ", 'x', Items.FLINT, '/',
-				Items.STICK);
 
 		Item parkourStaff = new ParkourStaff();
 		registerItem(targetTab, parkourStaff, ParkourStaff.ITEM_NAME);
@@ -174,6 +170,11 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(healingMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.GOLDEN_APPLE, 'z', Items.GHAST_TEAR);
 
+		Item movingTntMistBook = new MovingTntMistBook();
+		registerItem(targetTab, movingTntMistBook, MovingTntMistBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(movingTntMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
+				Items.FLINT, 'z', Items.TNT_MINECART);
+				
 		// books of creature spawning
 
 		Item spawnFlamingChickenBook = new SpawnFlamingChickenBook();

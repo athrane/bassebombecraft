@@ -66,7 +66,7 @@ public class DuplicateBlock implements BlockClickedItemAction {
 	BlockDirectivesRepository repository;
 
 	/**
-	 * CreateRoad constructor.
+	 * DuplicateBlock constructor.
 	 */
 	public DuplicateBlock() {
 		super();

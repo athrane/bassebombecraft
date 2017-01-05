@@ -1,4 +1,4 @@
-'
+# Staffs
 itemGroup.BasseBombeCraft=BasseBombeCraft items
 item.ExplosionStaff.name=Staff of Exploding Fist
 item.GardenStaff.name=Staff of Power Flower Love
@@ -13,6 +13,9 @@ item.MovingLavaMistBook.name=Book of Fiery Kiss
 item.MovingLavaMultiMistBook.name=Book of Lava Corruption 
 item.LavaBlockBook.name=Book of Lava Block
 item.LavaSpiralMistBook.name=Book of Lava Spiral 
+
+# Explosion
+item.MovingTntMistBook.name=Book of Exploding Fist
 
 # Poison
 item.ToxicMistBook.name=Book of Toxic Mist
