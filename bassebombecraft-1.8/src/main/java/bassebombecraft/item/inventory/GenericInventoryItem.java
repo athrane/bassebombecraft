@@ -3,7 +3,7 @@ package bassebombecraft.item.inventory;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
-import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
+import static bassebombecraft.player.PlayerUtils.*;
 
 import java.util.List;
 
@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -127,12 +128,24 @@ public class GenericInventoryItem extends Item {
 		if (!isInHotbar(itemSlot))
 			return;
 
-		// exit if item requires selection and it isn't selected
-		if (strategy.applyOnlyIfSelected()) {
-			if (!isSelected)
-				return;
+		// determine if item should activate from off hand
+		boolean shouldActivateFromOffHand = false;
+		if (isEntityPlayer(entityIn)) {
+			EntityPlayer player = (EntityPlayer) entityIn;
+			shouldActivateFromOffHand = isItemHeldInOffHand(player, stack);
 		}
 
+		// determine if item should activate from selection in hotbar
+		boolean shouldActivateFromHotbar = false;
+		// exit if item requires selection and it isn't selected
+		if (strategy.applyOnlyIfSelected()) {
+			if (isSelected)	shouldActivateFromHotbar = true;
+		} else {
+			shouldActivateFromHotbar = true;
+		}
+				
+		if(!(shouldActivateFromOffHand || shouldActivateFromHotbar)) return;
+		
 		// render effect
 		if (ticksCounter % RENDERING_FREQUENCY == 0) {
 			// NO-OP
@@ -150,12 +163,13 @@ public class GenericInventoryItem extends Item {
 		}
 
 	}
-		
+
 	/**
 	 * Returns true if item is in user hotbar.
 	 * 
 	 * @param itemSlot
 	 *            user item slot. the hotbar is between 0 and 8 inclusive.
+	 * 
 	 * @return true if item is is user hotbar
 	 */
 	boolean isInHotbar(int itemSlot) {
@@ -192,5 +206,5 @@ public class GenericInventoryItem extends Item {
 			particleRepository.add(particle);
 		}
 	}
-	
+
 }

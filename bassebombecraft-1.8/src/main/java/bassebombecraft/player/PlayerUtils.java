@@ -2,6 +2,7 @@ package bassebombecraft.player;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
@@ -110,5 +111,43 @@ public class PlayerUtils {
 		if (e2 == null)
 			return false;
 		return (e1.getUniqueID() == e2.getUniqueID());
+	}
+
+	/**
+	 * return true if entity is a {@linkplain EntityPlayer}.
+	 * 
+	 * @param entity
+	 *            entity to test.
+	 * 
+	 * @return true if entity is a {@linkplain EntityPlayer}.
+	 */
+	public static boolean isEntityPlayer(Entity entity) {
+		if (entity == null)
+			return false;
+		return entity instanceof EntityPlayer;
+	}
+
+	/**
+	 * Returns true if item is held in player off hand.
+	 * 
+	 * @param player
+	 *            player to test.
+	 * @param item
+	 *            item to test whether it is held in off hand.
+	 * 
+	 * @return true if item is held in player off hand.
+	 */
+	public static boolean isItemHeldInOffHand(EntityPlayer player, ItemStack item) {
+		if (player == null)
+			return false;
+		if (item == null)
+			return false;
+
+		ItemStack heldItem = player.getHeldItemOffhand();
+
+		if (heldItem == null)
+			return false;
+
+		return heldItem.equals(item);
 	}
 }
