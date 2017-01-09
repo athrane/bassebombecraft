@@ -18,9 +18,7 @@ public class SpawnGuardian implements ProjectileAction {
 	@Override
 	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
 
-		EntityLivingBase owner = projectile.getThrower();
-		System.out.println("DEBUG: Guardinan create by player:"+owner);
-				
+		EntityLivingBase owner = projectile.getThrower();				
 		EntityIronGolem entity= new EntityIronGolem(world);
 		entity.setLocationAndAngles(projectile.posX, projectile.posY, projectile.posZ, projectile.rotationYaw, projectile.rotationPitch);
 		world.spawnEntity(entity);
