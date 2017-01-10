@@ -3,6 +3,7 @@ package bassebombecraft.projectile.action;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntitySquid;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -11,7 +12,7 @@ import net.minecraft.world.World;
  * Implementation of the {@linkplain ProjectileAction} which spawns a squid
  * which attacks the nearest mob.
  * 
- * If a block is hit then NO-OP.
+ * If a block is hit then a squid is spawned where the projectile hit.
  */
 public class SpawnSquid implements ProjectileAction {
 
@@ -20,25 +21,64 @@ public class SpawnSquid implements ProjectileAction {
 
 	@Override
 	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
-		
-		// NO-OP if no entity was hit
-		if (movObjPos.entityHit == null) {
-			// NO-OP
-			return;
-		}
-		
-		// get entity position
-		Entity entity = movObjPos.entityHit;
+		Vec3d posVec = null;
 
-		Vec3d posVec = entity.getPositionVector();
-		float height = entity.height;		
+		// spawn a cobweb if no entity was hit
+		if (movObjPos.entityHit == null) {
+			BlockPos spawnPosition = calculatePosition(world, movObjPos);
+			posVec = new Vec3d(spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getZ());
+		} else {
+
+			// get entity position
+			Entity entity = movObjPos.entityHit;
+			posVec = entity.getPositionVector();
+			posVec = posVec.addVector(0, entity.height, 0);
+		}
+
+		// spawn squid
 		EntitySquid squid = new EntitySquid(world);
 		double lx = posVec.xCoord;
-		double ly = posVec.yCoord + height +Y_SPAWN_OFFSET;
+		double ly = posVec.yCoord + Y_SPAWN_OFFSET;
 		double lz = posVec.zCoord;
 		float yaw = projectile.rotationYaw;
 		squid.setLocationAndAngles(lx, ly, lz, yaw, PITCH);
-		entity.world.spawnEntity(projectile );
+		world.spawnEntity(squid);
 	}
 
+	/**
+	 * Calculate position.
+	 * 
+	 * @param world
+	 *            world object.
+	 * 
+	 * @param movObjPos
+	 *            hit object.
+	 * 
+	 * @return position where block should be spawned.
+	 */
+	BlockPos calculatePosition(World world, RayTraceResult movObjPos) {
+		switch (movObjPos.sideHit) {
+
+		case UP:
+			return movObjPos.getBlockPos().up();
+
+		case DOWN:
+			return movObjPos.getBlockPos().down();
+
+		case SOUTH:
+			return movObjPos.getBlockPos().south();
+
+		case NORTH:
+			return movObjPos.getBlockPos().north();
+
+		case EAST:
+			return movObjPos.getBlockPos().east();
+
+		case WEST:
+			return movObjPos.getBlockPos().west();
+
+		default:
+			return movObjPos.getBlockPos().up();
+		}
+	}
 }
