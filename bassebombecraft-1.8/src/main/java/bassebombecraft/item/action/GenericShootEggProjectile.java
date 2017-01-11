@@ -20,7 +20,7 @@ public class GenericShootEggProjectile implements RightClickedItemAction {
 	static final float PITCH_OFFSET = 0.0F;
 	static final float VELOCITY = 3.0F;
 	static final float INACCURANCY = 1.0F;
-	static final SoundEvent SOUND = SoundEvents.ENTITY_CHICKEN_HURT;	
+	static final SoundEvent SOUND = SoundEvents.EVOCATION_ILLAGER_CAST_SPELL;	
 	static Random random = new Random();
 	ProjectileAction action;
 
