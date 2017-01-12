@@ -101,13 +101,10 @@ public class GeometryUtils {
 		List<BlockDirective> result = new ArrayList<BlockDirective>();
 
 		// create directives
-		for (Object blockPos : blockPosSet) {
-
-			// type cast
-			BlockPos typedBlockPos = (BlockPos) blockPos;
+		for (BlockPos blockPos : blockPosSet) {
 
 			// create directive
-			BlockDirective directive = new BlockDirective(typedBlockPos, block, HARVEST);
+			BlockDirective directive = new BlockDirective(blockPos, block, HARVEST);
 			directive.setState(blockState);
 			result.add(directive);
 		}
