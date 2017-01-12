@@ -56,7 +56,7 @@ public class GeometryUtils {
 	 * @param result
 	 *            list of captured {@linkplain BlockDirective}.
 	 */
-	public static List<BlockDirective> captureBlockDirectives(Iterable blockPosSet, WorldQuery worldQuery) {
+	public static List<BlockDirective> captureBlockDirectives(Iterable<BlockPos> blockPosSet, WorldQuery worldQuery) {
 
 		List<BlockDirective> result = new ArrayList<BlockDirective>();
 
@@ -95,7 +95,7 @@ public class GeometryUtils {
 	 * @param result
 	 *            list of calculated {@linkplain BlockDirective}.
 	 */
-	public static List<BlockDirective> calculateBlockDirectives(Iterable blockPosSet, Block block,
+	public static List<BlockDirective> calculateBlockDirectives(Iterable<BlockPos> blockPosSet, Block block,
 			IBlockState blockState) {
 
 		List<BlockDirective> result = new ArrayList<BlockDirective>();
@@ -232,7 +232,7 @@ public class GeometryUtils {
 		int zTo = structure.getSizeZ() - 1;
 		BlockPos to = from.add(xTo, yTo, zTo);
 
-		Iterable blockPosSet = BlockPos.getAllInBox(from, to);
+		Iterable<BlockPos> blockPosSet = BlockPos.getAllInBox(from, to);
 
 		// calculate block directives
 		List<BlockDirective> directives = calculateBlockDirectives(blockPosSet, structure.getBlock(),
@@ -350,7 +350,7 @@ public class GeometryUtils {
 			int layerYDelta = 0;
 			int layerZDelta = size.getZ() - 1;
 			BlockPos to = from.add(layerXDelta, layerYDelta, layerZDelta);
-			Iterable blockPosSet = BlockPos.getAllInBox(from, to);
+			Iterable<BlockPos> blockPosSet = BlockPos.getAllInBox(from, to);
 
 			// exit if blocks is of type air
 			if (containsAirBlocksOnly(blockPosSet, worldQuery))
