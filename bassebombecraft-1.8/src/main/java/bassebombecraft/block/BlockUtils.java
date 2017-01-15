@@ -7,8 +7,6 @@ import static net.minecraft.util.EnumFacing.NORTH;
 import static net.minecraft.util.EnumFacing.SOUTH;
 import static net.minecraft.util.EnumFacing.WEST;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-
 import com.google.common.collect.ImmutableMap;
 
 import bassebombecraft.event.block.temporary.DefaultTemporaryBlock;
@@ -18,7 +16,6 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.WorldQuery;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
-import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
@@ -37,8 +34,7 @@ public class BlockUtils {
 	/**
 	 * Default FACING property for querying about the property.
 	 */
-	//public static final PropertyDirection FACING = BlockHorizontal.FACING;
-    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
 	/**
 	 * Don't harvest temporary block.
