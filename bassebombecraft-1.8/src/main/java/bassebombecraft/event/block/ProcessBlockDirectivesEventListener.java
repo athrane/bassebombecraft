@@ -35,7 +35,7 @@ public class ProcessBlockDirectivesEventListener {
 	static final int PARTICLE_NUMBER = 5;
 	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.SPELL_INSTANT;
 	static final int PARTICLE_DURATION = 20;
-	static final double PARTICLE_SPEED = 3.0D; // Particle speed	
+	static final double PARTICLE_SPEED = 3.0D; // Particle speed
 	static final ParticleRenderingInfo PARTICLE_INFO = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R,
 			G, B, PARTICLE_SPEED);
 
@@ -97,30 +97,36 @@ public class ProcessBlockDirectivesEventListener {
 		}
 	}
 
+	/**
+	 * Process directive if an air directive is encountered then the directive
+	 * is skipped and another one is processed.
+	 * 
+	 * @param world
+	 * @param worldQuery
+	 * 
+	 * @throws Exception
+	 *             if processing fails.
+	 */
 	void processDirective(World world, WorldQueryImpl worldQuery) throws Exception {
-		// exit if no directives are waiting to be processed.
-		if (!directivesRepository.containsDirectives())
-			return;
 
-		// get directive
-		BlockDirective directive = directivesRepository.getNext();
+		while (directivesRepository.containsDirectives()) {
 
-		// skip if source and target states are both air
-		IBlockState currentState = world.getBlockState(directive.getBlockPosition());
-		if (currentState.equals(directive.getState())) {
+			// get directive
+			BlockDirective directive = directivesRepository.getNext();
 
-			// skip to next directive
-			processDirective(world, worldQuery);
-			return;
+			// skip if source and target states are both air
+			IBlockState currentState = world.getBlockState(directive.getBlockPosition());
+			if (currentState.equals(directive.getState()))
+				continue;
+
+			// process directive
+			createBlock(directive, worldQuery);
+
+			// register directive for rendering
+			BlockPos pos = directive.getBlockPosition();
+			ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
+			particleRepository.add(particle);
 		}
-
-		// process directive
-		createBlock(directive, worldQuery);
-
-		// register directive for rendering
-		BlockPos pos = directive.getBlockPosition();
-		ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
-		particleRepository.add(particle);
 	}
 
 }
