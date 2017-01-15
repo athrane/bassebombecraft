@@ -18,12 +18,12 @@ public class AddLevitationEffect implements InventoryItemActionStrategy {
 
 	static final int EFFECT_DURATION = 200; // Measured in ticks
 	
-	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.SPELL_MOB;
+	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.CLOUD;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
-	static final float R = 0.75F;
+	static final float R = 0.0F;
 	static final float G = 0.0F;
-	static final float B = 0.0F;
+	static final float B = 0.75F;
 	static final double PARTICLE_SPEED = 0.3;
 	static final ParticleRenderingInfo MIST = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R, G, B,
 			PARTICLE_SPEED);
