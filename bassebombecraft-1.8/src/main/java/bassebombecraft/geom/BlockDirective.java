@@ -1,10 +1,12 @@
 package bassebombecraft.geom;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
-
+ 
 /**
  * Class for directing the creation/modification/harvesting of blocks.
  */
@@ -177,8 +179,7 @@ public class BlockDirective {
 	}
 
 	public String toString() {
-		return String.format("(%d,%d,%d)", new Object[] { Integer.valueOf(blockPos.getX()),
-				Integer.valueOf(blockPos.getY()), Integer.valueOf(blockPos.getZ()) });
+		return ReflectionToStringBuilder.toString(this);
 	}
 
 	public Block getBlock() {
