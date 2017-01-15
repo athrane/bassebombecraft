@@ -4,9 +4,6 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
@@ -17,7 +14,7 @@ import net.minecraft.world.World;
 public class AddFlameEffect implements InventoryItemActionStrategy {
 
 	static final int EFFECT_DURATION = 200; // Measured in ticks
-	
+
 	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.FLAME;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
@@ -29,7 +26,6 @@ public class AddFlameEffect implements InventoryItemActionStrategy {
 			PARTICLE_SPEED);
 	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
 
-	
 	@Override
 	public boolean applyOnlyIfSelected() {
 		return true;
@@ -37,7 +33,8 @@ public class AddFlameEffect implements InventoryItemActionStrategy {
 
 	@Override
 	public boolean shouldApplyEffect(Entity target, boolean targetIsInvoker) {
-		if (targetIsInvoker) return false;
+		if (targetIsInvoker)
+			return false;
 		return true;
 	}
 
@@ -48,7 +45,7 @@ public class AddFlameEffect implements InventoryItemActionStrategy {
 
 	@Override
 	public int getEffectRange() {
-		return 5; 
+		return 5;
 	}
 
 	@Override
@@ -59,5 +56,5 @@ public class AddFlameEffect implements InventoryItemActionStrategy {
 	int getEffectDuration() {
 		return EFFECT_DURATION;
 	}
-	
+
 }
