@@ -7,6 +7,8 @@ import static net.minecraft.util.EnumFacing.NORTH;
 import static net.minecraft.util.EnumFacing.SOUTH;
 import static net.minecraft.util.EnumFacing.WEST;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
 import com.google.common.collect.ImmutableMap;
 
 import bassebombecraft.event.block.temporary.DefaultTemporaryBlock;
@@ -16,6 +18,8 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.WorldQuery;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
+import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -33,19 +37,19 @@ public class BlockUtils {
 	/**
 	 * Default FACING property for querying about the property.
 	 */
-	public static final PropertyDirection FACING = PropertyDirection.create("facing");
+	//public static final PropertyDirection FACING = BlockHorizontal.FACING;
+    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
 	/**
 	 * Don't harvest temporary block.
 	 */
 	public static final boolean DONT_HARVEST = false;
 
-	
 	/**
 	 * Number of wool colors.
 	 */
 	static final int NUMBER_COLORS = 8;
-	
+
 	/**
 	 * Create single block of designated block type.
 	 * 
@@ -69,13 +73,12 @@ public class BlockUtils {
 		// get world
 		World world = worldQuery.getWorld();
 
-		
-		
 		// harvest block
 		if (blockDirective.harvestBlock()) {
 			IBlockState blockState = getBlockStateFromPosition(blockPosition, worldQuery);
 			ItemStack emptyItemStack = new ItemStack(block);
-			block.harvestBlock(worldQuery.getWorld(), worldQuery.getPlayer(), blockPosition, blockState, NULL_TILE_ENTITY, emptyItemStack );
+			block.harvestBlock(worldQuery.getWorld(), worldQuery.getPlayer(), blockPosition, blockState,
+					NULL_TILE_ENTITY, emptyItemStack);
 		}
 
 		// set block state
@@ -167,7 +170,6 @@ public class BlockUtils {
 			return sourceState;
 
 		// get facing property
-		ImmutableMap properties = sourceState.getProperties();
 		EnumFacing facing = sourceState.getValue(FACING);
 
 		// calculate new orientation
@@ -240,7 +242,7 @@ public class BlockUtils {
 	 * @return true if block state has the FACING property defined.
 	 */
 	public static boolean hasFacingProperty(IBlockState state) {
-		ImmutableMap properties = state.getProperties();
+		ImmutableMap<IProperty<?>, Comparable<?>> properties = state.getProperties();
 		return properties.containsKey(FACING);
 	}
 
@@ -297,7 +299,8 @@ public class BlockUtils {
 	/**
 	 * Select block based on wool color.
 	 * 
-	 * @param colorCounter current color counter between 0..8.
+	 * @param colorCounter
+	 *            current color counter between 0..8.
 	 * 
 	 * @return block based on wool color.
 	 */
@@ -327,5 +330,5 @@ public class BlockUtils {
 
 		}
 
-	}	
+	}
 }
