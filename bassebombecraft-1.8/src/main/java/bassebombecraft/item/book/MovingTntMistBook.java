@@ -2,7 +2,6 @@ package bassebombecraft.item.book;
 
 import bassebombecraft.item.action.mist.block.BlockMistActionStrategy;
 import bassebombecraft.item.action.mist.block.GenericBlockMist;
-import bassebombecraft.item.action.mist.block.MovingLavaMist;
 import bassebombecraft.item.action.mist.block.MovingTntMist;
 
 /**

@@ -34,6 +34,7 @@ import bassebombecraft.item.book.MovingIceMultiMistBook;
 import bassebombecraft.item.book.MovingLavaMistBook;
 import bassebombecraft.item.book.MovingLavaMultiMistBook;
 import bassebombecraft.item.book.MovingRainbowMistBook;
+import bassebombecraft.item.book.MovingTntMistBook;
 import bassebombecraft.item.book.MovingWaterMultiMistBook;
 import bassebombecraft.item.book.MovingWitherMistBook;
 import bassebombecraft.item.book.MultipleArrowsBook;
@@ -42,6 +43,7 @@ import bassebombecraft.item.book.PrimedCreeperCannonBook;
 import bassebombecraft.item.book.RainbownizeBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.Spawn100ChickensBook;
+import bassebombecraft.item.book.Spawn100RainingLlamasBook;
 import bassebombecraft.item.book.SpawnFlamingChickenBook;
 import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnManyCowsBook;
@@ -68,12 +70,11 @@ public class RandomBookBlock extends Block {
 	public RandomBookBlock(Material materialIn) {
 		super(materialIn);
 		setUnlocalizedName(BLOCK_NAME);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		int number = rand.nextInt(48);
+		int number = rand.nextInt(50);
 
 		switch (number) {
 		case 0:
@@ -93,7 +94,7 @@ public class RandomBookBlock extends Block {
 		case 8:
 			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, WitherSkullBook.ITEM_NAME));
 		case 9:
-			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, WitherMistBook.ITEM_NAME));			
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, WitherMistBook.ITEM_NAME));
 		case 10:
 			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, MovingWitherMistBook.ITEM_NAME));
 		case 11:
@@ -170,6 +171,10 @@ public class RandomBookBlock extends Block {
 			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, LightningBoltBook.ITEM_NAME));
 		case 47:
 			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, LightningBoltMistBook.ITEM_NAME));
+		case 48:
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, Spawn100RainingLlamasBook.ITEM_NAME));
+		case 49:
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, MovingTntMistBook.ITEM_NAME));
 
 		default:
 			return super.getItemDropped(state, rand, fortune);
