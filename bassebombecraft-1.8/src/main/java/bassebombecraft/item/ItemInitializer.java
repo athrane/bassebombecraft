@@ -1,5 +1,7 @@
 package bassebombecraft.item;
 
+import com.typesafe.config.Config;
+
 import bassebombecraft.item.book.BaconBazookaBook;
 import bassebombecraft.item.book.BeastmasterBook;
 import bassebombecraft.item.book.BeastmasterMistBook;
@@ -42,6 +44,7 @@ import bassebombecraft.item.book.Spawn100ChickensBook;
 import bassebombecraft.item.book.Spawn100RainingLlamasBook;
 import bassebombecraft.item.book.SpawnFlamingChickenBook;
 import bassebombecraft.item.book.SpawnGuardianBook;
+import bassebombecraft.item.book.SpawnGuardianDragonBook;
 import bassebombecraft.item.book.SpawnManyCowsBook;
 import bassebombecraft.item.book.SpawnSquidBook;
 import bassebombecraft.item.book.TeleportBook;
@@ -50,6 +53,7 @@ import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.book.WitherMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
+import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
 import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
 import bassebombecraft.item.inventory.ChickenizeIdolInventoryItem;
 import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
@@ -75,9 +79,9 @@ public class ItemInitializer {
 	 * 
 	 * @param targetTab
 	 *            tab that item is added to.
+	 * @param config configuration object
 	 */
-	public void initialize(CreativeTabs targetTab) {
-		// Config config = ConfigFactory.load(MODID);
+	public void initialize(CreativeTabs targetTab, Config config) {
 
 		Item gardenStaff = new GardenStaff();
 		registerItem(targetTab, gardenStaff, GardenStaff.ITEM_NAME);
@@ -174,7 +178,7 @@ public class ItemInitializer {
 		registerItem(targetTab, movingTntMistBook, MovingTntMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(movingTntMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.FLINT, 'z', Items.TNT_MINECART);
-				
+
 		// books of creature spawning
 
 		Item spawnFlamingChickenBook = new SpawnFlamingChickenBook();
@@ -236,6 +240,11 @@ public class ItemInitializer {
 		registerItem(targetTab, spawnGuardianBook, SpawnGuardianBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(spawnGuardianBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.NAME_TAG, 'z', Items.IRON_INGOT);
+		
+		Item spawnGuardianDragonBook = new SpawnGuardianDragonBook();
+		registerItem(targetTab, spawnGuardianDragonBook, SpawnGuardianDragonBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(spawnGuardianDragonBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
+				Items.ENDER_PEARL, 'z', Items.DRAGON_BREATH);
 
 		Item multipleArrowsBook = new MultipleArrowsBook();
 		registerItem(targetTab, multipleArrowsBook, MultipleArrowsBook.ITEM_NAME);
@@ -388,6 +397,11 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(charmBeastIdolInventoryItem), "xy ", "   ", "   ", 'x',
 				Items.CLAY_BALL, 'y', Items.NAME_TAG);
 
+		Item blindnessIdolInventoryItem = new BlindnessIdolInventoryItem();
+		registerItem(targetTab, blindnessIdolInventoryItem, BlindnessIdolInventoryItem.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(blindnessIdolInventoryItem), "xy ", "   ", "   ", 'x',
+				Items.CLAY_BALL, 'y', Items.QUARTZ);
+		
 		/**
 		 * Item pvpIdolInventoryItem = new PvpIdolInventoryItem();
 		 * pvpIdolInventoryItem.setCreativeTab(targetTab);
