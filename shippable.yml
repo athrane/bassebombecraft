@@ -10,4 +10,4 @@ jdk:
   
 build:
   ci:
-   - gradle clean build
+   - gradle build
