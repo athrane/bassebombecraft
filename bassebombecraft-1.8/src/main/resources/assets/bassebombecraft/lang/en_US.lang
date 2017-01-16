@@ -39,6 +39,7 @@ item.PrimedCreeperCannonBook.name=Book of Primed Creeper Cannon
 item.CreeperApocalypseBook.name=Book of Creeper Apocalypse
 item.SpawnSquidBook.name=Book of Angry Squid 
 item.SpawnGuardianBook.name=Book of Guardian
+item.SpawnGuardianDragonBook.name=Book of Winged Guardian 
 
 # weapons and stuff
 item.MultipleArrowsBook.name=Book of Multiple Arrows
@@ -76,7 +77,6 @@ item.BuildAbyssBook.name=Book of Instant Abyss
 item.BuildSmallHoleBook.name=Book of Digging
 item.NaturalizeBook.name=Book of Naturalize
 item.RainbownizeBook.name=Book of Rainbownize
-
 item.CopyPasteBlocksBook.name=Book of Copy and Paste
 item.DuplicateBlockBook.name=Book of Duplication
 
@@ -90,6 +90,8 @@ item.FlowerIdolInventoryItem.name=Naturalize Idol
 item.FlameBlastIdolInventoryItem.name=Flameblast Dragon Idol
 item.CharmBeastIdolInventoryItem.name=Beast Charm Idol
 item.RainbownizeIdolInventoryItem.name=Rainbownize Idol
+item.BlindnessIdolInventoryItem.name=Sunstealer Idol
+
 
 item.PvpIdolInventoryItem.name=Cracked Skull
 
