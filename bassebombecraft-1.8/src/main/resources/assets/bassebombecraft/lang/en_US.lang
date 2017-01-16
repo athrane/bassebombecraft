@@ -39,7 +39,7 @@ item.PrimedCreeperCannonBook.name=Book of Primed Creeper Cannon
 item.CreeperApocalypseBook.name=Book of Creeper Apocalypse
 item.SpawnSquidBook.name=Book of Angry Squid 
 item.SpawnGuardianBook.name=Book of Guardian
-item.SpawnGuardianDragonBook.name=Book of Winged Guardian 
+item.SpawnDragonBook.name=Book of Instant Dragon
 
 # weapons and stuff
 item.MultipleArrowsBook.name=Book of Multiple Arrows

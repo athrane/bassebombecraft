@@ -44,7 +44,7 @@ import bassebombecraft.item.book.Spawn100ChickensBook;
 import bassebombecraft.item.book.Spawn100RainingLlamasBook;
 import bassebombecraft.item.book.SpawnFlamingChickenBook;
 import bassebombecraft.item.book.SpawnGuardianBook;
-import bassebombecraft.item.book.SpawnGuardianDragonBook;
+import bassebombecraft.item.book.SpawnDragonBook;
 import bassebombecraft.item.book.SpawnManyCowsBook;
 import bassebombecraft.item.book.SpawnSquidBook;
 import bassebombecraft.item.book.TeleportBook;
@@ -241,9 +241,9 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(spawnGuardianBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.NAME_TAG, 'z', Items.IRON_INGOT);
 		
-		Item spawnGuardianDragonBook = new SpawnGuardianDragonBook();
-		registerItem(targetTab, spawnGuardianDragonBook, SpawnGuardianDragonBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(spawnGuardianDragonBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
+		Item spawnDragonBook = new SpawnDragonBook();
+		registerItem(targetTab, spawnDragonBook, SpawnDragonBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(spawnDragonBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.ENDER_PEARL, 'z', Items.DRAGON_BREATH);
 
 		Item multipleArrowsBook = new MultipleArrowsBook();
