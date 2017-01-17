@@ -1,13 +1,12 @@
 package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
+import static bassebombecraft.config.ConfigUtils.*;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
 /**
@@ -16,16 +15,20 @@ import net.minecraft.world.World;
  */
 public class CharmBeast implements InventoryItemActionStrategy {
 
-	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.FIREWORKS_SPARK;
-	static final int PARTICLE_NUMBER = 5;
-	static final int PARTICLE_DURATION = 20;
-	static final float R = 0.0F;
-	static final float B = 0.75F;
-	static final float G = 0.0F;
-	static final double PARTICLE_SPEED = 0.075;
-	static final ParticleRenderingInfo MIST = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R, G, B,
-			PARTICLE_SPEED);
-	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
+	/**
+	 * Particle rendering info
+	 */
+	ParticleRenderingInfo[] infos;
+
+	/**
+	 * CharmBeast constructor
+	 * 
+	 * @param key
+	 *            configuration key to initialize particle rendering info from.
+	 */
+	public CharmBeast(String key) {
+		infos = createFromConfig(key);
+	}
 
 	@Override
 	public boolean applyOnlyIfSelected() {
@@ -60,7 +63,7 @@ public class CharmBeast implements InventoryItemActionStrategy {
 
 	@Override
 	public ParticleRenderingInfo[] getRenderingInfos() {
-		return INFOS;
+		return infos;
 	}
 
 }
