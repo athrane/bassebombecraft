@@ -44,6 +44,7 @@ import bassebombecraft.item.book.RainbownizeBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.Spawn100ChickensBook;
 import bassebombecraft.item.book.Spawn100RainingLlamasBook;
+import bassebombecraft.item.book.SpawnDragonBook;
 import bassebombecraft.item.book.SpawnFlamingChickenBook;
 import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnManyCowsBook;
@@ -74,7 +75,7 @@ public class RandomBookBlock extends Block {
 
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		int number = rand.nextInt(50);
+		int number = rand.nextInt(51);
 
 		switch (number) {
 		case 0:
@@ -175,6 +176,8 @@ public class RandomBookBlock extends Block {
 			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, Spawn100RainingLlamasBook.ITEM_NAME));
 		case 49:
 			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, MovingTntMistBook.ITEM_NAME));
+		case 50:
+			return ForgeRegistries.ITEMS.getValue(new ResourceLocation(MODID, SpawnDragonBook.ITEM_NAME));
 
 		default:
 			return super.getItemDropped(state, rand, fortune);
