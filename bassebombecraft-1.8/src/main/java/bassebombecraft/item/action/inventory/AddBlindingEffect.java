@@ -46,6 +46,7 @@ public class AddBlindingEffect implements InventoryItemActionStrategy {
 		if(target instanceof EntityLivingBase) {
 			EntityLivingBase entityLivingBase = (EntityLivingBase) target;
 			entityLivingBase.addPotionEffect(createEffect());
+			entityLivingBase.addPotionEffect(createEffect2());			
 		}
 	}
 
@@ -70,6 +71,15 @@ public class AddBlindingEffect implements InventoryItemActionStrategy {
 	 */
 	PotionEffect createEffect() {
 		return new PotionEffect(MobEffects.BLINDNESS, getEffectDuration());
+	}
+
+	/**
+	 * Create potion effect.
+	 * 
+	 * @return potion effect
+	 */
+	PotionEffect createEffect2() {
+		return new PotionEffect(MobEffects.NIGHT_VISION, getEffectDuration());
 	}
 	
 }
