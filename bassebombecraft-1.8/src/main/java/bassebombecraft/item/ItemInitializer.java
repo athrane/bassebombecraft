@@ -1,7 +1,5 @@
 package bassebombecraft.item;
 
-import com.typesafe.config.Config;
-
 import bassebombecraft.item.book.BaconBazookaBook;
 import bassebombecraft.item.book.BeastmasterBook;
 import bassebombecraft.item.book.BeastmasterMistBook;
@@ -42,9 +40,9 @@ import bassebombecraft.item.book.RainbownizeBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.Spawn100ChickensBook;
 import bassebombecraft.item.book.Spawn100RainingLlamasBook;
+import bassebombecraft.item.book.SpawnDragonBook;
 import bassebombecraft.item.book.SpawnFlamingChickenBook;
 import bassebombecraft.item.book.SpawnGuardianBook;
-import bassebombecraft.item.book.SpawnDragonBook;
 import bassebombecraft.item.book.SpawnManyCowsBook;
 import bassebombecraft.item.book.SpawnSquidBook;
 import bassebombecraft.item.book.TeleportBook;
@@ -79,9 +77,10 @@ public class ItemInitializer {
 	 * 
 	 * @param targetTab
 	 *            tab that item is added to.
-	 * @param config configuration object
+	 * @param config
+	 *            configuration object
 	 */
-	public void initialize(CreativeTabs targetTab, Config config) {
+	public void initialize(CreativeTabs targetTab) {
 
 		Item gardenStaff = new GardenStaff();
 		registerItem(targetTab, gardenStaff, GardenStaff.ITEM_NAME);
@@ -240,11 +239,11 @@ public class ItemInitializer {
 		registerItem(targetTab, spawnGuardianBook, SpawnGuardianBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(spawnGuardianBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.NAME_TAG, 'z', Items.IRON_INGOT);
-		
+
 		Item spawnDragonBook = new SpawnDragonBook();
 		registerItem(targetTab, spawnDragonBook, SpawnDragonBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(spawnDragonBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.ENDER_PEARL, 'z', Items.DRAGON_BREATH);
+				Blocks.DRAGON_EGG, 'z', Items.DRAGON_BREATH);
 
 		Item multipleArrowsBook = new MultipleArrowsBook();
 		registerItem(targetTab, multipleArrowsBook, MultipleArrowsBook.ITEM_NAME);
@@ -400,8 +399,8 @@ public class ItemInitializer {
 		Item blindnessIdolInventoryItem = new BlindnessIdolInventoryItem();
 		registerItem(targetTab, blindnessIdolInventoryItem, BlindnessIdolInventoryItem.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(blindnessIdolInventoryItem), "xy ", "   ", "   ", 'x',
-				Items.CLAY_BALL, 'y', Items.QUARTZ);
-		
+				Items.CLAY_BALL, 'y', Items.COAL);
+
 		/**
 		 * Item pvpIdolInventoryItem = new PvpIdolInventoryItem();
 		 * pvpIdolInventoryItem.setCreativeTab(targetTab);
