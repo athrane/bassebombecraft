@@ -8,6 +8,9 @@ import static bassebombecraft.ModConstants.VERSION;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+
 import bassebombecraft.block.BlockInitializer;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.block.DefaultBlockDirectiveRepository;
@@ -85,10 +88,15 @@ public class BassebombeCraft {
 	 */
 	PvpRepository pvpRepository;
 
+	/**
+	 * Mod configuration.
+	 */
+	Config config;
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		logger = event.getModLog();
-
+		
 		// Initialise charmed mobs repository
 		charmedMobsRepository = DefaultCharmedMobsRepository.getInstance();
 
@@ -104,6 +112,8 @@ public class BassebombeCraft {
 		// Initialise PVP repository
 		pvpRepository = DefaultPvpRepository.getInstance();
 
+		config = ConfigFactory.load(MODID);
+		
 		initializeModMetadata(event);
 		initializeCreativeTab();
 		logger.info("Pre-initialized BassebombeCraft");
@@ -112,12 +122,12 @@ public class BassebombeCraft {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		logger.info("Staring to initialize BasseBombeCraft");
-
+		
 		ItemInitializer.getInstance().initialize(modTab);
 		ProjectileInitializer.getInstance().initialize(this, modTab);
 		BlockInitializer.getInstance().initialize(modTab);
 		initializeEventListeners();
-		logger.info("Initialized BasseBombeCraft");
+		logger.info("Initialized BasseBombeCraft" + VERSION);
 	}
 
 	/**
@@ -227,6 +237,15 @@ public class BassebombeCraft {
 		return pvpRepository;
 	}
 
+	/**
+	 * Get mod configuration.
+	 * 
+	 * @return mod configuration.
+	 */
+	public Config getConfiguration() {
+		return config;
+	}	
+	
 	/**
 	 * Get mod instance.
 	 * 
