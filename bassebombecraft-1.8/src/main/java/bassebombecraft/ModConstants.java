@@ -13,7 +13,9 @@ public class ModConstants {
     public static final String VERSION = "1.11-1.20";
     public static final String TAB_NAME= "BasseBombeCraft";        
     public static final String MINECRAFT_DOMAIN= "minecraft";
-
+    public static final String DOWNLOAD_URL = "http://minecraft.curseforge.com/projects/bassebombecraft";
+    public static final String VERSION_URL = "https://raw.githubusercontent.com/athrane/bassebombecraft/master/bassebombecraft-1.8/version.json";        
+    
     /**
 	 * Null block tile entity.
 	 */

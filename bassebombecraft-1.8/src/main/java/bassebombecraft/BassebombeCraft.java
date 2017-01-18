@@ -1,6 +1,6 @@
 package bassebombecraft;
 
-import static bassebombecraft.ModConstants.MODID;
+import static bassebombecraft.ModConstants.*;
 import static bassebombecraft.ModConstants.NAME;
 import static bassebombecraft.ModConstants.TAB_NAME;
 import static bassebombecraft.ModConstants.VERSION;
@@ -12,6 +12,7 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
 import bassebombecraft.block.BlockInitializer;
+import bassebombecraft.config.VersionUtils;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.block.DefaultBlockDirectiveRepository;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventListener;
@@ -121,13 +122,14 @@ public class BassebombeCraft {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		logger.info("Staring to initialize BasseBombeCraft");
-		
+		logger.info("Starting to initialize BasseBombeCraft");
+
+		VersionUtils.validateVersion(logger);
 		ItemInitializer.getInstance().initialize(modTab);
 		ProjectileInitializer.getInstance().initialize(this, modTab);
 		BlockInitializer.getInstance().initialize(modTab);
 		initializeEventListeners();
-		logger.info("Initialized BasseBombeCraft " + VERSION);
+		logger.info("Initialized BasseBombeCraft");
 	}
 
 	/**
@@ -142,10 +144,10 @@ public class BassebombeCraft {
 		m.modId = NAME;
 		m.version = VERSION;
 		m.name = NAME;
-		m.description = "A collection of 40+ magical books, idols and blocks for adventuring and construction. The magic needed by BasseBombe when he plays Minecraft.";
+		m.description = "A collection of 64+ magical books, idols and blocks for adventuring and construction. The magic needed by BasseBombe when he plays Minecraft.";
 		m.authorList.add("einheriii@gmail.com");
 		m.logoFile = "assets/bassebombecraft/logo/logo.png";
-		m.url = "http://minecraft.curseforge.com/projects/bassebombecraft";
+		m.url = DOWNLOAD_URL ;
 		m.credits = "Allan & Andreas Thrane Andersen";
 	}
 

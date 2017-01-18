@@ -16,6 +16,7 @@ buildscript {
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
+//apply plugin: 'findbugs'
 
 version = "1.11-1.20"
 group= "com.bassebombecraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
@@ -68,5 +69,12 @@ processResources
     // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+}
+
+tasks.withType(FindBugs) {
+    reports {
+        xml.enabled false
+        html.enabled true
     }
 }
