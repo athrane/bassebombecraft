@@ -1,12 +1,11 @@
 package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.config.ConfigUtils.createFromConfig;
 
-import static bassebombecraft.config.ConfigUtils.*;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.world.World;
 
 /**
@@ -38,8 +37,6 @@ public class CharmBeast implements InventoryItemActionStrategy {
 	@Override
 	public boolean shouldApplyEffect(Entity target, boolean targetIsInvoker) {
 		if (targetIsInvoker)
-			return false;
-		if (target instanceof EntityChicken)
 			return false;
 		return true;
 	}

@@ -17,9 +17,7 @@ import net.minecraft.world.World;
  * of inventory item actions. This class makes adds a levitation effect to the
  * invoker.
  */
-public class AddLevitationEffect implements InventoryItemActionStrategy {
-
-	static final int EFFECT_DURATION = 200; // Measured in ticks
+public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 
 	/**
 	 * Particle rendering info
@@ -30,17 +28,24 @@ public class AddLevitationEffect implements InventoryItemActionStrategy {
 	 * Effect duration.
 	 */
 	int duration;
-	
+
+	/**
+	 * Effect range.
+	 */
+	int range;
+
 	/**
 	 * AddLevitationEffect constructor
 	 * 
 	 * @param key
 	 *            configuration key to initialize particle rendering info from.
 	 */
-	public AddLevitationEffect(String key) {
+	public AddMobsLevitationEffect(String key) {
 		infos = createFromConfig(key);
 		Config configuration = getBassebombeCraft().getConfiguration();
-		duration = configuration.getInt(key+".Duration");		
+		duration = configuration.getInt(key+".Duration");
+		range = configuration.getInt(key+".Range");
+
 	}
 
 	@Override
@@ -50,7 +55,9 @@ public class AddLevitationEffect implements InventoryItemActionStrategy {
 
 	@Override
 	public boolean shouldApplyEffect(Entity target, boolean targetIsInvoker) {
-		return targetIsInvoker;
+		if (targetIsInvoker)
+			return false;
+		return true;
 	}
 
 	@Override
@@ -63,7 +70,7 @@ public class AddLevitationEffect implements InventoryItemActionStrategy {
 
 	@Override
 	public int getEffectRange() {
-		return 1; // Not a AOE effect
+		return range;
 	}
 
 	@Override
