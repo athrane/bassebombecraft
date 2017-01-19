@@ -88,11 +88,6 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(gardenStaff), "  x", " / ", "/  ", 'x', Items.FLOWER_POT, '/',
 				Items.IRON_SHOVEL);
 
-		Item parkourStaff = new ParkourStaff();
-		registerItem(targetTab, parkourStaff, ParkourStaff.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(parkourStaff), "  x", " / ", "/  ", 'x', Items.LEATHER_LEGGINGS, '/',
-				Items.STICK);
-
 		// Initialise books
 
 		Item teleportBook = new TeleportBook();
