@@ -40,26 +40,16 @@ public class ShootBaconBazooka implements RightClickedItemAction {
 	 */
 	int spawnDisplacement;
 
-	long lastTime;
-
 	public ShootBaconBazooka() {
 		super();
 		Config configuration = getBassebombeCraft().getConfiguration();
 		age = configuration.getInt("ShootBaconBazooka.Age");
 		duration = configuration.getInt("ShootBaconBazooka.Duration");
 		spawnDisplacement = configuration.getInt("ShootBaconBazooka.SpawnDisplacement");
-		lastTime = System.currentTimeMillis();
 	}
 
 	@Override
 	public void onRightClick(World world, EntityLivingBase entity) {
-
-		//long time = System.currentTimeMillis();
-		//long delta = time - lastTime;		
-		//lastTime = System.currentTimeMillis();
-		//System.out.println("delta="+delta);
-		//if(delta < 2000) return;
-		//System.out.println("lastime="+lastTime);
 		
 		Vec3d lookVec = entity.getLookVec();
 
@@ -93,8 +83,7 @@ public class ShootBaconBazooka implements RightClickedItemAction {
 
 		// spawn
 		world.spawnEntity(projectileEntity);
-		
-		
+				
 	}
 
 	@Override
