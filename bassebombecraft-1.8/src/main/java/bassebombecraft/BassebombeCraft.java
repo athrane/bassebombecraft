@@ -129,7 +129,7 @@ public class BassebombeCraft {
 		ProjectileInitializer.getInstance().initialize(this, modTab);
 		BlockInitializer.getInstance().initialize(modTab);
 		initializeEventListeners();
-		logger.info("Initialized BasseBombeCraft");
+		logger.info("Initialized BasseBombeCraft " + VERSION);
 	}
 
 	/**

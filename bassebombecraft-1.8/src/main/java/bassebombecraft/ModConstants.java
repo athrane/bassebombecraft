@@ -76,4 +76,9 @@ public class ModConstants {
 	 */
 	public static final boolean LIGHTNING_NOT_EFFECT_ONLY = false; 
 	
+	/**
+	 * Not a bad potion effect.
+	 */
+	public static final boolean NOT_BAD_POTION_EFFECT = false;
+	
 }
