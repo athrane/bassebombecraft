@@ -36,5 +36,26 @@ public class ConfigUtils {
 		return new ParticleRenderingInfo[] { mist };
 
 	}
+	
+	/**
+	 * Resolve entity cooldown value from configuration. If no key is defined then the
+	 * default value is returned.
+	 * 
+	 * @param key
+	 *            configuration key.
+	 * @param defaultValue
+	 *            default cooldown value.
+	 * @return resolve cooldown value from configuration.
+	 */
+	public static int resolveCoolDown(String key, int defaultValue) {
+		
+		Config configuration = getBassebombeCraft().getConfiguration();
+		String path = key+".Cooldown";
 
+		// return default value if path is undefined
+		if(!configuration.hasPath(path)) return defaultValue;
+		
+		return configuration.getInt(path);
+	}
+	
 }

@@ -30,7 +30,6 @@ public class DefaultPvpParticipation implements PvpParticipation {
 	public void updateDuration() {
 		if (duration > 0)
 			duration--;
-		System.out.println(duration);
 	}
 	
 	@Override

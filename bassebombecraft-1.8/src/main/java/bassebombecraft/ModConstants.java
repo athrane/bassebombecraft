@@ -81,4 +81,18 @@ public class ModConstants {
 	 */
 	public static final boolean NOT_BAD_POTION_EFFECT = false;
 	
+	/**
+	 * Potion trigger time, measured in mob death time.
+	 */
+	public static final int POTION_MOB_DEATH_TIME_TRIGGER = 19;
+
+	/**
+	 * Potion default liquid color.
+	 */
+	public static final int POTION_LIQUID_COLOR = 1;
+	/**
+	 * Default item cooldown vaule.
+	 */
+	public static final int ITEM_DEFAULT_COOLDOWN = 10;
+	
 }

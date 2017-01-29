@@ -1,14 +1,21 @@
 package bassebombecraft.item.action;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.entity.EntityUtils.setProjectileEntityPosition;
+import static bassebombecraft.potion.MobEffects.*;
+
 import java.util.Random;
+
+import com.typesafe.config.Config;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -17,50 +24,76 @@ import net.minecraft.world.World;
  */
 public class ShootCreeperCannon implements RightClickedItemAction {
 
-	static final SoundEvent SOUND = SoundEvents.ENTITY_CREEPER_HURT;	
-	static final int FORCE = 3; // Emit force
+	static final SoundEvent SOUND = SoundEvents.EVOCATION_ILLAGER_CAST_SPELL;
+
+	/**
+	 * DEfines whether creeper is primed.
+	 */
 	boolean isPrimed;
+
+	/**
+	 * Duration of the potion effect.
+	 */
+	final int duration;
+
+	/**
+	 * Spawn displacement in blocks.
+	 */
+	int spawnDisplacement;
 
 	/**
 	 * ShootCreeperCannon constructor.
 	 * 
-	 * @param isPrimed defines whether creeper is primed.
+	 * @param isPrimed
+	 *            defines whether creeper is primed.
+	 * @param key
+	 *            configuration key.
+	 * 
 	 */
-	public ShootCreeperCannon(boolean isPrimed) {
-		this.isPrimed = isPrimed; 
+	public ShootCreeperCannon(boolean isPrimed, String key) {
+		this.isPrimed = isPrimed;
+		Config configuration = getBassebombeCraft().getConfiguration();
+		duration = configuration.getInt(key + ".Duration");
+		spawnDisplacement = configuration.getInt(key + ".SpawnDisplacement");
 	}
 
 	@Override
 	public void onRightClick(World world, EntityLivingBase entity) {
-		Vec3d v3 = entity.getLookVec();
 
-		// get random
-		Random random = entity.getRNG();
+		// create projectile entity
+		EntityCreeper projectileEntity = new EntityCreeper(world);
+		projectileEntity.copyLocationAndAnglesFrom(entity);
 
-		// spawn creeper
-		EntityCreeper creeper = new EntityCreeper(world);
-		creeper.copyLocationAndAnglesFrom(entity);
-		creeper.posX = entity.posX + v3.xCoord;
-		creeper.posY = entity.posY + entity.getEyeHeight();
-		creeper.posZ = entity.posZ + v3.zCoord;
-        entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
-        world.spawnEntity(creeper);
+		// prime
+		if (isPrimed)
+			projectileEntity.ignite();
 
-		// push mob
-		double x = v3.xCoord * FORCE;
-		double y = v3.yCoord * FORCE;
-		double z = v3.zCoord * FORCE;
-		Vec3d motionVecForced = new Vec3d(x, y, z);
-		creeper.addVelocity(motionVecForced.xCoord, motionVecForced.yCoord, motionVecForced.zCoord);
+		// select potion 
+		Potion potion = null;
+		if (isPrimed) potion = PRIMED_CREEPER_CANNON_POTION;
+		else potion = CREEPER_CANNON_POTION;
 		
-		if(isPrimed) {
-			creeper.ignite();
-		}
+		// calculate spawn projectile spawn position
+		setProjectileEntityPosition(entity, projectileEntity, spawnDisplacement);
+
+		// add potion effect
+		PotionEffect effect = new PotionEffect(potion, duration);
+		projectileEntity.addPotionEffect(effect);
+
+		// set no health to trigger death (in max 20 ticks)
+		projectileEntity.setHealth(0.0F);
+
+		// add spawn sound
+		Random random = entity.getRNG();
+		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
+
+		// spawn
+		world.spawnEntity(projectileEntity);
 	}
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		// NOP
+		// NO-OP
 	}
 
 }

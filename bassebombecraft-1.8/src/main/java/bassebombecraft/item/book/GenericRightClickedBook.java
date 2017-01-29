@@ -1,7 +1,9 @@
 package bassebombecraft.item.book;
 
 import static bassebombecraft.ModConstants.MODID;
+import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 
+import bassebombecraft.ModConstants;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
@@ -12,6 +14,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
@@ -29,6 +32,11 @@ public class GenericRightClickedBook extends Item {
 	RightClickedItemAction action;
 
 	/**
+	 * Item cooldown value
+	 */
+	int coolDown;
+
+	/**
 	 * Generic book constructor.
 	 * 
 	 * @param name
@@ -41,6 +49,9 @@ public class GenericRightClickedBook extends Item {
 		setUnlocalizedName(name);
 		this.action = action;
 		registerForRendering(this);
+
+		// get cooldown or default value
+		coolDown = resolveCoolDown(name, ModConstants.ITEM_DEFAULT_COOLDOWN);
 	}
 
 	/**
@@ -64,8 +75,14 @@ public class GenericRightClickedBook extends Item {
 	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+		
+		// add cooldown
+		CooldownTracker tracker = playerIn.getCooldownTracker();
+		tracker.setCooldown(this, coolDown);
+
 		action.onRightClick(worldIn, playerIn);		
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+		
+		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
 	}
 
 	@Override
