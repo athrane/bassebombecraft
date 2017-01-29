@@ -2,13 +2,15 @@ package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
-import static bassebombecraft.block.BlockUtils.selectRainbowColoredWool;
-import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.block.BlockUtils.*;
+import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
 import java.util.Random;
+
+import com.typesafe.config.Config;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
@@ -16,32 +18,25 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.GeometryUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
- * of inventory item actions. This class rainbownizes the areas around the
+ * of inventory item actions. This class pinkynizes the areas around the
  * invoker.
  */
-public class Rainbownize implements InventoryItemActionStrategy {
+public class Pinkynize implements InventoryItemActionStrategy {
 
-	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.SPELL_MOB;
-	static final int PARTICLE_NUMBER = 5;
-	static final int PARTICLE_DURATION = 20;
-	static final float R = 0.0F;
-	static final float B = 0.0F;
-	static final float G = 0.75F;
-	static final double PARTICLE_SPEED = 0.075;
-	static final ParticleRenderingInfo MIST = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R, G, B,
-			PARTICLE_SPEED);
-	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
+	/**
+	 * Particle rendering info
+	 */
+	ParticleRenderingInfo[] infos;
 
 	/**
 	 * Spiral size.
 	 */
-	static final int SPIRAL_SIZE = 20;
+	final int spiralSize;
 
 	/**
 	 * Random generator
@@ -74,15 +69,20 @@ public class Rainbownize implements InventoryItemActionStrategy {
 	List<BlockPos> spiralCoordinates;
 
 	/**
-	 * Rainbownize constructor.
+	 * Pinkynize constructor
+	 * 
+	 * @param key
+	 *            configuration key to initialize particle rendering info from.
 	 */
-	public Rainbownize() {
-		super();
+	public Pinkynize(String key) {
+		infos = createFromConfig(key);
+		Config configuration = getBassebombeCraft().getConfiguration();
+		spiralSize = configuration.getInt(key+".SpiralSize");
 
 		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 
 		// calculate spiral
-		spiralCoordinates = GeometryUtils.calculateSpiral(SPIRAL_SIZE, SPIRAL_SIZE);
+		spiralCoordinates = GeometryUtils.calculateSpiral(spiralSize, spiralSize);
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public class Rainbownize implements InventoryItemActionStrategy {
 
 		// create wool block
 		BlockDirective directive = new BlockDirective(groundPosition, Blocks.WOOL, DONT_HARVEST);
-		directive.setState(selectRainbowColoredWool(colorCounter));
+		directive.setState(selectPinkColoredWool(colorCounter));
 
 		// create block
 		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
@@ -121,7 +121,7 @@ public class Rainbownize implements InventoryItemActionStrategy {
 
 	@Override
 	public ParticleRenderingInfo[] getRenderingInfos() {
-		return INFOS;
+		return infos;
 	}
 
 	/**

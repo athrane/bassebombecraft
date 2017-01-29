@@ -1,7 +1,7 @@
 package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.block.BlockUtils.selectWoolColor;
+import static bassebombecraft.block.BlockUtils.selectRainbowColoredWool;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
@@ -46,7 +46,7 @@ public class RainbowSpiralMist implements BlockMistActionStrategy {
 
 		// create wool block
 		BlockDirective directive = new BlockDirective(target, Blocks.WOOL, DONT_HARVEST);
-		directive.setState(selectWoolColor(colorCounter));
+		directive.setState(selectRainbowColoredWool(colorCounter));
 
 		// create block
 		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();

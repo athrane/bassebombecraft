@@ -42,10 +42,15 @@ public class BlockUtils {
 	public static final boolean DONT_HARVEST = false;
 
 	/**
-	 * Number of wool colors.
+	 * Number of rainbow wool colors.
 	 */
-	static final int NUMBER_COLORS = 8;
+	static final int NUMBER_RAINBOW_COLORS = 8;
 
+	/**
+	 * Number of rainbow wool colors.
+	 */
+	static final int NUMBER_PINK_COLORS = 2;
+	
 	/**
 	 * Create single block of designated block type.
 	 * 
@@ -249,14 +254,11 @@ public class BlockUtils {
 	 *            set of blocks to query.
 	 * @return true if the set of blocks is all of type air.
 	 */
-	public static boolean containsAirBlocksOnly(Iterable blocks, WorldQuery worldQuery) {
-		for (Object blockPos : blocks) {
-
-			// type cast
-			BlockPos typedBlockPos = (BlockPos) blockPos;
+	public static boolean containsAirBlocksOnly(Iterable<BlockPos> blocks, WorldQuery worldQuery) {
+		for (BlockPos blockPos : blocks) {
 
 			// get block
-			Block block = getBlockFromPosition(typedBlockPos, worldQuery);
+			Block block = getBlockFromPosition(blockPos, worldQuery);
 
 			// exit if block isn't of type air
 			if (block != Blocks.AIR)
@@ -293,15 +295,15 @@ public class BlockUtils {
 	}
 
 	/**
-	 * Select block based on wool color.
+	 * Select rainbow colored wool block.
 	 * 
 	 * @param colorCounter
 	 *            current color counter between 0..8.
 	 * 
-	 * @return block based on wool color.
+	 * @return rainbow colored wool block.
 	 */
-	public static IBlockState selectWoolColor(int colorCounter) {
-		int colorSelector = colorCounter % NUMBER_COLORS;
+	public static IBlockState selectRainbowColoredWool(int colorCounter) {
+		int colorSelector = colorCounter % NUMBER_RAINBOW_COLORS;
 
 		switch (colorSelector) {
 
@@ -323,8 +325,29 @@ public class BlockUtils {
 			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.RED);
 		default:
 			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.WHITE);
-
 		}
-
 	}
+	
+	/**
+	 * Select pink colored wool block.
+	 * 
+	 * @param colorCounter
+	 *            current color counter between 0..1.
+	 * 
+	 * @return pink colored wool block.
+	 */
+	public static IBlockState selectPinkColoredWool(int colorCounter) {
+		int colorSelector = colorCounter % NUMBER_RAINBOW_COLORS;
+
+		switch (colorSelector) {
+
+		case 0:
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.PINK);
+		case 1:
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.MAGENTA);
+		default:
+			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.PINK);
+		}
+	}
+	
 }
