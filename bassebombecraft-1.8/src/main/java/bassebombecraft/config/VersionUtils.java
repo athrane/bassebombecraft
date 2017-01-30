@@ -8,10 +8,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
+import com.ibm.icu.impl.duration.impl.DataRecord.ESeparatorVariant;
 
 /**
  * Helper class for handling versions
@@ -38,6 +41,10 @@ public class VersionUtils {
 			String json = new String(ByteStreams.toByteArray(is), "UTF-8");
 			is.close();
 
+			// extract JSON
+			json = StringUtils.substringBetween(json, "BEGIN", "END");
+			json = StringEscapeUtils.unescapeHtml4(json);
+			
 			// calculate version
 			VersionInfo info = gson.fromJson(json, VersionInfo.class);
 			String version = info.minecraftVersion + "-" + info.modVersion;
