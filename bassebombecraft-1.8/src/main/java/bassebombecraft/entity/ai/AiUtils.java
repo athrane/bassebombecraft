@@ -14,7 +14,6 @@ import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIOcelotAttack;
 import net.minecraft.entity.ai.EntityAIOcelotSit;
-import net.minecraft.entity.ai.EntityAISit;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
@@ -29,7 +28,7 @@ public class AiUtils {
 
 	static final boolean DONT_CALL_FOR_HELP = false;
 	static final boolean NEARBY_ONLY = true;
-	static final boolean SHOULD_CHECK_SIGHT = true;	
+	static final boolean SHOULD_CHECK_SIGHT = true;
 	static final double MOVEMENT_SPEED = 1.5D; // movement speed towards player
 	static final float MINIMUM_DIST = 6.0F; // Entity minimum distance to player
 	static final float WATCH_DIST = 10.0F;
@@ -141,10 +140,10 @@ public class AiUtils {
 		entity.tasks.addTask(3, new FollowClosestPlayer(entity, MINIMUM_DIST, MOVEMENT_SPEED));
 		entity.tasks.addTask(4, new EntityAILookIdle(entity));
 
-		EntityCreature entityCreature = EntityCreature.class.cast(entity);		
-		entity.targetTasks.addTask(1, new EntityAIHurtByTarget(entityCreature, DONT_CALL_FOR_HELP, new Class[0]));						
-		entity.targetTasks.addTask(2, new EntityAINearestAttackableTarget(entityCreature, EntityMob.class,
-				SHOULD_CHECK_SIGHT, NEARBY_ONLY));
+		EntityCreature entityCreature = EntityCreature.class.cast(entity);
+		entity.targetTasks.addTask(1, new EntityAIHurtByTarget(entityCreature, DONT_CALL_FOR_HELP, new Class[0]));
+		entity.targetTasks.addTask(2,
+				new EntityAINearestAttackableTarget(entityCreature, EntityMob.class, SHOULD_CHECK_SIGHT, NEARBY_ONLY));
 	}
 
 }
