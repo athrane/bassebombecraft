@@ -1,8 +1,11 @@
 package bassebombecraft.entity.ai.task;
 
+import java.util.ArrayList;
+
 import bassebombecraft.item.action.GenericShootEggProjectile;
 import bassebombecraft.item.action.RightClickedItemAction;
 import bassebombecraft.item.action.ShootBaconBazooka;
+import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.ShootLargeFireball;
 import bassebombecraft.item.action.ShootMultipleArrows;
 import bassebombecraft.item.action.ShootSmallFireball;
@@ -12,12 +15,15 @@ import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.action.mist.entity.LightningBoltMist;
 import bassebombecraft.item.action.mist.entity.ToxicMist;
 import bassebombecraft.item.action.mist.entity.VacuumMist;
+import bassebombecraft.projectile.action.DigMobHole;
 import bassebombecraft.projectile.action.EmitHorizontalForce;
 import bassebombecraft.projectile.action.EmitVerticalForce;
 import bassebombecraft.projectile.action.ProjectileAction;
 import bassebombecraft.projectile.action.SpawnAnvil;
 import bassebombecraft.projectile.action.SpawnCobweb;
+import bassebombecraft.projectile.action.SpawnFlamingChicken;
 import bassebombecraft.projectile.action.SpawnIceBlock;
+import bassebombecraft.projectile.action.SpawnKittenArmy;
 import bassebombecraft.projectile.action.SpawnLavaBlock;
 import bassebombecraft.projectile.action.SpawnLightningBolt;
 import bassebombecraft.projectile.action.SpawnSquid;
@@ -34,17 +40,23 @@ import net.minecraft.entity.ai.EntityAIBase;
 public class CompanionAttack extends EntityAIBase {
 
 	static final ProjectileAction COWEB_PROJECTILE_ACTION = new SpawnCobweb();
-	static final ProjectileAction ICEBLOCK_PROJECTILE_ACTION = new SpawnIceBlock();			
-	static final ProjectileAction LAVABLOCK_PROJECTILE_ACTION = new SpawnLavaBlock();				
+	static final ProjectileAction ICEBLOCK_PROJECTILE_ACTION = new SpawnIceBlock();
+	static final ProjectileAction LAVABLOCK_PROJECTILE_ACTION = new SpawnLavaBlock();
 	static final ProjectileAction LIGHTNING_PROJECTILE_ACTION = new SpawnLightningBolt();
 	static final ProjectileAction EMIT_FORCE_PROJECTILE_ACTION = new EmitHorizontalForce();
 	static final ProjectileAction EMIT_VERTICAL_FORCE_PROJECTILE_ACTION = new EmitVerticalForce();
 	static final ProjectileAction SPAWN_SQUID_PROJECTILE_ACTION = new SpawnSquid();
-	static final ProjectileAction FALLING_ANVIL_PROJECTILE_ACTION = new SpawnAnvil();	
-	static final EntityMistActionStrategy SPAWN_VACUUM_MIST_PROJECTILE_ACTION = new VacuumMist();		
-	static final EntityMistActionStrategy TOXIC_MIST_STRATEGY = new ToxicMist();		
-	static final EntityMistActionStrategy LIGHTNING_MIST_STRATEGY = new LightningBoltMist();		
-	
+	static final ProjectileAction FALLING_ANVIL_PROJECTILE_ACTION = new SpawnAnvil();
+	static final ProjectileAction MOB_HOLE_PROJECTILE_ACTION = new DigMobHole();
+	static final ProjectileAction KITTEN_ARMY_PROJECTILE_ACTION = new SpawnKittenArmy();
+	static final ProjectileAction FLAMING_CHICKEN_PROJECTILE_ACTION = new SpawnFlamingChicken();
+
+	static final EntityMistActionStrategy SPAWN_VACUUM_MIST_PROJECTILE_ACTION = new VacuumMist();
+	static final EntityMistActionStrategy TOXIC_MIST_STRATEGY = new ToxicMist();
+	static final EntityMistActionStrategy LIGHTNING_MIST_STRATEGY = new LightningBoltMist();
+
+	final static String CREEPER_CANNON_CONFIG_KEY = ShootCreeperCannon.class.getSimpleName();
+	final static boolean ISNT_PRIMED = false;
 	static final int MINIMUM_RANGE = 5;
 	static final int UPDATE_FREQUENCY = 10; // Measured in ticks
 
@@ -56,6 +68,16 @@ public class CompanionAttack extends EntityAIBase {
 	int ticksCounter = 0;
 
 	/**
+	 * List of long range actions.
+	 */
+	ArrayList<RightClickedItemAction> longRangeActions;
+
+	/**
+	 * List of close range actions.
+	 */
+	ArrayList<RightClickedItemAction> closeRangeActions;
+
+	/**
 	 * GuardianAttack constructor.
 	 * 
 	 * @param entity
@@ -64,6 +86,35 @@ public class CompanionAttack extends EntityAIBase {
 	public CompanionAttack(EntityLiving entity) {
 		this.entity = entity;
 		this.setMutexBits(3);
+
+		longRangeActions = new ArrayList<RightClickedItemAction>();
+		longRangeActions.add(new ShootSmallFireball());
+		longRangeActions.add(new ShootLargeFireball());
+		longRangeActions.add(new ShootWitherSkull());
+		longRangeActions.add(new ShootMultipleArrows());
+		longRangeActions.add(new ShootBaconBazooka());
+		longRangeActions.add(new ShootCreeperCannon(ISNT_PRIMED, CREEPER_CANNON_CONFIG_KEY));
+
+		longRangeActions.add(new GenericShootEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));
+		longRangeActions.add(new GenericShootEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION));
+		longRangeActions.add(new GenericShootEggProjectile(LIGHTNING_PROJECTILE_ACTION));
+		longRangeActions.add(new GenericShootEggProjectile(MOB_HOLE_PROJECTILE_ACTION));
+		longRangeActions.add(new GenericShootEggProjectile(KITTEN_ARMY_PROJECTILE_ACTION));
+		longRangeActions.add(new GenericShootEggProjectile(FLAMING_CHICKEN_PROJECTILE_ACTION));
+
+		closeRangeActions = new ArrayList<RightClickedItemAction>();
+		closeRangeActions.add(new GenericEntityMist(TOXIC_MIST_STRATEGY));
+		closeRangeActions.add(new GenericShootEggProjectile(COWEB_PROJECTILE_ACTION));
+		closeRangeActions.add(new GenericShootEggProjectile(EMIT_FORCE_PROJECTILE_ACTION));
+		closeRangeActions.add(new GenericShootEggProjectile(EMIT_VERTICAL_FORCE_PROJECTILE_ACTION));
+		closeRangeActions.add(new GenericShootEggProjectile(ICEBLOCK_PROJECTILE_ACTION));
+		closeRangeActions.add(new GenericShootEggProjectile(LAVABLOCK_PROJECTILE_ACTION));
+		closeRangeActions.add(new GenericShootEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));
+		closeRangeActions.add(new GenericShootEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION));
+		closeRangeActions.add(new GenericEntityMist(SPAWN_VACUUM_MIST_PROJECTILE_ACTION));
+		closeRangeActions.add(new GenericShootEggProjectile(LIGHTNING_PROJECTILE_ACTION));
+		closeRangeActions.add(new GenericEntityMist(LIGHTNING_MIST_STRATEGY));
+		closeRangeActions.add(new GenericShootEggProjectile(MOB_HOLE_PROJECTILE_ACTION));
 	}
 
 	@Override
@@ -89,8 +140,8 @@ public class CompanionAttack extends EntityAIBase {
 		ticksCounter++;
 
 		// look at target
-	    entity.getLookHelper().setLookPositionWithEntity(attackTarget, 30.0F, 30.0F);
-	       		
+		entity.getLookHelper().setLookPositionWithEntity(attackTarget, 30.0F, 30.0F);
+
 		// update task
 		if (ticksCounter % UPDATE_FREQUENCY == 0) {
 
@@ -123,68 +174,10 @@ public class CompanionAttack extends EntityAIBase {
 	 * Mists are not used due to update problems.
 	 */
 	void doCloseRangeAction() {
-		int choice = entity.getRNG().nextInt(11);
-
-		switch (choice) {
-
-		case 0:
-			RightClickedItemAction tmAction =  new GenericEntityMist(TOXIC_MIST_STRATEGY);
-			tmAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-		
-		case 1:
-			RightClickedItemAction cwAction = new GenericShootEggProjectile(COWEB_PROJECTILE_ACTION);
-			cwAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-
-		case 2:
-			RightClickedItemAction efAction = new GenericShootEggProjectile(EMIT_FORCE_PROJECTILE_ACTION);
-			efAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-
-		case 3:
-			RightClickedItemAction evfAction = new GenericShootEggProjectile(EMIT_VERTICAL_FORCE_PROJECTILE_ACTION);
-			evfAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-
-		case 4:
-			RightClickedItemAction ibAction = new GenericShootEggProjectile(ICEBLOCK_PROJECTILE_ACTION);
-			ibAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-
-		case 5:
-			RightClickedItemAction lbAction = new GenericShootEggProjectile(LAVABLOCK_PROJECTILE_ACTION);
-			lbAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-			
-		case 6:
-			RightClickedItemAction sasAction = new GenericShootEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION);
-			sasAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-
-		case 7:
-			RightClickedItemAction faAction = new GenericShootEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION);
-			faAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-			
-		case 8:
-			RightClickedItemAction svmAction = new GenericEntityMist(SPAWN_VACUUM_MIST_PROJECTILE_ACTION);
-			svmAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-
-		case 9:
-			RightClickedItemAction lbpAction = new GenericShootEggProjectile(LIGHTNING_PROJECTILE_ACTION);
-			lbpAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-			
-		case 10:
-			RightClickedItemAction lbmAction =  new GenericEntityMist(LIGHTNING_MIST_STRATEGY);
-			lbmAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-			
-		default:
-			// NO-OP
-		}
+		int numberActions = longRangeActions.size();
+		int choice = entity.getRNG().nextInt(numberActions);
+		RightClickedItemAction action = closeRangeActions.get(choice);
+		action.onRightClick(entity.getEntityWorld(), entity);
 	}
 
 	/**
@@ -193,53 +186,10 @@ public class CompanionAttack extends EntityAIBase {
 	 * Mists are not used due to update problems.
 	 */
 	void doLongRangeAction() {
-		int choice = entity.getRNG().nextInt(8);
-
-		switch (choice) {
-
-		case 0:
-			RightClickedItemAction sfAction = new ShootSmallFireball();
-			sfAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-
-		case 1:
-			RightClickedItemAction lfAction = new ShootLargeFireball();
-			lfAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-
-		case 2:
-			RightClickedItemAction wsAction = new ShootWitherSkull();
-			wsAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-
-		case 3:
-			RightClickedItemAction maAction = new ShootMultipleArrows();
-			maAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-
-		case 4:
-			RightClickedItemAction bbAction = new ShootBaconBazooka();
-			bbAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-			
-		case 5:
-			RightClickedItemAction sasAction = new GenericShootEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION);
-			sasAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-
-		case 6:
-			RightClickedItemAction faAction = new GenericShootEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION);
-			faAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-			
-		case 7:
-			RightClickedItemAction lbpAction = new GenericShootEggProjectile(LIGHTNING_PROJECTILE_ACTION);
-			lbpAction.onRightClick(entity.getEntityWorld(), entity);
-			break;
-			
-		default:
-			// NO-OP
-		}
+		int numberActions = longRangeActions.size();
+		int choice = entity.getRNG().nextInt(numberActions);
+		RightClickedItemAction action = longRangeActions.get(choice);
+		action.onRightClick(entity.getEntityWorld(), entity);
 	}
 
 	/**
