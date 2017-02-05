@@ -4,6 +4,7 @@ import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 
 import bassebombecraft.ModConstants;
+import static bassebombecraft.config.VersionUtils.*;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
@@ -72,16 +73,16 @@ public class GenericRightClickedBook extends Item {
 		return false;
 	}
 
-	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-		
+		postItemUsage(this.getUnlocalizedName());
+
 		// add cooldown
 		CooldownTracker tracker = playerIn.getCooldownTracker();
 		tracker.setCooldown(this, coolDown);
 
-		action.onRightClick(worldIn, playerIn);		
-		
+		action.onRightClick(worldIn, playerIn);
+
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
 	}
 

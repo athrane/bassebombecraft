@@ -8,15 +8,86 @@ import net.minecraft.util.math.BlockPos;
  */
 public class ModConstants {
 
+	/** 
+	 * Mod name.
+	 */
 	public static final String NAME = "BasseBombeCraft";
+	
+	/**
+	 * Mod ID.
+	 */
     public static final String MODID = "bassebombecraft";
-    public static final String VERSION = "1.11-1.22";
-    public static final String TAB_NAME= "BasseBombeCraft";        
-    public static final String MINECRAFT_DOMAIN= "minecraft";
-    public static final String DOWNLOAD_URL = "http://minecraft.curseforge.com/projects/bassebombecraft";
-    //public static final String VERSION_URL = "https://raw.githubusercontent.com/athrane/bassebombecraft/master/bassebombecraft-1.8/version.json";        
-    public static final String VERSION_URL = "https://sites.google.com/view/bassebombecraftusageprofile/version";        
     
+    /**
+     * Mod version.
+     */
+    public static final String VERSION = "1.11-1.22";
+    
+    /**
+     * In game tab name.
+     */
+    public static final String TAB_NAME= "BasseBombeCraft";        
+    
+    /**
+     * Forge domain.
+     */
+    public static final String MINECRAFT_DOMAIN= "minecraft";
+    
+    /**
+     * Download URL.
+     */
+    public static final String DOWNLOAD_URL = "http://minecraft.curseforge.com/projects/bassebombecraft";
+    
+    /**
+     * Version check URL.
+     */
+    public static final String VERSION_URL = "https://raw.githubusercontent.com/athrane/bassebombecraft/master/bassebombecraft-1.8/version.json";        
+
+    /**
+     * Analytics URL.
+     */
+    public static final String ANALYTICS_URL = "http://www.google-analytics.com/collect";        
+    
+	/**
+	 * GA API version.
+	 */
+	public static final String GA_API_VERSION = "1";
+
+	/**
+	 * GA development Property.
+	 */
+	public static final String GA_PROPERTY = "UA-91107600-1";
+
+	/**
+	 * GA development Property.
+	 */
+	//public static final String GA_PROPERTY = "UA-91418540-1";	
+	
+	/**
+	 * GA data source.
+	 */
+	public static final String GA_SOURCE = "app";
+	
+	/**
+	 * GA application ID.
+	 */	
+	public static final String GA_APP_ID = "bassebombecraft";
+	
+	/**
+	 * GA event hit type.
+	 */	
+	public static final String GA_HITTYPE_EVENT = "event";
+
+	/**
+	 * GA session start.
+	 */		
+	public static final String GA_SESSION_START = "start";
+	
+	/**
+	 * GA session end.
+	 */		
+	public static final String GA_SESSION_END = "end";
+		
     /**
 	 * Null block tile entity.
 	 */

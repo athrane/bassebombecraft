@@ -45,6 +45,7 @@ import bassebombecraft.item.book.SpawnFlamingChickenBook;
 import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnKittenArmyBook;
 import bassebombecraft.item.book.SpawnManyCowsBook;
+import bassebombecraft.item.book.DigMobHoleBook;
 import bassebombecraft.item.book.SpawnSquidBook;
 import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.item.book.ToxicMistBook;
@@ -268,6 +269,11 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(lavaBlockBook), "xyy", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.LAVA_BUCKET);
 
+		Item digMobHoleBook = new DigMobHoleBook();
+		registerItem(targetTab, digMobHoleBook, DigMobHoleBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(digMobHoleBook), "xyy", "   ", "   ", 'x', Items.BOOK, 'y',
+				Items.IRON_SHOVEL);		
+
 		Item lightningBoltBook = new LightningBoltBook();
 		registerItem(targetTab, lightningBoltBook, LightningBoltBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(lightningBoltBook), "xyy", "   ", "   ", 'x', Items.BOOK, 'y',
@@ -302,7 +308,7 @@ public class ItemInitializer {
 		registerItem(targetTab, vacuumMistBook, VacuumMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(vacuumMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.RABBIT_FOOT, 'z', Items.GHAST_TEAR);
-
+		
 		// books of block manipulation
 
 		Item copyPasteBlocksBook = new CopyPasteBlocksBook();

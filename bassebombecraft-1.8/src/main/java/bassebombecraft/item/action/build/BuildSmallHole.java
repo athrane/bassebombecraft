@@ -52,7 +52,7 @@ public class BuildSmallHole implements BlockClickedItemAction {
 	BlockDirectivesRepository repository;
 
 	/**
-	 * CreateRoad constructor.
+	 * BuildSmallHole constructor.
 	 */
 	public BuildSmallHole() {
 		super();

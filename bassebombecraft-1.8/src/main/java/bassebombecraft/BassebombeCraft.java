@@ -1,9 +1,13 @@
 package bassebombecraft;
 
-import static bassebombecraft.ModConstants.*;
+import static bassebombecraft.ModConstants.DOWNLOAD_URL;
+import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.ModConstants.NAME;
 import static bassebombecraft.ModConstants.TAB_NAME;
 import static bassebombecraft.ModConstants.VERSION;
+import static bassebombecraft.config.VersionUtils.initializeAnalytics;
+import static bassebombecraft.config.VersionUtils.shutdownAnalytics;
+import static bassebombecraft.config.VersionUtils.validateVersion;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +16,6 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
 import bassebombecraft.block.BlockInitializer;
-import bassebombecraft.config.VersionUtils;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.block.DefaultBlockDirectiveRepository;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventListener;
@@ -41,6 +44,7 @@ import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 
 @net.minecraftforge.fml.common.Mod(name = NAME, modid = MODID, version = VERSION)
 public class BassebombeCraft {
@@ -97,7 +101,7 @@ public class BassebombeCraft {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		logger = event.getModLog();
-		
+
 		// Initialise charmed mobs repository
 		charmedMobsRepository = DefaultCharmedMobsRepository.getInstance();
 
@@ -114,7 +118,7 @@ public class BassebombeCraft {
 		pvpRepository = DefaultPvpRepository.getInstance();
 
 		config = ConfigFactory.load(MODID);
-		
+
 		initializeModMetadata(event);
 		initializeCreativeTab();
 		logger.info("Pre-initialized BassebombeCraft");
@@ -124,12 +128,18 @@ public class BassebombeCraft {
 	public void init(FMLInitializationEvent event) {
 		logger.info("Starting to initialize BasseBombeCraft");
 
-		VersionUtils.validateVersion(logger);
+		validateVersion(logger);
+		initializeAnalytics(logger);
 		ItemInitializer.getInstance().initialize(modTab);
 		ProjectileInitializer.getInstance().initialize(this, modTab);
 		BlockInitializer.getInstance().initialize(modTab);
 		initializeEventListeners();
 		logger.info("Initialized BasseBombeCraft " + VERSION);
+	}
+
+	@EventHandler
+	public void shutdown(FMLServerStoppingEvent event) {
+		shutdownAnalytics(logger);
 	}
 
 	/**
@@ -147,7 +157,7 @@ public class BassebombeCraft {
 		m.description = "A collection of 64+ magical books, idols and blocks for adventuring and construction. The magic needed by BasseBombe when he plays Minecraft.";
 		m.authorList.add("einheriii@gmail.com");
 		m.logoFile = "assets/bassebombecraft/logo/logo.png";
-		m.url = DOWNLOAD_URL ;
+		m.url = DOWNLOAD_URL;
 		m.credits = "Allan & Andreas Thrane Andersen";
 	}
 
@@ -246,8 +256,8 @@ public class BassebombeCraft {
 	 */
 	public Config getConfiguration() {
 		return config;
-	}	
-	
+	}
+
 	/**
 	 * Get mod instance.
 	 * 
@@ -255,6 +265,15 @@ public class BassebombeCraft {
 	 */
 	public static BassebombeCraft getBassebombeCraft() {
 		return instance;
+	}
+
+	/**
+	 * Get logger.
+	 * 
+	 * @return logger.
+	 */
+	public static Logger getLogger() {
+		return logger;
 	}
 
 }

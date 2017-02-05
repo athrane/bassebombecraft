@@ -84,6 +84,7 @@ public class SpawnKittenArmy implements ProjectileAction {
 			entity.setTamed(true);
 			entity.setTameSkin(CAT_TYPE);
 
+			
 			// set owner
 			EntityLivingBase thrower = projectile.getThrower();
 			entity.setOwnerId(thrower.getUniqueID());

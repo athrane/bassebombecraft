@@ -30,14 +30,13 @@ public class SpawnIceBlock implements ProjectileAction {
 			return;
 		}
 
-		// spawn temporary ice block under around the hit mob
+		// spawn temporary ice block around the hit mob
 		Entity entity = movObjPos.entityHit;
 		AxisAlignedBB aabb = entity.getEntityBoundingBox();
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
-		for (Object pos : BlockPos.getAllInBox(min, max)) {
-			BlockPos typedPos = (BlockPos) pos;
-			setTemporaryBlock(world, typedPos, Blocks.ICE, DURATION);
+		for (BlockPos pos : BlockPos.getAllInBox(min, max)) {
+			setTemporaryBlock(world, pos, Blocks.ICE, DURATION);
 		}
 
 	}
