@@ -9,6 +9,8 @@ import static bassebombecraft.config.VersionUtils.initializeAnalytics;
 import static bassebombecraft.config.VersionUtils.shutdownAnalytics;
 import static bassebombecraft.config.VersionUtils.validateVersion;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,6 +38,7 @@ import bassebombecraft.projectile.ProjectileInitializer;
 import bassebombecraft.server.CommonProxy;
 import bassebombecraft.tab.CreativeTabFactory;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -98,6 +101,21 @@ public class BassebombeCraft {
 	 */
 	Config config;
 
+	/**
+	 * Item initializer.
+	 */
+	ItemInitializer itemInitializer;
+
+	/**
+	 * Book item list.
+	 */
+	List<Item> bookItemList;
+
+	/**
+	 * Inventory item list.
+	 */
+	List<Item> inventoryItemList;
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		logger = event.getModLog();
@@ -130,7 +148,9 @@ public class BassebombeCraft {
 
 		validateVersion(logger);
 		initializeAnalytics(logger);
-		ItemInitializer.getInstance().initialize(modTab);
+		itemInitializer = ItemInitializer.getInstance();
+		bookItemList = itemInitializer.initializeBooks(modTab);
+		inventoryItemList = itemInitializer.initializeInventoryItems(modTab);
 		ProjectileInitializer.getInstance().initialize(this, modTab);
 		BlockInitializer.getInstance().initialize(modTab);
 		initializeEventListeners();
@@ -256,6 +276,24 @@ public class BassebombeCraft {
 	 */
 	public Config getConfiguration() {
 		return config;
+	}
+
+	/**
+	 * Get book item list.
+	 * 
+	 * @return book item list.
+	 */
+	public List<Item> getBookItems() {
+		return bookItemList;
+	}
+
+	/**
+	 * Get inventory item list.
+	 * 
+	 * @return inventory item list.
+	 */
+	public List<Item> getInventoryItems() {
+		return inventoryItemList;
 	}
 
 	/**
