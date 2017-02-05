@@ -37,6 +37,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 
+import bassebombecraft.ModConstants;
 import bassebombecraft.config.http.HttpCallback;
 import bassebombecraft.config.http.HttpRequestHandler;
 
@@ -58,7 +59,7 @@ public class VersionUtils {
 	/**
 	 * Executor service.
 	 */
-	static ExecutorService executorService = Executors.newCachedThreadPool(); 
+	static ExecutorService executorService = Executors.newFixedThreadPool(ModConstants.NUMBER_HTTP_THREADS);
 
 	/**
 	 * Future request service.
