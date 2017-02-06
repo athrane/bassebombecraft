@@ -14,8 +14,8 @@ import net.minecraft.world.World;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
- * of inventory item actions. This class makes adds a levitation effect to the
- * invoker.
+ * of inventory item actions. This class makes adds a levitation effect to 
+ * nearby entities..
  */
 public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 
