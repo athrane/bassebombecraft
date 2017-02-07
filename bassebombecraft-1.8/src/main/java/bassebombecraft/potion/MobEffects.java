@@ -23,5 +23,10 @@ public class MobEffects {
 	 * Creeper cannon potion, used by {@linkplain ShootCreeperCannon}.
 	 */
 	public static final Potion PRIMED_CREEPER_CANNON_POTION = new MobProjectilePotion("PrimedCreeperCannonProjectilePotion");
+
+	/**
+	 * Primed mob potion, used by {@linkplain ShootBaconBazooka}.
+	 */
+	public static final Potion PRIMED_MOB_POTION = new MobPrimingPotion();
 	
 }

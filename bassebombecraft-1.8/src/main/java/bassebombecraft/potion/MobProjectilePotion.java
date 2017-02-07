@@ -37,7 +37,7 @@ public class MobProjectilePotion extends Potion {
 	final int explosion;
 
 	/**
-	 * CreeperCannonProjectilePotion constructor.
+	 * MobProjectilePotion constructor.
 	 * 
 	 * @param key
 	 *            configuration key.
