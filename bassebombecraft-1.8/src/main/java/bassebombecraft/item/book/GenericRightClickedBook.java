@@ -1,10 +1,10 @@
 package bassebombecraft.item.book;
 
+import static bassebombecraft.ModConstants.ITEM_BOOK_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
+import static bassebombecraft.config.VersionUtils.postItemUsage;
 
-import bassebombecraft.ModConstants;
-import static bassebombecraft.config.VersionUtils.*;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
@@ -33,7 +33,7 @@ public class GenericRightClickedBook extends Item {
 	RightClickedItemAction action;
 
 	/**
-	 * Item cooldown value
+	 * Book item cooldown value.
 	 */
 	int coolDown;
 
@@ -52,7 +52,7 @@ public class GenericRightClickedBook extends Item {
 		registerForRendering(this);
 
 		// get cooldown or default value
-		coolDown = resolveCoolDown(name, ModConstants.ITEM_DEFAULT_COOLDOWN);
+		coolDown = resolveCoolDown(name, ITEM_BOOK_DEFAULT_COOLDOWN);
 	}
 
 	/**
@@ -81,6 +81,7 @@ public class GenericRightClickedBook extends Item {
 		CooldownTracker tracker = playerIn.getCooldownTracker();
 		tracker.setCooldown(this, coolDown);
 
+		// apply action
 		action.onRightClick(worldIn, playerIn);
 
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));

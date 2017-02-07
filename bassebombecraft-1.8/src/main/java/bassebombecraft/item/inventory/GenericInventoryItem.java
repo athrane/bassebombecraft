@@ -1,9 +1,13 @@
 package bassebombecraft.item.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.ITEM_IDOL_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.MODID;
+import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
-import static bassebombecraft.player.PlayerUtils.*;
+import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
+import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
+import static bassebombecraft.player.PlayerUtils.isItemHeldInOffHand;
 
 import java.util.List;
 
@@ -19,6 +23,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -57,6 +62,11 @@ public class GenericInventoryItem extends Item {
 	ParticleRenderingRepository particleRepository;
 
 	/**
+	 * Idol item cooldown value.
+	 */
+	int coolDown;
+
+	/**
 	 * GenericInventoryItem constructor.
 	 * 
 	 * @param name
@@ -69,6 +79,9 @@ public class GenericInventoryItem extends Item {
 		this.strategy = strategy;
 		registerForRendering(this);
 		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
+
+		// get cooldown or default value
+		coolDown = resolveCoolDown(name, ITEM_IDOL_DEFAULT_COOLDOWN);
 	}
 
 	/**
@@ -137,15 +150,18 @@ public class GenericInventoryItem extends Item {
 
 		// determine if item should activate from selection in hotbar
 		boolean shouldActivateFromHotbar = false;
+
 		// exit if item requires selection and it isn't selected
 		if (strategy.applyOnlyIfSelected()) {
-			if (isSelected)	shouldActivateFromHotbar = true;
+			if (isSelected)
+				shouldActivateFromHotbar = true;
 		} else {
 			shouldActivateFromHotbar = true;
 		}
-				
-		if(!(shouldActivateFromOffHand || shouldActivateFromHotbar)) return;
-		
+
+		if (!(shouldActivateFromOffHand || shouldActivateFromHotbar))
+			return;
+
 		// render effect
 		if (ticksCounter % RENDERING_FREQUENCY == 0) {
 			// NO-OP
@@ -157,6 +173,13 @@ public class GenericInventoryItem extends Item {
 			// exit if entity isn't a EntityLivingBase
 			if (!(entityIn instanceof EntityLivingBase))
 				return;
+
+			// add cooldown
+			if (isEntityPlayer(entityIn)) {
+				EntityPlayer player = (EntityPlayer) entityIn;
+				CooldownTracker tracker = player.getCooldownTracker();
+				tracker.setCooldown(this, coolDown);
+			}
 
 			// apply effect
 			applyEffect(worldIn, (EntityLivingBase) entityIn);

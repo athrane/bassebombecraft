@@ -167,9 +167,15 @@ public class ModConstants {
 	 * Potion default liquid color.
 	 */
 	public static final int POTION_LIQUID_COLOR = 1;
+	
 	/**
-	 * Default item cooldown vaule.
+	 * Default book item cooldown value.
 	 */
-	public static final int ITEM_DEFAULT_COOLDOWN = 10;
+	public static final int ITEM_BOOK_DEFAULT_COOLDOWN = 10;
+
+	/**
+	 * Default book idol cooldown value.
+	 */
+	public static final int ITEM_IDOL_DEFAULT_COOLDOWN = 5;
 	
 }
