@@ -37,21 +37,6 @@ import net.minecraft.world.World;
 public class GenericInventoryItem extends Item {
 
 	/**
-	 * Rendering frequency in ticks.
-	 */
-	static final int RENDERING_FREQUENCY = 5;
-
-	/**
-	 * Effect frequency when effect is invoked. Frequency is measured in ticks.
-	 */
-	static final int EFFECT_UPDATE_FREQUENCY = 5; // Measured in ticks
-
-	/**
-	 * Ticks counter.
-	 */
-	int ticksCounter = 0;
-
-	/**
 	 * Item strategy.
 	 */
 	InventoryItemActionStrategy strategy;
@@ -97,6 +82,85 @@ public class GenericInventoryItem extends Item {
 		renderItem.getItemModelMesher().register(item, 0, location);
 	}
 
+	@Override
+	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+
+		// only apply the action at server side since we updates the world
+		if (isWorldAtClientSide(worldIn))
+			return;
+
+		// exit if item isn't in hotbar
+		if (!isInHotbar(itemSlot))
+			return;
+
+		// determine if item is held by player and should activate from off hand
+		boolean shouldActivateFromOffHand = false;
+		if (isEntityPlayer(entityIn)) {
+			EntityPlayer player = (EntityPlayer) entityIn;
+			shouldActivateFromOffHand = isItemHeldInOffHand(player, stack);
+		}
+
+		// determine if item should activate from selection in hotbar
+		boolean shouldActivateFromHotbar = false;
+
+		// exit if item requires selection and it isn't selected
+		if (strategy.applyOnlyIfSelected()) {
+			if (isSelected)
+				shouldActivateFromHotbar = true;
+		} else {
+			shouldActivateFromHotbar = true;
+		}
+
+		if (!(shouldActivateFromOffHand || shouldActivateFromHotbar))
+			return;
+
+		// exit if entity isn't a EntityLivingBase
+		if (!(entityIn instanceof EntityLivingBase))
+			return;
+
+		// exit if entity isn't player
+		if (!isEntityPlayer(entityIn)) return;
+
+		// type cast as player
+		EntityPlayer player = (EntityPlayer) entityIn;
+
+		// exit if cooldown is effect
+		if (player.getCooldownTracker().hasCooldown(this)) return;
+		
+		// add cooldown
+		CooldownTracker tracker = player.getCooldownTracker();
+		tracker.setCooldown(this, coolDown);
+
+		// apply effect
+		applyEffect(worldIn, (EntityLivingBase) entityIn);
+
+	}
+
+	/**
+	 * Returns true if item is in user hotbar.
+	 * 
+	 * @param itemSlot
+	 *            user item slot. the hotbar is between 0 and 8 inclusive.
+	 * 
+	 * @return true if item is is user hotbar
+	 */
+	boolean isInHotbar(int itemSlot) {
+		if (itemSlot < 0)
+			return false;
+		if (itemSlot > 8)
+			return false;
+		return true;
+	}
+
+	/**
+	 * return true if world is located at client side.
+	 * 
+	 * @return true if world is located at client side.
+	 */
+	boolean isWorldAtClientSide(World world) {
+		return world.isRemote;
+	}
+
 	/**
 	 * Apply effect to creatures within range.
 	 * 
@@ -128,90 +192,7 @@ public class GenericInventoryItem extends Item {
 			}
 		}
 	}
-
-	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		ticksCounter++;
-
-		// only apply the action at server side since we updates the world
-		if (isWorldAtClientSide(worldIn))
-			return;
-
-		// exit if item isn't in hotbar
-		if (!isInHotbar(itemSlot))
-			return;
-
-		// determine if item should activate from off hand
-		boolean shouldActivateFromOffHand = false;
-		if (isEntityPlayer(entityIn)) {
-			EntityPlayer player = (EntityPlayer) entityIn;
-			shouldActivateFromOffHand = isItemHeldInOffHand(player, stack);
-		}
-
-		// determine if item should activate from selection in hotbar
-		boolean shouldActivateFromHotbar = false;
-
-		// exit if item requires selection and it isn't selected
-		if (strategy.applyOnlyIfSelected()) {
-			if (isSelected)
-				shouldActivateFromHotbar = true;
-		} else {
-			shouldActivateFromHotbar = true;
-		}
-
-		if (!(shouldActivateFromOffHand || shouldActivateFromHotbar))
-			return;
-
-		// render effect
-		if (ticksCounter % RENDERING_FREQUENCY == 0) {
-			// NO-OP
-		}
-
-		// update game effect
-		if (ticksCounter % EFFECT_UPDATE_FREQUENCY == 0) {
-
-			// exit if entity isn't a EntityLivingBase
-			if (!(entityIn instanceof EntityLivingBase))
-				return;
-
-			// add cooldown
-			if (isEntityPlayer(entityIn)) {
-				EntityPlayer player = (EntityPlayer) entityIn;
-				CooldownTracker tracker = player.getCooldownTracker();
-				tracker.setCooldown(this, coolDown);
-			}
-
-			// apply effect
-			applyEffect(worldIn, (EntityLivingBase) entityIn);
-		}
-
-	}
-
-	/**
-	 * Returns true if item is in user hotbar.
-	 * 
-	 * @param itemSlot
-	 *            user item slot. the hotbar is between 0 and 8 inclusive.
-	 * 
-	 * @return true if item is is user hotbar
-	 */
-	boolean isInHotbar(int itemSlot) {
-		if (itemSlot < 0)
-			return false;
-		if (itemSlot > 8)
-			return false;
-		return true;
-	}
-
-	/**
-	 * return true if world is located at client side.
-	 * 
-	 * @return true if world is located at client side.
-	 */
-	boolean isWorldAtClientSide(World world) {
-		return world.isRemote;
-	}
-
+	
 	/**
 	 * Render a effect at some position.
 	 * 
