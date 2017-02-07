@@ -75,6 +75,8 @@ public class GenericRightClickedBook extends Item {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+		
+		// post analytics
 		postItemUsage(this.getUnlocalizedName());
 
 		// add cooldown

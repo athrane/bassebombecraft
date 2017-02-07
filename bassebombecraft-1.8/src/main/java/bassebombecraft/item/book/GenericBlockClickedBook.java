@@ -1,6 +1,7 @@
 package bassebombecraft.item.book;
 
 import static bassebombecraft.ModConstants.MODID;
+import static bassebombecraft.config.VersionUtils.postItemUsage;
 
 import bassebombecraft.item.action.BlockClickedItemAction;
 import net.minecraft.client.Minecraft;
@@ -66,6 +67,10 @@ public class GenericBlockClickedBook extends Item {
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
 			EnumFacing facing, float hitX, float hitY, float hitZ) {
+
+		// post analytics		
+		postItemUsage(this.getUnlocalizedName());
+		
 		return action.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 	}
 
