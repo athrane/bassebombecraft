@@ -42,6 +42,19 @@ public class FollowClosestPlayer extends EntityAIBase {
 		return (closestPlayer != null);
 	}
 
+	/**
+	 * Returns whether an in-progress EntityAIBase should continue executing
+	 */
+	@Override
+	public boolean continueExecuting() {
+
+		// if player isn't alive then determine if a new player can be found
+		if (!closestPlayer.isEntityAlive())
+			return shouldExecute();
+
+		return isMinimumDistanceReached();
+	}
+
 	@Override
 	public void startExecuting() {
 		updateDelayCounter = 0;
@@ -62,29 +75,24 @@ public class FollowClosestPlayer extends EntityAIBase {
 	}
 
 	/**
-	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */
-	@Override
-	public boolean continueExecuting() {
-
-		// if player isn't alive then determine if a new player can be found
-		if (!closestPlayer.isEntityAlive())
-			return shouldExecute();
-
-		// determine if entity has reached th minimum distance
-		double distSqr = entity.getDistanceSqToEntity(closestPlayer);
-
-		// exit if minimum distance reached
-		boolean result = (distSqr >= minDistanceSqr);
-		return result;
-	}
-
-	/**
 	 * Resets the task
 	 */
 	@Override
 	public void resetTask() {
 		closestPlayer = null;
 		entity.getNavigator().clearPathEntity();
+	}
+
+	/**
+	 * Returns true if minimum distance is reached.
+	 *
+	 * @return true if minimum distance is reached.
+	 */
+	boolean isMinimumDistanceReached() {
+		double distSqr = entity.getDistanceSqToEntity(closestPlayer);
+
+		// exit if minimum distance reached
+		boolean result = (distSqr >= minDistanceSqr);
+		return result;
 	}
 }

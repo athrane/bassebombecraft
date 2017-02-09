@@ -3,10 +3,12 @@ package bassebombecraft.entity.ai;
 import java.util.Set;
 
 import bassebombecraft.entity.ai.task.FollowClosestPlayer;
+import bassebombecraft.entity.ai.task.FollowEntity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.ai.EntityAIFleeSun;
 import net.minecraft.entity.ai.EntityAIFollowOwner;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
@@ -14,11 +16,13 @@ import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIOcelotAttack;
 import net.minecraft.entity.ai.EntityAIOcelotSit;
+import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.passive.EntityOcelot;
 
 /**
@@ -31,6 +35,8 @@ public class AiUtils {
 	static final boolean SHOULD_CHECK_SIGHT = true;
 	static final double MOVEMENT_SPEED = 1.5D; // movement speed towards player
 	static final float MINIMUM_DIST = 6.0F; // Entity minimum distance to player
+	static final float MAXIMUM_DIST = 50.0F; // Entity maximum distance to
+												// player
 	static final float WATCH_DIST = 10.0F;
 
 	static EntityAiBuilder charmedMobAiBuilder = new CharmedMobAiBuilder();
@@ -132,13 +138,36 @@ public class AiUtils {
 
 		entity.tasks.addTask(1, new EntityAISwimming(entity));
 		entity.tasks.addTask(2, entity.getAISit());
-		entity.tasks.addTask(3, new EntityAIFollowOwner(entity, 1.0D, 10.0F, 5.0F));
+		entity.tasks.addTask(3, new EntityAIFollowOwner(entity, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
 		entity.tasks.addTask(4, new EntityAIOcelotSit(entity, 0.8D));
 		entity.tasks.addTask(5, new EntityAILeapAtTarget(entity, 0.3F));
 		entity.tasks.addTask(6, new EntityAIOcelotAttack(entity));
 		entity.tasks.addTask(7, new EntityAIWatchClosest(entity, EntityMob.class, WATCH_DIST));
 		entity.tasks.addTask(3, new FollowClosestPlayer(entity, MINIMUM_DIST, MOVEMENT_SPEED));
 		entity.tasks.addTask(4, new EntityAILookIdle(entity));
+
+		EntityCreature entityCreature = EntityCreature.class.cast(entity);
+		entity.targetTasks.addTask(1, new EntityAIHurtByTarget(entityCreature, DONT_CALL_FOR_HELP, new Class[0]));
+		entity.targetTasks.addTask(2,
+				new EntityAINearestAttackableTarget(entityCreature, EntityMob.class, SHOULD_CHECK_SIGHT, NEARBY_ONLY));
+	}
+
+	/**
+	 * Build AI for Skeleton army.
+	 * 
+	 * @param entity
+	 *            entity which will configured with kitten army AI.
+	 * @param commander
+	 *            entity which commands skeleton.
+	 * 
+	 */
+	public static void buildSkeletonArmyAi(EntitySkeleton entity, EntityLivingBase commander) {
+
+		entity.tasks.addTask(1, new EntityAIFleeSun(entity, 1.0F));
+		entity.tasks.addTask(2, new EntityAIPanic(entity, 1.4D));
+		entity.tasks.addTask(3, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
+		entity.tasks.addTask(4, new EntityAIWatchClosest(entity, EntityMob.class, WATCH_DIST));
+		entity.tasks.addTask(5, new EntityAILookIdle(entity));
 
 		EntityCreature entityCreature = EntityCreature.class.cast(entity);
 		entity.targetTasks.addTask(1, new EntityAIHurtByTarget(entityCreature, DONT_CALL_FOR_HELP, new Class[0]));
