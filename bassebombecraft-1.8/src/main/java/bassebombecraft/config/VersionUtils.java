@@ -251,6 +251,7 @@ public class VersionUtils {
 		parameters.add(new BasicNameValuePair("ds", GA_SOURCE));
 		parameters.add(new BasicNameValuePair("an", NAME));
 		parameters.add(new BasicNameValuePair("aid", GA_APP_ID));
+		parameters.add(new BasicNameValuePair("av", VERSION));		
 		parameters.add(new BasicNameValuePair("cid", uid));
 		parameters.add(new BasicNameValuePair("uid", uid));
 		parameters.add(new BasicNameValuePair("ec", category));
@@ -278,6 +279,9 @@ public class VersionUtils {
 		parameters.add(new BasicNameValuePair("t", GA_HITTYPE_EVENT));
 		parameters.add(new BasicNameValuePair("tid", GA_PROPERTY));
 		parameters.add(new BasicNameValuePair("ds", GA_SOURCE));
+		parameters.add(new BasicNameValuePair("an", NAME));
+		parameters.add(new BasicNameValuePair("aid", GA_APP_ID));
+		parameters.add(new BasicNameValuePair("av", VERSION));				
 		parameters.add(new BasicNameValuePair("cid", uid));
 		parameters.add(new BasicNameValuePair("uid", uid));
 		parameters.add(new BasicNameValuePair("ec", category));
