@@ -1,9 +1,6 @@
 package bassebombecraft.config.http;
 
 import org.apache.http.concurrent.FutureCallback;
-import org.apache.logging.log4j.Logger;
-
-import bassebombecraft.BassebombeCraft;
 
 /**
  * Async HTTP client callback object.

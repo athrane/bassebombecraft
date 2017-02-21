@@ -3,6 +3,7 @@ package bassebombecraft.item;
 import java.util.ArrayList;
 import java.util.List;
 
+import bassebombecraft.item.baton.MobCommandersBaton;
 import bassebombecraft.item.book.BaconBazookaBook;
 import bassebombecraft.item.book.BeastmasterBook;
 import bassebombecraft.item.book.BeastmasterMistBook;
@@ -15,6 +16,7 @@ import bassebombecraft.item.book.CobwebBook;
 import bassebombecraft.item.book.CopyPasteBlocksBook;
 import bassebombecraft.item.book.CreeperApocalypseBook;
 import bassebombecraft.item.book.CreeperCannonBook;
+import bassebombecraft.item.book.DigMobHoleBook;
 import bassebombecraft.item.book.DuplicateBlockBook;
 import bassebombecraft.item.book.EmitHorizontalForceBook;
 import bassebombecraft.item.book.EmitVerticalForceBook;
@@ -49,7 +51,6 @@ import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnKittenArmyBook;
 import bassebombecraft.item.book.SpawnManyCowsBook;
 import bassebombecraft.item.book.SpawnSkeletonArmyBook;
-import bassebombecraft.item.book.DigMobHoleBook;
 import bassebombecraft.item.book.SpawnSquidBook;
 import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.item.book.ToxicMistBook;
@@ -62,11 +63,11 @@ import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
 import bassebombecraft.item.inventory.ChickenizeIdolInventoryItem;
 import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
+import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
+import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
 import bassebombecraft.item.inventory.MobsLevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.PinkynizeIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
-import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
-import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
 import bassebombecraft.item.inventory.RainIdolInventoryItem;
 import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
 import net.minecraft.creativetab.CreativeTabs;
@@ -90,7 +91,7 @@ public class ItemInitializer {
 	 * Inventory item list.
 	 */
 	List<Item> inventoryItemList = new ArrayList<Item>();
-	
+
 	/**
 	 * Initialize book items.
 	 * 
@@ -98,13 +99,13 @@ public class ItemInitializer {
 	 *            tab that item is added to.
 	 * @param config
 	 *            configuration object
-	 *            
-	 * @return inventory item list.           
+	 * 
+	 * @return inventory item list.
 	 */
 	public List<Item> initializeBooks(CreativeTabs targetTab) {
-		
+
 		// Initialise staff
-		
+
 		Item gardenStaff = new GardenStaff();
 		registerBookItem(targetTab, gardenStaff, GardenStaff.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(gardenStaff), "  x", " / ", "/  ", 'x', Items.FLOWER_POT, '/',
@@ -252,7 +253,7 @@ public class ItemInitializer {
 		registerBookItem(targetTab, spawnSkeletonArmyBook, SpawnSkeletonArmyBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(spawnSkeletonArmyBook), "xyz", "yyy", "yyy", 'x', Items.BOOK, 'y',
 				Items.SKULL, 'z', Items.WOODEN_SWORD);
-		
+
 		Item beastmasterMistBook = new BeastmasterMistBook();
 		registerBookItem(targetTab, beastmasterMistBook, BeastmasterMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(beastmasterMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
@@ -296,7 +297,7 @@ public class ItemInitializer {
 		Item digMobHoleBook = new DigMobHoleBook();
 		registerBookItem(targetTab, digMobHoleBook, DigMobHoleBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(digMobHoleBook), "xyy", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.IRON_SHOVEL);		
+				Items.IRON_SHOVEL);
 
 		Item lightningBoltBook = new LightningBoltBook();
 		registerBookItem(targetTab, lightningBoltBook, LightningBoltBook.ITEM_NAME);
@@ -332,7 +333,7 @@ public class ItemInitializer {
 		registerBookItem(targetTab, vacuumMistBook, VacuumMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(vacuumMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.RABBIT_FOOT, 'z', Items.GHAST_TEAR);
-		
+
 		// books of block manipulation
 
 		Item copyPasteBlocksBook = new CopyPasteBlocksBook();
@@ -381,10 +382,28 @@ public class ItemInitializer {
 		registerBookItem(targetTab, rainbownizeBook, RainbownizeBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(rainbownizeBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.RECORD_11);
-		
+
 		return bookItemList;
 	}
-	
+
+	/**
+	 * Initialize baton items.
+	 * 
+	 * @param targetTab
+	 *            tab that item is added to.
+	 * @param config
+	 *            configuration object
+	 * 
+	 * @return inventory item list.
+	 */
+	public void initializeBatons(CreativeTabs targetTab) {
+
+		Item mobCommandersBaton = new MobCommandersBaton();
+		registerBookItem(targetTab, mobCommandersBaton, MobCommandersBaton.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(mobCommandersBaton), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
+				Items.GOLDEN_HELMET);
+	}
+
 	/**
 	 * Initialize inventory items.
 	 * 
@@ -392,8 +411,8 @@ public class ItemInitializer {
 	 *            tab that item is added to.
 	 * @param config
 	 *            configuration object
-	 *            
-	 * @return inventory item list.           
+	 * 
+	 * @return inventory item list.
 	 */
 	public List<Item> initializeInventoryItems(CreativeTabs targetTab) {
 
@@ -461,7 +480,7 @@ public class ItemInitializer {
 		registerInventoryItem(targetTab, primeMobIdolInventoryItem, PrimeMobIdolInventoryItem.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(primeMobIdolInventoryItem), "xy ", "   ", "   ", 'x',
 				Items.CLAY_BALL, 'y', Items.FIRE_CHARGE);
-		
+
 		/**
 		 * Item pvpIdolInventoryItem = new PvpIdolInventoryItem();
 		 * pvpIdolInventoryItem.setCreativeTab(targetTab);
@@ -471,7 +490,7 @@ public class ItemInitializer {
 		 * ItemStack(pvpIdolInventoryItem), "xy ", " ", " ", 'x',
 		 * Items.clay_ball, 'y', Items.iron_sword);
 		 **/
-		
+
 		return inventoryItemList;
 	}
 
@@ -493,6 +512,22 @@ public class ItemInitializer {
 	}
 
 	/**
+	 * Helper method for registration of baton item.
+	 * 
+	 * @param targetTab
+	 *            target tab for item.
+	 * @param item
+	 *            item to register.
+	 * @param itemName
+	 *            item name.
+	 */
+	void registerBatonItem(CreativeTabs targetTab, Item item, String itemName) {
+		item.setCreativeTab(targetTab);
+		item.setRegistryName(itemName);
+		GameRegistry.register(item);
+	}
+
+	/**
 	 * Helper method for registration of inventory item.
 	 * 
 	 * @param targetTab
@@ -508,7 +543,7 @@ public class ItemInitializer {
 		GameRegistry.register(item);
 		inventoryItemList.add(item);
 	}
-	
+
 	public static ItemInitializer getInstance() {
 		return new ItemInitializer();
 	}

@@ -59,7 +59,6 @@ public class FollowEntity extends EntityAIBase {
 	 */
 	@Override
 	public boolean shouldExecute() {
-		System.out.println("shouldExecute");
 
 		// exit if leader is undefined
 		if (leaderEntity == null)

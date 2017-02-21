@@ -11,13 +11,14 @@ import static bassebombecraft.config.VersionUtils.validateVersion;
 
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 
 import bassebombecraft.block.BlockInitializer;
+import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
+import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.block.DefaultBlockDirectiveRepository;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventListener;
@@ -55,7 +56,8 @@ public class BassebombeCraft {
 	/**
 	 * Logger.
 	 */
-	static Logger logger = LogManager.getLogger(BassebombeCraft.class);
+	// static Logger logger = LogManager.getLogger(BassebombeCraft.class);
+	Logger logger = null;
 
 	/**
 	 * Mod singleton class. This is the object reference to your class that
@@ -92,9 +94,14 @@ public class BassebombeCraft {
 	TemporaryBlockRepository tempBlockRepository;
 
 	/**
-	 * PVPrepository.
+	 * PVP repository.
 	 */
 	PvpRepository pvpRepository;
+
+	/**
+	 * Mob commander repository.
+	 */
+	MobCommanderRepository mobCommanderRepository;
 
 	/**
 	 * Mod configuration.
@@ -132,6 +139,9 @@ public class BassebombeCraft {
 		// Initialise particle rendering repository
 		particleRepository = DefaultParticleRenderingRepository.getInstance();
 
+		// Initialise mob commander repository
+		mobCommanderRepository = DefaultMobCommanderRepository.getInstance();
+
 		// Initialise PVP repository
 		pvpRepository = DefaultPvpRepository.getInstance();
 
@@ -151,6 +161,7 @@ public class BassebombeCraft {
 		itemInitializer = ItemInitializer.getInstance();
 		bookItemList = itemInitializer.initializeBooks(modTab);
 		inventoryItemList = itemInitializer.initializeInventoryItems(modTab);
+		itemInitializer.initializeBatons(modTab);
 		ProjectileInitializer.getInstance().initialize(this, modTab);
 		BlockInitializer.getInstance().initialize(modTab);
 		initializeEventListeners();
@@ -270,6 +281,15 @@ public class BassebombeCraft {
 	}
 
 	/**
+	 * Get mob commander repository.
+	 * 
+	 * @return mob commander repository.
+	 */
+	public MobCommanderRepository getMobCommanderRepository() {
+		return mobCommanderRepository;
+	}
+
+	/**
 	 * Get mod configuration.
 	 * 
 	 * @return mod configuration.
@@ -310,7 +330,7 @@ public class BassebombeCraft {
 	 * 
 	 * @return logger.
 	 */
-	public static Logger getLogger() {
+	public Logger getLogger() {
 		return logger;
 	}
 

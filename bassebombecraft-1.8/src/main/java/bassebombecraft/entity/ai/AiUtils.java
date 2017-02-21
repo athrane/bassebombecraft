@@ -1,9 +1,12 @@
 package bassebombecraft.entity.ai;
 
+import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
+
 import java.util.Set;
 
 import bassebombecraft.entity.ai.task.FollowClosestPlayer;
 import bassebombecraft.entity.ai.task.FollowEntity;
+import bassebombecraft.entity.ai.task.MobCommandedTargeting;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -25,6 +28,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.passive.EntityOcelot;
+import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * AI utility class.
@@ -172,7 +176,20 @@ public class AiUtils {
 		entity.tasks.addTask(6, new EntityAIWatchClosest(entity, EntityMob.class, WATCH_DIST));
 		entity.tasks.addTask(7, new EntityAILookIdle(entity));
 
+		// type cast
 		EntityCreature entityCreature = EntityCreature.class.cast(entity);
+
+		// setup targeting if commander is player
+		if (isEntityPlayer(commander)) {
+
+			// type cast
+			EntityPlayer player = (EntityPlayer) commander;
+
+			entity.targetTasks.addTask(1, new MobCommandedTargeting(entityCreature, player));
+			return;
+		}
+
+		// setup targeting if commander is other entity
 		entity.targetTasks.addTask(1, new EntityAIHurtByTarget(entityCreature, DONT_CALL_FOR_HELP, new Class[0]));
 		entity.targetTasks.addTask(2,
 				new EntityAINearestAttackableTarget(entityCreature, EntityMob.class, SHOULD_CHECK_SIGHT, NEARBY_ONLY));
