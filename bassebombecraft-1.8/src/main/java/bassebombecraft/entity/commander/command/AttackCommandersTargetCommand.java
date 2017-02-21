@@ -1,8 +1,5 @@
 package bassebombecraft.entity.commander.command;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.player.PlayerUtils.sendChatMessageToPlayer;
-
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
 import net.minecraft.entity.EntityCreature;
@@ -12,7 +9,7 @@ import net.minecraft.entity.player.EntityPlayer;
 /**
  * Null mob command.
  */
-public class AttackCommandersTarget implements MobCommand {
+public class AttackCommandersTargetCommand implements MobCommand {
 
 	/**
 	 * Commander target.
@@ -53,7 +50,7 @@ public class AttackCommandersTarget implements MobCommand {
 		if (target.isDead)
 			return false;
 
-		// update target		
+		// update target
 		entity.setAttackTarget(target);
 		
 		return true;

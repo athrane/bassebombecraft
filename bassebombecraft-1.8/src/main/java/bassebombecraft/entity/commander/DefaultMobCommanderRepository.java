@@ -6,9 +6,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import bassebombecraft.entity.commander.command.AttackCommandersTarget;
+import bassebombecraft.entity.commander.command.AttackCommandersTargetCommand;
 import bassebombecraft.entity.commander.command.NullCommand;
-import bassebombecraft.entity.commander.command.Wait;
+import bassebombecraft.entity.commander.command.StopCommand;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class DefaultMobCommanderRepository implements MobCommanderRepository {
@@ -118,7 +118,7 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 		
 		// update GUI
 		command = state.getCommand();		
-		sendChatMessageToPlayer(player, "Active mob command is: " + command.getTitle());
+		sendChatMessageToPlayer(player, "Krenko commands: " + command.getTitle());
 		
 	}
 
@@ -126,12 +126,12 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 		switch (command.getType()) {
 
 			case NULL: {
-				state.setCommand(new Wait());
+				state.setCommand(new StopCommand());
 				return;
 			}
 
 			case WAIT: {
-				state.setCommand(new AttackCommandersTarget());
+				state.setCommand(new AttackCommandersTargetCommand());
 				return;
 			}
 			
