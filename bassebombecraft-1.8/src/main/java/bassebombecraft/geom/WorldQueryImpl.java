@@ -1,5 +1,6 @@
 package bassebombecraft.geom;
 
+import bassebombecraft.world.WorldUtils;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -63,7 +64,7 @@ public class WorldQueryImpl implements WorldQuery {
 
 	@Override
 	public boolean isWorldAtClientSide() {
-		return world.isRemote;
+		return WorldUtils.isWorldAtClientSide(world);
 	}
 
 	@Override

@@ -4,9 +4,9 @@ import static bassebombecraft.ModConstants.ITEM_BOOK_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 import static bassebombecraft.config.VersionUtils.postItemUsage;
+import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import bassebombecraft.item.action.BlockClickedItemAction;
-import bassebombecraft.world.WorldUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -80,7 +80,7 @@ public class GenericBlockClickedBook extends Item {
 			EnumFacing facing, float hitX, float hitY, float hitZ) {
 
 		// exit if invoked at client side
-		if (WorldUtils.isWorldAtClientSide(worldIn)) {
+		if (isWorldAtClientSide(worldIn)) {
 			return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
 		}
 
@@ -97,15 +97,6 @@ public class GenericBlockClickedBook extends Item {
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
-	}
-
-	/**
-	 * return true if world is located at client side.
-	 * 
-	 * @return true if world is located at client side.
-	 */
-	boolean isWorldAtClientSide(World world) {
-		return world.isRemote;
 	}
 
 }

@@ -1,5 +1,7 @@
 package bassebombecraft.event.particle;
 
+import static bassebombecraft.world.WorldUtils.isWorldAtServerSide;
+
 import java.util.Random;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -55,7 +57,8 @@ public class ParticleRenderingEventListener {
 			return;
 
 		// exit if at server side
-		if (!world.isRemote)
+		// exit if invoked at server side
+		if (isWorldAtServerSide(world))
 			return;
 
 		// exit if particles should be rendered in this tick
@@ -116,7 +119,7 @@ public class ParticleRenderingEventListener {
 		double d0 = calculateRandomSpeed(speed);
 		double d1 = calculateRandomSpeed(speed);
 		double d2 = calculateRandomSpeed(speed);
-				
+
 		double x = particle.getPosition().getX() + 0.5D;
 		double y = particle.getPosition().getY() + 1;
 		double z = particle.getPosition().getZ() + 0.5D;
@@ -150,12 +153,13 @@ public class ParticleRenderingEventListener {
 	/**
 	 * Calculate random speed.
 	 * 
-	 * @param speed particle speed.
+	 * @param speed
+	 *            particle speed.
 	 * 
 	 * @return double between -PARTICLE_SPEED..PARTICLE_SPEED.
 	 */
 	double calculateRandomSpeed(double speed) {
-		return (random.nextDouble() * 2.0D - 1.0D) * speed;		
+		return (random.nextDouble() * 2.0D - 1.0D) * speed;
 	}
-	
+
 }

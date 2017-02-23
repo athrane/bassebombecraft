@@ -1,5 +1,7 @@
 package bassebombecraft.event.block;
 
+import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
+
 import static bassebombecraft.block.BlockUtils.createBlock;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
@@ -85,8 +87,7 @@ public class ProcessBlockDirectivesEventListener {
 		World world = player.getEntityWorld();
 
 		// exit if at client side
-		if (world.isRemote)
-			return;
+		if (isWorldAtClientSide(world)) return;		
 
 		// create world query
 		WorldQueryImpl worldQuery = new WorldQueryImpl(player, NULL_POSITION);

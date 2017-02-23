@@ -28,7 +28,7 @@ public class StopCommand implements MobCommand {
 
 	@Override
 	public Commands getType() {
-		return Commands.WAIT;
+		return Commands.STOP;
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class StopCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean shouldExecute(EntityPlayer commander) {
+	public boolean shouldExecute(EntityPlayer commander, EntityCreature entity) {
 		return true;
 	}
 

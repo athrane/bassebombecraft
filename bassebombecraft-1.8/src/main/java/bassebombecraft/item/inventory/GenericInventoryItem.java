@@ -8,6 +8,7 @@ import static bassebombecraft.event.particle.DefaultParticleRendering.getInstanc
 import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
 import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
 import static bassebombecraft.player.PlayerUtils.isItemHeldInOffHand;
+import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import java.util.List;
 
@@ -86,6 +87,7 @@ public class GenericInventoryItem extends Item {
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 
 		// only apply the action at server side since we updates the world
+
 		if (isWorldAtClientSide(worldIn))
 			return;
 
@@ -119,14 +121,16 @@ public class GenericInventoryItem extends Item {
 			return;
 
 		// exit if entity isn't player
-		if (!isEntityPlayer(entityIn)) return;
+		if (!isEntityPlayer(entityIn))
+			return;
 
 		// type cast as player
 		EntityPlayer player = (EntityPlayer) entityIn;
 
 		// exit if cooldown is effect
-		if (player.getCooldownTracker().hasCooldown(this)) return;
-		
+		if (player.getCooldownTracker().hasCooldown(this))
+			return;
+
 		// add cooldown
 		CooldownTracker tracker = player.getCooldownTracker();
 		tracker.setCooldown(this, coolDown);
@@ -150,15 +154,6 @@ public class GenericInventoryItem extends Item {
 		if (itemSlot > 8)
 			return false;
 		return true;
-	}
-
-	/**
-	 * return true if world is located at client side.
-	 * 
-	 * @return true if world is located at client side.
-	 */
-	boolean isWorldAtClientSide(World world) {
-		return world.isRemote;
 	}
 
 	/**
@@ -192,7 +187,7 @@ public class GenericInventoryItem extends Item {
 			}
 		}
 	}
-	
+
 	/**
 	 * Render a effect at some position.
 	 * 

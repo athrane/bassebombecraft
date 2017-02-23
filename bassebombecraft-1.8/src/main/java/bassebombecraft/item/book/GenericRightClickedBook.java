@@ -4,9 +4,9 @@ import static bassebombecraft.ModConstants.ITEM_BOOK_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 import static bassebombecraft.config.VersionUtils.postItemUsage;
+import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import bassebombecraft.item.action.RightClickedItemAction;
-import bassebombecraft.world.WorldUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -76,36 +76,27 @@ public class GenericRightClickedBook extends Item {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
-			    
-	    // exit if invoked at client side
-	    if(WorldUtils.isWorldAtClientSide(worldIn)) {
-	    	return super.onItemRightClick(worldIn, playerIn, handIn);
-	    }
-		
+
+		// exit if invoked at client side
+		if (isWorldAtClientSide(worldIn)) {
+			return super.onItemRightClick(worldIn, playerIn, handIn);
+		}
+
 		// post analytics
 		postItemUsage(this.getUnlocalizedName());
 
 		// add cooldown
-		CooldownTracker tracker = playerIn.getCooldownTracker();		
+		CooldownTracker tracker = playerIn.getCooldownTracker();
 		tracker.setCooldown(this, coolDown);
-		
-		// apply action 
-			action.onRightClick(worldIn, playerIn);
+
+		// apply action
+		action.onRightClick(worldIn, playerIn);
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
 	}
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
-	}
-
-	/**
-	 * return true if world is located at client side.
-	 * 
-	 * @return true if world is located at client side.
-	 */
-	boolean isWorldAtClientSide(World world) {
-		return world.isRemote;
 	}
 
 }
