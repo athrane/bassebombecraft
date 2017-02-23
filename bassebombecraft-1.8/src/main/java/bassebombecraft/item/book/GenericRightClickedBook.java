@@ -6,6 +6,7 @@ import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 import static bassebombecraft.config.VersionUtils.postItemUsage;
 
 import bassebombecraft.item.action.RightClickedItemAction;
+import bassebombecraft.world.WorldUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -75,17 +76,21 @@ public class GenericRightClickedBook extends Item {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+			    
+	    // exit is at client side
+	    if(WorldUtils.isWorldAtClientSide(worldIn)) {
+	    	return super.onItemRightClick(worldIn, playerIn, handIn);
+	    }
 		
 		// post analytics
 		postItemUsage(this.getUnlocalizedName());
 
 		// add cooldown
-		CooldownTracker tracker = playerIn.getCooldownTracker();
+		CooldownTracker tracker = playerIn.getCooldownTracker();		
 		tracker.setCooldown(this, coolDown);
-
-		// apply action
-		action.onRightClick(worldIn, playerIn);
-
+		
+		// apply action 
+			action.onRightClick(worldIn, playerIn);
 		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
 	}
 
