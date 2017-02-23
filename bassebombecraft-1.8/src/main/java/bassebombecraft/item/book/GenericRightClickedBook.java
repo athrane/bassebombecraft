@@ -77,7 +77,7 @@ public class GenericRightClickedBook extends Item {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
 			    
-	    // exit is at client side
+	    // exit if invoked at client side
 	    if(WorldUtils.isWorldAtClientSide(worldIn)) {
 	    	return super.onItemRightClick(worldIn, playerIn, handIn);
 	    }
