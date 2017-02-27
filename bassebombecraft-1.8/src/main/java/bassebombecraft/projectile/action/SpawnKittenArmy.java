@@ -87,12 +87,12 @@ public class SpawnKittenArmy implements ProjectileAction {
 
 			
 			// set owner
-			EntityLivingBase thrower = projectile.getThrower();
-			entity.setOwnerId(thrower.getUniqueID());
+			EntityLivingBase owner = projectile.getThrower();
+			entity.setOwnerId(owner.getUniqueID());
 
 			// set in love with player
-			if (thrower instanceof EntityPlayer) {
-				EntityPlayer player = (EntityPlayer) thrower;
+			if (owner instanceof EntityPlayer) {
+				EntityPlayer player = (EntityPlayer) owner;
 				entity.setInLove(player);
 			}
 
@@ -107,11 +107,11 @@ public class SpawnKittenArmy implements ProjectileAction {
 
 			// add entity to team
 			TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
-			teamRepository.add(entity, thrower.getName());
+			teamRepository.add(entity, owner.getName());
 			
 			// set AI
 			clearAiTasks(entity);
-			buildKittenArmyAi(entity);
+			buildKittenArmyAi(entity, owner);
 
 			// set name
 			if (renderCustomName) {

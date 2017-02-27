@@ -33,7 +33,7 @@ public class SpawnFlamingChicken implements ProjectileAction {
 		teamRepository.add(chicken, thrower.getName());
 
 		// set AI
-		// NO_OP
+		// NO-OP
 		
 		// spawn		
 		world.spawnEntity(chicken);
