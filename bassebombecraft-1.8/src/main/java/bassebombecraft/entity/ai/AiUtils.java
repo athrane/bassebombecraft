@@ -4,7 +4,7 @@ import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
 
 import java.util.Set;
 
-import bassebombecraft.entity.ai.task.FollowClosestPlayer;
+import bassebombecraft.entity.ai.task.CompanionAttack;
 import bassebombecraft.entity.ai.task.FollowEntity;
 import bassebombecraft.entity.ai.task.MobCommandedTargeting;
 import net.minecraft.entity.EntityCreature;
@@ -129,10 +129,34 @@ public class AiUtils {
 	 * @param owner
 	 *            entity which charmed mob.
 	 */
-	public static void buildCharmedMobAi(EntityLiving entity, EntityLivingBase owner) {
-		charmedMobAiBuilder.build(entity, owner);
+	public static void buildCharmedMobAi(EntityLiving entity, EntityLivingBase commander) {
+
+		// set tasks
+		entity.tasks.addTask(1, new EntityAISwimming(entity));
+		entity.tasks.addTask(2, new CompanionAttack(entity));
+		entity.tasks.addTask(3, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
+		entity.tasks.addTask(4, new EntityAIWatchClosest(entity, EntityMob.class, WATCH_DIST));
+		entity.tasks.addTask(5, new EntityAILookIdle(entity));
+
+		// type cast
+		EntityCreature entityCreature = EntityCreature.class.cast(entity);
+
+		// setup targeting if commander is player
+		if (isEntityPlayer(commander)) {
+
+			// type cast
+			EntityPlayer player = (EntityPlayer) commander;
+
+			entity.targetTasks.addTask(1, new MobCommandedTargeting(entityCreature, player));
+			return;
+		}
+
+		// setup targeting if commander is other entity
+		entity.targetTasks.addTask(1, new EntityAIHurtByTarget(entityCreature, DONT_CALL_FOR_HELP, new Class[0]));
+		entity.targetTasks.addTask(2,
+				new EntityAINearestAttackableTarget(entityCreature, EntityMob.class, SHOULD_CHECK_SIGHT, NEARBY_ONLY));
 	}
-	
+
 	/**
 	 * Build AI for kitten army.
 	 * 
@@ -149,13 +173,13 @@ public class AiUtils {
 		entity.tasks.addTask(4, new EntityAIOcelotSit(entity, 0.8D));
 		entity.tasks.addTask(5, new EntityAILeapAtTarget(entity, 0.3F));
 		entity.tasks.addTask(6, new EntityAIOcelotAttack(entity));
-		entity.tasks.addTask(7, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));	
+		entity.tasks.addTask(7, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
 		entity.tasks.addTask(8, new EntityAIWatchClosest(entity, EntityMob.class, WATCH_DIST));
 		entity.tasks.addTask(9, new EntityAILookIdle(entity));
 
 		// type cast
 		EntityCreature entityCreature = EntityCreature.class.cast(entity);
-		
+
 		// setup targeting if commander is player
 		if (isEntityPlayer(commander)) {
 
@@ -165,14 +189,13 @@ public class AiUtils {
 			entity.targetTasks.addTask(1, new MobCommandedTargeting(entityCreature, player));
 			return;
 		}
-		
+
 		// setup targeting if commander is other entity
 		entity.targetTasks.addTask(1, new EntityAIHurtByTarget(entityCreature, DONT_CALL_FOR_HELP, new Class[0]));
 		entity.targetTasks.addTask(2,
-				new EntityAINearestAttackableTarget(entityCreature, EntityMob.class, SHOULD_CHECK_SIGHT, NEARBY_ONLY));		
+				new EntityAINearestAttackableTarget(entityCreature, EntityMob.class, SHOULD_CHECK_SIGHT, NEARBY_ONLY));
 	}
-	
-	
+
 	/**
 	 * Build AI for Skeleton army.
 	 * 
