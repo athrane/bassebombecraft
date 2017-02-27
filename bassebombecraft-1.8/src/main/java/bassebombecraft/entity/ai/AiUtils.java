@@ -126,7 +126,7 @@ public class AiUtils {
 	 * 
 	 * @param entity
 	 *            entity which will configured with charmed AI.
-	 * @param owner
+	 * @param commander
 	 *            entity which charmed mob.
 	 */
 	public static void buildCharmedMobAi(EntityLiving entity, EntityLivingBase commander) {

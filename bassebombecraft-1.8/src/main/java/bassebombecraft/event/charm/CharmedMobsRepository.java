@@ -1,6 +1,7 @@
 package bassebombecraft.event.charm;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 
 /**
  * Interface for repository for handling charmed mobs.
@@ -16,15 +17,25 @@ public interface CharmedMobsRepository {
 	public void add(EntityLiving entity);
 
 	/**
+	 * Charm mob.
+	 * 
+	 * @param entity
+	 *            mob which is charmed.
+	 * @param commander
+	 *            entity which charmed mob.
+	 */
+	public void add(EntityLiving entity, EntityLivingBase commander);
+
+	/**
 	 * Remove mob.
 	 * 
 	 * @param entity
 	 *            mob which is removed.
 	 */
 	public void remove(EntityLiving entity);
-	
+
 	/**
-	 * Update charm. 
+	 * Update charm.
 	 * 
 	 * If duration is expired then mob is removed.
 	 * 
@@ -32,7 +43,7 @@ public interface CharmedMobsRepository {
 	 *            mob which is charmed.
 	 */
 	public void update(EntityLiving entity);
-	
+
 	/**
 	 * Returns true if mob is already charmed.
 	 * 
@@ -41,5 +52,5 @@ public interface CharmedMobsRepository {
 	 * @return true if mob is already charmed.
 	 */
 	public boolean contains(EntityLiving entity);
-		
+
 }

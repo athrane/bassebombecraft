@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 
 /**
@@ -34,6 +35,20 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 		// store mob
 		charmedMobs.put(entity, charmedMob);
 	}
+	
+	@Override
+	public void add(EntityLiving entity, EntityLivingBase commander) {
+
+		// create charmed mob container
+		CharmedMob charmedMob = new CharmedMob(entity, EFFECT_DURATION);
+
+		clearAiTasks(entity);
+		buildCharmedMobAi(entity, commander);
+
+		// store mob
+		charmedMobs.put(entity, charmedMob);		
+	}
+
 
 	@Override
 	public void remove(EntityLiving entity) {
