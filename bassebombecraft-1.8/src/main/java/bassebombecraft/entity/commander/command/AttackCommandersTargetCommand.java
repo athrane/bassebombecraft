@@ -7,14 +7,9 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
 /**
- * Null mob command.
+ * Attack commander's target command.
  */
 public class AttackCommandersTargetCommand implements MobCommand {
-
-	/**
-	 * Commander target.
-	 */
-	EntityLivingBase target;
 
 	@Override
 	public Commands getType() {
@@ -27,10 +22,10 @@ public class AttackCommandersTargetCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean shouldExecute(EntityPlayer commander) {
+	public boolean shouldExecute(EntityPlayer commander, EntityCreature entity) {
 
 		// get target
-		target = commander.getLastAttacker();
+		EntityLivingBase target = commander.getLastAttacker();
 
 		// start execution if target is defined
 		return (target != null);
@@ -40,8 +35,8 @@ public class AttackCommandersTargetCommand implements MobCommand {
 	public boolean continueExecuting(EntityPlayer commander, EntityCreature entity) {
 
 		// get target
-		target = commander.getLastAttacker();
-		
+		EntityLivingBase target = commander.getLastAttacker();
+
 		// exit if target is undefined
 		if (target == null)
 			return false;
@@ -52,7 +47,7 @@ public class AttackCommandersTargetCommand implements MobCommand {
 
 		// update target
 		entity.setAttackTarget(target);
-		
+
 		return true;
 	}
 

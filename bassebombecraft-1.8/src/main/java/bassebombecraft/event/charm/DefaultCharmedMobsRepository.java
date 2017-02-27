@@ -11,7 +11,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 
 /**
- * Default implementation of the {@linkplain CharmedMobsRepository.
+ * Default implementation of the {@linkplain CharmedMobsRepository}.
  */
 public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 

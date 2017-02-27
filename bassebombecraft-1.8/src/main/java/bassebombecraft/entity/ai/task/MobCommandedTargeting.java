@@ -40,30 +40,24 @@ public class MobCommandedTargeting extends EntityAITarget {
 
 	@Override
 	public boolean shouldExecute() {
-		//System.out.println("MobCommandedTargeting:shouldExecute():" + this.taskOwner.hashCode());
 
 		// register player and get command
 		MobCommanderRepository repository = getBassebombeCraft().getMobCommanderRepository();
 		MobCommand command = repository.getCommand(commander);
 
 		// initialize command
-		boolean result = command.shouldExecute(commander);
-		//System.out.println("MobCommandedTargeting:shouldExecute(): result=" + result);
-		return result;
+		return command.shouldExecute(commander, this.taskOwner);
 	}
 
 	@Override
 	public boolean continueExecuting() {
-		//System.out.println("MobCommandedTargeting:continueExecuting():" + this.taskOwner.hashCode());
 
 		// register player and get command
 		MobCommanderRepository repository = getBassebombeCraft().getMobCommanderRepository();
 		MobCommand command = repository.getCommand(commander);
 
 		// execute command
-		boolean result = command.continueExecuting(commander, this.taskOwner);
-		//System.out.println("continueExecuting(): result=" + result);
-		return result;
+		return command.continueExecuting(commander, this.taskOwner);
 	}
 
 	@Override

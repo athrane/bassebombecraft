@@ -148,7 +148,7 @@ public class PlayerUtils {
 
 		if (heldItem == null)
 			return false;
-
+		
 		return heldItem.equals(item);
 	}
 	

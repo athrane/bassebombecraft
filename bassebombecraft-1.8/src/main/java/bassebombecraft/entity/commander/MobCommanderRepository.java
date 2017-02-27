@@ -9,8 +9,9 @@ public interface MobCommanderRepository {
 
 	enum Commands {
 		NULL,	
-		WAIT,
-		COMMANDERS_TARGET
+		STOP,
+		COMMANDERS_TARGET,
+		NEAREST_MOB
 	}
 	
 	/**

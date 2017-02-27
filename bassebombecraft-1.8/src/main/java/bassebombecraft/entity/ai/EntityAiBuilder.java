@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityLivingBase;
 /**
  * Interface for creation AI for entities.
  */
+@Deprecated
 public interface EntityAiBuilder {
 
 	/**

@@ -28,6 +28,9 @@ import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import bassebombecraft.event.charm.CharmedMobEventListener;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.charm.DefaultCharmedMobsRepository;
+import bassebombecraft.event.entity.team.DefaultTeamRepository;
+import bassebombecraft.event.entity.team.EntityTeamMembershipEventListener;
+import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRenderingEventListener;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
@@ -41,7 +44,6 @@ import bassebombecraft.tab.CreativeTabFactory;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.ModMetadata;
@@ -104,6 +106,11 @@ public class BassebombeCraft {
 	MobCommanderRepository mobCommanderRepository;
 
 	/**
+	 * Team repository.
+	 */
+	TeamRepository teamRepository;
+	
+	/**
 	 * Mod configuration.
 	 */
 	Config config;
@@ -127,6 +134,9 @@ public class BassebombeCraft {
 	public void preInit(FMLPreInitializationEvent event) {
 		logger = event.getModLog();
 
+		// load configuration file
+		config = ConfigFactory.load(MODID);
+
 		// Initialise charmed mobs repository
 		charmedMobsRepository = DefaultCharmedMobsRepository.getInstance();
 
@@ -142,10 +152,11 @@ public class BassebombeCraft {
 		// Initialise mob commander repository
 		mobCommanderRepository = DefaultMobCommanderRepository.getInstance();
 
+		// initialise team repository
+		teamRepository = DefaultTeamRepository.getInstance();
+		
 		// Initialise PVP repository
 		pvpRepository = DefaultPvpRepository.getInstance();
-
-		config = ConfigFactory.load(MODID);
 
 		initializeModMetadata(event);
 		initializeCreativeTab();
@@ -208,29 +219,28 @@ public class BassebombeCraft {
 		CharmedMobEventListener mobsEventListener = new CharmedMobEventListener(charmedMobsRepository,
 				particleRepository);
 		MinecraftForge.EVENT_BUS.register(mobsEventListener);
-		FMLCommonHandler.instance().bus().register(mobsEventListener);
 
 		// Initialise process block directives event listener
 		ProcessBlockDirectivesEventListener directivesEventListener = new ProcessBlockDirectivesEventListener(
 				blockDirectivesRepository, particleRepository);
 		MinecraftForge.EVENT_BUS.register(directivesEventListener);
-		FMLCommonHandler.instance().bus().register(directivesEventListener);
 
 		// Initialise temporary block event listener
 		TemporaryBlockEventListener tempBlockEventListener = new TemporaryBlockEventListener(tempBlockRepository,
 				blockDirectivesRepository);
 		MinecraftForge.EVENT_BUS.register(tempBlockEventListener);
-		FMLCommonHandler.instance().bus().register(tempBlockEventListener);
 
 		// Initialise particle rendering event listener
 		ParticleRenderingEventListener particleEventListener = new ParticleRenderingEventListener(particleRepository);
 		MinecraftForge.EVENT_BUS.register(particleEventListener);
-		FMLCommonHandler.instance().bus().register(particleEventListener);
 
+		// Initialise entity team membership event listener
+		EntityTeamMembershipEventListener teamEventListener = new EntityTeamMembershipEventListener(teamRepository);
+		MinecraftForge.EVENT_BUS.register(teamEventListener);
+		
 		// Initialise PVP event listener
 		PvpEventListener pvpEventListener = new PvpEventListener(pvpRepository);
 		MinecraftForge.EVENT_BUS.register(pvpEventListener);
-		FMLCommonHandler.instance().bus().register(pvpEventListener);
 
 		proxy.registerRenderers();
 	}
@@ -289,6 +299,15 @@ public class BassebombeCraft {
 		return mobCommanderRepository;
 	}
 
+	/**
+	 * Get team repository.
+	 * 
+	 * @return team repository.
+	 */
+	public TeamRepository getTeamRepository() {
+		return teamRepository;
+	}
+	
 	/**
 	 * Get mod configuration.
 	 * 

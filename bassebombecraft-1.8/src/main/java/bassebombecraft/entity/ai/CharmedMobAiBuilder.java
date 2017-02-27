@@ -17,6 +17,7 @@ import net.minecraft.entity.monster.EntityMob;
  * Implementation of {@linkplain EntityAiBuilder} interface for 
  * creation of AI for charmed mob and guardian.
  */
+@Deprecated
 public class CharmedMobAiBuilder implements EntityAiBuilder {
 
 	static final boolean DONT_CALL_FOR_HELP = false;

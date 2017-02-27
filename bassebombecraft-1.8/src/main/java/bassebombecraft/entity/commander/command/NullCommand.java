@@ -21,7 +21,7 @@ public class NullCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean shouldExecute(EntityPlayer commander) {
+	public boolean shouldExecute(EntityPlayer commander, EntityCreature entity) {
 		return true;
 	}
 

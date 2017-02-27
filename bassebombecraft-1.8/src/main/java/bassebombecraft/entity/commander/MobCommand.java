@@ -28,10 +28,12 @@ public interface MobCommand {
 	 * 
 	 * @param commander
 	 *            commander to initialize command from.
+	 * @param entity
+	 *            entity commanded by mob commander.
 	 * 
 	 * @return true if command should start to execute.
 	 */
-	boolean shouldExecute(EntityPlayer commander);
+	boolean shouldExecute(EntityPlayer commander, EntityCreature entity);
 
 	/**
 	 * Execute command.

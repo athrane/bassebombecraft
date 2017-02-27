@@ -2,8 +2,6 @@ package bassebombecraft.item.action.command;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
-import com.typesafe.config.Config;
-
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.item.action.RightClickedItemAction;
 import bassebombecraft.player.PlayerUtils;
@@ -16,25 +14,12 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain RightClickedItemAction} which shoot a bacon
- * bazooka.
+ * Implementation of the {@linkplain RightClickedItemAction} which issues mob
+ * commands.
  */
 public class CommandMobs implements RightClickedItemAction {
 
 	static final SoundEvent SOUND = SoundEvents.EVOCATION_ILLAGER_CAST_SPELL;
-
-	/**
-	 * Configuration key.
-	 */
-	final static String CONFIG_KEY = CommandMobs.class.getSimpleName();
-
-	/**
-	 * ShootBaconBazooka constructor.
-	 */
-	public CommandMobs() {
-		super();
-		Config configuration = getBassebombeCraft().getConfiguration();
-	}
 
 	@Override
 	public void onRightClick(World world, EntityLivingBase entity) {

@@ -7,12 +7,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 import bassebombecraft.entity.commander.command.AttackCommandersTargetCommand;
+import bassebombecraft.entity.commander.command.AttackNearestMobCommand;
 import bassebombecraft.entity.commander.command.NullCommand;
 import bassebombecraft.entity.commander.command.StopCommand;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class DefaultMobCommanderRepository implements MobCommanderRepository {
 
+	/**
+	 * Attack nearest mob command.
+	 */
+	static final AttackNearestMobCommand ATTACK_NEAREST_MOB_COMMAND = new AttackNearestMobCommand();
+
+	/**
+	 * Stop command.
+	 */
+	static final StopCommand STOP_COMMAND = new StopCommand();
+
+	/**
+	 * Attack commanders targer command.
+	 */
+	static final AttackCommandersTargetCommand ATTACK_COMMANDERS_TARGET_COMMAND = new AttackCommandersTargetCommand();
+	
 	/**
 	 * Null mob command.
 	 */
@@ -126,16 +142,21 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 		switch (command.getType()) {
 
 			case NULL: {
-				state.setCommand(new StopCommand());
+				state.setCommand(STOP_COMMAND);
 				return;
 			}
 
-			case WAIT: {
-				state.setCommand(new AttackCommandersTargetCommand());
+			case STOP: {
+				state.setCommand(ATTACK_COMMANDERS_TARGET_COMMAND);
 				return;
 			}
 			
 			case COMMANDERS_TARGET: {
+				state.setCommand(ATTACK_NEAREST_MOB_COMMAND);
+				return;
+			}
+
+			case NEAREST_MOB: {
 				state.setCommand(NULL_COMMAND);
 				return;
 			}
