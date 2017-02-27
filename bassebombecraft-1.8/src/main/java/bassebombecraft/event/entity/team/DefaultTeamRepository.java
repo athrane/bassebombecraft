@@ -62,10 +62,7 @@ public class DefaultTeamRepository implements TeamRepository {
 		if (teamExists(teamName))
 			return;
 
-		teams.put(teamName, new Team(teamName));
-		
-		System.out.println("Created team: " + teamName);
-		
+		teams.put(teamName, new Team(teamName));		
 	}
 
 	@Override
