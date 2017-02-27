@@ -10,17 +10,16 @@ import com.typesafe.config.Config;
 import bassebombecraft.entity.EntityDistanceSorter;
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
-import bassebombecraft.predicate.DiscardTeamMembers;
+import bassebombecraft.predicate.DiscardTeamCommander;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 
 /**
- * Attack nearest mob command.
+ * Attack nearest player (except the team owner) command.
  */
-public class AttackNearestMobCommand implements MobCommand {
+public class AttackNearestPlayerCommand implements MobCommand {
 
 	/**
 	 * First list index.
@@ -30,7 +29,7 @@ public class AttackNearestMobCommand implements MobCommand {
 	/**
 	 * Configuration key.
 	 */
-	final static String CONFIG_KEY = AttackNearestMobCommand.class.getSimpleName();
+	final static String CONFIG_KEY = AttackNearestPlayerCommand.class.getSimpleName();
 
 	/**
 	 * Target distance.
@@ -45,14 +44,14 @@ public class AttackNearestMobCommand implements MobCommand {
 	/**
 	 * Discard team members filter.
 	 */
-	DiscardTeamMembers discardMembersFilter;
+	DiscardTeamCommander discardTeamCommander;
 
 	/**
 	 * AttackNearestMobCommand constructor.
 	 */
-	public AttackNearestMobCommand() {
+	public AttackNearestPlayerCommand() {
 		entityDistanceSorter = new EntityDistanceSorter();
-		discardMembersFilter = new DiscardTeamMembers();
+		discardTeamCommander = new DiscardTeamCommander();
 
 		Config configuration = getBassebombeCraft().getConfiguration();
 		targetDistance = configuration.getInt(CONFIG_KEY + ".TargetDistance");
@@ -60,23 +59,24 @@ public class AttackNearestMobCommand implements MobCommand {
 
 	@Override
 	public Commands getType() {
-		return Commands.NEAREST_MOB;
+		return Commands.NEAREST_PLAYER;
 	}
 
 	@Override
 	public String getTitle() {
-		return "Attack nearest mob";
+		return "Attack nearest player (except the commander)";
 	}
 
 	@Override
 	public boolean shouldExecute(EntityPlayer commander, EntityCreature entity) {
 
 		// initialize filter
-		discardMembersFilter.set(entity);
+		discardTeamCommander.set(commander);
 
 		// get list of mobs
 		AxisAlignedBB aabb = entity.getEntityBoundingBox().expand(targetDistance, targetDistance, targetDistance);
-		List<EntityMob> targetList = entity.world.getEntitiesWithinAABB(EntityMob.class, aabb, discardMembersFilter);
+		List<EntityPlayer> targetList = entity.world.getEntitiesWithinAABB(EntityPlayer.class, aabb,
+				discardTeamCommander);
 
 		// exit if no targets where found
 		if (targetList.isEmpty())
@@ -87,8 +87,8 @@ public class AttackNearestMobCommand implements MobCommand {
 		Collections.sort(targetList, entityDistanceSorter);
 
 		// get target
-		EntityMob target = targetList.get(FIRST_INDEX);
-
+		EntityPlayer target = targetList.get(FIRST_INDEX);
+		
 		// update target
 		entity.setAttackTarget(target);
 

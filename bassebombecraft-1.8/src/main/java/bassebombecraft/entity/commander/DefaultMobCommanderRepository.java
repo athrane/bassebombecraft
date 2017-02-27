@@ -8,8 +8,9 @@ import java.util.Map;
 
 import bassebombecraft.entity.commander.command.AttackCommandersTargetCommand;
 import bassebombecraft.entity.commander.command.AttackNearestMobCommand;
+import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
 import bassebombecraft.entity.commander.command.NullCommand;
-import bassebombecraft.entity.commander.command.StopCommand;
+import bassebombecraft.entity.commander.command.StopAndDanceCommand;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class DefaultMobCommanderRepository implements MobCommanderRepository {
@@ -20,9 +21,14 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 	static final AttackNearestMobCommand ATTACK_NEAREST_MOB_COMMAND = new AttackNearestMobCommand();
 
 	/**
+	 * Attack nearest player command.
+	 */
+	static final AttackNearestPlayerCommand ATTACK_NEAREST_PLAYER_COMMAND = new AttackNearestPlayerCommand();
+	
+	/**
 	 * Stop command.
 	 */
-	static final StopCommand STOP_COMMAND = new StopCommand();
+	static final StopAndDanceCommand STOP_COMMAND = new StopAndDanceCommand();
 
 	/**
 	 * Attack commanders targer command.
@@ -157,10 +163,15 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 			}
 
 			case NEAREST_MOB: {
+				state.setCommand(ATTACK_NEAREST_PLAYER_COMMAND);
+				return;
+			}
+	
+			case NEAREST_PLAYER: {
 				state.setCommand(NULL_COMMAND);
 				return;
 			}
-			
+						
 			default: {
 				state.setCommand(NULL_COMMAND);
 				return;				

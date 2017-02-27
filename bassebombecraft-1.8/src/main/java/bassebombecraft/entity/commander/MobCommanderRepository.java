@@ -11,7 +11,8 @@ public interface MobCommanderRepository {
 		NULL,	
 		STOP,
 		COMMANDERS_TARGET,
-		NEAREST_MOB
+		NEAREST_MOB,
+		NEAREST_PLAYER
 	}
 	
 	/**
