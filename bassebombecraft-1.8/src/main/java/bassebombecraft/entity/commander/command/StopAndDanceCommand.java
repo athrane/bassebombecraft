@@ -59,6 +59,10 @@ public class StopCommand implements MobCommand {
 		// set jumping
 		if (shouldJump(entity)) {
 			entity.getJumpHelper().setJumping();
+			
+			Random random = entity.getRNG();	
+			float  value = random.nextInt(10) - 5; 
+			entity.moveEntityWithHeading(value, 0.0F);
 		}
 
 		return true;
