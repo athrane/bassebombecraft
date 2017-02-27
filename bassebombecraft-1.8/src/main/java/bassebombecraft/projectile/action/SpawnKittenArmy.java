@@ -9,6 +9,7 @@ import java.util.Random;
 
 import com.typesafe.config.Config;
 
+import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
@@ -104,6 +105,10 @@ public class SpawnKittenArmy implements ProjectileAction {
 			double positionZ = projectile.posZ + randomZ;
 			entity.setLocationAndAngles(positionX, positionY, positionZ, projectile.rotationYaw, PITCH);
 
+			// add entity to team
+			TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
+			teamRepository.add(entity, thrower.getName());
+			
 			// set AI
 			clearAiTasks(entity);
 			buildKittenArmyAi(entity);

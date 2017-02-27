@@ -64,7 +64,7 @@ public class AttackNearestPlayerCommand implements MobCommand {
 
 	@Override
 	public String getTitle() {
-		return "Attack nearest player (except the commander)";
+		return "Attack nearest player";
 	}
 
 	@Override
