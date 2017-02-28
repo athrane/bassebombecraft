@@ -22,19 +22,6 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	 * Charmed mobs.
 	 */
 	Map<EntityLiving, CharmedMob> charmedMobs = new ConcurrentHashMap<EntityLiving, CharmedMob>();
-
-	@Override
-	public void add(EntityLiving entity) {
-
-		// create charmed mob container
-		CharmedMob charmedMob = new CharmedMob(entity, EFFECT_DURATION);
-
-		clearAiTasks(entity);
-		buildCharmedMobAi(entity);
-
-		// store mob
-		charmedMobs.put(entity, charmedMob);
-	}
 	
 	@Override
 	public void add(EntityLiving entity, EntityLivingBase commander) {

@@ -13,14 +13,6 @@ public interface CharmedMobsRepository {
 	 * 
 	 * @param entity
 	 *            mob which is charmed.
-	 */
-	public void add(EntityLiving entity);
-
-	/**
-	 * Charm mob.
-	 * 
-	 * @param entity
-	 *            mob which is charmed.
 	 * @param commander
 	 *            entity which charmed mob.
 	 */

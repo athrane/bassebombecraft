@@ -44,8 +44,6 @@ public class AiUtils {
 												// player
 	static final float WATCH_DIST = 10.0F;
 
-	static EntityAiBuilder charmedMobAiBuilder = new CharmedMobAiBuilder();
-
 	/**
 	 * Clear passive and fighting AI tasks.
 	 * 
@@ -109,16 +107,6 @@ public class AiUtils {
 			EntityAIBase task = entry.action;
 			entity.targetTasks.addTask(priority, task);
 		}
-	}
-
-	/**
-	 * Build AI for charmed mob.
-	 * 
-	 * @param entity
-	 *            entity which will configured with charmed AI.
-	 */
-	public static void buildCharmedMobAi(EntityLiving entity) {
-		charmedMobAiBuilder.build(entity);
 	}
 
 	/**
