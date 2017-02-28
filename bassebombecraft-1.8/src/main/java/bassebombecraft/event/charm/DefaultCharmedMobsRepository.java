@@ -1,15 +1,15 @@
 package bassebombecraft.event.charm;
 
+import static bassebombecraft.entity.ai.AiUtils.assignAiTargetTasks;
+import static bassebombecraft.entity.ai.AiUtils.assignAiTasks;
 import static bassebombecraft.entity.ai.AiUtils.buildCharmedMobAi;
-import static bassebombecraft.entity.ai.AiUtils.*;
+import static bassebombecraft.entity.ai.AiUtils.clearAiTasks;
 
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 
 /**
  * Default implementation of the {@linkplain CharmedMobsRepository}.
@@ -22,7 +22,7 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	 * Charmed mobs.
 	 */
 	Map<EntityLiving, CharmedMob> charmedMobs = new ConcurrentHashMap<EntityLiving, CharmedMob>();
-	
+
 	@Override
 	public void add(EntityLiving entity, EntityLivingBase commander) {
 
@@ -33,28 +33,22 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 		buildCharmedMobAi(entity, commander);
 
 		// store mob
-		charmedMobs.put(entity, charmedMob);		
+		charmedMobs.put(entity, charmedMob);
 	}
-
 
 	@Override
 	public void remove(EntityLiving entity) {
 		if (!contains(entity))
 			return;
-		
+
 		// restore AI tasks
 		CharmedMob charmedMob = charmedMobs.get(entity);
-		clearAiTasks(entity);	
+		clearAiTasks(entity);
 		assignAiTasks(entity, charmedMob.getTasks());
 		assignAiTargetTasks(entity, charmedMob.getTargetTasks());
-		
-		// remove mob from repository 
-		charmedMobs.remove(entity);
-	}
 
-	void assignAiTasks(EntityLiving entity, Set<EntityAITaskEntry> tasks) {
-		// TODO Auto-generated method stub
-		
+		// remove mob from repository
+		charmedMobs.remove(entity);
 	}
 
 	@Override
