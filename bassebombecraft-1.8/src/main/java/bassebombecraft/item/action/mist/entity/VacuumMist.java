@@ -30,7 +30,7 @@ public class VacuumMist implements EntityMistActionStrategy {
 	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
 
 	@Override
-	public void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos) {
+	public void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos, EntityLivingBase invoker) {
 
 		// calculate pull vector
 		Vec3d targetPosVec = target.getPositionVector();

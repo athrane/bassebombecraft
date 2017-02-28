@@ -39,7 +39,7 @@ public class WitherMist implements EntityMistActionStrategy {
 	}
 
 	@Override
-	public void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos) {
+	public void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos, EntityLivingBase invoker) {
 		target.addPotionEffect(createEffect());
 	}
 

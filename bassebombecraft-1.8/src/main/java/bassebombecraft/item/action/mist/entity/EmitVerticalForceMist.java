@@ -30,7 +30,7 @@ public class EmitVerticalForceMist implements EntityMistActionStrategy {
 	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
 
 	@Override
-	public void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos) {
+	public void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos, EntityLivingBase invoker) {
 		// push mob
 		target.move(MoverType.SELF,0, FORCE, 0);
 	}

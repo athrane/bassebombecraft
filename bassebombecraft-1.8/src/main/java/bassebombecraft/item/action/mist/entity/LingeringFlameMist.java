@@ -51,7 +51,7 @@ public class LingeringFlameMist implements EntityMistActionStrategy {
 	}
 
 	@Override
-	public void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos) {
+	public void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos, EntityLivingBase invoker) {
 		World world = target.getEntityWorld();
 		world.createExplosion(target, mistPos.xCoord, mistPos.yCoord, mistPos.zCoord, explosionRadius, IS_SMOKING);
 	}

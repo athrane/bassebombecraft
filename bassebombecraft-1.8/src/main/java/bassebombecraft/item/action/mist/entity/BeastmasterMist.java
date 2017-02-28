@@ -29,7 +29,7 @@ public class BeastmasterMist implements EntityMistActionStrategy {
 	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
 
 	@Override
-	public void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos) {
+	public void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos, EntityLivingBase invoker) {
 
 		// skip if entity can't be charmed
 		if (!(target instanceof EntityLiving))
@@ -37,7 +37,7 @@ public class BeastmasterMist implements EntityMistActionStrategy {
 		EntityLiving entityLiving = (EntityLiving) target;
 
 		// register mob as charmed
-		getBassebombeCraft().getCharmedMobsRepository().add(entityLiving);
+		getBassebombeCraft().getCharmedMobsRepository().add(entityLiving,invoker);
 	}
 
 	@Override

@@ -16,8 +16,10 @@ public interface EntityMistActionStrategy {
 	 *            target entity.
 	 * @param MistPos
 	 *            position of the mist.
+	 * @param invoker
+	 *            invoker entity.
 	 */
-	void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos);
+	void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos, EntityLivingBase invoker);
 
 	/**
 	 * Return effect duration.

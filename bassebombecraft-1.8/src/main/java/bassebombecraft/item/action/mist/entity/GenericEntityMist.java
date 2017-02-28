@@ -123,7 +123,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 			}
 
 			// apply effect
-			strategy.applyEffectToEntity(foundEntity, mistPos);
+			strategy.applyEffectToEntity(foundEntity, mistPos, invokingEntity);
 
 			// exit if strategy is one shot effect
 			if (strategy.isOneShootEffect()) {
