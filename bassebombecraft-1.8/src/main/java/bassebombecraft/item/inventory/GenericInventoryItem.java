@@ -87,7 +87,6 @@ public class GenericInventoryItem extends Item {
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 
 		// only apply the action at server side since we updates the world
-
 		if (isWorldAtClientSide(worldIn))
 			return;
 
