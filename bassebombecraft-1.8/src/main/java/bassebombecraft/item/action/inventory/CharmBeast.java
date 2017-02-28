@@ -6,6 +6,7 @@ import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
 /**
@@ -42,7 +43,7 @@ public class CharmBeast implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world) {
+	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
 
 		// skip if entity can't be charmed
 		if (!(target instanceof EntityLiving))
@@ -50,7 +51,7 @@ public class CharmBeast implements InventoryItemActionStrategy {
 		EntityLiving entityLiving = (EntityLiving) target;
 
 		// register mob as charmed
-		getBassebombeCraft().getCharmedMobsRepository().add(entityLiving);
+		getBassebombeCraft().getCharmedMobsRepository().add(entityLiving, invoker);
 	}
 
 	@Override

@@ -17,6 +17,7 @@ import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.GeometryUtils;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -96,7 +97,7 @@ public class Pinkynize implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world) {
+	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
 		colorCounter++;
 
 		// calculate position

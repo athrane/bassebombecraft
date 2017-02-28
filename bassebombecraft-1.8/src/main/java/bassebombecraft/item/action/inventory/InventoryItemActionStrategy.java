@@ -2,6 +2,7 @@ package bassebombecraft.item.action.inventory;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 
 /**
@@ -39,8 +40,10 @@ public interface InventoryItemActionStrategy {
 	 *            target entity.
 	 * @param world
 	 *            world object.
+	 * @param invoker
+	 *            invoker entity.
 	 */
-	void applyEffect(Entity target, World world);
+	void applyEffect(Entity target, World world, EntityLivingBase invoker);
 
 	/**
 	 * Get the area-of-effect range in blocks where the effect is triggered if

@@ -4,6 +4,7 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
@@ -39,7 +40,7 @@ public class AddFlameEffect implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world) {
+	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
 		target.setFire(30);
 	}
 

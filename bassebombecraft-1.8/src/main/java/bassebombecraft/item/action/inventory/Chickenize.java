@@ -6,6 +6,7 @@ import java.util.Random;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -44,7 +45,7 @@ public class Chickenize implements InventoryItemActionStrategy {
 	}
 	
 	@Override
-	public void applyEffect(Entity target, World world) {
+	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
 
 		// get entity position
 		BlockPos position = target.getPosition();

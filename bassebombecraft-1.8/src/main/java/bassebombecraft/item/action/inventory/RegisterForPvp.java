@@ -6,6 +6,7 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.player.pvp.PvpRepository;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
@@ -51,7 +52,7 @@ public class RegisterForPvp implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world) {
+	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
 
 		// only apply for players
 		if (!(target instanceof EntityPlayer))

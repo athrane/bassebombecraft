@@ -40,7 +40,7 @@ public class AddHealingEffect implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world) {
+	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
 		if(target instanceof EntityLivingBase) {
 			EntityLivingBase entityLivingBase = (EntityLivingBase) target;
 			entityLivingBase.addPotionEffect(createEffect());
