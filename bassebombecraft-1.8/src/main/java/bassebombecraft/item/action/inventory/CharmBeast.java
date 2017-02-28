@@ -3,6 +3,8 @@ package bassebombecraft.item.action.inventory;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
 
+import com.typesafe.config.Config;
+
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -21,6 +23,11 @@ public class CharmBeast implements InventoryItemActionStrategy {
 	ParticleRenderingInfo[] infos;
 
 	/**
+	 * Effect range.
+	 */
+	int range;
+	
+	/**
 	 * CharmBeast constructor
 	 * 
 	 * @param key
@@ -28,6 +35,8 @@ public class CharmBeast implements InventoryItemActionStrategy {
 	 */
 	public CharmBeast(String key) {
 		infos = createFromConfig(key);
+		Config configuration = getBassebombeCraft().getConfiguration();
+		range = configuration.getInt(key + ".Range");		
 	}
 
 	@Override
@@ -56,7 +65,7 @@ public class CharmBeast implements InventoryItemActionStrategy {
 
 	@Override
 	public int getEffectRange() {
-		return 5;
+		return range;
 	}
 
 	@Override
