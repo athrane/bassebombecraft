@@ -4,6 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.ITEM_IDOL_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
+import static bassebombecraft.config.VersionUtils.postItemUsage;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
 import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
@@ -134,6 +135,9 @@ public class GenericInventoryItem extends Item {
 		CooldownTracker tracker = player.getCooldownTracker();
 		tracker.setCooldown(this, coolDown);
 
+		// post analytics
+		postItemUsage(this.getUnlocalizedName());
+		
 		// apply effect
 		applyEffect(worldIn, (EntityLivingBase) entityIn);
 
