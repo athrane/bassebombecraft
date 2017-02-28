@@ -1,11 +1,13 @@
 package bassebombecraft.item.action.inventory;
 
-import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.config.ConfigUtils.createFromConfig;
+
+import com.typesafe.config.Config;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
 /**
@@ -14,18 +16,33 @@ import net.minecraft.world.World;
  */
 public class AddFlameEffect implements InventoryItemActionStrategy {
 
-	static final int EFFECT_DURATION = 200; // Measured in ticks
+	/**
+	 * Particle rendering info
+	 */
+	ParticleRenderingInfo[] infos;
 
-	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.FLAME;
-	static final int PARTICLE_NUMBER = 5;
-	static final int PARTICLE_DURATION = 20;
-	static final float R = 0.75F;
-	static final float G = 0.25F;
-	static final float B = 0.25F;
-	static final double PARTICLE_SPEED = 0.3;
-	static final ParticleRenderingInfo MIST = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R, G, B,
-			PARTICLE_SPEED);
-	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
+	/**
+	 * Effect duration.
+	 */
+	int duration;
+
+	/**
+	 * Effect range.
+	 */
+	int range;
+
+	/**
+	 * AddFlameEffect constructor
+	 * 
+	 * @param key
+	 *            configuration key to initialize particle rendering info from.
+	 */
+	public AddFlameEffect(String key) {
+		infos = createFromConfig(key);
+		Config configuration = getBassebombeCraft().getConfiguration();
+		duration = configuration.getInt(key + ".Duration");
+		range = configuration.getInt(key + ".Range");
+	}
 
 	@Override
 	public boolean applyOnlyIfSelected() {
@@ -41,21 +58,17 @@ public class AddFlameEffect implements InventoryItemActionStrategy {
 
 	@Override
 	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
-		target.setFire(30);
+		target.setFire(duration);
 	}
 
 	@Override
 	public int getEffectRange() {
-		return 5;
+		return range;
 	}
 
 	@Override
 	public ParticleRenderingInfo[] getRenderingInfos() {
-		return INFOS;
-	}
-
-	int getEffectDuration() {
-		return EFFECT_DURATION;
+		return infos;
 	}
 
 }
