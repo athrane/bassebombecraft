@@ -1,5 +1,6 @@
 package bassebombecraft.entity.ai;
 
+import static bassebombecraft.entity.EntityUtils.isEntityCreature;
 import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
 
 import java.util.Set;
@@ -125,6 +126,11 @@ public class AiUtils {
 		entity.tasks.addTask(3, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
 		entity.tasks.addTask(4, new EntityAIWatchClosest(entity, EntityMob.class, WATCH_DIST));
 		entity.tasks.addTask(5, new EntityAILookIdle(entity));
+
+		// exit setting target tasks if entity isn't a creature 
+		// including commander controlled targeting
+		if (!isEntityCreature(entity))
+			return;
 
 		// type cast
 		EntityCreature entityCreature = EntityCreature.class.cast(entity);

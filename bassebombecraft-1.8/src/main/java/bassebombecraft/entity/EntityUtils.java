@@ -1,5 +1,7 @@
 package bassebombecraft.entity;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -54,6 +56,20 @@ public class EntityUtils {
 	public static void explode(EntityLivingBase entity, World world, int size) {
 		world.createExplosion(entity, entity.getPosition().getX(), entity.getPosition().getY(),
 				entity.getPosition().getZ(), size, IS_SMOKING);
+	}
+
+	/**
+	 * return true if entity is a {@linkplain EntityCreature}.
+	 * 
+	 * @param entity
+	 *            entity to test.
+	 * 
+	 * @return true if entity is a {@linkplain EntityCreature}.
+	 */
+	public static boolean isEntityCreature(Entity entity) {
+		if (entity == null)
+			return false;
+		return entity instanceof EntityCreature;
 	}
 
 }
