@@ -10,7 +10,7 @@ import bassebombecraft.entity.commander.command.AttackCommandersTargetCommand;
 import bassebombecraft.entity.commander.command.AttackNearestMobCommand;
 import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
 import bassebombecraft.entity.commander.command.NullCommand;
-import bassebombecraft.entity.commander.command.StopAndDanceCommand;
+import bassebombecraft.entity.commander.command.DanceCommand;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class DefaultMobCommanderRepository implements MobCommanderRepository {
@@ -28,7 +28,7 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 	/**
 	 * Stop command.
 	 */
-	static final StopAndDanceCommand STOP_COMMAND = new StopAndDanceCommand();
+	static final DanceCommand STOP_COMMAND = new DanceCommand();
 
 	/**
 	 * Attack commanders targer command.

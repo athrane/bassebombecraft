@@ -12,14 +12,14 @@ import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.player.EntityPlayer;
 
 /**
- * Stop (and jump) command.
+ * Dance command.
  */
-public class StopAndDanceCommand implements MobCommand {
+public class DanceCommand implements MobCommand {
 
 	/**
 	 * Configuration key.
 	 */
-	final static String CONFIG_KEY = StopAndDanceCommand.class.getSimpleName();
+	final static String CONFIG_KEY = DanceCommand.class.getSimpleName();
 
 	/**
 	 * Chance of jumping.
@@ -33,13 +33,13 @@ public class StopAndDanceCommand implements MobCommand {
 
 	@Override
 	public String getTitle() {
-		return "Stop (and dance)";
+		return "Dance";
 	}
 
 	/**
 	 * StopCommand constructor.
 	 */
-	public StopAndDanceCommand() {
+	public DanceCommand() {
 		super();
 		Config configuration = getBassebombeCraft().getConfiguration();
 		jumpChance = configuration.getDouble(CONFIG_KEY + ".JumpChance");
