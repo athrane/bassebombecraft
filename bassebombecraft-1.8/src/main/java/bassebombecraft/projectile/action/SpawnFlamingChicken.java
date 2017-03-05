@@ -26,11 +26,11 @@ public class SpawnFlamingChicken implements ProjectileAction {
 		chicken.setFire(3);
 		
 		// get owner
-		EntityLivingBase thrower = projectile.getThrower();
+		EntityLivingBase commander = projectile.getThrower();
 		
 		// add entity to team
 		TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
-		teamRepository.add(chicken, thrower.getName());
+		teamRepository.add(commander, chicken);
 
 		// set AI
 		// NO-OP

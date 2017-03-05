@@ -27,7 +27,7 @@ public class SpawnGuardian implements ProjectileAction {
 		
 		// add entity to team
 		TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
-		teamRepository.add(entity, owner.getName());
+		teamRepository.add(owner, entity);
 
 		// set AI		
 		clearAiTasks(entity);

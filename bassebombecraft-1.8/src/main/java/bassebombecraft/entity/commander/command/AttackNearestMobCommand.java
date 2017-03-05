@@ -88,7 +88,7 @@ public class AttackNearestMobCommand implements MobCommand {
 
 		// get target
 		EntityMob target = targetList.get(FIRST_INDEX);
-
+				
 		// update target
 		entity.setAttackTarget(target);
 
@@ -100,7 +100,7 @@ public class AttackNearestMobCommand implements MobCommand {
 
 		// get target
 		EntityLivingBase target = entity.getAttackTarget();
-
+		
 		// exit if target is undefined
 		if (target == null)
 			return false;

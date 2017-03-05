@@ -18,15 +18,15 @@ public class DiscardTeamMembers implements Predicate<EntityLivingBase> {
 	}
 
 	@Override
-	public boolean apply(EntityLivingBase input) {
+	public boolean apply(EntityLivingBase candidateMember) {
 		if (this.entity == null)
 			return false;
-		if (input == null)
+		if (candidateMember == null)
 			return false;
 
 		// verify if members of the same team
 		TeamRepository repository = getBassebombeCraft().getTeamRepository();
-		return (!repository.isTeamMembers(this.entity, input));
+		return (!repository.isTeamMembers(this.entity, candidateMember));
 	}
 
 }

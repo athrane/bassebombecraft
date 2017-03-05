@@ -84,7 +84,7 @@ public class SpawnSkeletonArmy implements ProjectileAction {
 
 			// add entity to team
 			TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
-			teamRepository.add(entity, thrower.getName());
+			teamRepository.add(thrower, entity);
 
 			// set AI
 			clearAiTasks(entity);

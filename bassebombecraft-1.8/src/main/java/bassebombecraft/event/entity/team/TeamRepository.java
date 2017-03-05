@@ -1,6 +1,7 @@
 package bassebombecraft.event.entity.team;
 
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * Interface for repository for handling team memberships.
@@ -10,28 +11,40 @@ public interface TeamRepository {
 	/**
 	 * Create team.
 	 * 
-	 * @param teamName
-	 *            name of team to create.
-	 */
-	public void createTeam(String teamName);
-
+	 * @param commander
+	 *            commander of the team.
+	 */	
+	public void createTeam(EntityPlayer commander);
+	
 	/**
 	 * Returns true if team exists.
-	 * @param teamName true if team exists.
+	 * 
+	 * @param commander true if team with commander.
+	 * 
 	 * @return true if team exists.
 	 */
-	public boolean teamExists(String teamName);
+	public boolean teamExists(EntityPlayer commander);
 	
 	/**
 	 * Add team member.
 	 * 
+	 * @param commander
+	 *            commander of the team.
 	 * @param entity
 	 *            entity which is added to team.
-	 * @param teamName
-	 *            name of team to add entity to.
 	 */
-	public void add(EntityLivingBase entity, String teamName);
+	public void add(EntityPlayer commander, EntityLivingBase entity);
 
+	/**
+	 * Add team member.
+	 * 
+	 * @param creator
+	 *            creator of entity to register as team member.
+	 * @param entity
+	 *            entity which is added to team.
+	 */
+	public void add(EntityLivingBase creator, EntityLivingBase entity);
+	
 	/**
 	 * Remove team member from any team.
 	 * 
@@ -50,17 +63,18 @@ public interface TeamRepository {
 	 * 
 	 * @return true if entity is member of team.
 	 */
-	public boolean contains(EntityLivingBase entity, String teamName);
+	public boolean isMember(EntityPlayer commander, EntityLivingBase entity);
 
 	/**
 	 * Returns true if entities are members of the same team.
 	 * 
 	 * @param entity
-	 *            entity one
+	 *            entity to query for membership.
 	 * @param entity2
-	 *            entity two
-	 * @return true if entities are members of the same team.
-	 */
+	 *            entity to query for membership.
+	 * 
+	 * @return true if entity is member of team.
+	 */	
 	public boolean isTeamMembers(EntityLivingBase entity, EntityLivingBase entity2);
 
 }

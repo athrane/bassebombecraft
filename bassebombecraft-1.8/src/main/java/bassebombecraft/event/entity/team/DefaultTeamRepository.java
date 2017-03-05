@@ -5,7 +5,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
+import bassebombecraft.player.PlayerUtils;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * Default implementation of the {@linkplain TeamRepository}.
@@ -20,17 +24,17 @@ public class DefaultTeamRepository implements TeamRepository {
 		/**
 		 * Team constructor.
 		 * 
-		 * @param teamName
-		 *            team name.
+		 * @param team
+		 *            commander.
 		 */
-		public Team(String teamName) {
-			this.name = teamName;
+		public Team(EntityPlayer commander) {
+			this.commander = commander;
 		}
 
 		/**
-		 * Team name.
+		 * Team commander.
 		 */
-		String name;
+		EntityPlayer commander;
 
 		/**
 		 * Team members.
@@ -40,7 +44,7 @@ public class DefaultTeamRepository implements TeamRepository {
 		@Override
 		public boolean equals(Object obj) {
 			Team team = (Team) obj;
-			return this.name.equalsIgnoreCase(team.name);
+			return this.commander.equals(team.commander);
 		}
 
 	}
@@ -48,7 +52,7 @@ public class DefaultTeamRepository implements TeamRepository {
 	/**
 	 * Teams.
 	 */
-	Map<String, Team> teams = new ConcurrentHashMap<String, Team>();
+	Map<EntityLivingBase, Team> teams = new ConcurrentHashMap<EntityLivingBase, Team>();
 
 	/**
 	 * Entity to team mapping.
@@ -56,42 +60,74 @@ public class DefaultTeamRepository implements TeamRepository {
 	Map<EntityLivingBase, Team> teamMembership = new ConcurrentHashMap<EntityLivingBase, Team>();
 
 	@Override
-	public void createTeam(String teamName) {
-		if (teamName == null)
+	public void createTeam(EntityPlayer commander) {
+		if (commander == null)
 			return;
-		if (teamExists(teamName))
+		if (teamExists(commander))
 			return;
 
-		teams.put(teamName, new Team(teamName));		
+		Team team = new Team(commander);
+		teams.put(commander, team);
 	}
 
 	@Override
-	public void add(EntityLivingBase entity, String teamName) {
+	public void add(EntityPlayer commander, EntityLivingBase entity) {
+		if (commander == null)
+			return;
 		if (entity == null)
 			return;
-		if (teamName == null)
-			return;
-		
+
 		// create team if it doesn't exit
-		if (!teamExists(teamName))
-			createTeam(teamName);
+		if (!teamExists(commander))
+			createTeam(commander);
 
 		// get team
-		Team team = teams.get(teamName);
+		Team team = teams.get(commander);
 
 		// add to global membership list
 		teamMembership.put(entity, team);
 
 		// add to team
 		team.members.add(entity);
-		
+
+		// DEBUG
+		isMember(commander, entity);
+
 	}
 
 	@Override
-	public boolean teamExists(String teamName) {
-		if (teamName == null)
+	public void add(EntityLivingBase creator, EntityLivingBase entity) {
+		if (creator == null)
+			return;
+		if (entity == null)
+			return;
+
+		// if entity is player then add as commander
+		if (PlayerUtils.isEntityPlayer(creator)) {
+			EntityPlayer commander = (EntityPlayer) creator;
+			add(commander, entity);
+			return;
+		}
+
+		// exit if creator isn't member of global membership list
+		if (!teamMembership.containsKey(creator))
+			return;
+
+		// get team
+		Team team = teamMembership.get(creator);
+
+		// get commander
+		EntityPlayer commander = team.commander;
+
+		// add to commanders team
+		add(commander, entity);
+	}
+
+	@Override
+	public boolean teamExists(EntityPlayer commander) {
+		if (commander == null)
 			return false;
-		return teams.containsKey(teamName);
+		return teams.containsKey(commander);
 	}
 
 	@Override
@@ -112,13 +148,18 @@ public class DefaultTeamRepository implements TeamRepository {
 	}
 
 	@Override
-	public boolean contains(EntityLivingBase entity, String teamName) {
+	public boolean isMember(EntityPlayer commander, EntityLivingBase entity) {
+		if (commander == null)
+			return false;
 		if (entity == null)
 			return false;
-		if (teamName == null)
+
+		// get team
+		Team team = teams.get(commander);
+
+		if (team == null)
 			return false;
 
-		Team team = teams.get(teamName);
 		return team.members.contains(entity);
 	}
 
@@ -129,16 +170,15 @@ public class DefaultTeamRepository implements TeamRepository {
 		if (entity2 == null)
 			return false;
 
-		if (!teamMembership.containsKey(entity))
-			return false;
-		if (!teamMembership.containsKey(entity2))
-			return false;
-
 		// get teams
 		Team team = teamMembership.get(entity);
 		Team team2 = teamMembership.get(entity2);
 
-		// compare
+		if (team == null)
+			return false;
+		if (team2 == null)
+			return false;
+
 		return team.equals(team2);
 	}
 

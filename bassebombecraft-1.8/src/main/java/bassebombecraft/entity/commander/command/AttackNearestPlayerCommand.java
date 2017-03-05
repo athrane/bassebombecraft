@@ -10,7 +10,7 @@ import com.typesafe.config.Config;
 import bassebombecraft.entity.EntityDistanceSorter;
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
-import bassebombecraft.predicate.DiscardTeamCommander;
+import bassebombecraft.predicate.DiscardCommander;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -42,16 +42,16 @@ public class AttackNearestPlayerCommand implements MobCommand {
 	EntityDistanceSorter entityDistanceSorter;
 
 	/**
-	 * Discard team members filter.
+	 * Discard team members filter used to discard commander.
 	 */
-	DiscardTeamCommander discardTeamCommander;
+	DiscardCommander discardTeamCommander;
 
 	/**
 	 * AttackNearestMobCommand constructor.
 	 */
 	public AttackNearestPlayerCommand() {
 		entityDistanceSorter = new EntityDistanceSorter();
-		discardTeamCommander = new DiscardTeamCommander();
+		discardTeamCommander = new DiscardCommander();
 
 		Config configuration = getBassebombeCraft().getConfiguration();
 		targetDistance = configuration.getInt(CONFIG_KEY + ".TargetDistance");
@@ -77,7 +77,7 @@ public class AttackNearestPlayerCommand implements MobCommand {
 		AxisAlignedBB aabb = entity.getEntityBoundingBox().expand(targetDistance, targetDistance, targetDistance);
 		List<EntityPlayer> targetList = entity.world.getEntitiesWithinAABB(EntityPlayer.class, aabb,
 				discardTeamCommander);
-
+		
 		// exit if no targets where found
 		if (targetList.isEmpty())
 			return false;
