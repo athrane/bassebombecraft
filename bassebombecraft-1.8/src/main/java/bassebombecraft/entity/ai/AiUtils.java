@@ -25,7 +25,6 @@ import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.passive.EntityOcelot;
@@ -124,7 +123,7 @@ public class AiUtils {
 		entity.tasks.addTask(1, new EntityAISwimming(entity));
 		entity.tasks.addTask(2, new CompanionAttack(entity));
 		entity.tasks.addTask(3, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
-		entity.tasks.addTask(4, new EntityAIWatchClosest(entity, EntityMob.class, WATCH_DIST));
+		//entity.tasks.addTask(4, new EntityAIWatchClosest(entity, EntityMob.class, WATCH_DIST));
 		entity.tasks.addTask(5, new EntityAILookIdle(entity));
 
 		// exit setting target tasks if entity isn't a creature 
@@ -168,7 +167,7 @@ public class AiUtils {
 		entity.tasks.addTask(5, new EntityAILeapAtTarget(entity, 0.3F));
 		entity.tasks.addTask(6, new EntityAIOcelotAttack(entity));
 		entity.tasks.addTask(7, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
-		entity.tasks.addTask(8, new EntityAIWatchClosest(entity, EntityMob.class, WATCH_DIST));
+		//entity.tasks.addTask(8, new EntityAIWatchClosest(entity, EntityMob.class, WATCH_DIST));
 		entity.tasks.addTask(9, new EntityAILookIdle(entity));
 
 		// type cast
@@ -206,7 +205,7 @@ public class AiUtils {
 		entity.tasks.addTask(3, new EntityAIPanic(entity, 1.4D));
 		entity.tasks.addTask(4, new EntityAIAttackRangedBow(entity, 1.0D, 20, 15.0F));
 		entity.tasks.addTask(5, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
-		entity.tasks.addTask(6, new EntityAIWatchClosest(entity, EntityMob.class, WATCH_DIST));
+		//entity.tasks.addTask(6, new EntityAIWatchClosest(entity, EntityMob.class, WATCH_DIST));
 		entity.tasks.addTask(7, new EntityAILookIdle(entity));
 
 		// type cast
