@@ -51,7 +51,9 @@ public class FollowEntity extends EntityAIBase {
 		this.minDistance = minDistIn;
 		this.maxDistance = maxDistIn;
 		minDistanceSqr = minDistance * minDistance;
-		// this.setMutexBits(3);
+		
+		//  "movement" AI
+		this.setMutexBits(1);
 	}
 
 	/**

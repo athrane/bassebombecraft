@@ -34,6 +34,9 @@ public class FollowClosestPlayer extends EntityAIBase {
 		this.entity = entity;
 		this.minDistanceSqr = minDistance * minDistance;
 		this.movementSpeed = movementSpeed;
+		
+		//  "movement" AI
+		this.setMutexBits(1);		
 	}
 
 	@Override

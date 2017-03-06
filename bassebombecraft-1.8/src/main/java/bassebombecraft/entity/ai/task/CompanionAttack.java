@@ -85,7 +85,9 @@ public class CompanionAttack extends EntityAIBase {
 	 */
 	public CompanionAttack(EntityLiving entity) {
 		this.entity = entity;
-		this.setMutexBits(3);
+		
+		//  "interactive" AI, including attack
+		this.setMutexBits(3); 
 
 		longRangeActions = new ArrayList<RightClickedItemAction>();
 		longRangeActions.add(new ShootSmallFireball());

@@ -35,7 +35,9 @@ public class MobCommandedTargeting extends EntityAITarget {
 	public MobCommandedTargeting(EntityCreature owner, EntityPlayer commander) {
 		super(owner, false);
 		this.commander = commander;
-		this.setMutexBits(1);
+		
+		// Uncategorised compatible  with every task 
+		//this.setMutexBits(1);
 	}
 
 	@Override
