@@ -1,9 +1,9 @@
 package bassebombecraft.client;
 
-import bassebombecraft.server.CommonProxy;
+import bassebombecraft.server.ServerProxy;
 
 
-public class ClientProxy extends CommonProxy {
+public class ClientProxy extends ServerProxy {
 
     // Client stuff
 	@Override
