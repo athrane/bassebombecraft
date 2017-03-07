@@ -48,7 +48,7 @@ public class GenericBlockClickedBook extends Item {
 	public GenericBlockClickedBook(String name, BlockClickedItemAction action) {
 		setUnlocalizedName(name);
 		this.action = action;
-		BassebombeCraft.proxy.registerForRendering(this);
+		BassebombeCraft.proxy.registerItemForRendering(this);
 
 		// get cooldown or default value
 		coolDown = resolveCoolDown(name, ITEM_BOOK_DEFAULT_COOLDOWN);

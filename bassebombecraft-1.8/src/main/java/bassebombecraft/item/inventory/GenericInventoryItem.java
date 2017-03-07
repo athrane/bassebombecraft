@@ -61,7 +61,7 @@ public class GenericInventoryItem extends Item {
 	public GenericInventoryItem(String name, InventoryItemActionStrategy strategy) {
 		setUnlocalizedName(name);
 		this.strategy = strategy;
-		BassebombeCraft.proxy.registerForRendering(this);
+		BassebombeCraft.proxy.registerItemForRendering(this);
 		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
 
 		// get cooldown or default value

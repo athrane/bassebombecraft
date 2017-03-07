@@ -40,7 +40,7 @@ public class GenericStaff extends Item {
 	public GenericStaff(String itemName, StructureFactory factory) {
 		setUnlocalizedName(itemName);
 		this.structureFactory = factory;
-		BassebombeCraft.proxy.registerForRendering(this);
+		BassebombeCraft.proxy.registerItemForRendering(this);
 	}
 
 	@Override
