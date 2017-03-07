@@ -39,7 +39,7 @@ import bassebombecraft.player.pvp.DefaultPvpRepository;
 import bassebombecraft.player.pvp.PvpEventListener;
 import bassebombecraft.player.pvp.PvpRepository;
 import bassebombecraft.projectile.ProjectileInitializer;
-import bassebombecraft.server.CommonProxy;
+import bassebombecraft.proxy.CommonProxy;
 import bassebombecraft.tab.CreativeTabFactory;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -50,7 +50,8 @@ import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 
 @net.minecraftforge.fml.common.Mod(name = NAME, modid = MODID, version = VERSION)
 public class BassebombeCraft {
@@ -70,7 +71,18 @@ public class BassebombeCraft {
 	@Instance(value = MODID)
 	public static BassebombeCraft instance;
 
-	@SidedProxy(clientSide = "bassebombecraft.client.ClientProxy", serverSide = "bassebombecraft.server.CommonProxy")
+	/**
+	 * Minecraft uses a client and server setup, even on single player. The
+	 * server side does all the work maintaining the world's state while the
+	 * client renders the world. The thing is though, that all code runs on both
+	 * the client and server side unless specified otherwise. There are two
+	 * annotations for specifying code be ran on only one side. The
+	 * annotation @SidedProxy is used when you want the server to call the
+	 * constructor of one class and the client another. Both classes need to be
+	 * the same type or subtype of the field, and the names of the classes are
+	 * passed as Strings.
+	 */
+	@SidedProxy(clientSide = "bassebombecraft.proxy.ClientProxy", serverSide = "bassebombecraft.proxy.CommonProxy")
 	public static CommonProxy proxy;
 
 	public static CreativeTabs modTab;
@@ -109,7 +121,7 @@ public class BassebombeCraft {
 	 * Team repository.
 	 */
 	TeamRepository teamRepository;
-	
+
 	/**
 	 * Mod configuration.
 	 */
@@ -133,6 +145,7 @@ public class BassebombeCraft {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		logger = event.getModLog();
+		proxy.preInit(event);
 
 		// load configuration file
 		config = ConfigFactory.load(MODID);
@@ -154,7 +167,7 @@ public class BassebombeCraft {
 
 		// initialise team repository
 		teamRepository = DefaultTeamRepository.getInstance();
-		
+
 		// Initialise PVP repository
 		pvpRepository = DefaultPvpRepository.getInstance();
 
@@ -166,9 +179,9 @@ public class BassebombeCraft {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 		logger.info("Starting to initialize BasseBombeCraft");
+		proxy.init(event);
 
 		validateVersion(logger);
-		initializeAnalytics(logger);
 		itemInitializer = ItemInitializer.getInstance();
 		bookItemList = itemInitializer.initializeBooks(modTab);
 		inventoryItemList = itemInitializer.initializeInventoryItems(modTab);
@@ -180,7 +193,12 @@ public class BassebombeCraft {
 	}
 
 	@EventHandler
-	public void shutdown(FMLServerStoppingEvent event) {
+	public void startPlayerSession(PlayerLoggedInEvent event) {
+		initializeAnalytics(logger);
+	}
+
+	@EventHandler
+	public void endPlayerSession(PlayerLoggedOutEvent event) {
 		shutdownAnalytics(logger);
 	}
 
@@ -237,12 +255,10 @@ public class BassebombeCraft {
 		// Initialise entity team membership event listener
 		EntityTeamMembershipEventListener teamEventListener = new EntityTeamMembershipEventListener(teamRepository);
 		MinecraftForge.EVENT_BUS.register(teamEventListener);
-		
+
 		// Initialise PVP event listener
 		PvpEventListener pvpEventListener = new PvpEventListener(pvpRepository);
 		MinecraftForge.EVENT_BUS.register(pvpEventListener);
-
-		proxy.registerRenderers();
 	}
 
 	/**
@@ -307,7 +323,7 @@ public class BassebombeCraft {
 	public TeamRepository getTeamRepository() {
 		return teamRepository;
 	}
-	
+
 	/**
 	 * Get mod configuration.
 	 * 

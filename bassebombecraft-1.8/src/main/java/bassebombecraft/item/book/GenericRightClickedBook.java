@@ -1,15 +1,12 @@
 package bassebombecraft.item.book;
 
 import static bassebombecraft.ModConstants.ITEM_BOOK_DEFAULT_COOLDOWN;
-import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 import static bassebombecraft.config.VersionUtils.postItemUsage;
 import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.item.action.RightClickedItemAction;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -50,23 +47,10 @@ public class GenericRightClickedBook extends Item {
 	public GenericRightClickedBook(String name, RightClickedItemAction action) {
 		setUnlocalizedName(name);
 		this.action = action;
-		registerForRendering(this);
+		BassebombeCraft.proxy.registerForRendering(this);
 
 		// get cooldown or default value
 		coolDown = resolveCoolDown(name, ITEM_BOOK_DEFAULT_COOLDOWN);
-	}
-
-	/**
-	 * Register item for rendering.
-	 * 
-	 * @param item
-	 *            item to be registered.
-	 */
-	void registerForRendering(Item item) {
-		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-		ModelResourceLocation location;
-		location = new ModelResourceLocation(MODID + ":" + getUnlocalizedName().substring(5), "inventory");
-		renderItem.getItemModelMesher().register(item, 0, location);
 	}
 
 	@Override

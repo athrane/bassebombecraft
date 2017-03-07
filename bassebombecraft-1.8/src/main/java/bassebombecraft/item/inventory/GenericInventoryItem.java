@@ -2,7 +2,6 @@ package bassebombecraft.item.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.ITEM_IDOL_DEFAULT_COOLDOWN;
-import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 import static bassebombecraft.config.VersionUtils.postItemUsage;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
@@ -13,13 +12,11 @@ import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import java.util.List;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -64,24 +61,11 @@ public class GenericInventoryItem extends Item {
 	public GenericInventoryItem(String name, InventoryItemActionStrategy strategy) {
 		setUnlocalizedName(name);
 		this.strategy = strategy;
-		registerForRendering(this);
+		BassebombeCraft.proxy.registerForRendering(this);
 		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
 
 		// get cooldown or default value
 		coolDown = resolveCoolDown(name, ITEM_IDOL_DEFAULT_COOLDOWN);
-	}
-
-	/**
-	 * Register item for rendering.
-	 * 
-	 * @param item
-	 *            item to be registered.
-	 */
-	void registerForRendering(Item item) {
-		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-		ModelResourceLocation location;
-		location = new ModelResourceLocation(MODID + ":" + getUnlocalizedName().substring(5), "inventory");
-		renderItem.getItemModelMesher().register(item, 0, location);
 	}
 
 	@Override
@@ -137,7 +121,7 @@ public class GenericInventoryItem extends Item {
 
 		// post analytics
 		postItemUsage(this.getUnlocalizedName());
-		
+
 		// apply effect
 		applyEffect(worldIn, (EntityLivingBase) entityIn);
 

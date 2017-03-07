@@ -1,6 +1,5 @@
 package bassebombecraft.item;
 
-import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.block.BlockUtils.createBlock;
 import static bassebombecraft.block.BlockUtils.getBlockFromPosition;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
@@ -10,6 +9,7 @@ import static bassebombecraft.player.PlayerUtils.isBelowPlayerYPosition;
 
 import java.util.List;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.WorldQueryImpl;
 import bassebombecraft.player.PlayerDirection;
@@ -17,19 +17,16 @@ import bassebombecraft.structure.Structure;
 import bassebombecraft.structure.StructureFactory;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -43,20 +40,7 @@ public class GenericStaff extends Item {
 	public GenericStaff(String itemName, StructureFactory factory) {
 		setUnlocalizedName(itemName);
 		this.structureFactory = factory;
-		registerForRendering(this);
-	}
-
-	/**
-	 * Register item for rendering.
-	 * 
-	 * @param item
-	 *            item to be registered.
-	 */
-	void registerForRendering(Item item) {
-		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-		ModelResourceLocation location;
-		location = new ModelResourceLocation(MODID + ":" + getUnlocalizedName().substring(5), "inventory");
-		renderItem.getItemModelMesher().register(item, 0, location);
+		BassebombeCraft.proxy.registerForRendering(this);
 	}
 
 	@Override
@@ -77,7 +61,8 @@ public class GenericStaff extends Item {
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
 			EnumFacing facing, float hitX, float hitY, float hitZ) {
-		if (apply(pos, player)) return EnumActionResult.SUCCESS;
+		if (apply(pos, player))
+			return EnumActionResult.SUCCESS;
 		return EnumActionResult.PASS;
 	}
 
@@ -148,7 +133,7 @@ public class GenericStaff extends Item {
 		for (BlockDirective blockDirective : directives) {
 			createBlock(blockDirective, worldQuery);
 		}
-		
+
 		return true;
 	}
 
