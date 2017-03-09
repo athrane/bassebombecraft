@@ -5,8 +5,6 @@ import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.ModConstants.NAME;
 import static bassebombecraft.ModConstants.TAB_NAME;
 import static bassebombecraft.ModConstants.VERSION;
-import static bassebombecraft.config.VersionUtils.initializeAnalytics;
-import static bassebombecraft.config.VersionUtils.shutdownAnalytics;
 import static bassebombecraft.config.VersionUtils.validateVersion;
 
 import java.util.List;
@@ -50,8 +48,7 @@ import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 
 @net.minecraftforge.fml.common.Mod(name = NAME, modid = MODID, version = VERSION)
 public class BassebombeCraft {
@@ -83,7 +80,7 @@ public class BassebombeCraft {
 	 * passed as Strings.
 	 */
 	@SidedProxy(clientSide = "bassebombecraft.proxy.ClientProxy", serverSide = "bassebombecraft.proxy.CommonProxy")
-	public static CommonProxy proxy;
+	static CommonProxy proxy;
 
 	public static CreativeTabs modTab;
 
@@ -181,6 +178,7 @@ public class BassebombeCraft {
 		logger.info("Starting to initialize BasseBombeCraft");
 		proxy.init(event);
 
+		proxy.startAnalyticsSession(logger);
 		validateVersion(logger);
 		itemInitializer = ItemInitializer.getInstance();
 		bookItemList = itemInitializer.initializeBooks(modTab);
@@ -193,13 +191,8 @@ public class BassebombeCraft {
 	}
 
 	@EventHandler
-	public void startPlayerSession(PlayerLoggedInEvent event) {
-		initializeAnalytics(logger);
-	}
-
-	@EventHandler
-	public void endPlayerSession(PlayerLoggedOutEvent event) {
-		shutdownAnalytics(logger);
+	public void shutdown(FMLServerStoppingEvent event) {
+		proxy.endAnalyticsSession(logger);
 	}
 
 	/**
@@ -261,6 +254,15 @@ public class BassebombeCraft {
 		MinecraftForge.EVENT_BUS.register(pvpEventListener);
 	}
 
+	/**
+	 * Get proxy.
+	 * 
+	 * @return proxy.
+	 */
+	public static CommonProxy getProxy() {
+		return proxy;
+	}	
+	
 	/**
 	 * Get charmed mobs repository.
 	 * 

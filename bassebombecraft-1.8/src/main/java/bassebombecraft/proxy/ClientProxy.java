@@ -1,6 +1,11 @@
 package bassebombecraft.proxy;
 
 import static bassebombecraft.ModConstants.MODID;
+import static bassebombecraft.config.VersionUtils.endSession;
+import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
+import static bassebombecraft.config.VersionUtils.startSession;
+
+import org.apache.logging.log4j.Logger;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -21,7 +26,7 @@ public class ClientProxy extends CommonProxy {
 	 * Meta data for block.
 	 */
 	static final int META = 0;
-	
+
 	@Override
 	public void preInit(FMLPreInitializationEvent e) {
 		super.preInit(e);
@@ -36,8 +41,8 @@ public class ClientProxy extends CommonProxy {
 	public void postInit(FMLPostInitializationEvent e) {
 		super.postInit(e);
 	}
-	
-	@Override	
+
+	@Override
 	public void registerItemForRendering(Item item) {
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
 		ModelResourceLocation location;
@@ -47,10 +52,56 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void registerItemForRendering(Block block, String blockName) {
-		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();		
+		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 		ModelResourceLocation location = new ModelResourceLocation(MODID + ":" + blockName, "inventory");
 		mesher.register(Item.getItemFromBlock(block), META, location);
 	}
-	
-	
+
+	@Override
+	public void startAnalyticsSession(Logger logger) {
+
+		try {
+			startSession(getClientSidePlayerUId());
+
+		} catch (Exception ex) {
+			logger.error("Usage initialization failed with: " + ex.getMessage());
+		}
+	}
+
+	@Override
+	public void endAnalyticsSession(Logger logger) {
+
+		try {
+			endSession(getClientSidePlayerUId());
+
+		} catch (Exception ex) {
+			// NO-OP
+
+			// logger.error("Usage initialization failed with: " +
+			// ex.getMessage());
+		}
+	}
+
+	@Override
+	public void postItemUsage(String itemName) {
+
+		try {
+			postItemUsageEvent(getClientSidePlayerUId(), itemName);
+
+		} catch (Exception ex) {
+			// NO-OP
+			// Logger logger = BassebombeCraft.getLogger();
+			// logger.error("Usage logging failed with: " + ex.getMessage());
+		}
+
+	}
+
+	/**
+	 * Get player UID at client side.
+	 * 
+	 * @return player UID.
+	 */
+	static String getClientSidePlayerUId() {
+		return Minecraft.getMinecraft().getSession().getUsername();
+	}
 }

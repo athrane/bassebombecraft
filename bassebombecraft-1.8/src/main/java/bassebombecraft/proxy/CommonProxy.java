@@ -1,5 +1,7 @@
 package bassebombecraft.proxy;
 
+import org.apache.logging.log4j.Logger;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -36,7 +38,7 @@ public class CommonProxy {
 	/**
 	 * Register block for rendering.
 	 * 
-	 * @param block 
+	 * @param block
 	 *            block to be registered.
 	 * @param blockName
 	 *            block name.
@@ -44,5 +46,35 @@ public class CommonProxy {
 	public void registerItemForRendering(Block block, String blockName) {
 		// NO-OP
 	}
+
+	/**
+	 * Initialize analytics.
+	 * 
+	 * @param logger
+	 */
+	public void startAnalyticsSession(Logger logger) {
+		// NO-OP
+	}
+
+	/**
+	 * Shutdown analytics.
+	 * 
+	 * @param logger
+	 */
+	public void endAnalyticsSession(Logger logger) {
+		// NO-OP
+	}
+
+
+	/**
+	 * Post item usage.
+	 * 
+	 * @param itemName
+	 *            item to register usage of.
+	 */
+	public void postItemUsage(String itemName) {
+		// NO-OP		
+	}
+
 	
 }

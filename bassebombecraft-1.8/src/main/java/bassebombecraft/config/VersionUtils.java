@@ -12,7 +12,6 @@ import static bassebombecraft.ModConstants.GA_SOURCE;
 import static bassebombecraft.ModConstants.NAME;
 import static bassebombecraft.ModConstants.VERSION;
 import static bassebombecraft.ModConstants.VERSION_URL;
-import static bassebombecraft.player.PlayerUtils.getPlayerUId;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -78,58 +77,6 @@ public class VersionUtils {
 	static HttpRequestHandler requestHandler = new HttpRequestHandler();
 
 	/**
-	 * Initialize analytics.
-	 * 
-	 * @param logger
-	 */
-	public static void initializeAnalytics(Logger logger) {
-
-		try {
-			startSession(getPlayerUId());
-
-		} catch (Exception ex) {
-			logger.error("Usage initialization failed with: " + ex.getMessage());
-		}
-	}
-
-	/**
-	 * Shutdown analytics.
-	 * 
-	 * @param logger
-	 */
-	public static void shutdownAnalytics(Logger logger) {
-
-		try {
-			endSession(getPlayerUId());
-
-		} catch (Exception ex) {
-			// NO-OP
-
-			// logger.error("Usage initialization failed with: " +
-			// ex.getMessage());
-		}
-	}
-
-	/**
-	 * Post item usage.
-	 * 
-	 * @param itemName
-	 *            item to register usage of.
-	 */
-	public static void postItemUsage(String itemName) {
-
-		try {
-			postItemUsageEvent(getPlayerUId(), itemName);
-
-		} catch (Exception ex) {
-			// NO-OP
-			// Logger logger = BassebombeCraft.getLogger();
-			// logger.error("Usage logging failed with: " + ex.getMessage());
-		}
-
-	}
-
-	/**
 	 * Start session.
 	 * 
 	 * @param uid
@@ -137,7 +84,7 @@ public class VersionUtils {
 	 * 
 	 * @throws Exception
 	 */
-	static void startSession(String uid) throws Exception {
+	public static void startSession(String uid) throws Exception {
 
 		// Build the server URI together with the parameters
 		String category = NAME + "-" + VERSION;
@@ -161,7 +108,7 @@ public class VersionUtils {
 	 *            user ID.
 	 * @throws Exception
 	 */
-	static void endSession(String uid) throws Exception {
+	public static void endSession(String uid) throws Exception {
 		// Build the server URI together with the parameters
 		String category = NAME + "-" + VERSION;
 		String action = "End session";
@@ -185,7 +132,7 @@ public class VersionUtils {
 	 * 
 	 * @throws Exception
 	 */
-	static void postItemUsageEvent(String uid, String itemName) throws Exception {
+	public static void postItemUsageEvent(String uid, String itemName) throws Exception {
 
 		// Build the server URI together with the parameters
 		String category = NAME + "-" + VERSION;
@@ -227,7 +174,7 @@ public class VersionUtils {
 		parameters.add(new BasicNameValuePair("uid", uid));
 		parameters.add(new BasicNameValuePair("ec", category));
 		parameters.add(new BasicNameValuePair("ea", action));
-		parameters.add(new BasicNameValuePair("el", uid));		
+		parameters.add(new BasicNameValuePair("el", uid));
 		parameters.add(new BasicNameValuePair("sc", GA_SESSION_START));
 		return parameters;
 	}
@@ -251,12 +198,12 @@ public class VersionUtils {
 		parameters.add(new BasicNameValuePair("ds", GA_SOURCE));
 		parameters.add(new BasicNameValuePair("an", NAME));
 		parameters.add(new BasicNameValuePair("aid", GA_APP_ID));
-		parameters.add(new BasicNameValuePair("av", VERSION));		
+		parameters.add(new BasicNameValuePair("av", VERSION));
 		parameters.add(new BasicNameValuePair("cid", uid));
 		parameters.add(new BasicNameValuePair("uid", uid));
 		parameters.add(new BasicNameValuePair("ec", category));
 		parameters.add(new BasicNameValuePair("ea", action));
-		parameters.add(new BasicNameValuePair("el", uid));		
+		parameters.add(new BasicNameValuePair("el", uid));
 		parameters.add(new BasicNameValuePair("sc", GA_SESSION_END));
 		return parameters;
 	}
@@ -281,7 +228,7 @@ public class VersionUtils {
 		parameters.add(new BasicNameValuePair("ds", GA_SOURCE));
 		parameters.add(new BasicNameValuePair("an", NAME));
 		parameters.add(new BasicNameValuePair("aid", GA_APP_ID));
-		parameters.add(new BasicNameValuePair("av", VERSION));				
+		parameters.add(new BasicNameValuePair("av", VERSION));
 		parameters.add(new BasicNameValuePair("cid", uid));
 		parameters.add(new BasicNameValuePair("uid", uid));
 		parameters.add(new BasicNameValuePair("ec", category));

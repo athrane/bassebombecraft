@@ -1,11 +1,10 @@
 package bassebombecraft.item.book;
 
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.ITEM_BOOK_DEFAULT_COOLDOWN;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
-import static bassebombecraft.config.VersionUtils.postItemUsage;
 import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.item.action.BlockClickedItemAction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -48,7 +47,7 @@ public class GenericBlockClickedBook extends Item {
 	public GenericBlockClickedBook(String name, BlockClickedItemAction action) {
 		setUnlocalizedName(name);
 		this.action = action;
-		BassebombeCraft.proxy.registerItemForRendering(this);
+		getProxy().registerItemForRendering(this);
 
 		// get cooldown or default value
 		coolDown = resolveCoolDown(name, ITEM_BOOK_DEFAULT_COOLDOWN);
@@ -69,7 +68,7 @@ public class GenericBlockClickedBook extends Item {
 		}
 
 		// post analytics
-		postItemUsage(this.getUnlocalizedName());
+		getProxy().postItemUsage(this.getUnlocalizedName());
 
 		// add cooldown
 		CooldownTracker tracker = player.getCooldownTracker();

@@ -1,5 +1,6 @@
 package bassebombecraft.item;
 
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.block.BlockUtils.createBlock;
 import static bassebombecraft.block.BlockUtils.getBlockFromPosition;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
@@ -9,7 +10,6 @@ import static bassebombecraft.player.PlayerUtils.isBelowPlayerYPosition;
 
 import java.util.List;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.WorldQueryImpl;
 import bassebombecraft.player.PlayerDirection;
@@ -40,7 +40,7 @@ public class GenericStaff extends Item {
 	public GenericStaff(String itemName, StructureFactory factory) {
 		setUnlocalizedName(itemName);
 		this.structureFactory = factory;
-		BassebombeCraft.proxy.registerItemForRendering(this);
+		getProxy().registerItemForRendering(this);
 	}
 
 	@Override

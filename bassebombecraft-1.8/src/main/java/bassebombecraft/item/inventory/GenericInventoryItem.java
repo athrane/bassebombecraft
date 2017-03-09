@@ -1,9 +1,9 @@
 package bassebombecraft.item.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.ITEM_IDOL_DEFAULT_COOLDOWN;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
-import static bassebombecraft.config.VersionUtils.postItemUsage;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
 import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
@@ -12,7 +12,6 @@ import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import java.util.List;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
@@ -61,7 +60,7 @@ public class GenericInventoryItem extends Item {
 	public GenericInventoryItem(String name, InventoryItemActionStrategy strategy) {
 		setUnlocalizedName(name);
 		this.strategy = strategy;
-		BassebombeCraft.proxy.registerItemForRendering(this);
+		getProxy().registerItemForRendering(this);
 		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
 
 		// get cooldown or default value
@@ -120,7 +119,7 @@ public class GenericInventoryItem extends Item {
 		tracker.setCooldown(this, coolDown);
 
 		// post analytics
-		postItemUsage(this.getUnlocalizedName());
+		getProxy().postItemUsage(this.getUnlocalizedName());
 
 		// apply effect
 		applyEffect(worldIn, (EntityLivingBase) entityIn);

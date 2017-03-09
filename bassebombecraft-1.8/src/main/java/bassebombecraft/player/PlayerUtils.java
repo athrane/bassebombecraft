@@ -1,13 +1,12 @@
 package bassebombecraft.player;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.math.MathHelper;
 
 /**
  * Utility for calculating information about the player.
@@ -148,16 +147,8 @@ public class PlayerUtils {
 
 		if (heldItem == null)
 			return false;
-		
+
 		return heldItem.equals(item);
 	}
-	
-	/**
-	 * Get player UID.
-	 * 
-	 * @return player UID.
-	 */
-	public static String getPlayerUId() {
-		return Minecraft.getMinecraft().getSession().getUsername();
-	}	
+
 }

@@ -1,6 +1,7 @@
 package bassebombecraft.block;
 
-import bassebombecraft.BassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -41,7 +42,7 @@ public class BlockInitializer {
 		ItemBlock itemBlock = new ItemBlock(block);
 		itemBlock.setRegistryName(blockName);
 		GameRegistry.register(itemBlock);
-		BassebombeCraft.proxy.registerItemForRendering(block, blockName);
+		getProxy().registerItemForRendering(block, blockName);
 	}
 
 	public static BlockInitializer getInstance() {
