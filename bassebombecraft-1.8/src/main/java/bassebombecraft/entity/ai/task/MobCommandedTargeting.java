@@ -2,8 +2,6 @@ package bassebombecraft.entity.ai.task;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
-import java.security.acl.Owner;
-
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import net.minecraft.entity.EntityCreature;
@@ -37,35 +35,35 @@ public class MobCommandedTargeting extends EntityAITarget {
 	public MobCommandedTargeting(EntityCreature owner, EntityPlayer commander) {
 		super(owner, false);
 		this.commander = commander;
-		
-		// Uncategorised compatible with every task 
-		//this.setMutexBits(1);
+
+		// Uncategorised compatible with every task
+		// this.setMutexBits(1);
 	}
 
 	@Override
 	public boolean shouldExecute() {
-		System.out.println("shouldExecute for: "+ super.taskOwner);
-		
+		// System.out.println("shouldExecute for: "+ super.taskOwner);
+
 		// register player and get command
 		MobCommanderRepository repository = getBassebombeCraft().getMobCommanderRepository();
 		MobCommand command = repository.getCommand(commander);
 
-		System.out.println("command: "+ command.getTitle());
-		
+		// System.out.println("command: "+ command.getTitle());
+
 		// initialize command
 		return command.shouldExecute(commander, this.taskOwner);
 	}
 
 	@Override
 	public boolean continueExecuting() {
-		System.out.println("continueExecuting for: "+ super.taskOwner);
+		// System.out.println("continueExecuting for: "+ super.taskOwner);
 
 		// register player and get command
 		MobCommanderRepository repository = getBassebombeCraft().getMobCommanderRepository();
 		MobCommand command = repository.getCommand(commander);
 
-		System.out.println("command: "+ command.getTitle());
-		
+		// System.out.println("command: "+ command.getTitle());
+
 		// execute command
 		return command.continueExecuting(commander, this.taskOwner);
 	}
