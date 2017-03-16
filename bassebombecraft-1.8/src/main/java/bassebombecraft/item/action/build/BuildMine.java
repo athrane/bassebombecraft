@@ -1,4 +1,5 @@
 package bassebombecraft.item.action.build;
+import static bassebombecraft.item.action.build.BuildUtils.*;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.UNITY_BLOCK_SIZE;
@@ -148,7 +149,7 @@ public class BuildMine implements BlockClickedItemAction {
 		composite.add(createAirStructure(offset, size));
 
 		// door entry - back
-		addDoorEntryFront(composite, new BlockPos(0, 0, 8));
+		addOakFencedDoorEntryFront(composite, new BlockPos(0, 0, 8));
 
 		// door entry - right
 		addDoorEntrySideways(composite, new BlockPos(-5, 0, 2));
@@ -182,7 +183,7 @@ public class BuildMine implements BlockClickedItemAction {
 		composite.add(createAirStructure(offset, size));
 
 		// door entry - back
-		addDoorEntryFront(composite, new BlockPos(0, 0, 8));
+		addOakFencedDoorEntryFront(composite, new BlockPos(0, 0, 8));
 
 		// add random torch
 		BlockPos[] positions = new BlockPos[] { new BlockPos(2, 2, 6), new BlockPos(-3, 2, 6) };
@@ -209,7 +210,7 @@ public class BuildMine implements BlockClickedItemAction {
 		composite.add(createAirStructure(offset, size));
 
 		// door entry - back
-		addDoorEntryFront(composite, new BlockPos(0, 0, 12));
+		addOakFencedDoorEntryFront(composite, new BlockPos(0, 0, 12));
 
 		// add random torch
 		BlockPos[] positions = new BlockPos[] { new BlockPos(1, 2, 10), new BlockPos(-2, 2, 10) };
@@ -252,7 +253,7 @@ public class BuildMine implements BlockClickedItemAction {
 		addPlateauStairDown(composite, sOffset);
 
 		// door entry - back
-		addDoorEntryFront(composite, new BlockPos(0, -4, 9));
+		addOakFencedDoorEntryFront(composite, new BlockPos(0, -4, 9));
 
 		// add random torch - upper
 		positions = new BlockPos[] { new BlockPos(4, 2, 1), new BlockPos(-5, 2, 1) };
@@ -296,7 +297,7 @@ public class BuildMine implements BlockClickedItemAction {
 		addColumns(composite, cOffset , 4, size.getY());
 
 		// door entry - back
-		addDoorEntryFront(composite, new BlockPos(0, 0, 9));
+		addOakFencedDoorEntryFront(composite, new BlockPos(0, 0, 9));
 
 		// add random torch
 		positions = new BlockPos[] { new BlockPos(4, 2, 6), new BlockPos(-5, 2, 6) };
@@ -353,7 +354,7 @@ public class BuildMine implements BlockClickedItemAction {
 		composite.add(new ChildStructure(offset, size, Blocks.BRICK_BLOCK));		
 		
 		// door entry - back
-		addDoorEntryFront(composite, new BlockPos(0, 0, 9));
+		addOakFencedDoorEntryFront(composite, new BlockPos(0, 0, 9));
 
 		// add random torch
 		positions = new BlockPos[] { new BlockPos(4, 2, 6), new BlockPos(-5, 2, 6) };
@@ -538,29 +539,6 @@ public class BuildMine implements BlockClickedItemAction {
 		offset = new BlockDirective(-2 + globalOffset.getX(), 3 + globalOffset.getY(), globalOffset.getZ());
 		size = new BlockDirective(4, 1, 1);
 		structure.add(createWoodStructure(offset, size));
-	}
-
-	/**
-	 * Add doorway entry turning front.
-	 * 
-	 * @param structure
-	 *            structure where door is added to.
-	 * @param globalOffset
-	 *            global offset.
-	 */
-	void addDoorEntryFront(Structure structure, BlockPos globalOffset) {
-		BlockPos offset = new BlockPos(-1 + globalOffset.getX(), globalOffset.getY(), globalOffset.getZ());
-		BlockPos size = new BlockPos(2, 3, 1);
-		structure.add(createAirStructure(offset, size));
-		offset = new BlockPos(-2 + globalOffset.getX(), globalOffset.getY(), globalOffset.getZ());
-		size = new BlockPos(1, 3, 1);
-		structure.add(createOakFenceStructure(offset, size));
-		offset = new BlockPos(1 + globalOffset.getX(), globalOffset.getY(), globalOffset.getZ());
-		size = new BlockPos(1, 3, 1);
-		structure.add(createOakFenceStructure(offset, size));
-		offset = new BlockPos(-2 + globalOffset.getX(), 3 + globalOffset.getY(), globalOffset.getZ());
-		size = new BlockPos(4, 1, 1);
-		structure.add(createOakFenceStructure(offset, size));
 	}
 
 	/**

@@ -12,6 +12,7 @@ import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.item.book.BuildRainbowRoadBook;
 import bassebombecraft.item.book.BuildRoadBook;
 import bassebombecraft.item.book.BuildSmallHoleBook;
+import bassebombecraft.item.book.BuildTowerBook;
 import bassebombecraft.item.book.CobwebBook;
 import bassebombecraft.item.book.CopyPasteBlocksBook;
 import bassebombecraft.item.book.CreeperApocalypseBook;
@@ -383,6 +384,11 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(rainbownizeBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.RECORD_11);
 
+		Item buildTowerBook = new BuildTowerBook();
+		registerBookItem(targetTab, buildTowerBook, BuildTowerBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(buildTowerBook), "xy ", "   ", "   ", 'x', Items.WRITTEN_BOOK,
+				'y', Items.DIAMOND_PICKAXE);
+		
 		return bookItemList;
 	}
 
