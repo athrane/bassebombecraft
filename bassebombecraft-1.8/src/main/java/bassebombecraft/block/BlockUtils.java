@@ -283,17 +283,32 @@ public class BlockUtils {
 
 		// create temporary block
 		BlockDirective tempDirective = new BlockDirective(pos, tempBlock, DONT_HARVEST);
-		Block block = BlockUtils.getBlockFromPosition(pos, world);
+
+		setTemporaryBlock(world, tempDirective, duration);
+	}
+
+	/**
+	 * Add temporary block.
+	 * 
+	 * @param world
+	 *            world object.
+	 * @param tempDirective
+	 *            temporary block directive where temporary block should be spawned.
+	 * @param duration
+	 *            duration in game ticks for temporary block to exist.
+	 */
+	public static void setTemporaryBlock(World world, BlockDirective tempDirective, int duration) {
 
 		// create original block
-		BlockDirective orgDirective = new BlockDirective(pos, block, DONT_HARVEST);
+		Block block = BlockUtils.getBlockFromPosition(tempDirective.getBlockPosition(), world);		
+		BlockDirective orgDirective = new BlockDirective(tempDirective.getBlockPosition(), block, DONT_HARVEST);
 
 		// create temporary block
 		TemporaryBlock temporaryBlock = DefaultTemporaryBlock.getInstance(duration, tempDirective, orgDirective);
 		TemporaryBlockRepository tempBlockRepository = getBassebombeCraft().getTemporaryBlockRepository();
 		tempBlockRepository.add(temporaryBlock);
 	}
-
+	
 	/**
 	 * Select rainbow colored wool block.
 	 * 

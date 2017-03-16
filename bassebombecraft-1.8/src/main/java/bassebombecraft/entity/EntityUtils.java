@@ -1,8 +1,11 @@
 package bassebombecraft.entity;
 
+import bassebombecraft.player.PlayerDirection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -72,4 +75,43 @@ public class EntityUtils {
 		return entity instanceof EntityCreature;
 	}
 
+	/**
+	 * Calculate entity feet position (as a Y coordinate).
+	 * 
+	 * @param entity
+	 *            player object.
+	 * 
+	 * @return player feet position (as a Y coordinate).
+	 */
+	public static double calculateEntityFeetPositition(EntityLivingBase entity) {
+		double feetPosY = entity.posY - entity.getYOffset();
+		return feetPosY;
+	}
+
+	/**
+	 * Calculate entity feet position (as a Y coordinate).
+	 * 
+	 * @param entity
+	 *            player object.
+	 * 
+	 * @return player feet position (as a Y coordinate).
+	 */
+	public static int calculateEntityFeetPosititionAsInt(EntityLivingBase entity) {
+		return (int) calculateEntityFeetPositition(entity);
+	}
+
+	/**
+	 * Return entity direction as an integer between 0 to 3: 0 when looking
+	 * south, 1 when looking West, 2 looking North and 3 looking East.
+	 * 
+	 * @param entity
+	 *            entity object.
+	 * 
+	 * @return player direction as an integer between 0 to 3.
+	 */
+	public static PlayerDirection getPlayerDirection(EntityLivingBase entity) {
+		int direction = MathHelper.floor((double) ((entity.rotationYaw * 4F) / 360F) + 0.5D) & 3;
+		return PlayerDirection.getById(direction);
+	}
+	
 }

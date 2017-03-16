@@ -12,6 +12,7 @@ import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.item.book.BuildRainbowRoadBook;
 import bassebombecraft.item.book.BuildRoadBook;
 import bassebombecraft.item.book.BuildSmallHoleBook;
+import bassebombecraft.item.book.BuildStairsBook;
 import bassebombecraft.item.book.BuildTowerBook;
 import bassebombecraft.item.book.CobwebBook;
 import bassebombecraft.item.book.CopyPasteBlocksBook;
@@ -330,6 +331,11 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(emitVerticalForceMistBook), "x  ", "y  ", "z  ", 'x', Items.BOOK,
 				'y', Items.RABBIT_FOOT, 'z', Items.GHAST_TEAR);
 
+		Item buildStairsBook = new BuildStairsBook();
+		registerBookItem(targetTab, buildStairsBook, BuildStairsBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(buildStairsBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
+				Items.IRON_HOE, 'z', Blocks.ICE);
+		
 		Item vacuumMistBook = new VacuumMistBook();
 		registerBookItem(targetTab, vacuumMistBook, VacuumMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(vacuumMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
