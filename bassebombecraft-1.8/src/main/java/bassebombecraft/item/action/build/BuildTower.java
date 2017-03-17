@@ -37,21 +37,113 @@ import net.minecraft.world.World;
  */
 public class BuildTower implements BlockClickedItemAction {
 
+	/**
+	 * Helper class for rooms.
+	 */
+	class Room {
+
+		BlockPos offset;
+		BlockPos size;
+		Block material;
+		
+		/**
+		 * Room constructor.
+		 * 
+		 * @param offset
+		 *            room offset
+		 * @param size
+		 *            room size
+		 */
+		public Room(BlockPos offset, BlockPos size) {
+			super();
+			this.offset = offset;
+			this.size = size;
+		}
+
+		/**
+		 * Room constructor.
+		 * 
+		 * @param offset
+		 *            room offset
+		 * @param size
+		 *            room size
+		 * @param material room material.           
+		 *            
+		 */
+		public Room(BlockPos offset, BlockPos size, Block material) {
+			super();
+			this.offset = offset;
+			this.size = size;
+			this.material = material;
+		}
+		
+		/**
+		 * Build room
+		 * 
+		 * @return structure for room.
+		 */
+		public Structure createRoom() {
+			CompositeStructure composite = new CompositeStructure();
+
+			int height = size.getY();
+			int width = size.getX();
+			int depth = size.getZ();
+			int xoffset = offset.getX();
+			int yoffset = offset.getY();
+			int zoffset = offset.getZ();
+			BlockPos roomOffset = new BlockPos(xoffset, yoffset, zoffset);
+			BlockPos roomSize = new BlockPos(width, height, depth);
+			composite.add(new ChildStructure(roomOffset, roomSize, material));
+
+			height = size.getY() - 2;
+			width = size.getX() - 2;
+			depth = size.getZ() - 2;
+			xoffset = offset.getX() + 1;
+			yoffset = offset.getY() + 1;
+			zoffset = zoffset + 1;
+			roomOffset = new BlockPos(xoffset, yoffset, zoffset);
+			roomSize = new BlockPos(width, height, depth);
+			composite.add(createAirStructure(roomOffset, roomSize));
+
+			return composite;
+		}		
+		
+		public void resizeAsRoom1(int width, int depth) {
+			offset = offset.add(-width, 0, -depth);
+			size = size.add(width, 0, depth);
+		}
+		
+		public void resizeAsRoom2(int width, int depth) {
+			offset = offset.add(0, 0, -depth);
+			size = size.add(width, 0, depth);
+		}
+
+		public void resizeAsRoom3(int width, int depth) {
+			offset = offset.add(-width, 0, 0);
+			size = size.add(width, 0, depth);
+		}
+
+		public void resizeAsRoom4(int width, int depth) {
+			offset = offset.add(0, 0, 0);
+			size = size.add(width, 0, depth);
+		}
+		
+	}
+
 	static final EnumActionResult USED_ITEM = EnumActionResult.SUCCESS;
 	static final EnumActionResult DIDNT_USED_ITEM = EnumActionResult.PASS;
-
-	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
 
 	/**
 	 * Random generator.
 	 */
-	Random random = new Random(1);
+	// Random random = new Random(1); // random #1 creates to small rooms
+	Random random = new Random(2);
 
 	/**
 	 * Process block directives repository.
 	 */
 	BlockDirectivesRepository repository;
-	
+
 	/**
 	 * Minimum size reduction per layer.
 	 */
@@ -59,9 +151,9 @@ public class BuildTower implements BlockClickedItemAction {
 
 	/**
 	 * Maximum size reduction per layer.
-	 */	
+	 */
 	int maxSizeReductionPerLayer;
-	
+
 	/**
 	 * Number of layer in the tower.
 	 */
@@ -71,39 +163,39 @@ public class BuildTower implements BlockClickedItemAction {
 	 * Room height in blocks.
 	 */
 	int roomHeight;
-	
-	/** 
+
+	/**
 	 * floor width.
 	 */
 	int floorWidth;
-	
-	/** 
+
+	/**
 	 * floor height.
-	 */	
+	 */
 	int floorDepth;
-	
+
 	/**
 	 * Stairs material.
 	 */
-	StairsMaterial stairsMaterial;	
-	
+	StairsMaterial stairsMaterial;
+
 	/**
 	 * BuildSmallHole constructor.
 	 */
 	public BuildTower() {
 		super();
 		repository = getBassebombeCraft().getBlockDirectivesRepository();
-		
-		floorWidth = 20;
-		floorDepth = 20;			
+
+		floorWidth = 25;
+		floorDepth = 25;
 		minSizeReductionPerLayer = 2;
 		maxSizeReductionPerLayer = 4;
-		numberLayers = 2;
-		roomHeight = 8;
-		
+		numberLayers = 3;
+		roomHeight = 6;
+
 		IBlockState state = Blocks.STONE_BRICK_STAIRS.getDefaultState().withProperty(BlockStairs.FACING,
 				EnumFacing.SOUTH);
-		stairsMaterial = createInstance(state, Blocks.STONE_BRICK_STAIRS, Blocks.STONEBRICK);			
+		stairsMaterial = createInstance(state, Blocks.STONE_BRICK_STAIRS, Blocks.STONEBRICK);
 	}
 
 	@Override
@@ -151,16 +243,14 @@ public class BuildTower implements BlockClickedItemAction {
 		BlockPos offset = new BlockPos(0, 0, 0);
 		int currentFloorWidth = this.floorWidth;
 		int currentFloorDepth = this.floorDepth;
-		
+
 		for (int layer = 0; layer < numberLayers; layer++) {
 			int height = roomHeight;
-			
+
 			// calculate layer size
 			currentFloorWidth = calculateLayerSize(currentFloorWidth);
-			currentFloorDepth = calculateLayerSize(currentFloorDepth) ;			
-			System.out.println("currentFloorWidth="+currentFloorWidth);
-			System.out.println("currentFloorDepth ="+currentFloorDepth );
-			
+			currentFloorDepth = calculateLayerSize(currentFloorDepth);
+
 			// calculate floor center
 			int floorWidthDiv2 = currentFloorWidth / 2;
 			int floorWidthDiv4 = currentFloorWidth / 4;
@@ -170,54 +260,67 @@ public class BuildTower implements BlockClickedItemAction {
 			int floorDepthDiv4 = currentFloorDepth / 4;
 			int floorZCenter = floorDepthDiv4 + random.nextInt(floorDepthDiv2);
 
-			
-			System.out.println("floorWidthDiv2="+floorWidthDiv2);
-			System.out.println("floorWidthDiv4 ="+floorWidthDiv4 );			
-			System.out.println("floorXCenter="+floorXCenter);
-			
-			System.out.println("floorDepthDiv2="+floorDepthDiv2);
-			System.out.println("floorDepthDiv4 ="+floorDepthDiv4 );			
-			System.out.println("floorZCenter="+floorZCenter);
-						
 			// setup room #1
 			BlockPos room1Offset = new BlockPos(0, offset.getY(), 0);
 			BlockPos room1Size = new BlockPos(floorXCenter, height, floorZCenter);
-			Block material = selectMaterial();
-			composite.add(createRoom(room1Offset, room1Size, material));
+			Room room1 = new Room(room1Offset, room1Size, selectMaterial());
+			room1.resizeAsRoom1(random.nextInt(2), random.nextInt(2));			
+			composite.add(room1.createRoom());
 
-			// add door to room #1 in layer #1
-			if(layer == 0 ) {
-				BlockPos doorOffset = new BlockPos(floorXCenter - floorWidthDiv4, 0, 0);				
-				addOakFencedDoorEntryFront(composite, doorOffset);
-			}
-						
 			// setup room #2
-			BlockPos room2Offset = new BlockPos(floorXCenter, offset.getY(), 0);
+			BlockPos room2Offset = new BlockPos(floorXCenter - 1, offset.getY(), 0);
 			BlockPos room2Size = new BlockPos(currentFloorWidth - floorXCenter, height, floorZCenter);
-			material = selectMaterial();
-			composite.add(createRoom(room2Offset, room2Size, material));
+			Room room2 = new Room(room2Offset, room2Size, selectMaterial());
+			room2.resizeAsRoom2(random.nextInt(2), random.nextInt(2));						
+			composite.add(room2.createRoom());
 
 			// setup room #3
-			BlockPos room3Offset = new BlockPos(0, offset.getY(), floorZCenter);
+			BlockPos room3Offset = new BlockPos(0, offset.getY(), floorZCenter - 1);
 			BlockPos room3Size = new BlockPos(floorXCenter, height, currentFloorDepth - floorZCenter);
-			material = selectMaterial();
-			composite.add(createRoom(room3Offset, room3Size, material));
-						
-			// setup room #4
-			BlockPos room4Offset = new BlockPos(floorXCenter, offset.getY(), floorZCenter);
-			BlockPos room4Size = new BlockPos(currentFloorWidth - floorXCenter, height, currentFloorDepth - floorZCenter);
-			material = selectMaterial();
-			composite.add(createRoom(room4Offset, room4Size, material));
+			Room room3 = new Room(room3Offset, room3Size, selectMaterial());
+			room3.resizeAsRoom3(random.nextInt(2), random.nextInt(2));						
+			composite.add(room3.createRoom());
 
-			// add stair up in room 3 or 1
-			BlockPos stairOffset = new BlockPos(1,0,2);							
+			// setup room #4
+			BlockPos room4Offset = new BlockPos(floorXCenter - 1, offset.getY(), floorZCenter - 1);
+			BlockPos room4Size = new BlockPos(currentFloorWidth - floorXCenter, height,
+					currentFloorDepth - floorZCenter);
+			Room room4 = new Room(room4Offset, room4Size, selectMaterial());
+			room4.resizeAsRoom4(random.nextInt(2), random.nextInt(2));									
+			composite.add(room4.createRoom());
+
+			// add door to room #1 in layer #1
+			if (layer == 0) {
+				BlockPos doorOffset = new BlockPos(floorXCenter - floorWidthDiv4, 0, 0);
+				addOakFencedDoorEntryFront(composite, doorOffset);
+			}
+
+			// TODO: select stairs type based on available space
+			// add stair up in room #1 or #4
+			BlockPos stairOffset;
+			if (placeStairsInRoom1(layer))
+				stairOffset = new BlockPos(room1Offset.getX() + 1, room1Offset.getY(), room1Offset.getZ() + 2);
+			else
+				stairOffset = new BlockPos(room4Offset.getX() + room4Size.getX() - 3, room4Offset.getY(),
+						room4Offset.getZ() + 2);
 			addSolidStairUp(roomHeight, stairsMaterial, composite, stairOffset);
-						
+
 			// calculate offset etc for next iteration
 			offset = new BlockPos(0, offset.getY() + height, 0);
 		}
 
 		return composite;
+	}
+
+	/**
+	 * Returns true if stairs should be place in room #1.
+	 * 
+	 * @param layer
+	 *            current tower layer.
+	 * @return true if stairs should be place in room #1
+	 */
+	boolean placeStairsInRoom1(int layer) {
+		return (layer % 2) == 0;
 	}
 
 	/**
@@ -230,56 +333,24 @@ public class BuildTower implements BlockClickedItemAction {
 		return composite;
 		// NO-OP
 	}
-
-	Structure createRoom(BlockPos offset, BlockPos size, Block material) {
-		CompositeStructure composite = new CompositeStructure();
-
-		int height = size.getY();
-		int width = size.getX();
-		int depth = size.getZ();
-		int xoffset = offset.getX();
-		int yoffset = offset.getY();
-		int zoffset = offset.getZ();
-		BlockPos roomOffset = new BlockPos(xoffset, yoffset, zoffset);
-		BlockPos roomSize = new BlockPos(width, height, depth);
-		composite.add(new ChildStructure(roomOffset, roomSize, material));
-
-		height = size.getY() - 2;
-		width = size.getX() - 2;
-		depth = size.getZ() - 2;
-		xoffset = offset.getX() + 1;
-		yoffset = offset.getY() + 1;
-		zoffset = zoffset + 1;
-		roomOffset = new BlockPos(xoffset, yoffset, zoffset);
-		roomSize = new BlockPos(width, height, depth);
-		composite.add(createAirStructure(roomOffset, roomSize));
-
-		return composite;
-	}
-
+	
 	/**
 	 * Select random material.
 	 * 
 	 * @return random material
 	 */
 	Block selectMaterial() {
-	return Blocks.SANDSTONE;
-	
-		/**
-		int selection = random.nextInt(9);
-		switch(selection) {
+		return Blocks.SANDSTONE;
 
-			case 0: return Blocks.BEDROCK;
-			case 1: return Blocks.BRICK_BLOCK;
-			case 2: return Blocks.NETHER_BRICK;
-			case 3: return Blocks.SANDSTONE;
-			case 4: return Blocks.STONE;
-			case 5: return Blocks.STONEBRICK;
-			case 6: return Blocks.MOSSY_COBBLESTONE;
-			case 7: return Blocks.COBBLESTONE;
-			default: return Blocks.OBSIDIAN;
-		}
-		**/
+		/**
+		 * int selection = random.nextInt(9); switch(selection) {
+		 * 
+		 * case 0: return Blocks.BEDROCK; case 1: return Blocks.BRICK_BLOCK;
+		 * case 2: return Blocks.NETHER_BRICK; case 3: return Blocks.SANDSTONE;
+		 * case 4: return Blocks.STONE; case 5: return Blocks.STONEBRICK; case
+		 * 6: return Blocks.MOSSY_COBBLESTONE; case 7: return
+		 * Blocks.COBBLESTONE; default: return Blocks.OBSIDIAN; }
+		 **/
 	}
 
 	/**
@@ -293,5 +364,5 @@ public class BuildTower implements BlockClickedItemAction {
 		int delta = minSizeReductionPerLayer + random.nextInt(maxSizeReductionPerLayer - minSizeReductionPerLayer);
 		return currentSize - delta;
 	}
-	
+
 }
