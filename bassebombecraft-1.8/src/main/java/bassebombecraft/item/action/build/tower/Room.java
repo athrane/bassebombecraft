@@ -147,6 +147,26 @@ public class Room {
 		}
 	}
 
+	public Wall[] getInteriorWalls() {
+		switch (type) {
+
+		case NW:
+			return new Wall[] { southernWall, easternWall };
+
+		case NE:
+			return new Wall[] { southernWall, westernWall };
+
+		case SW:
+			return new Wall[] { northernWall, easternWall  };
+
+		case SE:
+			return new Wall[] { northernWall, westernWall };
+
+		default:
+			return new Wall[] {};
+		}
+	}
+	
 	/**
 	 * Get room size.
 	 * 

@@ -94,12 +94,11 @@ public class BuildTower implements BlockClickedItemAction {
 	 * Maximum room Z resize value.
 	 */
 	int maxRoomZResize;
-	
+
 	/**
 	 * Tower builder.
 	 */
 	Builder builder;
-	
 
 	/**
 	 * BuildSmallHole constructor.
@@ -114,7 +113,7 @@ public class BuildTower implements BlockClickedItemAction {
 		minSizeReductionPerLayer = 1;
 		maxSizeReductionPerLayer = 4;
 		maxRoomXResize = 3;
-		maxRoomZResize = 3;		
+		maxRoomZResize = 3;
 		numberLayers = 20;
 		roomHeight = 7;
 	}
@@ -172,16 +171,17 @@ public class BuildTower implements BlockClickedItemAction {
 			// calculate layer size
 			currentFloorWidth = calculateLayerSize(currentFloorWidth);
 			currentFloorDepth = calculateLayerSize(currentFloorDepth);
-
+						
 			// exit if top criteria has been reached
-			if(hasReachedTop(currentFloorDepth,currentFloorWidth)) {
+			if (hasReachedTop(currentFloorWidth, currentFloorDepth)) {
 				builder.buildTop(offset, selectMaterial(), composite);
 				return composite;
 			}
-			
+
 			// calculate floor center
 			int floorWidthDiv2 = currentFloorWidth / 2;
 			int floorWidthDiv4 = currentFloorWidth / 4;
+						
 			int floorXCenter = floorWidthDiv4 + random.nextInt(floorWidthDiv2);
 
 			int floorDepthDiv2 = currentFloorDepth / 2;
@@ -231,6 +231,12 @@ public class BuildTower implements BlockClickedItemAction {
 			else
 				builder.buildStairs(room4, composite);
 
+			// build doors for room #1 and #4
+			for (Wall wall : room1.getInteriorWalls())
+				builder.buildDoor(wall, composite);
+			for (Wall wall : room4.getInteriorWalls())
+				builder.buildDoor(wall, composite);
+
 			// build windows
 			for (Wall wall : room1.getExternalWalls())
 				builder.buildWindow(wall, composite);
@@ -251,14 +257,18 @@ public class BuildTower implements BlockClickedItemAction {
 	/**
 	 * Returns true if top criteria for tower has been reached.
 	 * 
-	 * @param currentFloorWidth current floor width.
-	 * @param currentFloorDepth current floor depth.
+	 * @param currentFloorWidth
+	 *            current floor width.
+	 * @param currentFloorDepth
+	 *            current floor depth.
 	 * 
 	 * @return true if top criteria for tower has been reached.
 	 */
 	boolean hasReachedTop(int currentFloorWidth, int currentFloorDepth) {
-		if(currentFloorWidth == 0) return true;
-		if(currentFloorDepth  == 0) return true;
+		if (currentFloorWidth <= 2)
+			return true;
+		if (currentFloorDepth <= 2)
+			return true;
 		return false;
 	}
 

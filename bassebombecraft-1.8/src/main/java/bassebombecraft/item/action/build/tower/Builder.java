@@ -40,6 +40,16 @@ public interface Builder {
 	void buildWindow(Wall wall, CompositeStructure composite);
 
 	/**
+	 * Build door in interior wall.
+	 * 
+	 * @param wall
+	 *            wall to build door in.
+	 * @param composite
+	 *            composite structure to add structure to.
+	 */	
+	void buildDoor(Wall wall, CompositeStructure composite);
+	
+	/**
 	 * Build tower top.
 	 * 
 	 * @param offset
@@ -50,5 +60,6 @@ public interface Builder {
 	 *            composite structure to add structure to.
 	 */
 	void buildTop(BlockPos offset, Block material, CompositeStructure composite);
+
 
 }

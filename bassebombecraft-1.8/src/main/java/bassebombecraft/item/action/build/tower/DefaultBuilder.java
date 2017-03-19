@@ -6,6 +6,8 @@ import static bassebombecraft.structure.ChildStructure.createAirStructure;
 
 import java.util.Random;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.CompositeStructure;
 import net.minecraft.block.Block;
@@ -91,24 +93,24 @@ public class DefaultBuilder implements Builder {
 		BlockPos roomSize = wall.getRoom().getSize();
 
 		// exit if room is to small for window
-		int minWindowSize = 2;		
+		int minWindowSize = 2;
 		switch (wall.getOrientation()) {
 
-			case X: {
-				if (roomSize.getX() <= minWindowSize)
-					return;
-				if (roomSize.getY() <= minWindowSize)
-					return;
-			}
-	
-			case Z: {
-				if (roomSize.getY() <= minWindowSize)
-					return;
-				if (roomSize.getZ() <= minWindowSize)
-					return;
-			}
+		case X: {
+			if (roomSize.getX() <= minWindowSize)
+				return;
+			if (roomSize.getY() <= minWindowSize)
+				return;
 		}
-		
+
+		case Z: {
+			if (roomSize.getY() <= minWindowSize)
+				return;
+			if (roomSize.getZ() <= minWindowSize)
+				return;
+		}
+		}
+
 		int windowXZSize = 2;
 		int windowXZSizeDiv2 = windowXZSize / 2;
 		int windowYSize = 2;
@@ -122,7 +124,7 @@ public class DefaultBuilder implements Builder {
 		case X: {
 			int windowXOffset = windowXZSizeDiv2 + random.nextInt(roomSize.getX() - windowXZSize);
 			BlockPos windowOffset = offset.add(windowXOffset, windowYOffset, 0);
-			BlockPos windowSize = new BlockPos(windowXZSize, windowXZSize, 1);
+			BlockPos windowSize = new BlockPos(windowXZSize, windowYSize, 1);
 			composite.add(new ChildStructure(windowOffset, windowSize, Blocks.GLASS_PANE));
 			return;
 		}
@@ -130,7 +132,7 @@ public class DefaultBuilder implements Builder {
 		case Z: {
 			int windowZOffset = windowXZSizeDiv2 + random.nextInt(roomSize.getZ() - windowXZSize);
 			BlockPos windowOffset = offset.add(0, windowYOffset, windowZOffset);
-			BlockPos windowSize = new BlockPos(1, windowXZSize, windowXZSize);
+			BlockPos windowSize = new BlockPos(1, windowYSize, windowXZSize);
 			composite.add(new ChildStructure(windowOffset, windowSize, Blocks.GLASS_PANE));
 			return;
 		}
@@ -140,11 +142,87 @@ public class DefaultBuilder implements Builder {
 	}
 
 	@Override
+	public void buildDoor(Wall wall, CompositeStructure composite) {
+
+		BlockPos offset = wall.getOffset();
+		BlockPos roomSize = wall.getRoom().getSize();
+		System.out.println("roomSize="+ReflectionToStringBuilder.toString(roomSize));
+
+		// exit if room is to small for door
+		int minRoomSize = 3;
+		switch (wall.getOrientation()) {
+		case X: {
+			if (roomSize.getX() <= minRoomSize)
+				return;
+		}
+
+		case Z: {
+			if (roomSize.getZ() <= minRoomSize)
+				return;
+		}
+		}
+
+		// calculate door offset
+		int doorXZOffset = calculateDoorOffset(wall, roomSize);		
+		System.out.println("doorXZOffset="+doorXZOffset);
+		
+		int doorXZSize = 2;
+
+		// place door
+		int doorYSize = 3;		
+		switch (wall.getOrientation()) {
+		case X: {
+			int randomFactor = roomSize.getX() - doorXZSize - doorXZOffset;
+			int doorXOffset = doorXZOffset + random.nextInt(randomFactor);			
+			BlockPos doorOffset = offset.add(doorXOffset, 1, 0);
+			BlockPos doorSize = new BlockPos(doorXZSize, doorYSize, 1);
+			composite.add(new ChildStructure(doorOffset, doorSize, Blocks.AIR));
+			return;
+		}
+
+		case Z: {
+			int randomFactor = roomSize.getZ() - doorXZSize - doorXZOffset;
+			int doorZOffset = doorXZOffset + random.nextInt(randomFactor);						
+			BlockPos doorOffset = offset.add(0, 1, doorZOffset);
+			BlockPos doorSize = new BlockPos(1, doorYSize, doorXZSize);
+			composite.add(new ChildStructure(doorOffset, doorSize, Blocks.AIR));
+			return;
+		}
+
+		}
+
+	}
+
+	/**
+	 * Calculate door displacement.
+	 * 
+	 * @param wall
+	 * @param roomSize
+	 */
+	int calculateDoorOffset(Wall wall, BlockPos roomSize) {
+		
+		// calculate displacement for door in wall with size 4
+		switch (wall.getOrientation()) {
+		case X: {
+			if (roomSize.getX() == 4) return 1;
+			if (roomSize.getX() > 4) return 2;			
+		}
+
+		case Z: {
+			if (roomSize.getZ() == 4) return 1;
+			if (roomSize.getZ() > 4) return 2;						
+		}
+		}
+		
+		return 0;
+	}
+
+	@Override
 	public void buildTop(BlockPos offset, Block material, CompositeStructure composite) {
 
-		BlockPos size = new BlockPos(10,1,10);	
+		BlockPos size = new BlockPos(10, 1, 10);
 		offset = offset.add(-5, 0, -5);
-		composite.add(new ChildStructure(offset, size, material));		
+		composite.add(new ChildStructure(offset, size, material));
 	}
 
 }
