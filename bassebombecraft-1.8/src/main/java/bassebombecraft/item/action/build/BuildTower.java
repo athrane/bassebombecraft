@@ -76,6 +76,11 @@ public class BuildTower implements BlockClickedItemAction {
 	int roomHeight;
 
 	/**
+	 * Initial room height in blocks.
+	 */	
+	int initialRoomHeight;
+	
+	/**
 	 * floor width.
 	 */
 	int floorWidth;
@@ -100,6 +105,7 @@ public class BuildTower implements BlockClickedItemAction {
 	 */
 	Builder builder;
 
+
 	/**
 	 * BuildSmallHole constructor.
 	 */
@@ -115,6 +121,7 @@ public class BuildTower implements BlockClickedItemAction {
 		maxRoomXResize = 3;
 		maxRoomZResize = 3;
 		numberLayers = 20;
+		initialRoomHeight = 10;
 		roomHeight = 7;
 	}
 
@@ -166,12 +173,12 @@ public class BuildTower implements BlockClickedItemAction {
 		int currentFloorDepth = this.floorDepth;
 
 		for (int layer = 0; layer < numberLayers; layer++) {
-			int height = roomHeight;
+			int height = calculateRoomHeight(layer);
 
 			// calculate layer size
 			currentFloorWidth = calculateLayerSize(currentFloorWidth);
 			currentFloorDepth = calculateLayerSize(currentFloorDepth);
-						
+
 			// exit if top criteria has been reached
 			if (hasReachedTop(currentFloorWidth, currentFloorDepth)) {
 				builder.buildTop(offset, selectMaterial(), composite);
@@ -181,7 +188,7 @@ public class BuildTower implements BlockClickedItemAction {
 			// calculate floor center
 			int floorWidthDiv2 = currentFloorWidth / 2;
 			int floorWidthDiv4 = currentFloorWidth / 4;
-						
+
 			int floorXCenter = floorWidthDiv4 + random.nextInt(floorWidthDiv2);
 
 			int floorDepthDiv2 = currentFloorDepth / 2;
@@ -252,6 +259,17 @@ public class BuildTower implements BlockClickedItemAction {
 		}
 
 		return composite;
+	}
+
+	/**
+	 * Calculate the room height from the layer number.
+	 * 
+	 * @param layer layer number.
+	 * @return room height calculated from the layer number.
+	 */
+	int calculateRoomHeight(int layer) {
+		if(layer == 0) return initialRoomHeight;
+		return roomHeight;
 	}
 
 	/**
