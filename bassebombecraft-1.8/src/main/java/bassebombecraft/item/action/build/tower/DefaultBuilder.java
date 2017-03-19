@@ -91,36 +91,31 @@ public class DefaultBuilder implements Builder {
 		BlockPos roomSize = wall.getRoom().getSize();
 
 		// exit if room is to small for window
-		int minWindowSize = 2;
+		int minRoomSize = 4;
 		switch (wall.getOrientation()) {
 
 		case X: {
-			if (roomSize.getX() <= minWindowSize)
-				return;
-			if (roomSize.getY() <= minWindowSize)
+			if (roomSize.getX() <= minRoomSize)
 				return;
 		}
-
 		case Z: {
-			if (roomSize.getY() <= minWindowSize)
-				return;
-			if (roomSize.getZ() <= minWindowSize)
+			if (roomSize.getZ() <= minRoomSize)
 				return;
 		}
 		}
 
 		int windowXZSize = 2;
-		int windowXZSizeDiv2 = windowXZSize / 2;
 		int windowYSize = 2;
-		int windowYSizeDiv2 = windowYSize / 2;
+
+		// calculate door offset
+		int windowXZOffset = calculateWindowOffset(wall, roomSize);
+		int windowYOffset = roomSize.getY() - windowYSize - 1;
 
 		// place window
-		int windowYOffset = windowYSizeDiv2 + random.nextInt(roomSize.getY() - windowYSize);
-
 		switch (wall.getOrientation()) {
-
 		case X: {
-			int windowXOffset = windowXZSizeDiv2 + random.nextInt(roomSize.getX() - windowXZSize);
+			int randomFactor = roomSize.getX() - windowXZSize - windowXZOffset;
+			int windowXOffset = windowXZOffset + random.nextInt(randomFactor);
 			BlockPos windowOffset = offset.add(windowXOffset, windowYOffset, 0);
 			BlockPos windowSize = new BlockPos(windowXZSize, windowYSize, 1);
 			composite.add(new ChildStructure(windowOffset, windowSize, Blocks.GLASS_PANE));
@@ -128,7 +123,8 @@ public class DefaultBuilder implements Builder {
 		}
 
 		case Z: {
-			int windowZOffset = windowXZSizeDiv2 + random.nextInt(roomSize.getZ() - windowXZSize);
+			int randomFactor = roomSize.getZ() - windowXZSize - windowXZOffset;
+			int windowZOffset = windowXZOffset + random.nextInt(randomFactor);
 			BlockPos windowOffset = offset.add(0, windowYOffset, windowZOffset);
 			BlockPos windowSize = new BlockPos(1, windowYSize, windowXZSize);
 			composite.add(new ChildStructure(windowOffset, windowSize, Blocks.GLASS_PANE));
@@ -136,7 +132,33 @@ public class DefaultBuilder implements Builder {
 		}
 
 		}
+	}
 
+	/**
+	 * Calculate window offset.
+	 * 
+	 * @param wall
+	 * @param roomSize
+	 */
+	int calculateWindowOffset(Wall wall, BlockPos roomSize) {
+
+		switch (wall.getOrientation()) {
+		case X: {
+			if (roomSize.getX() == 4)
+				return 1;
+			if (roomSize.getX() > 4)
+				return 2;
+		}
+
+		case Z: {
+			if (roomSize.getZ() == 4)
+				return 1;
+			if (roomSize.getZ() > 4)
+				return 2;
+		}
+		}
+
+		return 0;
 	}
 
 	@Override
@@ -152,7 +174,6 @@ public class DefaultBuilder implements Builder {
 			if (roomSize.getX() <= minRoomSize)
 				return;
 		}
-
 		case Z: {
 			if (roomSize.getZ() <= minRoomSize)
 				return;
@@ -161,7 +182,6 @@ public class DefaultBuilder implements Builder {
 
 		// calculate door offset
 		int doorXZOffset = calculateDoorOffset(wall, roomSize);
-
 		int doorXZSize = 2;
 
 		// place door
@@ -190,14 +210,13 @@ public class DefaultBuilder implements Builder {
 	}
 
 	/**
-	 * Calculate door displacement.
+	 * Calculate door offset.
 	 * 
 	 * @param wall
 	 * @param roomSize
 	 */
 	int calculateDoorOffset(Wall wall, BlockPos roomSize) {
 
-		// calculate displacement for door in wall with size 4
 		switch (wall.getOrientation()) {
 		case X: {
 			if (roomSize.getX() == 4)
@@ -205,7 +224,6 @@ public class DefaultBuilder implements Builder {
 			if (roomSize.getX() > 4)
 				return 2;
 		}
-
 		case Z: {
 			if (roomSize.getZ() == 4)
 				return 1;
