@@ -13,7 +13,7 @@ import java.util.List;
 import com.typesafe.config.Config;
 
 import bassebombecraft.geom.BlockDirective;
-import bassebombecraft.item.action.build.StairsMaterial;
+import bassebombecraft.item.action.build.tower.StairsMaterial;
 import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.CompositeStructure;
 import net.minecraft.block.BlockStairs;

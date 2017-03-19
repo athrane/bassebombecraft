@@ -1,4 +1,4 @@
-package bassebombecraft.item.action.build;
+package bassebombecraft.item.action.build.tower;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

@@ -3,6 +3,7 @@ package bassebombecraft.item.action.build;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
 import static bassebombecraft.structure.ChildStructure.createOakFenceStructure;
 
+import bassebombecraft.item.action.build.tower.StairsMaterial;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
