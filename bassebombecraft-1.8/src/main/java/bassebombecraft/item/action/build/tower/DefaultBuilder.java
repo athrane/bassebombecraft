@@ -146,7 +146,6 @@ public class DefaultBuilder implements Builder {
 
 		BlockPos offset = wall.getOffset();
 		BlockPos roomSize = wall.getRoom().getSize();
-		System.out.println("roomSize="+ReflectionToStringBuilder.toString(roomSize));
 
 		// exit if room is to small for door
 		int minRoomSize = 3;
