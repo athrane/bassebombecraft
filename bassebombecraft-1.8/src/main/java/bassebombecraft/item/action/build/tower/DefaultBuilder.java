@@ -7,7 +7,7 @@ import static bassebombecraft.structure.ChildStructure.createAirStructure;
 import java.util.Random;
 
 import bassebombecraft.structure.ChildStructure;
-import bassebombecraft.structure.CompositeStructure;
+import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
@@ -44,7 +44,7 @@ public class DefaultBuilder implements Builder {
 	}
 
 	@Override
-	public void buildRoom(Room room, CompositeStructure composite) {
+	public void buildRoom(Room room, Structure structure) {
 
 		BlockPos size = room.getSize();
 		BlockPos offset = room.getOffset();
@@ -58,7 +58,7 @@ public class DefaultBuilder implements Builder {
 		int zoffset = offset.getZ();
 		BlockPos roomOffset = new BlockPos(xoffset, yoffset, zoffset);
 		BlockPos roomSize = new BlockPos(width, height, depth);
-		composite.add(new ChildStructure(roomOffset, roomSize, material));
+		structure.add(new ChildStructure(roomOffset, roomSize, material));
 
 		height = size.getY() - 2;
 		width = size.getX() - 2;
@@ -68,11 +68,11 @@ public class DefaultBuilder implements Builder {
 		zoffset = zoffset + 1;
 		roomOffset = new BlockPos(xoffset, yoffset, zoffset);
 		roomSize = new BlockPos(width, height, depth);
-		composite.add(createAirStructure(roomOffset, roomSize));
+		structure.add(createAirStructure(roomOffset, roomSize));
 	}
 
 	@Override
-	public void buildStairs(Room room, CompositeStructure composite) {
+	public void buildStairs(Room room, Structure structure, Structure postStructure) {
 
 		BlockPos size = room.getSize();
 		BlockPos offset = room.getOffset();
@@ -81,11 +81,11 @@ public class DefaultBuilder implements Builder {
 
 		int roomHeight = size.getY();
 		BlockPos stairOffset = new BlockPos(offset.getX() + 1, offset.getY(), offset.getZ() + 2);
-		addSolidStairUp(roomHeight, stairsMaterial, composite, stairOffset);
+		addSolidStairUp(roomHeight, stairsMaterial, structure, postStructure, stairOffset);
 	}
 
 	@Override
-	public void buildWindow(Wall wall, CompositeStructure composite) {
+	public void buildWindow(Wall wall, Structure structure) {
 
 		BlockPos offset = wall.getOffset();
 		BlockPos roomSize = wall.getRoom().getSize();
@@ -118,7 +118,7 @@ public class DefaultBuilder implements Builder {
 			int windowXOffset = windowXZOffset + random.nextInt(randomFactor);
 			BlockPos windowOffset = offset.add(windowXOffset, windowYOffset, 0);
 			BlockPos windowSize = new BlockPos(windowXZSize, windowYSize, 1);
-			composite.add(new ChildStructure(windowOffset, windowSize, Blocks.GLASS_PANE));
+			structure.add(new ChildStructure(windowOffset, windowSize, Blocks.GLASS_PANE));
 			return;
 		}
 
@@ -127,7 +127,7 @@ public class DefaultBuilder implements Builder {
 			int windowZOffset = windowXZOffset + random.nextInt(randomFactor);
 			BlockPos windowOffset = offset.add(0, windowYOffset, windowZOffset);
 			BlockPos windowSize = new BlockPos(1, windowYSize, windowXZSize);
-			composite.add(new ChildStructure(windowOffset, windowSize, Blocks.GLASS_PANE));
+			structure.add(new ChildStructure(windowOffset, windowSize, Blocks.GLASS_PANE));
 			return;
 		}
 
@@ -162,7 +162,7 @@ public class DefaultBuilder implements Builder {
 	}
 
 	@Override
-	public void buildDoor(Wall wall, CompositeStructure composite) {
+	public void buildDoor(Wall wall, Structure structure) {
 
 		BlockPos offset = wall.getOffset();
 		BlockPos roomSize = wall.getRoom().getSize();
@@ -192,7 +192,7 @@ public class DefaultBuilder implements Builder {
 			int doorXOffset = doorXZOffset + random.nextInt(randomFactor);
 			BlockPos doorOffset = offset.add(doorXOffset, 1, 0);
 			BlockPos doorSize = new BlockPos(doorXZSize, doorYSize, 1);
-			composite.add(new ChildStructure(doorOffset, doorSize, Blocks.AIR));
+			structure.add(new ChildStructure(doorOffset, doorSize, Blocks.AIR));
 			return;
 		}
 
@@ -201,7 +201,7 @@ public class DefaultBuilder implements Builder {
 			int doorZOffset = doorXZOffset + random.nextInt(randomFactor);
 			BlockPos doorOffset = offset.add(0, 1, doorZOffset);
 			BlockPos doorSize = new BlockPos(1, doorYSize, doorXZSize);
-			composite.add(new ChildStructure(doorOffset, doorSize, Blocks.AIR));
+			structure.add(new ChildStructure(doorOffset, doorSize, Blocks.AIR));
 			return;
 		}
 
@@ -236,11 +236,11 @@ public class DefaultBuilder implements Builder {
 	}
 
 	@Override
-	public void buildTop(BlockPos offset, Block material, CompositeStructure composite) {
+	public void buildTop(BlockPos offset, Block material, Structure structure) {
 
 		BlockPos size = new BlockPos(10, 1, 10);
 		offset = offset.add(-5, 0, -5);
-		composite.add(new ChildStructure(offset, size, material));
+		structure.add(new ChildStructure(offset, size, material));
 	}
 
 }

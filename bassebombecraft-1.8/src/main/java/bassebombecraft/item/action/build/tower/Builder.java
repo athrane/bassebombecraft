@@ -1,6 +1,6 @@
 package bassebombecraft.item.action.build.tower;
 
-import bassebombecraft.structure.CompositeStructure;
+import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 
@@ -14,41 +14,43 @@ public interface Builder {
 	 * 
 	 * @param room
 	 *            room to build from.
-	 * @param composite
-	 *            composite structure to add structure to.
+	 * @param structure
+	 *            structure to add structure to.
 	 */
-	void buildRoom(Room room, CompositeStructure composite);
+	void buildRoom(Room room, Structure structure);
 
 	/**
 	 * Build stairs.
 	 * 
 	 * @param room
 	 *            room to build stairs in.
-	 * @param composite
-	 *            composite structure to add structure to.
+	 * @param structure
+	 *            structure to add structure to.
+	 * @param postStructure
+	 *            structure to add structure for post processing.
 	 */
-	void buildStairs(Room room, CompositeStructure composite);
+	void buildStairs(Room room, Structure structure, Structure postStructure);
 
 	/**
 	 * Build windows in exterior wall.
 	 * 
 	 * @param wall
 	 *            wall to build windows in.
-	 * @param composite
-	 *            composite structure to add structure to.
+	 * @param structure
+	 *            structure to add structure to.
 	 */
-	void buildWindow(Wall wall, CompositeStructure composite);
+	void buildWindow(Wall wall, Structure structure);
 
 	/**
 	 * Build door in interior wall.
 	 * 
 	 * @param wall
 	 *            wall to build door in.
-	 * @param composite
-	 *            composite structure to add structure to.
-	 */	
-	void buildDoor(Wall wall, CompositeStructure composite);
-	
+	 * @param structure
+	 *            structure to add structure to.
+	 */
+	void buildDoor(Wall wall, Structure structure);
+
 	/**
 	 * Build tower top.
 	 * 
@@ -56,10 +58,9 @@ public interface Builder {
 	 *            top offset.
 	 * @param material
 	 *            top material.
-	 * @param composite
-	 *            composite structure to add structure to.
+	 * @param structure
+	 *            structure to add structure to.
 	 */
-	void buildTop(BlockPos offset, Block material, CompositeStructure composite);
-
+	void buildTop(BlockPos offset, Block material, Structure structure);
 
 }

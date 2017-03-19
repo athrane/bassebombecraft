@@ -166,8 +166,14 @@ public class BuildTower implements BlockClickedItemAction {
 	 * @return created structure.
 	 */
 	Structure createStructure() {
+		
+		// create structure
 		CompositeStructure composite = new CompositeStructure();
 
+		// initialize postprocessing composite
+		CompositeStructure postComposite = new CompositeStructure();
+				
+		//initialize variables
 		BlockPos offset = new BlockPos(0, 0, 0);
 		int currentFloorWidth = this.floorWidth;
 		int currentFloorDepth = this.floorDepth;
@@ -182,7 +188,7 @@ public class BuildTower implements BlockClickedItemAction {
 			// exit if top criteria has been reached
 			if (hasReachedTop(currentFloorWidth, currentFloorDepth)) {
 				builder.buildTop(offset, selectMaterial(), composite);
-				return composite;
+				break;
 			}
 
 			// calculate floor center
@@ -234,9 +240,9 @@ public class BuildTower implements BlockClickedItemAction {
 
 			// build stair up in room #1 or #4
 			if (placeStairsInRoom1(layer))
-				builder.buildStairs(room1, composite);
+				builder.buildStairs(room1, composite, postComposite);
 			else
-				builder.buildStairs(room4, composite);
+				builder.buildStairs(room4, composite, postComposite);
 
 			// build doors for room #1 and #4
 			for (Wall wall : room1.getInteriorWalls())
@@ -258,6 +264,9 @@ public class BuildTower implements BlockClickedItemAction {
 			offset = new BlockPos(0, offset.getY() + height, 0);
 		}
 
+		// add post composite to composite
+		composite.add(postComposite);
+				
 		return composite;
 	}
 

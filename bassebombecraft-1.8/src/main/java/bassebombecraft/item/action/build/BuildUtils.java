@@ -5,6 +5,7 @@ import static bassebombecraft.structure.ChildStructure.createOakFenceStructure;
 
 import bassebombecraft.item.action.build.tower.StairsMaterial;
 import bassebombecraft.structure.ChildStructure;
+import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -44,7 +45,6 @@ public class BuildUtils {
 	 * 
 	 * @param height
 	 *            stairs height
-	 * 
 	 * @param structure
 	 *            structure where stair is added to.
 	 * @param globalOffset
@@ -52,6 +52,24 @@ public class BuildUtils {
 	 */
 	public static void addSolidStairUp(int height, StairsMaterial materials, Structure structure,
 			BlockPos globalOffset) {
+		addSolidStairUp(height, materials, structure, structure, globalOffset);
+	}
+
+	/**
+	 * Add stair up.
+	 * 
+	 * @param height
+	 *            stairs height
+	 * 
+	 * @param structure
+	 *            structure where structure is added to.
+	 * @param postStructure
+	 *            structure to add structure for post processing.
+	 * @param globalOffset
+	 *            global offset.
+	 */
+	public static void addSolidStairUp(int height, StairsMaterial materials, Structure structure,
+			Structure postStructure, BlockPos globalOffset) {
 
 		int xOffset = globalOffset.getX();
 
@@ -77,7 +95,7 @@ public class BuildUtils {
 			yOffset = globalOffset.getY() + 2 + index;
 			offset = new BlockPos(xOffset, yOffset, zOffset);
 			size = new BlockPos(2, 4, 1);
-			structure.add(new ChildStructure(offset, size, Blocks.AIR));
+			postStructure.add(new ChildStructure(offset, size, Blocks.AIR));
 		}
 	}
 
