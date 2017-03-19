@@ -6,8 +6,6 @@ import static bassebombecraft.structure.ChildStructure.createAirStructure;
 
 import java.util.Random;
 
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
-
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.CompositeStructure;
 import net.minecraft.block.Block;
@@ -162,17 +160,17 @@ public class DefaultBuilder implements Builder {
 		}
 
 		// calculate door offset
-		int doorXZOffset = calculateDoorOffset(wall, roomSize);		
-		System.out.println("doorXZOffset="+doorXZOffset);
-		
+		int doorXZOffset = calculateDoorOffset(wall, roomSize);
+		System.out.println("doorXZOffset=" + doorXZOffset);
+
 		int doorXZSize = 2;
 
 		// place door
-		int doorYSize = 3;		
+		int doorYSize = 3;
 		switch (wall.getOrientation()) {
 		case X: {
 			int randomFactor = roomSize.getX() - doorXZSize - doorXZOffset;
-			int doorXOffset = doorXZOffset + random.nextInt(randomFactor);			
+			int doorXOffset = doorXZOffset + random.nextInt(randomFactor);
 			BlockPos doorOffset = offset.add(doorXOffset, 1, 0);
 			BlockPos doorSize = new BlockPos(doorXZSize, doorYSize, 1);
 			composite.add(new ChildStructure(doorOffset, doorSize, Blocks.AIR));
@@ -181,7 +179,7 @@ public class DefaultBuilder implements Builder {
 
 		case Z: {
 			int randomFactor = roomSize.getZ() - doorXZSize - doorXZOffset;
-			int doorZOffset = doorXZOffset + random.nextInt(randomFactor);						
+			int doorZOffset = doorXZOffset + random.nextInt(randomFactor);
 			BlockPos doorOffset = offset.add(0, 1, doorZOffset);
 			BlockPos doorSize = new BlockPos(1, doorYSize, doorXZSize);
 			composite.add(new ChildStructure(doorOffset, doorSize, Blocks.AIR));
@@ -199,20 +197,24 @@ public class DefaultBuilder implements Builder {
 	 * @param roomSize
 	 */
 	int calculateDoorOffset(Wall wall, BlockPos roomSize) {
-		
+
 		// calculate displacement for door in wall with size 4
 		switch (wall.getOrientation()) {
 		case X: {
-			if (roomSize.getX() == 4) return 1;
-			if (roomSize.getX() > 4) return 2;			
+			if (roomSize.getX() == 4)
+				return 1;
+			if (roomSize.getX() > 4)
+				return 2;
 		}
 
 		case Z: {
-			if (roomSize.getZ() == 4) return 1;
-			if (roomSize.getZ() > 4) return 2;						
+			if (roomSize.getZ() == 4)
+				return 1;
+			if (roomSize.getZ() > 4)
+				return 2;
 		}
 		}
-		
+
 		return 0;
 	}
 
