@@ -161,7 +161,6 @@ public class DefaultBuilder implements Builder {
 
 		// calculate door offset
 		int doorXZOffset = calculateDoorOffset(wall, roomSize);
-		System.out.println("doorXZOffset=" + doorXZOffset);
 
 		int doorXZSize = 2;
 
