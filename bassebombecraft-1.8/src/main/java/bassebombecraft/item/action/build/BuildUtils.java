@@ -5,7 +5,6 @@ import static bassebombecraft.structure.ChildStructure.createOakFenceStructure;
 
 import bassebombecraft.item.action.build.tower.StairsMaterial;
 import bassebombecraft.structure.ChildStructure;
-import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -18,7 +17,7 @@ import net.minecraft.util.math.BlockPos;
 public class BuildUtils {
 
 	/**
-	 * Add oak fenced doorway entry turning front.
+	 * Add oak fenced doorway entry turning front (oriented along the x axis).
 	 * 
 	 * @param structure
 	 *            structure where door is added to.
@@ -37,6 +36,32 @@ public class BuildUtils {
 		structure.add(createOakFenceStructure(offset, size));
 		offset = new BlockPos(-2 + globalOffset.getX(), 3 + globalOffset.getY(), globalOffset.getZ());
 		size = new BlockPos(4, 1, 1);
+		structure.add(createOakFenceStructure(offset, size));
+	}
+
+	/**
+	 * Add doorway entry at turning sideway (oriented along the Z axis).
+	 * 
+	 * @param structure
+	 *            structure where door is added to.
+	 * @param globalOffset
+	 *            global offset.
+	 */
+	public static void addOakFencedDoorEntryFrontSideways(Structure structure, BlockPos globalOffset) {
+		BlockPos offset = new BlockPos(globalOffset.getX(), globalOffset.getY(), globalOffset.getZ() + 1);
+		BlockPos size = new BlockPos(1, 3, 2);
+		structure.add(createAirStructure(offset, size));
+
+		offset = new BlockPos(globalOffset.getX(), globalOffset.getY(), globalOffset.getZ());
+		size = new BlockPos(1, 3, 1);
+		structure.add(createOakFenceStructure(offset, size));
+
+		offset = new BlockPos(globalOffset.getX(), globalOffset.getY(), globalOffset.getZ() + 3);
+		size = new BlockPos(1, 3, 1);
+		structure.add(createOakFenceStructure(offset, size));
+
+		offset = new BlockPos(globalOffset.getX(), 3 + globalOffset.getY(), globalOffset.getZ());
+		size = new BlockPos(1, 1, 4);
 		structure.add(createOakFenceStructure(offset, size));
 	}
 

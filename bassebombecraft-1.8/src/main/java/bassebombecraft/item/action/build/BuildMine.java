@@ -1,14 +1,14 @@
 package bassebombecraft.item.action.build;
-import static bassebombecraft.item.action.build.BuildUtils.*;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.UNITY_BLOCK_SIZE;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
+import static bassebombecraft.item.action.build.BuildUtils.addOakFencedDoorEntryFront;
+import static bassebombecraft.item.action.build.BuildUtils.addOakFencedDoorEntryFrontSideways;
 import static bassebombecraft.player.PlayerUtils.calculatePlayerFeetPosititionAsInt;
 import static bassebombecraft.player.PlayerUtils.getPlayerDirection;
 import static bassebombecraft.player.PlayerUtils.isBelowPlayerYPosition;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
-import static bassebombecraft.structure.ChildStructure.createOakFenceStructure;
 import static bassebombecraft.structure.ChildStructure.createTorchStructure;
 import static bassebombecraft.structure.ChildStructure.createWoodStructure;
 
@@ -72,7 +72,6 @@ public class BuildMine implements BlockClickedItemAction {
 		repository = getBassebombeCraft().getBlockDirectivesRepository();
 	}
 
-	
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
 			EnumFacing facing, float hitX, float hitY, float hitZ) {
@@ -121,18 +120,24 @@ public class BuildMine implements BlockClickedItemAction {
 			return createStairDown();
 		}
 
-		// create room 
-		int roomId = random.nextInt(8); 
-		if (roomId == 0) return createRoomWithThreeDoorways10x8x4();
-		if (roomId == 1) return createRoomWithInitialPlateau8x8x9();
-		if (roomId == 2) return createCorridor4x4x8();
-		if (roomId == 3) return createCorridor2x4x12();
-		if (roomId == 4) return createCorridorWithColumns4x4x8();
-		if (roomId == 5) return createLavaAbyssWithColumns8x12x8();		
+		// create room
+		int roomId = random.nextInt(8);
+		if (roomId == 0)
+			return createRoomWithThreeDoorways10x8x4();
+		if (roomId == 1)
+			return createRoomWithInitialPlateau8x8x9();
+		if (roomId == 2)
+			return createCorridor4x4x8();
+		if (roomId == 3)
+			return createCorridor2x4x12();
+		if (roomId == 4)
+			return createCorridorWithColumns4x4x8();
+		if (roomId == 5)
+			return createLavaAbyssWithColumns8x12x8();
 		return createCorridor4x4x8();
-		
-		// createGreatHall(); 
-		//return createCorridor();
+
+		// createGreatHall();
+		// return createCorridor();
 	}
 
 	/**
@@ -152,10 +157,10 @@ public class BuildMine implements BlockClickedItemAction {
 		addOakFencedDoorEntryFront(composite, new BlockPos(0, 0, 8));
 
 		// door entry - right
-		addDoorEntrySideways(composite, new BlockPos(-5, 0, 2));
+		addOakFencedDoorEntryFrontSideways(composite, new BlockPos(-5, 0, 2));
 
 		// door entry - left
-		addDoorEntrySideways(composite, new BlockPos(4, 0, 2));
+		addOakFencedDoorEntryFrontSideways(composite, new BlockPos(4, 0, 2));
 
 		// add random torch
 		BlockPos[] positions = new BlockPos[] { new BlockPos(4, 2, 6), new BlockPos(-5, 2, 6), new BlockPos(4, 2, 1),
@@ -292,9 +297,9 @@ public class BuildMine implements BlockClickedItemAction {
 		composite.add(createAirStructure(offset, size));
 
 		// add columns
-		BlockPos[] positions = new BlockPos[] { new BlockPos(3, 0, 1), new BlockPos(-4, 0, 1) };		
-		BlockPos cOffset = selectionPosition(positions);		
-		addColumns(composite, cOffset , 4, size.getY());
+		BlockPos[] positions = new BlockPos[] { new BlockPos(3, 0, 1), new BlockPos(-4, 0, 1) };
+		BlockPos cOffset = selectionPosition(positions);
+		addColumns(composite, cOffset, 4, size.getY());
 
 		// door entry - back
 		addOakFencedDoorEntryFront(composite, new BlockPos(0, 0, 9));
@@ -337,22 +342,22 @@ public class BuildMine implements BlockClickedItemAction {
 		offset = new BlockPos(-4, -9, 1);
 		size = new BlockPos(8, 1, 8);
 		composite.add(new ChildStructure(offset, size, Blocks.LAVA));
-		
+
 		// main room of air
 		offset = new BlockPos(-4, -8, 1);
 		size = new BlockPos(8, 12, 8);
 		composite.add(createAirStructure(offset, size));
-		
+
 		// add columns
-		BlockPos[] positions = new BlockPos[] { new BlockPos(3, -8, 1), new BlockPos(-4, -8, 1) };		
-		BlockPos cOffset = selectionPosition(positions);		
-		addColumns(composite, cOffset , 4, 12);
+		BlockPos[] positions = new BlockPos[] { new BlockPos(3, -8, 1), new BlockPos(-4, -8, 1) };
+		BlockPos cOffset = selectionPosition(positions);
+		addColumns(composite, cOffset, 4, 12);
 
 		// add bridge
 		offset = new BlockPos(-1, -1, 1);
 		size = new BlockPos(2, 1, 8);
-		composite.add(new ChildStructure(offset, size, Blocks.BRICK_BLOCK));		
-		
+		composite.add(new ChildStructure(offset, size, Blocks.BRICK_BLOCK));
+
 		// door entry - back
 		addOakFencedDoorEntryFront(composite, new BlockPos(0, 0, 9));
 
@@ -370,10 +375,10 @@ public class BuildMine implements BlockClickedItemAction {
 		positions = new BlockPos[] { new BlockPos(4, 2, 2), new BlockPos(-5, 2, 2) };
 		tOffset = selectionPosition(positions);
 		addTorch(composite, tOffset);
-		
+
 		return composite;
 	}
-	
+
 	/**
 	 * Create stairs going down with bounding box (4,-11,12).
 	 * 
@@ -542,32 +547,6 @@ public class BuildMine implements BlockClickedItemAction {
 	}
 
 	/**
-	 * Add doorway entry at turning side way.
-	 * 
-	 * @param structure
-	 *            structure where door is added to.
-	 * @param globalOffset
-	 *            global offset.
-	 */
-	void addDoorEntrySideways(Structure structure, BlockPos globalOffset) {
-		BlockPos offset = new BlockPos(globalOffset.getX(), globalOffset.getY(), globalOffset.getZ() + 1);
-		BlockPos size = new BlockPos(1, 3, 2);
-		structure.add(createAirStructure(offset, size));
-
-		offset = new BlockPos(globalOffset.getX(), globalOffset.getY(), globalOffset.getZ());
-		size = new BlockPos(1, 3, 1);
-		structure.add(createOakFenceStructure(offset, size));
-
-		offset = new BlockPos(globalOffset.getX(), globalOffset.getY(), globalOffset.getZ() + 3);
-		size = new BlockPos(1, 3, 1);
-		structure.add(createOakFenceStructure(offset, size));
-
-		offset = new BlockPos(globalOffset.getX(), 3 + globalOffset.getY(), globalOffset.getZ());
-		size = new BlockPos(1, 1, 4);
-		structure.add(createOakFenceStructure(offset, size));
-	}
-
-	/**
 	 * Add stair down from plateau .
 	 * 
 	 * @param structure
@@ -580,7 +559,7 @@ public class BuildMine implements BlockClickedItemAction {
 		BlockPos offset = new BlockPos(globalOffset);
 		BlockPos size = new BlockPos(2, 1, 1);
 		structure.add(new ChildStructure(offset, size, Blocks.BRICK_STAIRS));
-		offset = new BlockPos(globalOffset.getX(), globalOffset.getY() - 3, globalOffset.getZ()+1);
+		offset = new BlockPos(globalOffset.getX(), globalOffset.getY() - 3, globalOffset.getZ() + 1);
 		size = new BlockPos(2, 3, 1);
 		structure.add(new ChildStructure(offset, size, Blocks.BRICK_STAIRS));
 		offset = new BlockPos(globalOffset.getX(), globalOffset.getY() - 3, globalOffset.getZ() + 2);
@@ -653,9 +632,9 @@ public class BuildMine implements BlockClickedItemAction {
 		BlockPos offset = globalOffset;
 		BlockPos size = new BlockPos(1, height, 1);
 
-		for(int i=0; i < columns; i++) {
-			offset = new BlockPos(globalOffset.getX(), globalOffset.getY(), globalOffset.getZ() +(i*2));
-			structure.add(new ChildStructure(offset, size, Blocks.BRICK_BLOCK));			
+		for (int i = 0; i < columns; i++) {
+			offset = new BlockPos(globalOffset.getX(), globalOffset.getY(), globalOffset.getZ() + (i * 2));
+			structure.add(new ChildStructure(offset, size, Blocks.BRICK_BLOCK));
 		}
 	}
 

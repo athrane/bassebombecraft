@@ -238,6 +238,12 @@ public class BuildTower implements BlockClickedItemAction {
 				addOakFencedDoorEntryFront(composite, doorOffset);
 			}
 
+			// build floors
+			builder.buildFloor(room1, composite);
+			builder.buildFloor(room2, composite);
+			builder.buildFloor(room3, composite);
+			builder.buildFloor(room4, composite);
+			
 			// build stair up in room #1 or #4
 			if (placeStairsInRoom1(layer))
 				builder.buildStairs(room1, composite, postComposite);

@@ -1,10 +1,14 @@
 package bassebombecraft.item.action.build.tower;
 
+import static bassebombecraft.item.action.build.BuildUtils.addOakFencedDoorEntryFront;
+import static bassebombecraft.item.action.build.BuildUtils.addOakFencedDoorEntryFrontSideways;
 import static bassebombecraft.item.action.build.BuildUtils.addSolidStairUp;
 import static bassebombecraft.item.action.build.BuildUtils.createInstance;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
 
 import java.util.Random;
+
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.Structure;
@@ -69,6 +73,39 @@ public class DefaultBuilder implements Builder {
 		roomOffset = new BlockPos(xoffset, yoffset, zoffset);
 		roomSize = new BlockPos(width, height, depth);
 		structure.add(createAirStructure(roomOffset, roomSize));
+	}
+
+	@Override
+	public void buildFloor(Room room, Structure structure) {
+
+		BlockPos size = room.getSize();
+		BlockPos offset = room.getOffset();
+
+		BlockPos floorSize = size.add(-2, 1 - size.getY(), -2);
+		BlockPos floorOffset = offset.add(1, 0, 1);
+
+		int value = random.nextInt(5);
+
+		// use existing default floor
+		if (value == 0) {
+			return;
+		}
+
+		// add shulker floor
+		if (value == 1) {
+			structure.add(new ChildStructure(floorOffset, floorSize, Blocks.CYAN_SHULKER_BOX));
+		}
+
+		// add random wood floor
+		if (value == 2) {
+			structure.add(new ChildStructure(floorOffset, floorSize, Blocks.STONEBRICK));
+		}
+
+		// add random wood floor
+		if (value == 3) {
+			structure.add(new ChildStructure(floorOffset, floorSize, Blocks.MAGMA));
+		}
+		
 	}
 
 	@Override
@@ -163,12 +200,14 @@ public class DefaultBuilder implements Builder {
 
 	@Override
 	public void buildDoor(Wall wall, Structure structure) {
+		int minRoomSize = 4;
+		int doorXZSize = 4;
+		int doorYSize = 4;
 
 		BlockPos offset = wall.getOffset();
 		BlockPos roomSize = wall.getRoom().getSize();
 
 		// exit if room is to small for door
-		int minRoomSize = 3;
 		switch (wall.getOrientation()) {
 		case X: {
 			if (roomSize.getX() <= minRoomSize)
@@ -182,26 +221,26 @@ public class DefaultBuilder implements Builder {
 
 		// calculate door offset
 		int doorXZOffset = calculateDoorOffset(wall, roomSize);
-		int doorXZSize = 2;
-
+		
 		// place door
-		int doorYSize = 3;
 		switch (wall.getOrientation()) {
 		case X: {
-			int randomFactor = roomSize.getX() - doorXZSize - doorXZOffset;
-			int doorXOffset = doorXZOffset + random.nextInt(randomFactor);
+			int doorXOffset = doorXZOffset;		
+			int randomFactor = roomSize.getX() - doorXZSize - (2*doorXZOffset);
+			if(randomFactor > 0 ) doorXOffset = doorXZOffset + random.nextInt(randomFactor);
 			BlockPos doorOffset = offset.add(doorXOffset, 1, 0);
 			BlockPos doorSize = new BlockPos(doorXZSize, doorYSize, 1);
-			structure.add(new ChildStructure(doorOffset, doorSize, Blocks.AIR));
+			addOakFencedDoorEntryFront(structure, doorOffset);
 			return;
 		}
 
 		case Z: {
-			int randomFactor = roomSize.getZ() - doorXZSize - doorXZOffset;
-			int doorZOffset = doorXZOffset + random.nextInt(randomFactor);
+			int doorZOffset = doorXZOffset;		
+			int randomFactor = roomSize.getZ() - doorXZSize - (2*doorXZOffset);
+			if(randomFactor > 0 ) doorZOffset = doorXZOffset + random.nextInt(randomFactor);
 			BlockPos doorOffset = offset.add(0, 1, doorZOffset);
 			BlockPos doorSize = new BlockPos(1, doorYSize, doorXZSize);
-			structure.add(new ChildStructure(doorOffset, doorSize, Blocks.AIR));
+			addOakFencedDoorEntryFrontSideways(structure, doorOffset);
 			return;
 		}
 
@@ -219,15 +258,19 @@ public class DefaultBuilder implements Builder {
 
 		switch (wall.getOrientation()) {
 		case X: {
-			if (roomSize.getX() == 4)
-				return 1;
-			if (roomSize.getX() > 4)
-				return 2;
+			if (roomSize.getX() == 5)
+				return 0;
+			if (roomSize.getX() == 6)
+				return 1;			
+			if (roomSize.getX() > 6)
+				return 2;			
 		}
 		case Z: {
-			if (roomSize.getZ() == 4)
+			if (roomSize.getZ() == 5)
+				return 0;
+			if (roomSize.getZ() == 6)
 				return 1;
-			if (roomSize.getZ() > 4)
+			if (roomSize.getZ() > 6)
 				return 2;
 		}
 		}

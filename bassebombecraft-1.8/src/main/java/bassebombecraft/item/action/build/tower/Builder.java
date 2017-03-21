@@ -63,4 +63,15 @@ public interface Builder {
 	 */
 	void buildTop(BlockPos offset, Block material, Structure structure);
 
+	/**
+	 * Build floor in room.
+	 * 
+	 * @param room
+	 *            room to build floor in.
+	 * @param structure
+	 *            structure to add structure to.
+	 * 
+	 */
+	void buildFloor(Room room, Structure structure);
+
 }
