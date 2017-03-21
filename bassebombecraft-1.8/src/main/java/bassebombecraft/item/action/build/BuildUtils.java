@@ -7,8 +7,10 @@ import bassebombecraft.item.action.build.tower.StairsMaterial;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
 /**
@@ -77,11 +79,11 @@ public class BuildUtils {
 	 */
 	public static void addSolidStairUp(int height, StairsMaterial materials, Structure structure,
 			BlockPos globalOffset) {
-		addSolidStairUp(height, materials, structure, structure, globalOffset);
+		addSolidStairsUp(height, materials, structure, structure, globalOffset);
 	}
 
 	/**
-	 * Add stair up.
+	 * Add solid stairs up.
 	 * 
 	 * @param height
 	 *            stairs height
@@ -93,7 +95,7 @@ public class BuildUtils {
 	 * @param globalOffset
 	 *            global offset.
 	 */
-	public static void addSolidStairUp(int height, StairsMaterial materials, Structure structure,
+	public static void addSolidStairsUp(int height, StairsMaterial materials, Structure structure,
 			Structure postStructure, BlockPos globalOffset) {
 
 		int xOffset = globalOffset.getX();
@@ -124,6 +126,170 @@ public class BuildUtils {
 		}
 	}
 
+	/**
+	 * Add spiral stairs up.
+	 * 
+	 * @param height
+	 *            stairs height
+	 * 
+	 * @param structure
+	 *            structure where structure is added to.
+	 * @param postStructure
+	 *            structure to add structure for post processing.
+	 * @param globalOffset
+	 *            global offset.
+	 */
+	public static void addSpiralStairsUp(int height, StairsMaterial materials, Structure structure,
+			Structure postStructure, BlockPos globalOffset) {
+
+		for (int index = 0; index < height; index++) {
+
+			if(index % 4 == 0) {
+
+				int xOffset = globalOffset.getX()+1;								
+				int yOffset = globalOffset.getY() + 1 + index;
+				int zOffset = globalOffset.getZ();
+				BlockPos offset = new BlockPos(xOffset, yOffset, zOffset);
+				BlockPos size = new BlockPos(1, 1, 1);
+				structure.add(new ChildStructure(offset, size, materials.getSolidMaterial()));												
+
+				xOffset = globalOffset.getX()+1;								
+				yOffset = globalOffset.getY() + 1 + index;				
+				zOffset = globalOffset.getZ()+1;
+				offset = new BlockPos(xOffset, yOffset, zOffset);
+				size = new BlockPos(1, 1, 1);
+				IBlockState state = materials.getState().withProperty(BlockStairs.FACING, EnumFacing.WEST);						
+				structure.add(new ChildStructure(offset, size, materials.getStairMaterial(), state));												
+
+				// add air block
+				offset = offset.add(0, 1, 0);
+				size = new BlockPos(1, 3, 1);
+				postStructure.add(new ChildStructure(offset, size, Blocks.AIR));				
+				
+				xOffset = globalOffset.getX();								
+				yOffset = globalOffset.getY() + 1 + index;				
+				zOffset = globalOffset.getZ()+1;
+				offset = new BlockPos(xOffset, yOffset, zOffset);
+				size = new BlockPos(1, 1, 1);
+				structure.add(new ChildStructure(offset, size, materials.getSolidMaterial()));	
+				
+				// add air block
+				offset = offset.add(0, 1, 0);
+				size = new BlockPos(1, 3, 1);
+				postStructure.add(new ChildStructure(offset, size, Blocks.AIR));				
+			}
+
+			if(index % 4 == 1) {
+				
+				int xOffset = globalOffset.getX()+1;				
+				int yOffset = globalOffset.getY()+ 1 + index;
+				int zOffset = globalOffset.getZ();				
+				BlockPos offset = new BlockPos(xOffset, yOffset, zOffset);
+				BlockPos size = new BlockPos(1, 1, 1);
+				structure.add(new ChildStructure(offset, size, materials.getSolidMaterial()));												
+
+				xOffset = globalOffset.getX();				
+				yOffset = globalOffset.getY()+ 1 + index;				
+				zOffset = globalOffset.getZ();
+				offset = new BlockPos(xOffset, yOffset, zOffset);
+				size = new BlockPos(1, 1, 1);
+				IBlockState state = materials.getState().withProperty(BlockStairs.FACING, EnumFacing.NORTH);						
+				structure.add(new ChildStructure(offset, size, materials.getStairMaterial(), state));												
+
+				// add air block
+				offset = offset.add(0, 1, 0);
+				size = new BlockPos(1, 3, 1);
+				postStructure.add(new ChildStructure(offset, size, Blocks.AIR));				
+				
+				xOffset = globalOffset.getX();				
+				yOffset = globalOffset.getY()+ 1 + index;				
+				zOffset = globalOffset.getZ()-1;
+				offset = new BlockPos(xOffset, yOffset, zOffset);
+				size = new BlockPos(1, 1, 1);
+				structure.add(new ChildStructure(offset, size, materials.getSolidMaterial()));																				
+
+				// add air block
+				offset = offset.add(0, 1, 0);
+				size = new BlockPos(1, 3, 1);
+				postStructure.add(new ChildStructure(offset, size, Blocks.AIR));				
+			
+			}
+
+			if(index % 4 == 2) {
+				
+				int xOffset = globalOffset.getX()+1;				
+				int zOffset = globalOffset.getZ();
+				int yOffset = globalOffset.getY()+ 1 + index;
+				BlockPos offset = new BlockPos(xOffset, yOffset, zOffset);
+				BlockPos size = new BlockPos(1, 1, 1);
+				structure.add(new ChildStructure(offset, size, materials.getSolidMaterial()));												
+
+				xOffset = globalOffset.getX()+1;				
+				yOffset = globalOffset.getY()+ 1 + index;				
+				zOffset = globalOffset.getZ()-1;
+				offset = new BlockPos(xOffset, yOffset, zOffset);
+				size = new BlockPos(1, 1, 1);
+				IBlockState state = materials.getState().withProperty(BlockStairs.FACING, EnumFacing.EAST);						
+				structure.add(new ChildStructure(offset, size, materials.getStairMaterial(), state));												
+
+				// add air block
+				offset = offset.add(0, 1, 0);
+				size = new BlockPos(1, 3, 1);
+				postStructure.add(new ChildStructure(offset, size, Blocks.AIR));				
+				
+				xOffset = globalOffset.getX()+2;				
+				yOffset = globalOffset.getY()+ 1 + index;				
+				zOffset = globalOffset.getZ()-1;
+				offset = new BlockPos(xOffset, yOffset, zOffset);
+				size = new BlockPos(1, 1, 1);
+				structure.add(new ChildStructure(offset, size, materials.getSolidMaterial()));																
+				
+				// add air block
+				offset = offset.add(0, 1, 0);
+				size = new BlockPos(1, 3, 1);
+				postStructure.add(new ChildStructure(offset, size, Blocks.AIR));								
+			}
+			
+			if(index % 4 == 3) {
+
+				int xOffset = globalOffset.getX()+1;				
+				int zOffset = globalOffset.getZ();
+				int yOffset = globalOffset.getY() + 1 + index;
+				BlockPos offset = new BlockPos(xOffset, yOffset, zOffset);
+				BlockPos size = new BlockPos(1, 1, 1);
+				structure.add(new ChildStructure(offset, size, materials.getSolidMaterial()));												
+
+				xOffset = globalOffset.getX()+2;	
+				yOffset = globalOffset.getY() + 1 + index;				
+				zOffset = globalOffset.getZ();				
+				offset = new BlockPos(xOffset, yOffset, zOffset);
+				size = new BlockPos(1, 1, 1);
+				IBlockState state = materials.getState().withProperty(BlockStairs.FACING, EnumFacing.SOUTH);						
+				structure.add(new ChildStructure(offset, size, materials.getStairMaterial(), state));												
+
+				// add air block
+				offset = offset.add(0, 1, 0);
+				size = new BlockPos(1, 3, 1);
+				postStructure.add(new ChildStructure(offset, size, Blocks.AIR));				
+
+				xOffset = globalOffset.getX()+2;				
+				yOffset = globalOffset.getY()+ 1 + index;
+				zOffset = globalOffset.getZ()+1;				
+				offset = new BlockPos(xOffset, yOffset, zOffset);
+				size = new BlockPos(1, 1, 1);
+				structure.add(new ChildStructure(offset, size, materials.getSolidMaterial()));																
+				
+				// add air block
+				offset = offset.add(0, 1, 0);
+				size = new BlockPos(1, 3, 1);
+				postStructure.add(new ChildStructure(offset, size, Blocks.AIR));								
+			}
+			
+		}
+			
+					
+	}	
+	
 	/**
 	 * StairsMaterial factory method.
 	 * 

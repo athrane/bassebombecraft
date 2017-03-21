@@ -1,14 +1,12 @@
 package bassebombecraft.item.action.build.tower;
 
-import static bassebombecraft.item.action.build.BuildUtils.addOakFencedDoorEntryFront;
+import static bassebombecraft.item.action.build.BuildUtils.*;
 import static bassebombecraft.item.action.build.BuildUtils.addOakFencedDoorEntryFrontSideways;
-import static bassebombecraft.item.action.build.BuildUtils.addSolidStairUp;
+import static bassebombecraft.item.action.build.BuildUtils.addSolidStairsUp;
 import static bassebombecraft.item.action.build.BuildUtils.createInstance;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
 
 import java.util.Random;
-
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.Structure;
@@ -84,28 +82,36 @@ public class DefaultBuilder implements Builder {
 		BlockPos floorSize = size.add(-2, 1 - size.getY(), -2);
 		BlockPos floorOffset = offset.add(1, 0, 1);
 
-		int value = random.nextInt(5);
+		int selection = random.nextInt(5);
 
 		// use existing default floor
-		if (value == 0) {
+		if (selection == 0) {
 			return;
 		}
 
 		// add shulker floor
-		if (value == 1) {
-			structure.add(new ChildStructure(floorOffset, floorSize, Blocks.CYAN_SHULKER_BOX));
+		if (selection == 1) {
+			structure.add(new ChildStructure(floorOffset, floorSize, Blocks.COBBLESTONE));
 		}
 
 		// add random wood floor
-		if (value == 2) {
-			structure.add(new ChildStructure(floorOffset, floorSize, Blocks.STONEBRICK));
+		if (selection == 2) {
+			structure.add(new ChildStructure(floorOffset, floorSize, Blocks.LOG));
+			return;			
 		}
 
 		// add random wood floor
-		if (value == 3) {
-			structure.add(new ChildStructure(floorOffset, floorSize, Blocks.MAGMA));
+		if (selection == 3) {
+			structure.add(new ChildStructure(floorOffset, floorSize, Blocks.LOG2));
+			return;			
 		}
 		
+		// add magma floor
+		if (selection == 3) {
+			structure.add(new ChildStructure(floorOffset, floorSize, Blocks.MAGMA));
+			return;
+		}
+
 	}
 
 	@Override
@@ -114,11 +120,23 @@ public class DefaultBuilder implements Builder {
 		BlockPos size = room.getSize();
 		BlockPos offset = room.getOffset();
 
-		// TODO: select stairs type based on available space
-
 		int roomHeight = size.getY();
 		BlockPos stairOffset = new BlockPos(offset.getX() + 1, offset.getY(), offset.getZ() + 2);
-		addSolidStairUp(roomHeight, stairsMaterial, structure, postStructure, stairOffset);
+
+		int selection = random.nextInt(2);
+		
+		// TODO: select stairs type based on available space
+
+		if (selection == 0) {
+			addSolidStairsUp(roomHeight, stairsMaterial, structure, postStructure, stairOffset);
+			return;
+		}
+
+		if (selection == 1) {
+			addSpiralStairsUp(roomHeight, stairsMaterial, structure, postStructure, stairOffset);				
+			return;
+		}
+		
 	}
 
 	@Override
@@ -221,13 +239,14 @@ public class DefaultBuilder implements Builder {
 
 		// calculate door offset
 		int doorXZOffset = calculateDoorOffset(wall, roomSize);
-		
+
 		// place door
 		switch (wall.getOrientation()) {
 		case X: {
-			int doorXOffset = doorXZOffset;		
-			int randomFactor = roomSize.getX() - doorXZSize - (2*doorXZOffset);
-			if(randomFactor > 0 ) doorXOffset = doorXZOffset + random.nextInt(randomFactor);
+			int doorXOffset = doorXZOffset;
+			int randomFactor = roomSize.getX() - doorXZSize - doorXZOffset - doorXZOffset;
+			if (randomFactor > 0)
+				doorXOffset = doorXZOffset + random.nextInt(randomFactor);
 			BlockPos doorOffset = offset.add(doorXOffset, 1, 0);
 			BlockPos doorSize = new BlockPos(doorXZSize, doorYSize, 1);
 			addOakFencedDoorEntryFront(structure, doorOffset);
@@ -235,9 +254,10 @@ public class DefaultBuilder implements Builder {
 		}
 
 		case Z: {
-			int doorZOffset = doorXZOffset;		
-			int randomFactor = roomSize.getZ() - doorXZSize - (2*doorXZOffset);
-			if(randomFactor > 0 ) doorZOffset = doorXZOffset + random.nextInt(randomFactor);
+			int doorZOffset = doorXZOffset;
+			int randomFactor = roomSize.getZ() - doorXZSize - doorXZOffset - doorXZOffset;
+			if (randomFactor > 0)
+				doorZOffset = doorXZOffset + random.nextInt(randomFactor);
 			BlockPos doorOffset = offset.add(0, 1, doorZOffset);
 			BlockPos doorSize = new BlockPos(1, doorYSize, doorXZSize);
 			addOakFencedDoorEntryFrontSideways(structure, doorOffset);
@@ -261,9 +281,9 @@ public class DefaultBuilder implements Builder {
 			if (roomSize.getX() == 5)
 				return 0;
 			if (roomSize.getX() == 6)
-				return 1;			
+				return 1;
 			if (roomSize.getX() > 6)
-				return 2;			
+				return 2;
 		}
 		case Z: {
 			if (roomSize.getZ() == 5)
