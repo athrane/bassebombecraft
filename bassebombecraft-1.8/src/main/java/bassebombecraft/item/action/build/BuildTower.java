@@ -234,7 +234,7 @@ public class BuildTower implements BlockClickedItemAction {
 
 			// build door in room #1 in layer #1
 			if (layer == 0) {
-				BlockPos doorOffset = new BlockPos(floorXCenter - floorWidthDiv4, 0, 0);
+				BlockPos doorOffset = new BlockPos(floorXCenter - floorWidthDiv4, 0, room1.getOffset().getZ());
 				addOakFencedDoorEntryFront(composite, doorOffset);
 			}
 
