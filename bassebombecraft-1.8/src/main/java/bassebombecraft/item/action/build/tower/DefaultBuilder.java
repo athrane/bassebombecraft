@@ -1,8 +1,9 @@
 package bassebombecraft.item.action.build.tower;
 
-import static bassebombecraft.item.action.build.BuildUtils.*;
+import static bassebombecraft.item.action.build.BuildUtils.addOakFencedDoorEntryFront;
 import static bassebombecraft.item.action.build.BuildUtils.addOakFencedDoorEntryFrontSideways;
 import static bassebombecraft.item.action.build.BuildUtils.addSolidStairsUp;
+import static bassebombecraft.item.action.build.BuildUtils.addSpiralStairsUp;
 import static bassebombecraft.item.action.build.BuildUtils.createInstance;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
 
@@ -97,15 +98,15 @@ public class DefaultBuilder implements Builder {
 		// add random wood floor
 		if (selection == 2) {
 			structure.add(new ChildStructure(floorOffset, floorSize, Blocks.LOG));
-			return;			
+			return;
 		}
 
 		// add random wood floor
 		if (selection == 3) {
 			structure.add(new ChildStructure(floorOffset, floorSize, Blocks.LOG2));
-			return;			
+			return;
 		}
-		
+
 		// add magma floor
 		if (selection == 3) {
 			structure.add(new ChildStructure(floorOffset, floorSize, Blocks.MAGMA));
@@ -123,20 +124,27 @@ public class DefaultBuilder implements Builder {
 		int roomHeight = size.getY();
 		BlockPos stairOffset = new BlockPos(offset.getX() + 1, offset.getY(), offset.getZ() + 2);
 
-		int selection = random.nextInt(2);
-		
-		// TODO: select stairs type based on available space
-
-		if (selection == 0) {
+		// select stairs type based on available space
+		if (hasSpaceForStairs(size)) {
 			addSolidStairsUp(roomHeight, stairsMaterial, structure, postStructure, stairOffset);
 			return;
 		}
 
-		if (selection == 1) {
-			addSpiralStairsUp(roomHeight, stairsMaterial, structure, postStructure, stairOffset);				
-			return;
-		}
-		
+		addSpiralStairsUp(roomHeight, stairsMaterial, structure, postStructure, stairOffset);
+
+	}
+
+	/**
+	 * Returns true if there is space for a solid staircase.
+	 * 
+	 * @param size
+	 *            room size.
+	 * 
+	 * @return true if there is space for a solid staircase.
+	 */
+	boolean hasSpaceForStairs(BlockPos size) {
+		int requiredZSpace = size.getY() + 2;
+		return requiredZSpace < size.getZ();
 	}
 
 	@Override
