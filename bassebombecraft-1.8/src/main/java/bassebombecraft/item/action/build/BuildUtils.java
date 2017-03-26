@@ -26,6 +26,58 @@ public class BuildUtils {
 	 * @param globalOffset
 	 *            global offset.
 	 */
+	public static void addMainEntranceFront(Structure structure, BlockPos globalOffset) {
+		BlockPos offset = new BlockPos(-2 + globalOffset.getX(), globalOffset.getY(), globalOffset.getZ());
+		BlockPos size = new BlockPos(5, 3, 1);
+		structure.add(createAirStructure(offset, size));
+
+		offset = new BlockPos(-1 + globalOffset.getX(), globalOffset.getY()+3, globalOffset.getZ());
+		size = new BlockPos(3, 2, 1);
+		structure.add(createAirStructure(offset, size));
+
+		offset = new BlockPos(globalOffset.getX(), globalOffset.getY()+5, globalOffset.getZ());
+		size = new BlockPos(1, 1, 1);
+		structure.add(createAirStructure(offset, size));
+		
+		offset = new BlockPos(-3 + globalOffset.getX(), globalOffset.getY(), globalOffset.getZ()-1);
+		size = new BlockPos(1, 4, 2);
+		structure.add(new ChildStructure(offset, size, Blocks.OBSIDIAN));
+
+		offset = new BlockPos(-2 + globalOffset.getX(), globalOffset.getY()+3, globalOffset.getZ()-1);
+		size = new BlockPos(1, 3, 2);
+		structure.add(new ChildStructure(offset, size, Blocks.OBSIDIAN));
+
+		offset = new BlockPos(-1 + globalOffset.getX(), globalOffset.getY()+5, globalOffset.getZ()-1);
+		size = new BlockPos(1, 2, 2);
+		structure.add(new ChildStructure(offset, size, Blocks.OBSIDIAN));
+
+		offset = new BlockPos(globalOffset.getX(), globalOffset.getY()+6, globalOffset.getZ()-1);
+		size = new BlockPos(1, 3, 2);
+		structure.add(new ChildStructure(offset, size, Blocks.OBSIDIAN));
+
+		offset = new BlockPos(1 + globalOffset.getX(), globalOffset.getY()+5, globalOffset.getZ()-1);
+		size = new BlockPos(1, 2, 2);
+		structure.add(new ChildStructure(offset, size, Blocks.OBSIDIAN));
+
+		offset = new BlockPos(2 + globalOffset.getX(), globalOffset.getY()+3, globalOffset.getZ()-1);
+		size = new BlockPos(1, 3, 2);
+		structure.add(new ChildStructure(offset, size, Blocks.OBSIDIAN));
+		
+		offset = new BlockPos(3 + globalOffset.getX(), globalOffset.getY(), globalOffset.getZ()-1);
+		size = new BlockPos(1, 4, 2);
+		structure.add(new ChildStructure(offset, size, Blocks.OBSIDIAN));
+		
+	}
+	
+	
+	/**
+	 * Add oak fenced doorway entry turning front (oriented along the x axis).
+	 * 
+	 * @param structure
+	 *            structure where door is added to.
+	 * @param globalOffset
+	 *            global offset.
+	 */
 	public static void addOakFencedDoorEntryFront(Structure structure, BlockPos globalOffset) {
 		BlockPos offset = new BlockPos(-1 + globalOffset.getX(), globalOffset.getY(), globalOffset.getZ());
 		BlockPos size = new BlockPos(2, 3, 1);

@@ -3,7 +3,7 @@ package bassebombecraft.item.action.build;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
-import static bassebombecraft.item.action.build.BuildUtils.addOakFencedDoorEntryFront;
+import static bassebombecraft.item.action.build.BuildUtils.*;
 import static bassebombecraft.item.action.build.tower.Room.createNERoom;
 import static bassebombecraft.item.action.build.tower.Room.createNWRoom;
 import static bassebombecraft.item.action.build.tower.Room.createSERoom;
@@ -47,7 +47,7 @@ public class BuildTower implements BlockClickedItemAction {
 	/**
 	 * Random generator.
 	 */
-	// Random random = new Random(1); // random #1 creates to small rooms
+	// Random random = new Random(2); 
 	Random random = new Random(2);
 
 	/**
@@ -232,10 +232,10 @@ public class BuildTower implements BlockClickedItemAction {
 			builder.buildRoom(room3, composite);
 			builder.buildRoom(room4, composite);
 
-			// build door in room #1 in layer #1
+			// add main entrance in room #1 in layer #1
 			if (layer == 0) {
 				BlockPos doorOffset = new BlockPos(floorXCenter - floorWidthDiv4, 0, room1.getOffset().getZ());
-				addOakFencedDoorEntryFront(composite, doorOffset);
+				addMainEntranceFront(composite, doorOffset);
 			}
 
 			// build floors
