@@ -49,6 +49,7 @@ import bassebombecraft.item.book.Spawn100ChickensBook;
 import bassebombecraft.item.book.Spawn100RainingLlamasBook;
 import bassebombecraft.item.book.SpawnDragonBook;
 import bassebombecraft.item.book.SpawnFlamingChickenBook;
+import bassebombecraft.item.book.SpawnGiantZombieBook;
 import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnKittenArmyBook;
 import bassebombecraft.item.book.SpawnManyCowsBook;
@@ -256,6 +257,11 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(spawnSkeletonArmyBook), "xyz", "yyy", "yyy", 'x', Items.BOOK, 'y',
 				Items.SKULL, 'z', Items.WOODEN_SWORD);
 
+		Item spawnGiantZombieBook = new SpawnGiantZombieBook();
+		registerBookItem(targetTab, spawnGiantZombieBook, SpawnGiantZombieBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(spawnGiantZombieBook), "xyz", "yyy", "yyy", 'x', Items.BOOK, 'y',
+				Items.ROTTEN_FLESH, 'z', Blocks.SKULL);
+
 		Item beastmasterMistBook = new BeastmasterMistBook();
 		registerBookItem(targetTab, beastmasterMistBook, BeastmasterMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(beastmasterMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
@@ -335,7 +341,7 @@ public class ItemInitializer {
 		registerBookItem(targetTab, buildStairsBook, BuildStairsBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(buildStairsBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.IRON_HOE, 'z', Blocks.ICE);
-		
+
 		Item vacuumMistBook = new VacuumMistBook();
 		registerBookItem(targetTab, vacuumMistBook, VacuumMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(vacuumMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
@@ -392,9 +398,9 @@ public class ItemInitializer {
 
 		Item buildTowerBook = new BuildTowerBook();
 		registerBookItem(targetTab, buildTowerBook, BuildTowerBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(buildTowerBook), "xy ", "   ", "   ", 'x', Items.WRITTEN_BOOK,
-				'y', Items.DIAMOND_PICKAXE);
-		
+		GameRegistry.addShapedRecipe(new ItemStack(buildTowerBook), "xy ", "   ", "   ", 'x', Items.WRITTEN_BOOK, 'y',
+				Items.DIAMOND_PICKAXE);
+
 		return bookItemList;
 	}
 

@@ -245,8 +245,9 @@ public class BuildTower implements BlockClickedItemAction {
 			builder.buildFloor(room4, composite);
 			
 			// build stair up in room #1 or #4
-			if (placeStairsInRoom1(layer))
-				builder.buildStairs(room1, composite, postComposite);
+			if (placeStairsInRoom1(layer)) {
+				builder.buildStairs(room1, composite, postComposite);				
+			}
 			else
 				builder.buildStairs(room4, composite, postComposite);
 

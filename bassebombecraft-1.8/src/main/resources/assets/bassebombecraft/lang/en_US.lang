@@ -42,6 +42,8 @@ item.SpawnGuardianBook.name=Book of Guardian
 item.SpawnDragonBook.name=Book of Instant Dragon
 item.SpawnKittenArmyBook.name=Book of Cloud's Kitten Army
 item.SpawnSkeletonArmyBook.name=Book of Skeleton Army
+item.SpawnSkeletonArmyBook.name=Book of Skeleton Army
+item.SpawnGiantZombieBook.name=Book of Giant Rotten Helper
 item.MobCommandersBaton.name=Krenko's Command Baton
 
 # weapons and stuff

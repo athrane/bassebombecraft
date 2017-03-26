@@ -143,7 +143,7 @@ public class DefaultBuilder implements Builder {
 	 * @return true if there is space for a solid staircase.
 	 */
 	boolean hasSpaceForStairs(BlockPos size) {
-		int requiredZSpace = size.getY() + 2;
+		int requiredZSpace = size.getY() + 3;
 		return requiredZSpace < size.getZ();
 	}
 
@@ -251,11 +251,11 @@ public class DefaultBuilder implements Builder {
 		// place door
 		switch (wall.getOrientation()) {
 		case X: {
-			int doorXOffset = doorXZOffset;
-			int randomFactor = roomSize.getX() - doorXZSize - doorXZOffset - doorXZOffset;
+			int doorXOffset = doorXZOffset;			
+			int randomFactor = roomSize.getX() - doorXZSize - doorXZOffset - doorXZOffset;			
 			if (randomFactor > 0)
 				doorXOffset = doorXZOffset + random.nextInt(randomFactor);
-			BlockPos doorOffset = offset.add(doorXOffset, 1, 0);
+			BlockPos doorOffset = offset.add(doorXOffset, 1, 0);			
 			BlockPos doorSize = new BlockPos(doorXZSize, doorYSize, 1);
 			addOakFencedDoorEntryFront(structure, doorOffset);
 			return;

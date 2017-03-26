@@ -99,6 +99,19 @@ public class VersionUtils {
 
 		// post
 		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+
+		// Build the server URI together with the parameters
+		//action = "System info";
+		//postParameters = createSystemInfoParameters(uid, category, action);
+		//uriBuilder = new URIBuilder(ANALYTICS_URL);
+		//uriBuilder.addParameters(postParameters);
+
+		// build request
+		//uri = uriBuilder.build();
+		//request = new HttpPost(uri);
+
+		// post
+		//task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);	
 	}
 
 	/**
@@ -180,6 +193,50 @@ public class VersionUtils {
 	}
 
 	/**
+	 * Create parameters for app system info.
+	 * 
+	 * @param uid
+	 *            user ID.
+	 * @param category
+	 *            event category.
+	 * @param action
+	 *            event action
+	 * 
+	 * @return parameters for system info.
+	 */
+	static List<NameValuePair> createSystemInfoParameters(String uid, String category, String action) {
+		
+		String userInfo = new StringBuilder()
+			.append(System.getProperty("user.name"))
+			.append(",")			
+			.append(System.getProperty("os.name"))
+			.append(";")
+			.append(System.getProperty("os.version"))
+			.append(";")
+			.append(System.getProperty("os.arch"))
+			.append(",")
+			.append(System.getProperty("java.version"))
+			.toString();
+		
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair("v", GA_API_VERSION));
+		parameters.add(new BasicNameValuePair("t", GA_HITTYPE_EVENT));
+		parameters.add(new BasicNameValuePair("tid", GA_PROPERTY));
+		parameters.add(new BasicNameValuePair("ds", GA_SOURCE));
+		parameters.add(new BasicNameValuePair("an", NAME));
+		parameters.add(new BasicNameValuePair("aid", GA_APP_ID));
+		parameters.add(new BasicNameValuePair("av", VERSION));
+		parameters.add(new BasicNameValuePair("cid", uid));
+		parameters.add(new BasicNameValuePair("uid", uid));
+		parameters.add(new BasicNameValuePair("ec", category));
+		parameters.add(new BasicNameValuePair("ea", action));
+		parameters.add(new BasicNameValuePair("el", userInfo));
+		//parameters.add(new BasicNameValuePair("cd1", "System information"));		
+		//parameters.add(new BasicNameValuePair("cm1", userAgentStr));		
+		return parameters;
+	}
+	
+	/**
 	 * Create parameters for app session end.
 	 * 
 	 * @param uid
@@ -237,6 +294,7 @@ public class VersionUtils {
 		return parameters;
 	}
 
+	
 	/**
 	 * Validate version.
 	 * 
