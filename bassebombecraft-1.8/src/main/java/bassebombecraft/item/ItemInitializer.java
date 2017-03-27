@@ -44,6 +44,7 @@ import bassebombecraft.item.book.MultipleArrowsBook;
 import bassebombecraft.item.book.NaturalizeBook;
 import bassebombecraft.item.book.PrimedCreeperCannonBook;
 import bassebombecraft.item.book.RainbownizeBook;
+import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.Spawn100ChickensBook;
 import bassebombecraft.item.book.Spawn100RainingLlamasBook;
@@ -121,6 +122,11 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(teleportBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.ENDER_PEARL);
 
+		Item setSpawnPointBook = new SetSpawnPointBook();
+		registerBookItem(targetTab, setSpawnPointBook, SetSpawnPointBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(setSpawnPointBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
+				Blocks.BED);
+		
 		Item smallFireballBook = new SmallFireballBook();
 		registerBookItem(targetTab, smallFireballBook, SmallFireballBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(smallFireballBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
@@ -199,7 +205,7 @@ public class ItemInitializer {
 		registerBookItem(targetTab, movingTntMistBook, MovingTntMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(movingTntMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.FLINT, 'z', Items.TNT_MINECART);
-
+		
 		// books of creature spawning
 
 		Item spawnFlamingChickenBook = new SpawnFlamingChickenBook();
