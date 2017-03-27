@@ -424,8 +424,7 @@ public class ItemInitializer {
 
 		Item mobCommandersBaton = new MobCommandersBaton();
 		registerBookItem(targetTab, mobCommandersBaton, MobCommandersBaton.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(mobCommandersBaton), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.GOLDEN_HELMET);
+		GameRegistry.addShapedRecipe(new ItemStack(mobCommandersBaton), "  x", " y ", "z  ", 'x', Blocks.SKULL, 'y', Items.BONE, 'z', Blocks.REDSTONE_BLOCK);
 	}
 
 	/**
