@@ -155,7 +155,7 @@ public class ItemInitializer {
 		Item toxicMistBook = new ToxicMistBook();
 		registerBookItem(targetTab, toxicMistBook, ToxicMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(toxicMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.ROTTEN_FLESH, 'z', Items.GHAST_TEAR);
+				Items.SPIDER_EYE, 'z', Items.GHAST_TEAR);
 
 		Item witherBook = new WitherSkullBook();
 		registerBookItem(targetTab, witherBook, WitherSkullBook.ITEM_NAME);
