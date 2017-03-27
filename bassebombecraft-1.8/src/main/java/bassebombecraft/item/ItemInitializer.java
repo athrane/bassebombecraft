@@ -139,8 +139,8 @@ public class ItemInitializer {
 
 		Item lingeringFlameBook = new LingeringFlameBook();
 		registerBookItem(targetTab, lingeringFlameBook, LingeringFlameBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(lingeringFlameBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.BLAZE_POWDER, 'z', Items.GHAST_TEAR);
+		GameRegistry.addShapedRecipe(new ItemStack(lingeringFlameBook), "xyz", "w  ", "   ", 'x', Items.BOOK, 'y',
+				Items.BLAZE_POWDER, 'z', Items.GHAST_TEAR, 'w', Items.GUNPOWDER);
 
 		Item lingeringFuryBook = new LingeringFuryBook();
 		registerBookItem(targetTab, lingeringFuryBook, LingeringFuryBook.ITEM_NAME);
