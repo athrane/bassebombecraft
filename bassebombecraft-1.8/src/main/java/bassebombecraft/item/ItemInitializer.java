@@ -129,13 +129,13 @@ public class ItemInitializer {
 		
 		Item smallFireballBook = new SmallFireballBook();
 		registerBookItem(targetTab, smallFireballBook, SmallFireballBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(smallFireballBook), "xy ", "zz ", "   ", 'x', Items.BOOK, 'y',
-				Items.FIRE_CHARGE, 'z', Items.GUNPOWDER);
+		GameRegistry.addShapedRecipe(new ItemStack(smallFireballBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
+				Items.FIRE_CHARGE);
 
 		Item largeFireballBook = new LargeFireballBook();
 		registerBookItem(targetTab, largeFireballBook, LargeFireballBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(largeFireballBook), "xyy", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.MAGMA_CREAM);
+		GameRegistry.addShapedRecipe(new ItemStack(largeFireballBook), "xy ", "zz ", "   ", 'x', Items.BOOK, 'y',
+				Items.FIRE_CHARGE, 'z', Items.GUNPOWDER);
 
 		Item lingeringFlameBook = new LingeringFlameBook();
 		registerBookItem(targetTab, lingeringFlameBook, LingeringFlameBook.ITEM_NAME);
