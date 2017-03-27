@@ -144,13 +144,13 @@ public class ItemInitializer {
 
 		Item lingeringFuryBook = new LingeringFuryBook();
 		registerBookItem(targetTab, lingeringFuryBook, LingeringFuryBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(lingeringFuryBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
+		GameRegistry.addShapedRecipe(new ItemStack(lingeringFuryBook), "xyz", "w  ", "   ", 'x', Items.BOOK, 'y',
 				Items.MAGMA_CREAM, 'z', Items.GHAST_TEAR);
 
 		Item lavaSpiralMistBook = new LavaSpiralMistBook();
 		registerBookItem(targetTab, lavaSpiralMistBook, LavaSpiralMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(lavaSpiralMistBook), "xyz", "xxx", "xxx", 'x', Items.BOOK, 'y',
-				Items.LAVA_BUCKET, 'z', Items.GHAST_TEAR);
+				Items.MAGMA_CREAM, 'z', Items.GHAST_TEAR, 'w', Blocks.TNT);
 
 		Item toxicMistBook = new ToxicMistBook();
 		registerBookItem(targetTab, toxicMistBook, ToxicMistBook.ITEM_NAME);
