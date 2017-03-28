@@ -404,8 +404,8 @@ public class ItemInitializer {
 
 		Item buildTowerBook = new BuildTowerBook();
 		registerBookItem(targetTab, buildTowerBook, BuildTowerBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(buildTowerBook), "xy ", "   ", "   ", 'x', Items.WRITTEN_BOOK, 'y',
-				Items.DIAMOND_PICKAXE);
+		GameRegistry.addShapedRecipe(new ItemStack(buildTowerBook), "x  ", " yy", " yy", 'x', Items.WRITTEN_BOOK, 'y',
+				Blocks.SANDSTONE);
 
 		return bookItemList;
 	}
