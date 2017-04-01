@@ -48,6 +48,7 @@ import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.Spawn100ChickensBook;
 import bassebombecraft.item.book.Spawn100RainingLlamasBook;
+import bassebombecraft.item.book.SpawnCreeperArmyBook;
 import bassebombecraft.item.book.SpawnDragonBook;
 import bassebombecraft.item.book.SpawnFlamingChickenBook;
 import bassebombecraft.item.book.SpawnGiantZombieBook;
@@ -263,6 +264,11 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(spawnSkeletonArmyBook), "xyz", "yyy", "yyy", 'x', Items.BOOK, 'y',
 				Items.SKULL, 'z', Items.WOODEN_SWORD);
 
+		Item spawnCreeperArmyBook = new SpawnCreeperArmyBook();
+		registerBookItem(targetTab, spawnCreeperArmyBook, SpawnCreeperArmyBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(spawnCreeperArmyBook), "xyz", "yyy", "yyy", 'x', Items.BOOK, 'y',
+				Items.SKULL, 'z', Items.GUNPOWDER);
+		
 		Item spawnGiantZombieBook = new SpawnGiantZombieBook();
 		registerBookItem(targetTab, spawnGiantZombieBook, SpawnGiantZombieBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(spawnGiantZombieBook), "xyz", "yyy", "yyy", 'x', Items.BOOK, 'y',
