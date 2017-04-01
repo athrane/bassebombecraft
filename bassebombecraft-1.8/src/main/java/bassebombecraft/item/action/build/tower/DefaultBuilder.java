@@ -83,38 +83,37 @@ public class DefaultBuilder implements Builder {
 		BlockPos floorSize = size.add(-2, 1 - size.getY(), -2);
 		BlockPos floorOffset = offset.add(1, 0, 1);
 
-		int selection = random.nextInt(5);
-
-		// use existing default floor
-		if (selection == 0) {
-			return;
-		}
-
-		// add shulker floor
-		if (selection == 1) {
-			structure.add(new ChildStructure(floorOffset, floorSize, Blocks.COBBLESTONE));
-		}
-
-		// add random wood floor
-		if (selection == 2) {
-			structure.add(new ChildStructure(floorOffset, floorSize, Blocks.LOG));
-			return;
-		}
-
-		// add random wood floor
-		if (selection == 3) {
-			structure.add(new ChildStructure(floorOffset, floorSize, Blocks.LOG2));
-			return;
-		}
-
-		// add magma floor
-		if (selection == 3) {
-			structure.add(new ChildStructure(floorOffset, floorSize, Blocks.MAGMA));
-			return;
-		}
+		structure.add(new ChildStructure(floorOffset, floorSize, selectFloorMaterial()));
 
 	}
 
+	/**
+	 * Select random floor material.
+	 * 
+	 * @return random floor material
+	 */
+	Block selectFloorMaterial() {
+
+		int selection = random.nextInt(11); switch(selection) {
+		
+		case 0: return Blocks.BEDROCK; 
+		case 1: return Blocks.BRICK_BLOCK;
+		case 2: return Blocks.NETHER_BRICK; 
+		case 3: return Blocks.SANDSTONE;
+		case 4: return Blocks.STONE; 
+		case 5: return Blocks.STONEBRICK; 
+		case 6: return Blocks.MOSSY_COBBLESTONE; 
+		case 7: return Blocks.COBBLESTONE; 
+		case 8: return Blocks.MAGMA; 
+		case 9: return Blocks.LOG; 
+		case 10: return Blocks.LOG2; 
+		case 11: return Blocks.PLANKS; 
+		
+		default: return Blocks.SANDSTONE; 
+		}
+	}
+	
+	
 	@Override
 	public void buildStairs(Room room, Structure structure, Structure postStructure) {
 
