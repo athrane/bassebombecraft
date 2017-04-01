@@ -101,17 +101,17 @@ public class VersionUtils {
 		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 
 		// Build the server URI together with the parameters
-		//action = "System info";
-		//postParameters = createSystemInfoParameters(uid, category, action);
-		//uriBuilder = new URIBuilder(ANALYTICS_URL);
-		//uriBuilder.addParameters(postParameters);
+		action = "System info";
+		postParameters = createSystemInfoParameters(uid, category, action);
+		uriBuilder = new URIBuilder(ANALYTICS_URL);
+		uriBuilder.addParameters(postParameters);
 
 		// build request
-		//uri = uriBuilder.build();
-		//request = new HttpPost(uri);
+		uri = uriBuilder.build();
+		request = new HttpPost(uri);
 
 		// post
-		//task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);	
+		task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);	
 	}
 
 	/**
@@ -208,13 +208,13 @@ public class VersionUtils {
 		
 		String userInfo = new StringBuilder()
 			.append(System.getProperty("user.name"))
-			.append(",")			
+			.append(";")			
 			.append(System.getProperty("os.name"))
-			.append(";")
-			.append(System.getProperty("os.version"))
-			.append(";")
-			.append(System.getProperty("os.arch"))
 			.append(",")
+			.append(System.getProperty("os.version"))
+			.append(",")
+			.append(System.getProperty("os.arch"))
+			.append(";")
 			.append(System.getProperty("java.version"))
 			.toString();
 		
