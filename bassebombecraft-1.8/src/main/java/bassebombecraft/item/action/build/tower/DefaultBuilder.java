@@ -5,6 +5,7 @@ import static bassebombecraft.item.action.build.BuildUtils.addOakFencedDoorEntry
 import static bassebombecraft.item.action.build.BuildUtils.addSolidStairsUp;
 import static bassebombecraft.item.action.build.BuildUtils.addSpiralStairsUp;
 import static bassebombecraft.item.action.build.BuildUtils.createInstance;
+import static bassebombecraft.item.action.build.BuildUtils.selectFloorMaterial;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
 
 import java.util.Random;
@@ -26,6 +27,12 @@ public class DefaultBuilder implements Builder {
 	/**
 	 * Stairs material.
 	 */
+	final static IBlockState STAIRS_STATE = Blocks.STONE_BRICK_STAIRS.getDefaultState().withProperty(BlockStairs.FACING,
+			EnumFacing.SOUTH);
+
+	/**
+	 * Stairs material.
+	 */
 	StairsMaterial stairsMaterial;
 
 	/**
@@ -41,9 +48,7 @@ public class DefaultBuilder implements Builder {
 	 */
 	public DefaultBuilder(Random random) {
 		this.random = random;
-		IBlockState state = Blocks.STONE_BRICK_STAIRS.getDefaultState().withProperty(BlockStairs.FACING,
-				EnumFacing.SOUTH);
-		stairsMaterial = createInstance(state, Blocks.STONE_BRICK_STAIRS, Blocks.STONEBRICK);
+		stairsMaterial = createInstance(STAIRS_STATE, Blocks.STONE_BRICK_STAIRS, Blocks.STONEBRICK);
 	}
 
 	@Override
@@ -51,7 +56,7 @@ public class DefaultBuilder implements Builder {
 
 		BlockPos size = room.getSize();
 		BlockPos offset = room.getOffset();
-		Block material = room.getMaterial();
+		BuildMaterial material = room.getMaterial();
 
 		int height = size.getY();
 		int width = size.getX();
@@ -61,7 +66,7 @@ public class DefaultBuilder implements Builder {
 		int zoffset = offset.getZ();
 		BlockPos roomOffset = new BlockPos(xoffset, yoffset, zoffset);
 		BlockPos roomSize = new BlockPos(width, height, depth);
-		structure.add(new ChildStructure(roomOffset, roomSize, material));
+		structure.add(new ChildStructure(roomOffset, roomSize, material.getBlock(), material.getState()));
 
 		height = size.getY() - 2;
 		width = size.getX() - 2;
@@ -83,37 +88,11 @@ public class DefaultBuilder implements Builder {
 		BlockPos floorSize = size.add(-2, 1 - size.getY(), -2);
 		BlockPos floorOffset = offset.add(1, 0, 1);
 
-		structure.add(new ChildStructure(floorOffset, floorSize, selectFloorMaterial()));
-
+		BuildMaterial floorMaterial = selectFloorMaterial(random);
+		structure
+				.add(new ChildStructure(floorOffset, floorSize, floorMaterial.getBlock(), floorMaterial.getState()));
 	}
 
-	/**
-	 * Select random floor material.
-	 * 
-	 * @return random floor material
-	 */
-	Block selectFloorMaterial() {
-
-		int selection = random.nextInt(11); switch(selection) {
-		
-		case 0: return Blocks.BEDROCK; 
-		case 1: return Blocks.BRICK_BLOCK;
-		case 2: return Blocks.NETHER_BRICK; 
-		case 3: return Blocks.SANDSTONE;
-		case 4: return Blocks.STONE; 
-		case 5: return Blocks.STONEBRICK; 
-		case 6: return Blocks.MOSSY_COBBLESTONE; 
-		case 7: return Blocks.COBBLESTONE; 
-		case 8: return Blocks.MAGMA; 
-		case 9: return Blocks.LOG; 
-		case 10: return Blocks.LOG2; 
-		case 11: return Blocks.PLANKS; 
-		
-		default: return Blocks.SANDSTONE; 
-		}
-	}
-	
-	
 	@Override
 	public void buildStairs(Room room, Structure structure, Structure postStructure) {
 
@@ -250,11 +229,11 @@ public class DefaultBuilder implements Builder {
 		// place door
 		switch (wall.getOrientation()) {
 		case X: {
-			int doorXOffset = doorXZOffset;			
-			int randomFactor = roomSize.getX() - doorXZSize - doorXZOffset - doorXZOffset;			
+			int doorXOffset = doorXZOffset;
+			int randomFactor = roomSize.getX() - doorXZSize - doorXZOffset - doorXZOffset;
 			if (randomFactor > 0)
 				doorXOffset = doorXZOffset + random.nextInt(randomFactor);
-			BlockPos doorOffset = offset.add(doorXOffset, 1, 0);			
+			BlockPos doorOffset = offset.add(doorXOffset, 1, 0);
 			BlockPos doorSize = new BlockPos(doorXZSize, doorYSize, 1);
 			addOakFencedDoorEntryFront(structure, doorOffset);
 			return;

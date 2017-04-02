@@ -1,6 +1,5 @@
 package bassebombecraft.item.action.build.tower;
 
-import net.minecraft.block.Block;
 import net.minecraft.util.math.BlockPos;
 
 /**
@@ -31,7 +30,7 @@ public class Room {
 	/**
 	 * Room material.
 	 */
-	Block material;
+	BuildMaterial material;
 
 	/**
 	 * Room type.
@@ -71,7 +70,7 @@ public class Room {
 	 *            room material.
 	 * 
 	 */
-	Room(RoomType type, BlockPos offset, BlockPos size, Block material) {
+	Room(RoomType type, BlockPos offset, BlockPos size, BuildMaterial material) {
 		super();
 		this.type = type;
 		this.offset = offset;
@@ -87,9 +86,9 @@ public class Room {
 	void calculateWalls() {
 		// create walls
 		northernWall = Wall.createXAxisOrientedWall(offset, this);
-		southernWall = Wall.createXAxisOrientedWall(offset.add(0, 0, size.getZ()-1), this);
+		southernWall = Wall.createXAxisOrientedWall(offset.add(0, 0, size.getZ() - 1), this);
 		westernWall = Wall.createZAxisOrientedWall(offset, this);
-		easternWall = Wall.createZAxisOrientedWall(offset.add(size.getX()-1, 0, 0), this);
+		easternWall = Wall.createZAxisOrientedWall(offset.add(size.getX() - 1, 0, 0), this);
 	}
 
 	public void resize(int width, int depth) {
@@ -98,28 +97,28 @@ public class Room {
 		case NW: {
 			offset = offset.add(-width, 0, -depth);
 			size = size.add(width, 0, depth);
-			calculateWalls();			
+			calculateWalls();
 			return;
 		}
 
 		case NE: {
 			offset = offset.add(0, 0, -depth);
 			size = size.add(width, 0, depth);
-			calculateWalls();			
+			calculateWalls();
 			return;
 		}
 
 		case SW: {
 			offset = offset.add(-width, 0, 0);
 			size = size.add(width, 0, depth);
-			calculateWalls();			
+			calculateWalls();
 			return;
 		}
 
 		case SE: {
 			offset = offset.add(0, 0, 0);
 			size = size.add(width, 0, depth);
-			calculateWalls();			
+			calculateWalls();
 			return;
 		}
 
@@ -157,7 +156,7 @@ public class Room {
 			return new Wall[] { southernWall, westernWall };
 
 		case SW:
-			return new Wall[] { northernWall, easternWall  };
+			return new Wall[] { northernWall, easternWall };
 
 		case SE:
 			return new Wall[] { northernWall, westernWall };
@@ -166,7 +165,7 @@ public class Room {
 			return new Wall[] {};
 		}
 	}
-	
+
 	/**
 	 * Get room size.
 	 * 
@@ -190,63 +189,75 @@ public class Room {
 	 * 
 	 * @return room material.
 	 */
-	public Block getMaterial() {
+	public BuildMaterial getMaterial() {
 		return material;
 	}
-		
+
 	/**
 	 * Room #1 (NW) factory method.
 	 * 
-	 * @param offset room offset
+	 * @param offset
+	 *            room offset
 	 * 
-	 * @param size room size
+	 * @param size
+	 *            room size
 	 * 
-	 * @param material room material.
+	 * @param material
+	 *            room material.
 	 * 
 	 */
-	public static Room createNWRoom(BlockPos offset, BlockPos size, Block material) {
+	public static Room createNWRoom(BlockPos offset, BlockPos size, BuildMaterial material) {
 		return new Room(RoomType.NW, offset, size, material);
 	}
 
 	/**
 	 * Room #2 (NE) factory method.
 	 * 
-	 * @param offset room offset
+	 * @param offset
+	 *            room offset
 	 * 
-	 * @param size room size
+	 * @param size
+	 *            room size
 	 * 
-	 * @param material room material.
+	 * @param material
+	 *            room material.
 	 * 
 	 */
-	public static Room createNERoom(BlockPos offset, BlockPos size, Block material) {
+	public static Room createNERoom(BlockPos offset, BlockPos size, BuildMaterial material) {
 		return new Room(RoomType.NE, offset, size, material);
 	}
 
 	/**
 	 * Room #3 (SW) factory method.
 	 * 
-	 * @param offset room offset
+	 * @param offset
+	 *            room offset
 	 * 
-	 * @param size room size
+	 * @param size
+	 *            room size
 	 * 
-	 * @param material room material.
+	 * @param material
+	 *            room material.
 	 * 
 	 */
-	public static Room createSWRoom(BlockPos offset, BlockPos size, Block material) {
+	public static Room createSWRoom(BlockPos offset, BlockPos size, BuildMaterial material) {
 		return new Room(RoomType.SW, offset, size, material);
 	}
 
 	/**
 	 * Room (SE) #4 factory method.
 	 * 
-	 * @param offset room offset
+	 * @param offset
+	 *            room offset
 	 * 
-	 * @param size room size
+	 * @param size
+	 *            room size
 	 * 
-	 * @param material room material.
+	 * @param material
+	 *            room material.
 	 * 
 	 */
-	public static Room createSERoom(BlockPos offset, BlockPos size, Block material) {
+	public static Room createSERoom(BlockPos offset, BlockPos size, BuildMaterial material) {
 		return new Room(RoomType.SE, offset, size, material);
 	}
 

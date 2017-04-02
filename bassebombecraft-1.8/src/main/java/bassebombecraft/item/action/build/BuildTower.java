@@ -4,6 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.item.action.build.BuildUtils.*;
+import static bassebombecraft.item.action.build.BuildUtils.selectFloorMaterial;
 import static bassebombecraft.item.action.build.tower.Room.createNERoom;
 import static bassebombecraft.item.action.build.tower.Room.createNWRoom;
 import static bassebombecraft.item.action.build.tower.Room.createSERoom;
@@ -18,6 +19,7 @@ import java.util.Random;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.item.action.BlockClickedItemAction;
+import bassebombecraft.item.action.build.tower.BuildMaterial;
 import bassebombecraft.item.action.build.tower.Builder;
 import bassebombecraft.item.action.build.tower.DefaultBuilder;
 import bassebombecraft.item.action.build.tower.Room;
@@ -25,10 +27,8 @@ import bassebombecraft.item.action.build.tower.Wall;
 import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -47,7 +47,7 @@ public class BuildTower implements BlockClickedItemAction {
 	/**
 	 * Random generator.
 	 */
-	// Random random = new Random(2); 
+	// Random random = new Random(2);
 	Random random = new Random(2);
 
 	/**
@@ -77,9 +77,9 @@ public class BuildTower implements BlockClickedItemAction {
 
 	/**
 	 * Initial room height in blocks.
-	 */	
+	 */
 	int initialRoomHeight;
-	
+
 	/**
 	 * floor width.
 	 */
@@ -104,7 +104,6 @@ public class BuildTower implements BlockClickedItemAction {
 	 * Tower builder.
 	 */
 	Builder builder;
-
 
 	/**
 	 * BuildSmallHole constructor.
@@ -166,14 +165,14 @@ public class BuildTower implements BlockClickedItemAction {
 	 * @return created structure.
 	 */
 	Structure createStructure() {
-		
+
 		// create structure
 		CompositeStructure composite = new CompositeStructure();
 
 		// initialize postprocessing composite
 		CompositeStructure postComposite = new CompositeStructure();
-				
-		//initialize variables
+
+		// initialize variables
 		BlockPos offset = new BlockPos(0, 0, 0);
 		int currentFloorWidth = this.floorWidth;
 		int currentFloorDepth = this.floorDepth;
@@ -187,7 +186,8 @@ public class BuildTower implements BlockClickedItemAction {
 
 			// exit if top criteria has been reached
 			if (hasReachedTop(currentFloorWidth, currentFloorDepth)) {
-				builder.buildTop(offset, selectMaterial(), composite);
+				BuildMaterial material = selectWallMaterial(random);
+				builder.buildTop(offset, material.getBlock(), composite);
 				break;
 			}
 
@@ -204,26 +204,30 @@ public class BuildTower implements BlockClickedItemAction {
 			// setup room #1
 			BlockPos room1Offset = new BlockPos(0, offset.getY(), 0);
 			BlockPos room1Size = new BlockPos(floorXCenter, height, floorZCenter);
-			Room room1 = createNWRoom(room1Offset, room1Size, selectMaterial());
+			BuildMaterial material = selectWallMaterial(random);
+			Room room1 = createNWRoom(room1Offset, room1Size, material);
 			room1.resize(random.nextInt(maxRoomXResize), random.nextInt(maxRoomZResize));
 
 			// setup room #2
 			BlockPos room2Offset = new BlockPos(floorXCenter - 1, offset.getY(), 0);
 			BlockPos room2Size = new BlockPos(currentFloorWidth - floorXCenter, height, floorZCenter);
-			Room room2 = createNERoom(room2Offset, room2Size, selectMaterial());
+			material = selectWallMaterial(random);
+			Room room2 = createNERoom(room2Offset, room2Size, material);
 			room2.resize(random.nextInt(maxRoomXResize), random.nextInt(maxRoomZResize));
 
 			// setup room #3
 			BlockPos room3Offset = new BlockPos(0, offset.getY(), floorZCenter - 1);
 			BlockPos room3Size = new BlockPos(floorXCenter, height, currentFloorDepth - floorZCenter);
-			Room room3 = createSWRoom(room3Offset, room3Size, selectMaterial());
+			material = selectWallMaterial(random);
+			Room room3 = createSWRoom(room3Offset, room3Size, material);
 			room3.resize(random.nextInt(maxRoomXResize), random.nextInt(maxRoomZResize));
 
 			// setup room #4
 			BlockPos room4Offset = new BlockPos(floorXCenter - 1, offset.getY(), floorZCenter - 1);
 			BlockPos room4Size = new BlockPos(currentFloorWidth - floorXCenter, height,
 					currentFloorDepth - floorZCenter);
-			Room room4 = createSERoom(room4Offset, room4Size, selectMaterial());
+			material = selectWallMaterial(random);
+			Room room4 = createSERoom(room4Offset, room4Size, material);
 			room4.resize(random.nextInt(maxRoomXResize), random.nextInt(maxRoomZResize));
 
 			// build rooms
@@ -243,12 +247,11 @@ public class BuildTower implements BlockClickedItemAction {
 			builder.buildFloor(room2, composite);
 			builder.buildFloor(room3, composite);
 			builder.buildFloor(room4, composite);
-			
+
 			// build stair up in room #1 or #4
 			if (placeStairsInRoom1(layer)) {
-				builder.buildStairs(room1, composite, postComposite);				
-			}
-			else
+				builder.buildStairs(room1, composite, postComposite);
+			} else
 				builder.buildStairs(room4, composite, postComposite);
 
 			// build doors for room #1 and #4
@@ -273,18 +276,20 @@ public class BuildTower implements BlockClickedItemAction {
 
 		// add post composite to composite
 		composite.add(postComposite);
-				
+
 		return composite;
 	}
 
 	/**
 	 * Calculate the room height from the layer number.
 	 * 
-	 * @param layer layer number.
+	 * @param layer
+	 *            layer number.
 	 * @return room height calculated from the layer number.
 	 */
 	int calculateRoomHeight(int layer) {
-		if(layer == 0) return initialRoomHeight;
+		if (layer == 0)
+			return initialRoomHeight;
 		return roomHeight;
 	}
 
@@ -315,25 +320,6 @@ public class BuildTower implements BlockClickedItemAction {
 	 */
 	boolean placeStairsInRoom1(int layer) {
 		return (layer % 2) == 0;
-	}
-
-	/**
-	 * Select random material.
-	 * 
-	 * @return random material
-	 */
-	Block selectMaterial() {
-		return Blocks.SANDSTONE;
-
-		/**
-		 * int selection = random.nextInt(9); switch(selection) {
-		 * 
-		 * case 0: return Blocks.BEDROCK; case 1: return Blocks.BRICK_BLOCK;
-		 * case 2: return Blocks.NETHER_BRICK; case 3: return Blocks.SANDSTONE;
-		 * case 4: return Blocks.STONE; case 5: return Blocks.STONEBRICK; case
-		 * 6: return Blocks.MOSSY_COBBLESTONE; case 7: return
-		 * Blocks.COBBLESTONE; default: return Blocks.OBSIDIAN; }
-		 **/
 	}
 
 	/**
