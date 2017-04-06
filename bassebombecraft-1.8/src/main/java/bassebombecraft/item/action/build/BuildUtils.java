@@ -11,11 +11,13 @@ import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSandStone;
+import net.minecraft.block.BlockStainedGlassPane;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.BlockStoneBrick;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
@@ -352,7 +354,7 @@ public class BuildUtils {
 	public static BuildMaterial selectFloorMaterial(Random random) {
 
 		int selection = random.nextInt(17);
-		
+
 		switch (selection) {
 
 		case 1:
@@ -363,40 +365,40 @@ public class BuildUtils {
 			return new BuildMaterial(Blocks.SANDSTONE);
 		case 4:
 			return new BuildMaterial(Blocks.STONE);
-		case 5:{
+		case 5: {
 			IBlockState state = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT,
 					BlockStone.EnumType.ANDESITE_SMOOTH);
 			return new BuildMaterial(Blocks.STONE, state);
 		}
-		case 6:{
+		case 6: {
 			IBlockState state = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT,
 					BlockStone.EnumType.DIORITE_SMOOTH);
 			return new BuildMaterial(Blocks.STONE, state);
 		}
-		case 7:{
+		case 7: {
 			IBlockState state = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT,
 					BlockStone.EnumType.GRANITE_SMOOTH);
 			return new BuildMaterial(Blocks.STONE, state);
 		}
-			
+
 		case 8:
 			return new BuildMaterial(Blocks.STONEBRICK);
-		case 9:{
+		case 9: {
 			IBlockState state = Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT,
 					BlockStoneBrick.EnumType.CHISELED);
 			return new BuildMaterial(Blocks.STONE, state);
-		}			
-		case 10:{
+		}
+		case 10: {
 			IBlockState state = Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT,
 					BlockStoneBrick.EnumType.CRACKED);
 			return new BuildMaterial(Blocks.STONE, state);
 		}
-		case 11:{
+		case 11: {
 			IBlockState state = Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT,
 					BlockStoneBrick.EnumType.MOSSY);
 			return new BuildMaterial(Blocks.STONE, state);
 		}
-			
+
 		case 12:
 			return new BuildMaterial(Blocks.MOSSY_COBBLESTONE);
 		case 13:
@@ -448,7 +450,49 @@ public class BuildUtils {
 	}
 
 	/**
-	 * StairsMaterial factory method.
+	 * Select random window material.
+	 * 
+	 * @return random window material
+	 */
+	public static BuildMaterial selectWindowMaterial(Random random) {
+		int selection = random.nextInt(13);
+
+		switch (selection) {
+
+		case 0:
+			return createStainedGlassPaneBuildMaterial(EnumDyeColor.WHITE);
+		case 1:
+			return createStainedGlassPaneBuildMaterial(EnumDyeColor.BLUE);
+		case 2:
+			return createStainedGlassPaneBuildMaterial(EnumDyeColor.CYAN);
+		case 3:
+			return createStainedGlassPaneBuildMaterial(EnumDyeColor.GREEN);
+		case 4:
+			return createStainedGlassPaneBuildMaterial(EnumDyeColor.LIGHT_BLUE);
+		case 5:
+			return createStainedGlassPaneBuildMaterial(EnumDyeColor.LIME);
+		case 6:
+			return createStainedGlassPaneBuildMaterial(EnumDyeColor.MAGENTA);
+		case 7:
+			return createStainedGlassPaneBuildMaterial(EnumDyeColor.ORANGE);
+		case 8:
+			return createStainedGlassPaneBuildMaterial(EnumDyeColor.PINK);
+		case 9:
+			return createStainedGlassPaneBuildMaterial(EnumDyeColor.PURPLE);
+		case 10:
+			return createStainedGlassPaneBuildMaterial(EnumDyeColor.RED);
+		case 11:
+			return createStainedGlassPaneBuildMaterial(EnumDyeColor.SILVER);
+		case 12:
+			return createStainedGlassPaneBuildMaterial(EnumDyeColor.YELLOW);
+
+		default:
+			return new BuildMaterial(Blocks.GLASS_PANE);
+		}
+	}
+
+	/**
+	 * Stairs material factory method.
 	 * 
 	 * @param state
 	 *            stair material state.
@@ -467,9 +511,24 @@ public class BuildUtils {
 	 * @param solidMaterial
 	 *            build material.
 	 * @param state
-	 *            stair material state.
+	 *            build material state.
 	 */
 	public static BuildMaterial createInstance(Block buildMaterial, IBlockState state) {
 		return new BuildMaterial(buildMaterial, state);
 	}
+
+	/**
+	 * Build material factory method with stained glass pane as material
+	 * 
+	 * @param color
+	 *            glass color.
+	 * @param state
+	 *            stair material state.
+	 */
+	public static BuildMaterial createStainedGlassPaneBuildMaterial(EnumDyeColor color) {
+		IBlockState state = Blocks.STAINED_GLASS_PANE.getDefaultState().withProperty(BlockStainedGlassPane.COLOR,
+				color);
+		return new BuildMaterial(Blocks.STAINED_GLASS_PANE, state);
+	}
+
 }

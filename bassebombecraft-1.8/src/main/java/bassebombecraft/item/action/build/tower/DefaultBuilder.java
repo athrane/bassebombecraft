@@ -1,11 +1,12 @@
 package bassebombecraft.item.action.build.tower;
 
-import static bassebombecraft.item.action.build.BuildUtils.addOakFencedDoorEntryFront;
+import static bassebombecraft.item.action.build.BuildUtils.*;
 import static bassebombecraft.item.action.build.BuildUtils.addOakFencedDoorEntryFrontSideways;
 import static bassebombecraft.item.action.build.BuildUtils.addSolidStairsUp;
 import static bassebombecraft.item.action.build.BuildUtils.addSpiralStairsUp;
 import static bassebombecraft.item.action.build.BuildUtils.createInstance;
 import static bassebombecraft.item.action.build.BuildUtils.selectFloorMaterial;
+import static bassebombecraft.item.action.build.BuildUtils.selectWallMaterial;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
 
 import java.util.Random;
@@ -88,9 +89,8 @@ public class DefaultBuilder implements Builder {
 		BlockPos floorSize = size.add(-2, 1 - size.getY(), -2);
 		BlockPos floorOffset = offset.add(1, 0, 1);
 
-		BuildMaterial floorMaterial = selectFloorMaterial(random);
-		structure
-				.add(new ChildStructure(floorOffset, floorSize, floorMaterial.getBlock(), floorMaterial.getState()));
+		BuildMaterial material = selectFloorMaterial(random);
+		structure.add(new ChildStructure(floorOffset, floorSize, material.getBlock(), material.getState()));
 	}
 
 	@Override
@@ -148,10 +148,13 @@ public class DefaultBuilder implements Builder {
 		int windowXZSize = 2;
 		int windowYSize = 2;
 
-		// calculate door offset
+		// calculate window offset
 		int windowXZOffset = calculateWindowOffset(wall, roomSize);
 		int windowYOffset = roomSize.getY() - windowYSize - 1;
 
+		// get material
+		BuildMaterial material = selectWindowMaterial(random);
+				
 		// place window
 		switch (wall.getOrientation()) {
 		case X: {
@@ -159,7 +162,7 @@ public class DefaultBuilder implements Builder {
 			int windowXOffset = windowXZOffset + random.nextInt(randomFactor);
 			BlockPos windowOffset = offset.add(windowXOffset, windowYOffset, 0);
 			BlockPos windowSize = new BlockPos(windowXZSize, windowYSize, 1);
-			structure.add(new ChildStructure(windowOffset, windowSize, Blocks.GLASS_PANE));
+			structure.add(new ChildStructure(windowOffset, windowSize, material.getBlock(), material.getState()));
 			return;
 		}
 
@@ -168,7 +171,7 @@ public class DefaultBuilder implements Builder {
 			int windowZOffset = windowXZOffset + random.nextInt(randomFactor);
 			BlockPos windowOffset = offset.add(0, windowYOffset, windowZOffset);
 			BlockPos windowSize = new BlockPos(1, windowYSize, windowXZSize);
-			structure.add(new ChildStructure(windowOffset, windowSize, Blocks.GLASS_PANE));
+			structure.add(new ChildStructure(windowOffset, windowSize, material.getBlock(), material.getState()));
 			return;
 		}
 
