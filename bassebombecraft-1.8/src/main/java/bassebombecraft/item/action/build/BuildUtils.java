@@ -11,6 +11,7 @@ import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSandStone;
+import net.minecraft.block.BlockSandStone.EnumType;
 import net.minecraft.block.BlockStainedGlassPane;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockStone;
@@ -75,6 +76,11 @@ public class BuildUtils {
 		size = new BlockPos(1, 4, 2);
 		structure.add(new ChildStructure(offset, size, Blocks.OBSIDIAN));
 
+		
+		offset = new BlockPos(globalOffset.getX() - 2, globalOffset.getY(), globalOffset.getZ());
+		size = new BlockPos(5, 1, 1);		
+		IBlockState state = Blocks.SANDSTONE_STAIRS.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.SOUTH);
+		structure.add(new ChildStructure(offset, size, Blocks.SANDSTONE_STAIRS, state));		
 	}
 
 	/**
@@ -428,21 +434,12 @@ public class BuildUtils {
 
 		switch (selection) {
 
-		case 0: {
-			IBlockState state = Blocks.SANDSTONE.getDefaultState().withProperty(BlockSandStone.TYPE,
-					BlockSandStone.EnumType.DEFAULT);
-			return new BuildMaterial(Blocks.SANDSTONE, state);
-		}
-		case 1: {
-			IBlockState state = Blocks.SANDSTONE.getDefaultState().withProperty(BlockSandStone.TYPE,
-					BlockSandStone.EnumType.SMOOTH);
-			return new BuildMaterial(Blocks.SANDSTONE, state);
-		}
-		case 2: {
-			IBlockState state = Blocks.SANDSTONE.getDefaultState().withProperty(BlockSandStone.TYPE,
-					BlockSandStone.EnumType.CHISELED);
-			return new BuildMaterial(Blocks.SANDSTONE, state);
-		}
+		case 0:
+			return createSandstoneBuildMaterial(BlockSandStone.EnumType.DEFAULT);
+		case 1:
+			return createSandstoneBuildMaterial(BlockSandStone.EnumType.CHISELED);
+		case 2:
+			return createSandstoneBuildMaterial(BlockSandStone.EnumType.SMOOTH);
 
 		default:
 			return new BuildMaterial(Blocks.SANDSTONE);
@@ -518,7 +515,7 @@ public class BuildUtils {
 	}
 
 	/**
-	 * Build material factory method with stained glass pane as material
+	 * Build material factory method with stained glass pane as material.
 	 * 
 	 * @param color
 	 *            glass color.
@@ -529,6 +526,19 @@ public class BuildUtils {
 		IBlockState state = Blocks.STAINED_GLASS_PANE.getDefaultState().withProperty(BlockStainedGlassPane.COLOR,
 				color);
 		return new BuildMaterial(Blocks.STAINED_GLASS_PANE, state);
+	}
+
+	/**
+	 * Build material factory method with stand stone as material.
+	 * 
+	 * @param color
+	 *            sandstone type.
+	 * @param state
+	 *            stair material state.
+	 */
+	public static BuildMaterial createSandstoneBuildMaterial(EnumType type) {
+		IBlockState state = Blocks.SANDSTONE.getDefaultState().withProperty(BlockSandStone.TYPE, type);
+		return new BuildMaterial(Blocks.SANDSTONE, state);
 	}
 
 }
