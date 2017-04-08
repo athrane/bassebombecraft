@@ -25,6 +25,11 @@ public class MobEffects {
 	public static final Potion PRIMED_CREEPER_CANNON_POTION = new MobProjectilePotion("PrimedCreeperCannonProjectilePotion");
 
 	/**
+	 * Bear blaster potion, used by {@linkplain ShootBearBlaster}.
+	 */
+	public static final Potion BEAR_BLASTER_POTION = new MobProjectilePotion("BearBlasterProjectilePotion");
+	
+	/**
 	 * Primed mob potion, used by {@linkplain ShootBaconBazooka}.
 	 */
 	public static final Potion PRIMED_MOB_POTION = new MobPrimingPotion();

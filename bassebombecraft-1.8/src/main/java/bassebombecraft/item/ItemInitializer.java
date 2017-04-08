@@ -5,6 +5,7 @@ import java.util.List;
 
 import bassebombecraft.item.baton.MobCommandersBaton;
 import bassebombecraft.item.book.BaconBazookaBook;
+import bassebombecraft.item.book.BearBlasterBook;
 import bassebombecraft.item.book.BeastmasterBook;
 import bassebombecraft.item.book.BeastmasterMistBook;
 import bassebombecraft.item.book.BuildAbyssBook;
@@ -234,6 +235,11 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(primedCreeperCannonBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.GUNPOWDER, 'z', Blocks.IRON_BLOCK);
 
+		Item bearBlasterBook = new BearBlasterBook();
+		registerBookItem(targetTab, bearBlasterBook, BearBlasterBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(bearBlasterBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
+				Items.GUNPOWDER, 'z', Items.FISH);
+		
 		Item creeperApocalypseBook = new CreeperApocalypseBook();
 		registerBookItem(targetTab, creeperApocalypseBook, CreeperApocalypseBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(creeperApocalypseBook), "xyz", "yzy", "zyz", 'x', Items.BOOK, 'y',
