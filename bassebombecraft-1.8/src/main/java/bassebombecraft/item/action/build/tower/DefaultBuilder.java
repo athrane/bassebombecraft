@@ -1,16 +1,17 @@
 package bassebombecraft.item.action.build.tower;
 
-import static bassebombecraft.item.action.build.BuildUtils.*;
+import static bassebombecraft.item.action.build.BuildUtils.addOakFencedDoorEntryFront;
 import static bassebombecraft.item.action.build.BuildUtils.addOakFencedDoorEntryFrontSideways;
 import static bassebombecraft.item.action.build.BuildUtils.addSolidStairsUp;
 import static bassebombecraft.item.action.build.BuildUtils.addSpiralStairsUp;
 import static bassebombecraft.item.action.build.BuildUtils.createInstance;
 import static bassebombecraft.item.action.build.BuildUtils.selectFloorMaterial;
-import static bassebombecraft.item.action.build.BuildUtils.selectWallMaterial;
+import static bassebombecraft.item.action.build.BuildUtils.selectWindowMaterial;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
 
 import java.util.Random;
 
+import bassebombecraft.item.action.build.BuildUtils;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
@@ -93,6 +94,21 @@ public class DefaultBuilder implements Builder {
 		structure.add(new ChildStructure(floorOffset, floorSize, material.getBlock(), material.getState()));
 	}
 
+	
+	
+	@Override
+	public void buildMobSpawner(Room room, Structure structure) {
+		BlockPos size = room.getSize();
+		BlockPos offset = room.getOffset();
+
+		// exit if room is small
+		if(size.getX() < 5) return;
+		if(size.getZ() < 5) return;
+		
+		BlockPos location = offset.add( size.getX() / 2 , 1,  size.getZ() / 2);		
+		BuildUtils.addMobSpawner(structure, location);
+	}
+
 	@Override
 	public void buildStairs(Room room, Structure structure, Structure postStructure) {
 
@@ -154,7 +170,7 @@ public class DefaultBuilder implements Builder {
 
 		// get material
 		BuildMaterial material = selectWindowMaterial(random);
-				
+
 		// place window
 		switch (wall.getOrientation()) {
 		case X: {

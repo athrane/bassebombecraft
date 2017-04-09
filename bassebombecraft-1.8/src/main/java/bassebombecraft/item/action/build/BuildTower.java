@@ -167,7 +167,7 @@ public class BuildTower implements BlockClickedItemAction {
 	Structure createStructure() {
 
 		// create structure
-		CompositeStructure composite = new CompositeStructure();
+		CompositeStructure structure = new CompositeStructure();
 
 		// initialize postprocessing composite
 		CompositeStructure postComposite = new CompositeStructure();
@@ -187,7 +187,7 @@ public class BuildTower implements BlockClickedItemAction {
 			// exit if top criteria has been reached
 			if (hasReachedTop(currentFloorWidth, currentFloorDepth)) {
 				BuildMaterial material = selectWallMaterial(random);
-				builder.buildTop(offset, material.getBlock(), composite);
+				builder.buildTop(offset, material.getBlock(), structure);
 				break;
 			}
 
@@ -231,53 +231,59 @@ public class BuildTower implements BlockClickedItemAction {
 			room4.resize(random.nextInt(maxRoomXResize), random.nextInt(maxRoomZResize));
 
 			// build rooms
-			builder.buildRoom(room1, composite);
-			builder.buildRoom(room2, composite);
-			builder.buildRoom(room3, composite);
-			builder.buildRoom(room4, composite);
+			builder.buildRoom(room1, structure);
+			builder.buildRoom(room2, structure);
+			builder.buildRoom(room3, structure);
+			builder.buildRoom(room4, structure);
 
 			// add main entrance in room #1 in layer #1
 			if (layer == 0) {
 				BlockPos doorOffset = new BlockPos(floorXCenter - floorWidthDiv4, 0, room1.getOffset().getZ());
-				addMainEntranceFront(composite, doorOffset);
+				addMainEntranceFront(structure, doorOffset);
 			}
 
 			// build floors
-			builder.buildFloor(room1, composite);
-			builder.buildFloor(room2, composite);
-			builder.buildFloor(room3, composite);
-			builder.buildFloor(room4, composite);
+			builder.buildFloor(room1, structure);
+			builder.buildFloor(room2, structure);
+			builder.buildFloor(room3, structure);
+			builder.buildFloor(room4, structure);
 
 			// build stair up in room #1 or #4
 			if (placeStairsInRoom1(layer)) {
-				builder.buildStairs(room1, composite, postComposite);
+				builder.buildStairs(room1, structure, postComposite);
 			} else
-				builder.buildStairs(room4, composite, postComposite);
+				builder.buildStairs(room4, structure, postComposite);
 
 			// build doors for room #1 and #4
 			for (Wall wall : room1.getInteriorWalls())
-				builder.buildDoor(wall, composite);
+				builder.buildDoor(wall, structure);
 			for (Wall wall : room4.getInteriorWalls())
-				builder.buildDoor(wall, composite);
+				builder.buildDoor(wall, structure);
 
 			// build windows
 			for (Wall wall : room1.getExternalWalls())
-				builder.buildWindow(wall, composite);
+				builder.buildWindow(wall, structure);
 			for (Wall wall : room2.getExternalWalls())
-				builder.buildWindow(wall, composite);
+				builder.buildWindow(wall, structure);
 			for (Wall wall : room3.getExternalWalls())
-				builder.buildWindow(wall, composite);
+				builder.buildWindow(wall, structure);
 			for (Wall wall : room4.getExternalWalls())
-				builder.buildWindow(wall, composite);
+				builder.buildWindow(wall, structure);
 
+			// build mob spawner
+			builder.buildMobSpawner(room1, structure);
+			builder.buildMobSpawner(room2, structure);
+			builder.buildMobSpawner(room3, structure);
+			builder.buildMobSpawner(room4, structure);
+			
 			// calculate offset etc for next iteration
 			offset = new BlockPos(0, offset.getY() + height, 0);
 		}
 
 		// add post composite to composite
-		composite.add(postComposite);
+		structure.add(postComposite);
 
-		return composite;
+		return structure;
 	}
 
 	/**

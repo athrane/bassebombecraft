@@ -353,6 +353,19 @@ public class BuildUtils {
 	}
 
 	/**
+	 * Add mob spawner.
+	 * 
+	 * @param structure
+	 *            structure where mob spawner is added to.
+	 * @param globalOffset
+	 *            global offset.
+	 */
+	public static void addMobSpawner(Structure structure, BlockPos globalOffset) {
+		BlockPos size = new BlockPos(1, 1, 1);		
+		structure.add(new ChildStructure(globalOffset, size, Blocks.MOB_SPAWNER));
+	}
+	
+	/**
 	 * Select random floor material.
 	 * 
 	 * @return random floor material

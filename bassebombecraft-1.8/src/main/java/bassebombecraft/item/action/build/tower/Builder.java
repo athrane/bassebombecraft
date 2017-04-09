@@ -74,4 +74,17 @@ public interface Builder {
 	 */
 	void buildFloor(Room room, Structure structure);
 
+	/**
+	 * Build mob spawner in room.
+	 * 
+	 * @param room
+	 *            room to build mob spawner in.
+	 * @param structure
+	 *            structure to add structure to.
+	 * 
+	 */	
+	void buildMobSpawner(Room room, Structure structure);
+	
+	
+	
 }
