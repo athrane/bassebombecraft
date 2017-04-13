@@ -47,6 +47,7 @@ import bassebombecraft.item.book.PrimedCreeperCannonBook;
 import bassebombecraft.item.book.RainbownizeBook;
 import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
+import bassebombecraft.item.book.SmallFireballRingBook;
 import bassebombecraft.item.book.Spawn100ChickensBook;
 import bassebombecraft.item.book.Spawn100RainingLlamasBook;
 import bassebombecraft.item.book.SpawnCreeperArmyBook;
@@ -139,6 +140,11 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(largeFireballBook), "xy ", "zz ", "   ", 'x', Items.BOOK, 'y',
 				Items.FIRE_CHARGE, 'z', Items.GUNPOWDER);
 
+		Item smallFireballRingBook = new SmallFireballRingBook();
+		registerBookItem(targetTab, smallFireballRingBook, SmallFireballRingBook.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(smallFireballRingBook), "xxx", "xyx", "xxx", 'x', Items.BOOK, 'y',
+				Items.FIRE_CHARGE);
+		
 		Item lingeringFlameBook = new LingeringFlameBook();
 		registerBookItem(targetTab, lingeringFlameBook, LingeringFlameBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(lingeringFlameBook), "xyz", "w  ", "   ", 'x', Items.BOOK, 'y',

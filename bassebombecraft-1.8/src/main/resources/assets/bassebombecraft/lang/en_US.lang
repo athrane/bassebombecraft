@@ -13,6 +13,7 @@ item.MovingLavaMistBook.name=Book of Fiery Kiss
 item.MovingLavaMultiMistBook.name=Book of Lava Corruption 
 item.LavaBlockBook.name=Book of Lava Block
 item.LavaSpiralMistBook.name=Book of Lava Spiral 
+item.SmallFireballRingBook.name=Book of Fiery ring
 
 # Explosion
 item.MovingTntMistBook.name=Book of Exploding Fist
