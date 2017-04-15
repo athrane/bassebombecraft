@@ -7,14 +7,15 @@ import static bassebombecraft.ModConstants.TAB_NAME;
 import static bassebombecraft.ModConstants.VERSION;
 import static bassebombecraft.config.VersionUtils.validateVersion;
 
+import java.io.File;
 import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 
 import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 
 import bassebombecraft.block.BlockInitializer;
+import bassebombecraft.config.ConfigUtils;
 import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.block.BlockDirectivesRepository;
@@ -145,7 +146,8 @@ public class BassebombeCraft {
 		proxy.preInit(event);
 
 		// load configuration file
-		config = ConfigFactory.load(MODID);
+		File configDirectory = event.getModConfigurationDirectory();
+		config = ConfigUtils.loadConfig(configDirectory, logger);
 
 		// Initialise charmed mobs repository
 		charmedMobsRepository = DefaultCharmedMobsRepository.getInstance();
@@ -261,8 +263,8 @@ public class BassebombeCraft {
 	 */
 	public static CommonProxy getProxy() {
 		return proxy;
-	}	
-	
+	}
+
 	/**
 	 * Get charmed mobs repository.
 	 * 

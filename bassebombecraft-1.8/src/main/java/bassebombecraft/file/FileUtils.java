@@ -12,7 +12,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 public class FileUtils {
 
 	/**
-	 * Save text as JSONto disk.
+	 * Save text as JSON to disk.
 	 * 
 	 * @param json
 	 *            JSON model of the captured content.
@@ -30,6 +30,25 @@ public class FileUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}	
-	
+	}
+
+	/**
+	 * Save text as JSON to disk.
+	 * 
+	 * @param json
+	 *            JSON model of the captured content.
+	 * @param file
+	 *            path tp file.
+	 */
+	public static void saveJsonFile(String json, File file) {
+		try {
+			FileWriter writer = new FileWriter(file);
+			writer.write(json);
+			writer.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
