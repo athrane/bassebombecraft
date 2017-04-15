@@ -29,7 +29,7 @@ public class ConfigUtils {
 	/**
 	 * Configuration file name.
 	 */
-	static final String CONFIG_FILE_NAME = MODID+".cfg";
+	static final String CONFIG_FILE_NAME = MODID+".conf";
 		
 	/**
 	 * Create array with single {@linkplain ParticleRenderingInfo} from
