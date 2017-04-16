@@ -72,6 +72,7 @@ import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
+import bassebombecraft.item.inventory.LlamaSpitIdolInventoryItem;
 import bassebombecraft.item.inventory.MobsLevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.PinkynizeIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
@@ -522,6 +523,11 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(primeMobIdolInventoryItem), "xy ", "   ", "   ", 'x',
 				Items.CLAY_BALL, 'y', Items.FIRE_CHARGE);
 
+		Item llamaSpitIdolInventoryItem = new LlamaSpitIdolInventoryItem();
+		registerInventoryItem(targetTab, llamaSpitIdolInventoryItem, LlamaSpitIdolInventoryItem.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(llamaSpitIdolInventoryItem), "xy ", "   ", "   ", 'x',
+				Items.CLAY_BALL, 'y', Items.LEATHER);
+		
 		/**
 		 * Item pvpIdolInventoryItem = new PvpIdolInventoryItem();
 		 * pvpIdolInventoryItem.setCreativeTab(targetTab);
