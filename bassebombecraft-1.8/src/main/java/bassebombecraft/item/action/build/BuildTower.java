@@ -325,7 +325,7 @@ public class BuildTower implements BlockClickedItemAction {
 	 * @return true if stairs should be place in room #1
 	 */
 	boolean placeStairsInRoom1(int layer) {
-		return (layer % 2) == 0;
+		return (layer % 2) == 1;
 	}
 
 	/**

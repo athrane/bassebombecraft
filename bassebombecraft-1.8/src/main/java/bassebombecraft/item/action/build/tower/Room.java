@@ -261,4 +261,14 @@ public class Room {
 		return new Room(RoomType.SE, offset, size, material);
 	}
 
+	/**
+	 * Return the type of room.
+	 * 
+	 * @return the type of room.
+	 */
+	public RoomType getType() {
+		return this.type;
+
+	}
+
 }

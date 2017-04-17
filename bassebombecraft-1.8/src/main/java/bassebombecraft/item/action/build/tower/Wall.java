@@ -99,4 +99,13 @@ public class Wall {
 		return room;
 	}
 	
+	/**
+	 * returns true if wall is oriented along Z axis.
+	 * 
+	 * @return true if wall is oriented along Z axis.
+	 */
+	public boolean isZOrientated() {
+		return orientation.equals(WallOrientation.Z);
+	}
+	
 }

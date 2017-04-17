@@ -12,6 +12,7 @@ import static bassebombecraft.structure.ChildStructure.createAirStructure;
 import java.util.Random;
 
 import bassebombecraft.item.action.build.BuildUtils;
+import bassebombecraft.item.action.build.tower.Room.RoomType;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
@@ -94,18 +95,18 @@ public class DefaultBuilder implements Builder {
 		structure.add(new ChildStructure(floorOffset, floorSize, material.getBlock(), material.getState()));
 	}
 
-	
-	
 	@Override
 	public void buildMobSpawner(Room room, Structure structure) {
 		BlockPos size = room.getSize();
 		BlockPos offset = room.getOffset();
 
 		// exit if room is small
-		if(size.getX() < 5) return;
-		if(size.getZ() < 5) return;
-		
-		BlockPos location = offset.add( size.getX() / 2 , 1,  size.getZ() / 2);		
+		if (size.getX() < 5)
+			return;
+		if (size.getZ() < 5)
+			return;
+
+		BlockPos location = offset.add(size.getX() / 2, 1, size.getZ() / 2);
 		BuildUtils.addMobSpawner(structure, location);
 	}
 
@@ -115,11 +116,47 @@ public class DefaultBuilder implements Builder {
 		BlockPos size = room.getSize();
 		BlockPos offset = room.getOffset();
 
+		// get height
 		int roomHeight = size.getY();
-		BlockPos stairOffset = new BlockPos(offset.getX() + 1, offset.getY(), offset.getZ() + 2);
+
+		// calculate space
+		boolean hasSpaceForStairs = hasSpaceForStairs(size);
+
+		// calculate offset depending on room type
+		BlockPos stairOffset = null;
+		if (room.getType().equals(RoomType.NW)) {
+			// calculate offset for NW room
+
+			// get exterior walls
+			Wall[] walls = room.getExternalWalls();
+
+			// get western wall
+			Wall wall = walls[1];
+			BlockPos wallOffset = wall.getOffset();
+			stairOffset = new BlockPos(wallOffset.getX() + 1, wallOffset.getY(), wallOffset.getZ() + 2);
+
+		} else {
+			// calculate offset for SE room
+
+			// get exterior walls
+			Wall[] walls = room.getExternalWalls();
+
+			// calculate stairs type dependent offset
+			int stairsTypeDependentOffset = 0;
+			if (hasSpaceForStairs)
+				stairsTypeDependentOffset = -2;
+			else
+				stairsTypeDependentOffset = -3;
+
+			// get eastern wall
+			Wall wall = walls[1];
+			BlockPos wallOffset = wall.getOffset();
+			stairOffset = new BlockPos(wallOffset.getX() + stairsTypeDependentOffset, wallOffset.getY(),
+					wallOffset.getZ() + 2);
+		}
 
 		// select stairs type based on available space
-		if (hasSpaceForStairs(size)) {
+		if (hasSpaceForStairs) {
 			addSolidStairsUp(roomHeight, stairsMaterial, structure, postStructure, stairOffset);
 			return;
 		}
