@@ -10,20 +10,20 @@ import com.typesafe.config.Config;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.projectile.EntityLlamaSpit;
+import net.minecraft.entity.projectile.EntityEgg;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
- * of inventory item actions. This class spits at nearby entities.
+ * of inventory item actions. This class shoots an egg at nearby entities.
  */
-public class LlamaSpit implements InventoryItemActionStrategy {
+public class ShootEgg implements InventoryItemActionStrategy {
 
-	static final SoundEvent SOUND = SoundEvents.ENTITY_LLAMA_SPIT;
+	static final float PITCH_OFFSET = 0.0F;
+	static final SoundEvent SOUND = SoundEvents.ENTITY_CHICKEN_EGG;
 	static Random random = new Random();
 
 	/**
@@ -50,19 +50,20 @@ public class LlamaSpit implements InventoryItemActionStrategy {
 	 * Projectile inaccuracy.
 	 */
 	int inaccuracy;
-	
+
 	/**
 	 * AddLevitationEffect constructor
 	 * 
 	 * @param key
 	 *            configuration key to initialize particle rendering info from.
 	 */
-	public LlamaSpit(String key) {
+	public ShootEgg(String key) {
 		infos = createFromConfig(key);
 		Config configuration = getBassebombeCraft().getConfiguration();
-		range = configuration.getInt(key + ".Range");	
+		range = configuration.getInt(key + ".Range");
 		velocity = configuration.getInt(key + ".Velocity");
-		inaccuracy = configuration.getInt(key + ".Inaccuracy");		
+		inaccuracy = configuration.getInt(key + ".Inaccuracy");
+
 	}
 
 	@Override
@@ -79,10 +80,8 @@ public class LlamaSpit implements InventoryItemActionStrategy {
 
 	@Override
 	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
-		Vec3d v3 = invoker.getLook(1);
 
-		EntityLlamaSpit projectile = new EntityLlamaSpit(world, invoker.posX,
-				invoker.posY + invoker.getEyeHeight(), invoker.posZ, v3.xCoord, v3.yCoord, v3.zCoord);
+		EntityEgg projectile = new EntityEgg(world, invoker);
 		
 		// from EntityLlama.spit()
         double d0 = target.posX - invoker.posX;

@@ -68,6 +68,7 @@ import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
 import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
 import bassebombecraft.item.inventory.ChickenizeIdolInventoryItem;
+import bassebombecraft.item.inventory.EggProjectileIdolInventoryItem;
 import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
@@ -527,6 +528,11 @@ public class ItemInitializer {
 		registerInventoryItem(targetTab, llamaSpitIdolInventoryItem, LlamaSpitIdolInventoryItem.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(llamaSpitIdolInventoryItem), "xy ", "   ", "   ", 'x',
 				Items.CLAY_BALL, 'y', Items.LEATHER);
+
+		Item eggProjectileIdolInventoryItem = new EggProjectileIdolInventoryItem();
+		registerInventoryItem(targetTab, eggProjectileIdolInventoryItem, EggProjectileIdolInventoryItem.ITEM_NAME);
+		GameRegistry.addShapedRecipe(new ItemStack(eggProjectileIdolInventoryItem), "xy ", "   ", "   ", 'x',
+				Items.CLAY_BALL, 'y', Items.EGG);
 		
 		/**
 		 * Item pvpIdolInventoryItem = new PvpIdolInventoryItem();
