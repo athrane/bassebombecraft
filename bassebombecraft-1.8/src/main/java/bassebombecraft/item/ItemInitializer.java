@@ -1,8 +1,11 @@
 package bassebombecraft.item;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import bassebombecraft.item.basic.TerminatorEyeItem;
 import bassebombecraft.item.baton.MobCommandersBaton;
 import bassebombecraft.item.book.BaconBazookaBook;
 import bassebombecraft.item.book.BearBlasterBook;
@@ -101,6 +104,11 @@ public class ItemInitializer {
 	 */
 	List<Item> inventoryItemList = new ArrayList<Item>();
 
+	/**
+	 * Basic item map.
+	 */
+	Map<String,Item> basicItemMap = new HashMap<String, Item>();
+	
 	/**
 	 * Initialize book items.
 	 * 
@@ -529,10 +537,11 @@ public class ItemInitializer {
 		GameRegistry.addShapedRecipe(new ItemStack(llamaSpitIdolInventoryItem), "xy ", "   ", "   ", 'x',
 				Items.CLAY_BALL, 'y', Items.LEATHER);
 
+		Item terminatorEyeIem = basicItemMap.get(TerminatorEyeItem.ITEM_NAME);
 		Item eggProjectileIdolInventoryItem = new EggProjectileIdolInventoryItem();
 		registerInventoryItem(targetTab, eggProjectileIdolInventoryItem, EggProjectileIdolInventoryItem.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(eggProjectileIdolInventoryItem), "xy ", "   ", "   ", 'x',
-				Items.CLAY_BALL, 'y', Items.EGG);
+				Items.CLAY_BALL, 'y', terminatorEyeIem);
 		
 		/**
 		 * Item pvpIdolInventoryItem = new PvpIdolInventoryItem();
@@ -547,6 +556,24 @@ public class ItemInitializer {
 		return inventoryItemList;
 	}
 
+
+	/**
+	 * Initialize basic items.
+	 * 
+	 * @param targetTab
+	 *            tab that item is added to.
+	 * @param config
+	 *            configuration object
+	 * 
+	 * @return basic item map.
+	 */
+	public Map initializeBasicItems(CreativeTabs targetTab) {
+
+		Item terminatorEyeItem = new TerminatorEyeItem();
+		registerBasicItem(targetTab, terminatorEyeItem, TerminatorEyeItem.ITEM_NAME);
+		return basicItemMap;
+	}
+	
 	/**
 	 * Helper method for registration of book item.
 	 * 
@@ -580,6 +607,23 @@ public class ItemInitializer {
 		GameRegistry.register(item);
 	}
 
+	/**
+	 * Helper method for registration of basic item.
+	 * 
+	 * @param targetTab
+	 *            target tab for item.
+	 * @param item
+	 *            item to register.
+	 * @param itemName
+	 *            item name.
+	 */
+	void registerBasicItem(CreativeTabs targetTab, Item item, String itemName) {
+		item.setCreativeTab(targetTab);
+		item.setRegistryName(itemName);
+		GameRegistry.register(item);
+		basicItemMap.put(itemName, item);
+	}
+		
 	/**
 	 * Helper method for registration of inventory item.
 	 * 
