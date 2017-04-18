@@ -177,5 +177,15 @@ public class ModConstants {
 	 * Default book idol cooldown value.
 	 */
 	public static final int ITEM_IDOL_DEFAULT_COOLDOWN = 5;
-	
+
+	/**
+	 * Default basic item cooldown value.
+	 */
+	public static final int ITEM_BASICITEM_DEFAULT_COOLDOWN = 10;
+
+	/**
+	 * Default item tooltip value.
+	 */
+	public static final String ITEM_DEFAULT_TOOLTIP= "N/A";
+
 }

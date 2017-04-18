@@ -2,8 +2,10 @@ package bassebombecraft.item.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.ModConstants.ITEM_IDOL_DEFAULT_COOLDOWN;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
+import static bassebombecraft.config.ConfigUtils.resolveTooltip;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
 import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
@@ -25,6 +27,7 @@ import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 /**
@@ -50,6 +53,11 @@ public class GenericInventoryItem extends Item {
 	int coolDown;
 
 	/**
+	 * Item tooltip.
+	 */
+	String tooltip;
+	
+	/**
 	 * GenericInventoryItem constructor.
 	 * 
 	 * @param name
@@ -65,6 +73,7 @@ public class GenericInventoryItem extends Item {
 
 		// get cooldown or default value
 		coolDown = resolveCoolDown(name, ITEM_IDOL_DEFAULT_COOLDOWN);
+		tooltip = resolveTooltip(name, ITEM_DEFAULT_TOOLTIP);				
 	}
 
 	@Override
@@ -192,4 +201,9 @@ public class GenericInventoryItem extends Item {
 		}
 	}
 
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+		tooltip.add(TextFormatting.GREEN + this.tooltip);
+	}
+	
 }

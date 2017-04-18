@@ -2,8 +2,12 @@ package bassebombecraft.item.book;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.ITEM_BOOK_DEFAULT_COOLDOWN;
+import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
+import static bassebombecraft.config.ConfigUtils.resolveTooltip;
 import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
+
+import java.util.List;
 
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.entity.Entity;
@@ -15,6 +19,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
 /**
@@ -35,6 +40,11 @@ public class GenericRightClickedBook extends Item {
 	int coolDown;
 
 	/**
+	 * Item tooltip.
+	 */
+	String tooltip;
+	
+	/**
 	 * Generic book constructor.
 	 * 
 	 * @param name
@@ -50,6 +60,7 @@ public class GenericRightClickedBook extends Item {
 
 		// get cooldown or default value
 		coolDown = resolveCoolDown(name, ITEM_BOOK_DEFAULT_COOLDOWN);
+		tooltip = resolveTooltip(name, ITEM_DEFAULT_TOOLTIP);				
 	}
 
 	@Override
@@ -82,4 +93,9 @@ public class GenericRightClickedBook extends Item {
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+		tooltip.add(TextFormatting.GREEN + this.tooltip);
+	}
+	
 }
