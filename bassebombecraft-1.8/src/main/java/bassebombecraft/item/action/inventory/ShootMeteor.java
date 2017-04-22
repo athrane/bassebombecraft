@@ -64,7 +64,7 @@ public class ShootMeteor implements InventoryItemActionStrategy {
 	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
 
 		double posX = target.posX + (random.nextInt(10) - 5);
-		double posY = invoker.posY + 25;
+		double posY = invoker.posY + 20 + (random.nextInt(10) - 5);
 		double posZ = target.posZ + (random.nextInt(10) - 5);
 
 		double d0 = target.posX - posX;
