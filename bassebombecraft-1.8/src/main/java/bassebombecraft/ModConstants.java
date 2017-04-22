@@ -33,6 +33,16 @@ public class ModConstants {
      */
     public static final String MINECRAFT_DOMAIN= "minecraft";
     
+	/**
+	 * Configuration file post fix.
+	 */
+	public static final String CONFIG_FILE_POSTFIX = ".conf";
+
+	/**
+	 * Configuration file name.
+	 */
+	public static final String INTERNAL_CONFIG_FILE_NAME = MODID + CONFIG_FILE_POSTFIX;
+    
     /**
      * Download URL.
      */

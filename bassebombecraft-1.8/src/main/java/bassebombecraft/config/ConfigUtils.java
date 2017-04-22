@@ -1,7 +1,10 @@
 package bassebombecraft.config;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.CONFIG_FILE_POSTFIX;
+import static bassebombecraft.ModConstants.INTERNAL_CONFIG_FILE_NAME;
 import static bassebombecraft.ModConstants.MODID;
+import static bassebombecraft.ModConstants.VERSION;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import java.io.File;
@@ -13,6 +16,7 @@ import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigRenderOptions;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
+import bassebombecraft.file.FileUtils;
 import net.minecraft.util.EnumParticleTypes;
 
 /**
@@ -25,11 +29,6 @@ public class ConfigUtils {
 	 */
 	static final ConfigRenderOptions OPTIONS = ConfigRenderOptions.defaults().setComments(true).setOriginComments(false)
 			.setFormatted(true);
-
-	/**
-	 * Configuration file name.
-	 */
-	static final String CONFIG_FILE_NAME = MODID + ".conf";
 
 	/**
 	 * Create array with single {@linkplain ParticleRenderingInfo} from
@@ -111,28 +110,29 @@ public class ConfigUtils {
 	 * @return configuration object
 	 */
 	public static Config loadConfig(File configDirectory, Logger logger) {
-		return ConfigFactory.load(CONFIG_FILE_NAME);
 
-		/**
-		 * // create external file name File externalFile = new
-		 * File(configDirectory, CONFIG_FILE_NAME);
-		 * 
-		 * // if no external file exists then create it if
-		 * (!externalFile.exists()) {
-		 * 
-		 * logger.info("No configuration file found, will create one at: " +
-		 * externalFile.getAbsolutePath());
-		 * 
-		 * // load from internal configuration file Config config =
-		 * ConfigFactory.load(CONFIG_FILE_NAME); String content =
-		 * config.root().render(OPTIONS);
-		 * 
-		 * // save as JSON FileUtils.saveJsonFile(content, externalFile); }
-		 * 
-		 * // load configuration logger.info("Loading configuration file from: "
-		 * + externalFile.getAbsolutePath()); return
-		 * ConfigFactory.parseFile(externalFile);
-		 **/
+		// create external file name
+		String externalFileName = new StringBuilder().append(MODID).append("-").append(VERSION)
+				.append(CONFIG_FILE_POSTFIX).toString();
+		File externalFile = new File(configDirectory, externalFileName);
+
+		// if no external file exists then create it
+		if (!externalFile.exists()) {
+			logger.info("No configuration file found, will create one at: " + externalFile.getAbsolutePath());
+
+			// load from internal configuration file
+			Config config = ConfigFactory.load(INTERNAL_CONFIG_FILE_NAME);
+			String content = config.root().render(OPTIONS);
+
+			// save as JSON
+			FileUtils.saveJsonFile(content, externalFile);
+
+		}
+
+		// load configuration
+		logger.info("Loading configuration file from: " + externalFile.getAbsolutePath());
+
+		return ConfigFactory.parseFile(externalFile);
 	}
 
 }
