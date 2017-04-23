@@ -57,14 +57,11 @@ public class TemplateUtils {
 
 		// create template
 		ResourceLocation location = new ResourceLocation(templateName);
-		System.out.println("location=" + location);
 		Template template = templatemanager.getTemplate(minecraftserver, location);
 		template.takeBlocksFromWorld(world, offset, size, DONT_TAKE_ENTITIES, Blocks.STRUCTURE_VOID);
 		String author = BassebombeCraft.getBassebombeCraft().getUser();
 		template.setAuthor(author);
-
-		System.out.println("Author=" + author);
-
+				
 		// save template
 		templatemanager.writeTemplate(minecraftserver, location);
 
@@ -105,23 +102,17 @@ public class TemplateUtils {
 			return;
 		}
 
-		// TODO: print author
-
 		// get block state
 		IBlockState iblockstate = world.getBlockState(offset);
 		world.notifyBlockUpdate(offset, iblockstate, iblockstate, 3);
 
 		// define bounding box
 		BlockPos boundingBoxSize = offset.add(template.getSize());
+		
 		StructureBoundingBox boundingBox = new StructureBoundingBox(offset, boundingBoxSize);
-
+		
 		// create placement settings
 		PlacementSettings placementsettings = new PlacementSettings().setBoundingBox(boundingBox);
-
-		// PlacementSettings placementsettings = (new
-		// PlacementSettings()).setIgnoreEntities(true)
-		// .setChunk((ChunkPos) null).setReplacedBlock((Block)
-		// null).setIgnoreStructureBlock(false);
 
 		// load template blocks
 		template.addBlocksToWorld(world, offset, placementsettings);

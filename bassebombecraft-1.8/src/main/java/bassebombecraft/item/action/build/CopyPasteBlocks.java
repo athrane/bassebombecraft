@@ -378,15 +378,20 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		// calculate lower and upper bounds
 		BlockPos lower = calculateLowerBound();
 		BlockPos upper = calculateUpperBound();
+		System.out.println("DEBUG lower ="+lower);
+		System.out.println("DEBUG upper ="+upper);
 
 		BlockPos captureOffset = new BlockPos(lower);
 		BlockPos captureSize = new BlockPos(upper.getX() - lower.getX(), upper.getY() - lower.getY(),
 				upper.getZ() - lower.getZ());
+		System.out.println("DEBUG captureSize="+captureSize);
 
 		// Rule: if height == 0 set height to 1 to copy plane
 		if (captureSize.getY() <= 0) {
 			captureSize = new BlockPos(captureSize.getX(), 1, captureSize.getZ());
 		}
+
+		System.out.println("DEBUG captureSize="+captureSize);
 
 		// capture
 		capturedBlocks = captureRectangle(captureOffset, captureSize, worldQuery);
@@ -395,12 +400,27 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		BlockPos translation = calculateTranslationVector(captureOffset, captureSize, playerDirection);
 		capturedBlocks = translate(translation, capturedBlocks);
 
+		// exit if capture on copy is disabled
+		if (!captureOnCopy) return;
+				
+		// if captured blocks is empty then exit
+		if(capturedBlocks.isEmpty()) return;
+		
+		// get last block in list to get y-coordinate of captured blocks
+		int index = capturedBlocks.size();
+		BlockDirective lastblock = capturedBlocks.get(index-1);
+		int capturedBlocksHeight = lastblock.getY();
+		System.out.println("DEBUG capturedBlocksHeight ="+capturedBlocksHeight);
+		
 		// modify offset for Minecraft structure
-		captureOffset = captureOffset.add(0, 1, 0);
-
+		//captureOffset = captureOffset.add(0, 1, 0);
+		captureSize = captureSize.add(0, capturedBlocksHeight, 0);
+		
+		System.out.println("DEBUG captureSize="+captureSize);
+		System.out.println("DEBUG captureOffset="+captureOffset);
+		
 		// save captured content as a Minecraft structure file
-		if (captureOnCopy)
-			TemplateUtils.save(worldQuery.getWorld(), captureOffset, captureSize);
+		TemplateUtils.save(worldQuery.getWorld(), captureOffset, captureSize);
 	}
 
 	/**
