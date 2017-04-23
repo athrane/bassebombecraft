@@ -46,9 +46,6 @@ import net.minecraft.world.World;
  */
 public class CopyPasteBlocks implements BlockClickedItemAction {
 
-	static final EnumActionResult USED_ITEM = EnumActionResult.SUCCESS;
-	static final EnumActionResult DIDNT_USED_ITEM = EnumActionResult.PASS;
-
 	static final String MSG_COPIED = "Copied blocks.";
 	static final String MSG_ILLEGAL_TRIGGER = "Illegal trigger. Click on a ground block to paste.";
 	static final String MSG_RESET = "Reset captured blocks.";
@@ -64,8 +61,6 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * Particle rendering info
 	 */
 	ParticleRenderingInfo[] infos;
-
-	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
 
 	/**
 	 * Null structure.
@@ -100,11 +95,6 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * Second staff marker.
 	 */
 	BlockPos secondMarker;
-
-	/**
-	 * Ticks exists since first marker was set.
-	 */
-	int ticksExisted = 0;
 
 	/**
 	 * Defines whether action is active.
@@ -161,9 +151,6 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
 			EnumFacing facing, float hitX, float hitY, float hitZ) {
 
-		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
-			return DIDNT_USED_ITEM;
-
 		// create world query
 		WorldQueryImpl worldQuery = new WorldQueryImpl(player, pos);
 
@@ -183,12 +170,12 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		// add directives
 		directivesRepository.addAll(directives);
 
-		return USED_ITEM;
+		return EnumActionResult.SUCCESS;
 	}
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		ticksExisted++;
+		// NO-OP
 	}
 
 	/**
@@ -378,20 +365,20 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		// calculate lower and upper bounds
 		BlockPos lower = calculateLowerBound();
 		BlockPos upper = calculateUpperBound();
-		System.out.println("DEBUG lower ="+lower);
-		System.out.println("DEBUG upper ="+upper);
+		System.out.println("DEBUG lower =" + lower);
+		System.out.println("DEBUG upper =" + upper);
 
 		BlockPos captureOffset = new BlockPos(lower);
 		BlockPos captureSize = new BlockPos(upper.getX() - lower.getX(), upper.getY() - lower.getY(),
 				upper.getZ() - lower.getZ());
-		System.out.println("DEBUG captureSize="+captureSize);
+		System.out.println("DEBUG captureSize=" + captureSize);
 
 		// Rule: if height == 0 set height to 1 to copy plane
 		if (captureSize.getY() <= 0) {
 			captureSize = new BlockPos(captureSize.getX(), 1, captureSize.getZ());
 		}
 
-		System.out.println("DEBUG captureSize="+captureSize);
+		System.out.println("DEBUG captureSize=" + captureSize);
 
 		// capture
 		capturedBlocks = captureRectangle(captureOffset, captureSize, worldQuery);
@@ -401,24 +388,26 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		capturedBlocks = translate(translation, capturedBlocks);
 
 		// exit if capture on copy is disabled
-		if (!captureOnCopy) return;
-				
+		if (!captureOnCopy)
+			return;
+
 		// if captured blocks is empty then exit
-		if(capturedBlocks.isEmpty()) return;
-		
+		if (capturedBlocks.isEmpty())
+			return;
+
 		// get last block in list to get y-coordinate of captured blocks
 		int index = capturedBlocks.size();
-		BlockDirective lastblock = capturedBlocks.get(index-1);
+		BlockDirective lastblock = capturedBlocks.get(index - 1);
 		int capturedBlocksHeight = lastblock.getY();
-		System.out.println("DEBUG capturedBlocksHeight ="+capturedBlocksHeight);
-		
+		System.out.println("DEBUG capturedBlocksHeight =" + capturedBlocksHeight);
+
 		// modify offset for Minecraft structure
-		//captureOffset = captureOffset.add(0, 1, 0);
+		// captureOffset = captureOffset.add(0, 1, 0);
 		captureSize = captureSize.add(0, capturedBlocksHeight, 0);
-		
-		System.out.println("DEBUG captureSize="+captureSize);
-		System.out.println("DEBUG captureOffset="+captureOffset);
-		
+
+		System.out.println("DEBUG captureSize=" + captureSize);
+		System.out.println("DEBUG captureOffset=" + captureOffset);
+
 		// save captured content as a Minecraft structure file
 		TemplateUtils.save(worldQuery.getWorld(), captureOffset, captureSize);
 	}
