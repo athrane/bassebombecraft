@@ -1,5 +1,6 @@
 package bassebombecraft.player;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -149,6 +150,15 @@ public class PlayerUtils {
 			return false;
 
 		return heldItem.equals(item);
+	}
+
+	/**
+	 * Get player UID at client side.
+	 * 
+	 * @return player UID.
+	 */		
+	public static String getClientSidePlayerUId() {
+		return Minecraft.getMinecraft().getSession().getUsername();
 	}
 
 }

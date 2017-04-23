@@ -1,7 +1,7 @@
 package bassebombecraft.item.action.build;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.geom.GeometryUtils.calculateDegreesFromPlayerDirection;
 import static bassebombecraft.geom.GeometryUtils.captureRectangle;
@@ -13,6 +13,8 @@ import static bassebombecraft.player.PlayerUtils.isBelowPlayerYPosition;
 import static bassebombecraft.player.PlayerUtils.sendChatMessageToPlayer;
 
 import java.util.List;
+
+import com.typesafe.config.Config;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.DefaultParticleRendering;
@@ -28,14 +30,14 @@ import bassebombecraft.player.PlayerUtils;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
+import bassebombecraft.world.TemplateUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
@@ -46,25 +48,34 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 
 	static final EnumActionResult USED_ITEM = EnumActionResult.SUCCESS;
 	static final EnumActionResult DIDNT_USED_ITEM = EnumActionResult.PASS;
-	
+
 	static final String MSG_COPIED = "Copied blocks.";
 	static final String MSG_ILLEGAL_TRIGGER = "Illegal trigger. Click on a ground block to paste.";
 	static final String MSG_RESET = "Reset captured blocks.";
 	static final String MSG_REGISTERED_M1 = "Registered #1 marker. Click on another ground block to set the second marker.";
 	static final String MSG_REGISTERED_M2 = "Registered #2 marker and captured blocks. Click on a ground block to paste. Click on a non-ground block to reset.";
 
-	static final float R = 1.0F;
-	static final float G = 1.0F;
-	static final float B = 1.0F;
-	static final int PARTICLE_NUMBER = 5;
-	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.SPELL_INSTANT;
-	static final int PARTICLE_INFINITE_DURATION = -1;
-	static final double PARTICLE_SPEED = 0.3;
-	static final ParticleRenderingInfo PARTICLE_INFO = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER,
-			PARTICLE_INFINITE_DURATION, R, G, B, PARTICLE_SPEED);
+	/**
+	 * Configuration key.
+	 */
+	final static String CONFIG_KEY = CopyPasteBlocks.class.getSimpleName();
+
+	/**
+	 * Particle rendering info
+	 */
+	ParticleRenderingInfo[] infos;
 
 	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
+
+	/**
+	 * Null structure.
+	 */
 	static final Structure NULL_STRUCTURE = new CompositeStructure();
+
+	/**
+	 * First particle rendering array index.
+	 */
+	static final int FIRST_INDEX = 0;
 
 	/**
 	 * Define staff states.
@@ -131,15 +142,21 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	ParticleRendering secondMarkerParticle;
 
 	/**
+	 * Defines if copied structure should be captured on disk.
+	 */
+	boolean captureOnCopy;
+
+	/**
 	 * CopyPasteBlocks constructor.
 	 */
 	public CopyPasteBlocks() {
-		super();
+		infos = createFromConfig(CONFIG_KEY);
+		Config configuration = getBassebombeCraft().getConfiguration();
+		captureOnCopy = configuration.getBoolean(CONFIG_KEY + ".CaptureOnCopy");
 		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
 		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 	}
 
-	
 	@Override
 	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
 			EnumFacing facing, float hitX, float hitY, float hitZ) {
@@ -328,7 +345,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		rotationDegrees = calculateDegreesFromPlayerDirection(playerDirection);
 
 		// register with repository for rendering
-		firstMarkerParticle = DefaultParticleRendering.getInstance(pos, PARTICLE_INFO);
+		firstMarkerParticle = DefaultParticleRendering.getInstance(pos, infos[FIRST_INDEX]);
 		particleRepository.add(firstMarkerParticle);
 	}
 
@@ -342,7 +359,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		secondMarker = pos;
 
 		// register with repository for rendering
-		secondMarkerParticle = DefaultParticleRendering.getInstance(pos, PARTICLE_INFO);
+		secondMarkerParticle = DefaultParticleRendering.getInstance(pos, infos[FIRST_INDEX]);
 		particleRepository.add(secondMarkerParticle);
 	}
 
@@ -361,12 +378,13 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		// calculate lower and upper bounds
 		BlockPos lower = calculateLowerBound();
 		BlockPos upper = calculateUpperBound();
+
 		BlockPos captureOffset = new BlockPos(lower);
 		BlockPos captureSize = new BlockPos(upper.getX() - lower.getX(), upper.getY() - lower.getY(),
 				upper.getZ() - lower.getZ());
 
 		// Rule: if height == 0 set height to 1 to copy plane
-		if (captureSize.getY() == 0) {
+		if (captureSize.getY() <= 0) {
 			captureSize = new BlockPos(captureSize.getX(), 1, captureSize.getZ());
 		}
 
@@ -376,6 +394,13 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		// translate
 		BlockPos translation = calculateTranslationVector(captureOffset, captureSize, playerDirection);
 		capturedBlocks = translate(translation, capturedBlocks);
+
+		// modify offset for Minecraft structure
+		captureOffset = captureOffset.add(0, 1, 0);
+
+		// save captured content as a Minecraft structure file
+		if (captureOnCopy)
+			TemplateUtils.save(worldQuery.getWorld(), captureOffset, captureSize);
 	}
 
 	/**

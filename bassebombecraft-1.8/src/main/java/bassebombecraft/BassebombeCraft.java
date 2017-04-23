@@ -374,4 +374,13 @@ public class BassebombeCraft {
 		return logger;
 	}
 
+	/**
+	 * Get user.
+	 * 
+	 * @return logger.
+	 */
+	public String getUser() {
+		return proxy.getUser();
+	}
+	
 }

@@ -76,5 +76,12 @@ public class CommonProxy {
 		// NO-OP		
 	}
 
-	
+	/**
+	 * Get user.
+	 * 
+	 * @return mod user.
+	 */
+	public String getUser() {
+		return "not defined";
+	}	
 }
