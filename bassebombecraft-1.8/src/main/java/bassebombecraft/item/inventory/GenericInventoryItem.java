@@ -127,8 +127,8 @@ public class GenericInventoryItem extends Item {
 		CooldownTracker tracker = player.getCooldownTracker();
 		tracker.setCooldown(this, coolDown);
 
-		// post analytics
-		getProxy().postItemUsage(this.getUnlocalizedName());
+		// post analytics		
+		getProxy().postItemUsage(getUnlocalizedName(), player.getName());
 
 		// apply effect
 		applyEffect(worldIn, (EntityLivingBase) entityIn);

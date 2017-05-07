@@ -4,10 +4,10 @@ import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startSession;
+import static bassebombecraft.player.PlayerUtils.getClientSidePlayerUId;
 
 import org.apache.logging.log4j.Logger;
 
-import static bassebombecraft.player.PlayerUtils.*;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
@@ -70,16 +70,13 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public void endAnalyticsSession(Logger logger) {
+	public void endAnalyticsSession() {
 
 		try {
 			endSession(getUser());
 
 		} catch (Exception ex) {
 			// NO-OP
-
-			// logger.error("Usage initialization failed with: " +
-			// ex.getMessage());
 		}
 	}
 
@@ -91,20 +88,29 @@ public class ClientProxy extends CommonProxy {
 
 		} catch (Exception ex) {
 			// NO-OP
-			// Logger logger = BassebombeCraft.getLogger();
-			// logger.error("Usage logging failed with: " + ex.getMessage());
 		}
 
+	}
+
+	@Override
+	public void postItemUsage(String itemName, String user) {
+
+		try {
+			postItemUsageEvent(user, itemName);
+
+		} catch (Exception ex) {
+			// NO-OP
+		}
 	}
 
 	/**
 	 * Get player UID at client side.
 	 * 
 	 * @return player UID.
-	 */	
+	 */
 	@Override
 	public String getUser() {
 		return getClientSidePlayerUId();
 	}
-		
+
 }

@@ -137,6 +137,7 @@ public class VersionUtils {
 		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
 
+	
 	/**
 	 * Post item usage event.
 	 * 
@@ -162,6 +163,52 @@ public class VersionUtils {
 		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
 
+	/**
+	 * start server session.
+	 * 
+	 * @param uid
+	 *            server ID.
+	 * @throws Exception
+	 */
+	public static void startServerSession(String uid) throws Exception {
+		// Build the server URI together with the parameters
+		String category = NAME + "-" + VERSION;
+		String action = "Start server session";
+		List<NameValuePair> postParameters = createStartAppSessionParameters(uid, category, action);
+		URIBuilder uriBuilder = new URIBuilder(ANALYTICS_URL);
+		uriBuilder.addParameters(postParameters);
+
+		// build request
+		URI uri = uriBuilder.build();
+		HttpPost request = new HttpPost(uri);
+
+		// post
+		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+	}
+
+	/**
+	 * End server session.
+	 * 
+	 * @param uid
+	 *            user ID.
+	 * @throws Exception
+	 */
+	public static void endServerSession(String uid) throws Exception {
+		// Build the server URI together with the parameters
+		String category = NAME + "-" + VERSION;
+		String action = "End server session";
+		List<NameValuePair> postParameters = createEndAppSessionPerameters(uid, category, action);
+		URIBuilder uriBuilder = new URIBuilder(ANALYTICS_URL);
+		uriBuilder.addParameters(postParameters);
+
+		// build request
+		URI uri = uriBuilder.build();
+		HttpPost request = new HttpPost(uri);
+
+		// post
+		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+	}
+	
 	/**
 	 * Create parameters for app session start.
 	 * 

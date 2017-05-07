@@ -79,7 +79,7 @@ public class GenericBlockClickedBook extends Item {
 		}
 
 		// post analytics
-		getProxy().postItemUsage(this.getUnlocalizedName());
+		getProxy().postItemUsage(this.getUnlocalizedName(),player.getName());
 
 		// add cooldown
 		CooldownTracker tracker = player.getCooldownTracker();

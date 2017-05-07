@@ -198,4 +198,9 @@ public class ModConstants {
 	 */
 	public static final String ITEM_DEFAULT_TOOLTIP= "N/A";
 
+	/**
+	 * Mod structure world generator weight.
+	 */
+	static final int MOD_STRUCUTRE_GENERATOR_WEIGHT = 1;
+
 }

@@ -1,9 +1,15 @@
 package bassebombecraft.proxy;
 
+import static bassebombecraft.config.VersionUtils.endServerSession;
+import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
+import static bassebombecraft.config.VersionUtils.startServerSession;
+
 import org.apache.logging.log4j.Logger;
 
+import bassebombecraft.BassebombeCraft;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -53,18 +59,47 @@ public class CommonProxy {
 	 * @param logger
 	 */
 	public void startAnalyticsSession(Logger logger) {
-		// NO-OP
+
+		try {
+			MinecraftServer server = BassebombeCraft.getBassebombeCraft().getServer();
+			String hostname = server.getServerHostname();
+			startServerSession(hostname);
+		} catch (Exception ex) {
+			// NO-OP
+		}
 	}
 
 	/**
 	 * Shutdown analytics.
-	 * 
-	 * @param logger
 	 */
-	public void endAnalyticsSession(Logger logger) {
-		// NO-OP
+	public void endAnalyticsSession() {
+
+		try {
+			MinecraftServer server = BassebombeCraft.getBassebombeCraft().getServer();
+			String hostname = server.getServerHostname();
+			endServerSession(hostname);
+		} catch (Exception ex) {
+			// NO-OP
+		}
 	}
 
+	/**
+	 * Post item usage.
+	 * 
+	 * @param itemName
+	 *            item to register usage of.
+	 * @param user
+	 *            user using the item.
+	 */
+	public void postItemUsage(String itemName, String user) {
+
+		try {
+			postItemUsageEvent(user, itemName);
+
+		} catch (Exception ex) {
+			// NO-OP
+		}
+	}
 
 	/**
 	 * Post item usage.
@@ -72,8 +107,9 @@ public class CommonProxy {
 	 * @param itemName
 	 *            item to register usage of.
 	 */
+	@Deprecated
 	public void postItemUsage(String itemName) {
-		// NO-OP		
+		// NO-OP
 	}
 
 	/**
@@ -83,5 +119,5 @@ public class CommonProxy {
 	 */
 	public String getUser() {
 		return "not defined";
-	}	
+	}
 }

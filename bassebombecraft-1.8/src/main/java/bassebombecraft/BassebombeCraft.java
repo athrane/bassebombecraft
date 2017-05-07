@@ -40,8 +40,10 @@ import bassebombecraft.player.pvp.PvpRepository;
 import bassebombecraft.projectile.ProjectileInitializer;
 import bassebombecraft.proxy.CommonProxy;
 import bassebombecraft.tab.CreativeTabFactory;
+import bassebombecraft.world.RandomModStructuresGenerator;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -49,7 +51,10 @@ import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
+import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
+import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 @net.minecraftforge.fml.common.Mod(name = NAME, modid = MODID, version = VERSION)
 public class BassebombeCraft {
@@ -140,6 +145,11 @@ public class BassebombeCraft {
 	 */
 	List<Item> inventoryItemList;
 
+	/**
+	 * Minecraft server.
+	 */
+	MinecraftServer server;
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		logger = event.getModLog();
@@ -172,7 +182,6 @@ public class BassebombeCraft {
 
 		initializeModMetadata(event);
 		initializeCreativeTab();
-		logger.info("Pre-initialized BassebombeCraft");
 	}
 
 	@EventHandler
@@ -180,24 +189,35 @@ public class BassebombeCraft {
 		logger.info("Starting to initialize BasseBombeCraft");
 		proxy.init(event);
 
-		proxy.startAnalyticsSession(logger);
 		validateVersion(logger);
 		itemInitializer = ItemInitializer.getInstance();
 		itemInitializer.initializeBasicItems(modTab);
 		bookItemList = itemInitializer.initializeBooks(modTab);
 		inventoryItemList = itemInitializer.initializeInventoryItems(modTab);
-		itemInitializer.initializeBatons(modTab);		
+		itemInitializer.initializeBatons(modTab);
 		ProjectileInitializer.getInstance().initialize(this, modTab);
 		BlockInitializer.getInstance().initialize(modTab);
 		initializeEventListeners();
+		initializeWorldGenerators();
 		logger.info("Initialized BasseBombeCraft " + VERSION);
 	}
 
 	@EventHandler
-	public void shutdown(FMLServerStoppingEvent event) {
-		proxy.endAnalyticsSession(logger);
+	public void serverAboutTostart(FMLServerAboutToStartEvent event) {
+		server = event.getServer();
 	}
 
+	@EventHandler
+	public void serverStarted(FMLServerStartedEvent event) {
+		proxy.startAnalyticsSession(logger);
+	}
+
+	@EventHandler
+	public void serverStopped(FMLServerStoppedEvent event) {
+		proxy.endAnalyticsSession();
+		server = null;
+	}
+	
 	/**
 	 * Initialize mod meta data.
 	 * 
@@ -255,6 +275,14 @@ public class BassebombeCraft {
 		// Initialise PVP event listener
 		PvpEventListener pvpEventListener = new PvpEventListener(pvpRepository);
 		MinecraftForge.EVENT_BUS.register(pvpEventListener);
+	}
+
+	/**
+	 * Initialize world generators.
+	 */
+	void initializeWorldGenerators() {
+		GameRegistry.registerWorldGenerator(new RandomModStructuresGenerator(),
+				ModConstants.MOD_STRUCUTRE_GENERATOR_WEIGHT);
 	}
 
 	/**
@@ -377,10 +405,19 @@ public class BassebombeCraft {
 	/**
 	 * Get user.
 	 * 
-	 * @return logger.
+	 * @return user.
 	 */
 	public String getUser() {
 		return proxy.getUser();
 	}
-	
+
+	/**
+	 * Get server.
+	 * 
+	 * @return server.
+	 */
+	public MinecraftServer getServer() {
+		return server;
+	}
+
 }
