@@ -1,9 +1,12 @@
 package bassebombecraft.world;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.MODID;
 
 import java.util.List;
 import java.util.Random;
+
+import com.typesafe.config.Config;
 
 import bassebombecraft.config.ConfigUtils;
 import bassebombecraft.config.StructureInfo;
@@ -26,20 +29,21 @@ public class RandomModStructuresGenerator implements IWorldGenerator {
 	final static String CONFIG_KEY = RandomModStructuresGenerator.class.getSimpleName();
 
 	/**
-	 * Resource location.
-	 */
-	// static final ResourceLocation STRUCTURE_LOCATION = new
-	// ResourceLocation(STRUCTURE_1_NAME);
-
-	/**
 	 * Structure infos.
 	 */
 	List<StructureInfo> infos;
 
 	/**
+	 * Enable generator.
+	 */
+	boolean enabled;
+
+	/**
 	 * RandomModStructuresGenerator constructor.
 	 */
 	public RandomModStructuresGenerator() {
+		Config configuration = getBassebombeCraft().getConfiguration();
+		enabled = configuration.getBoolean(CONFIG_KEY+".enabled");
 		infos = ConfigUtils.createStructureInfosFromConfig(CONFIG_KEY + ".structures");
 	}
 
@@ -47,6 +51,9 @@ public class RandomModStructuresGenerator implements IWorldGenerator {
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
 			IChunkProvider chunkProvider) {
 
+		// exit if not enabled
+		if(!enabled) return;
+		
 		// get structure info
 		if (infos == null)
 			return;
