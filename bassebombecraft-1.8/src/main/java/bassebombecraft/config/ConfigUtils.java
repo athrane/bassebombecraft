@@ -8,6 +8,8 @@ import static bassebombecraft.ModConstants.VERSION;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 
@@ -50,7 +52,23 @@ public class ConfigUtils {
 		ParticleRenderingInfo mist = getInstance(particleType, number, duration, (float) colorR, (float) colorG,
 				(float) colorB, speed);
 		return new ParticleRenderingInfo[] { mist };
+	}
 
+	/**
+	 * Create list of {@linkplain StructureInfo} from configuration file.
+	 * 
+	 * @param key
+	 *            configuration key to read configuration from.
+	 * @return list of {@linkplain StructureInfo} from configuration file.
+	 */
+	public static List<StructureInfo> createStructureInfosFromConfig(String key) {
+		Config configuration = getBassebombeCraft().getConfiguration();
+		List<StructureInfo> infos = new ArrayList<StructureInfo>();
+		for (Config particularConfig : configuration.getConfigList(key)) {
+			StructureInfo particularUser = new StructureInfo(particularConfig);
+			infos.add(particularUser);
+		}
+		return infos;
 	}
 
 	/**
