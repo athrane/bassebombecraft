@@ -81,18 +81,6 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	@Override
-	public void postItemUsage(String itemName) {
-
-		try {
-			postItemUsageEvent(getUser(), itemName);
-
-		} catch (Exception ex) {
-			// NO-OP
-		}
-
-	}
-
-	@Override
 	public void postItemUsage(String itemName, String user) {
 
 		try {

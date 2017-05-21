@@ -102,17 +102,6 @@ public class CommonProxy {
 	}
 
 	/**
-	 * Post item usage.
-	 * 
-	 * @param itemName
-	 *            item to register usage of.
-	 */
-	@Deprecated
-	public void postItemUsage(String itemName) {
-		// NO-OP
-	}
-
-	/**
 	 * Get user.
 	 * 
 	 * @return mod user.
