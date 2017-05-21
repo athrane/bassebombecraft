@@ -78,7 +78,7 @@ public class CompanionAttack extends EntityAIBase {
 	ArrayList<RightClickedItemAction> closeRangeActions;
 
 	/**
-	 * GuardianAttack constructor.
+	 * CompanionAttack constructor.
 	 * 
 	 * @param entity
 	 *            entity that the tasks is applied to.
