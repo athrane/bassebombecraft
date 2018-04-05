@@ -1,6 +1,10 @@
 package bassebombecraft.entity.ai.task;
 
+import static bassebombecraft.config.VersionUtils.aiObserve;
+
 import java.util.ArrayList;
+
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import bassebombecraft.item.action.GenericShootEggProjectile;
 import bassebombecraft.item.action.RightClickedItemAction;
@@ -30,6 +34,7 @@ import bassebombecraft.projectile.action.SpawnSquid;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.player.EntityPlayer;
 
 /**
  * AI task for companion, e.g. charmed mob or guardian.
@@ -60,7 +65,11 @@ public class CompanionAttack extends EntityAIBase {
 	static final int MINIMUM_RANGE = 5;
 	static final int UPDATE_FREQUENCY = 10; // Measured in ticks
 
+	/**
+	 * Target entity.
+	 */
 	final EntityLiving entity;
+
 	EntityLivingBase attackTarget;
 	double entityMoveSpeed = 1.0D;
 	double distanceToTargetSq;
@@ -78,6 +87,11 @@ public class CompanionAttack extends EntityAIBase {
 	ArrayList<RightClickedItemAction> closeRangeActions;
 
 	/**
+	 * Mob commander.
+	 */
+	EntityPlayer commander;
+
+	/**
 	 * CompanionAttack constructor.
 	 * 
 	 * @param entity
@@ -85,9 +99,9 @@ public class CompanionAttack extends EntityAIBase {
 	 */
 	public CompanionAttack(EntityLiving entity) {
 		this.entity = entity;
-		
-		//  "interactive" AI, including attack
-		this.setMutexBits(3); 
+
+		// "interactive" AI, including attack
+		this.setMutexBits(3);
 
 		longRangeActions = new ArrayList<RightClickedItemAction>();
 		longRangeActions.add(new ShootSmallFireball());
@@ -96,7 +110,6 @@ public class CompanionAttack extends EntityAIBase {
 		longRangeActions.add(new ShootMultipleArrows());
 		longRangeActions.add(new ShootBaconBazooka());
 		longRangeActions.add(new ShootCreeperCannon(ISNT_PRIMED, CREEPER_CANNON_CONFIG_KEY));
-
 		longRangeActions.add(new GenericShootEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));
 		longRangeActions.add(new GenericShootEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION));
 		longRangeActions.add(new GenericShootEggProjectile(LIGHTNING_PROJECTILE_ACTION));
@@ -119,17 +132,29 @@ public class CompanionAttack extends EntityAIBase {
 		closeRangeActions.add(new GenericShootEggProjectile(MOB_HOLE_PROJECTILE_ACTION));
 	}
 
+	/**
+	 * CompanionAttack constructor.
+	 * 
+	 * @param entity
+	 *            entity that the tasks is applied to.
+	 * @param commander
+	 *            entity which commands entity.
+	 */
+	public CompanionAttack(EntityLiving entity, EntityPlayer commander) {
+		this(entity);
+		this.commander = commander;
+	}
+
 	@Override
 	public boolean shouldExecute() {
-
 		EntityLivingBase targetCandidate = this.entity.getAttackTarget();
 
-		if (targetCandidate == null) {
-			return false;
-		} else {
-			attackTarget = targetCandidate;
-			return true;
-		}
+		// exit if target is undefined
+		if (targetCandidate == null) return false;
+
+		// set target
+		attackTarget = targetCandidate;
+		return true;
 	}
 
 	@Override
@@ -160,10 +185,22 @@ public class CompanionAttack extends EntityAIBase {
 			}
 
 			// select behaviour type
-			if (isTargetClose) {
-				doCloseRangeAction();
-			} else {
-				doLongRangeAction();
+			String aiAction = "";
+			if (isTargetClose) aiAction = doCloseRangeAction();
+			else aiAction = doLongRangeAction();
+
+			// add AI observation event
+			System.out.println("target=" + attackTarget);			
+			System.out.println("dist=" + distanceToTargetSq);
+			System.out.println("isTargetClose=" + isTargetClose);
+			System.out.println("action=" + aiAction);
+
+			String uid = commander.getName();
+			try {
+				aiObserve(uid, distanceToTargetSq, isTargetClose, aiAction);
+			} catch (Exception e) {
+				// TODO: add to centralized exception handling.
+				// NOP
 			}
 
 		}
@@ -174,24 +211,32 @@ public class CompanionAttack extends EntityAIBase {
 	 * Perform close attack action toward target mob.
 	 * 
 	 * Mists are not used due to update problems.
+	 * 
+	 * @return chosen action.
 	 */
-	void doCloseRangeAction() {
+	String doCloseRangeAction() {
 		int numberActions = longRangeActions.size();
 		int choice = entity.getRNG().nextInt(numberActions);
 		RightClickedItemAction action = closeRangeActions.get(choice);
 		action.onRightClick(entity.getEntityWorld(), entity);
+		return ReflectionToStringBuilder.toString(action);
+		//action.getClass().getSimpleName();
 	}
 
 	/**
 	 * Perform long range attack action toward target mob.
 	 * 
 	 * Mists are not used due to update problems.
+	 * 
+	 * @return chosen action.
 	 */
-	void doLongRangeAction() {
+	String doLongRangeAction() {
 		int numberActions = longRangeActions.size();
 		int choice = entity.getRNG().nextInt(numberActions);
 		RightClickedItemAction action = longRangeActions.get(choice);
 		action.onRightClick(entity.getEntityWorld(), entity);
+		return ReflectionToStringBuilder.toString(action);
+		//action.getClass().getSimpleName();
 	}
 
 	/**

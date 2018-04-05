@@ -124,7 +124,17 @@ public class AiUtils {
 
 		// set tasks
 		entity.tasks.addTask(1, new EntityAISwimming(entity));
-		entity.tasks.addTask(2, new CompanionAttack(entity));
+		
+		// setup attacking if commander is player
+		if (isEntityPlayer(commander)) {
+			// type cast
+			EntityPlayer player = (EntityPlayer) commander;
+			entity.tasks.addTask(2, new CompanionAttack(entity, player));
+		} else {
+			entity.tasks.addTask(2, new CompanionAttack(entity));			
+		}		
+		
+		// setup remainig tasks
 		entity.tasks.addTask(3, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
 		entity.tasks.addTask(5, new EntityAILookIdle(entity));
 
@@ -135,21 +145,7 @@ public class AiUtils {
 
 		// type cast
 		EntityCreature entityCreature = EntityCreature.class.cast(entity);
-
-		// setup targeting if commander is player
-		if (isEntityPlayer(commander)) {
-
-			// type cast
-			EntityPlayer player = (EntityPlayer) commander;
-
-			entity.targetTasks.addTask(1, new MobCommandedTargeting(entityCreature, player));
-			return;
-		}
-
-		// setup targeting if commander is other entity
-		entity.targetTasks.addTask(1, new EntityAIHurtByTarget(entityCreature, DONT_CALL_FOR_HELP, new Class[0]));
-		entity.targetTasks.addTask(2,
-				new EntityAINearestAttackableTarget(entityCreature, EntityMob.class, SHOULD_CHECK_SIGHT, NEARBY_ONLY));
+		setupTargetingTasks(entityCreature, commander);
 	}
 
 	/**
@@ -172,22 +168,8 @@ public class AiUtils {
 		entity.tasks.addTask(9, new EntityAILookIdle(entity));
 
 		// type cast
-		EntityCreature entityCreature = EntityCreature.class.cast(entity);
-
-		// setup targeting if commander is player
-		if (isEntityPlayer(commander)) {
-
-			// type cast
-			EntityPlayer player = (EntityPlayer) commander;
-
-			entity.targetTasks.addTask(1, new MobCommandedTargeting(entityCreature, player));
-			return;
-		}
-
-		// setup targeting if commander is other entity
-		entity.targetTasks.addTask(1, new EntityAIHurtByTarget(entityCreature, DONT_CALL_FOR_HELP, new Class[0]));
-		entity.targetTasks.addTask(2,
-				new EntityAINearestAttackableTarget(entityCreature, EntityMob.class, SHOULD_CHECK_SIGHT, NEARBY_ONLY));
+		EntityCreature entityCreature = EntityCreature.class.cast(entity);		
+		setupTargetingTasks(entityCreature, commander);
 	}
 
 	/**
@@ -210,21 +192,7 @@ public class AiUtils {
 
 		// type cast
 		EntityCreature entityCreature = EntityCreature.class.cast(entity);
-
-		// setup targeting if commander is player
-		if (isEntityPlayer(commander)) {
-
-			// type cast
-			EntityPlayer player = (EntityPlayer) commander;
-
-			entity.targetTasks.addTask(1, new MobCommandedTargeting(entityCreature, player));
-			return;
-		}
-
-		// setup targeting if commander is other entity
-		entity.targetTasks.addTask(1, new EntityAIHurtByTarget(entityCreature, DONT_CALL_FOR_HELP, new Class[0]));
-		entity.targetTasks.addTask(2,
-				new EntityAINearestAttackableTarget(entityCreature, EntityMob.class, SHOULD_CHECK_SIGHT, NEARBY_ONLY));
+		setupTargetingTasks(entityCreature, commander);
 	}
 
 	/**
@@ -246,20 +214,31 @@ public class AiUtils {
 
 		// type cast
 		EntityCreature entityCreature = EntityCreature.class.cast(entity);
-
+		setupTargetingTasks(entityCreature, commander);
+	}	
+	
+	/**
+	 * Setup targeting. 
+	 * Mob commanded targeting is only set if commander is a player entity.
+	 * 
+	 * @param entity entity to set targeting for.
+	 * @param commander commander (if defined).
+	 */
+	static void setupTargetingTasks(EntityCreature entity, EntityLivingBase commander) {
+		
 		// setup targeting if commander is player
 		if (isEntityPlayer(commander)) {
 
 			// type cast
 			EntityPlayer player = (EntityPlayer) commander;
-
-			entity.targetTasks.addTask(1, new MobCommandedTargeting(entityCreature, player));
+			entity.targetTasks.addTask(1, new MobCommandedTargeting(entity, player));
 			return;
 		}
 
 		// setup targeting if commander is other entity
-		entity.targetTasks.addTask(1, new EntityAIHurtByTarget(entityCreature, DONT_CALL_FOR_HELP, new Class[0]));
+		entity.targetTasks.addTask(1, new EntityAIHurtByTarget(entity, DONT_CALL_FOR_HELP, new Class[0]));
 		entity.targetTasks.addTask(2,
-				new EntityAINearestAttackableTarget(entityCreature, EntityMob.class, SHOULD_CHECK_SIGHT, NEARBY_ONLY));
-	}	
+				new EntityAINearestAttackableTarget(entity, EntityMob.class, SHOULD_CHECK_SIGHT, NEARBY_ONLY));
+	}
+	
 }
