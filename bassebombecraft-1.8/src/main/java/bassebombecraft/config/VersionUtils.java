@@ -208,6 +208,35 @@ public class VersionUtils {
 		// post
 		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
+
+	/**
+	 * AI Observe.
+	 * 
+	 * @param uid
+	 *            user ID.
+	 * 
+	 * @throws Exception
+	 */
+	public static void aiObserve(String uid, double distanceToTargetSq, boolean isTargetClose, String aiAction) throws Exception {
+		
+		// Build the server URI together with the parameters
+		String category = NAME + "-" + VERSION;
+		String action = "AI Observe";
+		List<NameValuePair> postParameters = createPostAiEventParameters(uid, category, action);
+		postParameters.add(new BasicNameValuePair("cd1", Double.toString(distanceToTargetSq)));
+		postParameters.add(new BasicNameValuePair("cd2", Boolean.toString(isTargetClose)));		
+		postParameters.add(new BasicNameValuePair("cd3", aiAction));		
+		
+		URIBuilder uriBuilder = new URIBuilder(ANALYTICS_URL);
+		uriBuilder.addParameters(postParameters);
+
+		// build request
+		URI uri = uriBuilder.build();
+		HttpPost request = new HttpPost(uri);
+
+		// post
+		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+	}
 	
 	/**
 	 * Create parameters for app session start.
@@ -325,6 +354,35 @@ public class VersionUtils {
 	 * @return parameters for session start.
 	 */
 	static List<NameValuePair> createPostItemUsageEventParameters(String uid, String category, String action) {
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair("v", GA_API_VERSION));
+		parameters.add(new BasicNameValuePair("t", GA_HITTYPE_EVENT));
+		parameters.add(new BasicNameValuePair("tid", GA_PROPERTY));
+		parameters.add(new BasicNameValuePair("ds", GA_SOURCE));
+		parameters.add(new BasicNameValuePair("an", NAME));
+		parameters.add(new BasicNameValuePair("aid", GA_APP_ID));
+		parameters.add(new BasicNameValuePair("av", VERSION));
+		parameters.add(new BasicNameValuePair("cid", uid));
+		parameters.add(new BasicNameValuePair("uid", uid));
+		parameters.add(new BasicNameValuePair("ec", category));
+		parameters.add(new BasicNameValuePair("ea", action));
+		parameters.add(new BasicNameValuePair("el", uid));
+		return parameters;
+	}
+
+	/**
+	 * Create parameters for event for AI.
+	 * 
+	 * @param uid
+	 *            user ID.
+	 * @param category
+	 *            event category.
+	 * @param action
+	 *            event action
+	 * 
+	 * @return parameters for session start.
+	 */
+	static List<NameValuePair> createPostAiEventParameters(String uid, String category, String action) {
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("v", GA_API_VERSION));
 		parameters.add(new BasicNameValuePair("t", GA_HITTYPE_EVENT));

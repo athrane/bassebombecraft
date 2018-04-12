@@ -150,7 +150,8 @@ public class CompanionAttack extends EntityAIBase {
 		EntityLivingBase targetCandidate = this.entity.getAttackTarget();
 
 		// exit if target is undefined
-		if (targetCandidate == null) return false;
+		if (targetCandidate == null)
+			return false;
 
 		// set target
 		attackTarget = targetCandidate;
@@ -186,18 +187,19 @@ public class CompanionAttack extends EntityAIBase {
 
 			// select behaviour type
 			String aiAction = "";
-			if (isTargetClose) aiAction = doCloseRangeAction();
-			else aiAction = doLongRangeAction();
+			if (isTargetClose)
+				aiAction = doCloseRangeAction();
+			else
+				aiAction = doLongRangeAction();
 
 			// add AI observation event
-			System.out.println("target=" + attackTarget);			
-			System.out.println("dist=" + distanceToTargetSq);
-			System.out.println("isTargetClose=" + isTargetClose);
-			System.out.println("action=" + aiAction);
-
-			String uid = commander.getName();
+			//System.out.println("target=" + attackTarget);
+			//System.out.println("dist=" + distanceToTargetSq);
+			//System.out.println("isTargetClose=" + isTargetClose);
+			//System.out.println("action=" + aiAction);
+			//String uid = commander.getName();
 			try {
-				aiObserve(uid, distanceToTargetSq, isTargetClose, aiAction);
+				//aiObserve(uid, distanceToTargetSq, isTargetClose, aiAction);
 			} catch (Exception e) {
 				// TODO: add to centralized exception handling.
 				// NOP
@@ -220,7 +222,7 @@ public class CompanionAttack extends EntityAIBase {
 		RightClickedItemAction action = closeRangeActions.get(choice);
 		action.onRightClick(entity.getEntityWorld(), entity);
 		return ReflectionToStringBuilder.toString(action);
-		//action.getClass().getSimpleName();
+		// action.getClass().getSimpleName();
 	}
 
 	/**
@@ -236,7 +238,7 @@ public class CompanionAttack extends EntityAIBase {
 		RightClickedItemAction action = longRangeActions.get(choice);
 		action.onRightClick(entity.getEntityWorld(), entity);
 		return ReflectionToStringBuilder.toString(action);
-		//action.getClass().getSimpleName();
+		// action.getClass().getSimpleName();
 	}
 
 	/**
