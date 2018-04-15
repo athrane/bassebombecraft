@@ -1,7 +1,5 @@
 package bassebombecraft.entity.ai.task;
 
-import static bassebombecraft.config.VersionUtils.aiObserve;
-
 import java.util.ArrayList;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -193,13 +191,13 @@ public class CompanionAttack extends EntityAIBase {
 				aiAction = doLongRangeAction();
 
 			// add AI observation event
-			//System.out.println("target=" + attackTarget);
-			//System.out.println("dist=" + distanceToTargetSq);
-			//System.out.println("isTargetClose=" + isTargetClose);
-			//System.out.println("action=" + aiAction);
-			//String uid = commander.getName();
+			// System.out.println("target=" + attackTarget);
+			// System.out.println("dist=" + distanceToTargetSq);
+			// System.out.println("isTargetClose=" + isTargetClose);
+			// System.out.println("action=" + aiAction);
+			// String uid = commander.getName();
 			try {
-				//aiObserve(uid, distanceToTargetSq, isTargetClose, aiAction);
+				// aiObserve(uid, distanceToTargetSq, isTargetClose, aiAction);
 			} catch (Exception e) {
 				// TODO: add to centralized exception handling.
 				// NOP
@@ -245,7 +243,7 @@ public class CompanionAttack extends EntityAIBase {
 	 * Returns whether an in-progress EntityAIBase should continue executing
 	 */
 	@Override
-	public boolean continueExecuting() {
+	public boolean shouldContinueExecuting() {
 		return shouldExecute() || !entity.getNavigator().noPath();
 	}
 

@@ -54,8 +54,11 @@ public class MobCommandedTargeting extends EntityAITarget {
 		return command.shouldExecute(commander, this.taskOwner);
 	}
 
+	/**
+	 * Returns whether an in-progress EntityAIBase should continue executing
+	 */	
 	@Override
-	public boolean continueExecuting() {
+	public boolean shouldContinueExecuting() {
 		// System.out.println("continueExecuting for: "+ super.taskOwner);
 
 		// register player and get command

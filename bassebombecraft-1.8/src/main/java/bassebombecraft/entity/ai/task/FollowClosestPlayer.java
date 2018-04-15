@@ -49,7 +49,7 @@ public class FollowClosestPlayer extends EntityAIBase {
 	 * Returns whether an in-progress EntityAIBase should continue executing
 	 */
 	@Override
-	public boolean continueExecuting() {
+	public boolean shouldContinueExecuting() {
 
 		// if player isn't alive then determine if a new player can be found
 		if (!closestPlayer.isEntityAlive())

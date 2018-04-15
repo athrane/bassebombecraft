@@ -85,7 +85,7 @@ public class FollowEntity extends EntityAIBase {
 	 * Returns whether an in-progress EntityAIBase should continue executing
 	 */
 	@Override
-	public boolean continueExecuting() {
+	public boolean shouldContinueExecuting() {
 
 		// exit if leader is undefined
 		if (leaderEntity == null)
