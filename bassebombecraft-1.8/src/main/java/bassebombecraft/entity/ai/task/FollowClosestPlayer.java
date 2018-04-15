@@ -83,7 +83,7 @@ public class FollowClosestPlayer extends EntityAIBase {
 	@Override
 	public void resetTask() {
 		closestPlayer = null;
-		entity.getNavigator().clearPathEntity();
+		entity.getNavigator().clearPath();
 	}
 
 	/**

@@ -180,7 +180,7 @@ public class CompanionAttack extends EntityAIBase {
 
 			// move closer if target isn't a minimum range
 			if (isTargetClose) {
-				entity.getNavigator().clearPathEntity();
+				entity.getNavigator().clearPath();
 			} else {
 				entity.getNavigator().tryMoveToEntityLiving(attackTarget, entityMoveSpeed);
 			}

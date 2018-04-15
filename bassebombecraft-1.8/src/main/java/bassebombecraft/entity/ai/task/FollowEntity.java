@@ -130,7 +130,7 @@ public class FollowEntity extends EntityAIBase {
 	 */
 	@Override
 	public void resetTask() {
-		petPathfinder.clearPathEntity();
+		petPathfinder.clearPath();
 		entity.setPathPriority(PathNodeType.WATER, this.oldWaterCost);
 	}
 
