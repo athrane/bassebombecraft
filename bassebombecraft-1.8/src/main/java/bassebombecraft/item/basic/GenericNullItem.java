@@ -8,6 +8,7 @@ import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 import java.util.List;
 
 import bassebombecraft.item.action.RightClickedItemAction;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -90,9 +91,9 @@ public class GenericNullItem extends Item {
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
-
+	
 	@Override
-	public void addInformation(ItemStack stack, EntityPlayer playerIn, List<String> tooltip, boolean advanced) {
+	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		tooltip.add(TextFormatting.GREEN + this.tooltip);
 	}
 	
