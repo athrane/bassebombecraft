@@ -92,7 +92,7 @@ public class FollowClosestPlayer extends EntityAIBase {
 	 * @return true if minimum distance is reached.
 	 */
 	boolean isMinimumDistanceReached() {
-		double distSqr = entity.getDistanceSqToEntity(closestPlayer);
+		double distSqr = entity.getDistanceSq(closestPlayer);
 
 		// exit if minimum distance reached
 		boolean result = (distSqr >= minDistanceSqr);

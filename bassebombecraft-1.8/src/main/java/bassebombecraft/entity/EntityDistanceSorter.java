@@ -15,8 +15,8 @@ public class EntityDistanceSorter implements Comparator<Entity> {
 	}
 
 	public int compare(Entity e1, Entity e2) {
-		double d0 = this.entity.getDistanceSqToEntity(e1);
-		double d1 = this.entity.getDistanceSqToEntity(e2);
+		double d0 = entity.getDistanceSq(e1);
+		double d1 = entity.getDistanceSq(e2);
 		return d0 < d1 ? -1 : (d0 > d1 ? 1 : 0);
 	}
 }

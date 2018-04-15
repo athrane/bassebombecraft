@@ -140,7 +140,7 @@ public class FollowEntity extends EntityAIBase {
 	 * @return true if minimum distance is reached.
 	 */	
 	boolean isMinimumDistanceReached() {	
-		double distSqr = entity.getDistanceSqToEntity(leaderEntity);
+		double distSqr = entity.getDistanceSq(leaderEntity);
 
 		// exit if minimum distance reached
 		boolean result = (distSqr >= minDistanceSqr);
