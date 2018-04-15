@@ -89,7 +89,7 @@ public class LlamaSpit implements InventoryItemActionStrategy {
         double d1 = target.getEntityBoundingBox().minY + (double)(target.height / 3.0F) - projectile.posY;
         double d2 = target.posZ - invoker.posZ;
         float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
-        projectile.setThrowableHeading(d0, d1 + (double)f, d2, velocity, inaccuracy);
+        projectile.shoot(d0, d1 + (double)f, d2, velocity, inaccuracy);
 				
 		invoker.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
 		world.spawnEntity(projectile);
