@@ -122,15 +122,7 @@ public class ItemInitializer {
 	 */
 	public List<Item> initializeBooks(CreativeTabs targetTab) {
 
-		// Initialise staff
-
-		Item gardenStaff = new GardenStaff();
-		registerBookItem(targetTab, gardenStaff, GardenStaff.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(gardenStaff), "  x", " / ", "/  ", 'x', Items.FLOWER_POT, '/',
-				Items.IRON_SHOVEL);
-
 		// Initialise books
-
 		Item teleportBook = new TeleportBook();
 		registerBookItem(targetTab, teleportBook, TeleportBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(teleportBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
