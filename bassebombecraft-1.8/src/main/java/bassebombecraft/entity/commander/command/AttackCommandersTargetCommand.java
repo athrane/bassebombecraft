@@ -25,8 +25,7 @@ public class AttackCommandersTargetCommand implements MobCommand {
 	public boolean shouldExecute(EntityPlayer commander, EntityCreature entity) {
 
 		// get target
-		EntityLivingBase target = commander.getLastAttacker();
-
+		EntityLivingBase target = commander.getLastAttackedEntity();
 		// start execution if target is defined
 		return (target != null);
 	}
@@ -35,7 +34,7 @@ public class AttackCommandersTargetCommand implements MobCommand {
 	public boolean continueExecuting(EntityPlayer commander, EntityCreature entity) {
 
 		// get target
-		EntityLivingBase target = commander.getLastAttacker();
+		EntityLivingBase target = commander.getLastAttackedEntity();
 
 		// exit if target is undefined
 		if (target == null)
