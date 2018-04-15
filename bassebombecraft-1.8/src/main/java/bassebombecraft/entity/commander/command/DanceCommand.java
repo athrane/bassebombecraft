@@ -61,8 +61,10 @@ public class DanceCommand implements MobCommand {
 			entity.getJumpHelper().setJumping();
 			
 			Random random = entity.getRNG();	
-			float  value = random.nextInt(10) - 5; 
-			entity.moveEntityWithHeading(value, 0.0F);
+			float strafe = random.nextInt(10) - 5; 
+			float vertical = 0;
+			float forward = random.nextInt(10) - 5; 
+			entity.travel(strafe, vertical, forward);
 		}
 
 		return true;
