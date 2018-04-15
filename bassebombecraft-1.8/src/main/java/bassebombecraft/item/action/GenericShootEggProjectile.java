@@ -38,7 +38,7 @@ public class GenericShootEggProjectile implements RightClickedItemAction {
 	public void onRightClick(World world, EntityLivingBase entity) {
 
 		GenericEggProjectile projectile = new GenericEggProjectile(world, entity, action);
-		projectile.setHeadingFromThrower(entity, entity.rotationPitch, entity.rotationYaw, PITCH_OFFSET, VELOCITY, INACCURANCY);
+		projectile.shoot(entity, entity.rotationPitch, entity.rotationYaw, PITCH_OFFSET, VELOCITY, INACCURANCY);
 		entity.playSound(SOUND, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 0.8F));
 		world.spawnEntity(projectile);
 	}
