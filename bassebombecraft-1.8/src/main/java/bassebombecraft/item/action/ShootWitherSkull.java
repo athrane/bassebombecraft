@@ -22,7 +22,7 @@ public class ShootWitherSkull implements RightClickedItemAction {
 	@Override
 	public void onRightClick(World world, EntityLivingBase entity) {
         Vec3d v3 = entity.getLook(1);
-        EntityWitherSkull projectile = new EntityWitherSkull(world, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, v3.xCoord, v3.yCoord, v3.zCoord);
+        EntityWitherSkull projectile = new EntityWitherSkull(world, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, v3.x, v3.y, v3.z);
         projectile.shootingEntity = entity;
         entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
         world.spawnEntity(projectile );

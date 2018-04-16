@@ -109,9 +109,9 @@ public class GenericEntityMist implements RightClickedItemAction {
 		int aoeRange = strategy.getEffectRange();
 
 		// get entities within AABB
-		AxisAlignedBB aabb = new AxisAlignedBB(mistPos.xCoord - aoeRange, mistPos.yCoord - aoeRange,
-				mistPos.zCoord - aoeRange, mistPos.xCoord + aoeRange, mistPos.yCoord + aoeRange,
-				mistPos.zCoord + aoeRange);
+		AxisAlignedBB aabb = new AxisAlignedBB(mistPos.x - aoeRange, mistPos.y - aoeRange,
+				mistPos.z - aoeRange, mistPos.x + aoeRange, mistPos.y + aoeRange,
+				mistPos.z + aoeRange);
 		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, aabb);
 
 		for (EntityLivingBase foundEntity : entities) {
@@ -182,12 +182,12 @@ public class GenericEntityMist implements RightClickedItemAction {
 
 	void calculateMistPostition(World world, EntityLivingBase entity) {
 		entityLook = entity.getLook(1);
-		Vec3d entityLookX4 = new Vec3d(entityLook.xCoord * INVOCATION_DIST, entityLook.yCoord * INVOCATION_DIST,
-				entityLook.zCoord * INVOCATION_DIST);
+		Vec3d entityLookX4 = new Vec3d(entityLook.x * INVOCATION_DIST, entityLook.y * INVOCATION_DIST,
+				entityLook.z * INVOCATION_DIST);
 		Vec3d entityPos = new Vec3d(entity.posX, entity.posY, entity.posZ);
-		double x = entityLookX4.xCoord;
+		double x = entityLookX4.x;
 		float y = entity.getEyeHeight();
-		double z = entityLookX4.zCoord;
+		double z = entityLookX4.z;
 		mistPos = entityPos.addVector(x, y, z);
 	}
 

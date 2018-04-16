@@ -34,9 +34,9 @@ public class EntityUtils {
 		Vec3d lookVec = entity.getLookVec();
 
 		// calculate spawn projectile spawn position
-		double x = entity.posX + (lookVec.xCoord * spawnDisplacement);
+		double x = entity.posX + (lookVec.x * spawnDisplacement);
 		double y = entity.posY + entity.getEyeHeight();
-		double z = entity.posZ + (lookVec.zCoord * spawnDisplacement);
+		double z = entity.posZ + (lookVec.z * spawnDisplacement);
 
 		// set spawn position
 		projectileEntity.posX = x;

@@ -212,9 +212,9 @@ public class GeometryUtils {
 		double originZ = 0;
 		AffineTransform transform = AffineTransform.getRotateInstance(Math.toRadians(angle), originX, originZ);
 
-		double[] rotationPoint = { vector.xCoord, vector.zCoord };
+		double[] rotationPoint = { vector.x, vector.z };
 		transform.transform(rotationPoint, 0, rotationPoint, 0, 1);
-		return new Vec3d(rotationPoint[0], vector.yCoord, rotationPoint[1]);
+		return new Vec3d(rotationPoint[0], vector.y, rotationPoint[1]);
 	}
 
 	/**

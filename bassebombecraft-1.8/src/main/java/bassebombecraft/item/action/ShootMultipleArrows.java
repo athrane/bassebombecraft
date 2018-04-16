@@ -63,8 +63,7 @@ public class ShootMultipleArrows implements RightClickedItemAction {
 	void spawnArrow(World world, EntityLivingBase entity, Vec3d orientation) {
 		EntityArrow projectile = new EntityTippedArrow(world, entity);
 		float velocity = ARROW_FORCE * FORCE_MODIFIER;
-		projectile.setThrowableHeading(orientation.xCoord, orientation.yCoord, orientation.zCoord, velocity,
-				INACCURACY);
+		projectile.shoot(orientation.x, orientation.y, orientation.z, velocity, INACCURACY);
         entity.playSound(SOUND, 1.0F, 1.0F / random.nextFloat() * 0.4F + 0.8F);
         entity.world.spawnEntity(projectile );
 	}

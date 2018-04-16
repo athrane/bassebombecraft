@@ -174,12 +174,12 @@ public class GenericBlockMist implements RightClickedItemAction {
 			mistDirections[index] = rotatedLookVector;
 
 			// calculate spawn vector
-			Vec3d entityLookXn = new Vec3d(rotatedLookVector.xCoord * INVOCATION_DIST,
-					rotatedLookVector.yCoord * INVOCATION_DIST, rotatedLookVector.zCoord * INVOCATION_DIST);
+			Vec3d entityLookXn = new Vec3d(rotatedLookVector.x * INVOCATION_DIST,
+					rotatedLookVector.y * INVOCATION_DIST, rotatedLookVector.z * INVOCATION_DIST);
 
-			double x = entityLookXn.xCoord;
+			double x = entityLookXn.x;
 			float y = entity.getEyeHeight();
-			double z = entityLookXn.zCoord;
+			double z = entityLookXn.z;
 
 			mistPositions[index] = entityPos.addVector(x, y, z);
 		}

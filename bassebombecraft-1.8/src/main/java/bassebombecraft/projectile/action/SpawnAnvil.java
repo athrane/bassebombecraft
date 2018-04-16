@@ -40,9 +40,9 @@ public class SpawnAnvil implements ProjectileAction {
 
 		Vec3d posVec = entityHit.getPositionVector();
 		float height = entityHit.height;		
-		double lx = posVec.xCoord;
-		double ly = posVec.yCoord + height +Y_SPAWN_OFFSET;
-		double lz = posVec.zCoord;
+		double lx = posVec.x;
+		double ly = posVec.y + height +Y_SPAWN_OFFSET;
+		double lz = posVec.z;
 		
 		BlockPos blockpos = new BlockPos(lx, ly, lz);
 		setTemporaryBlock(world, blockpos, Blocks.ANVIL, DURATION);		

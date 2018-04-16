@@ -37,9 +37,9 @@ public class SpawnSquid implements ProjectileAction {
 
 		// spawn squid
 		EntitySquid squid = new EntitySquid(world);
-		double lx = posVec.xCoord;
-		double ly = posVec.yCoord + Y_SPAWN_OFFSET;
-		double lz = posVec.zCoord;
+		double lx = posVec.x;
+		double ly = posVec.y + Y_SPAWN_OFFSET;
+		double lz = posVec.z;
 		float yaw = projectile.rotationYaw;
 		squid.setLocationAndAngles(lx, ly, lz, yaw, PITCH);
 		world.spawnEntity(squid);

@@ -22,7 +22,7 @@ public class ShootLargeFireball implements RightClickedItemAction {
 	@Override
 	public void onRightClick(World world, EntityLivingBase entity) {
         Vec3d v3 = entity.getLook(1);
-        EntityLargeFireball projectile = new EntityLargeFireball(world, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, v3.xCoord, v3.yCoord, v3.zCoord);
+        EntityLargeFireball projectile = new EntityLargeFireball(world, entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ, v3.x, v3.y, v3.z);
         projectile.shootingEntity = entity;
         entity.playSound(SOUND, 1.0F, 1.0F / random.nextFloat() * 0.4F + 0.8F);
         world.spawnEntity(projectile );

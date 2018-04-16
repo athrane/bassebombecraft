@@ -27,11 +27,11 @@ public class EmitHorizontalForce implements ProjectileAction {
 
 		// push mob
 		Vec3d motionVec = new Vec3d(projectile.motionX, projectile.motionY, projectile.motionZ);
-		double x = motionVec.xCoord * FORCE;
-		double y = motionVec.yCoord * FORCE;
-		double z = motionVec.zCoord * FORCE;
+		double x = motionVec.x * FORCE;
+		double y = motionVec.y * FORCE;
+		double z = motionVec.z * FORCE;
 		Vec3d motionVecForced = new Vec3d(x, y, z);
 		Entity entityHit = movObjPos.entityHit;
-		entityHit.move(MoverType.SELF, motionVecForced.xCoord, motionVecForced.yCoord, motionVecForced.zCoord);
+		entityHit.move(MoverType.SELF, motionVecForced.x, motionVecForced.y, motionVecForced.z);
 	}
 }

@@ -24,7 +24,7 @@ public class ShootSmallFireball implements RightClickedItemAction {
 		Vec3d v3 = entity.getLook(1);
 
 		EntitySmallFireball projectile = new EntitySmallFireball(world, entity.posX, entity.posY + entity.getEyeHeight(),
-				entity.posZ, v3.xCoord, v3.yCoord, v3.zCoord);
+				entity.posZ, v3.x, v3.y, v3.z);
 		projectile.shootingEntity = entity;
         entity.playSound(SOUND, 0.5F, 0.4F  / random.nextFloat() * 0.4F + 0.8F);
         world.spawnEntity(projectile );

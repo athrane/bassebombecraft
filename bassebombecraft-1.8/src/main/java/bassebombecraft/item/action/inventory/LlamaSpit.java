@@ -82,7 +82,7 @@ public class LlamaSpit implements InventoryItemActionStrategy {
 		Vec3d v3 = invoker.getLook(1);
 
 		EntityLlamaSpit projectile = new EntityLlamaSpit(world, invoker.posX,
-				invoker.posY + invoker.getEyeHeight(), invoker.posZ, v3.xCoord, v3.yCoord, v3.zCoord);
+				invoker.posY + invoker.getEyeHeight(), invoker.posZ, v3.x, v3.y, v3.z);
 		
 		// from EntityLlama.spit()
         double d0 = target.posX - invoker.posX;

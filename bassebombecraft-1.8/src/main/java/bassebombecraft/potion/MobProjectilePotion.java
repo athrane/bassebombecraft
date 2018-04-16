@@ -60,9 +60,9 @@ public class MobProjectilePotion extends Potion {
 		Vec3d lookVec = entity.getLookVec();
 
 		// move entity i view direction
-		double x = lookVec.xCoord * force;
-		double y = lookVec.yCoord * force;
-		double z = lookVec.zCoord * force;
+		double x = lookVec.x * force;
+		double y = lookVec.y * force;
+		double z = lookVec.z * force;
 		entity.move(MoverType.SELF, x, y, z);
 
 		// get hit entities
