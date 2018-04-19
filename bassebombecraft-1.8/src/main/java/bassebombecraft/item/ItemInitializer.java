@@ -123,8 +123,10 @@ public class ItemInitializer {
 	public List<Item> initializeBooks(CreativeTabs targetTab) {
 
 		// Initialise books
-		Item teleportBook = new TeleportBook();
-		registerBookItem(targetTab, teleportBook, TeleportBook.ITEM_NAME);
+		//Item teleportBook = new TeleportBook();
+		//registerBookItem(targetTab, teleportBook, TeleportBook.ITEM_NAME);
+
+		/**		
 		GameRegistry.addShapedRecipe(new ItemStack(teleportBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
 				Items.ENDER_PEARL);
 
@@ -427,6 +429,7 @@ public class ItemInitializer {
 		registerBookItem(targetTab, buildTowerBook, BuildTowerBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(buildTowerBook), "x  ", " yy", " yy", 'x', Items.WRITTEN_BOOK, 'y',
 				Blocks.SANDSTONE);
+		 **/
 
 		return bookItemList;
 	}
@@ -443,9 +446,11 @@ public class ItemInitializer {
 	 */
 	public void initializeBatons(CreativeTabs targetTab) {
 
+		/**
 		Item mobCommandersBaton = new MobCommandersBaton();
 		registerBookItem(targetTab, mobCommandersBaton, MobCommandersBaton.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(mobCommandersBaton), "  x", " y ", "z  ", 'x', Blocks.SKULL, 'y', Items.BONE, 'z', Blocks.REDSTONE_BLOCK);
+		**/
 	}
 
 	/**
@@ -460,6 +465,7 @@ public class ItemInitializer {
 	 */
 	public List<Item> initializeInventoryItems(CreativeTabs targetTab) {
 
+		/**
 		Item rainIdolInventoryItem = new RainIdolInventoryItem();
 		registerInventoryItem(targetTab, rainIdolInventoryItem, RainIdolInventoryItem.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(rainIdolInventoryItem), "xy ", "   ", "   ", 'x', Items.CLAY_BALL,
@@ -540,6 +546,7 @@ public class ItemInitializer {
 		registerInventoryItem(targetTab, meteorIdolInventoryItem, MeteorIdolInventoryItem.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(meteorIdolInventoryItem), "xy ", "   ", "   ", 'x',
 				Items.CLAY_BALL, 'y', Items.LAVA_BUCKET);
+		**/
 		
 		/**
 		 * Item pvpIdolInventoryItem = new PvpIdolInventoryItem();
@@ -567,8 +574,8 @@ public class ItemInitializer {
 	 */
 	public Map initializeBasicItems(CreativeTabs targetTab) {
 
-		Item terminatorEyeItem = new TerminatorEyeItem();
-		registerBasicItem(targetTab, terminatorEyeItem, TerminatorEyeItem.ITEM_NAME);
+		//Item terminatorEyeItem = new TerminatorEyeItem();
+		//registerBasicItem(targetTab, terminatorEyeItem, TerminatorEyeItem.ITEM_NAME);
 		return basicItemMap;
 	}
 	
@@ -585,7 +592,7 @@ public class ItemInitializer {
 	void registerBookItem(CreativeTabs targetTab, Item item, String itemName) {
 		item.setCreativeTab(targetTab);
 		item.setRegistryName(itemName);
-		GameRegistry.register(item);
+		//GameRegistry.register(item);
 		bookItemList.add(item);
 	}
 
@@ -602,7 +609,7 @@ public class ItemInitializer {
 	void registerBatonItem(CreativeTabs targetTab, Item item, String itemName) {
 		item.setCreativeTab(targetTab);
 		item.setRegistryName(itemName);
-		GameRegistry.register(item);
+		//GameRegistry.register(item);
 	}
 
 	/**
@@ -618,7 +625,7 @@ public class ItemInitializer {
 	void registerBasicItem(CreativeTabs targetTab, Item item, String itemName) {
 		item.setCreativeTab(targetTab);
 		item.setRegistryName(itemName);
-		GameRegistry.register(item);
+		//GameRegistry.register(item);
 		basicItemMap.put(itemName, item);
 	}
 		
@@ -635,7 +642,7 @@ public class ItemInitializer {
 	void registerInventoryItem(CreativeTabs targetTab, Item item, String itemName) {
 		item.setCreativeTab(targetTab);
 		item.setRegistryName(itemName);
-		GameRegistry.register(item);
+		//GameRegistry.register(item);
 		inventoryItemList.add(item);
 	}
 

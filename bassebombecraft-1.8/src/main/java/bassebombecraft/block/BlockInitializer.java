@@ -38,10 +38,10 @@ public class BlockInitializer {
 	void registerBlock(CreativeTabs targetTab, Block block, String blockName) {
 		block.setCreativeTab(targetTab);
 		block.setRegistryName(blockName);
-		GameRegistry.register(block);
+		//GameRegistry.register(block);
 		ItemBlock itemBlock = new ItemBlock(block);
 		itemBlock.setRegistryName(blockName);
-		GameRegistry.register(itemBlock);
+		//GameRegistry.register(itemBlock);
 		getProxy().registerItemForRendering(block, blockName);
 	}
 

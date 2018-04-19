@@ -54,8 +54,10 @@ public class GenericNullItem extends Item {
 	 */
 	public GenericNullItem(String name, RightClickedItemAction action) {
 		setUnlocalizedName(name);
+		setRegistryName(name);		
+		setCreativeTab(getCreativeTab());
+		
 		this.action = action;
-		getProxy().registerItemForRendering(this);
 
 		// get cooldown or default value
 		coolDown = resolveCoolDown(name, ITEM_BASICITEM_DEFAULT_COOLDOWN);

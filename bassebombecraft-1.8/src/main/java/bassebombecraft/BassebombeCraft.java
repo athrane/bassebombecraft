@@ -88,7 +88,10 @@ public class BassebombeCraft {
 	@SidedProxy(clientSide = "bassebombecraft.proxy.ClientProxy", serverSide = "bassebombecraft.proxy.CommonProxy")
 	static CommonProxy proxy;
 
-	public static CreativeTabs modTab;
+	/**
+	 * Creative tab.
+	 */
+	static CreativeTabs modTab;
 
 	/**
 	 * Charmed Mob repository
@@ -392,6 +395,15 @@ public class BassebombeCraft {
 	public static BassebombeCraft getBassebombeCraft() {
 		return instance;
 	}
+	
+	/**
+	 * Get creative tab.
+	 * 
+	 * @return creative tab.
+	 */
+	public static CreativeTabs getCreativeTab() {
+		return modTab;
+	}	
 
 	/**
 	 * Get logger.

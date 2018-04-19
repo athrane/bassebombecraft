@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.BassebombeCraft;
 import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -28,16 +27,6 @@ public class CommonProxy {
 	}
 
 	public void postInit(FMLPostInitializationEvent e) {
-		// NO-OP
-	}
-
-	/**
-	 * Register item for rendering.
-	 * 
-	 * @param item
-	 *            item to be registered.
-	 */
-	public void registerItemForRendering(Item item) {
 		// NO-OP
 	}
 

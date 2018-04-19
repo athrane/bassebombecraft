@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.RenderItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -41,14 +40,6 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void postInit(FMLPostInitializationEvent e) {
 		super.postInit(e);
-	}
-
-	@Override
-	public void registerItemForRendering(Item item) {
-		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-		ModelResourceLocation location;
-		location = new ModelResourceLocation(MODID + ":" + item.getUnlocalizedName().substring(5), "inventory");
-		renderItem.getItemModelMesher().register(item, 0, location);
 	}
 
 	@Override
