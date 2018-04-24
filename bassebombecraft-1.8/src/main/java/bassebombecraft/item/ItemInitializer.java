@@ -5,90 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import bassebombecraft.item.basic.TerminatorEyeItem;
-import bassebombecraft.item.baton.MobCommandersBaton;
-import bassebombecraft.item.book.BaconBazookaBook;
-import bassebombecraft.item.book.BearBlasterBook;
-import bassebombecraft.item.book.BeastmasterBook;
-import bassebombecraft.item.book.BeastmasterMistBook;
-import bassebombecraft.item.book.BuildAbyssBook;
-import bassebombecraft.item.book.BuildMineBook;
-import bassebombecraft.item.book.BuildRainbowRoadBook;
-import bassebombecraft.item.book.BuildRoadBook;
-import bassebombecraft.item.book.BuildSmallHoleBook;
-import bassebombecraft.item.book.BuildStairsBook;
-import bassebombecraft.item.book.BuildTowerBook;
-import bassebombecraft.item.book.CobwebBook;
-import bassebombecraft.item.book.CopyPasteBlocksBook;
-import bassebombecraft.item.book.CreeperApocalypseBook;
-import bassebombecraft.item.book.CreeperCannonBook;
-import bassebombecraft.item.book.DigMobHoleBook;
-import bassebombecraft.item.book.DuplicateBlockBook;
-import bassebombecraft.item.book.EmitHorizontalForceBook;
-import bassebombecraft.item.book.EmitVerticalForceBook;
-import bassebombecraft.item.book.EmitVerticalForceMistBook;
-import bassebombecraft.item.book.FallingAnvilBook;
-import bassebombecraft.item.book.HealingMistBook;
-import bassebombecraft.item.book.IceBlockBook;
-import bassebombecraft.item.book.LargeFireballBook;
-import bassebombecraft.item.book.LavaBlockBook;
-import bassebombecraft.item.book.LavaSpiralMistBook;
-import bassebombecraft.item.book.LightningBoltBook;
-import bassebombecraft.item.book.LightningBoltMistBook;
-import bassebombecraft.item.book.LingeringFlameBook;
-import bassebombecraft.item.book.LingeringFuryBook;
-import bassebombecraft.item.book.MovingIceMultiMistBook;
-import bassebombecraft.item.book.MovingLavaMistBook;
-import bassebombecraft.item.book.MovingLavaMultiMistBook;
-import bassebombecraft.item.book.MovingRainbowMistBook;
-import bassebombecraft.item.book.MovingTntMistBook;
-import bassebombecraft.item.book.MovingWaterMultiMistBook;
-import bassebombecraft.item.book.MovingWitherMistBook;
-import bassebombecraft.item.book.MultipleArrowsBook;
-import bassebombecraft.item.book.NaturalizeBook;
-import bassebombecraft.item.book.PrimedCreeperCannonBook;
-import bassebombecraft.item.book.RainbownizeBook;
-import bassebombecraft.item.book.SetSpawnPointBook;
-import bassebombecraft.item.book.SmallFireballBook;
-import bassebombecraft.item.book.SmallFireballRingBook;
-import bassebombecraft.item.book.Spawn100ChickensBook;
-import bassebombecraft.item.book.Spawn100RainingLlamasBook;
-import bassebombecraft.item.book.SpawnCreeperArmyBook;
-import bassebombecraft.item.book.SpawnDragonBook;
-import bassebombecraft.item.book.SpawnFlamingChickenBook;
-import bassebombecraft.item.book.SpawnGiantZombieBook;
-import bassebombecraft.item.book.SpawnGuardianBook;
-import bassebombecraft.item.book.SpawnKittenArmyBook;
-import bassebombecraft.item.book.SpawnManyCowsBook;
-import bassebombecraft.item.book.SpawnSkeletonArmyBook;
-import bassebombecraft.item.book.SpawnSquidBook;
-import bassebombecraft.item.book.TeleportBook;
-import bassebombecraft.item.book.ToxicMistBook;
-import bassebombecraft.item.book.VacuumMistBook;
-import bassebombecraft.item.book.WitherMistBook;
-import bassebombecraft.item.book.WitherSkullBook;
-import bassebombecraft.item.inventory.AngelIdolInventoryItem;
-import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
-import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
-import bassebombecraft.item.inventory.ChickenizeIdolInventoryItem;
-import bassebombecraft.item.inventory.EggProjectileIdolInventoryItem;
-import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
-import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
-import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
-import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
-import bassebombecraft.item.inventory.LlamaSpitIdolInventoryItem;
-import bassebombecraft.item.inventory.MeteorIdolInventoryItem;
-import bassebombecraft.item.inventory.MobsLevitationIdolInventoryItem;
-import bassebombecraft.item.inventory.PinkynizeIdolInventoryItem;
-import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
-import bassebombecraft.item.inventory.RainIdolInventoryItem;
-import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
 /**
  * Class for initializing items.
@@ -123,62 +41,9 @@ public class ItemInitializer {
 	public List<Item> initializeBooks(CreativeTabs targetTab) {
 
 		// Initialise books
-		//Item teleportBook = new TeleportBook();
-		//registerBookItem(targetTab, teleportBook, TeleportBook.ITEM_NAME);
 
-		/**		
-		GameRegistry.addShapedRecipe(new ItemStack(teleportBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.ENDER_PEARL);
-
-		Item setSpawnPointBook = new SetSpawnPointBook();
-		registerBookItem(targetTab, setSpawnPointBook, SetSpawnPointBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(setSpawnPointBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
-				Blocks.BED);
+		/**				
 		
-		Item smallFireballBook = new SmallFireballBook();
-		registerBookItem(targetTab, smallFireballBook, SmallFireballBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(smallFireballBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.FIRE_CHARGE);
-
-		Item largeFireballBook = new LargeFireballBook();
-		registerBookItem(targetTab, largeFireballBook, LargeFireballBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(largeFireballBook), "xy ", "zz ", "   ", 'x', Items.BOOK, 'y',
-				Items.FIRE_CHARGE, 'z', Items.GUNPOWDER);
-
-		Item smallFireballRingBook = new SmallFireballRingBook();
-		registerBookItem(targetTab, smallFireballRingBook, SmallFireballRingBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(smallFireballRingBook), "xxx", "xyx", "xxx", 'x', Items.BOOK, 'y',
-				Items.FIRE_CHARGE);
-		
-		Item lingeringFlameBook = new LingeringFlameBook();
-		registerBookItem(targetTab, lingeringFlameBook, LingeringFlameBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(lingeringFlameBook), "xyz", "w  ", "   ", 'x', Items.BOOK, 'y',
-				Items.BLAZE_POWDER, 'z', Items.GHAST_TEAR, 'w', Items.GUNPOWDER);
-
-		Item lingeringFuryBook = new LingeringFuryBook();
-		registerBookItem(targetTab, lingeringFuryBook, LingeringFuryBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(lingeringFuryBook), "xyz", "w  ", "   ", 'x', Items.BOOK, 'y',
-				Items.MAGMA_CREAM, 'z', Items.GHAST_TEAR, 'w', Blocks.TNT);
-
-		Item lavaSpiralMistBook = new LavaSpiralMistBook();
-		registerBookItem(targetTab, lavaSpiralMistBook, LavaSpiralMistBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(lavaSpiralMistBook), "yyy", "yxy", "yyy", 'x', Items.BOOK, 'y',
-				Items.MAGMA_CREAM );
-
-		Item toxicMistBook = new ToxicMistBook();
-		registerBookItem(targetTab, toxicMistBook, ToxicMistBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(toxicMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.SPIDER_EYE, 'z', Items.GHAST_TEAR);
-
-		Item witherBook = new WitherSkullBook();
-		registerBookItem(targetTab, witherBook, WitherSkullBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(witherBook), "xyy", "   ", "   ", 'x', Items.BOOK, 'y', Items.COAL);
-
-		Item witherMistBook = new WitherMistBook();
-		registerBookItem(targetTab, witherMistBook, WitherMistBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(witherMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.COAL, 'z', Items.GHAST_TEAR);
-
 		Item movingWitherMistBook = new MovingWitherMistBook();
 		registerBookItem(targetTab, movingWitherMistBook, MovingWitherMistBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(movingWitherMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
