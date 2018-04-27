@@ -27,7 +27,6 @@ public class Spawn100RainingLlamas implements ProjectileAction {
 			entity.setGrowingAge(AGE);
 
 			Random random = entity.getRNG();
-
 			int randomX = random.nextInt(SPAWN_SIZE) - (SPAWN_SIZE / 2);
 			int randomY = random.nextInt(Y_SPAWN_SIZE) + (Y_SPAWN_OFFSET);			
 			int randomZ = random.nextInt(SPAWN_SIZE) - (SPAWN_SIZE / 2);
@@ -36,8 +35,7 @@ public class Spawn100RainingLlamas implements ProjectileAction {
 			double positionY = projectile.posY + randomY;
 			double positionZ = projectile.posZ + randomZ;
 
-			entity.setLocationAndAngles(positionX, positionY, positionZ, projectile.rotationYaw, PITCH);
-			
+			entity.setLocationAndAngles(positionX, positionY, positionZ, projectile.rotationYaw, PITCH);			
 			world.spawnEntity(entity);
 		}
 	}
