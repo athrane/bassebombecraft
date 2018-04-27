@@ -1,13 +1,31 @@
 package bassebombecraft.item;
 
+import java.util.stream.Stream;
+
 import bassebombecraft.ModConstants;
+import bassebombecraft.item.book.BaconBazookaBook;
+import bassebombecraft.item.book.BearBlasterBook;
+import bassebombecraft.item.book.CreeperApocalypseBook;
+import bassebombecraft.item.book.CreeperCannonBook;
+import bassebombecraft.item.book.HealingMistBook;
 import bassebombecraft.item.book.LargeFireballBook;
 import bassebombecraft.item.book.LavaSpiralMistBook;
 import bassebombecraft.item.book.LingeringFlameBook;
 import bassebombecraft.item.book.LingeringFuryBook;
+import bassebombecraft.item.book.MovingIceMultiMistBook;
+import bassebombecraft.item.book.MovingLavaMistBook;
+import bassebombecraft.item.book.MovingLavaMultiMistBook;
+import bassebombecraft.item.book.MovingRainbowMistBook;
+import bassebombecraft.item.book.MovingTntMistBook;
+import bassebombecraft.item.book.MovingWaterMultiMistBook;
+import bassebombecraft.item.book.MovingWitherMistBook;
+import bassebombecraft.item.book.PrimedCreeperCannonBook;
 import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.SmallFireballRingBook;
+import bassebombecraft.item.book.Spawn100ChickensBook;
+import bassebombecraft.item.book.SpawnFlamingChickenBook;
+import bassebombecraft.item.book.SpawnSquidBook;
 import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.WitherMistBook;
@@ -31,69 +49,48 @@ import net.minecraftforge.registries.IForgeRegistry;
 @ObjectHolder(ModConstants.MODID)
 public class ItemRegistryEventHandler {
 
-	@ObjectHolder("TeleportBook")
-	public static Item teleportBook = null;
-
-	@ObjectHolder("SetSpawnPointBook")
-	public static Item setSpawnPointBook = null;
+	static Item[] items = {			
+			new TeleportBook(),
+			new SetSpawnPointBook(),	
+			new SmallFireballBook(),	
+			new LargeFireballBook(),		
+			new SmallFireballRingBook(),		
+			new LingeringFlameBook(),	
+			new LingeringFuryBook(),	
+			new LavaSpiralMistBook(),	
+			new ToxicMistBook(),		
+			new WitherSkullBook(),	
+			new WitherMistBook(),		
+			new MovingWitherMistBook(),				
+			new MovingLavaMistBook(),			
+			new MovingLavaMultiMistBook(),				
+			new MovingIceMultiMistBook(),			
+			new MovingRainbowMistBook(),			
+			new MovingWaterMultiMistBook(),			
+			new HealingMistBook(),
+			new MovingTntMistBook(),
+			new SpawnFlamingChickenBook(),
+			new SpawnSquidBook(),
+			new BaconBazookaBook(),
+			new CreeperCannonBook(),
+			new PrimedCreeperCannonBook(),
+			new BearBlasterBook(),
+			new CreeperApocalypseBook(),
+			new Spawn100ChickensBook()			
+	};
 	
-	@ObjectHolder("SmallFireballBook")
-	public static Item smallFireballBook = null;
-
-	@ObjectHolder("LargeFireballBook")
-	public static Item largeFireballBook = null;
-	
-	@ObjectHolder("SmallFireballRingBook")
-	public static Item smallFireballRingBook = null;	
-	
-	@ObjectHolder("LingeringFlameBook")
-	public static Item lingeringFlameBook = null;	
-
-	@ObjectHolder("LingeringFuryBook")
-	public static Item lingeringFuryBook = null;	
-
-	@ObjectHolder("LavaSpiralMistBook")
-	public static Item lavaSpiralMistBook = null;
-	
-	@ObjectHolder("ToxicMistBook")
-	public static Item toxicMistBook = null;
-	
-	@ObjectHolder("WitherSkullBook")
-	public static Item witherSkullBook = null;
-
-	@ObjectHolder("WitherMistBook")
-	public static Item witherMistBook = null;	
 	
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
 		IForgeRegistry<Item> registry = event.getRegistry();
-		registry.register(new TeleportBook());
-		registry.register(new SetSpawnPointBook());	
-		registry.register(new SmallFireballBook());	
-		registry.register(new LargeFireballBook());		
-		registry.register(new SmallFireballRingBook());		
-		registry.register(new LingeringFlameBook());	
-		registry.register(new LingeringFuryBook());	
-		registry.register(new LavaSpiralMistBook());	
-		registry.register(new ToxicMistBook());		
-		registry.register(new WitherSkullBook());	
-		registry.register(new WitherMistBook());				
+		registry.registerAll(items);		
+		
 	}
 	
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public static void registerRenders(ModelRegistryEvent event) {
-		registerModel(teleportBook);
-		registerModel(setSpawnPointBook);
-		registerModel(smallFireballBook);
-		registerModel(largeFireballBook);	
-		registerModel(smallFireballRingBook);		
-		registerModel(lingeringFlameBook);		
-		registerModel(lingeringFuryBook);	
-		registerModel(lavaSpiralMistBook);	
-		registerModel(toxicMistBook);
-		registerModel(witherSkullBook);	
-		registerModel(witherMistBook);		
+		Stream.of(items).forEach(i -> registerModel(i));		
 	}	
 	
 	/**

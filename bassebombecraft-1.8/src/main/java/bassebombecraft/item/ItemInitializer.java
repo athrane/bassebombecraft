@@ -44,88 +44,9 @@ public class ItemInitializer {
 
 		/**				
 		
-		Item movingWitherMistBook = new MovingWitherMistBook();
-		registerBookItem(targetTab, movingWitherMistBook, MovingWitherMistBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(movingWitherMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.FERMENTED_SPIDER_EYE, 'z', Items.GHAST_TEAR);
-
-		Item movingLavaMistBook = new MovingLavaMistBook();
-		registerBookItem(targetTab, movingLavaMistBook, MovingLavaMistBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(movingLavaMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.LAVA_BUCKET, 'z', Items.GHAST_TEAR);
-
-		Item movingLavaMultiMistBook = new MovingLavaMultiMistBook();
-		registerBookItem(targetTab, movingLavaMultiMistBook, MovingLavaMultiMistBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(movingLavaMultiMistBook), "xyz", "yzy", "   ", 'x', Items.BOOK, 'y',
-				Items.LAVA_BUCKET, 'z', Items.GHAST_TEAR);
-
-		Item movingIceMultiMistBook = new MovingIceMultiMistBook();
-		registerBookItem(targetTab, movingIceMultiMistBook, MovingIceMultiMistBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(movingIceMultiMistBook), "xyz", "yzy", "   ", 'x', Items.BOOK, 'y',
-				Items.SNOWBALL, 'z', Items.GHAST_TEAR);
-
-		Item movingWaterMultiMistBook = new MovingWaterMultiMistBook();
-		registerBookItem(targetTab, movingWaterMultiMistBook, MovingWaterMultiMistBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(movingWaterMultiMistBook), "xyz", "yzy", "   ", 'x', Items.BOOK, 'y',
-				Items.WATER_BUCKET, 'z', Items.GHAST_TEAR);
-
-		Item movingRainbowMistBook = new MovingRainbowMistBook();
-		registerBookItem(targetTab, movingRainbowMistBook, MovingRainbowMistBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(movingRainbowMistBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.RECORD_13);
-
-		Item healingMistBook = new HealingMistBook();
-		registerBookItem(targetTab, healingMistBook, HealingMistBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(healingMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.GOLDEN_APPLE, 'z', Items.GHAST_TEAR);
-
-		Item movingTntMistBook = new MovingTntMistBook();
-		registerBookItem(targetTab, movingTntMistBook, MovingTntMistBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(movingTntMistBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.FLINT, 'z', Items.TNT_MINECART);
-		
 		// books of creature spawning
-
-		Item spawnFlamingChickenBook = new SpawnFlamingChickenBook();
-		registerBookItem(targetTab, spawnFlamingChickenBook, SpawnFlamingChickenBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(spawnFlamingChickenBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.COOKED_CHICKEN);
-
-		Item spawnSquidBook = new SpawnSquidBook();
-		registerBookItem(targetTab, spawnSquidBook, SpawnSquidBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(spawnSquidBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.DYE);
-
-		Item baconBazookaBook = new BaconBazookaBook();
-		registerBookItem(targetTab, baconBazookaBook, BaconBazookaBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(baconBazookaBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.PORKCHOP);
-
-		Item creeperCannonBook = new CreeperCannonBook();
-		registerBookItem(targetTab, creeperCannonBook, CreeperCannonBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(creeperCannonBook), "xy ", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.GUNPOWDER);
-
-		Item primedCreeperCannonBook = new PrimedCreeperCannonBook();
-		registerBookItem(targetTab, primedCreeperCannonBook, PrimedCreeperCannonBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(primedCreeperCannonBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.GUNPOWDER, 'z', Blocks.IRON_BLOCK);
-
-		Item bearBlasterBook = new BearBlasterBook();
-		registerBookItem(targetTab, bearBlasterBook, BearBlasterBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(bearBlasterBook), "xyz", "   ", "   ", 'x', Items.BOOK, 'y',
-				Items.GUNPOWDER, 'z', Items.FISH);
-		
-		Item creeperApocalypseBook = new CreeperApocalypseBook();
-		registerBookItem(targetTab, creeperApocalypseBook, CreeperApocalypseBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(creeperApocalypseBook), "xyz", "yzy", "zyz", 'x', Items.BOOK, 'y',
-				Items.GUNPOWDER, 'z', Blocks.IRON_BLOCK);
-
-		Item spawn100ChickensBook = new Spawn100ChickensBook();
-		registerBookItem(targetTab, spawn100ChickensBook, Spawn100ChickensBook.ITEM_NAME);
-		GameRegistry.addShapedRecipe(new ItemStack(spawn100ChickensBook), "xyy", "yyy", "yyy", 'x', Items.BOOK, 'y',
-				Items.CHICKEN);
-
+		 * 
+		 * 
 		Item spawnManyCowsBook = new SpawnManyCowsBook();
 		registerBookItem(targetTab, spawnManyCowsBook, SpawnManyCowsBook.ITEM_NAME);
 		GameRegistry.addShapedRecipe(new ItemStack(spawnManyCowsBook), "xyy", "yyy", "yyy", 'x', Items.BOOK, 'y',

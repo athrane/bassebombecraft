@@ -5,9 +5,13 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:skull",
-		    "data": 1			
+			"item": "minecraft:water_bucket",
+		    "data": 0			
 		},
+		{
+			"item": "minecraft:water_bucket",
+		    "data": 0			
+		},		
 		{
 			"item": "minecraft:dragon_breath"
 		},
@@ -17,6 +21,6 @@
 		}			
 	],
 	"result": {
-		"item": "bassebombecraft:MovingWitherMistBook"
+		"item": "bassebombecraft:MovingWaterMultiMistBook"
 	}
 }

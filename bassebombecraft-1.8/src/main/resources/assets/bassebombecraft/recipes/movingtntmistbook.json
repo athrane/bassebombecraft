@@ -5,8 +5,7 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:skull",
-		    "data": 1			
+			"item": "minecraft:tnt"
 		},
 		{
 			"item": "minecraft:dragon_breath"
@@ -14,9 +13,9 @@
 		{
 			"item": "minecraft:shulker_shell",
 		    "data": 0		
-		}			
+		}
 	],
 	"result": {
-		"item": "bassebombecraft:MovingWitherMistBook"
+		"item": "bassebombecraft:MovingTntMistBook"
 	}
 }
