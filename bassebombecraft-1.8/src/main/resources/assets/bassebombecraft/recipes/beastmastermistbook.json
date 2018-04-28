@@ -5,13 +5,13 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:chicken"
+			"item": "minecraft:dragon_breath"
 		},
 		{
-			"item": "minecraft:chicken"
+			"item": "minecraft:name_tag"
 		}
 	],
 	"result": {
-		"item": "bassebombecraft:Spawn100ChickensBook"
+		"item": "bassebombecraft:BeastmasterMistBook"
 	}
-}MultipleArrowsBook
+}

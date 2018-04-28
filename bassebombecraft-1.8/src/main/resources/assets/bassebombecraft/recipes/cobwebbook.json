@@ -5,13 +5,13 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:chicken"
+			"item": "minecraft:string"
 		},
 		{
-			"item": "minecraft:chicken"
+			"item": "minecraft:spider_eye"
 		}
 	],
 	"result": {
-		"item": "bassebombecraft:Spawn100ChickensBook"
+		"item": "bassebombecraft:CobwebBook"
 	}
-}MultipleArrowsBook
+}

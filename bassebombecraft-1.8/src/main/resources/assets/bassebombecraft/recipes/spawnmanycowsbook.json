@@ -5,13 +5,13 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:chicken"
+			"item": "minecraft:beef"
 		},
 		{
-			"item": "minecraft:chicken"
+			"item": "minecraft:beef"
 		}
 	],
 	"result": {
-		"item": "bassebombecraft:Spawn100ChickensBook"
+		"item": "bassebombecraft:SpawnManyCowsBook"
 	}
-}MultipleArrowsBook
+}

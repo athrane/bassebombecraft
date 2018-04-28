@@ -5,13 +5,14 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:chicken"
+			"item": "minecraft:skull",
+			"data": 4
 		},
 		{
-			"item": "minecraft:chicken"
+			"item": "minecraft:rotten_flesh"
 		}
 	],
 	"result": {
-		"item": "bassebombecraft:Spawn100ChickensBook"
+		"item": "bassebombecraft:SpawnGiantZombieBook"
 	}
-}MultipleArrowsBook
+}

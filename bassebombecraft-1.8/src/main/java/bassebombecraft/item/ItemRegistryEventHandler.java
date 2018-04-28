@@ -3,7 +3,7 @@ package bassebombecraft.item;
 import java.util.stream.Stream;
 
 import bassebombecraft.ModConstants;
-import bassebombecraft.item.book.BaconBazookaBook;
+import bassebombecraft.item.book.*;
 import bassebombecraft.item.book.BearBlasterBook;
 import bassebombecraft.item.book.CreeperApocalypseBook;
 import bassebombecraft.item.book.CreeperCannonBook;
@@ -24,7 +24,11 @@ import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.SmallFireballRingBook;
 import bassebombecraft.item.book.Spawn100ChickensBook;
+import bassebombecraft.item.book.Spawn100RainingLlamasBook;
 import bassebombecraft.item.book.SpawnFlamingChickenBook;
+import bassebombecraft.item.book.SpawnKittenArmyBook;
+import bassebombecraft.item.book.SpawnManyCowsBook;
+import bassebombecraft.item.book.SpawnSkeletonArmyBook;
 import bassebombecraft.item.book.SpawnSquidBook;
 import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.item.book.ToxicMistBook;
@@ -76,7 +80,29 @@ public class ItemRegistryEventHandler {
 			new PrimedCreeperCannonBook(),
 			new BearBlasterBook(),
 			new CreeperApocalypseBook(),
-			new Spawn100ChickensBook()			
+			new Spawn100ChickensBook(),
+			new SpawnManyCowsBook(),
+			new Spawn100RainingLlamasBook(),
+			new SpawnKittenArmyBook(),
+			new SpawnSkeletonArmyBook(),
+			new SpawnCreeperArmyBook(),
+			new SpawnGiantZombieBook(),
+			new BeastmasterMistBook(),
+			new BeastmasterBook(),
+			new SpawnGuardianBook(),
+			new SpawnDragonBook(),
+			new MultipleArrowsBook(),
+			new CobwebBook(),
+			new IceBlockBook(),
+			new LavaBlockBook(),
+			new DigMobHoleBook(),
+			new LightningBoltBook(),
+			new LightningBoltMistBook(),
+			new FallingAnvilBook(),
+			new EmitHorizontalForceBook(),
+			new EmitVerticalForceBook(),
+			new EmitVerticalForceMistBook(),
+			new BuildStairsBook()
 	};
 	
 	
