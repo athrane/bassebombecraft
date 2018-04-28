@@ -102,7 +102,18 @@ public class ItemRegistryEventHandler {
 			new EmitHorizontalForceBook(),
 			new EmitVerticalForceBook(),
 			new EmitVerticalForceMistBook(),
-			new BuildStairsBook()
+			new BuildStairsBook(),
+			new VacuumMistBook(),
+			new CopyPasteBlocksBook(),
+			new DuplicateBlockBook(),
+			new BuildRoadBook(),
+			new BuildRainbowRoadBook(),
+			new BuildMineBook(),
+			new BuildAbyssBook(),
+			new BuildSmallHoleBook(),
+			new NaturalizeBook(),
+			new RainbownizeBook(),
+			new BuildTowerBook()
 	};
 	
 	

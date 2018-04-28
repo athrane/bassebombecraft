@@ -195,7 +195,6 @@ public class BassebombeCraft {
 		validateVersion(logger);
 		itemInitializer = ItemInitializer.getInstance();
 		itemInitializer.initializeBasicItems(modTab);
-		bookItemList = itemInitializer.initializeBooks(modTab);
 		inventoryItemList = itemInitializer.initializeInventoryItems(modTab);
 		itemInitializer.initializeBatons(modTab);
 		ProjectileInitializer.getInstance().initialize(this, modTab);

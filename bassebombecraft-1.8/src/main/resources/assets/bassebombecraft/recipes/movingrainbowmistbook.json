@@ -5,16 +5,33 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:record_13",
-		    "data": 0			
+			"item": "minecraft:stained_glass",
+			"data:": 14
 		},
 		{
-			"item": "minecraft:dragon_breath"
+			"item": "minecraft:stained_glass",
+			"data:": 1
 		},
 		{
-			"item": "minecraft:shulker_shell",
-		    "data": 0		
-		}			
+			"item": "minecraft:stained_glass",
+			"data:": 4
+		},
+		{
+			"item": "minecraft:stained_glass",
+			"data:": 13
+		},
+		{
+			"item": "minecraft:stained_glass",
+			"data:": 11
+		},
+		{
+			"item": "minecraft:stained_glass",
+			"data:": 10
+		},
+		{
+			"item": "minecraft:stained_glass",
+			"data:": 2
+		}	
 	],
 	"result": {
 		"item": "bassebombecraft:MovingRainbowMistBook"
