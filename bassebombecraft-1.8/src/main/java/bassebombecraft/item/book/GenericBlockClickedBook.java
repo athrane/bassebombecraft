@@ -1,10 +1,11 @@
 package bassebombecraft.item.book;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.ModConstants.ITEM_BOOK_DEFAULT_COOLDOWN;
+import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 import static bassebombecraft.config.ConfigUtils.resolveTooltip;
+import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import java.util.List;
@@ -56,10 +57,8 @@ public class GenericBlockClickedBook extends Item {
 	 *            with this item.
 	 */
 	public GenericBlockClickedBook(String name, BlockClickedItemAction action) {
-		setUnlocalizedName(name);
-		setRegistryName(name);	
-		setCreativeTab(getCreativeTab());
-		
+		doCommonItemInitialization(this, name);
+
 		this.action = action;
 
 		// get cooldown or default value

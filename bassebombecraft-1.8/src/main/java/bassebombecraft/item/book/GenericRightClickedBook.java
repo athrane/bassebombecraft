@@ -1,15 +1,15 @@
 package bassebombecraft.item.book;
 
-import static bassebombecraft.BassebombeCraft.*;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.ITEM_BOOK_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 import static bassebombecraft.config.ConfigUtils.resolveTooltip;
+import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import java.util.List;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -56,9 +56,7 @@ public class GenericRightClickedBook extends Item {
 	 *            clicked.
 	 */
 	public GenericRightClickedBook(String name, RightClickedItemAction action) {
-		setUnlocalizedName(name);
-		setRegistryName(name);
-		setCreativeTab(getCreativeTab());
+		doCommonItemInitialization(this, name);
 		
 		this.action = action;
 

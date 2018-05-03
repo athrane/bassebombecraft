@@ -7,6 +7,7 @@ import static bassebombecraft.ModConstants.ITEM_IDOL_DEFAULT_COOLDOWN;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 import static bassebombecraft.config.ConfigUtils.resolveTooltip;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
+import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
 import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
 import static bassebombecraft.player.PlayerUtils.isItemHeldInOffHand;
@@ -67,9 +68,7 @@ public class GenericInventoryItem extends Item {
 	 *            inventory item strategy.
 	 */
 	public GenericInventoryItem(String name, InventoryItemActionStrategy strategy) {
-		setUnlocalizedName(name);
-		setRegistryName(name);		
-		setCreativeTab(getCreativeTab());
+		doCommonItemInitialization(this, name);
 		
 		this.strategy = strategy;
 		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
