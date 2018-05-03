@@ -1,13 +1,15 @@
 package bassebombecraft.tab;
 
-import bassebombecraft.item.book.TeleportBook;
-import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+
+import java.util.Random;
+
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 /**
- * Basic creative tab with a skull as icon.
+ * Basic creative tab.
  */
 class BassebombeTab extends CreativeTabs{
 
@@ -18,11 +20,14 @@ class BassebombeTab extends CreativeTabs{
 	public BassebombeTab(String name) {
 		super(name);
 	}
-
 	
 	@Override
 	public ItemStack getTabIconItem() {
-		return new ItemStack(new LightningBoltIdolInventoryItem());
+		Item[] items = getBassebombeCraft().getInventoryItems();
+		Random random = new Random();
+		int index = random.nextInt(items.length);
+		Item item = items[index];
+		return new ItemStack(item);
 	}
 
 }

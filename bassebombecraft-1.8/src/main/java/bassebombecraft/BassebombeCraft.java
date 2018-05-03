@@ -6,6 +6,7 @@ import static bassebombecraft.ModConstants.NAME;
 import static bassebombecraft.ModConstants.TAB_NAME;
 import static bassebombecraft.ModConstants.VERSION;
 import static bassebombecraft.config.VersionUtils.validateVersion;
+import static bassebombecraft.tab.CreativeTabFactory.createCreativeTab;
 
 import java.io.File;
 
@@ -38,7 +39,6 @@ import bassebombecraft.player.pvp.PvpEventListener;
 import bassebombecraft.player.pvp.PvpRepository;
 import bassebombecraft.projectile.ProjectileInitializer;
 import bassebombecraft.proxy.CommonProxy;
-import bassebombecraft.tab.CreativeTabFactory;
 import bassebombecraft.world.RandomModStructuresGenerator;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
@@ -65,24 +65,23 @@ public class BassebombeCraft {
 	Logger logger = null;
 
 	/**
-	 * Mod singleton class. This is the object reference to your class that
-	 * Forge uses. Make sure that the argument is the modid in @Mod. Otherwise,
-	 * it'll default to the empty string, and cause problems with any mod that
-	 * also does that.
+	 * Mod singleton class. This is the object reference to your class that Forge
+	 * uses. Make sure that the argument is the modid in @Mod. Otherwise, it'll
+	 * default to the empty string, and cause problems with any mod that also does
+	 * that.
 	 */
 	@Instance(value = MODID)
 	public static BassebombeCraft instance;
 
 	/**
-	 * Minecraft uses a client and server setup, even on single player. The
-	 * server side does all the work maintaining the world's state while the
-	 * client renders the world. The thing is though, that all code runs on both
-	 * the client and server side unless specified otherwise. There are two
-	 * annotations for specifying code be ran on only one side. The
-	 * annotation @SidedProxy is used when you want the server to call the
-	 * constructor of one class and the client another. Both classes need to be
-	 * the same type or subtype of the field, and the names of the classes are
-	 * passed as Strings.
+	 * Minecraft uses a client and server setup, even on single player. The server
+	 * side does all the work maintaining the world's state while the client renders
+	 * the world. The thing is though, that all code runs on both the client and
+	 * server side unless specified otherwise. There are two annotations for
+	 * specifying code be ran on only one side. The annotation @SidedProxy is used
+	 * when you want the server to call the constructor of one class and the client
+	 * another. Both classes need to be the same type or subtype of the field, and
+	 * the names of the classes are passed as Strings.
 	 */
 	@SidedProxy(clientSide = "bassebombecraft.proxy.ClientProxy", serverSide = "bassebombecraft.proxy.CommonProxy")
 	static CommonProxy proxy;
@@ -90,7 +89,7 @@ public class BassebombeCraft {
 	/**
 	 * Creative tab.
 	 */
-	static CreativeTabs modTab;
+	static CreativeTabs modTab = createCreativeTab(TAB_NAME);
 
 	/**
 	 * Charmed Mob repository
@@ -168,7 +167,6 @@ public class BassebombeCraft {
 		pvpRepository = DefaultPvpRepository.getInstance();
 
 		initializeModMetadata(event);
-		initializeCreativeTab();
 	}
 
 	@EventHandler
@@ -199,7 +197,7 @@ public class BassebombeCraft {
 		proxy.endAnalyticsSession();
 		server = null;
 	}
-	
+
 	/**
 	 * Initialize mod meta data.
 	 * 
@@ -217,13 +215,6 @@ public class BassebombeCraft {
 		m.logoFile = "assets/bassebombecraft/logo/logo.png";
 		m.url = DOWNLOAD_URL;
 		m.credits = "Allan & Andreas Thrane Andersen";
-	}
-
-	/**
-	 * Initialize creative tab.
-	 */
-	void initializeCreativeTab() {
-		modTab = CreativeTabFactory.createCreativeTab(TAB_NAME);
 	}
 
 	/**
@@ -358,6 +349,14 @@ public class BassebombeCraft {
 	}
 
 	/**
+	 * Get array of inventory items.
+	 * 
+	 * @return array of inventory items.
+	 */
+	public Item[] getInventoryItems() {
+		return ItemRegistryEventHandler.getInventoryItems();
+	}	
+	/**
 	 * Get mod instance.
 	 * 
 	 * @return mod instance.
@@ -365,7 +364,7 @@ public class BassebombeCraft {
 	public static BassebombeCraft getBassebombeCraft() {
 		return instance;
 	}
-	
+
 	/**
 	 * Get creative tab.
 	 * 
@@ -373,7 +372,7 @@ public class BassebombeCraft {
 	 */
 	public static CreativeTabs getCreativeTab() {
 		return modTab;
-	}	
+	}
 
 	/**
 	 * Get logger.

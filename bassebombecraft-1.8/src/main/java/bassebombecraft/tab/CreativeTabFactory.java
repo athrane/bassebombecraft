@@ -15,6 +15,6 @@ public class CreativeTabFactory {
 	 * @return creative tab.
 	 */
 	public static CreativeTabs createCreativeTab(String name) {
-		return new BassebombeTab(CreativeTabs.getNextID(), name);
+		return new BassebombeTab(name);
 	}
 }
