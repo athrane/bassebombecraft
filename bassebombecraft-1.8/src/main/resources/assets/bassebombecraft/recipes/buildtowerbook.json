@@ -2,7 +2,7 @@
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
 		{
-			"item": "minecraft:book"
+			"item": "minecraft:enchanted_book"
 		},
 		{
 			"item": "minecraft:end_bricks"

@@ -8,7 +8,6 @@ import static bassebombecraft.ModConstants.VERSION;
 import static bassebombecraft.config.VersionUtils.validateVersion;
 
 import java.io.File;
-import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 
@@ -33,7 +32,7 @@ import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRenderingEventListener;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
-import bassebombecraft.item.ItemInitializer;
+import bassebombecraft.item.ItemRegistryEventHandler;
 import bassebombecraft.player.pvp.DefaultPvpRepository;
 import bassebombecraft.player.pvp.PvpEventListener;
 import bassebombecraft.player.pvp.PvpRepository;
@@ -134,21 +133,6 @@ public class BassebombeCraft {
 	Config config;
 
 	/**
-	 * Item initializer.
-	 */
-	ItemInitializer itemInitializer;
-
-	/**
-	 * Book item list.
-	 */
-	List<Item> bookItemList;
-
-	/**
-	 * Inventory item list.
-	 */
-	List<Item> inventoryItemList;
-
-	/**
 	 * Minecraft server.
 	 */
 	MinecraftServer server;
@@ -193,10 +177,6 @@ public class BassebombeCraft {
 		proxy.init(event);
 
 		validateVersion(logger);
-		itemInitializer = ItemInitializer.getInstance();
-		itemInitializer.initializeBasicItems(modTab);
-		inventoryItemList = itemInitializer.initializeInventoryItems(modTab);
-		itemInitializer.initializeBatons(modTab);
 		ProjectileInitializer.getInstance().initialize(this, modTab);
 		BlockInitializer.getInstance().initialize(modTab);
 		initializeEventListeners();
@@ -369,21 +349,12 @@ public class BassebombeCraft {
 	}
 
 	/**
-	 * Get book item list.
+	 * Get array of book items.
 	 * 
-	 * @return book item list.
+	 * @return array of book items.
 	 */
-	public List<Item> getBookItems() {
-		return bookItemList;
-	}
-
-	/**
-	 * Get inventory item list.
-	 * 
-	 * @return inventory item list.
-	 */
-	public List<Item> getInventoryItems() {
-		return inventoryItemList;
+	public Item[] getBookItems() {
+		return ItemRegistryEventHandler.getBookItems();
 	}
 
 	/**

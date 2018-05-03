@@ -1,6 +1,5 @@
 package bassebombecraft.block;
 
-import java.util.List;
 import java.util.Random;
 
 import bassebombecraft.BassebombeCraft;
@@ -23,15 +22,15 @@ public class RandomBookBlock extends Block {
 
 	@Override
 	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-		List<Item> bookItems = BassebombeCraft.getBassebombeCraft().getBookItems();
+		Item[] bookItems = BassebombeCraft.getBassebombeCraft().getBookItems();
 
 		// exit if no list is returned
 		if (bookItems == null)
 			return super.getItemDropped(state, rand, fortune);
 
 		// return random book
-		int randomBook = rand.nextInt(bookItems.size());
-		return bookItems.get(randomBook);
+		int randomBook = rand.nextInt(bookItems.length);
+		return bookItems[randomBook];
 
 	}
 

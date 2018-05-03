@@ -3,6 +3,8 @@ package bassebombecraft.item;
 import java.util.stream.Stream;
 
 import bassebombecraft.ModConstants;
+import bassebombecraft.item.basic.TerminatorEyeItem;
+import bassebombecraft.item.baton.MobCommandersBaton;
 import bassebombecraft.item.book.*;
 import bassebombecraft.item.book.BearBlasterBook;
 import bassebombecraft.item.book.CreeperApocalypseBook;
@@ -34,6 +36,21 @@ import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.WitherMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
+import bassebombecraft.item.inventory.AngelIdolInventoryItem;
+import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
+import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
+import bassebombecraft.item.inventory.ChickenizeIdolInventoryItem;
+import bassebombecraft.item.inventory.EggProjectileIdolInventoryItem;
+import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
+import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
+import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
+import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
+import bassebombecraft.item.inventory.LlamaSpitIdolInventoryItem;
+import bassebombecraft.item.inventory.MeteorIdolInventoryItem;
+import bassebombecraft.item.inventory.PinkynizeIdolInventoryItem;
+import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
+import bassebombecraft.item.inventory.RainIdolInventoryItem;
+import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -53,7 +70,10 @@ import net.minecraftforge.registries.IForgeRegistry;
 @ObjectHolder(ModConstants.MODID)
 public class ItemRegistryEventHandler {
 
-	static Item[] items = {			
+	/**
+	 * The set of book items.
+	 */	
+	static Item[] bookItems = {
 			new TeleportBook(),
 			new SetSpawnPointBook(),	
 			new SmallFireballBook(),	
@@ -116,18 +136,57 @@ public class ItemRegistryEventHandler {
 			new BuildTowerBook()
 	};
 	
-	
+	/**
+	 * The set of inventory items.
+	 */
+	static Item[] inventoryItems = {
+			new RainIdolInventoryItem(),
+			new ChickenizeIdolInventoryItem(),
+			new AngelIdolInventoryItem(),
+			new LevitationIdolInventoryItem(),
+			new LightningBoltIdolInventoryItem(),
+			new FlowerIdolInventoryItem(),
+			new RainbownizeIdolInventoryItem(),
+			new FlameBlastIdolInventoryItem(),
+			new CharmBeastIdolInventoryItem(),
+			new BlindnessIdolInventoryItem(),
+			new PinkynizeIdolInventoryItem(),
+			new PrimeMobIdolInventoryItem(),
+			new LlamaSpitIdolInventoryItem(),
+			new EggProjectileIdolInventoryItem(),
+			new MeteorIdolInventoryItem()
+	};
+
+	/**
+	 * The set of baton items.
+	 */	
+	static Item[] batonItems = {
+			new MobCommandersBaton()
+	};
+
+	/**
+	 * The set of basic items.
+	 */	
+	static Item[] basicItems = {
+			new TerminatorEyeItem()
+	};
+
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event) {
 		IForgeRegistry<Item> registry = event.getRegistry();
-		registry.registerAll(items);		
-		
+		registry.registerAll(bookItems);	
+		registry.registerAll(inventoryItems);			
+		registry.registerAll(batonItems);	
+		registry.registerAll(basicItems);			
 	}
 	
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public static void registerRenders(ModelRegistryEvent event) {
-		Stream.of(items).forEach(i -> registerModel(i));		
+		Stream.of(bookItems).forEach(i -> registerModel(i));		
+		Stream.of(inventoryItems).forEach(i -> registerModel(i));		
+		Stream.of(batonItems).forEach(i -> registerModel(i));		
+		Stream.of(basicItems).forEach(i -> registerModel(i));		
 	}	
 	
 	/**
@@ -137,5 +196,26 @@ public class ItemRegistryEventHandler {
 	 */
 	static void registerModel(Item item) {
 		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation( item.getRegistryName(), "inventory"));
+	}
+
+	/**
+	 * Get book items.
+	 * 
+	 * @return book items.
+	 */
+	public static Item[] getBookItems() {
+		return bookItems;
+	}
+
+	/**
+	 * Get inventory items.
+	 * 
+	 * @return inventory items.
+	 */	
+	public static Item[] getInventoryItems() {
+		return inventoryItems;
 	}	
+	
+	
+	
 }
