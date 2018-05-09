@@ -196,7 +196,11 @@ public class DefaultBuilder implements Builder {
 			if (roomSize.getZ() <= minRoomSize)
 				return;
 		}
+		default: {
+			// NO-OP
 		}
+		}
+
 
 		int windowXZSize = 2;
 		int windowYSize = 2;
@@ -227,7 +231,9 @@ public class DefaultBuilder implements Builder {
 			structure.add(new ChildStructure(windowOffset, windowSize, material.getBlock(), material.getState()));
 			return;
 		}
-
+		default: {
+			// NO-OP
+		}		
 		}
 	}
 
@@ -253,6 +259,9 @@ public class DefaultBuilder implements Builder {
 			if (roomSize.getZ() > 4)
 				return 2;
 		}
+		default: {
+			// NO-OP
+		}		
 		}
 
 		return 0;
@@ -277,6 +286,9 @@ public class DefaultBuilder implements Builder {
 			if (roomSize.getZ() <= minRoomSize)
 				return;
 		}
+		default: {
+			// NO-OP
+		}		
 		}
 
 		// calculate door offset
@@ -305,7 +317,9 @@ public class DefaultBuilder implements Builder {
 			addOakFencedDoorEntryFrontSideways(structure, doorOffset);
 			return;
 		}
-
+		default: {
+			// NO-OP
+		}
 		}
 
 	}
@@ -335,6 +349,9 @@ public class DefaultBuilder implements Builder {
 			if (roomSize.getZ() > 6)
 				return 2;
 		}
+		default: {
+			// NO-OP
+		}		
 		}
 
 		return 0;

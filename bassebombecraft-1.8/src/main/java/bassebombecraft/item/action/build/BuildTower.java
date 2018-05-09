@@ -106,7 +106,7 @@ public class BuildTower implements BlockClickedItemAction {
 	Builder builder;
 
 	/**
-	 * BuildSmallHole constructor.
+	 * BuildTower constructor.
 	 */
 	public BuildTower() {
 		super();
