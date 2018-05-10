@@ -51,6 +51,7 @@ import bassebombecraft.item.inventory.PinkynizeIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
 import bassebombecraft.item.inventory.RainIdolInventoryItem;
 import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
+import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -154,7 +155,8 @@ public class ItemRegistryEventHandler {
 			new PrimeMobIdolInventoryItem(),
 			new LlamaSpitIdolInventoryItem(),
 			new EggProjectileIdolInventoryItem(),
-			new MeteorIdolInventoryItem()
+			new MeteorIdolInventoryItem(),
+			new SaturationIdolInventoryItem()
 	};
 
 	/**

@@ -14,10 +14,10 @@ import net.minecraft.world.World;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
- * of inventory item actions. This class makes adds a levitation effect to the
+ * of inventory item actions. This class makes adds a saturation effect to the
  * invoker.
  */
-public class AddLevitationEffect implements InventoryItemActionStrategy {
+public class AddSaturationEffect implements InventoryItemActionStrategy {
 
 	/**
 	 * Particle rendering info
@@ -35,7 +35,7 @@ public class AddLevitationEffect implements InventoryItemActionStrategy {
 	 * @param key
 	 *            configuration key to initialize particle rendering info from.
 	 */
-	public AddLevitationEffect(String key) {
+	public AddSaturationEffect(String key) {
 		infos = createFromConfig(key);
 		Config configuration = getBassebombeCraft().getConfiguration();
 		duration = configuration.getInt(key+".Duration");		
@@ -75,7 +75,7 @@ public class AddLevitationEffect implements InventoryItemActionStrategy {
 	 * @return potion effect
 	 */
 	PotionEffect createEffect() {
-		return new PotionEffect(MobEffects.LEVITATION, duration);
+		return new PotionEffect(MobEffects.SATURATION, duration);
 	}
 
 }
