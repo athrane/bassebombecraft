@@ -40,20 +40,17 @@ public class AttackNearestMobCommand implements MobCommand {
 	/**
 	 * Entity distance sorter.
 	 */
-	EntityDistanceSorter entityDistanceSorter;
+	EntityDistanceSorter entityDistanceSorter = new EntityDistanceSorter();
 
 	/**
 	 * Discard team members filter.
 	 */
-	DiscardTeamMembers discardMembersFilter;
+	DiscardTeamMembers discardMembersFilter = new DiscardTeamMembers();
 
 	/**
 	 * AttackNearestMobCommand constructor.
 	 */
 	public AttackNearestMobCommand() {
-		entityDistanceSorter = new EntityDistanceSorter();
-		discardMembersFilter = new DiscardTeamMembers();
-
 		Config configuration = getBassebombeCraft().getConfiguration();
 		targetDistance = configuration.getInt(CONFIG_KEY + ".TargetDistance");
 	}

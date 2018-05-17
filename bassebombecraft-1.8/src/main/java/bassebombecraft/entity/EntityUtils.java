@@ -3,8 +3,9 @@ package bassebombecraft.entity;
 import bassebombecraft.player.PlayerDirection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -76,6 +77,33 @@ public class EntityUtils {
 	}
 
 	/**
+	 * return true if entity is a {@linkplain EntityMob}.
+	 * 
+	 * @param entity
+	 *            entity to test.
+	 * 
+	 * @return true if entity is a {@linkplain EntityMob}.
+	 */
+	public static boolean isEntityMob(Entity entity) {
+		if (entity == null)
+			return false;
+		return entity instanceof EntityMob;
+	}	
+	
+	/**
+	 * return true if entity is a {@linkplain EntityLiving}.
+	 * 
+	 * @param entity
+	 *            entity to test.
+	 * 
+	 * @return true if entity is a {@linkplain EntityLiving}.
+	 */
+	public static boolean isEntityLiving(Entity entity) {
+		if (entity == null)
+			return false;
+		return entity instanceof EntityLiving;
+	}		
+	/**
 	 * Calculate entity feet position (as a Y coordinate).
 	 * 
 	 * @param entity
@@ -113,5 +141,5 @@ public class EntityUtils {
 		int direction = MathHelper.floor((double) ((entity.rotationYaw * 4F) / 360F) + 0.5D) & 3;
 		return PlayerDirection.getById(direction);
 	}
-	
+		
 }

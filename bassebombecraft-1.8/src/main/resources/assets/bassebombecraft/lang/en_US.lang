@@ -106,6 +106,7 @@ item.LlamaSpitIdolInventoryItem.name=Spitting Llama Idol
 item.EggProjectileIdolInventoryItem.name=EggsTerminator Idol
 item.MeteorIdolInventoryItem.name=Meteor Idol
 item.SaturationIdolInventoryItem.name=Big Belly Idol
+item.MobsAggroIdolInventoryItem.name=Rage Idol
 item.PvpIdolInventoryItem.name=Cracked Skull
 
 #blocks

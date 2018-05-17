@@ -33,5 +33,10 @@ public class MobEffects {
 	 * Primed mob potion, used by {@linkplain ShootBaconBazooka}.
 	 */
 	public static final Potion PRIMED_MOB_POTION = new MobPrimingPotion();
+
+	/**
+	 * Mobs aggro potion, used by {@linkplain MobsAggroIdolInventoryItem}.
+	 */
+	public static final Potion MOBS_AGGRO_POTION = new MobsAggroPotion();
 	
 }

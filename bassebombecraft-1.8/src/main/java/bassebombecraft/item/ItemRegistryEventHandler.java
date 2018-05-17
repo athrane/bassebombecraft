@@ -47,6 +47,7 @@ import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
 import bassebombecraft.item.inventory.LlamaSpitIdolInventoryItem;
 import bassebombecraft.item.inventory.MeteorIdolInventoryItem;
+import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.PinkynizeIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
 import bassebombecraft.item.inventory.RainIdolInventoryItem;
@@ -156,7 +157,8 @@ public class ItemRegistryEventHandler {
 			new LlamaSpitIdolInventoryItem(),
 			new EggProjectileIdolInventoryItem(),
 			new MeteorIdolInventoryItem(),
-			new SaturationIdolInventoryItem()
+			new SaturationIdolInventoryItem(),
+			new MobsAggroIdolInventoryItem()
 	};
 
 	/**
