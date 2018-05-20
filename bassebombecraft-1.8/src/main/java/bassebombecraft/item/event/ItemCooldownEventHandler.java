@@ -26,13 +26,6 @@ public class ItemCooldownEventHandler {
 	@SideOnly(Side.CLIENT)
 	public static void registerRenders(LivingEquipmentChangeEvent event) {
 		
-		System.out.println("event.entity="+event.getEntity());
-		System.out.println("event.entityliving="+event.getEntityLiving());
-		System.out.println("event.from="+event.getFrom());
-		System.out.println("event.to="+event.getTo());
-		System.out.println("event.result="+event.getResult());
-		System.out.println("event.slot="+event.getSlot());
-
 		// get item
 		ItemStack itemStack = event.getTo();
 		Item item = itemStack.getItem();
