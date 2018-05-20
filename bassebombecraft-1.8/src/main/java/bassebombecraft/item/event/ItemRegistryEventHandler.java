@@ -1,4 +1,4 @@
-package bassebombecraft.item;
+package bassebombecraft.item.event;
 
 import java.util.stream.Stream;
 
@@ -52,6 +52,7 @@ import bassebombecraft.item.inventory.PinkynizeIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
 import bassebombecraft.item.inventory.RainIdolInventoryItem;
 import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
+import bassebombecraft.item.inventory.ReaperIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
@@ -158,7 +159,8 @@ public class ItemRegistryEventHandler {
 			new EggProjectileIdolInventoryItem(),
 			new MeteorIdolInventoryItem(),
 			new SaturationIdolInventoryItem(),
-			new MobsAggroIdolInventoryItem()
+			new MobsAggroIdolInventoryItem(),
+			new ReaperIdolInventoryItem()
 	};
 
 	/**

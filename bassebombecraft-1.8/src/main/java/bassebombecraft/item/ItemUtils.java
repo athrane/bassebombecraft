@@ -1,6 +1,7 @@
 package bassebombecraft.item;
 
 import bassebombecraft.BassebombeCraft;
+import bassebombecraft.item.inventory.GenericInventoryItem;
 import net.minecraft.item.Item;
 
 /**
@@ -20,5 +21,19 @@ public class ItemUtils {
 		item.setUnlocalizedName(name);
 		item.setRegistryName(name);
 		item.setCreativeTab(BassebombeCraft.getCreativeTab());
+	}
+
+	/**
+	 * Returns true if object is a subclass of the
+	 * {@linkplain GenericInventoryItem}.
+	 * 
+	 * @param object
+	 *            to test.
+	 * @return true if object is a subclass of the
+	 *         {@linkplain GenericInventoryItem}.
+	 */
+	public static boolean isInventoryItem(Object object) {
+		Class<? extends Object> superClass = GenericInventoryItem.class;
+		return superClass.isAssignableFrom(object.getClass());
 	}
 }
