@@ -208,4 +208,13 @@ public class GenericInventoryItem extends Item {
 		tooltip.add(TextFormatting.GREEN + this.tooltip);
 	}
 		
+	/**
+	 * Return cooldown value for item.
+	 * 
+	 * @return cooldown value for item.
+	 */
+	public int getCoolDown() {
+		return coolDown;
+	}
+	
 }
