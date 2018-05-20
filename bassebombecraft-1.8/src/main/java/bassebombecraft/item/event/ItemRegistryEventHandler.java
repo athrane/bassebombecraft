@@ -46,6 +46,7 @@ import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
 import bassebombecraft.item.inventory.LlamaSpitIdolInventoryItem;
+import bassebombecraft.item.inventory.MassExtinctionEventIdolInventoryItem;
 import bassebombecraft.item.inventory.MeteorIdolInventoryItem;
 import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.PinkynizeIdolInventoryItem;
@@ -160,7 +161,8 @@ public class ItemRegistryEventHandler {
 			new MeteorIdolInventoryItem(),
 			new SaturationIdolInventoryItem(),
 			new MobsAggroIdolInventoryItem(),
-			new ReaperIdolInventoryItem()
+			new ReaperIdolInventoryItem(),
+			new MassExtinctionEventIdolInventoryItem()
 	};
 
 	/**

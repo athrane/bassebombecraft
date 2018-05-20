@@ -1,18 +1,20 @@
 package bassebombecraft.item.action.inventory;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
+
+import com.typesafe.config.Config;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
- * of inventory item actions. This class kill the invoker and destroys the idol.
+ * of inventory item actions. This class kill all entities and change the world into a wasteland.
  */
-public class KillInvokerAndDestroyIdol implements InventoryItemActionStrategy {
+public class MassExtinctionEvent implements InventoryItemActionStrategy {
 
 	/**
 	 * Particle rendering info
@@ -20,13 +22,20 @@ public class KillInvokerAndDestroyIdol implements InventoryItemActionStrategy {
 	ParticleRenderingInfo[] infos;
 
 	/**
+	 * Effect range.
+	 */
+	int range;
+	
+	/**
 	 * SpawnRain constructor
 	 * 
 	 * @param key
 	 *            configuration key to initialize particle rendering info from.
 	 */
-	public KillInvokerAndDestroyIdol(String key) {
+	public MassExtinctionEvent(String key) {
 		infos = createFromConfig(key);
+		Config configuration = getBassebombeCraft().getConfiguration();
+		range = configuration.getInt(key + ".Range");				
 	}
 
 	@Override
@@ -36,27 +45,21 @@ public class KillInvokerAndDestroyIdol implements InventoryItemActionStrategy {
 
 	@Override
 	public boolean shouldApplyEffect(Entity target, boolean targetIsInvoker) {
-		return targetIsInvoker;
+		if (targetIsInvoker)
+			return false;
+		return true;
 	}
 
 	@Override
 	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
-		
-		// destroy idol
-		Iterable<ItemStack> heldEquipment = invoker.getHeldEquipment();
-				
-		for (ItemStack equipment :  heldEquipment) {
-			int damage = equipment.getMaxDamage();
-			equipment.setItemDamage(damage);
-		}
-		
-		// kill target
-		invoker.onKillCommand();
+
+		// kill target		
+		target.onKillCommand();
 	}
 
 	@Override
 	public int getEffectRange() {
-		return 1; // Not a AOE effect
+		return range;
 	}
 
 	@Override
