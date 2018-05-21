@@ -1,4 +1,4 @@
-package bassebombecraft.item.event;
+package bassebombecraft.item.event.minecraftforge;
 
 import java.util.stream.Stream;
 
@@ -179,8 +179,14 @@ public class ItemRegistryEventHandler {
 			new TerminatorEyeItem()
 	};
 
+	/**
+	 * Handle {@linkplain RegistryEvent.Register<Item>} event
+	 * to register items with forge.
+	 * 
+	 * @param event to handle.
+	 */
 	@SubscribeEvent
-	public static void registerItems(RegistryEvent.Register<Item> event) {
+	public static void handleEvent(RegistryEvent.Register<Item> event) {
 		IForgeRegistry<Item> registry = event.getRegistry();
 		registry.registerAll(bookItems);	
 		registry.registerAll(inventoryItems);			
@@ -188,9 +194,15 @@ public class ItemRegistryEventHandler {
 		registry.registerAll(basicItems);			
 	}
 	
+	/**
+	 * Handle {@linkplain ModelRegistryEvent} event
+	 * to register models for rendering.
+	 * 
+	 * @param event to handle.
+	 */
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
-	public static void registerRenders(ModelRegistryEvent event) {
+	public static void handleEvent(ModelRegistryEvent event) {
 		Stream.of(bookItems).forEach(i -> registerModel(i));		
 		Stream.of(inventoryItems).forEach(i -> registerModel(i));		
 		Stream.of(batonItems).forEach(i -> registerModel(i));		

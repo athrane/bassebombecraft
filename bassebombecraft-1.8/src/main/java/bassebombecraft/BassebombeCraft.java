@@ -33,7 +33,7 @@ import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRenderingEventListener;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
-import bassebombecraft.item.event.ItemRegistryEventHandler;
+import bassebombecraft.item.event.minecraftforge.ItemRegistryEventHandler;
 import bassebombecraft.player.pvp.DefaultPvpRepository;
 import bassebombecraft.player.pvp.PvpEventListener;
 import bassebombecraft.player.pvp.PvpRepository;

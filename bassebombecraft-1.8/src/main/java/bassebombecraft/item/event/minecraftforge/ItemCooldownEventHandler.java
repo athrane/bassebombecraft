@@ -1,4 +1,4 @@
-package bassebombecraft.item.event;
+package bassebombecraft.item.event.minecraftforge;
 
 import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
 
@@ -22,9 +22,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ItemCooldownEventHandler {
 
 	
+	/**
+	 * Handle the {@linkplain LivingEquipmentChangeEvent} to implement 
+	 * reset of idol cooldown when equipped.
+	 * 
+	 * @param event the event to handle.
+	 */
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
-	public static void registerRenders(LivingEquipmentChangeEvent event) {
+	public static void handleEvent(LivingEquipmentChangeEvent event) {
 		
 		// get item
 		ItemStack itemStack = event.getTo();
