@@ -29,7 +29,6 @@ public class ItemCooldownEventHandler {
 	 * @param event the event to handle.
 	 */
 	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
 	public static void handleEvent(LivingEquipmentChangeEvent event) {
 		
 		// get item
