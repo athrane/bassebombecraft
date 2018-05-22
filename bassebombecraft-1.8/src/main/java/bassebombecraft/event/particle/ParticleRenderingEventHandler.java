@@ -4,46 +4,41 @@ import static bassebombecraft.world.WorldUtils.isWorldAtServerSide;
 
 import java.util.Random;
 
+import bassebombecraft.BassebombeCraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
-
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import static bassebombecraft.BassebombeCraft.*;
 /**
  * Event listener for rendering particles.
  * 
  * Particles are only rendered at client side.
  */
+@Mod.EventBusSubscriber
 public class ParticleRenderingEventListener {
 
+	/**
+	 * Rendering frequency.
+	 */
 	static final int RENDERING_FREQUENCY = 10; // Measured in world ticks
-	int ticksCounter = 0;
 
 	/**
-	 * Particle rendering repository.
+	 * Game ticks counter.
 	 */
-	ParticleRenderingRepository repository;
-
-	/**
-	 * Random generator.
-	 */
-	Random random = new Random();
-
-	/**
-	 * ParticleRenderingEventListener constructor.
-	 * 
-	 * @param repository
-	 *            particle rendering repository.
-	 */
-	public ParticleRenderingEventListener(ParticleRenderingRepository repository) {
-		super();
-		this.repository = repository;
-	}
+	static int ticksCounter = 0;
 
 	@SubscribeEvent
-	public void onPlayerTick(PlayerTickEvent event) {
+	@SideOnly(Side.CLIENT)
+	public static void onPlayerTick(PlayerTickEvent event) {
 		ticksCounter++;
+
+		// get repository
+		ParticleRenderingRepository repository = BassebombeCraft.getBassebombeCraft().getParticleRenderingRepository();
 
 		// update particle duration
 		repository.updateParticleDuration();
@@ -66,7 +61,7 @@ public class ParticleRenderingEventListener {
 			return;
 
 		// render particles
-		render(world);
+		render(world, repository);
 	}
 
 	/**
@@ -74,8 +69,10 @@ public class ParticleRenderingEventListener {
 	 * 
 	 * @param world
 	 *            world object.
+	 * @param repository
+	 *            particle rendering repository.
 	 */
-	void render(World world) {
+	static void render(World world, ParticleRenderingRepository repository) {
 
 		// get and render particles
 		ParticleRendering[] particles = repository.getParticles();
@@ -101,7 +98,7 @@ public class ParticleRenderingEventListener {
 	 * 
 	 * @return true if particle should be rendered with custom color.
 	 */
-	boolean renderWithCustomColor(ParticleRendering particle) {
+	static boolean renderWithCustomColor(ParticleRendering particle) {
 		EnumParticleTypes type = particle.getParticleType();
 		return (type == EnumParticleTypes.SPELL_MOB);
 	}
@@ -114,7 +111,7 @@ public class ParticleRenderingEventListener {
 	 * @param particle
 	 *            particle to render.
 	 */
-	void renderParticle(World world, ParticleRendering particle) {
+	static void renderParticle(World world, ParticleRendering particle) {
 		double speed = particle.getSpeed();
 		double d0 = calculateRandomSpeed(speed);
 		double d1 = calculateRandomSpeed(speed);
@@ -139,7 +136,8 @@ public class ParticleRenderingEventListener {
 	 * @param particle
 	 *            particle to render.
 	 */
-	void renderParticleWithCustomColor(World world, ParticleRendering particle) {
+	static void renderParticleWithCustomColor(World world, ParticleRendering particle) {
+		Random random = getBassebombeCraft().getRandom();
 		float r = particle.getRedColorComponent(random);
 		float g = particle.getGreenColorComponent(random);
 		float b = particle.getBlueColorComponent(random);
@@ -158,7 +156,8 @@ public class ParticleRenderingEventListener {
 	 * 
 	 * @return double between -PARTICLE_SPEED..PARTICLE_SPEED.
 	 */
-	double calculateRandomSpeed(double speed) {
+	static double calculateRandomSpeed(double speed) {
+		Random random = getBassebombeCraft().getRandom();		
 		return (random.nextDouble() * 2.0D - 1.0D) * speed;
 	}
 

@@ -9,6 +9,7 @@ import static bassebombecraft.config.VersionUtils.validateVersion;
 import static bassebombecraft.tab.CreativeTabFactory.createCreativeTab;
 
 import java.io.File;
+import java.util.Random;
 
 import org.apache.logging.log4j.Logger;
 
@@ -30,10 +31,9 @@ import bassebombecraft.event.charm.DefaultCharmedMobsRepository;
 import bassebombecraft.event.entity.team.DefaultTeamRepository;
 import bassebombecraft.event.entity.team.EntityTeamMembershipEventListener;
 import bassebombecraft.event.entity.team.TeamRepository;
+import bassebombecraft.event.item.ItemRegistryEventHandler;
 import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
-import bassebombecraft.event.particle.ParticleRenderingEventListener;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
-import bassebombecraft.item.event.minecraftforge.ItemRegistryEventHandler;
 import bassebombecraft.player.pvp.DefaultPvpRepository;
 import bassebombecraft.player.pvp.PvpEventListener;
 import bassebombecraft.player.pvp.PvpRepository;
@@ -136,6 +136,11 @@ public class BassebombeCraft {
 	 */
 	MinecraftServer server;
 
+	/**
+	 * Random generator
+	 */
+	static Random random = new Random();
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		logger = event.getModLog();
@@ -236,10 +241,6 @@ public class BassebombeCraft {
 		TemporaryBlockEventListener tempBlockEventListener = new TemporaryBlockEventListener(tempBlockRepository,
 				blockDirectivesRepository);
 		MinecraftForge.EVENT_BUS.register(tempBlockEventListener);
-
-		// Initialise particle rendering event listener
-		ParticleRenderingEventListener particleEventListener = new ParticleRenderingEventListener(particleRepository);
-		MinecraftForge.EVENT_BUS.register(particleEventListener);
 
 		// Initialise entity team membership event listener
 		EntityTeamMembershipEventListener teamEventListener = new EntityTeamMembershipEventListener(teamRepository);
@@ -401,4 +402,13 @@ public class BassebombeCraft {
 		return server;
 	}
 
+	/**
+	 * Get random generator.
+	 * 
+	 * @return random generator.
+	 */
+	public Random getRandom() {
+		return random; 
+	}
+	
 }
