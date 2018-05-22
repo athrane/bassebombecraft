@@ -1,4 +1,4 @@
-package bassebombecraft.item.event.minecraftforge;
+package bassebombecraft.event.item;
 
 import java.util.stream.Stream;
 

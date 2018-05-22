@@ -1,4 +1,4 @@
-package bassebombecraft.item.event.minecraftforge;
+package bassebombecraft.event.item;
 
 import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
 
@@ -12,8 +12,6 @@ import net.minecraft.util.CooldownTracker;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Event handler for handling reset of cool down when equipping idols.
