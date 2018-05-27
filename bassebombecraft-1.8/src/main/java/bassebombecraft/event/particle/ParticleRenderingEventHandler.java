@@ -1,10 +1,10 @@
 package bassebombecraft.event.particle;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.world.WorldUtils.isWorldAtServerSide;
 
 import java.util.Random;
 
-import bassebombecraft.BassebombeCraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
@@ -13,14 +13,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import static bassebombecraft.BassebombeCraft.*;
+
 /**
- * Event listener for rendering particles.
+ * Event handler for rendering particles.
  * 
  * Particles are only rendered at client side.
  */
 @Mod.EventBusSubscriber
-public class ParticleRenderingEventListener {
+public class ParticleRenderingEventHandler {
 
 	/**
 	 * Rendering frequency.
@@ -38,7 +38,7 @@ public class ParticleRenderingEventListener {
 		ticksCounter++;
 
 		// get repository
-		ParticleRenderingRepository repository = BassebombeCraft.getBassebombeCraft().getParticleRenderingRepository();
+		ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
 
 		// update particle duration
 		repository.updateParticleDuration();

@@ -7,6 +7,7 @@ import static bassebombecraft.entity.ai.AiUtils.clearAiTasks;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -68,6 +69,11 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	@Override
 	public boolean contains(EntityLiving entity) {
 		return charmedMobs.containsKey(entity);
+	}
+	
+	@Override
+	public Stream<CharmedMob> getCharmedMobs() {
+		return charmedMobs.entrySet().stream().map(e -> e.getValue());
 	}
 
 	/**

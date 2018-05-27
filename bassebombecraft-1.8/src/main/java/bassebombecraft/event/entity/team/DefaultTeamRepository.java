@@ -4,8 +4,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import java.util.stream.Stream;
 
 import bassebombecraft.player.PlayerUtils;
 import net.minecraft.entity.EntityLivingBase;
@@ -49,6 +48,11 @@ public class DefaultTeamRepository implements TeamRepository {
 
 	}
 
+	/**
+	 * Null member stream.
+	 */
+	final static Set<EntityLivingBase> nullMembersSet = new HashSet<EntityLivingBase>();
+	
 	/**
 	 * Teams.
 	 */
@@ -180,6 +184,16 @@ public class DefaultTeamRepository implements TeamRepository {
 			return false;
 
 		return team.equals(team2);
+	}
+
+	
+	@Override
+	public Stream<EntityLivingBase> getTeamMembers(EntityPlayer commander) {
+		if(!teamExists(commander)) return nullMembersSet.stream();			
+
+		// get team
+		Team team = teams.get(commander);				
+		return team.members.stream();
 	}
 
 	/**

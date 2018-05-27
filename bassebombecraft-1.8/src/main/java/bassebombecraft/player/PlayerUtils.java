@@ -1,5 +1,7 @@
 package bassebombecraft.player;
 
+import static net.minecraft.client.Minecraft.getMinecraft;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -63,15 +65,17 @@ public class PlayerUtils {
 	 * @return player eye position.
 	 */
 	public static Vec3d getPlayerEyePos(EntityPlayer player) {
-		Vec3d eyePosition = new Vec3d(player.posX, player.posY + (player.getEntityWorld().isRemote
-				? player.getEyeHeight() - player.getDefaultEyeHeight() : player.getEyeHeight()), player.posZ);
+		Vec3d eyePosition = new Vec3d(player.posX,
+				player.posY + (player.getEntityWorld().isRemote ? player.getEyeHeight() - player.getDefaultEyeHeight()
+						: player.getEyeHeight()),
+				player.posZ);
 
 		return eyePosition;
 	}
 
 	/**
-	 * Return player direction as an integer between 0 to 3: 0 when looking
-	 * south, 1 when looking West, 2 looking North and 3 looking East.
+	 * Return player direction as an integer between 0 to 3: 0 when looking south, 1
+	 * when looking West, 2 looking North and 3 looking East.
 	 * 
 	 * @param player
 	 *            player object.
@@ -97,8 +101,8 @@ public class PlayerUtils {
 	}
 
 	/**
-	 * Returns true if entities has identical unique ID's. Returns false if
-	 * either entity is null.
+	 * Returns true if entities has identical unique ID's. Returns false if either
+	 * entity is null.
 	 * 
 	 * @param e1
 	 *            entity one to test.
@@ -156,9 +160,45 @@ public class PlayerUtils {
 	 * Get player UID at client side.
 	 * 
 	 * @return player UID.
-	 */		
+	 */
 	public static String getClientSidePlayerUId() {
 		return Minecraft.getMinecraft().getSession().getUsername();
 	}
 
+	/**
+	 * Calculate player position
+	 * 
+	 * @param player
+	 *            player
+	 * @param partialTicks
+	 *            partial ticks.
+	 * 
+	 * @return player position.
+	 */
+	public static Vec3d CalculatePlayerPosition(EntityPlayer player, float partialTicks) {
+		double doubleX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
+		double doubleY = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
+		double doubleZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
+		return new Vec3d(doubleX, doubleY, doubleZ);
+	}
+
+	/**
+	 * Returns true if player is defined in Minecraft.
+	 * 
+	 * @return true if player is defined in Minecraft.
+	 */
+	public static boolean isPlayerDefined() {
+		return (getMinecraft().player != null);
+	}
+
+	/**
+	 * Returns player from Minecraft.
+	 * 
+	 * @return player from Minecraft.
+	 */
+	public static EntityPlayer getPlayer() {
+		if(!isPlayerDefined()) return null;
+		return Minecraft.getMinecraft().player;
+	}
+	
 }

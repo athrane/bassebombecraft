@@ -10,6 +10,7 @@ import java.util.Random;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
+import bassebombecraft.geom.GeometryUtils;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -45,6 +46,11 @@ public class GenericEntityMist implements RightClickedItemAction {
 	static final int INVOCATION_DIST = 4;
 
 	/**
+	 * Spiral size.
+	 */
+	static final int SPIRAL_SIZE = 20;
+	
+	/**
 	 * Random generator.
 	 */
 	static Random random = new Random();
@@ -54,6 +60,11 @@ public class GenericEntityMist implements RightClickedItemAction {
 	 */
 	int ticksCounter = 0;
 
+	/**
+	 * Spiral coordinates.
+	 */
+	List<BlockPos> spiralCoordinates;
+	
 	/**
 	 * Mist position.
 	 */
@@ -87,6 +98,9 @@ public class GenericEntityMist implements RightClickedItemAction {
 	 */
 	public GenericEntityMist(EntityMistActionStrategy strategy) {
 		this.strategy = strategy;
+		
+		// calculate spiral
+		spiralCoordinates = GeometryUtils.calculateSpiral(SPIRAL_SIZE, SPIRAL_SIZE);		
 	}
 
 	@Override
@@ -215,7 +229,22 @@ public class GenericEntityMist implements RightClickedItemAction {
 			ParticleRendering particle = getInstance(pos, info);
 			particleRepository.add(particle);
 		}
+		
+		// calculate spiral index
+		int spiralCounter = ( ticksCounter / RENDERING_FREQUENCY ) % SPIRAL_SIZE;
+		
+		// get next spiral coordinate
+		BlockPos spiralCoord = spiralCoordinates.get(spiralCounter);
 
+		// calculate ground coordinates
+		BlockPos pos2 = pos.add(spiralCoord.getX(), 0, spiralCoord.getZ());
+
+		// iterate over rendering info's
+		for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
+			ParticleRendering particle = getInstance(pos2, info);
+			particleRepository.add(particle);
+		}
+		
 	}
 
 	@Override

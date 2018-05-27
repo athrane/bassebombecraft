@@ -1,5 +1,6 @@
 package bassebombecraft;
 
+import bassebombecraft.item.basic.HudItem;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 
@@ -202,5 +203,7 @@ public class ModConstants {
 	 * Mod structure world generator weight.
 	 */
 	static final int MOD_STRUCUTRE_GENERATOR_WEIGHT = 1;
+
+	public static final HudItem TARGETING_OVERLAY_ITEM = new HudItem();
 
 }

@@ -3,7 +3,7 @@ package bassebombecraft.item.basic;
 import bassebombecraft.item.action.NullRightClickedItemAction;
 
 /**
- * Book of bacon bazooka implementation.
+ * Terminator eye implementation.
  */
 public class TerminatorEyeItem extends GenericNullItem {
 

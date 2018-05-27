@@ -49,6 +49,7 @@ import bassebombecraft.item.inventory.LlamaSpitIdolInventoryItem;
 import bassebombecraft.item.inventory.MassExtinctionEventIdolInventoryItem;
 import bassebombecraft.item.inventory.MeteorIdolInventoryItem;
 import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
+import bassebombecraft.item.inventory.MobsLevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.PinkynizeIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
 import bassebombecraft.item.inventory.RainIdolInventoryItem;
@@ -162,7 +163,8 @@ public class ItemRegistryEventHandler {
 			new SaturationIdolInventoryItem(),
 			new MobsAggroIdolInventoryItem(),
 			new ReaperIdolInventoryItem(),
-			new MassExtinctionEventIdolInventoryItem()
+			new MassExtinctionEventIdolInventoryItem(),
+			new MobsLevitationIdolInventoryItem()
 	};
 
 	/**
@@ -176,7 +178,8 @@ public class ItemRegistryEventHandler {
 	 * The set of basic items.
 	 */	
 	static Item[] basicItems = {
-			new TerminatorEyeItem()
+			new TerminatorEyeItem(),
+			ModConstants.TARGETING_OVERLAY_ITEM
 	};
 
 	/**

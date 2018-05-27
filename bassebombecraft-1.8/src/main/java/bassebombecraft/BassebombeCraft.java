@@ -25,11 +25,9 @@ import bassebombecraft.event.block.ProcessBlockDirectivesEventListener;
 import bassebombecraft.event.block.temporary.DefaultTemporaryBlockRepository;
 import bassebombecraft.event.block.temporary.TemporaryBlockEventListener;
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
-import bassebombecraft.event.charm.CharmedMobEventListener;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.charm.DefaultCharmedMobsRepository;
 import bassebombecraft.event.entity.team.DefaultTeamRepository;
-import bassebombecraft.event.entity.team.EntityTeamMembershipEventListener;
 import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.item.ItemRegistryEventHandler;
 import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
@@ -215,7 +213,7 @@ public class BassebombeCraft {
 		m.modId = NAME;
 		m.version = VERSION;
 		m.name = NAME;
-		m.description = "A collection of 64+ magical books, idols and blocks for adventuring and construction. The magic needed by BasseBombe when he plays Minecraft.";
+		m.description = "A collection of 80+ magical books, idols and blocks for adventuring and construction. The magic needed by BasseBombe when he plays Minecraft.";
 		m.authorList.add("einheriii@gmail.com");
 		m.logoFile = "assets/bassebombecraft/logo/logo.png";
 		m.url = DOWNLOAD_URL;
@@ -225,12 +223,8 @@ public class BassebombeCraft {
 	/**
 	 * Initialize event listeners.
 	 */
+	@Deprecated
 	void initializeEventListeners() {
-
-		// Initialise charmed mobs event listener
-		CharmedMobEventListener mobsEventListener = new CharmedMobEventListener(charmedMobsRepository,
-				particleRepository);
-		MinecraftForge.EVENT_BUS.register(mobsEventListener);
 
 		// Initialise process block directives event listener
 		ProcessBlockDirectivesEventListener directivesEventListener = new ProcessBlockDirectivesEventListener(
@@ -241,10 +235,6 @@ public class BassebombeCraft {
 		TemporaryBlockEventListener tempBlockEventListener = new TemporaryBlockEventListener(tempBlockRepository,
 				blockDirectivesRepository);
 		MinecraftForge.EVENT_BUS.register(tempBlockEventListener);
-
-		// Initialise entity team membership event listener
-		EntityTeamMembershipEventListener teamEventListener = new EntityTeamMembershipEventListener(teamRepository);
-		MinecraftForge.EVENT_BUS.register(teamEventListener);
 
 		// Initialise PVP event listener
 		PvpEventListener pvpEventListener = new PvpEventListener(pvpRepository);

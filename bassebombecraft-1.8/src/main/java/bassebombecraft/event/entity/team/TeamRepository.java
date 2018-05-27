@@ -1,5 +1,7 @@
 package bassebombecraft.event.entity.team;
 
+import java.util.stream.Stream;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -77,4 +79,11 @@ public interface TeamRepository {
 	 */	
 	public boolean isTeamMembers(EntityLivingBase entity, EntityLivingBase entity2);
 
+	/**
+	 * Get stream of team members.
+	 * 
+	 * @return stream of team members.
+	 */
+	public Stream<EntityLivingBase> getTeamMembers(EntityPlayer commander);
+	
 }

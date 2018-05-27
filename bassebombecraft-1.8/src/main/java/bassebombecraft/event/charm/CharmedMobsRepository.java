@@ -1,5 +1,7 @@
 package bassebombecraft.event.charm;
 
+import java.util.stream.Stream;
+
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 
@@ -44,5 +46,12 @@ public interface CharmedMobsRepository {
 	 * @return true if mob is already charmed.
 	 */
 	public boolean contains(EntityLiving entity);
+
+	/**
+	 * Get stream of charmed mobs.
+	 * 
+	 * @return stream of charmed mobs
+	 */
+	public Stream<CharmedMob> getCharmedMobs();
 
 }

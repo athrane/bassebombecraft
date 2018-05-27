@@ -1,6 +1,5 @@
 package bassebombecraft.event.charm;
 
-import java.util.List;
 import java.util.Set;
 
 import net.minecraft.entity.EntityLiving;
