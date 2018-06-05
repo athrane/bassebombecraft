@@ -7,6 +7,7 @@ import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
 import java.util.List;
 import java.util.Random;
 
+import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
@@ -138,6 +139,10 @@ public class GenericEntityMist implements RightClickedItemAction {
 
 			// apply effect
 			strategy.applyEffectToEntity(foundEntity, mistPos, invokingEntity);
+			
+			// add entity as a targeted entity
+			TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
+			repository.add(foundEntity);			
 
 			// exit if strategy is one shot effect
 			if (strategy.isOneShootEffect()) {

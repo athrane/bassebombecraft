@@ -17,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 
 import bassebombecraft.event.charm.CharmedMob;
 import bassebombecraft.event.charm.CharmedMobsRepository;
+import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
@@ -88,13 +89,15 @@ public class RenderingEventHandler {
 		// renderParticles(playerPos);
 		renderCharmedEntities(playerPos);
 		renderTeamEntities(player, playerPos);
+		renderTargetedEntities(player, playerPos);
+		
 	}
 
 	static void renderCharmedEntities(Vec3d playerPos) {
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
 				
-		// get charmed mobs
-		Stream<CharmedMob> charmed = repository.getCharmedMobs();
+		// get entities
+		Stream<CharmedMob> charmed = repository.get();
 		charmed.forEach(e -> renderCharmedEntity(e.getEntity(), playerPos));
 	}
 
@@ -106,14 +109,28 @@ public class RenderingEventHandler {
 	static void renderTeamEntities(EntityPlayer player, Vec3d playerPos) {
 		TeamRepository repository = getBassebombeCraft().getTeamRepository();
 				
-		// get team members
-		Stream<EntityLivingBase> members = repository.getTeamMembers(player);
+		// get entities
+		Stream<EntityLivingBase> members = repository.get(player);
 		members.forEach(e -> renderTeamEntity(e, playerPos));
 	}
 	
 	static void renderTeamEntity(EntityLivingBase e, Vec3d playerPos) {
 		Vec3d entityPos = e.getEntityBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);	
+	}
+
+	static void renderTargetedEntities(EntityPlayer player, Vec3d playerPos) {
+		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
+				
+		// get entities
+		Stream<EntityLivingBase> members = repository.get(player);
+		members.forEach(e -> renderTargetedEntity(e, playerPos));
+	}
+
+	static void renderTargetedEntity(EntityLivingBase e, Vec3d playerPos) {
+		Vec3d entityPos = e.getEntityBoundingBox().getCenter();
+		renderBillboardOrgin(playerPos, entityPos);
+		renderRectangleBillboard(playerPos, entityPos);
 	}
 	
 	/**
@@ -162,7 +179,7 @@ public class RenderingEventHandler {
 	/**
 	 * Render a rectangle billboard centered at origin.
 	 */
-	static void renderBillboardRect(Vec3d playerPos, Vec3d entityPos) {			    	    
+	static void renderRectangleBillboard(Vec3d playerPos, Vec3d entityPos) {			    	    
 		setupBillboardRendering();
 		
 		// set line width & color

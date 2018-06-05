@@ -93,10 +93,6 @@ public class DefaultTeamRepository implements TeamRepository {
 
 		// add to team
 		team.members.add(entity);
-
-		// DEBUG
-		isMember(commander, entity);
-
 	}
 
 	@Override
@@ -188,7 +184,7 @@ public class DefaultTeamRepository implements TeamRepository {
 
 	
 	@Override
-	public Stream<EntityLivingBase> getTeamMembers(EntityPlayer commander) {
+	public Stream<EntityLivingBase> get(EntityPlayer commander) {
 		if(!teamExists(commander)) return nullMembersSet.stream();			
 
 		// get team

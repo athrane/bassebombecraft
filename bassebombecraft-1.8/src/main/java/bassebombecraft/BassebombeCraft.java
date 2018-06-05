@@ -27,6 +27,8 @@ import bassebombecraft.event.block.temporary.TemporaryBlockEventListener;
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.charm.DefaultCharmedMobsRepository;
+import bassebombecraft.event.entity.target.DefaultTargetedEntitiesRepository;
+import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.event.entity.team.DefaultTeamRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.item.ItemRegistryEventHandler;
@@ -125,6 +127,11 @@ public class BassebombeCraft {
 	TeamRepository teamRepository;
 
 	/**
+	 * Targeted entities repository.
+	 */
+	TargetedEntitiesRepository targetedEntitiesRepository;	
+	
+	/**
 	 * Mod configuration.
 	 */
 	Config config;
@@ -166,6 +173,9 @@ public class BassebombeCraft {
 		// initialise team repository
 		teamRepository = DefaultTeamRepository.getInstance();
 
+		// initialise targeted entities repository
+		targetedEntitiesRepository = DefaultTargetedEntitiesRepository.getInstance();
+		
 		// Initialise PVP repository
 		pvpRepository = DefaultPvpRepository.getInstance();
 
@@ -321,6 +331,15 @@ public class BassebombeCraft {
 		return teamRepository;
 	}
 
+	/**
+	 * Get targeted entities repository.
+	 * 
+	 * @return targeted entities repository.
+	 */
+	public TargetedEntitiesRepository getTargetedEntitiesRepository() {
+		return targetedEntitiesRepository;
+	}
+		
 	/**
 	 * Get mod configuration.
 	 * 

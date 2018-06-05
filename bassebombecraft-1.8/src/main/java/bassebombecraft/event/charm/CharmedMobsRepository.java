@@ -52,6 +52,6 @@ public interface CharmedMobsRepository {
 	 * 
 	 * @return stream of charmed mobs
 	 */
-	public Stream<CharmedMob> getCharmedMobs();
+	public Stream<CharmedMob> get();
 
 }

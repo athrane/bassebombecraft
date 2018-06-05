@@ -84,6 +84,6 @@ public interface TeamRepository {
 	 * 
 	 * @return stream of team members.
 	 */
-	public Stream<EntityLivingBase> getTeamMembers(EntityPlayer commander);
+	public Stream<EntityLivingBase> get(EntityPlayer commander);
 	
 }

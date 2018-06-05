@@ -72,7 +72,7 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	}
 	
 	@Override
-	public Stream<CharmedMob> getCharmedMobs() {
+	public Stream<CharmedMob> get() {
 		return charmedMobs.entrySet().stream().map(e -> e.getValue());
 	}
 
