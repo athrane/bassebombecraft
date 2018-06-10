@@ -3,7 +3,7 @@
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
 		{
-			"item": "minecraft:clay"
+			"item": "minecraft:clay_ball"
 		},
 		{
 			"item": "minecraft:iron_hoe",
