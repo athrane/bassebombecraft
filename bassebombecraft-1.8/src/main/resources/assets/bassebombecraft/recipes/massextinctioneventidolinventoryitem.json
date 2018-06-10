@@ -5,9 +5,31 @@
 			"item": "minecraft:clay_ball"
 		},
 		{
-			"item": "minecraft:golden_apple",
+			"item": "minecraft:lava_bucket"
+		},
+		{
+			"item": "minecraft:water_bucket"
+		},
+		{
+			"item": "minecraft:end_stone"
+		},
+		{
+			"item": "minecraft:packed_ice"
+		},
+		{
+			"item": "minecraft:piston"
+		},		
+		{
+			"item": "minecraft:fish",
 			"data": 1
-		}
+		},
+		{
+			"item": "minecraft:nether_star"
+		},		
+		{
+			"item": "minecraft:stone",
+			"data": 0			
+		}				
 	],
 	"result": {
 		"item": "bassebombecraft:MassExtinctionEventIdolInventoryItem"
