@@ -1,5 +1,6 @@
 package bassebombecraft.event.charm;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.ai.AiUtils.assignAiTargetTasks;
 import static bassebombecraft.entity.ai.AiUtils.assignAiTasks;
 import static bassebombecraft.entity.ai.AiUtils.buildCharmedMobAi;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
+import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 
@@ -27,6 +29,15 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	@Override
 	public void add(EntityLiving entity, EntityLivingBase commander) {
 
+		// exist if entity is team member
+		TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
+		if(teamRepository.isMember(commander, entity)) {
+			System.out.println(entity);
+			System.out.println(commander);
+			System.out.println("...was member of team and hence not charmed.");
+			return;
+		}
+		
 		// create charmed mob container
 		CharmedMob charmedMob = new CharmedMob(entity, EFFECT_DURATION);
 

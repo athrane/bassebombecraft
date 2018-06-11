@@ -65,7 +65,7 @@ public interface TeamRepository {
 	 * 
 	 * @return true if entity is member of team.
 	 */
-	public boolean isMember(EntityPlayer commander, EntityLivingBase entity);
+	public boolean isMember(EntityLivingBase commander, EntityLivingBase entity);
 
 	/**
 	 * Returns true if entities are members of the same team.

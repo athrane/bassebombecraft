@@ -148,7 +148,7 @@ public class DefaultTeamRepository implements TeamRepository {
 	}
 
 	@Override
-	public boolean isMember(EntityPlayer commander, EntityLivingBase entity) {
+	public boolean isMember(EntityLivingBase commander, EntityLivingBase entity) {
 		if (commander == null)
 			return false;
 		if (entity == null)
