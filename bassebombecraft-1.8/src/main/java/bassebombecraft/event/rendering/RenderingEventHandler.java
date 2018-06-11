@@ -9,6 +9,7 @@ import static bassebombecraft.rendering.RenderingUtils.setupBillboardRendering;
 import static bassebombecraft.rendering.RenderingUtils.setupBillboardRotation;
 
 import java.awt.Color;
+import java.util.Random;
 import java.util.stream.Stream;
 
 import javax.vecmath.Vector4f;
@@ -21,6 +22,7 @@ import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -42,7 +44,43 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @Mod.EventBusSubscriber
 public class RenderingEventHandler {
 
-	static int testCounter = 0 ;
+	static int testCounter = 0 ;	
+	static Random random = new Random();
+
+	/**
+	 * Text color.
+	 */
+	static final int TEXT_COLOR = 0xFFFFFF;
+
+	/**
+	 * Text scale
+	 */
+	static final float TEXT_SCALE = 0.03F;		
+
+	/**
+	 * Charmed label.
+	 */
+	static final String CHARMED_LABEL = "Charmed";
+	
+	/**
+	 * Team label.
+	 */	
+	static final String TEAM_LABEL = "Team";			
+
+	/**
+	 * Team target label.
+	 */	
+	static final String TARGET_LABEL = "Target";			
+	
+	/**
+	 * Angle for rotation of text billboard.
+	 */
+	static final int TEXT_BILLBOARD_ANGLE = 180;
+
+	/**
+	 * Rotation of text billboard.
+	 */	
+	static final Vector4f TEXT_BILLBOARD_ROTATION = new Vector4f(0.0F,0.0F,1.0F,TEXT_BILLBOARD_ANGLE);
 	
 	/**
 	 * Angle for rotation of billboard for triangle for rendering 
@@ -104,6 +142,7 @@ public class RenderingEventHandler {
 	static void renderCharmedEntity(EntityLiving entity, Vec3d playerPos) {
 		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);
+		renderTextBillboard(playerPos, entityPos, CHARMED_LABEL, TEXT_BILLBOARD_ROTATION);		
 	}
 
 	static void renderTeamEntities(EntityPlayer player, Vec3d playerPos) {
@@ -114,9 +153,10 @@ public class RenderingEventHandler {
 		members.forEach(e -> renderTeamEntity(e, playerPos));
 	}
 	
-	static void renderTeamEntity(EntityLivingBase e, Vec3d playerPos) {
-		Vec3d entityPos = e.getEntityBoundingBox().getCenter();
+	static void renderTeamEntity(EntityLivingBase entity, Vec3d playerPos) {
+		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();		
 		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);	
+		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
 	}
 
 	static void renderTargetedEntities(EntityPlayer player, Vec3d playerPos) {
@@ -131,6 +171,37 @@ public class RenderingEventHandler {
 		Vec3d entityPos = e.getEntityBoundingBox().getCenter();
 		renderBillboardOrgin(playerPos, entityPos);
 		renderRectangleBillboard(playerPos, entityPos);
+		renderTextBillboard(playerPos, entityPos, TARGET_LABEL, TEXT_BILLBOARD_ROTATION);		
+	}
+	
+	/**
+	 * Render text at origin.
+	 */
+	static void renderTextBillboard(Vec3d playerPos, Vec3d entityPos, String text, Vector4f rotation) {			    	    
+		setupBillboardRendering();
+
+		// get minecraft
+		Minecraft mc = Minecraft.getMinecraft();
+						
+		// enable for rendering of text
+		GlStateManager.enableTexture2D();
+		
+		// translate to camera position 
+		GlStateManager.translate(entityPos.x-playerPos.x, entityPos.y-playerPos.y, entityPos.z-playerPos.z);		
+				
+		// set up billboard rotation
+		setupBillboardRotation();
+		
+		// scale text
+		GlStateManager.scale(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
+		
+		// add addition rotation 
+		GlStateManager.rotate(rotation.w, rotation.x, rotation.y, rotation.z);		
+		
+		// draw
+		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
+				
+		resetBillboardRendering();		
 	}
 	
 	/**
