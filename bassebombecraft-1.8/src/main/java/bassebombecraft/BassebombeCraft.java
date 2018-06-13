@@ -21,7 +21,6 @@ import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.block.DefaultBlockDirectiveRepository;
-import bassebombecraft.event.block.ProcessBlockDirectivesEventListener;
 import bassebombecraft.event.block.temporary.DefaultTemporaryBlockRepository;
 import bassebombecraft.event.block.temporary.TemporaryBlockEventListener;
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
@@ -235,11 +234,6 @@ public class BassebombeCraft {
 	 */
 	@Deprecated
 	void initializeEventListeners() {
-
-		// Initialise process block directives event listener
-		ProcessBlockDirectivesEventListener directivesEventListener = new ProcessBlockDirectivesEventListener(
-				blockDirectivesRepository, particleRepository);
-		MinecraftForge.EVENT_BUS.register(directivesEventListener);
 
 		// Initialise temporary block event listener
 		TemporaryBlockEventListener tempBlockEventListener = new TemporaryBlockEventListener(tempBlockRepository,

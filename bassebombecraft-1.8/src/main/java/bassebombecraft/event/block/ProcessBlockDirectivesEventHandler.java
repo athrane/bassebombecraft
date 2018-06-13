@@ -1,10 +1,10 @@
 package bassebombecraft.event.block;
 
-import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
-
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.block.BlockUtils.createBlock;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import java.util.Random;
 
@@ -15,21 +15,23 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.WorldQueryImpl;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 /**
- * Event listener for processing of {@linkplain BlockDirective}.
+ * Event handler for processing of {@linkplain BlockDirective}.
  * 
  * Directives are only processed at server side.
  * 
  * When a directive is processed a particle is registered for rendering using
  * the {@linkplain ParticleRenderingRepository}.
  */
-public class ProcessBlockDirectivesEventListener {
+@Mod.EventBusSubscriber
+public class ProcessBlockDirectivesEventHandler {
 
 	static final float R = 1.0F;
 	static final float G = 1.0F;
@@ -45,41 +47,18 @@ public class ProcessBlockDirectivesEventListener {
 	static final BlockPos NULL_POSITION = null; // NULL block position.
 
 	/**
-	 * Block directives repository.
-	 */
-	BlockDirectivesRepository directivesRepository;
-
-	/**
-	 * Particle rendering repository.
-	 */
-	ParticleRenderingRepository particleRepository;
-
-	/**
 	 * Random generator.
 	 */
 	Random random = new Random();
 
-	/**
-	 * ProcessBlockDirectiveEventListener constructor.
-	 * 
-	 * @param directivesRepository
-	 *            block directives repository.
-	 * @param particleRepository
-	 *            particle rendering repository.
-	 * 
-	 */
-	public ProcessBlockDirectivesEventListener(BlockDirectivesRepository directivesRepository,
-			ParticleRenderingRepository particleRepository) {
-		super();
-		this.directivesRepository = directivesRepository;
-		this.particleRepository = particleRepository;
-	}
-
 	@SubscribeEvent
-	public void onPlayerTick(PlayerTickEvent event) throws Exception {
+	public void handleEvent(PlayerTickEvent event) throws Exception {
+		
+		// get repository
+		BlockDirectivesRepository repository = getBassebombeCraft().getBlockDirectivesRepository();
 
 		// exit if no directives are waiting to be processed.
-		if (!directivesRepository.containsDirectives())
+		if (!repository.containsDirectives())
 			return;
 
 		// get world
@@ -109,7 +88,11 @@ public class ProcessBlockDirectivesEventListener {
 	 *             if processing fails.
 	 */
 	void processDirective(World world, WorldQueryImpl worldQuery) throws Exception {
-
+		
+		// get repositories		
+		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
+		ParticleRenderingRepository particleRepository = getBassebombeCraft().getParticleRenderingRepository();
+		
 		while (directivesRepository.containsDirectives()) {
 
 			// get directive
