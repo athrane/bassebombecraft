@@ -1,6 +1,8 @@
 package bassebombecraft.event.entity.team;
 
 import java.util.HashSet;
+
+
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,7 +11,7 @@ import java.util.stream.Stream;
 import bassebombecraft.player.PlayerUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-
+import java.util.*;
 /**
  * Default implementation of the {@linkplain TeamRepository}.
  */
@@ -38,7 +40,7 @@ public class DefaultTeamRepository implements TeamRepository {
 		/**
 		 * Team members.
 		 */
-		Set<EntityLivingBase> members = new HashSet<EntityLivingBase>();
+		Set<EntityLivingBase> members = Collections.synchronizedSet(new HashSet<EntityLivingBase>());				
 
 		@Override
 		public boolean equals(Object obj) {

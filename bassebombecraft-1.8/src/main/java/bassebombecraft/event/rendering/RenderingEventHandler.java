@@ -157,6 +157,13 @@ public class RenderingEventHandler {
 		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();		
 		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);	
 		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
+		
+		// render target
+		EntityLivingBase target = entity.getLastAttackedEntity();
+		if(target== null) return;
+		if(target.isDead) return;
+		System.out.println(target);
+		renderTargetedEntity(target, playerPos);
 	}
 
 	static void renderTargetedEntities(EntityPlayer player, Vec3d playerPos) {
