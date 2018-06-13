@@ -202,8 +202,26 @@ public class ModConstants {
 	/**
 	 * Mod structure world generator weight.
 	 */
-	static final int MOD_STRUCUTRE_GENERATOR_WEIGHT = 1;
+	public static final int MOD_STRUCUTRE_GENERATOR_WEIGHT = 1;
 
+	/**
+	 * HUD Item.
+	 */
 	public static final HudItem TARGETING_OVERLAY_ITEM = new HudItem();
+
+	/**
+	 * Rendering frequency. Measured in world ticks.
+	 */
+	public static final int RENDERING_FREQUENCY = 10; 
+
+	/**
+	 * Particle spawn frequency in {@linkplain ParticleRenderingEventHandler}. Measured in world ticks.
+	 */
+	public static final int SPAWN_PARTICLES_FREQUENCY = 40;
+
+	/**
+	 * Number of processed blocks per game tick in {@linkplain ProcessBlockDirectivesEventHandler}. 
+	 */
+	public static final int BLOCKS_PER_TICK = 3;
 
 }

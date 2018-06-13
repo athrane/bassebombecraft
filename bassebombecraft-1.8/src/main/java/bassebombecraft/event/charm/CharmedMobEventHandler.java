@@ -1,6 +1,7 @@
 package bassebombecraft.event.charm;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.SPAWN_PARTICLES_FREQUENCY;
 import static bassebombecraft.entity.EntityUtils.isEntityLiving;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
@@ -33,8 +34,6 @@ public class CharmedMobEventHandler {
 	static final double PARTICLE_SPEED = 0.3;
 	static final ParticleRenderingInfo PARTICLE_INFO = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R,
 			G, B, PARTICLE_SPEED);
-
-	static final int SPAWN_PARTICLES_FREQUENCY = 40; // Measured in world ticks
 
 	/**
 	 * Game ticks counter.

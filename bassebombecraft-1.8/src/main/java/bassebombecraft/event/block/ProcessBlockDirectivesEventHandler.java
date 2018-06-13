@@ -1,12 +1,11 @@
 package bassebombecraft.event.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.BLOCKS_PER_TICK;
 import static bassebombecraft.block.BlockUtils.createBlock;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
-
-import java.util.Random;
 
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
@@ -21,7 +20,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
-
 /**
  * Event handler for processing of {@linkplain BlockDirective}.
  * 
@@ -43,13 +41,7 @@ public class ProcessBlockDirectivesEventHandler {
 	static final ParticleRenderingInfo PARTICLE_INFO = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R,
 			G, B, PARTICLE_SPEED);
 
-	static final int BLOCKS_PER_TICK = 3; // Measured in world ticks
 	static final BlockPos NULL_POSITION = null; // NULL block position.
-
-	/**
-	 * Random generator.
-	 */
-	Random random = new Random();
 
 	@SubscribeEvent
 	public void handleEvent(PlayerTickEvent event) throws Exception {

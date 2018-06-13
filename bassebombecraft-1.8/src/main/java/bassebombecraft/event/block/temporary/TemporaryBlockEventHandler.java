@@ -16,9 +16,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 @Mod.EventBusSubscriber
 public class TemporaryBlockEventHandler {
 
-	static final int RENDERING_FREQUENCY = 10; // Measured in world ticks
-	int ticksCounter = 0;
-
 	/**
 	 * Block directives repository.
 	 */
@@ -31,7 +28,6 @@ public class TemporaryBlockEventHandler {
 
 	@SubscribeEvent
 	public void handleEvent(PlayerTickEvent event) {		
-		ticksCounter++;
 		
 		// get repositories		
 		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();

@@ -1,6 +1,7 @@
 package bassebombecraft.event.particle;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.RENDERING_FREQUENCY;
 import static bassebombecraft.world.WorldUtils.isWorldAtServerSide;
 
 import java.util.Random;
@@ -13,7 +14,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 /**
  * Event handler for rendering particles.
  * 
@@ -21,11 +21,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
  */
 @Mod.EventBusSubscriber
 public class ParticleRenderingEventHandler {
-
-	/**
-	 * Rendering frequency.
-	 */
-	static final int RENDERING_FREQUENCY = 10; // Measured in world ticks
 
 	/**
 	 * Game ticks counter.

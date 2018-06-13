@@ -9,7 +9,6 @@ import static bassebombecraft.rendering.RenderingUtils.setupBillboardRendering;
 import static bassebombecraft.rendering.RenderingUtils.setupBillboardRotation;
 
 import java.awt.Color;
-import java.util.Random;
 import java.util.stream.Stream;
 
 import javax.vecmath.Vector4f;
@@ -44,8 +43,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @Mod.EventBusSubscriber
 public class RenderingEventHandler {
 
-	static int testCounter = 0 ;	
-	static Random random = new Random();
+	static int testCounter = 0;
 
 	/**
 	 * Text color.
@@ -55,23 +53,23 @@ public class RenderingEventHandler {
 	/**
 	 * Text scale
 	 */
-	static final float TEXT_SCALE = 0.03F;		
+	static final float TEXT_SCALE = 0.03F;
 
 	/**
 	 * Charmed label.
 	 */
 	static final String CHARMED_LABEL = "Charmed";
-	
+
 	/**
 	 * Team label.
-	 */	
-	static final String TEAM_LABEL = "Team";			
+	 */
+	static final String TEAM_LABEL = "Team";
 
 	/**
 	 * Team target label.
-	 */	
-	static final String TARGET_LABEL = "Target";			
-	
+	 */
+	static final String TARGET_LABEL = "Target";
+
 	/**
 	 * Angle for rotation of text billboard.
 	 */
@@ -79,48 +77,49 @@ public class RenderingEventHandler {
 
 	/**
 	 * Rotation of text billboard.
-	 */	
-	static final Vector4f TEXT_BILLBOARD_ROTATION = new Vector4f(0.0F,0.0F,1.0F,TEXT_BILLBOARD_ANGLE);
-	
+	 */
+	static final Vector4f TEXT_BILLBOARD_ROTATION = new Vector4f(0.0F, 0.0F, 1.0F, TEXT_BILLBOARD_ANGLE);
+
 	/**
-	 * Angle for rotation of billboard for triangle for rendering 
-	 * team members and charmed entities.
+	 * Angle for rotation of billboard for triangle for rendering team members and
+	 * charmed entities.
 	 */
 	static final int TEAM_N_CHARMED_BILLBOARD_ANGLE = 0;
 
 	/**
-	 * Rotation of billboard for triangle for rendering 
-	 * team members and charmed entities.
-	 */	
-	static final Vector4f TEAM_N_CHARMED_BILLBOARD_ROTATION = new Vector4f(0.0F,0.0F,1.0F,TEAM_N_CHARMED_BILLBOARD_ANGLE);
-	
+	 * Rotation of billboard for triangle for rendering team members and charmed
+	 * entities.
+	 */
+	static final Vector4f TEAM_N_CHARMED_BILLBOARD_ROTATION = new Vector4f(0.0F, 0.0F, 1.0F,
+			TEAM_N_CHARMED_BILLBOARD_ANGLE);
+
 	/**
 	 * Line width for rendering billboards.
 	 */
 	static final int BILLBOARD_LINE_WIDTH = 1;
-	
+
 	/**
 	 * Triangle height for equilateral triangle with side length 1.
 	 */
 	static final float EQUILATERAL_TRIANGLE_HEIGHT = 0.866F;
-		
+
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public static void handleEvent(RenderWorldLastEvent event) {
-		testCounter ++;
+		testCounter++;
 		testCounter = testCounter % 360;
-		
+
 		// exit if player is undefined
 		if (!isPlayerDefined())
 			return;
-				
+
 		// get player
 		EntityPlayer player = getPlayer();
-				
+
 		// exit if targeting overlay isn't in hotbar
-		//final ItemStack stack = new ItemStack(ModConstants.TARGETING_OVERLAY_ITEM);		
-		//if (!isItemHeldInOffHand(player, stack)) return;
-		
+		// final ItemStack stack = new ItemStack(ModConstants.TARGETING_OVERLAY_ITEM);
+		// if (!isItemHeldInOffHand(player, stack)) return;
+
 		// get player position
 		Vec3d playerPos = CalculatePlayerPosition(player, event.getPartialTicks());
 
@@ -128,12 +127,12 @@ public class RenderingEventHandler {
 		renderCharmedEntities(playerPos);
 		renderTeamEntities(player, playerPos);
 		renderTargetedEntities(player, playerPos);
-		
+
 	}
 
 	static void renderCharmedEntities(Vec3d playerPos) {
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
-				
+
 		// get entities
 		Stream<CharmedMob> charmed = repository.get();
 		charmed.forEach(e -> renderCharmedEntity(e.getEntity(), playerPos));
@@ -142,33 +141,35 @@ public class RenderingEventHandler {
 	static void renderCharmedEntity(EntityLiving entity, Vec3d playerPos) {
 		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);
-		renderTextBillboard(playerPos, entityPos, CHARMED_LABEL, TEXT_BILLBOARD_ROTATION);		
+		renderTextBillboard(playerPos, entityPos, CHARMED_LABEL, TEXT_BILLBOARD_ROTATION);
 	}
 
 	static void renderTeamEntities(EntityPlayer player, Vec3d playerPos) {
 		TeamRepository repository = getBassebombeCraft().getTeamRepository();
-				
+
 		// get entities
 		Stream<EntityLivingBase> members = repository.get(player);
 		members.forEach(e -> renderTeamEntity(e, playerPos));
 	}
-	
+
 	static void renderTeamEntity(EntityLivingBase entity, Vec3d playerPos) {
-		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();		
-		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);	
+		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();
+		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);
 		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
-		
+
 		// render target
 		EntityLivingBase target = entity.getLastAttackedEntity();
-		if(target== null) return;
-		if(target.isDead) return;
+		if (target == null)
+			return;
+		if (target.isDead)
+			return;
 		System.out.println(target);
 		renderTargetedEntity(target, playerPos);
 	}
 
 	static void renderTargetedEntities(EntityPlayer player, Vec3d playerPos) {
 		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
-				
+
 		// get entities
 		Stream<EntityLivingBase> members = repository.get(player);
 		members.forEach(e -> renderTargetedEntity(e, playerPos));
@@ -177,159 +178,158 @@ public class RenderingEventHandler {
 	static void renderTargetedEntity(EntityLivingBase e, Vec3d playerPos) {
 		Vec3d entityPos = e.getEntityBoundingBox().getCenter();
 		renderRectangleBillboard(playerPos, entityPos);
-		renderTextBillboard(playerPos, entityPos, TARGET_LABEL, TEXT_BILLBOARD_ROTATION);		
+		renderTextBillboard(playerPos, entityPos, TARGET_LABEL, TEXT_BILLBOARD_ROTATION);
 	}
-	
+
 	/**
 	 * Render text at origin.
 	 */
-	static void renderTextBillboard(Vec3d playerPos, Vec3d entityPos, String text, Vector4f rotation) {			    	    
+	static void renderTextBillboard(Vec3d playerPos, Vec3d entityPos, String text, Vector4f rotation) {
 		setupBillboardRendering();
 
 		// get minecraft
 		Minecraft mc = Minecraft.getMinecraft();
-						
+
 		// enable for rendering of text
 		GlStateManager.enableTexture2D();
-		
-		// translate to camera position 
-		GlStateManager.translate(entityPos.x-playerPos.x, entityPos.y-playerPos.y, entityPos.z-playerPos.z);		
-		
+
+		// translate to camera position
+		GlStateManager.translate(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
+
 		// set up billboard rotation
 		setupBillboardRotation();
-		
+
 		// scale text
 		GlStateManager.scale(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
-		
-		// add addition rotation 
-		GlStateManager.rotate(rotation.w, rotation.x, rotation.y, rotation.z);		
-		
+
+		// add addition rotation
+		GlStateManager.rotate(rotation.w, rotation.x, rotation.y, rotation.z);
+
 		// draw
 		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
-				
-		resetBillboardRendering();		
+
+		resetBillboardRendering();
 	}
-	
+
 	/**
 	 * Render a equilateral triangle billboard centered at origin.
 	 */
-	static void renderTriangleBillboard(Vec3d playerPos, Vec3d entityPos, Vector4f rotation) {			    	    
+	static void renderTriangleBillboard(Vec3d playerPos, Vec3d entityPos, Vector4f rotation) {
 		setupBillboardRendering();
-				
+
 		// set line width & color
 		GlStateManager.glLineWidth(BILLBOARD_LINE_WIDTH);
-		GlStateManager.color(1,1,1);
-		
-		// translate to camera position 
-		GlStateManager.translate(entityPos.x-playerPos.x, entityPos.y-playerPos.y, entityPos.z-playerPos.z);		
-		
+		GlStateManager.color(1, 1, 1);
+
+		// translate to camera position
+		GlStateManager.translate(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
+
 		// set up billboard rotation
 		setupBillboardRotation();
-		
-		// add addition rotation 
-		GlStateManager.rotate(rotation.w, rotation.x, rotation.y, rotation.z);		
-		
+
+		// add addition rotation
+		GlStateManager.rotate(rotation.w, rotation.x, rotation.y, rotation.z);
+
 		// create tessellator & bufferbuilder
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuffer();
-		
+
 		// build buffer
 		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
-				
-		// AB 
-		bufferBuilder.pos(0-0.5F, 0-0.289F, 0).endVertex();
-		bufferBuilder.pos(1-0.5F, 0-0.289F, 0).endVertex();
+
+		// AB
+		bufferBuilder.pos(0 - 0.5F, 0 - 0.289F, 0).endVertex();
+		bufferBuilder.pos(1 - 0.5F, 0 - 0.289F, 0).endVertex();
 
 		// BC
-		bufferBuilder.pos(1-0.5F, 0-0.289F, 0).endVertex();
-		bufferBuilder.pos(0.5F-0.5F, EQUILATERAL_TRIANGLE_HEIGHT-0.289F, 0).endVertex();
+		bufferBuilder.pos(1 - 0.5F, 0 - 0.289F, 0).endVertex();
+		bufferBuilder.pos(0.5F - 0.5F, EQUILATERAL_TRIANGLE_HEIGHT - 0.289F, 0).endVertex();
 
 		// CA
-		bufferBuilder.pos(0.5F-0.5F, EQUILATERAL_TRIANGLE_HEIGHT-0.289F, 0).endVertex();
-		bufferBuilder.pos(0-0.5F, -0.289F, 0).endVertex();
+		bufferBuilder.pos(0.5F - 0.5F, EQUILATERAL_TRIANGLE_HEIGHT - 0.289F, 0).endVertex();
+		bufferBuilder.pos(0 - 0.5F, -0.289F, 0).endVertex();
 
 		tessellator.draw();
-		
-		resetBillboardRendering();		
+
+		resetBillboardRendering();
 	}
 
 	/**
 	 * Render a rectangle billboard centered at origin.
 	 */
-	static void renderRectangleBillboard(Vec3d playerPos, Vec3d entityPos) {			    	    
+	static void renderRectangleBillboard(Vec3d playerPos, Vec3d entityPos) {
 		setupBillboardRendering();
-		
+
 		// set line width & color
 		GlStateManager.glLineWidth(1);
-		GlStateManager.color(1,1,1);
-		
+		GlStateManager.color(1, 1, 1);
+
 		// translate and rotate billboard
-		GlStateManager.translate(entityPos.x-playerPos.x, entityPos.y-playerPos.y, entityPos.z-playerPos.z);
+		GlStateManager.translate(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
 		setupBillboardRotation();
-		
+
 		// create tessellator & bufferbuilder
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuffer();
-		
+
 		// build buffer
 		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
-		
+
 		// AB
-		bufferBuilder.pos(0-0.5F, 0-0.5F, 0).endVertex();
-		bufferBuilder.pos(1-0.5F, 0-0.5F, 0).endVertex();
+		bufferBuilder.pos(0 - 0.5F, 0 - 0.5F, 0).endVertex();
+		bufferBuilder.pos(1 - 0.5F, 0 - 0.5F, 0).endVertex();
 
 		// BC
-		bufferBuilder.pos(1-0.5F, 0-0.5F, 0).endVertex();
-		bufferBuilder.pos(1-0.5F, 1-0.5F, 0).endVertex();
+		bufferBuilder.pos(1 - 0.5F, 0 - 0.5F, 0).endVertex();
+		bufferBuilder.pos(1 - 0.5F, 1 - 0.5F, 0).endVertex();
 
 		// CD
-		bufferBuilder.pos(1-0.5F, 1-0.5F, 0).endVertex();
-		bufferBuilder.pos(0-0.5F, 1-0.5F, 0).endVertex();
+		bufferBuilder.pos(1 - 0.5F, 1 - 0.5F, 0).endVertex();
+		bufferBuilder.pos(0 - 0.5F, 1 - 0.5F, 0).endVertex();
 
-		// DA		
-		bufferBuilder.pos(0-0.5F, 1-0.5F, 0).endVertex();
-		bufferBuilder.pos(0-0.5F, 0-0.5F, 0).endVertex();
-				
+		// DA
+		bufferBuilder.pos(0 - 0.5F, 1 - 0.5F, 0).endVertex();
+		bufferBuilder.pos(0 - 0.5F, 0 - 0.5F, 0).endVertex();
+
 		tessellator.draw();
-		
-		resetBillboardRendering();		
+
+		resetBillboardRendering();
 	}
-	
-	
+
 	/**
 	 * Render a billboard origin.
 	 */
-	static void renderBillboardOrgin(Vec3d playerPos, Vec3d entityPos) {			    	    
+	static void renderBillboardOrgin(Vec3d playerPos, Vec3d entityPos) {
 		setupBillboardRendering();
-		
+
 		// set line width & color
 		GlStateManager.glLineWidth(2);
-		GlStateManager.color(1,0,0);
-		
+		GlStateManager.color(1, 0, 0);
+
 		// translate and rotate billboard
-		GlStateManager.translate(entityPos.x-playerPos.x, entityPos.y-playerPos.y, entityPos.z-playerPos.z);
+		GlStateManager.translate(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
 		setupBillboardRotation();
-		
+
 		// create tessellator & bufferbuilder
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuffer();
-		
+
 		// build buffer
 		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
-		
+
 		// AB
 		bufferBuilder.pos(0, 0, 0).endVertex();
 		bufferBuilder.pos(1, 0, 0).endVertex();
 
-		// DA		
+		// DA
 		bufferBuilder.pos(0, 1, 0).endVertex();
 		bufferBuilder.pos(0, 0, 0).endVertex();
-				
+
 		tessellator.draw();
-		
-		resetBillboardRendering();		
+
+		resetBillboardRendering();
 	}
-	
+
 	static void renderParticles(Vec3d playerPos) {
 		// get particles
 		ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
@@ -405,5 +405,5 @@ public class RenderingEventHandler {
 		tessellator.draw();
 		bufferBuilder.setTranslation(0, 0, 0);
 	}
-		
+
 }
