@@ -169,7 +169,6 @@ public class RenderingEventHandler {
 
 	static void renderTargetedEntity(EntityLivingBase e, Vec3d playerPos) {
 		Vec3d entityPos = e.getEntityBoundingBox().getCenter();
-		renderBillboardOrgin(playerPos, entityPos);
 		renderRectangleBillboard(playerPos, entityPos);
 		renderTextBillboard(playerPos, entityPos, TARGET_LABEL, TEXT_BILLBOARD_ROTATION);		
 	}
@@ -188,7 +187,7 @@ public class RenderingEventHandler {
 		
 		// translate to camera position 
 		GlStateManager.translate(entityPos.x-playerPos.x, entityPos.y-playerPos.y, entityPos.z-playerPos.z);		
-				
+		
 		// set up billboard rotation
 		setupBillboardRotation();
 		

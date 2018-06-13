@@ -32,9 +32,6 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 		// exist if entity is team member
 		TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
 		if(teamRepository.isMember(commander, entity)) {
-			System.out.println(entity);
-			System.out.println(commander);
-			System.out.println("...was member of team and hence not charmed.");
 			return;
 		}
 		
@@ -81,7 +78,17 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	public boolean contains(EntityLiving entity) {
 		return charmedMobs.containsKey(entity);
 	}
+
 	
+	@Override
+	public void removeDeadEntities() {		
+		// remove charmed mob if dead
+		for(EntityLiving charmedMob :charmedMobs.keySet() ) {
+			if(charmedMob.isDead) remove(charmedMob);
+		}
+	}
+
+
 	@Override
 	public Stream<CharmedMob> get() {
 		return charmedMobs.entrySet().stream().map(e -> e.getValue());

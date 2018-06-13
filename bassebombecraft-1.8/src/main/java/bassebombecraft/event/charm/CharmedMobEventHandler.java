@@ -1,6 +1,7 @@
 package bassebombecraft.event.charm;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.entity.EntityUtils.isEntityLiving;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
@@ -14,6 +15,7 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 
 /**
@@ -40,11 +42,8 @@ public class CharmedMobEventHandler {
 	static int ticksCounter = 0;
 
 	@SubscribeEvent
-	static public void onLivingUpdate(LivingUpdateEvent event) {
-		if (event.getEntityLiving() == null)
-			return;
-		if (!(event.getEntityLiving() instanceof EntityLiving))
-			return;
+	static public void handleEvent(LivingUpdateEvent event) {
+		if (!isEntityLiving(event.getEntityLiving())) return;
 
 		// cast
 		EntityLiving entityLiving = EntityLiving.class.cast(event.getEntityLiving());
@@ -73,11 +72,8 @@ public class CharmedMobEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onLivingDeath(LivingDeathEvent event) {
-		if (event.getEntityLiving() == null)
-			return;
-		if (!(event.getEntityLiving() instanceof EntityLiving))
-			return;
+	public void handleEvent(LivingDeathEvent event) {
+		if (!isEntityLiving(event.getEntityLiving())) return;
 
 		// cast
 		EntityLiving entityLiving = EntityLiving.class.cast(event.getEntityLiving());
@@ -90,8 +86,16 @@ public class CharmedMobEventHandler {
 	}
 
 	@SubscribeEvent
-	public void onRenderTick(RenderTickEvent event) {
+	public void handleEvent(RenderTickEvent event) {
 		ticksCounter++;
 	}
 
+	@SubscribeEvent	
+	public void handleEvent(PlayerTickEvent event) {
+		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
+		
+		// remove dead mobs from repository 
+		repository.removeDeadEntities();
+	}
+	
 }

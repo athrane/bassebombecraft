@@ -54,4 +54,9 @@ public interface CharmedMobsRepository {
 	 */
 	public Stream<CharmedMob> get();
 
+	/**
+	 * Refresh repository. Removes any dead entities.
+	 */
+	public void removeDeadEntities();
+
 }
