@@ -109,7 +109,6 @@ item.SaturationIdolInventoryItem.name=Big Belly Idol
 item.MobsAggroIdolInventoryItem.name=Rage Idol
 item.ReaperIdolInventoryItem.name=Reaper Idol
 item.MassExtinctionEventIdolInventoryItem.name=Mass Extinction Event Idol
-item.PvpIdolInventoryItem.name=Cracked Skull
 
 #blocks
 tile.RandomBookBlock.name=Block of Random Books

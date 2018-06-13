@@ -32,16 +32,12 @@ import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.item.ItemRegistryEventHandler;
 import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
-import bassebombecraft.player.pvp.DefaultPvpRepository;
-import bassebombecraft.player.pvp.PvpEventListener;
-import bassebombecraft.player.pvp.PvpRepository;
 import bassebombecraft.projectile.ProjectileInitializer;
 import bassebombecraft.proxy.CommonProxy;
 import bassebombecraft.world.RandomModStructuresGenerator;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.ModMetadata;
@@ -110,11 +106,6 @@ public class BassebombeCraft {
 	TemporaryBlockRepository tempBlockRepository;
 
 	/**
-	 * PVP repository.
-	 */
-	PvpRepository pvpRepository;
-
-	/**
 	 * Mob commander repository.
 	 */
 	MobCommanderRepository mobCommanderRepository;
@@ -174,9 +165,6 @@ public class BassebombeCraft {
 		// initialise targeted entities repository
 		targetedEntitiesRepository = DefaultTargetedEntitiesRepository.getInstance();
 		
-		// Initialise PVP repository
-		pvpRepository = DefaultPvpRepository.getInstance();
-
 		initializeModMetadata(event);
 	}
 
@@ -188,7 +176,6 @@ public class BassebombeCraft {
 		validateVersion(logger);
 		ProjectileInitializer.getInstance().initialize(this, modTab);
 		BlockInitializer.getInstance().initialize(modTab);
-		initializeEventListeners();
 		initializeWorldGenerators();
 		logger.info("Initialized BasseBombeCraft " + VERSION);
 	}
@@ -226,17 +213,6 @@ public class BassebombeCraft {
 		m.logoFile = "assets/bassebombecraft/logo/logo.png";
 		m.url = DOWNLOAD_URL;
 		m.credits = "Allan & Andreas Thrane Andersen";
-	}
-
-	/**
-	 * Initialize event listeners.
-	 */
-	@Deprecated
-	void initializeEventListeners() {
-
-		// Initialise PVP event listener
-		PvpEventListener pvpEventListener = new PvpEventListener(pvpRepository);
-		MinecraftForge.EVENT_BUS.register(pvpEventListener);
 	}
 
 	/**
@@ -290,15 +266,6 @@ public class BassebombeCraft {
 	 */
 	public ParticleRenderingRepository getParticleRenderingRepository() {
 		return particleRepository;
-	}
-
-	/**
-	 * Particle PVP repository.
-	 * 
-	 * @return PVP repository.
-	 */
-	public PvpRepository getPvpRepository() {
-		return pvpRepository;
 	}
 
 	/**
