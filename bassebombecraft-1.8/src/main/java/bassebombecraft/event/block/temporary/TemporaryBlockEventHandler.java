@@ -1,16 +1,20 @@
 package bassebombecraft.event.block.temporary;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+
 import java.util.List;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 /**
- * Event listener for rendering of temporary blocks.
+ * Event handler for rendering of temporary blocks.
  */
-public class TemporaryBlockEventListener {
+@Mod.EventBusSubscriber
+public class TemporaryBlockEventHandler {
 
 	static final int RENDERING_FREQUENCY = 10; // Measured in world ticks
 	int ticksCounter = 0;
@@ -25,26 +29,14 @@ public class TemporaryBlockEventListener {
 	 */
 	TemporaryBlockRepository repository;
 
-	/**
-	 * ParticleRenderingEventListener constructor.
-	 * 
-	 * @param directivesRepository
-	 *            block directives repository.
-	 * @param tempBlockRepository
-	 *            temporary block repository.
-	 */
-	public TemporaryBlockEventListener(TemporaryBlockRepository tempBlockRepository,
-			BlockDirectivesRepository directivesRepository) {
-		super();
-		this.repository = tempBlockRepository;
-		this.directivesRepository = directivesRepository;
-
-	}
-
 	@SubscribeEvent
-	public void onPlayerTick(PlayerTickEvent event) {
+	public void handleEvent(PlayerTickEvent event) {		
 		ticksCounter++;
-
+		
+		// get repositories		
+		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
+		repository = getBassebombeCraft().getTemporaryBlockRepository();
+		
 		// update block duration
 		repository.updateBlockDuration();
 

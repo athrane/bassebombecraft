@@ -22,7 +22,6 @@ import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.block.DefaultBlockDirectiveRepository;
 import bassebombecraft.event.block.temporary.DefaultTemporaryBlockRepository;
-import bassebombecraft.event.block.temporary.TemporaryBlockEventListener;
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.charm.DefaultCharmedMobsRepository;
@@ -234,11 +233,6 @@ public class BassebombeCraft {
 	 */
 	@Deprecated
 	void initializeEventListeners() {
-
-		// Initialise temporary block event listener
-		TemporaryBlockEventListener tempBlockEventListener = new TemporaryBlockEventListener(tempBlockRepository,
-				blockDirectivesRepository);
-		MinecraftForge.EVENT_BUS.register(tempBlockEventListener);
 
 		// Initialise PVP event listener
 		PvpEventListener pvpEventListener = new PvpEventListener(pvpRepository);
