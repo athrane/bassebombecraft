@@ -44,7 +44,7 @@ public class ProcessBlockDirectivesEventHandler {
 	static final BlockPos NULL_POSITION = null; // NULL block position.
 
 	@SubscribeEvent
-	public void handleEvent(PlayerTickEvent event) throws Exception {
+	public static void handleEvent(PlayerTickEvent event) throws Exception {
 		
 		// get repository
 		BlockDirectivesRepository repository = getBassebombeCraft().getBlockDirectivesRepository();
@@ -79,7 +79,7 @@ public class ProcessBlockDirectivesEventHandler {
 	 * @throws Exception
 	 *             if processing fails.
 	 */
-	void processDirective(World world, WorldQueryImpl worldQuery) throws Exception {
+	static void processDirective(World world, WorldQueryImpl worldQuery) throws Exception {
 		
 		// get repositories		
 		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();

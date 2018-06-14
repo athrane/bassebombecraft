@@ -88,8 +88,8 @@ public class EntityUtils {
 		if (entity == null)
 			return false;
 		return entity instanceof EntityMob;
-	}	
-	
+	}
+
 	/**
 	 * return true if entity is a {@linkplain EntityLiving}.
 	 * 
@@ -102,7 +102,8 @@ public class EntityUtils {
 		if (entity == null)
 			return false;
 		return entity instanceof EntityLiving;
-	}		
+	}
+
 	/**
 	 * Calculate entity feet position (as a Y coordinate).
 	 * 
@@ -129,8 +130,8 @@ public class EntityUtils {
 	}
 
 	/**
-	 * Return entity direction as an integer between 0 to 3: 0 when looking
-	 * south, 1 when looking West, 2 looking North and 3 looking East.
+	 * Return entity direction as an integer between 0 to 3: 0 when looking south, 1
+	 * when looking West, 2 looking North and 3 looking East.
 	 * 
 	 * @param entity
 	 *            entity object.
@@ -141,5 +142,19 @@ public class EntityUtils {
 		int direction = MathHelper.floor((double) ((entity.rotationYaw * 4F) / 360F) + 0.5D) & 3;
 		return PlayerDirection.getById(direction);
 	}
-		
+
+	/**
+	 * Returns true if entity has a attacking target defined which is alive.
+	 * 
+	 * @param entity
+	 *            entity to query.
+	 * @return if entity has a attacking target defined which is alive.
+	 */
+	public static boolean hasLiveTarget(EntityLivingBase entity) {
+		EntityLivingBase target = entity.getAttackingEntity();
+		if (target == null) return false;
+		if (target.isDead) return false;
+		return true;
+	}
+
 }

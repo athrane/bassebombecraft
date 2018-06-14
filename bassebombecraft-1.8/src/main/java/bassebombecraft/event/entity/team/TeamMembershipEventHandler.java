@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 public class TeamMembershipEventHandler {
 
 	@SubscribeEvent
-	static public void onPlayerTick(LivingDeathEvent event) {
+	static public void handleEvent(LivingDeathEvent event) {
 
 		// get repository
 		TeamRepository repository = getBassebombeCraft().getTeamRepository();

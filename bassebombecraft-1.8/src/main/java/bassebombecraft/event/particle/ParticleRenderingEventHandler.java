@@ -29,7 +29,7 @@ public class ParticleRenderingEventHandler {
 
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
-	public static void onPlayerTick(PlayerTickEvent event) {
+	public static void handleEvent(PlayerTickEvent event) {
 		ticksCounter++;
 
 		// get repository

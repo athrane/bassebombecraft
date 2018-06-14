@@ -16,22 +16,12 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 @Mod.EventBusSubscriber
 public class TemporaryBlockEventHandler {
 
-	/**
-	 * Block directives repository.
-	 */
-	BlockDirectivesRepository directivesRepository;
-
-	/**
-	 * Temporary block repository.
-	 */
-	TemporaryBlockRepository repository;
-
 	@SubscribeEvent
-	public void handleEvent(PlayerTickEvent event) {		
+	public static void handleEvent(PlayerTickEvent event) {		
 		
 		// get repositories		
 		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
-		repository = getBassebombeCraft().getTemporaryBlockRepository();
+		TemporaryBlockRepository repository = getBassebombeCraft().getTemporaryBlockRepository();
 		
 		// update block duration
 		repository.updateBlockDuration();

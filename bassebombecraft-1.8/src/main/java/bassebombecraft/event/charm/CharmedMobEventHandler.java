@@ -71,7 +71,7 @@ public class CharmedMobEventHandler {
 	}
 
 	@SubscribeEvent
-	public void handleEvent(LivingDeathEvent event) {
+	public static void handleEvent(LivingDeathEvent event) {
 		if (!isEntityLiving(event.getEntityLiving())) return;
 
 		// cast
@@ -85,12 +85,12 @@ public class CharmedMobEventHandler {
 	}
 
 	@SubscribeEvent
-	public void handleEvent(RenderTickEvent event) {
+	public static void handleEvent(RenderTickEvent event) {
 		ticksCounter++;
 	}
 
 	@SubscribeEvent	
-	public void handleEvent(PlayerTickEvent event) {
+	public static void handleEvent(PlayerTickEvent event) {
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
 		
 		// remove dead mobs from repository 

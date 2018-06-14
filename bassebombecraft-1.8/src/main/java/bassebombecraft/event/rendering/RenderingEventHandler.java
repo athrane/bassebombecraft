@@ -15,6 +15,7 @@ import javax.vecmath.Vector4f;
 
 import org.lwjgl.opengl.GL11;
 
+import bassebombecraft.entity.EntityUtils;
 import bassebombecraft.event.charm.CharmedMob;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
@@ -142,6 +143,11 @@ public class RenderingEventHandler {
 		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);
 		renderTextBillboard(playerPos, entityPos, CHARMED_LABEL, TEXT_BILLBOARD_ROTATION);
+		
+		// render target
+		if(!EntityUtils.hasLiveTarget(entity)) return;
+		EntityLivingBase target = entity.getAttackingEntity();		
+		renderTargetedEntity(entity, target, playerPos);
 	}
 
 	static void renderTeamEntities(EntityPlayer player, Vec3d playerPos) {
@@ -158,13 +164,9 @@ public class RenderingEventHandler {
 		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
 
 		// render target
-		EntityLivingBase target = entity.getLastAttackedEntity();
-		if (target == null)
-			return;
-		if (target.isDead)
-			return;
-		System.out.println(target);
-		renderTargetedEntity(target, playerPos);
+		if(!EntityUtils.hasLiveTarget(entity)) return;
+		EntityLivingBase target = entity.getAttackingEntity();		
+		renderTargetedEntity(entity, target, playerPos);
 	}
 
 	static void renderTargetedEntities(EntityPlayer player, Vec3d playerPos) {
@@ -175,11 +177,20 @@ public class RenderingEventHandler {
 		members.forEach(e -> renderTargetedEntity(e, playerPos));
 	}
 
-	static void renderTargetedEntity(EntityLivingBase e, Vec3d playerPos) {
-		Vec3d entityPos = e.getEntityBoundingBox().getCenter();
-		renderRectangleBillboard(playerPos, entityPos);
-		renderTextBillboard(playerPos, entityPos, TARGET_LABEL, TEXT_BILLBOARD_ROTATION);
+	static void renderTargetedEntity(EntityLivingBase target, Vec3d playerPos) {
+		Vec3d targetPos = target.getEntityBoundingBox().getCenter();
+		renderRectangleBillboard(playerPos, targetPos);
+		renderTextBillboard(playerPos, targetPos, TARGET_LABEL, TEXT_BILLBOARD_ROTATION);
 	}
+	
+	static void renderTargetedEntity(EntityLivingBase entity, EntityLivingBase target, Vec3d playerPos) {
+		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();
+		Vec3d targetPos = target.getEntityBoundingBox().getCenter();
+		renderRectangleBillboard(playerPos, targetPos);
+		renderTextBillboard(playerPos, targetPos, TARGET_LABEL, TEXT_BILLBOARD_ROTATION);
+		renderLineBillboard(playerPos, entityPos, targetPos);
+	}
+	
 
 	/**
 	 * Render text at origin.
@@ -297,7 +308,40 @@ public class RenderingEventHandler {
 	}
 
 	/**
-	 * Render a billboard origin.
+	 * Render a line centered at origin.
+	 */
+	static void renderLineBillboard(Vec3d playerPos, Vec3d entityPos, Vec3d targetPos) {
+		setupBillboardRendering();
+
+		// set line width & color
+		GlStateManager.glLineWidth(BILLBOARD_LINE_WIDTH);
+		GlStateManager.color(1, 1, 1);
+
+		// translate to camera position
+		GlStateManager.translate(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
+
+		// set up billboard rotation
+		setupBillboardRotation();
+
+		// create tessellator & bufferbuilder
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferBuilder = tessellator.getBuffer();
+
+		// build buffer
+		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
+
+		// ET
+		bufferBuilder.pos(0, 0 , 0).endVertex();
+		bufferBuilder.pos(targetPos.x - entityPos.x , targetPos.y - entityPos.y , targetPos.z - entityPos.z ).endVertex();
+
+		tessellator.draw();
+
+		resetBillboardRendering();
+	}
+	
+	
+	/**
+	 * Render a billboard at origin.
 	 */
 	static void renderBillboardOrgin(Vec3d playerPos, Vec3d entityPos) {
 		setupBillboardRendering();
