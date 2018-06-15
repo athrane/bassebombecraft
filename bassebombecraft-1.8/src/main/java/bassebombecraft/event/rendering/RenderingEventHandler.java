@@ -134,10 +134,11 @@ public class RenderingEventHandler {
 
 	static void renderCharmedEntities(Vec3d playerPos) {
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
-
-		// get entities
-		Stream<CharmedMob> charmed = repository.get();
-		charmed.forEach(e -> renderCharmedEntity(e.getEntity(), playerPos));
+		Collection<CharmedMob> entities = repository.get();
+		synchronized (entities) {
+			for(CharmedMob entity : entities) 
+				renderTeamEntity(entity.getEntity(), playerPos);			
+		}		
 	}
 
 	static void renderCharmedEntity(EntityLiving entity, Vec3d playerPos) {
@@ -153,10 +154,10 @@ public class RenderingEventHandler {
 
 	static void renderTeamEntities(EntityPlayer player, Vec3d playerPos) {
 		TeamRepository repository = getBassebombeCraft().getTeamRepository();
-		Collection<EntityLivingBase> members = repository.get(player);
-		synchronized (members) {
-			for(EntityLivingBase member : members) 
-				renderTeamEntity(member, playerPos);			
+		Collection<EntityLivingBase> entities = repository.get(player);
+		synchronized (entities) {
+			for(EntityLivingBase entity : entities) 
+				renderTeamEntity(entity, playerPos);			
 		}		
 	}
 

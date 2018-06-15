@@ -1,6 +1,6 @@
 package bassebombecraft.event.charm;
 
-import java.util.stream.Stream;
+import java.util.Collection;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -48,11 +48,12 @@ public interface CharmedMobsRepository {
 	public boolean contains(EntityLiving entity);
 
 	/**
-	 * Get stream of charmed mobs.
+	 * Get charmed mobs.
+	 * Iteration must be take place in synchronized section.
 	 * 
-	 * @return stream of charmed mobs
+	 * @return collection of charmed mobs
 	 */
-	public Stream<CharmedMob> get();
+	public Collection<CharmedMob> get();
 
 	/**
 	 * Refresh repository. Removes any dead entities.

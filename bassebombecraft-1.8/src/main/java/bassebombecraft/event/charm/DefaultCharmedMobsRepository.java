@@ -6,9 +6,9 @@ import static bassebombecraft.entity.ai.AiUtils.assignAiTasks;
 import static bassebombecraft.entity.ai.AiUtils.buildCharmedMobAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAiTasks;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Stream;
 
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.EntityLiving;
@@ -78,7 +78,6 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	public boolean contains(EntityLiving entity) {
 		return charmedMobs.containsKey(entity);
 	}
-
 	
 	@Override
 	public void removeDeadEntities() {		
@@ -88,10 +87,9 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 		}
 	}
 
-
 	@Override
-	public Stream<CharmedMob> get() {
-		return charmedMobs.entrySet().stream().map(e -> e.getValue());
+	public Collection<CharmedMob> get() {
+		return charmedMobs.values();
 	}
 
 	/**

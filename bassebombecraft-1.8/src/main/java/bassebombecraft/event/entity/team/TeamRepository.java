@@ -81,6 +81,7 @@ public interface TeamRepository {
 
 	/**
 	 * Get team members.
+	 * Iteration must be take place in synchronized section.
 	 * 
 	 * @return collection of team members.
 	 */
