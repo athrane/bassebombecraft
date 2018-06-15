@@ -80,14 +80,6 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	}
 	
 	@Override
-	public void removeDeadEntities() {		
-		// remove charmed mob if dead
-		for(EntityLiving charmedMob :charmedMobs.keySet() ) {
-			if(charmedMob.isDead) remove(charmedMob);
-		}
-	}
-
-	@Override
 	public Collection<CharmedMob> get() {
 		return charmedMobs.values();
 	}

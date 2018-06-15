@@ -16,7 +16,6 @@ import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 
 /**
@@ -87,14 +86,6 @@ public class CharmedMobEventHandler {
 	@SubscribeEvent
 	public static void handleEvent(RenderTickEvent event) {
 		ticksCounter++;
-	}
-
-	@SubscribeEvent	
-	public static void handleEvent(PlayerTickEvent event) {
-		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
-		
-		// remove dead mobs from repository 
-		repository.removeDeadEntities();
 	}
 	
 }

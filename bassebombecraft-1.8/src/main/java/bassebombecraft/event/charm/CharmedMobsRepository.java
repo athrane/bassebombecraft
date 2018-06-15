@@ -55,9 +55,4 @@ public interface CharmedMobsRepository {
 	 */
 	public Collection<CharmedMob> get();
 
-	/**
-	 * Refresh repository. Removes any dead entities.
-	 */
-	public void removeDeadEntities();
-
 }
