@@ -1,17 +1,15 @@
 package bassebombecraft.event.entity.team;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
-
-
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Stream;
 
 import bassebombecraft.player.PlayerUtils;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import java.util.*;
 /**
  * Default implementation of the {@linkplain TeamRepository}.
  */
@@ -184,16 +182,16 @@ public class DefaultTeamRepository implements TeamRepository {
 		return team.equals(team2);
 	}
 
-	
 	@Override
-	public Stream<EntityLivingBase> get(EntityPlayer commander) {
-		if(!teamExists(commander)) return nullMembersSet.stream();			
+	public Collection<EntityLivingBase> get(EntityPlayer commander) {
+		if(!teamExists(commander)) return nullMembersSet;			
 
 		// get team
 		Team team = teams.get(commander);				
-		return team.members.stream();
-	}
-
+		return team.members;
+	}	
+	
+	
 	/**
 	 * Factory method.
 	 * 

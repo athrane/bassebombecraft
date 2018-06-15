@@ -9,6 +9,7 @@ import static bassebombecraft.rendering.RenderingUtils.setupBillboardRendering;
 import static bassebombecraft.rendering.RenderingUtils.setupBillboardRotation;
 
 import java.awt.Color;
+import java.util.Collection;
 import java.util.stream.Stream;
 
 import javax.vecmath.Vector4f;
@@ -152,10 +153,11 @@ public class RenderingEventHandler {
 
 	static void renderTeamEntities(EntityPlayer player, Vec3d playerPos) {
 		TeamRepository repository = getBassebombeCraft().getTeamRepository();
-
-		// get entities
-		Stream<EntityLivingBase> members = repository.get(player);
-		members.forEach(e -> renderTeamEntity(e, playerPos));
+		Collection<EntityLivingBase> members = repository.get(player);
+		synchronized (members) {
+			for(EntityLivingBase member : members) 
+				renderTeamEntity(member, playerPos);			
+		}		
 	}
 
 	static void renderTeamEntity(EntityLivingBase entity, Vec3d playerPos) {
