@@ -365,20 +365,15 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		// calculate lower and upper bounds
 		BlockPos lower = calculateLowerBound();
 		BlockPos upper = calculateUpperBound();
-		System.out.println("DEBUG lower =" + lower);
-		System.out.println("DEBUG upper =" + upper);
 
 		BlockPos captureOffset = new BlockPos(lower);
 		BlockPos captureSize = new BlockPos(upper.getX() - lower.getX(), upper.getY() - lower.getY(),
 				upper.getZ() - lower.getZ());
-		System.out.println("DEBUG captureSize=" + captureSize);
 
 		// Rule: if height == 0 set height to 1 to copy plane
 		if (captureSize.getY() <= 0) {
 			captureSize = new BlockPos(captureSize.getX(), 1, captureSize.getZ());
 		}
-
-		System.out.println("DEBUG captureSize=" + captureSize);
 
 		// capture
 		capturedBlocks = captureRectangle(captureOffset, captureSize, worldQuery);
@@ -399,14 +394,10 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		int index = capturedBlocks.size();
 		BlockDirective lastblock = capturedBlocks.get(index - 1);
 		int capturedBlocksHeight = lastblock.getY();
-		System.out.println("DEBUG capturedBlocksHeight =" + capturedBlocksHeight);
 
 		// modify offset for Minecraft structure
 		// captureOffset = captureOffset.add(0, 1, 0);
 		captureSize = captureSize.add(0, capturedBlocksHeight, 0);
-
-		System.out.println("DEBUG captureSize=" + captureSize);
-		System.out.println("DEBUG captureOffset=" + captureOffset);
 
 		// save captured content as a Minecraft structure file
 		TemplateUtils.save(worldQuery.getWorld(), captureOffset, captureSize);
