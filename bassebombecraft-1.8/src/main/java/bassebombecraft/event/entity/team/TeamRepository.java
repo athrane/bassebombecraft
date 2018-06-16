@@ -20,16 +20,26 @@ public interface TeamRepository {
 	public void createTeam(EntityPlayer commander);
 	
 	/**
-	 * Returns true if team exists.
+	 * Returns true if entity is commander for a team.
 	 * 
-	 * @param commander true if team with commander.
+	 * @param commander candidate.
 	 * 
-	 * @return true if team exists.
+	 * @return true if entity is commander for a team.
 	 */
-	public boolean teamExists(EntityPlayer commander);
+	public boolean isCommander(EntityPlayer commander);
+	
+	/**
+	 * Delete commanders team.
+	 * 
+	 * @param commander whose team should be deleted.
+	 */
+	public void deleteTeam(EntityPlayer commander);
 	
 	/**
 	 * Add team member.
+	 * 
+	 * If creator isn't a player then the entity is added 
+	 * to the team to which the creator is member if.
 	 * 
 	 * @param creator
 	 *            creator of entity to register as team member.

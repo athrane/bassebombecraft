@@ -10,9 +10,9 @@ import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.player.EntityPlayer;
 
 /**
- * AI target acquisition task which is command the by entitys mob commander.
+ * AI target acquisition task which is commanded the by mob commander.
  */
-public class MobCommandedTargeting extends EntityAITarget {
+public class CommanderControlledTargeting extends EntityAITarget {
 
 	/**
 	 * Null target.
@@ -25,14 +25,14 @@ public class MobCommandedTargeting extends EntityAITarget {
 	EntityPlayer commander;
 
 	/**
-	 * MobCommandedTarget constructor.
+	 * CommanderControlledTargeting constructor.
 	 * 
 	 * @param owner
 	 *            commanded entity.
 	 * @param commander
 	 *            entity which commands entity.
 	 */
-	public MobCommandedTargeting(EntityCreature owner, EntityPlayer commander) {
+	public CommanderControlledTargeting(EntityCreature owner, EntityPlayer commander) {
 		super(owner, false);
 		this.commander = commander;
 
@@ -42,13 +42,10 @@ public class MobCommandedTargeting extends EntityAITarget {
 
 	@Override
 	public boolean shouldExecute() {
-		// System.out.println("shouldExecute for: "+ super.taskOwner);
-
+		
 		// register player and get command
 		MobCommanderRepository repository = getBassebombeCraft().getMobCommanderRepository();
 		MobCommand command = repository.getCommand(commander);
-
-		// System.out.println("command: "+ command.getTitle());
 
 		// initialize command
 		return command.shouldExecute(commander, this.taskOwner);
@@ -59,13 +56,10 @@ public class MobCommandedTargeting extends EntityAITarget {
 	 */	
 	@Override
 	public boolean shouldContinueExecuting() {
-		// System.out.println("continueExecuting for: "+ super.taskOwner);
 
 		// register player and get command
 		MobCommanderRepository repository = getBassebombeCraft().getMobCommanderRepository();
 		MobCommand command = repository.getCommand(commander);
-
-		// System.out.println("command: "+ command.getTitle());
 
 		// execute command
 		return command.continueExecuting(commander, this.taskOwner);

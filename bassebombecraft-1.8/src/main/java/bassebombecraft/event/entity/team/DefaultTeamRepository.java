@@ -48,6 +48,11 @@ public class DefaultTeamRepository implements TeamRepository {
 			return this.commander.equals(team.commander);
 		}
 
+		@Override
+		public String toString() {
+			return "Team: "+ commander.getDisplayNameString();
+		}
+
 	}
 
 	/**
@@ -69,11 +74,21 @@ public class DefaultTeamRepository implements TeamRepository {
 	public void createTeam(EntityPlayer commander) {
 		if (commander == null)
 			return;
-		if (teamExists(commander))
+		if (isCommander(commander))
 			return;
 
 		Team team = new Team(commander);
 		teams.put(commander, team);
+	}
+	
+	@Override
+	public void deleteTeam(EntityPlayer commander) {
+		if (commander == null)
+			return;
+		if (!isCommander(commander))
+			return;
+		
+		teams.remove(commander);
 	}
 
 	/**
@@ -85,13 +100,9 @@ public class DefaultTeamRepository implements TeamRepository {
 	 *            to add to commanders team.
 	 */
 	void addToCommandersTeam(EntityPlayer commander, EntityLiving entity) {
-		if (commander == null)
-			return;
-		if (entity == null)
-			return;
 
 		// create team if it doesn't exit
-		if (!teamExists(commander))
+		if (!isCommander(commander))
 			createTeam(commander);
 
 		// get team
@@ -99,7 +110,7 @@ public class DefaultTeamRepository implements TeamRepository {
 
 		// add to global membership list
 		teamMembership.put(entity, team);
-
+				
 		// add to team
 		team.members.add(entity);
 	}
@@ -117,23 +128,24 @@ public class DefaultTeamRepository implements TeamRepository {
 			addToCommandersTeam(commander, entity);
 			return;
 		}
-
-		// exit if creator isn't member of global membership list
+				
+		// exit if creator isn't a member of a team, 
+		// i.e. can be found in the global membership list
 		if (!teamMembership.containsKey(creator))
 			return;
-
-		// get team
+				
+		// get team that create is member of
 		Team team = teamMembership.get(creator);
-
+				
 		// get commander
 		EntityPlayer commander = team.commander;
 
 		// add to commanders team
-		addToCommandersTeam(commander, entity);
+		addToCommandersTeam(commander, entity);		
 	}
 
 	@Override
-	public boolean teamExists(EntityPlayer commander) {
+	public boolean isCommander(EntityPlayer commander) {
 		if (commander == null)
 			return false;
 		return teams.containsKey(commander);
@@ -193,7 +205,7 @@ public class DefaultTeamRepository implements TeamRepository {
 
 	@Override
 	public Collection<EntityLiving> get(EntityPlayer commander) {
-		if (!teamExists(commander))
+		if (!isCommander(commander))
 			return nullMembersSet;
 
 		// get team

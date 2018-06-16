@@ -126,18 +126,18 @@ public class RenderingEventHandler {
 		Vec3d playerPos = CalculatePlayerPosition(player, event.getPartialTicks());
 
 		// renderParticles(playerPos);
-		renderCharmedEntities(playerPos);
+		renderCharmedEntities(player, playerPos);
 		renderTeamEntities(player, playerPos);
 		renderTargetedEntities(player, playerPos);
 
 	}
 
-	static void renderCharmedEntities(Vec3d playerPos) {
+	static void renderCharmedEntities(EntityPlayer player, Vec3d playerPos) {
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
 		Collection<CharmedMob> entities = repository.get();
 		synchronized (entities) {
 			for(CharmedMob entity : entities) 
-				renderTeamEntity(entity.getEntity(), playerPos);			
+				renderTeamEntity(player, entity.getEntity(), playerPos);			
 		}		
 	}
 
@@ -155,14 +155,15 @@ public class RenderingEventHandler {
 		Collection<EntityLiving> entities = repository.get(player);
 		synchronized (entities) {
 			for(EntityLiving entity : entities) 
-				renderTeamEntity(entity, playerPos);			
+				renderTeamEntity(player, entity, playerPos);			
 		}		
 	}
 
-	static void renderTeamEntity(EntityLiving entity, Vec3d playerPos) {
+	static void renderTeamEntity(EntityPlayer player, EntityLiving entity, Vec3d playerPos) {
 		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);
-		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
+		String teamLabel = TEAM_LABEL + ":" + player.getDisplayNameString();
+		renderTextBillboard(playerPos, entityPos, teamLabel, TEXT_BILLBOARD_ROTATION);
 
 		// render target
 		renderTarget(entity, playerPos);

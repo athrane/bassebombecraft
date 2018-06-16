@@ -5,9 +5,11 @@ import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
 
 import java.util.Set;
 
+import bassebombecraft.entity.EntityUtils;
+import bassebombecraft.entity.ai.task.AiCommandersTargeting;
 import bassebombecraft.entity.ai.task.CompanionAttack;
 import bassebombecraft.entity.ai.task.FollowEntity;
-import bassebombecraft.entity.ai.task.MobCommandedTargeting;
+import bassebombecraft.entity.ai.task.CommanderControlledTargeting;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,7 +22,6 @@ import net.minecraft.entity.ai.EntityAIFollowOwner;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIOcelotAttack;
 import net.minecraft.entity.ai.EntityAIOcelotSit;
 import net.minecraft.entity.ai.EntityAIPanic;
@@ -28,7 +29,6 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
@@ -231,14 +231,25 @@ public class AiUtils {
 
 			// type cast
 			EntityPlayer player = (EntityPlayer) commander;
-			entity.targetTasks.addTask(1, new MobCommandedTargeting(entity, player));
+			
+			// set commander targeting
+			entity.targetTasks.addTask(1, new CommanderControlledTargeting(entity, player));
 			return;
 		}
 
-		// setup targeting if commander is other entity
+		// set AI commander targeting if commander is a living entity
+		if(EntityUtils.isEntityLiving(commander)) {
+
+			// type cast
+			EntityLiving commander2 = (EntityLiving) commander;
+			
+			entity.targetTasks.addTask(1, new AiCommandersTargeting(entity, commander2));		
+			entity.targetTasks.addTask(2, new EntityAIHurtByTarget(entity, DONT_CALL_FOR_HELP, new Class[0]));
+			return;
+		}
+		
+		// set AI commander targeting if commander is a living entity base		
 		entity.targetTasks.addTask(1, new EntityAIHurtByTarget(entity, DONT_CALL_FOR_HELP, new Class[0]));
-		entity.targetTasks.addTask(2,
-				new EntityAINearestAttackableTarget(entity, EntityMob.class, SHOULD_CHECK_SIGHT, NEARBY_ONLY));
 	}
 	
 }

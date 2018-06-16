@@ -1,5 +1,6 @@
 package bassebombecraft;
 
+import bassebombecraft.entity.ai.task.AiCommandersTargeting;
 import bassebombecraft.item.basic.HudItem;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -223,5 +224,15 @@ public class ModConstants {
 	 * Number of processed blocks per game tick in {@linkplain ProcessBlockDirectivesEventHandler}. 
 	 */
 	public static final int BLOCKS_PER_TICK = 3;
+
+	/**
+	 * Aggro duration for AI Commanded team members during self destruct in {@linkplain AiCommandersTargeting}.
+	 */
+	public static final int AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_AGGRO = 1000;
+
+	/**
+	 * Fire duration for AI Commanded team members during self destruct in {@linkplain AiCommandersTargeting}.
+	 */	
+	public static final int AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE = 1000;
 
 }
