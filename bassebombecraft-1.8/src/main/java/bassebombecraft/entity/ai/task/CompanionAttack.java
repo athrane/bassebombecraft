@@ -1,5 +1,8 @@
 package bassebombecraft.entity.ai.task;
 
+import static bassebombecraft.entity.EntityUtils.getAliveTarget;
+import static bassebombecraft.entity.EntityUtils.hasAliveTarget;
+
 import java.util.ArrayList;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -145,11 +148,12 @@ public class CompanionAttack extends EntityAIBase {
 
 	@Override
 	public boolean shouldExecute() {
-		EntityLivingBase targetCandidate = this.entity.getAttackTarget();
-
-		// exit if target is undefined
-		if (targetCandidate == null)
-			return false;
+		
+		// exit if no living target is defined
+		if(!hasAliveTarget(this.entity)) return false;
+		
+		// get candidate
+		EntityLivingBase targetCandidate = getAliveTarget(this.entity);
 
 		// set target
 		attackTarget = targetCandidate;

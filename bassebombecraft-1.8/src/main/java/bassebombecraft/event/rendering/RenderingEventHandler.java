@@ -7,7 +7,7 @@ import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
 import static bassebombecraft.rendering.RenderingUtils.resetBillboardRendering;
 import static bassebombecraft.rendering.RenderingUtils.setupBillboardRendering;
 import static bassebombecraft.rendering.RenderingUtils.setupBillboardRotation;
-
+import static bassebombecraft.entity.EntityUtils.*;
 import java.awt.Color;
 import java.util.Collection;
 import java.util.stream.Stream;
@@ -147,31 +147,33 @@ public class RenderingEventHandler {
 		renderTextBillboard(playerPos, entityPos, CHARMED_LABEL, TEXT_BILLBOARD_ROTATION);
 		
 		// render target
-		if(!EntityUtils.hasLiveTarget(entity)) return;
-		EntityLivingBase target = entity.getAttackingEntity();		
-		renderTargetedEntity(entity, target, playerPos);
+		renderTarget(entity, playerPos);
 	}
 
 	static void renderTeamEntities(EntityPlayer player, Vec3d playerPos) {
 		TeamRepository repository = getBassebombeCraft().getTeamRepository();
-		Collection<EntityLivingBase> entities = repository.get(player);
+		Collection<EntityLiving> entities = repository.get(player);
 		synchronized (entities) {
-			for(EntityLivingBase entity : entities) 
+			for(EntityLiving entity : entities) 
 				renderTeamEntity(entity, playerPos);			
 		}		
 	}
 
-	static void renderTeamEntity(EntityLivingBase entity, Vec3d playerPos) {
+	static void renderTeamEntity(EntityLiving entity, Vec3d playerPos) {
 		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);
 		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
 
 		// render target
-		if(!EntityUtils.hasLiveTarget(entity)) return;
-		EntityLivingBase target = entity.getAttackingEntity();		
-		renderTargetedEntity(entity, target, playerPos);
+		renderTarget(entity, playerPos);
 	}
 
+	static void renderTarget(EntityLiving entity, Vec3d playerPos) {
+		if(!EntityUtils.hasAliveTarget(entity)) return;
+		EntityLivingBase target = getAliveTarget(entity);
+		renderTargetedEntity(entity, target, playerPos);
+	}
+	
 	static void renderTargetedEntities(EntityPlayer player, Vec3d playerPos) {
 		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
 

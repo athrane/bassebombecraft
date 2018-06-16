@@ -1,5 +1,7 @@
 package bassebombecraft.entity;
 
+import bassebombecraft.entity.ai.task.CompanionAttack;
+import bassebombecraft.event.rendering.RenderingEventHandler;
 import bassebombecraft.player.PlayerDirection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
@@ -150,11 +152,26 @@ public class EntityUtils {
 	 *            entity to query.
 	 * @return if entity has a attacking target defined which is alive.
 	 */
-	public static boolean hasLiveTarget(EntityLivingBase entity) {
-		EntityLivingBase target = entity.getAttackingEntity();
-		if (target == null) return false;
-		if (target.isDead) return false;
+	public static boolean hasAliveTarget(EntityLiving entity) {
+		EntityLivingBase target = entity.getAttackTarget();
+		if (target == null)
+			return false;
+		if (target.isDead)
+			return false;
 		return true;
+	}
+
+	/**
+	 * Return a (hopefully) live target. Use for targeting by the AI task
+	 * {@linkplain CompanionAttack} and the target rendering in
+	 * {@linkplain RenderingEventHandler}.
+	 * 
+	 * @param entity
+	 *            to get live target from.
+	 * @return live target from entity.
+	 */
+	public static EntityLivingBase getAliveTarget(EntityLiving entity) {
+		return entity.getAttackTarget();
 	}
 
 }

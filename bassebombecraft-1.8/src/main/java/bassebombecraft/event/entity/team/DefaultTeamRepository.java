@@ -8,8 +8,10 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import bassebombecraft.player.PlayerUtils;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+
 /**
  * Default implementation of the {@linkplain TeamRepository}.
  */
@@ -38,7 +40,7 @@ public class DefaultTeamRepository implements TeamRepository {
 		/**
 		 * Team members.
 		 */
-		Set<EntityLivingBase> members = Collections.synchronizedSet(new HashSet<EntityLivingBase>());				
+		Set<EntityLiving> members = Collections.synchronizedSet(new HashSet<EntityLiving>());
 
 		@Override
 		public boolean equals(Object obj) {
@@ -51,8 +53,8 @@ public class DefaultTeamRepository implements TeamRepository {
 	/**
 	 * Null member stream.
 	 */
-	final static Set<EntityLivingBase> nullMembersSet = new HashSet<EntityLivingBase>();
-	
+	final static Set<EntityLiving> nullMembersSet = new HashSet<EntityLiving>();
+
 	/**
 	 * Teams.
 	 */
@@ -61,7 +63,7 @@ public class DefaultTeamRepository implements TeamRepository {
 	/**
 	 * Entity to team mapping.
 	 */
-	Map<EntityLivingBase, Team> teamMembership = new ConcurrentHashMap<EntityLivingBase, Team>();
+	Map<EntityLiving, Team> teamMembership = new ConcurrentHashMap<EntityLiving, Team>();
 
 	@Override
 	public void createTeam(EntityPlayer commander) {
@@ -74,8 +76,15 @@ public class DefaultTeamRepository implements TeamRepository {
 		teams.put(commander, team);
 	}
 
-	@Override
-	public void add(EntityPlayer commander, EntityLivingBase entity) {
+	/**
+	 * Add team member to commander's team.
+	 * 
+	 * @param commander
+	 *            commander to whose team the entity is added.
+	 * @param entity
+	 *            to add to commanders team.
+	 */
+	void addToCommandersTeam(EntityPlayer commander, EntityLiving entity) {
 		if (commander == null)
 			return;
 		if (entity == null)
@@ -96,7 +105,7 @@ public class DefaultTeamRepository implements TeamRepository {
 	}
 
 	@Override
-	public void add(EntityLivingBase creator, EntityLivingBase entity) {
+	public void add(EntityLivingBase creator, EntityLiving entity) {
 		if (creator == null)
 			return;
 		if (entity == null)
@@ -105,7 +114,7 @@ public class DefaultTeamRepository implements TeamRepository {
 		// if entity is player then add as commander
 		if (PlayerUtils.isEntityPlayer(creator)) {
 			EntityPlayer commander = (EntityPlayer) creator;
-			add(commander, entity);
+			addToCommandersTeam(commander, entity);
 			return;
 		}
 
@@ -120,7 +129,7 @@ public class DefaultTeamRepository implements TeamRepository {
 		EntityPlayer commander = team.commander;
 
 		// add to commanders team
-		add(commander, entity);
+		addToCommandersTeam(commander, entity);
 	}
 
 	@Override
@@ -131,7 +140,7 @@ public class DefaultTeamRepository implements TeamRepository {
 	}
 
 	@Override
-	public void remove(EntityLivingBase entity) {
+	public void remove(EntityLiving entity) {
 		if (entity == null)
 			return;
 		if (!teamMembership.containsKey(entity))
@@ -148,7 +157,7 @@ public class DefaultTeamRepository implements TeamRepository {
 	}
 
 	@Override
-	public boolean isMember(EntityLivingBase commander, EntityLivingBase entity) {
+	public boolean isMember(EntityLivingBase commander, EntityLiving entity) {
 		if (commander == null)
 			return false;
 		if (entity == null)
@@ -164,7 +173,7 @@ public class DefaultTeamRepository implements TeamRepository {
 	}
 
 	@Override
-	public boolean isTeamMembers(EntityLivingBase entity, EntityLivingBase entity2) {
+	public boolean isTeamMembers(EntityLiving entity, EntityLiving entity2) {
 		if (entity == null)
 			return false;
 		if (entity2 == null)
@@ -183,15 +192,15 @@ public class DefaultTeamRepository implements TeamRepository {
 	}
 
 	@Override
-	public Collection<EntityLivingBase> get(EntityPlayer commander) {
-		if(!teamExists(commander)) return nullMembersSet;			
+	public Collection<EntityLiving> get(EntityPlayer commander) {
+		if (!teamExists(commander))
+			return nullMembersSet;
 
 		// get team
-		Team team = teams.get(commander);				
+		Team team = teams.get(commander);
 		return team.members;
-	}	
-	
-	
+	}
+
 	/**
 	 * Factory method.
 	 * 

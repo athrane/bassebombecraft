@@ -2,6 +2,7 @@ package bassebombecraft.event.entity.team;
 
 import java.util.Collection;
 
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -30,22 +31,12 @@ public interface TeamRepository {
 	/**
 	 * Add team member.
 	 * 
-	 * @param commander
-	 *            commander of the team.
-	 * @param entity
-	 *            entity which is added to team.
-	 */
-	public void add(EntityPlayer commander, EntityLivingBase entity);
-
-	/**
-	 * Add team member.
-	 * 
 	 * @param creator
 	 *            creator of entity to register as team member.
 	 * @param entity
 	 *            entity which is added to team.
 	 */
-	public void add(EntityLivingBase creator, EntityLivingBase entity);
+	public void add(EntityLivingBase creator, EntityLiving entity);
 	
 	/**
 	 * Remove team member from any team.
@@ -53,7 +44,7 @@ public interface TeamRepository {
 	 * @param entity
 	 *            entity which is removed from team.
 	 */
-	public void remove(EntityLivingBase entity);
+	public void remove(EntityLiving entity);
 
 	/**
 	 * Returns true if entity is part of team.
@@ -65,7 +56,7 @@ public interface TeamRepository {
 	 * 
 	 * @return true if entity is member of team.
 	 */
-	public boolean isMember(EntityLivingBase commander, EntityLivingBase entity);
+	public boolean isMember(EntityLivingBase commander, EntityLiving entity);
 
 	/**
 	 * Returns true if entities are members of the same team.
@@ -77,7 +68,7 @@ public interface TeamRepository {
 	 * 
 	 * @return true if entity is member of team.
 	 */	
-	public boolean isTeamMembers(EntityLivingBase entity, EntityLivingBase entity2);
+	public boolean isTeamMembers(EntityLiving entity, EntityLiving entity2);
 
 	/**
 	 * Get team members.
@@ -85,6 +76,6 @@ public interface TeamRepository {
 	 * 
 	 * @return collection of team members.
 	 */
-	public Collection<EntityLivingBase> get(EntityPlayer commander);
+	public Collection<EntityLiving> get(EntityPlayer commander);
 	
 }
