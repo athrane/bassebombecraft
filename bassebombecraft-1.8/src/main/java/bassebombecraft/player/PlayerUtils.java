@@ -5,6 +5,7 @@ import static net.minecraft.client.Minecraft.getMinecraft;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -157,6 +158,33 @@ public class PlayerUtils {
 	}
 
 	/**
+	 * Returns true if item is held in hotbar.
+	 * 
+	 * @param player
+	 *            player to test.
+	 * @param item
+	 *            item to test whether it is held in off hand.
+	 * 
+	 * @return true if item is held in player off hand.
+	 */
+	public static boolean isItemInHotbar(EntityPlayer player, Item item) {
+		if (player == null)
+			return false;
+		if (item == null)
+			return false;
+
+		// iterator over the items in the hotbar
+		for (int i = 0; i < 10; i++) {
+			ItemStack itemStackHotbar = player.inventory.getStackInSlot(i);
+			Item itemHotBar = itemStackHotbar.getItem();
+			if (itemHotBar.equals(item))
+				return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Get player UID at client side.
 	 * 
 	 * @return player UID.
@@ -197,8 +225,9 @@ public class PlayerUtils {
 	 * @return player from Minecraft.
 	 */
 	public static EntityPlayer getPlayer() {
-		if(!isPlayerDefined()) return null;
+		if (!isPlayerDefined())
+			return null;
 		return Minecraft.getMinecraft().player;
 	}
-	
+
 }

@@ -1,13 +1,16 @@
 package bassebombecraft.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.TARGETING_OVERLAY_ITEM;
+import static bassebombecraft.entity.EntityUtils.getAliveTarget;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 import static bassebombecraft.player.PlayerUtils.getPlayer;
+import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
 import static bassebombecraft.rendering.RenderingUtils.resetBillboardRendering;
 import static bassebombecraft.rendering.RenderingUtils.setupBillboardRendering;
 import static bassebombecraft.rendering.RenderingUtils.setupBillboardRotation;
-import static bassebombecraft.entity.EntityUtils.*;
+
 import java.awt.Color;
 import java.util.Collection;
 import java.util.stream.Stream;
@@ -119,8 +122,7 @@ public class RenderingEventHandler {
 		EntityPlayer player = getPlayer();
 
 		// exit if targeting overlay isn't in hotbar
-		// final ItemStack stack = new ItemStack(ModConstants.TARGETING_OVERLAY_ITEM);
-		// if (!isItemHeldInOffHand(player, stack)) return;
+		if(!isItemInHotbar(player, TARGETING_OVERLAY_ITEM)) return;
 
 		// get player position
 		Vec3d playerPos = CalculatePlayerPosition(player, event.getPartialTicks());
@@ -162,8 +164,7 @@ public class RenderingEventHandler {
 	static void renderTeamEntity(EntityPlayer player, EntityLiving entity, Vec3d playerPos) {
 		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);
-		String teamLabel = TEAM_LABEL + ":" + player.getDisplayNameString();
-		renderTextBillboard(playerPos, entityPos, teamLabel, TEXT_BILLBOARD_ROTATION);
+		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
 
 		// render target
 		renderTarget(entity, playerPos);
