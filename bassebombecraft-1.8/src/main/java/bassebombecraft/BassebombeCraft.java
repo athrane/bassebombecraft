@@ -29,6 +29,8 @@ import bassebombecraft.event.entity.target.DefaultTargetedEntitiesRepository;
 import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.event.entity.team.DefaultTeamRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
+import bassebombecraft.event.frequency.DefaultFrequencyRepository;
+import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.item.ItemRegistryEventHandler;
 import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
@@ -118,8 +120,13 @@ public class BassebombeCraft {
 	/**
 	 * Targeted entities repository.
 	 */
-	TargetedEntitiesRepository targetedEntitiesRepository;	
-	
+	TargetedEntitiesRepository targetedEntitiesRepository;
+
+	/**
+	 * Frequency repository.
+	 */
+	FrequencyRepository frequencyRepository;
+
 	/**
 	 * Mod configuration.
 	 */
@@ -144,6 +151,9 @@ public class BassebombeCraft {
 		File configDirectory = event.getModConfigurationDirectory();
 		config = ConfigUtils.loadConfig(configDirectory, logger);
 
+		// initialise frequency repository
+		frequencyRepository = DefaultFrequencyRepository.getInstance();
+
 		// Initialise charmed mobs repository
 		charmedMobsRepository = DefaultCharmedMobsRepository.getInstance();
 
@@ -164,7 +174,7 @@ public class BassebombeCraft {
 
 		// initialise targeted entities repository
 		targetedEntitiesRepository = DefaultTargetedEntitiesRepository.getInstance();
-		
+
 		initializeModMetadata(event);
 	}
 
@@ -294,7 +304,7 @@ public class BassebombeCraft {
 	public TargetedEntitiesRepository getTargetedEntitiesRepository() {
 		return targetedEntitiesRepository;
 	}
-		
+
 	/**
 	 * Get mod configuration.
 	 * 
@@ -320,7 +330,8 @@ public class BassebombeCraft {
 	 */
 	public Item[] getInventoryItems() {
 		return ItemRegistryEventHandler.getInventoryItems();
-	}	
+	}
+
 	/**
 	 * Get mod instance.
 	 * 
@@ -372,7 +383,16 @@ public class BassebombeCraft {
 	 * @return random generator.
 	 */
 	public Random getRandom() {
-		return random; 
+		return random;
 	}
-	
+
+	/**
+	 * Get frequency repository.
+	 * 
+	 * @return frequency repository
+	 */
+	public FrequencyRepository getFrequencyRepository() {
+		return frequencyRepository;
+	}
+
 }

@@ -35,14 +35,5 @@ public class TeamMembershipEventHandler {
 			return;
 		}
 		
-		// remove entity from team upon death
-		
-		// exit if not a living entity
-		if (!isEntityLiving(event.getEntityLiving())) return;
-		
-		// remove entity from team upon death
-		EntityLiving entity = (EntityLiving ) event.getEntityLiving();			
-		repository.remove(entity);
-		
 	}
 }
