@@ -6,6 +6,7 @@ import static bassebombecraft.world.WorldUtils.isWorldAtServerSide;
 
 import java.util.Random;
 
+import bassebombecraft.event.frequency.FrequencyRepository;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
@@ -22,18 +23,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 @Mod.EventBusSubscriber
 public class ParticleRenderingEventHandler {
 
-	/**
-	 * Game ticks counter.
-	 */
-	static int ticksCounter = 0;
-
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public static void handleEvent(PlayerTickEvent event) {
-		ticksCounter++;
 
 		// get repository
 		ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
+		FrequencyRepository frequencyRepository = getBassebombeCraft().getFrequencyRepository(); 
 
 		// update particle duration
 		repository.updateParticleDuration();
@@ -52,8 +48,8 @@ public class ParticleRenderingEventHandler {
 			return;
 
 		// exit if particles should be rendered in this tick
-		if (ticksCounter % RENDERING_FREQUENCY != 0)
-			return;
+		// exit if frequency isn't active
+		if(!frequencyRepository.isActive( RENDERING_FREQUENCY )) return;
 
 		// render particles
 		render(world, repository);

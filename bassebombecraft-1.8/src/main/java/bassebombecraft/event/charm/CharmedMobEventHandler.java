@@ -53,7 +53,7 @@ public class CharmedMobEventHandler {
 		repository.update(entityLiving);
 
 		// exit if frequency isn't active
-		if(!frequencyRepository.isActive( SPAWN_PARTICLES_FREQUENCY)) return;
+		if(!frequencyRepository.isActive(SPAWN_PARTICLES_FREQUENCY)) return;
 				
 		// get repository
 		ParticleRenderingRepository particleRepository = getBassebombeCraft().getParticleRenderingRepository();
