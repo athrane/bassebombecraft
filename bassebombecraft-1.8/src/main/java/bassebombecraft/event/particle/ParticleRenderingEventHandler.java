@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 /**
  * Event handler for rendering particles.
  * 
@@ -29,7 +30,7 @@ public class ParticleRenderingEventHandler {
 
 		// get repository
 		ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
-		FrequencyRepository frequencyRepository = getBassebombeCraft().getFrequencyRepository(); 
+		FrequencyRepository frequencyRepository = getBassebombeCraft().getFrequencyRepository();
 
 		// update particle duration
 		repository.updateParticleDuration();
@@ -49,7 +50,8 @@ public class ParticleRenderingEventHandler {
 
 		// exit if particles should be rendered in this tick
 		// exit if frequency isn't active
-		if(!frequencyRepository.isActive( RENDERING_FREQUENCY )) return;
+		if (!frequencyRepository.isActive(RENDERING_FREQUENCY))
+			return;
 
 		// render particles
 		render(world, repository);
@@ -148,7 +150,7 @@ public class ParticleRenderingEventHandler {
 	 * @return double between -PARTICLE_SPEED..PARTICLE_SPEED.
 	 */
 	static double calculateRandomSpeed(double speed) {
-		Random random = getBassebombeCraft().getRandom();		
+		Random random = getBassebombeCraft().getRandom();
 		return (random.nextDouble() * 2.0D - 1.0D) * speed;
 	}
 
