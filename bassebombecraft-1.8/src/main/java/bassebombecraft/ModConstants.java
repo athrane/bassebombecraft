@@ -1,6 +1,7 @@
 package bassebombecraft;
 
 import bassebombecraft.entity.ai.task.AiCommandersTargeting;
+import bassebombecraft.entity.ai.task.CompanionAttack;
 import bassebombecraft.item.basic.HudItem;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -211,7 +212,7 @@ public class ModConstants {
 	public static final HudItem TARGETING_OVERLAY_ITEM = new HudItem();
 
 	/**
-	 * Rendering frequency. Measured in world ticks.
+	 * Rendering frequency for particles. Measured in world ticks.
 	 */
 	public static final int RENDERING_FREQUENCY = 10; 
 
@@ -234,5 +235,15 @@ public class ModConstants {
 	 * Fire duration for AI Commanded team members during self destruct in {@linkplain AiCommandersTargeting}.
 	 */	
 	public static final int AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE = 1000;
+
+	/**
+	 * Update frequency for {@linkplain CompanionAttack}. Measured in ticks.
+	 */
+	public static final int AI_COMPANION_ATTACK_UPDATE_FREQUENCY = 10;
+
+	/**
+	 * Minimum range for close quarters attacks in {@linkplain CompanionAttack}. Measured in blocks.
+	 */	
+	public static final int AI_COMPANION_ATTACK_MINIMUM_RANGE = 5; 
 
 }
