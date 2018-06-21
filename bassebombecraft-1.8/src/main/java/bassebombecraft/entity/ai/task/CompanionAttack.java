@@ -1,5 +1,8 @@
 package bassebombecraft.entity.ai.task;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.AI_COMPANION_ATTACK_MINIMUM_RANGE;
+import static bassebombecraft.ModConstants.AI_COMPANION_ATTACK_UPDATE_FREQUENCY;
 import static bassebombecraft.entity.EntityUtils.getAliveTarget;
 import static bassebombecraft.entity.EntityUtils.hasAliveTarget;
 
@@ -7,6 +10,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
+import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.item.action.GenericShootEggProjectile;
 import bassebombecraft.item.action.RightClickedItemAction;
 import bassebombecraft.item.action.ShootBaconBazooka;
@@ -63,9 +67,6 @@ public class CompanionAttack extends EntityAIBase {
 
 	final static String CREEPER_CANNON_CONFIG_KEY = ShootCreeperCannon.class.getSimpleName();
 	final static boolean ISNT_PRIMED = false;
-	static final int MINIMUM_RANGE = 5;
-	static final int UPDATE_FREQUENCY = 10; // Measured in ticks
-
 	/**
 	 * Target entity.
 	 */
@@ -75,7 +76,6 @@ public class CompanionAttack extends EntityAIBase {
 	double entityMoveSpeed = 1.0D;
 	double distanceToTargetSq;
 	boolean isTargetClose;
-	int ticksCounter = 0;
 
 	/**
 	 * List of long range actions.
@@ -148,10 +148,11 @@ public class CompanionAttack extends EntityAIBase {
 
 	@Override
 	public boolean shouldExecute() {
-		
+
 		// exit if no living target is defined
-		if(!hasAliveTarget(this.entity)) return false;
-		
+		if (!hasAliveTarget(this.entity))
+			return false;
+
 		// get candidate
 		EntityLivingBase targetCandidate = getAliveTarget(this.entity);
 
@@ -167,46 +168,47 @@ public class CompanionAttack extends EntityAIBase {
 
 	@Override
 	public void updateTask() {
-		ticksCounter++;
 
 		// look at target
 		entity.getLookHelper().setLookPositionWithEntity(attackTarget, 30.0F, 30.0F);
 
-		// update task
-		if (ticksCounter % UPDATE_FREQUENCY == 0) {
+		// get repository
+		FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
 
-			// get movement info
-			distanceToTargetSq = this.entity.getDistanceSq(attackTarget.posX, attackTarget.getEntityBoundingBox().minY,
-					attackTarget.posZ);
-			isTargetClose = (distanceToTargetSq < MINIMUM_RANGE);
+		// exit if frequency isn't active
+		if (!repository.isActive(AI_COMPANION_ATTACK_UPDATE_FREQUENCY))
+			return;
 
-			// move closer if target isn't a minimum range
-			if (isTargetClose) {
-				entity.getNavigator().clearPath();
-			} else {
-				entity.getNavigator().tryMoveToEntityLiving(attackTarget, entityMoveSpeed);
-			}
+		// get movement info
+		distanceToTargetSq = this.entity.getDistanceSq(attackTarget.posX, attackTarget.getEntityBoundingBox().minY,
+				attackTarget.posZ);
+		isTargetClose = (distanceToTargetSq < AI_COMPANION_ATTACK_MINIMUM_RANGE);
 
-			// select behaviour type
-			String aiAction = "";
-			if (isTargetClose)
-				aiAction = doCloseRangeAction();
-			else
-				aiAction = doLongRangeAction();
+		// move closer if target isn't a minimum range
+		if (isTargetClose) {
+			entity.getNavigator().clearPath();
+		} else {
+			entity.getNavigator().tryMoveToEntityLiving(attackTarget, entityMoveSpeed);
+		}
 
-			// add AI observation event
-			// System.out.println("target=" + attackTarget);
-			// System.out.println("dist=" + distanceToTargetSq);
-			// System.out.println("isTargetClose=" + isTargetClose);
-			// System.out.println("action=" + aiAction);
-			// String uid = commander.getName();
-			try {
-				// aiObserve(uid, distanceToTargetSq, isTargetClose, aiAction);
-			} catch (Exception e) {
-				// TODO: add to centralized exception handling.
-				// NOP
-			}
+		// select behaviour type
+		String aiAction = "";
+		if (isTargetClose)
+			aiAction = doCloseRangeAction();
+		else
+			aiAction = doLongRangeAction();
 
+		// add AI observation event
+		// System.out.println("target=" + attackTarget);
+		// System.out.println("dist=" + distanceToTargetSq);
+		// System.out.println("isTargetClose=" + isTargetClose);
+		// System.out.println("action=" + aiAction);
+		// String uid = commander.getName();
+		try {
+			// aiObserve(uid, distanceToTargetSq, isTargetClose, aiAction);
+		} catch (Exception e) {
+			// TODO: add to centralized exception handling.
+			// NOP
 		}
 
 	}
@@ -257,6 +259,5 @@ public class CompanionAttack extends EntityAIBase {
 	@Override
 	public void resetTask() {
 		attackTarget = null;
-		ticksCounter = 0;
 	}
 }
