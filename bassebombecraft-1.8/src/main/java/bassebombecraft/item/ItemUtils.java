@@ -17,10 +17,9 @@ public class ItemUtils {
 	 * @param name
 	 *            item name.
 	 */
-	public static void doCommonItemInitialization(Item item, String name) {
+	public static void doCommonItemInitialization(Item item, String name) {		
 		item.setUnlocalizedName(name);
 		item.setRegistryName(name);
-		item.setCreativeTab(BassebombeCraft.getCreativeTab());
 	}
 
 	/**

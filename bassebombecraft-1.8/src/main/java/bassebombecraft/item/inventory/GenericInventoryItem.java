@@ -1,6 +1,7 @@
 package bassebombecraft.item.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.ModConstants.ITEM_IDOL_DEFAULT_COOLDOWN;
@@ -68,6 +69,7 @@ public class GenericInventoryItem extends Item {
 	 *            inventory item strategy.
 	 */
 	public GenericInventoryItem(String name, InventoryItemActionStrategy strategy) {
+		super(new Item.Properties().group(getItemGroup()));
 		doCommonItemInitialization(this, name);
 		
 		this.strategy = strategy;
