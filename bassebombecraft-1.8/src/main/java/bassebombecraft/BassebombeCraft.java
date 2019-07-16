@@ -6,7 +6,7 @@ import static bassebombecraft.ModConstants.NAME;
 import static bassebombecraft.ModConstants.TAB_NAME;
 import static bassebombecraft.ModConstants.VERSION;
 import static bassebombecraft.config.VersionUtils.validateVersion;
-import static bassebombecraft.tab.CreativeTabFactory.createCreativeTab;
+import static bassebombecraft.tab.ItemGroupFactory.*;
 
 import java.io.File;
 import java.util.Random;
@@ -37,8 +37,8 @@ import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.projectile.ProjectileInitializer;
 import bassebombecraft.proxy.CommonProxy;
 import bassebombecraft.world.RandomModStructuresGenerator;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -83,10 +83,10 @@ public class BassebombeCraft {
 	static CommonProxy proxy;
 
 	/**
-	 * Creative tab.
+	 * {@linkplain ItemGroup} which implements creative tab.
 	 */
-	static CreativeTabs modTab = createCreativeTab(TAB_NAME);
-
+	static ItemGroup modItemGroup = createItemGroup(TAB_NAME);
+	
 	/**
 	 * Charmed Mob repository
 	 */
@@ -342,12 +342,12 @@ public class BassebombeCraft {
 	}
 
 	/**
-	 * Get creative tab.
+	 * Get item group (which implements the creative tab).
 	 * 
-	 * @return creative tab.
+	 * @return item group.
 	 */
-	public static CreativeTabs getCreativeTab() {
-		return modTab;
+	public static ItemGroup getItemGroup() {
+		return modItemGroup;
 	}
 
 	/**

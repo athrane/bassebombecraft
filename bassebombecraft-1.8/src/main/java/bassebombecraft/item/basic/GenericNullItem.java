@@ -1,6 +1,6 @@
 package bassebombecraft.item.basic;
 
-import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.BassebombeCraft.*;
 import static bassebombecraft.ModConstants.ITEM_BASICITEM_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
@@ -10,6 +10,7 @@ import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import java.util.List;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -56,6 +57,7 @@ public class GenericNullItem extends Item {
 	 *            clicked.
 	 */
 	public GenericNullItem(String name, RightClickedItemAction action) {
+		super(new Item.Properties().group(getItemGroup()));
 		doCommonItemInitialization(this, name);
 		
 		this.action = action;

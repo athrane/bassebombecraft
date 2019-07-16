@@ -1,5 +1,6 @@
 package bassebombecraft.item.book;
 
+import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.ITEM_BOOK_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
@@ -57,6 +58,7 @@ public class GenericBlockClickedBook extends Item {
 	 *            with this item.
 	 */
 	public GenericBlockClickedBook(String name, BlockClickedItemAction action) {
+		super(new Item.Properties().group(getItemGroup()));
 		doCommonItemInitialization(this, name);
 
 		this.action = action;
