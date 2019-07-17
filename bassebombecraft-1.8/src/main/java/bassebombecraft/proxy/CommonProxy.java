@@ -9,34 +9,17 @@ import org.apache.logging.log4j.Logger;
 import bassebombecraft.BassebombeCraft;
 import net.minecraft.block.Block;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
  * Base class for proxies.
  */
 public class CommonProxy {
 
-	public void preInit(FMLPreInitializationEvent e) {
-		// NO-OP
-	}
-
-	public void init(FMLInitializationEvent e) {
-		// NO-OP
-	}
-
-	public void postInit(FMLPostInitializationEvent e) {
-		// NO-OP
-	}
-
 	/**
 	 * Register block for rendering.
 	 * 
-	 * @param block
-	 *            block to be registered.
-	 * @param blockName
-	 *            block name.
+	 * @param block     block to be registered.
+	 * @param blockName block name.
 	 */
 	public void registerItemForRendering(Block block, String blockName) {
 		// NO-OP
@@ -75,10 +58,8 @@ public class CommonProxy {
 	/**
 	 * Post item usage.
 	 * 
-	 * @param itemName
-	 *            item to register usage of.
-	 * @param user
-	 *            user using the item.
+	 * @param itemName item to register usage of.
+	 * @param user     user using the item.
 	 */
 	public void postItemUsage(String itemName, String user) {
 

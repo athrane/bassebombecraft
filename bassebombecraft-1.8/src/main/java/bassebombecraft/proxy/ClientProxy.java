@@ -11,11 +11,8 @@ import org.apache.logging.log4j.Logger;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 /**
  * Client side proxy.
@@ -26,21 +23,6 @@ public class ClientProxy extends CommonProxy {
 	 * Meta data for block.
 	 */
 	static final int META = 0;
-
-	@Override
-	public void preInit(FMLPreInitializationEvent e) {
-		super.preInit(e);
-	}
-
-	@Override
-	public void init(FMLInitializationEvent e) {
-		super.init(e);
-	}
-
-	@Override
-	public void postInit(FMLPostInitializationEvent e) {
-		super.postInit(e);
-	}
 
 	@Override
 	public void registerItemForRendering(Block block, String blockName) {
