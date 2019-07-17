@@ -6,7 +6,7 @@ import static bassebombecraft.ModConstants.NAME;
 import static bassebombecraft.ModConstants.TAB_NAME;
 import static bassebombecraft.ModConstants.VERSION;
 import static bassebombecraft.config.VersionUtils.validateVersion;
-import static bassebombecraft.tab.ItemGroupFactory.*;
+import static bassebombecraft.tab.ItemGroupFactory.createItemGroup;
 
 import java.io.File;
 import java.util.Random;
@@ -40,18 +40,18 @@ import bassebombecraft.world.RandomModStructuresGenerator;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerAboutToStartEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
-import net.minecraftforge.fml.common.event.FMLServerStoppedEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
+import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 
-@net.minecraftforge.fml.common.Mod(name = NAME, modid = MODID, version = VERSION)
+@Mod(MODID)
 public class BassebombeCraft {
 
 	/**
@@ -60,13 +60,6 @@ public class BassebombeCraft {
 	// static Logger logger = LogManager.getLogger(BassebombeCraft.class);
 	Logger logger = null;
 
-	/**
-	 * Mod singleton class. This is the object reference to your class that Forge
-	 * uses. Make sure that the argument is the modid in @Mod. Otherwise, it'll
-	 * default to the empty string, and cause problems with any mod that also does
-	 * that.
-	 */
-	@Instance(value = MODID)
 	public static BassebombeCraft instance;
 
 	/**
@@ -85,8 +78,8 @@ public class BassebombeCraft {
 	/**
 	 * {@linkplain ItemGroup} which implements creative tab.
 	 */
-	static ItemGroup modItemGroup = createItemGroup(TAB_NAME);
-	
+	static final ItemGroup modItemGroup = createItemGroup(TAB_NAME);
+
 	/**
 	 * Charmed Mob repository
 	 */
@@ -141,6 +134,16 @@ public class BassebombeCraft {
 	 * Random generator
 	 */
 	static Random random = new Random();
+
+	
+	/**
+	 * BassebombeCraft constructor.
+	 */
+	public BassebombeCraft() {
+		super();
+		
+		instance = this;
+	}
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -209,8 +212,7 @@ public class BassebombeCraft {
 	/**
 	 * Initialize mod meta data.
 	 * 
-	 * @param event
-	 *            initialization event.
+	 * @param event initialization event.
 	 */
 	void initializeModMetadata(FMLPreInitializationEvent event) {
 		ModMetadata m = event.getModMetadata();
