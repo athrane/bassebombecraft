@@ -9,6 +9,8 @@ import static bassebombecraft.tab.ItemGroupFactory.createItemGroup;
 import java.io.File;
 import java.util.Random;
 
+import javax.naming.OperationNotSupportedException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,15 +36,19 @@ import bassebombecraft.event.item.ItemRegistryEventHandler;
 import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.projectile.ProjectileInitializer;
+import bassebombecraft.proxy.ClientProxy;
+import bassebombecraft.proxy.ClientProxyOLD;
 import bassebombecraft.proxy.CommonProxy;
+import bassebombecraft.proxy.Proxy;
+import bassebombecraft.proxy.ServerProxy;
 import bassebombecraft.world.RandomModStructuresGenerator;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -54,23 +60,20 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod(MODID)
 public class BassebombeCraft {
 
-	// Directly reference a log4j logger.
+	/**
+	 * Log4j logger.
+	 */
 	static Logger logger = LogManager.getLogger();
 
+	/**
+	 * Mod instance.
+	 */
 	public static BassebombeCraft instance;
 
 	/**
-	 * Minecraft uses a client and server setup, even on single player. The server
-	 * side does all the work maintaining the world's state while the client renders
-	 * the world. The thing is though, that all code runs on both the client and
-	 * server side unless specified otherwise. There are two annotations for
-	 * specifying code be ran on only one side. The annotation @SidedProxy is used
-	 * when you want the server to call the constructor of one class and the client
-	 * another. Both classes need to be the same type or subtype of the field, and
-	 * the names of the classes are passed as Strings.
+	 * Distributed executor for execution of client and server side code.
 	 */
-	@SidedProxy(clientSide = "bassebombecraft.proxy.ClientProxy", serverSide = "bassebombecraft.proxy.CommonProxy")
-	static CommonProxy proxy;
+	static Proxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
 
 	/**
 	 * {@linkplain ItemGroup} which implements creative tab.
@@ -138,8 +141,9 @@ public class BassebombeCraft {
 	public BassebombeCraft() {
 		super();
 
+		// store mod instance
 		instance = this;
-		
+
 		// Register the setup method for mod loading
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 
@@ -182,11 +186,14 @@ public class BassebombeCraft {
 		targetedEntitiesRepository = DefaultTargetedEntitiesRepository.getInstance();
 
 		logger.info("Starting to initialize BasseBombeCraft");
-
+		
 		validateVersion(logger);
+		
+		// initialize MC entities
 		ProjectileInitializer.getInstance().initialize(this, modTab);
 		BlockInitializer.getInstance().initialize(modTab);
 		initializeWorldGenerators();
+		
 		logger.info("Initialized BasseBombeCraft " + VERSION);
 	}
 
@@ -201,7 +208,7 @@ public class BassebombeCraft {
 
 	@SubscribeEvent
 	public void serverStarted(FMLServerStartedEvent event) {
-		proxy.startAnalyticsSession(logger);
+		proxy.startAnalyticsSession();
 	}
 
 	@SubscribeEvent
@@ -223,7 +230,7 @@ public class BassebombeCraft {
 	 * 
 	 * @return proxy.
 	 */
-	public static CommonProxy getProxy() {
+	public static Proxy getProxy() {
 		return proxy;
 	}
 
@@ -350,7 +357,11 @@ public class BassebombeCraft {
 	 * @return user.
 	 */
 	public String getUser() {
-		return proxy.getUser();
+		try {
+			return proxy.getUser();
+		} catch (OperationNotSupportedException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	/**

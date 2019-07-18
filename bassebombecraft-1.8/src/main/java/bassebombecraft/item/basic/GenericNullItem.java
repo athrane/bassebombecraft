@@ -1,6 +1,7 @@
 package bassebombecraft.item.basic;
 
-import static bassebombecraft.BassebombeCraft.*;
+import static bassebombecraft.BassebombeCraft.getItemGroup;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.ITEM_BASICITEM_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
@@ -10,7 +11,6 @@ import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import java.util.List;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -50,16 +50,13 @@ public class GenericNullItem extends Item {
 	/**
 	 * Generic null item constructor.
 	 * 
-	 * @param name
-	 *            item name.
-	 * @param action
-	 *            item action object which is invoked when item is right
-	 *            clicked.
+	 * @param name   item name.
+	 * @param action item action object which is invoked when item is right clicked.
 	 */
 	public GenericNullItem(String name, RightClickedItemAction action) {
 		super(new Item.Properties().group(getItemGroup()));
 		doCommonItemInitialization(this, name);
-		
+
 		this.action = action;
 
 		// get cooldown or default value
@@ -96,10 +93,10 @@ public class GenericNullItem extends Item {
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
-	
+
 	@Override
 	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		tooltip.add(TextFormatting.GREEN + this.tooltip);
 	}
-	
+
 }
