@@ -37,8 +37,6 @@ import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.projectile.ProjectileInitializer;
 import bassebombecraft.proxy.ClientProxy;
-import bassebombecraft.proxy.ClientProxyOLD;
-import bassebombecraft.proxy.CommonProxy;
 import bassebombecraft.proxy.Proxy;
 import bassebombecraft.proxy.ServerProxy;
 import bassebombecraft.world.RandomModStructuresGenerator;
@@ -186,14 +184,14 @@ public class BassebombeCraft {
 		targetedEntitiesRepository = DefaultTargetedEntitiesRepository.getInstance();
 
 		logger.info("Starting to initialize BasseBombeCraft");
-		
+
 		validateVersion(logger);
-		
+
 		// initialize MC entities
 		ProjectileInitializer.getInstance().initialize(this, modTab);
 		BlockInitializer.getInstance().initialize(modTab);
 		initializeWorldGenerators();
-		
+
 		logger.info("Initialized BasseBombeCraft " + VERSION);
 	}
 
