@@ -1,8 +1,8 @@
 package bassebombecraft.proxy;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.config.VersionUtils.endSession;
-import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startSession;
 import static bassebombecraft.player.PlayerUtils.getClientSidePlayerUId;
 
@@ -15,52 +15,36 @@ import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 
 /**
- * Client side proxy.
+ * Implementation of the {@linkplain Proxy} interface.
+ * 
+ * Forge client side proxy implementation.
  */
-public class ClientProxy extends CommonProxy {
+public class ClientProxy implements Proxy {
 
 	/**
 	 * Meta data for block.
 	 */
 	static final int META = 0;
-
+	
 	@Override
-	public void registerItemForRendering(Block block, String blockName) {
-		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
-		ModelResourceLocation location = new ModelResourceLocation(MODID + ":" + blockName, "inventory");
-		mesher.register(Item.getItemFromBlock(block), META, location);
-	}
-
-	@Override
-	public void startAnalyticsSession(Logger logger) {
-
+	public void startAnalyticsSession() {
 		try {
 			startSession(getUser());
 
 		} catch (Exception ex) {
-			logger.error("Usage initialization failed with: " + ex.getMessage());
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Initiating usage session failed with: " + ex.getMessage());
 		}
 	}
 
 	@Override
 	public void endAnalyticsSession() {
-
 		try {
 			endSession(getUser());
 
 		} catch (Exception ex) {
-			// NO-OP
-		}
-	}
-
-	@Override
-	public void postItemUsage(String itemName, String user) {
-
-		try {
-			postItemUsageEvent(user, itemName);
-
-		} catch (Exception ex) {
-			// NO-OP
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Initiating usage session failed with: " + ex.getMessage());
 		}
 	}
 
@@ -74,4 +58,11 @@ public class ClientProxy extends CommonProxy {
 		return getClientSidePlayerUId();
 	}
 
+	@Override
+	public void registerItemForRendering(Block block, String blockName) {
+		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+		ModelResourceLocation location = new ModelResourceLocation(MODID + ":" + blockName, "inventory");
+		mesher.register(Item.getItemFromBlock(block), META, location);
+	}
+	
 }
