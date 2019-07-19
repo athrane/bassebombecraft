@@ -6,7 +6,7 @@ import bassebombecraft.player.PlayerDirection;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -78,17 +78,17 @@ public class EntityUtils {
 	}
 
 	/**
-	 * return true if entity is a {@linkplain EntityMob}.
+	 * return true if entity is a {@linkplain MobEntity}.
 	 * 
 	 * @param entity
 	 *            entity to test.
 	 * 
-	 * @return true if entity is a {@linkplain EntityMob}.
+	 * @return true if entity is a {@linkplain MobEntity}.
 	 */
-	public static boolean isEntityMob(Entity entity) {
+	public static boolean isMobEntity(Entity entity) {
 		if (entity == null)
 			return false;
-		return entity instanceof EntityMob;
+		return entity instanceof MobEntity;
 	}
 
 	/**
