@@ -38,7 +38,7 @@ import bassebombecraft.projectile.action.SpawnLightningBolt;
 import bassebombecraft.projectile.action.SpawnSquid;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
 /**
  * AI task for companion, e.g. charmed mob or guardian.
@@ -94,7 +94,7 @@ public class CompanionAttack extends EntityAIBase {
 	/**
 	 * Mob commander.
 	 */
-	EntityPlayer commander;
+	PlayerEntity commander;
 
 	/**
 	 * CompanionAttack constructor.
@@ -142,7 +142,7 @@ public class CompanionAttack extends EntityAIBase {
 	 * @param entity    entity that the tasks is applied to.
 	 * @param commander entity which commands entity.
 	 */
-	public CompanionAttack(LivingEntity entity, EntityPlayer commander) {
+	public CompanionAttack(LivingEntity entity, PlayerEntity commander) {
 		this(entity);
 		this.commander = commander;
 	}

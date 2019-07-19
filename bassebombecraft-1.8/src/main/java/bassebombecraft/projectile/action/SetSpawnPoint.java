@@ -3,7 +3,7 @@ package bassebombecraft.projectile.action;
 import bassebombecraft.player.PlayerUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -28,7 +28,7 @@ public class SetSpawnPoint implements ProjectileAction {
 
 		// exit if not a player
 		LivingEntity thrower = projectile.getThrower();
-		if (!PlayerUtils.isEntityPlayer(thrower))
+		if (!PlayerUtils.isPlayerEntity(thrower))
 			return;
 
 		BlockPos spawnPosition = null;
@@ -49,7 +49,7 @@ public class SetSpawnPoint implements ProjectileAction {
 		}
 
 		// type cast
-		EntityPlayer player = (EntityPlayer) thrower;
+		PlayerEntity player = (PlayerEntity) thrower;
 
 		player.setSpawnPoint(spawnPosition, FORCED);
 		return;

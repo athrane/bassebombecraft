@@ -7,7 +7,7 @@ import bassebombecraft.entity.commander.MobCommanderRepository;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.EntityAITarget;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
 /**
  * AI target acquisition task which is commanded the by mob commander.
@@ -22,7 +22,7 @@ public class CommanderControlledTargeting extends EntityAITarget {
 	/**
 	 * Mob commander.
 	 */
-	EntityPlayer commander;
+	PlayerEntity commander;
 
 	/**
 	 * CommanderControlledTargeting constructor.
@@ -30,7 +30,7 @@ public class CommanderControlledTargeting extends EntityAITarget {
 	 * @param owner     commanded entity.
 	 * @param commander entity which commands entity.
 	 */
-	public CommanderControlledTargeting(EntityCreature owner, EntityPlayer commander) {
+	public CommanderControlledTargeting(EntityCreature owner, PlayerEntity commander) {
 		super(owner, false);
 		this.commander = commander;
 

@@ -7,7 +7,7 @@ import bassebombecraft.item.action.RightClickedItemAction;
 import bassebombecraft.player.PlayerUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -28,11 +28,11 @@ public class CommandMobs implements RightClickedItemAction {
 		MobCommanderRepository repository = getBassebombeCraft().getMobCommanderRepository();
 
 		// exit if not a player
-		if (!PlayerUtils.isEntityPlayer(entity))
+		if (!PlayerUtils.isPlayerEntity(entity))
 			return;
 
 		// typecast
-		EntityPlayer player = (EntityPlayer) entity;
+		PlayerEntity player = (PlayerEntity) entity;
 
 		// register player
 		repository.register(player);

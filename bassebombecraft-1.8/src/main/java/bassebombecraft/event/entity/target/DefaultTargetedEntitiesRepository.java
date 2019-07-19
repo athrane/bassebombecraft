@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
 public class DefaultTargetedEntitiesRepository implements TargetedEntitiesRepository {
 
@@ -25,7 +25,7 @@ public class DefaultTargetedEntitiesRepository implements TargetedEntitiesReposi
 	}
 
 	@Override
-	public Stream<LivingEntity> get(EntityPlayer commander) {
+	public Stream<LivingEntity> get(PlayerEntity commander) {
 		return targets.stream();
 	}
 

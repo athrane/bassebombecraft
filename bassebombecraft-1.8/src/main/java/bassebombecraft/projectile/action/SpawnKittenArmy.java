@@ -12,7 +12,7 @@ import com.typesafe.config.Config;
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.EntityOcelot;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -91,8 +91,8 @@ public class SpawnKittenArmy implements ProjectileAction {
 			entity.setOwnerId(owner.getUniqueID());
 
 			// set in love with player
-			if (owner instanceof EntityPlayer) {
-				EntityPlayer player = (EntityPlayer) owner;
+			if (owner instanceof PlayerEntity) {
+				PlayerEntity player = (PlayerEntity) owner;
 				entity.setInLove(player);
 			}
 

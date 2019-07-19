@@ -2,10 +2,10 @@ package bassebombecraft.event.entity.team;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.EntityUtils.isLivingEntity;
-import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
+import static bassebombecraft.player.PlayerUtils.isPlayerEntity;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -29,8 +29,8 @@ public class TeamMembershipEventHandler {
 		}
 		
 		// disband team if dead entity is commander
-		if (isEntityPlayer(event.getLivingEntity())) {
-			EntityPlayer player = (EntityPlayer ) event.getLivingEntity();			
+		if (isPlayerEntity(event.getLivingEntity())) {
+			PlayerEntity player = (PlayerEntity ) event.getLivingEntity();			
 			repository.deleteTeam(player);
 			return;
 		}

@@ -10,7 +10,7 @@ import static bassebombecraft.config.ConfigUtils.resolveTooltip;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
-import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
+import static bassebombecraft.player.PlayerUtils.isPlayerEntity;
 import static bassebombecraft.player.PlayerUtils.isItemHeldInOffHand;
 import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
@@ -23,7 +23,7 @@ import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.CooldownTracker;
@@ -93,8 +93,8 @@ public class GenericInventoryItem extends Item {
 
 		// determine if item is held by player and should activate from off hand
 		boolean shouldActivateFromOffHand = false;
-		if (isEntityPlayer(entityIn)) {
-			EntityPlayer player = (EntityPlayer) entityIn;
+		if (isPlayerEntity(entityIn)) {
+			PlayerEntity player = (PlayerEntity) entityIn;
 			shouldActivateFromOffHand = isItemHeldInOffHand(player, stack);
 		}
 
@@ -117,11 +117,11 @@ public class GenericInventoryItem extends Item {
 			return;
 
 		// exit if entity isn't player
-		if (!isEntityPlayer(entityIn))
+		if (!isPlayerEntity(entityIn))
 			return;
 
 		// type cast as player
-		EntityPlayer player = (EntityPlayer) entityIn;
+		PlayerEntity player = (PlayerEntity) entityIn;
 
 		// exit if cooldown is effect
 		if (player.getCooldownTracker().hasCooldown(this))

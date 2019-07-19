@@ -13,7 +13,7 @@ import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
 import bassebombecraft.predicate.DiscardCommander;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 
 /**
@@ -65,14 +65,14 @@ public class AttackNearestPlayerCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean shouldExecute(EntityPlayer commander, EntityCreature entity) {
+	public boolean shouldExecute(PlayerEntity commander, EntityCreature entity) {
 
 		// initialize filter
 		discardTeamCommander.set(commander);
 
 		// get list of mobs
 		AxisAlignedBB aabb = entity.getEntityBoundingBox().expand(targetDistance, targetDistance, targetDistance);
-		List<EntityPlayer> targetList = entity.world.getEntitiesWithinAABB(EntityPlayer.class, aabb,
+		List<PlayerEntity> targetList = entity.world.getEntitiesWithinAABB(PlayerEntity.class, aabb,
 				discardTeamCommander);
 
 		// exit if no targets where found
@@ -84,7 +84,7 @@ public class AttackNearestPlayerCommand implements MobCommand {
 		Collections.sort(targetList, entityDistanceSorter);
 
 		// get target
-		EntityPlayer target = targetList.get(FIRST_INDEX);
+		PlayerEntity target = targetList.get(FIRST_INDEX);
 
 		// update target
 		entity.setAttackTarget(target);
@@ -93,7 +93,7 @@ public class AttackNearestPlayerCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean continueExecuting(EntityPlayer commander, EntityCreature entity) {
+	public boolean continueExecuting(PlayerEntity commander, EntityCreature entity) {
 
 		// get target
 		LivingEntity target = entity.getAttackTarget();

@@ -11,7 +11,7 @@ import bassebombecraft.entity.commander.command.AttackNearestMobCommand;
 import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
 import bassebombecraft.entity.commander.command.DanceCommand;
 import bassebombecraft.entity.commander.command.NullCommand;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
 public class DefaultMobCommanderRepository implements MobCommanderRepository {
 
@@ -73,25 +73,25 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 	/**
 	 * Commander container.
 	 */
-	Map<EntityPlayer, MobCommanderState> commanders;
+	Map<PlayerEntity, MobCommanderState> commanders;
 
 	/**
 	 * DefaultMobCommanderRepository constructor.
 	 */
 	public DefaultMobCommanderRepository() {
 		super();
-		this.commanders = Collections.synchronizedMap(new HashMap<EntityPlayer, MobCommanderState>());
+		this.commanders = Collections.synchronizedMap(new HashMap<PlayerEntity, MobCommanderState>());
 	}
 
 	@Override
-	public boolean isRegistered(EntityPlayer player) {
+	public boolean isRegistered(PlayerEntity player) {
 		if (player == null)
 			return false;
 		return (commanders.containsKey(player));
 	}
 
 	@Override
-	public void register(EntityPlayer player) {
+	public void register(PlayerEntity player) {
 		if (player == null)
 			return;
 		if (isRegistered(player)) {
@@ -104,7 +104,7 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 	}
 
 	@Override
-	public void remove(EntityPlayer player) {
+	public void remove(PlayerEntity player) {
 		if (player == null)
 			return;
 		commanders.remove(player);
@@ -116,7 +116,7 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 	}
 
 	@Override
-	public MobCommand getCommand(EntityPlayer player) {
+	public MobCommand getCommand(PlayerEntity player) {
 		if (player == null)
 			return NULL_COMMAND;
 
@@ -129,7 +129,7 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 	}
 
 	@Override
-	public void cycle(EntityPlayer player) {
+	public void cycle(PlayerEntity player) {
 		register(player);
 
 		// get command

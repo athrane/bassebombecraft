@@ -2,7 +2,7 @@ package bassebombecraft.entity.ai.task;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
 /**
  * AI task for companion, e.g. charmed mob or guardian.
@@ -15,7 +15,7 @@ public class FollowClosestPlayer extends EntityAIBase {
 	static final float WATCH_DIST = 8.0F;
 
 	final LivingEntity entity;
-	EntityPlayer closestPlayer;
+	PlayerEntity closestPlayer;
 	int updateDelayCounter = 0;
 	float minDistanceSqr; // minimum distance to player (squared)
 	double movementSpeed;
