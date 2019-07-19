@@ -5,7 +5,7 @@ import static bassebombecraft.entity.EntityUtils.hasAliveTarget;
 
 import bassebombecraft.ModConstants;
 import bassebombecraft.potion.MobEffects;
-import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.potion.PotionEffect;
@@ -26,7 +26,7 @@ public class AiCommandersTargeting extends EntityAITarget {
 	 * @param owner     commanded entity.
 	 * @param commander entity which commands entity.
 	 */
-	public AiCommandersTargeting(EntityCreature owner, LivingEntity commander) {
+	public AiCommandersTargeting(CreatureEntity owner, LivingEntity commander) {
 		super(owner, false);
 		this.commander = commander;
 

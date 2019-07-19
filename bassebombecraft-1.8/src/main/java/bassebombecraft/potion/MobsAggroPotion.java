@@ -3,7 +3,7 @@ package bassebombecraft.potion;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
-import static bassebombecraft.entity.EntityUtils.isEntityCreature;
+import static bassebombecraft.entity.EntityUtils.isCreatureEntity;
 import static bassebombecraft.entity.EntityUtils.isLivingEntity;
 
 import java.util.Collections;
@@ -13,7 +13,7 @@ import com.typesafe.config.Config;
 
 import bassebombecraft.entity.EntityDistanceSorter;
 import bassebombecraft.predicate.DiscardSelf;
-import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -68,8 +68,8 @@ public class MobsAggroPotion extends Potion {
 		
 		// get target (either as creature or living entity)
 		LivingEntity target  = null;
-		if(isEntityCreature(entity)) {
-			EntityCreature entityCreature = (EntityCreature) entity;
+		if(isCreatureEntity(entity)) {
+			CreatureEntity entityCreature = (CreatureEntity) entity;
 			target = entityCreature.getAttackTarget();			
 		} else {
 			LivingEntity entityLiving = (LivingEntity) entity;
@@ -99,8 +99,8 @@ public class MobsAggroPotion extends Potion {
 		LivingEntity newTarget = targetList.get(FIRST_INDEX);
 		
 		// update target (either as creature or living entity)
-		if(isEntityCreature(entity)) {
-			EntityCreature entityCreature = (EntityCreature) entity;
+		if(isCreatureEntity(entity)) {
+			CreatureEntity entityCreature = (CreatureEntity) entity;
 			entityCreature.setAttackTarget(newTarget);			
 		} else {
 			LivingEntity entityLiving = (LivingEntity) entity;
@@ -109,7 +109,7 @@ public class MobsAggroPotion extends Potion {
 	}
 
 	boolean supportTargeting(LivingEntity entity) {
-		if(isEntityCreature(entity)) return true;
+		if(isCreatureEntity(entity)) return true;
 		if(isLivingEntity(entity)) return true;
 		return false;
 	}

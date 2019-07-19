@@ -4,7 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository;
-import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.player.PlayerEntity;
@@ -30,7 +30,7 @@ public class CommanderControlledTargeting extends EntityAITarget {
 	 * @param owner     commanded entity.
 	 * @param commander entity which commands entity.
 	 */
-	public CommanderControlledTargeting(EntityCreature owner, PlayerEntity commander) {
+	public CommanderControlledTargeting(CreatureEntity owner, PlayerEntity commander) {
 		super(owner, false);
 		this.commander = commander;
 

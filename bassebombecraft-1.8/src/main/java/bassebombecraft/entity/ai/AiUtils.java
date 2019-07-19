@@ -1,6 +1,6 @@
 package bassebombecraft.entity.ai;
 
-import static bassebombecraft.entity.EntityUtils.isEntityCreature;
+import static bassebombecraft.entity.EntityUtils.isCreatureEntity;
 import static bassebombecraft.player.PlayerUtils.isPlayerEntity;
 
 import java.util.Set;
@@ -10,7 +10,7 @@ import bassebombecraft.entity.ai.task.AiCommandersTargeting;
 import bassebombecraft.entity.ai.task.CommanderControlledTargeting;
 import bassebombecraft.entity.ai.task.CompanionAttack;
 import bassebombecraft.entity.ai.task.FollowEntity;
-import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIAttackRangedBow;
@@ -131,11 +131,11 @@ public class AiUtils {
 
 		// exit setting target tasks if entity isn't a creature
 		// including commander controlled targeting
-		if (!isEntityCreature(entity))
+		if (!isCreatureEntity(entity))
 			return;
 
 		// type cast
-		EntityCreature entityCreature = EntityCreature.class.cast(entity);
+		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);
 		setupTargetingTasks(entityCreature, commander);
 	}
 
@@ -157,7 +157,7 @@ public class AiUtils {
 		entity.tasks.addTask(9, new EntityAILookIdle(entity));
 
 		// type cast
-		EntityCreature entityCreature = EntityCreature.class.cast(entity);
+		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);
 		setupTargetingTasks(entityCreature, commander);
 	}
 
@@ -178,7 +178,7 @@ public class AiUtils {
 		entity.tasks.addTask(7, new EntityAILookIdle(entity));
 
 		// type cast
-		EntityCreature entityCreature = EntityCreature.class.cast(entity);
+		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);
 		setupTargetingTasks(entityCreature, commander);
 	}
 
@@ -198,7 +198,7 @@ public class AiUtils {
 		entity.tasks.addTask(7, new EntityAILookIdle(entity));
 
 		// type cast
-		EntityCreature entityCreature = EntityCreature.class.cast(entity);
+		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);
 		setupTargetingTasks(entityCreature, commander);
 	}
 
@@ -209,7 +209,7 @@ public class AiUtils {
 	 * @param entity    entity to set targeting for.
 	 * @param commander commander (if defined).
 	 */
-	static void setupTargetingTasks(EntityCreature entity, LivingEntity commander) {
+	static void setupTargetingTasks(CreatureEntity entity, LivingEntity commander) {
 
 		// setup targeting if commander is player
 		if (isPlayerEntity(commander)) {
