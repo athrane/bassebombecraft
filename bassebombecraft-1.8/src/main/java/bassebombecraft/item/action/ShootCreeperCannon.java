@@ -11,7 +11,7 @@ import com.typesafe.config.Config;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -60,7 +60,7 @@ public class ShootCreeperCannon implements RightClickedItemAction {
 	public void onRightClick(World world, LivingEntity entity) {
 
 		// create projectile entity
-		EntityCreeper projectileEntity = new EntityCreeper(world);
+		CreeperEntity projectileEntity = new CreeperEntity(world);
 		projectileEntity.copyLocationAndAnglesFrom(entity);
 
 		// prime

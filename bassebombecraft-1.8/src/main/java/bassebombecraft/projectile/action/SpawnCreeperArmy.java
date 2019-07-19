@@ -10,7 +10,7 @@ import com.typesafe.config.Config;
 
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -55,7 +55,7 @@ public class SpawnCreeperArmy implements ProjectileAction {
 		for (int i = 0; i < creepers; i++) {
 
 			// create skeleton
-			EntityCreeper entity = new EntityCreeper(world);
+			CreeperEntity entity = new CreeperEntity(world);
 
 			// calculate random position
 			Random random = entity.getRNG();
