@@ -5,7 +5,7 @@ import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -26,7 +26,7 @@ public class SpawnAnvil implements ProjectileAction {
 	static TemporaryBlockRepository tempBlockRepository = getBassebombeCraft().getTemporaryBlockRepository();
 	
 	@Override
-	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
 		
 		// NO-OP if no entity was hit
 		if (movObjPos.entityHit == null) {

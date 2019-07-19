@@ -2,7 +2,7 @@ package bassebombecraft.projectile.action;
 
 import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.boss.dragon.phase.PhaseList;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 public class SpawnDragon implements ProjectileAction {
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
 
 		EntityDragon entity = new EntityDragon(world);
 		entity.setLocationAndAngles(projectile.posX, projectile.posY, projectile.posZ, projectile.rotationYaw,

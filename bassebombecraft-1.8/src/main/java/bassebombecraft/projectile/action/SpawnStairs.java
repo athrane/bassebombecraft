@@ -19,7 +19,7 @@ import bassebombecraft.structure.CompositeStructure;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -52,7 +52,7 @@ public class SpawnStairs implements ProjectileAction {
 	}
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
 
 		// spawn a temporary lava block if no entity was hit
 		if (movObjPos.entityHit == null) {

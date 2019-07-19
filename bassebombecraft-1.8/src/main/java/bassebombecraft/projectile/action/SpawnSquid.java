@@ -2,7 +2,7 @@ package bassebombecraft.projectile.action;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntitySquid;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -20,7 +20,7 @@ public class SpawnSquid implements ProjectileAction {
 	private static final float PITCH = 0.0F;
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
 		Vec3d posVec = null;
 
 		// spawn a cobweb if no entity was hit
