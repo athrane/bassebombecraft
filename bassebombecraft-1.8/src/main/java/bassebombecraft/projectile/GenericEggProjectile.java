@@ -4,9 +4,8 @@ import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import bassebombecraft.projectile.action.NullAction;
 import bassebombecraft.projectile.action.ProjectileAction;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
@@ -21,7 +20,7 @@ public class GenericEggProjectile extends EntityThrowable {
 		super(worldIn);
 	}
 
-	public GenericEggProjectile(World worldIn, EntityLivingBase entity, ProjectileAction behaviour) {
+	public GenericEggProjectile(World worldIn, LivingEntity entity, ProjectileAction behaviour) {
 		super(worldIn, entity);
 		setBehaviour(behaviour);
 	}

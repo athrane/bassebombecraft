@@ -12,7 +12,7 @@ import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
 import bassebombecraft.predicate.DiscardCommander;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
 
@@ -74,7 +74,7 @@ public class AttackNearestPlayerCommand implements MobCommand {
 		AxisAlignedBB aabb = entity.getEntityBoundingBox().expand(targetDistance, targetDistance, targetDistance);
 		List<EntityPlayer> targetList = entity.world.getEntitiesWithinAABB(EntityPlayer.class, aabb,
 				discardTeamCommander);
-		
+
 		// exit if no targets where found
 		if (targetList.isEmpty())
 			return false;
@@ -85,7 +85,7 @@ public class AttackNearestPlayerCommand implements MobCommand {
 
 		// get target
 		EntityPlayer target = targetList.get(FIRST_INDEX);
-		
+
 		// update target
 		entity.setAttackTarget(target);
 
@@ -96,7 +96,7 @@ public class AttackNearestPlayerCommand implements MobCommand {
 	public boolean continueExecuting(EntityPlayer commander, EntityCreature entity) {
 
 		// get target
-		EntityLivingBase target = entity.getAttackTarget();
+		LivingEntity target = entity.getAttackTarget();
 
 		// exit if target is undefined
 		if (target == null)

@@ -5,7 +5,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -17,7 +17,7 @@ public class CommanderControlledTargeting extends EntityAITarget {
 	/**
 	 * Null target.
 	 */
-	static final EntityLivingBase NULL_TARGET = null;
+	static final LivingEntity NULL_TARGET = null;
 
 	/**
 	 * Mob commander.
@@ -27,10 +27,8 @@ public class CommanderControlledTargeting extends EntityAITarget {
 	/**
 	 * CommanderControlledTargeting constructor.
 	 * 
-	 * @param owner
-	 *            commanded entity.
-	 * @param commander
-	 *            entity which commands entity.
+	 * @param owner     commanded entity.
+	 * @param commander entity which commands entity.
 	 */
 	public CommanderControlledTargeting(EntityCreature owner, EntityPlayer commander) {
 		super(owner, false);
@@ -42,7 +40,7 @@ public class CommanderControlledTargeting extends EntityAITarget {
 
 	@Override
 	public boolean shouldExecute() {
-		
+
 		// register player and get command
 		MobCommanderRepository repository = getBassebombeCraft().getMobCommanderRepository();
 		MobCommand command = repository.getCommand(commander);
@@ -53,7 +51,7 @@ public class CommanderControlledTargeting extends EntityAITarget {
 
 	/**
 	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */	
+	 */
 	@Override
 	public boolean shouldContinueExecuting() {
 

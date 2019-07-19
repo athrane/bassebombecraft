@@ -1,7 +1,7 @@
 package bassebombecraft.item.action;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -13,12 +13,10 @@ public interface RightClickedItemAction {
 	/**
 	 * On item is right clicked, i.e. used.
 	 * 
-	 * @param world
-	 *            world object.
-	 * @param entity
-	 *            entity object.
+	 * @param world  world object.
+	 * @param entity entity object.
 	 */
-	void onRightClick(World world, EntityLivingBase entity);
+	void onRightClick(World world, LivingEntity entity);
 
 	/**
 	 * On item update.

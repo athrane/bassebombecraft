@@ -8,8 +8,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import bassebombecraft.player.PlayerUtils;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.EntityPlayer;
 
 /**
@@ -25,8 +24,7 @@ public class DefaultTeamRepository implements TeamRepository {
 		/**
 		 * Team constructor.
 		 * 
-		 * @param team
-		 *            commander.
+		 * @param team commander.
 		 */
 		public Team(EntityPlayer commander) {
 			this.commander = commander;
@@ -40,7 +38,7 @@ public class DefaultTeamRepository implements TeamRepository {
 		/**
 		 * Team members.
 		 */
-		Set<EntityLiving> members = Collections.synchronizedSet(new HashSet<EntityLiving>());
+		Set<LivingEntity> members = Collections.synchronizedSet(new HashSet<LivingEntity>());
 
 		@Override
 		public boolean equals(Object obj) {
@@ -50,7 +48,7 @@ public class DefaultTeamRepository implements TeamRepository {
 
 		@Override
 		public String toString() {
-			return "Team: "+ commander.getDisplayNameString();
+			return "Team: " + commander.getDisplayNameString();
 		}
 
 	}
@@ -58,17 +56,17 @@ public class DefaultTeamRepository implements TeamRepository {
 	/**
 	 * Null member stream.
 	 */
-	final static Set<EntityLiving> nullMembersSet = new HashSet<EntityLiving>();
+	final static Set<LivingEntity> nullMembersSet = new HashSet<LivingEntity>();
 
 	/**
 	 * Teams.
 	 */
-	Map<EntityLivingBase, Team> teams = new ConcurrentHashMap<EntityLivingBase, Team>();
+	Map<LivingEntity, Team> teams = new ConcurrentHashMap<LivingEntity, Team>();
 
 	/**
 	 * Entity to team mapping.
 	 */
-	Map<EntityLiving, Team> teamMembership = new ConcurrentHashMap<EntityLiving, Team>();
+	Map<LivingEntity, Team> teamMembership = new ConcurrentHashMap<LivingEntity, Team>();
 
 	@Override
 	public void createTeam(EntityPlayer commander) {
@@ -80,26 +78,24 @@ public class DefaultTeamRepository implements TeamRepository {
 		Team team = new Team(commander);
 		teams.put(commander, team);
 	}
-	
+
 	@Override
 	public void deleteTeam(EntityPlayer commander) {
 		if (commander == null)
 			return;
 		if (!isCommander(commander))
 			return;
-		
+
 		teams.remove(commander);
 	}
 
 	/**
 	 * Add team member to commander's team.
 	 * 
-	 * @param commander
-	 *            commander to whose team the entity is added.
-	 * @param entity
-	 *            to add to commanders team.
+	 * @param commander commander to whose team the entity is added.
+	 * @param entity    to add to commanders team.
 	 */
-	void addToCommandersTeam(EntityPlayer commander, EntityLiving entity) {
+	void addToCommandersTeam(EntityPlayer commander, LivingEntity entity) {
 
 		// create team if it doesn't exit
 		if (!isCommander(commander))
@@ -110,13 +106,13 @@ public class DefaultTeamRepository implements TeamRepository {
 
 		// add to global membership list
 		teamMembership.put(entity, team);
-				
+
 		// add to team
 		team.members.add(entity);
 	}
 
 	@Override
-	public void add(EntityLivingBase creator, EntityLiving entity) {
+	public void add(LivingEntity creator, LivingEntity entity) {
 		if (creator == null)
 			return;
 		if (entity == null)
@@ -128,20 +124,20 @@ public class DefaultTeamRepository implements TeamRepository {
 			addToCommandersTeam(commander, entity);
 			return;
 		}
-				
-		// exit if creator isn't a member of a team, 
+
+		// exit if creator isn't a member of a team,
 		// i.e. can be found in the global membership list
 		if (!teamMembership.containsKey(creator))
 			return;
-				
+
 		// get team that create is member of
 		Team team = teamMembership.get(creator);
-				
+
 		// get commander
 		EntityPlayer commander = team.commander;
 
 		// add to commanders team
-		addToCommandersTeam(commander, entity);		
+		addToCommandersTeam(commander, entity);
 	}
 
 	@Override
@@ -152,7 +148,7 @@ public class DefaultTeamRepository implements TeamRepository {
 	}
 
 	@Override
-	public void remove(EntityLiving entity) {
+	public void remove(LivingEntity entity) {
 		if (entity == null)
 			return;
 		if (!teamMembership.containsKey(entity))
@@ -169,7 +165,7 @@ public class DefaultTeamRepository implements TeamRepository {
 	}
 
 	@Override
-	public boolean isMember(EntityLivingBase commander, EntityLiving entity) {
+	public boolean isMember(LivingEntity commander, LivingEntity entity) {
 		if (commander == null)
 			return false;
 		if (entity == null)
@@ -185,7 +181,7 @@ public class DefaultTeamRepository implements TeamRepository {
 	}
 
 	@Override
-	public boolean isTeamMembers(EntityLiving entity, EntityLiving entity2) {
+	public boolean isTeamMembers(LivingEntity entity, LivingEntity entity2) {
 		if (entity == null)
 			return false;
 		if (entity2 == null)
@@ -204,7 +200,7 @@ public class DefaultTeamRepository implements TeamRepository {
 	}
 
 	@Override
-	public Collection<EntityLiving> get(EntityPlayer commander) {
+	public Collection<LivingEntity> get(EntityPlayer commander) {
 		if (!isCommander(commander))
 			return nullMembersSet;
 

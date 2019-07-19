@@ -2,10 +2,10 @@ package bassebombecraft.event.entity.target;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * Event handler for handling targeted entities.
@@ -20,7 +20,7 @@ public class TargetedEntitiesEventHandler {
 		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
 
 		// remove entity from team upon death
-		EntityLivingBase entity = event.getEntityLiving();
+		LivingEntity entity = event.getLivingEntity();
 		repository.remove(entity);
 
 	}

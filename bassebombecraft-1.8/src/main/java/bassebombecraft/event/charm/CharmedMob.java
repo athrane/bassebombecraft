@@ -2,7 +2,7 @@ package bassebombecraft.event.charm;
 
 import java.util.Set;
 
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 
 /**
@@ -12,7 +12,7 @@ public class CharmedMob {
 
 	final Set<EntityAITaskEntry> tasks; // captured AI tasks.
 	final Set<EntityAITaskEntry> targetTasks; // captured AI target tasks.
-	final EntityLiving entity; // charmed mob.
+	final LivingEntity entity; // charmed mob.
 	private int duration; // Measured in ticks.
 
 	/**
@@ -24,7 +24,7 @@ public class CharmedMob {
 	 *            duration of charm in measured in ticks.
 	 * 
 	 */
-	CharmedMob(EntityLiving entity, int duration) {
+	CharmedMob(LivingEntity entity, int duration) {
 		this.entity = entity;
 		tasks = entity.tasks.taskEntries;
 		targetTasks = entity.targetTasks.taskEntries;
@@ -39,7 +39,7 @@ public class CharmedMob {
 		return targetTasks;
 	}
 
-	public EntityLiving getEntity() {
+	public LivingEntity getEntity() {
 		return entity;
 	}
 

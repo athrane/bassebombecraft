@@ -1,6 +1,6 @@
 package bassebombecraft.entity.ai.task;
 
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -14,7 +14,7 @@ public class FollowClosestPlayer extends EntityAIBase {
 	static final int UPDATE_DELAY = 10;
 	static final float WATCH_DIST = 8.0F;
 
-	final EntityLiving entity;
+	final LivingEntity entity;
 	EntityPlayer closestPlayer;
 	int updateDelayCounter = 0;
 	float minDistanceSqr; // minimum distance to player (squared)
@@ -30,7 +30,7 @@ public class FollowClosestPlayer extends EntityAIBase {
 	 * @param movementSpeed
 	 *            movement speed.
 	 */
-	public FollowClosestPlayer(EntityLiving entity, float minDistance, double movementSpeed) {
+	public FollowClosestPlayer(LivingEntity entity, float minDistance, double movementSpeed) {
 		this.entity = entity;
 		this.minDistanceSqr = minDistance * minDistance;
 		this.movementSpeed = movementSpeed;
@@ -74,7 +74,7 @@ public class FollowClosestPlayer extends EntityAIBase {
 			return;
 		updateDelayCounter = 0;
 
-		entity.getNavigator().tryMoveToEntityLiving(closestPlayer, movementSpeed);
+		entity.getNavigator().tryMoveToLivingEntity(closestPlayer, movementSpeed);
 	}
 
 	/**

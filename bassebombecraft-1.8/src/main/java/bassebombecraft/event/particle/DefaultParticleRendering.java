@@ -2,10 +2,8 @@ package bassebombecraft.event.particle;
 
 import java.util.Random;
 
-import org.lwjgl.util.Color;
-
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.BlockPos;
 
 /**
  * Default implementation of {@linkplain ParticleRendering}

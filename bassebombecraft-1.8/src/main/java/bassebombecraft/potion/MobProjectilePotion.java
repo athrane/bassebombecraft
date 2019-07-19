@@ -4,12 +4,13 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
 import static bassebombecraft.ModConstants.POTION_MOB_DEATH_TIME_TRIGGER;
-import static bassebombecraft.entity.EntityUtils.*;
+import static bassebombecraft.entity.EntityUtils.explode;
+
 import java.util.List;
 
 import com.typesafe.config.Config;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -51,7 +52,7 @@ public class MobProjectilePotion extends Potion {
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase entity, int magicNumber) {
+	public void performEffect(LivingEntity entity, int magicNumber) {
 
 		if (entity == null)
 			return;
@@ -68,12 +69,12 @@ public class MobProjectilePotion extends Potion {
 		// get hit entities
 		World world = entity.getEntityWorld();
 		AxisAlignedBB aabb = entity.getEntityBoundingBox();
-		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, aabb);
+		List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class, aabb);
 
 		// explosion if any entities where hit
 		if (!entities.isEmpty()) {
 			
-			for(EntityLivingBase hitEntity : entities) {				
+			for(LivingEntity hitEntity : entities) {				
 
 				// skip entity itself
 				if(hitEntity.equals(entity)) continue;

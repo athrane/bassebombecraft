@@ -22,6 +22,11 @@ public class StructureInfo {
 	 */
 	String biome;
 
+	/**
+	 * Defines if structure is singleton.
+	 */
+	boolean singleton;
+
 	/*
 	 * StructureInfo constructor.
 	 */
@@ -30,6 +35,7 @@ public class StructureInfo {
 		name = params.getString("name");
 		spawnRate = params.getDouble("spawnRate");
 		biome = params.getString("biome");
+		singleton = params.getBoolean("singleton");
 	}
 
 	public String getName() {
@@ -44,4 +50,7 @@ public class StructureInfo {
 		return biome;
 	}
 
+	public boolean isSingleton() {
+		return singleton;
+	}
 }

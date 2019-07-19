@@ -7,11 +7,11 @@ import java.util.Random;
 import com.typesafe.config.Config;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.EntitySmallFireball;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -48,7 +48,7 @@ public class ShootSmallFireballRing implements RightClickedItemAction {
 	}
 
 	@Override
-	public void onRightClick(World world, EntityLivingBase entity) {
+	public void onRightClick(World world, LivingEntity entity) {
 		int displacement = 360 / number;
 
 		for (int index = 0; index < number; index++) {
@@ -58,8 +58,7 @@ public class ShootSmallFireballRing implements RightClickedItemAction {
 			Vec3d rotatedVec = INITIAL_VECTOR.rotateYaw((float) yaw);
 
 			EntitySmallFireball projectile = new EntitySmallFireball(world, entity.posX,
-					entity.posY + entity.getEyeHeight(), entity.posZ, rotatedVec.x, rotatedVec.y,
-					rotatedVec.z);
+					entity.posY + entity.getEyeHeight(), entity.posZ, rotatedVec.x, rotatedVec.y, rotatedVec.z);
 			projectile.shootingEntity = entity;
 			entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
 			world.spawnEntity(projectile);

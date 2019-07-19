@@ -3,21 +3,22 @@ package bassebombecraft.item.action.inventory;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
+import bassebombecraft.potion.MobEffects;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.MobEffects;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
- * of inventory item actions. This class makes adds a regeneration effect to the invoker.
+ * of inventory item actions. This class makes adds a regeneration effect to the
+ * invoker.
  */
 public class AddHealingEffect implements InventoryItemActionStrategy {
 
 	static final int EFFECT_DURATION = 200; // Measured in ticks
-	
+
 	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.SPELL_MOB;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
@@ -33,16 +34,16 @@ public class AddHealingEffect implements InventoryItemActionStrategy {
 	public boolean applyOnlyIfSelected() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean shouldApplyEffect(Entity target, boolean targetIsInvoker) {
 		return targetIsInvoker;
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
-		if(target instanceof EntityLivingBase) {
-			EntityLivingBase entityLivingBase = (EntityLivingBase) target;
+	public void applyEffect(Entity target, World world, LivingEntity invoker) {
+		if (target instanceof LivingEntity) {
+			LivingEntity entityLivingBase = (LivingEntity) target;
 			entityLivingBase.addPotionEffect(createEffect());
 		}
 	}
@@ -60,7 +61,7 @@ public class AddHealingEffect implements InventoryItemActionStrategy {
 	int getEffectDuration() {
 		return EFFECT_DURATION;
 	}
-	
+
 	/**
 	 * Create potion effect.
 	 * 
@@ -69,5 +70,5 @@ public class AddHealingEffect implements InventoryItemActionStrategy {
 	PotionEffect createEffect() {
 		return new PotionEffect(MobEffects.REGENERATION, getEffectDuration());
 	}
-	
+
 }

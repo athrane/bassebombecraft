@@ -3,7 +3,7 @@ package bassebombecraft.projectile.action;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import bassebombecraft.event.entity.team.TeamRepository;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.math.RayTraceResult;
@@ -26,7 +26,7 @@ public class SpawnFlamingChicken implements ProjectileAction {
 		chicken.setFire(3);
 		
 		// get owner
-		EntityLivingBase commander = projectile.getThrower();
+		LivingEntity commander = projectile.getThrower();
 		
 		// add entity to team
 		TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();

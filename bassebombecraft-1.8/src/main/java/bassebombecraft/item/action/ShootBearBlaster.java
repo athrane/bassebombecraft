@@ -9,12 +9,12 @@ import java.util.Random;
 import com.typesafe.config.Config;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.EntityPolarBear;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
 /**
@@ -59,11 +59,11 @@ public class ShootBearBlaster implements RightClickedItemAction {
 		age = configuration.getInt(CONFIG_KEY + ".Age");
 		duration = configuration.getInt(CONFIG_KEY + ".Duration");
 		spawnDisplacement = configuration.getInt(CONFIG_KEY + ".SpawnDisplacement");
-		isDead = configuration.getBoolean(CONFIG_KEY + ".IsDead");		
+		isDead = configuration.getBoolean(CONFIG_KEY + ".IsDead");
 	}
 
 	@Override
-	public void onRightClick(World world, EntityLivingBase entity) {
+	public void onRightClick(World world, LivingEntity entity) {
 
 		// create projectile entity
 		EntityPolarBear projectileEntity = new EntityPolarBear(world);
@@ -78,7 +78,8 @@ public class ShootBearBlaster implements RightClickedItemAction {
 		projectileEntity.addPotionEffect(effect);
 
 		// set no health to trigger death (in max 20 ticks)
-		if(isDead) projectileEntity.setHealth(0.0F);
+		if (isDead)
+			projectileEntity.setHealth(0.0F);
 
 		// add spawn sound
 		Random random = entity.getRNG();

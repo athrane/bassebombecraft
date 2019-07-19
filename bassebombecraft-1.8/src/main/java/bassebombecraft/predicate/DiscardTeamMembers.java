@@ -5,24 +5,24 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import com.google.common.base.Predicate;
 
 import bassebombecraft.event.entity.team.TeamRepository;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.LivingEntity;
 
 /**
  * Discard team members filter
  */
-public class DiscardTeamMembers implements Predicate<EntityLiving> {
+public class DiscardTeamMembers implements Predicate<LivingEntity> {
 	
 	/** 
 	 * Team member.
 	 */
-	EntityLiving entity;
+	LivingEntity entity;
 
-	public void set(EntityLiving entity) {
+	public void set(LivingEntity entity) {
 		this.entity = entity;
 	}
 
 	@Override
-	public boolean apply(EntityLiving candidateMember) {
+	public boolean apply(LivingEntity candidateMember) {
 		if (this.entity == null)
 			return false;
 		if (candidateMember == null)

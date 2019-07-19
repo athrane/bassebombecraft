@@ -10,7 +10,7 @@ import java.util.Random;
 import com.typesafe.config.Config;
 
 import bassebombecraft.event.entity.team.TeamRepository;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -87,7 +87,7 @@ public class SpawnKittenArmy implements ProjectileAction {
 
 			
 			// set owner
-			EntityLivingBase owner = projectile.getThrower();
+			LivingEntity owner = projectile.getThrower();
 			entity.setOwnerId(owner.getUniqueID());
 
 			// set in love with player

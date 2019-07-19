@@ -4,7 +4,7 @@ import static bassebombecraft.config.ConfigUtils.createFromConfig;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 
 /**
@@ -39,7 +39,7 @@ public class SpawnRain implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
+	public void applyEffect(Entity target, World world, LivingEntity invoker) {
 		world.getWorldInfo().setRaining(true);
 	}
 

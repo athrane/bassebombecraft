@@ -4,7 +4,6 @@ import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;

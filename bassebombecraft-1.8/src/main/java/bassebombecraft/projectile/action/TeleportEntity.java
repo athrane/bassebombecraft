@@ -1,7 +1,7 @@
 package bassebombecraft.projectile.action;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -19,7 +19,7 @@ public class TeleportEntity implements ProjectileAction {
 		// teleport if no entity was hit
 		if (movObjPos.entityHit == null) {
 			BlockPos teleportPosition = calculatePosition(world, movObjPos);
-			EntityLivingBase thrower = projectile.getThrower();
+			LivingEntity thrower = projectile.getThrower();
 			thrower.setPositionAndUpdate(teleportPosition.getX(), teleportPosition.getY(), teleportPosition.getZ());
 			return;
 		}
@@ -27,7 +27,7 @@ public class TeleportEntity implements ProjectileAction {
 		// get entity position
 		Entity entityHit = movObjPos.entityHit;
 		BlockPos teleportPosition = entityHit.getPosition();
-		EntityLivingBase thrower = projectile.getThrower();
+		LivingEntity thrower = projectile.getThrower();
 		thrower.setPositionAndUpdate(teleportPosition.getX(), teleportPosition.getY(), teleportPosition.getZ());
 	}
 

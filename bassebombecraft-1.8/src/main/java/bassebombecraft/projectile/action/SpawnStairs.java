@@ -18,9 +18,8 @@ import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.CompositeStructure;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -59,7 +58,7 @@ public class SpawnStairs implements ProjectileAction {
 		if (movObjPos.entityHit == null) {
 
 			// get thrower
-			EntityLivingBase owner = projectile.getThrower();
+			LivingEntity owner = projectile.getThrower();
 
 			// get thrower feet position
 			int yFeetPosition = calculateEntityFeetPosititionAsInt(owner);

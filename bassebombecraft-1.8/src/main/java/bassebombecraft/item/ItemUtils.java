@@ -1,6 +1,5 @@
 package bassebombecraft.item;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.item.inventory.GenericInventoryItem;
 import net.minecraft.item.Item;
 

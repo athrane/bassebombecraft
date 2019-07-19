@@ -5,8 +5,7 @@ import bassebombecraft.event.rendering.RenderingEventHandler;
 import bassebombecraft.player.PlayerDirection;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -32,7 +31,7 @@ public class EntityUtils {
 	 * @param spawnDisplacement
 	 *            XZ spawn displacement from shooting enity.
 	 */
-	public static void setProjectileEntityPosition(EntityLivingBase entity, EntityLivingBase projectileEntity,
+	public static void setProjectileEntityPosition(LivingEntity entity, LivingEntity projectileEntity,
 			int spawnDisplacement) {
 		Vec3d lookVec = entity.getLookVec();
 
@@ -59,7 +58,7 @@ public class EntityUtils {
 	 * @param size
 	 *            explosion size in blocks.
 	 */
-	public static void explode(EntityLivingBase entity, World world, int size) {
+	public static void explode(LivingEntity entity, World world, int size) {
 		world.createExplosion(entity, entity.getPosition().getX(), entity.getPosition().getY(),
 				entity.getPosition().getZ(), size, IS_SMOKING);
 	}
@@ -93,17 +92,17 @@ public class EntityUtils {
 	}
 
 	/**
-	 * return true if entity is a {@linkplain EntityLiving}.
+	 * return true if entity is a {@linkplain LivingEntity}.
 	 * 
 	 * @param entity
 	 *            entity to test.
 	 * 
-	 * @return true if entity is a {@linkplain EntityLiving}.
+	 * @return true if entity is a {@linkplain LivingEntity}.
 	 */
-	public static boolean isEntityLiving(Entity entity) {
+	public static boolean isLivingEntity(Entity entity) {
 		if (entity == null)
 			return false;
-		return entity instanceof EntityLiving;
+		return entity instanceof LivingEntity;
 	}
 
 	/**
@@ -114,7 +113,7 @@ public class EntityUtils {
 	 * 
 	 * @return player feet position (as a Y coordinate).
 	 */
-	public static double calculateEntityFeetPositition(EntityLivingBase entity) {
+	public static double calculateEntityFeetPositition(LivingEntity entity) {
 		double feetPosY = entity.posY - entity.getYOffset();
 		return feetPosY;
 	}
@@ -127,7 +126,7 @@ public class EntityUtils {
 	 * 
 	 * @return player feet position (as a Y coordinate).
 	 */
-	public static int calculateEntityFeetPosititionAsInt(EntityLivingBase entity) {
+	public static int calculateEntityFeetPosititionAsInt(LivingEntity entity) {
 		return (int) calculateEntityFeetPositition(entity);
 	}
 
@@ -140,7 +139,7 @@ public class EntityUtils {
 	 * 
 	 * @return player direction as an integer between 0 to 3.
 	 */
-	public static PlayerDirection getPlayerDirection(EntityLivingBase entity) {
+	public static PlayerDirection getPlayerDirection(LivingEntity entity) {
 		int direction = MathHelper.floor((double) ((entity.rotationYaw * 4F) / 360F) + 0.5D) & 3;
 		return PlayerDirection.getById(direction);
 	}
@@ -152,8 +151,8 @@ public class EntityUtils {
 	 *            entity to query.
 	 * @return if entity has a attacking target defined which is alive.
 	 */
-	public static boolean hasAliveTarget(EntityLiving entity) {
-		EntityLivingBase target = entity.getAttackTarget();
+	public static boolean hasAliveTarget(LivingEntity entity) {
+		LivingEntity target = entity.getAttackTarget();
 		if (target == null)
 			return false;
 		if (target.isDead)
@@ -170,7 +169,7 @@ public class EntityUtils {
 	 *            to get live target from.
 	 * @return live target from entity.
 	 */
-	public static EntityLivingBase getAliveTarget(EntityLiving entity) {
+	public static LivingEntity getAliveTarget(LivingEntity entity) {
 		return entity.getAttackTarget();
 	}
 

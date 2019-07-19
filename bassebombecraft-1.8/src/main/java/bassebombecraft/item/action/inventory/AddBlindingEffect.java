@@ -3,9 +3,9 @@ package bassebombecraft.item.action.inventory;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
+import bassebombecraft.potion.MobEffects;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.MobEffects;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
@@ -42,11 +42,11 @@ public class AddBlindingEffect implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
-		if(target instanceof EntityLivingBase) {
-			EntityLivingBase entityLivingBase = (EntityLivingBase) target;
+	public void applyEffect(Entity target, World world, LivingEntity invoker) {
+		if (target instanceof LivingEntity) {
+			LivingEntity entityLivingBase = (LivingEntity) target;
 			entityLivingBase.addPotionEffect(createEffect());
-			entityLivingBase.addPotionEffect(createEffect2());			
+			entityLivingBase.addPotionEffect(createEffect2());
 		}
 	}
 
@@ -81,5 +81,5 @@ public class AddBlindingEffect implements InventoryItemActionStrategy {
 	PotionEffect createEffect2() {
 		return new PotionEffect(MobEffects.NIGHT_VISION, getEffectDuration());
 	}
-	
+
 }

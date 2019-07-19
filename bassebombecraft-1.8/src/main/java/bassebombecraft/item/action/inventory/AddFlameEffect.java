@@ -7,7 +7,7 @@ import com.typesafe.config.Config;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 
 /**
@@ -34,8 +34,7 @@ public class AddFlameEffect implements InventoryItemActionStrategy {
 	/**
 	 * AddFlameEffect constructor
 	 * 
-	 * @param key
-	 *            configuration key to initialize particle rendering info from.
+	 * @param key configuration key to initialize particle rendering info from.
 	 */
 	public AddFlameEffect(String key) {
 		infos = createFromConfig(key);
@@ -57,7 +56,7 @@ public class AddFlameEffect implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
+	public void applyEffect(Entity target, World world, LivingEntity sinvoker) {
 		target.setFire(duration);
 	}
 

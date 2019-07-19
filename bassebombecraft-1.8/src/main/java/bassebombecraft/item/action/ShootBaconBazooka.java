@@ -9,12 +9,12 @@ import java.util.Random;
 import com.typesafe.config.Config;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.EntityPig;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
 /**
@@ -57,7 +57,7 @@ public class ShootBaconBazooka implements RightClickedItemAction {
 	}
 
 	@Override
-	public void onRightClick(World world, EntityLivingBase entity) {
+	public void onRightClick(World world, LivingEntity entity) {
 
 		// create projectile entity
 		EntityPig projectileEntity = new EntityPig(world);
@@ -79,7 +79,7 @@ public class ShootBaconBazooka implements RightClickedItemAction {
 		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
 
 		// spawn
-		world.spawnEntity(projectileEntity);		
+		world.spawnEntity(projectileEntity);
 	}
 
 	@Override

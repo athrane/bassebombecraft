@@ -2,20 +2,21 @@ package bassebombecraft.item.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.EntityUtils.setProjectileEntityPosition;
-import static bassebombecraft.potion.MobEffects.*;
+import static bassebombecraft.potion.MobEffects.CREEPER_CANNON_POTION;
+import static bassebombecraft.potion.MobEffects.PRIMED_CREEPER_CANNON_POTION;
 
 import java.util.Random;
 
 import com.typesafe.config.Config;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
 /**
@@ -44,10 +45,8 @@ public class ShootCreeperCannon implements RightClickedItemAction {
 	/**
 	 * ShootCreeperCannon constructor.
 	 * 
-	 * @param isPrimed
-	 *            defines whether creeper is primed.
-	 * @param key
-	 *            configuration key.
+	 * @param isPrimed defines whether creeper is primed.
+	 * @param key      configuration key.
 	 * 
 	 */
 	public ShootCreeperCannon(boolean isPrimed, String key) {
@@ -58,7 +57,7 @@ public class ShootCreeperCannon implements RightClickedItemAction {
 	}
 
 	@Override
-	public void onRightClick(World world, EntityLivingBase entity) {
+	public void onRightClick(World world, LivingEntity entity) {
 
 		// create projectile entity
 		EntityCreeper projectileEntity = new EntityCreeper(world);
@@ -68,11 +67,13 @@ public class ShootCreeperCannon implements RightClickedItemAction {
 		if (isPrimed)
 			projectileEntity.ignite();
 
-		// select potion 
+		// select potion
 		Potion potion = null;
-		if (isPrimed) potion = PRIMED_CREEPER_CANNON_POTION;
-		else potion = CREEPER_CANNON_POTION;
-		
+		if (isPrimed)
+			potion = PRIMED_CREEPER_CANNON_POTION;
+		else
+			potion = CREEPER_CANNON_POTION;
+
 		// calculate spawn projectile spawn position
 		setProjectileEntityPosition(entity, projectileEntity, spawnDisplacement);
 

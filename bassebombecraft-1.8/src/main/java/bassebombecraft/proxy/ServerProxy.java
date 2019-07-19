@@ -1,13 +1,12 @@
 package bassebombecraft.proxy;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.config.VersionUtils.endServerSession;
 import static bassebombecraft.config.VersionUtils.startServerSession;
 
 import javax.naming.OperationNotSupportedException;
 
 import org.apache.logging.log4j.Logger;
-
-import static bassebombecraft.BassebombeCraft.*;
 
 import net.minecraft.block.Block;
 import net.minecraft.server.MinecraftServer;

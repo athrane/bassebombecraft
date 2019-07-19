@@ -2,6 +2,8 @@ package bassebombecraft;
 
 import bassebombecraft.entity.ai.task.AiCommandersTargeting;
 import bassebombecraft.entity.ai.task.CompanionAttack;
+import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
+import bassebombecraft.event.particle.ParticleRenderingEventHandler;
 import bassebombecraft.item.basic.HudItem;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
