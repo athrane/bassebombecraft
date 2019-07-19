@@ -16,7 +16,7 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.CompositeStructure;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -75,7 +75,7 @@ public class DigMobHole implements ProjectileAction {
 	}
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
 		CompositeStructure composite = new CompositeStructure();
 
 		// dig a small hole if block was hit

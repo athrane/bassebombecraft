@@ -3,7 +3,7 @@ package bassebombecraft.projectile.action;
 import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -20,7 +20,7 @@ public class SpawnIceBlock implements ProjectileAction {
 	static final int DURATION = 400;
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
 
 		// spawn a temporary lava block if no entity was hit
 		if (movObjPos.entityHit == null) {

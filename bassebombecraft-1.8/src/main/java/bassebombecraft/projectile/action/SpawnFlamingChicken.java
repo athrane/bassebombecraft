@@ -5,7 +5,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -19,7 +19,7 @@ public class SpawnFlamingChicken implements ProjectileAction {
 	private static final int CHILD_AGE = -24000;
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
 		EntityChicken chicken = new EntityChicken(world);
 		chicken.setGrowingAge(CHILD_AGE);
 		chicken.setLocationAndAngles(projectile.posX, projectile.posY, projectile.posZ, projectile.rotationYaw, PITCH);

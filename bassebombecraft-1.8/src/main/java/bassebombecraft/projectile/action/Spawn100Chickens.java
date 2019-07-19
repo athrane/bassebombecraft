@@ -3,7 +3,7 @@ package bassebombecraft.projectile.action;
 import java.util.Random;
 
 import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -21,7 +21,7 @@ public class Spawn100Chickens implements ProjectileAction {
 	static final int Y_SPAWN_SIZE = 5;		
 	
 	@Override
-	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {		
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {		
 		for(int i=0; i< NUMBER_CHICKENS;i++) {
 			EntityChicken entity = new EntityChicken(world);
 			entity.setGrowingAge(CHILD_AGE);

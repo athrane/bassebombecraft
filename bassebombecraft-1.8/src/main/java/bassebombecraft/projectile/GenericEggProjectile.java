@@ -5,13 +5,13 @@ import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 import bassebombecraft.projectile.action.NullAction;
 import bassebombecraft.projectile.action.ProjectileAction;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class GenericEggProjectile extends EntityThrowable {
+public class GenericEggProjectile extends ThrowableEntity {
 
 	public final static String PROJECTILE_NAME = "EggProjectile";
 	ProjectileAction behaviour = new NullAction();
@@ -34,7 +34,7 @@ public class GenericEggProjectile extends EntityThrowable {
 	}
 
 	/**
-	 * Called when this EntityThrowable hits a block or entity.
+	 * Called when this ThrowableEntity hits a block or entity.
 	 */
 	protected void onImpact(RayTraceResult movObjPos) {
 

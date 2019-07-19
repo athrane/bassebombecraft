@@ -5,7 +5,7 @@ import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -25,7 +25,7 @@ public class SpawnLavaBlock implements ProjectileAction {
 	static TemporaryBlockRepository tempBlockRepository = getBassebombeCraft().getTemporaryBlockRepository();
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
 
 		// spawn a temporary lava block if no entity was hit
 		if (movObjPos.entityHit == null) {

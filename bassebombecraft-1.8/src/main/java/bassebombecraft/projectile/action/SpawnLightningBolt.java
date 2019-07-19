@@ -4,7 +4,7 @@ import static bassebombecraft.ModConstants.LIGHTNING_NOT_EFFECT_ONLY;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 public class SpawnLightningBolt implements ProjectileAction {
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
 
 		// spawn a lightning bolt if no entity was hit
 		if (movObjPos.entityHit == null) {

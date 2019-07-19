@@ -2,7 +2,7 @@ package bassebombecraft.projectile.action;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -17,7 +17,7 @@ public class EmitHorizontalForce implements ProjectileAction {
 	static final int FORCE = 10; // Emit force
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
 
 		// NO-OP if no entity was hit
 		if (movObjPos.entityHit == null) {

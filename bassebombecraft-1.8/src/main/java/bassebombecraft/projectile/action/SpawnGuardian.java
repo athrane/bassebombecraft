@@ -7,7 +7,7 @@ import static bassebombecraft.entity.ai.AiUtils.clearAiTasks;
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.EntityIronGolem;
-import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -18,7 +18,7 @@ import net.minecraft.world.World;
 public class SpawnGuardian implements ProjectileAction {
 
 	@Override
-	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
 
 		LivingEntity owner = projectile.getThrower();				
 		EntityIronGolem entity= new EntityIronGolem(world);
