@@ -1,6 +1,6 @@
 package bassebombecraft.geom;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -21,7 +21,7 @@ public interface WorldQuery {
 	 * 
 	 * @return player object.
 	 */
-	EntityPlayer getPlayer();
+	PlayerEntity getPlayer();
 
 	/**
 	 * Return world.

@@ -1,10 +1,10 @@
 package bassebombecraft.entity.ai.task;
 
-import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
+import static bassebombecraft.player.PlayerUtils.isPlayerEntity;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNodeType;
 
@@ -67,8 +67,8 @@ public class FollowEntity extends EntityAIBase {
 		}
 
 		// exit if player spectator
-		if (isEntityPlayer(leaderEntity)) {
-			if (((EntityPlayer) leaderEntity).isSpectator())
+		if (isPlayerEntity(leaderEntity)) {
+			if (((PlayerEntity) leaderEntity).isSpectator())
 				return false;
 		}
 

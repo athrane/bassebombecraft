@@ -3,7 +3,7 @@ package bassebombecraft.event.entity.target;
 import java.util.stream.Stream;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
 /**
  * Interface for repository for handling targeted entities.
@@ -29,6 +29,6 @@ public interface TargetedEntitiesRepository {
 	 * 
 	 * @return stream of targeted entities.
 	 */
-	public Stream<LivingEntity> get(EntityPlayer commander);
+	public Stream<LivingEntity> get(PlayerEntity commander);
 
 }

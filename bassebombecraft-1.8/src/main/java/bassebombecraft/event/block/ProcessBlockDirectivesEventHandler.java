@@ -13,7 +13,7 @@ import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.WorldQueryImpl;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -54,7 +54,7 @@ public class ProcessBlockDirectivesEventHandler {
 			return;
 
 		// get world
-		EntityPlayer player = event.player;
+		PlayerEntity player = event.player;
 		World world = player.getEntityWorld();
 
 		// exit if at client side

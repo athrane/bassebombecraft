@@ -1,11 +1,11 @@
 package bassebombecraft.event.item;
 
-import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
+import static bassebombecraft.player.PlayerUtils.isPlayerEntity;
 
 import bassebombecraft.item.ItemUtils;
 import bassebombecraft.item.inventory.GenericInventoryItem;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.CooldownTracker;
@@ -41,11 +41,11 @@ public class ItemCooldownEventHandler {
 
 		// exit if entity isn't player
 		LivingEntity entity = event.getLivingEntity();
-		if (!isEntityPlayer(entity))
+		if (!isPlayerEntity(entity))
 			return;
 
 		// type cast as player
-		EntityPlayer player = (EntityPlayer) entity;
+		PlayerEntity player = (PlayerEntity) entity;
 
 		// reset cooldown
 		// exit if cooldown is effect

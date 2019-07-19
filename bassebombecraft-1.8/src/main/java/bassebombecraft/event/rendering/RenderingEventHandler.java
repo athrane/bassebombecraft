@@ -33,7 +33,7 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -119,7 +119,7 @@ public class RenderingEventHandler {
 			return;
 
 		// get player
-		EntityPlayer player = getPlayer();
+		PlayerEntity player = getPlayer();
 
 		// exit if targeting overlay isn't in hotbar
 		if (!isItemInHotbar(player, TARGETING_OVERLAY_ITEM))
@@ -135,7 +135,7 @@ public class RenderingEventHandler {
 
 	}
 
-	static void renderCharmedEntities(EntityPlayer player, Vec3d playerPos) {
+	static void renderCharmedEntities(PlayerEntity player, Vec3d playerPos) {
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
 		Collection<CharmedMob> entities = repository.get();
 		synchronized (entities) {
@@ -153,7 +153,7 @@ public class RenderingEventHandler {
 		renderTarget(entity, playerPos);
 	}
 
-	static void renderTeamEntities(EntityPlayer player, Vec3d playerPos) {
+	static void renderTeamEntities(PlayerEntity player, Vec3d playerPos) {
 		TeamRepository repository = getBassebombeCraft().getTeamRepository();
 		Collection<LivingEntity> entities = repository.get(player);
 		synchronized (entities) {
@@ -162,7 +162,7 @@ public class RenderingEventHandler {
 		}
 	}
 
-	static void renderTeamEntity(EntityPlayer player, LivingEntity entity, Vec3d playerPos) {
+	static void renderTeamEntity(PlayerEntity player, LivingEntity entity, Vec3d playerPos) {
 		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);
 		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
@@ -178,7 +178,7 @@ public class RenderingEventHandler {
 		renderTargetedEntity(entity, target, playerPos);
 	}
 
-	static void renderTargetedEntities(EntityPlayer player, Vec3d playerPos) {
+	static void renderTargetedEntities(PlayerEntity player, Vec3d playerPos) {
 		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
 
 		// get entities

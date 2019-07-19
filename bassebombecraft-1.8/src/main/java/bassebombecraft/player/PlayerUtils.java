@@ -4,7 +4,7 @@ import static net.minecraft.client.Minecraft.getMinecraft;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
@@ -25,7 +25,7 @@ public class PlayerUtils {
 	 * 
 	 * @return player feet position (as a Y coordinate).
 	 */
-	public static double calculatePlayerFeetPositition(EntityPlayer player) {
+	public static double calculatePlayerFeetPositition(PlayerEntity player) {
 		double playerFeetPosY = player.posY - player.getYOffset();
 		return playerFeetPosY;
 	}
@@ -38,7 +38,7 @@ public class PlayerUtils {
 	 * 
 	 * @return player feet position (as a Y coordinate).
 	 */
-	public static int calculatePlayerFeetPosititionAsInt(EntityPlayer player) {
+	public static int calculatePlayerFeetPosititionAsInt(PlayerEntity player) {
 		return (int) calculatePlayerFeetPositition(player);
 	}
 
@@ -52,7 +52,7 @@ public class PlayerUtils {
 	 * 
 	 * @return true if y coordinate is below the player y position.
 	 */
-	public static boolean isBelowPlayerYPosition(int y, EntityPlayer player) {
+	public static boolean isBelowPlayerYPosition(int y, PlayerEntity player) {
 		int playerFeetPosition = PlayerUtils.calculatePlayerFeetPosititionAsInt(player);
 		return (y < playerFeetPosition);
 	}
@@ -65,7 +65,7 @@ public class PlayerUtils {
 	 * 
 	 * @return player eye position.
 	 */
-	public static Vec3d getPlayerEyePos(EntityPlayer player) {
+	public static Vec3d getPlayerEyePos(PlayerEntity player) {
 		Vec3d eyePosition = new Vec3d(player.posX,
 				player.posY + (player.getEntityWorld().isRemote ? player.getEyeHeight() - player.getDefaultEyeHeight()
 						: player.getEyeHeight()),
@@ -83,7 +83,7 @@ public class PlayerUtils {
 	 * 
 	 * @return player direction as an integer between 0 to 3.
 	 */
-	public static PlayerDirection getPlayerDirection(EntityPlayer player) {
+	public static PlayerDirection getPlayerDirection(PlayerEntity player) {
 		int direction = MathHelper.floor((double) ((player.rotationYaw * 4F) / 360F) + 0.5D) & 3;
 		return PlayerDirection.getById(direction);
 	}
@@ -96,7 +96,7 @@ public class PlayerUtils {
 	 * @param string
 	 *            message to send to player.
 	 */
-	public static void sendChatMessageToPlayer(EntityPlayer player, String string) {
+	public static void sendChatMessageToPlayer(PlayerEntity player, String string) {
 		ITextComponent message = new TextComponentString(string);
 		player.sendMessage(message);
 	}
@@ -120,17 +120,17 @@ public class PlayerUtils {
 	}
 
 	/**
-	 * return true if entity is a {@linkplain EntityPlayer}.
+	 * return true if entity is a {@linkplain PlayerEntity}.
 	 * 
 	 * @param entity
 	 *            entity to test.
 	 * 
-	 * @return true if entity is a {@linkplain EntityPlayer}.
+	 * @return true if entity is a {@linkplain PlayerEntity}.
 	 */
-	public static boolean isEntityPlayer(Entity entity) {
+	public static boolean isPlayerEntity(Entity entity) {
 		if (entity == null)
 			return false;
-		return entity instanceof EntityPlayer;
+		return entity instanceof PlayerEntity;
 	}
 
 	/**
@@ -143,7 +143,7 @@ public class PlayerUtils {
 	 * 
 	 * @return true if item is held in player off hand.
 	 */
-	public static boolean isItemHeldInOffHand(EntityPlayer player, ItemStack item) {
+	public static boolean isItemHeldInOffHand(PlayerEntity player, ItemStack item) {
 		if (player == null)
 			return false;
 		if (item == null)
@@ -167,7 +167,7 @@ public class PlayerUtils {
 	 * 
 	 * @return true if item is held in player off hand.
 	 */
-	public static boolean isItemInHotbar(EntityPlayer player, Item item) {
+	public static boolean isItemInHotbar(PlayerEntity player, Item item) {
 		if (player == null)
 			return false;
 		if (item == null)
@@ -203,7 +203,7 @@ public class PlayerUtils {
 	 * 
 	 * @return player position.
 	 */
-	public static Vec3d CalculatePlayerPosition(EntityPlayer player, float partialTicks) {
+	public static Vec3d CalculatePlayerPosition(PlayerEntity player, float partialTicks) {
 		double doubleX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
 		double doubleY = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
 		double doubleZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
@@ -224,7 +224,7 @@ public class PlayerUtils {
 	 * 
 	 * @return player from Minecraft.
 	 */
-	public static EntityPlayer getPlayer() {
+	public static PlayerEntity getPlayer() {
 		if (!isPlayerDefined())
 			return null;
 		return Minecraft.getMinecraft().player;

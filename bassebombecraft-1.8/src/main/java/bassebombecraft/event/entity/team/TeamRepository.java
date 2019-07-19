@@ -3,7 +3,7 @@ package bassebombecraft.event.entity.team;
 import java.util.Collection;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
 /**
  * Interface for repository for handling team memberships.
@@ -15,7 +15,7 @@ public interface TeamRepository {
 	 * 
 	 * @param commander commander of the team.
 	 */
-	public void createTeam(EntityPlayer commander);
+	public void createTeam(PlayerEntity commander);
 
 	/**
 	 * Returns true if entity is commander for a team.
@@ -24,14 +24,14 @@ public interface TeamRepository {
 	 * 
 	 * @return true if entity is commander for a team.
 	 */
-	public boolean isCommander(EntityPlayer commander);
+	public boolean isCommander(PlayerEntity commander);
 
 	/**
 	 * Delete commanders team.
 	 * 
 	 * @param commander whose team should be deleted.
 	 */
-	public void deleteTeam(EntityPlayer commander);
+	public void deleteTeam(PlayerEntity commander);
 
 	/**
 	 * Add team member.
@@ -76,6 +76,6 @@ public interface TeamRepository {
 	 * 
 	 * @return collection of team members.
 	 */
-	public Collection<LivingEntity> get(EntityPlayer commander);
+	public Collection<LivingEntity> get(PlayerEntity commander);
 
 }

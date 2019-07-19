@@ -1,6 +1,6 @@
 package bassebombecraft.entity.commander;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
 /**
  * Interface for repository for mob commander.
@@ -23,7 +23,7 @@ public interface MobCommanderRepository {
 	 * 
 	 * @return true if player is registered as mob commander.
 	 */
-	public boolean isRegistered(EntityPlayer player);
+	public boolean isRegistered(PlayerEntity player);
 
 	/**
 	 * Register as mob commander.
@@ -31,7 +31,7 @@ public interface MobCommanderRepository {
 	 * @param player
 	 *            Player to register as mob commander.
 	 */
-	public void register(EntityPlayer player);
+	public void register(PlayerEntity player);
 
 	/**
 	 * Unregister as mob commander.
@@ -39,7 +39,7 @@ public interface MobCommanderRepository {
 	 * @param player
 	 *            Player to unregister as mob commander.
 	 */
-	public void remove(EntityPlayer player);
+	public void remove(PlayerEntity player);
 
 	/**
 	 * Clear registry.
@@ -49,7 +49,7 @@ public interface MobCommanderRepository {
 	/**
 	 * Get next mob command.
 	 */
-	public MobCommand getCommand(EntityPlayer player);
+	public MobCommand getCommand(PlayerEntity player);
 
 	/**
 	 * Cycle mob command
@@ -57,6 +57,6 @@ public interface MobCommanderRepository {
 	 * @param player
 	 *            Player to cycle command for.
 	 */
-	public void cycle(EntityPlayer player);
+	public void cycle(PlayerEntity player);
 
 }

@@ -32,7 +32,7 @@ import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
 import bassebombecraft.world.TemplateUtils;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -148,7 +148,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
+	public EnumActionResult onItemUse(PlayerEntity player, World worldIn, BlockPos pos, EnumHand hand,
 			EnumFacing facing, float hitX, float hitY, float hitZ) {
 
 		// create world query
@@ -274,7 +274,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 *            player object.
 	 * @return
 	 */
-	boolean isLegalTrigger(boolean isGroundBlock, BlockPos trigger, EntityPlayer playerIn) {
+	boolean isLegalTrigger(boolean isGroundBlock, BlockPos trigger, PlayerEntity playerIn) {
 		if (!isGroundBlock)
 			return false;
 
@@ -315,7 +315,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * @param playerIn
 	 *            player object.
 	 */
-	void registerFirstMarker(BlockPos pos, EntityPlayer playerIn) {
+	void registerFirstMarker(BlockPos pos, PlayerEntity playerIn) {
 		firstMarker = pos;
 
 		// get player rotation

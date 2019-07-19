@@ -1,14 +1,14 @@
 package bassebombecraft.geom;
 
 import bassebombecraft.world.WorldUtils;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class WorldQueryImpl implements WorldQuery {
 
 	World world;
-	EntityPlayer player;
+	PlayerEntity player;
 	BlockPos targetBlockPosition;
 	boolean harvest;
 
@@ -22,7 +22,7 @@ public class WorldQueryImpl implements WorldQuery {
 	 * @param targetBlockPosition
 	 *            target block position that player interacted with.
 	 */
-	public WorldQueryImpl(EntityPlayer player, BlockPos targetBlockPosition) {
+	public WorldQueryImpl(PlayerEntity player, BlockPos targetBlockPosition) {
 		super();
 		this.player = player;
 		this.world = player.getEntityWorld();
@@ -39,7 +39,7 @@ public class WorldQueryImpl implements WorldQuery {
 	 * @param harvest
 	 *            define whether blocks processed by item should be harvested.
 	 */
-	public WorldQueryImpl(EntityPlayer player, BlockPos targetBlockPosition, boolean harvest) {
+	public WorldQueryImpl(PlayerEntity player, BlockPos targetBlockPosition, boolean harvest) {
 		super();
 		this.player = player;
 		this.world = player.getEntityWorld();
@@ -53,7 +53,7 @@ public class WorldQueryImpl implements WorldQuery {
 	}
 
 	@Override
-	public EntityPlayer getPlayer() {
+	public PlayerEntity getPlayer() {
 		return player;
 	}
 

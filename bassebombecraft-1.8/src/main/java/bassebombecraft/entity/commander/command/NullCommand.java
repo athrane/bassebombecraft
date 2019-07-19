@@ -3,7 +3,7 @@ package bassebombecraft.entity.commander.command;
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
 /**
  * Null mob command.
@@ -21,12 +21,12 @@ public class NullCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean shouldExecute(EntityPlayer commander, EntityCreature entity) {
+	public boolean shouldExecute(PlayerEntity commander, EntityCreature entity) {
 		return true;
 	}
 
 	@Override
-	public boolean continueExecuting(EntityPlayer commander, EntityCreature entity) {
+	public boolean continueExecuting(PlayerEntity commander, EntityCreature entity) {
 		return true;
 	}
 

@@ -17,7 +17,7 @@ import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -65,7 +65,7 @@ public class BuildAbyss implements BlockClickedItemAction {
 
 	
 	@Override
-	public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand,
+	public EnumActionResult onItemUse(PlayerEntity player, World worldIn, BlockPos pos, EnumHand hand,
 			EnumFacing facing, float hitX, float hitY, float hitZ) {
 
 		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)

@@ -7,7 +7,7 @@ import static bassebombecraft.world.WorldUtils.isWorldAtServerSide;
 import java.util.Random;
 
 import bassebombecraft.event.frequency.FrequencyRepository;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -36,7 +36,7 @@ public class ParticleRenderingEventHandler {
 		repository.updateParticleDuration();
 
 		// get world
-		EntityPlayer player = event.player;
+		PlayerEntity player = event.player;
 		World world = player.getEntityWorld();
 
 		// exit if world is undefined

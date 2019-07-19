@@ -20,7 +20,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower.EnumFlowerType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -360,7 +360,7 @@ public class GeometryUtils {
 	 * 
 	 * @return y offset from block.
 	 */
-	public static int calculateYOffsetFromBlock(EntityPlayer player, BlockPos blockPosition) {
+	public static int calculateYOffsetFromBlock(PlayerEntity player, BlockPos blockPosition) {
 		int yFeetPosition = PlayerUtils.calculatePlayerFeetPosititionAsInt(player);
 		int offset = blockPosition.getY() - yFeetPosition;
 		return offset;

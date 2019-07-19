@@ -1,7 +1,7 @@
 package bassebombecraft.entity.ai;
 
 import static bassebombecraft.entity.EntityUtils.isEntityCreature;
-import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
+import static bassebombecraft.player.PlayerUtils.isPlayerEntity;
 
 import java.util.Set;
 
@@ -30,7 +30,7 @@ import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.passive.EntityOcelot;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 
 /**
  * AI utility class.
@@ -117,9 +117,9 @@ public class AiUtils {
 		entity.tasks.addTask(1, new EntityAISwimming(entity));
 
 		// setup attacking if commander is player
-		if (isEntityPlayer(commander)) {
+		if (isPlayerEntity(commander)) {
 			// type cast
-			EntityPlayer player = (EntityPlayer) commander;
+			PlayerEntity player = (PlayerEntity) commander;
 			entity.tasks.addTask(2, new CompanionAttack(entity, player));
 		} else {
 			entity.tasks.addTask(2, new CompanionAttack(entity));
@@ -212,10 +212,10 @@ public class AiUtils {
 	static void setupTargetingTasks(EntityCreature entity, LivingEntity commander) {
 
 		// setup targeting if commander is player
-		if (isEntityPlayer(commander)) {
+		if (isPlayerEntity(commander)) {
 
 			// type cast
-			EntityPlayer player = (EntityPlayer) commander;
+			PlayerEntity player = (PlayerEntity) commander;
 
 			// set commander targeting
 			entity.targetTasks.addTask(1, new CommanderControlledTargeting(entity, player));
