@@ -11,7 +11,7 @@ import com.typesafe.config.Config;
 
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.EntityOcelot;
+import net.minecraft.entity.passive.OcelotEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.RayTraceResult;
@@ -73,7 +73,7 @@ public class SpawnKittenArmy implements ProjectileAction {
 		for (int i = 0; i < kittens; i++) {
 
 			// create ocelot
-			EntityOcelot entity = new EntityOcelot(world);
+			OcelotEntity entity = new OcelotEntity(world);
 
 			// set age
 			if (i == 0)
