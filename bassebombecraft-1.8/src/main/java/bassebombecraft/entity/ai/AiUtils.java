@@ -29,7 +29,7 @@ import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.SkeletonEntity;
-import net.minecraft.entity.passive.EntityOcelot;
+import net.minecraft.entity.passive.OcelotEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 /**
@@ -145,7 +145,7 @@ public class AiUtils {
 	 * @param entity    entity which will configured with kitten army AI.
 	 * @param commander entity which commands skeleton.
 	 */
-	public static void buildKittenArmyAi(EntityOcelot entity, LivingEntity commander) {
+	public static void buildKittenArmyAi(OcelotEntity entity, LivingEntity commander) {
 
 		entity.tasks.addTask(1, new EntityAISwimming(entity));
 		entity.tasks.addTask(2, entity.getAISit());
