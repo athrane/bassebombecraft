@@ -12,7 +12,7 @@ import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
 import bassebombecraft.predicate.DiscardTeamMembers;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -96,7 +96,7 @@ public class AttackNearestMobCommand implements MobCommand {
 	public boolean continueExecuting(EntityPlayer commander, EntityCreature entity) {
 
 		// get target
-		EntityLivingBase target = entity.getAttackTarget();
+		LivingEntity target = entity.getAttackTarget();
 		
 		// exit if target is undefined
 		if (target == null)

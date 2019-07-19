@@ -3,8 +3,8 @@ package bassebombecraft.item.action.mist.entity;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.MobEffects;
+import bassebombecraft.potion.MobEffects;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.Vec3d;
@@ -38,7 +38,7 @@ public class HealingMist implements EntityMistActionStrategy {
 	}
 
 	@Override
-	public void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos, EntityLivingBase invoker) {
+	public void applyEffectToEntity(LivingEntity target, Vec3d mistPos, LivingEntity invoker) {
 		target.addPotionEffect(createEffect());
 	}
 

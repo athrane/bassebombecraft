@@ -3,7 +3,7 @@ package bassebombecraft.entity.commander.command;
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.EntityPlayer;
 
 /**
@@ -25,7 +25,7 @@ public class AttackCommandersTargetCommand implements MobCommand {
 	public boolean shouldExecute(EntityPlayer commander, EntityCreature entity) {
 
 		// get target
-		EntityLivingBase target = commander.getLastAttackedEntity();
+		LivingEntity target = commander.getLastAttackedEntity();
 		// start execution if target is defined
 		return (target != null);
 	}
@@ -34,7 +34,7 @@ public class AttackCommandersTargetCommand implements MobCommand {
 	public boolean continueExecuting(EntityPlayer commander, EntityCreature entity) {
 
 		// get target
-		EntityLivingBase target = commander.getLastAttackedEntity();
+		LivingEntity target = commander.getLastAttackedEntity();
 
 		// exit if target is undefined
 		if (target == null)

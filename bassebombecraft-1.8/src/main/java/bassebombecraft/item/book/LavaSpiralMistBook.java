@@ -3,7 +3,6 @@ package bassebombecraft.item.book;
 import bassebombecraft.item.action.mist.block.BlockMistActionStrategy;
 import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.block.LavaSpiralMist;
-import bassebombecraft.item.action.mist.block.RainbowSpiralMist;
 
 /**
  * Book of Lava spiral block implementation.

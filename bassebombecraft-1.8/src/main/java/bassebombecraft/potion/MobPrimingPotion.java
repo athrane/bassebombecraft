@@ -10,7 +10,7 @@ import java.util.Map;
 
 import com.typesafe.config.Config;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Potion;
 import net.minecraft.world.World;
 
@@ -43,7 +43,7 @@ public class MobPrimingPotion extends Potion {
 	/**
 	 * Primed entities.
 	 */
-	Map<EntityLivingBase, PrimedEntity> primed = new HashMap<EntityLivingBase, PrimedEntity>();
+	Map<LivingEntity, PrimedEntity> primed = new HashMap<LivingEntity, PrimedEntity>();
 
 	/**
 	 * Priming count down
@@ -67,7 +67,7 @@ public class MobPrimingPotion extends Potion {
 	}
 
 	@Override
-	public void performEffect(EntityLivingBase entity, int magicNumber) {
+	public void performEffect(LivingEntity entity, int magicNumber) {
 
 		// exit if entity is undefined
 		if (entity == null)

@@ -19,6 +19,8 @@ import javax.vecmath.Vector4f;
 
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+
 import bassebombecraft.entity.EntityUtils;
 import bassebombecraft.event.charm.CharmedMob;
 import bassebombecraft.event.charm.CharmedMobsRepository;
@@ -28,17 +30,15 @@ import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -122,7 +122,8 @@ public class RenderingEventHandler {
 		EntityPlayer player = getPlayer();
 
 		// exit if targeting overlay isn't in hotbar
-		if(!isItemInHotbar(player, TARGETING_OVERLAY_ITEM)) return;
+		if (!isItemInHotbar(player, TARGETING_OVERLAY_ITEM))
+			return;
 
 		// get player position
 		Vec3d playerPos = CalculatePlayerPosition(player, event.getPartialTicks());
@@ -138,30 +139,30 @@ public class RenderingEventHandler {
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
 		Collection<CharmedMob> entities = repository.get();
 		synchronized (entities) {
-			for(CharmedMob entity : entities) 
-				renderTeamEntity(player, entity.getEntity(), playerPos);			
-		}		
+			for (CharmedMob entity : entities)
+				renderTeamEntity(player, entity.getEntity(), playerPos);
+		}
 	}
 
-	static void renderCharmedEntity(EntityLiving entity, Vec3d playerPos) {
+	static void renderCharmedEntity(LivingEntity entity, Vec3d playerPos) {
 		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);
 		renderTextBillboard(playerPos, entityPos, CHARMED_LABEL, TEXT_BILLBOARD_ROTATION);
-		
+
 		// render target
 		renderTarget(entity, playerPos);
 	}
 
 	static void renderTeamEntities(EntityPlayer player, Vec3d playerPos) {
 		TeamRepository repository = getBassebombeCraft().getTeamRepository();
-		Collection<EntityLiving> entities = repository.get(player);
+		Collection<LivingEntity> entities = repository.get(player);
 		synchronized (entities) {
-			for(EntityLiving entity : entities) 
-				renderTeamEntity(player, entity, playerPos);			
-		}		
+			for (LivingEntity entity : entities)
+				renderTeamEntity(player, entity, playerPos);
+		}
 	}
 
-	static void renderTeamEntity(EntityPlayer player, EntityLiving entity, Vec3d playerPos) {
+	static void renderTeamEntity(EntityPlayer player, LivingEntity entity, Vec3d playerPos) {
 		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);
 		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
@@ -170,34 +171,34 @@ public class RenderingEventHandler {
 		renderTarget(entity, playerPos);
 	}
 
-	static void renderTarget(EntityLiving entity, Vec3d playerPos) {
-		if(!EntityUtils.hasAliveTarget(entity)) return;
-		EntityLivingBase target = getAliveTarget(entity);
+	static void renderTarget(LivingEntity entity, Vec3d playerPos) {
+		if (!EntityUtils.hasAliveTarget(entity))
+			return;
+		LivingEntity target = getAliveTarget(entity);
 		renderTargetedEntity(entity, target, playerPos);
 	}
-	
+
 	static void renderTargetedEntities(EntityPlayer player, Vec3d playerPos) {
 		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
 
 		// get entities
-		Stream<EntityLivingBase> members = repository.get(player);
+		Stream<LivingEntity> members = repository.get(player);
 		members.forEach(e -> renderTargetedEntity(e, playerPos));
 	}
 
-	static void renderTargetedEntity(EntityLivingBase target, Vec3d playerPos) {
+	static void renderTargetedEntity(LivingEntity target, Vec3d playerPos) {
 		Vec3d targetPos = target.getEntityBoundingBox().getCenter();
 		renderRectangleBillboard(playerPos, targetPos);
 		renderTextBillboard(playerPos, targetPos, TARGET_LABEL, TEXT_BILLBOARD_ROTATION);
 	}
-	
-	static void renderTargetedEntity(EntityLivingBase entity, EntityLivingBase target, Vec3d playerPos) {
+
+	static void renderTargetedEntity(LivingEntity entity, LivingEntity target, Vec3d playerPos) {
 		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();
 		Vec3d targetPos = target.getEntityBoundingBox().getCenter();
 		renderRectangleBillboard(playerPos, targetPos);
 		renderTextBillboard(playerPos, targetPos, TARGET_LABEL, TEXT_BILLBOARD_ROTATION);
 		renderLineBillboard(playerPos, entityPos, targetPos);
 	}
-	
 
 	/**
 	 * Render text at origin.
@@ -338,15 +339,14 @@ public class RenderingEventHandler {
 		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
 
 		// ET
-		bufferBuilder.pos(0, 0 , 0).endVertex();
-		bufferBuilder.pos(targetPos.x - entityPos.x , targetPos.y - entityPos.y , targetPos.z - entityPos.z ).endVertex();
+		bufferBuilder.pos(0, 0, 0).endVertex();
+		bufferBuilder.pos(targetPos.x - entityPos.x, targetPos.y - entityPos.y, targetPos.z - entityPos.z).endVertex();
 
 		tessellator.draw();
 
 		resetBillboardRendering();
 	}
-	
-	
+
 	/**
 	 * Render a billboard at origin.
 	 */

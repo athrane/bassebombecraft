@@ -5,10 +5,10 @@ import java.util.Random;
 import bassebombecraft.projectile.GenericEggProjectile;
 import bassebombecraft.projectile.action.ProjectileAction;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
 /**
@@ -35,7 +35,7 @@ public class GenericShootEggProjectile implements RightClickedItemAction {
 	}
 
 	@Override
-	public void onRightClick(World world, EntityLivingBase entity) {
+	public void onRightClick(World world, LivingEntity entity) {
 
 		GenericEggProjectile projectile = new GenericEggProjectile(world, entity, action);
 		projectile.shoot(entity, entity.rotationPitch, entity.rotationYaw, PITCH_OFFSET, VELOCITY, INACCURANCY);

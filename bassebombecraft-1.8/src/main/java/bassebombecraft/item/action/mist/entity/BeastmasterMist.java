@@ -4,8 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.Vec3d;
 
@@ -29,12 +28,12 @@ public class BeastmasterMist implements EntityMistActionStrategy {
 	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
 
 	@Override
-	public void applyEffectToEntity(EntityLivingBase target, Vec3d mistPos, EntityLivingBase invoker) {
+	public void applyEffectToEntity(LivingEntity target, Vec3d mistPos, LivingEntity invoker) {
 
 		// skip if entity can't be charmed
-		if (!(target instanceof EntityLiving))
+		if (!(target instanceof LivingEntity))
 			return;
-		EntityLiving entityLiving = (EntityLiving) target;
+		LivingEntity entityLiving = (LivingEntity) target;
 
 		// register mob as charmed
 		getBassebombeCraft().getCharmedMobsRepository().add(entityLiving,invoker);

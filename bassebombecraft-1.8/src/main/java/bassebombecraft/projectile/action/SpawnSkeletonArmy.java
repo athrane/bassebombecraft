@@ -9,10 +9,9 @@ import java.util.Random;
 import com.typesafe.config.Config;
 
 import bassebombecraft.event.entity.team.TeamRepository;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
@@ -80,7 +79,7 @@ public class SpawnSkeletonArmy implements ProjectileAction {
 			entity.setItemStackToSlot(EntityEquipmentSlot.HEAD, helmetstack);
 
 			// get owner
-			EntityLivingBase thrower = projectile.getThrower();
+			LivingEntity thrower = projectile.getThrower();
 
 			// add entity to team
 			TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();

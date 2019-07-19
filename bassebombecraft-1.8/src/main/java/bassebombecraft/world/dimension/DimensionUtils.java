@@ -4,11 +4,6 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import com.typesafe.config.Config;
 
-import bassebombecraft.ModConstants;
-import bassebombecraft.item.action.ShootBaconBazooka;
-import net.minecraft.world.DimensionType;
-import net.minecraftforge.common.DimensionManager;
-
 /**
  * Helper class form creation dimensions.
  */

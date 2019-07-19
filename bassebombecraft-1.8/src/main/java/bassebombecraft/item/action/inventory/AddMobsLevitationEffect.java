@@ -6,15 +6,15 @@ import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import com.typesafe.config.Config;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
+import bassebombecraft.potion.MobEffects;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.MobEffects;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
- * of inventory item actions. This class makes adds a levitation effect to 
+ * of inventory item actions. This class makes adds a levitation effect to
  * nearby entities..
  */
 public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
@@ -24,7 +24,7 @@ public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 	 */
 	ParticleRenderingInfo[] infos;
 
-	/** 
+	/**
 	 * Effect duration.
 	 */
 	int duration;
@@ -37,14 +37,13 @@ public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 	/**
 	 * AddLevitationEffect constructor
 	 * 
-	 * @param key
-	 *            configuration key to initialize particle rendering info from.
+	 * @param key configuration key to initialize particle rendering info from.
 	 */
 	public AddMobsLevitationEffect(String key) {
 		infos = createFromConfig(key);
 		Config configuration = getBassebombeCraft().getConfiguration();
-		duration = configuration.getInt(key+".Duration");
-		range = configuration.getInt(key+".Range");
+		duration = configuration.getInt(key + ".Duration");
+		range = configuration.getInt(key + ".Range");
 
 	}
 
@@ -61,9 +60,9 @@ public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
-		if (target instanceof EntityLivingBase) {
-			EntityLivingBase entityLivingBase = (EntityLivingBase) target;
+	public void applyEffect(Entity target, World world, LivingEntity invoker) {
+		if (target instanceof LivingEntity) {
+			LivingEntity entityLivingBase = (LivingEntity) target;
 			entityLivingBase.addPotionEffect(createEffect());
 		}
 	}

@@ -5,7 +5,6 @@ import java.util.Random;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.WorldQuery;
 import net.minecraft.block.Block;
-import net.minecraft.init.Blocks;
 
 public class GardenStructureFactory implements StructureFactory {
 

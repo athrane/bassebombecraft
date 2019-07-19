@@ -11,7 +11,7 @@ import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.geom.GeometryUtils;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -65,7 +65,7 @@ public class GenericBlockMist implements RightClickedItemAction {
 	/**
 	 * Invoking entity.
 	 */
-	EntityLivingBase entity;
+	LivingEntity entity;
 
 	/**
 	 * Invoking entity look unit vector.
@@ -99,7 +99,7 @@ public class GenericBlockMist implements RightClickedItemAction {
 	}
 
 	@Override
-	public void onRightClick(World world, EntityLivingBase entity) {
+	public void onRightClick(World world, LivingEntity entity) {
 		this.entity = entity;
 		isActive = true;
 		ticksCounter = 0;
@@ -152,7 +152,7 @@ public class GenericBlockMist implements RightClickedItemAction {
 	 * @param entity
 	 *            entity object
 	 */
-	void initializeMistPostition(World world, EntityLivingBase entity) {
+	void initializeMistPostition(World world, LivingEntity entity) {
 
 		// setup arrays
 		mistDirections = new Vec3d[strategy.getNumberMists()];

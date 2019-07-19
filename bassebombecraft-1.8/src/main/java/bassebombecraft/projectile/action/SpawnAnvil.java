@@ -6,7 +6,6 @@ import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;

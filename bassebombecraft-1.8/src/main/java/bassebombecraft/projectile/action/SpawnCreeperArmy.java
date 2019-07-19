@@ -9,7 +9,7 @@ import java.util.Random;
 import com.typesafe.config.Config;
 
 import bassebombecraft.event.entity.team.TeamRepository;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.math.RayTraceResult;
@@ -67,7 +67,7 @@ public class SpawnCreeperArmy implements ProjectileAction {
 			entity.setLocationAndAngles(positionX, positionY, positionZ, projectile.rotationYaw, PITCH);
 
 			// get owner
-			EntityLivingBase thrower = projectile.getThrower();
+			LivingEntity thrower = projectile.getThrower();
 
 			// add entity to team
 			TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();

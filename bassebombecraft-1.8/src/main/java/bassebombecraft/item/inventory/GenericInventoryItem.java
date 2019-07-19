@@ -1,6 +1,6 @@
 package bassebombecraft.item.inventory;
 
-import static bassebombecraft.BassebombeCraft.*;
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
@@ -22,7 +22,7 @@ import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -112,8 +112,8 @@ public class GenericInventoryItem extends Item {
 		if (!(shouldActivateFromOffHand || shouldActivateFromHotbar))
 			return;
 
-		// exit if entity isn't a EntityLivingBase
-		if (!(entityIn instanceof EntityLivingBase))
+		// exit if entity isn't a LivingEntity
+		if (!(entityIn instanceof LivingEntity))
 			return;
 
 		// exit if entity isn't player
@@ -135,7 +135,7 @@ public class GenericInventoryItem extends Item {
 		getProxy().postItemUsage(getUnlocalizedName(), player.getName());
 
 		// apply effect
-		applyEffect(worldIn, (EntityLivingBase) entityIn);
+		applyEffect(worldIn, (LivingEntity) entityIn);
 
 	}
 
@@ -163,16 +163,16 @@ public class GenericInventoryItem extends Item {
 	 * @param invokingEntity
 	 *            entity object
 	 */
-	void applyEffect(World world, EntityLivingBase invokingEntity) {
+	void applyEffect(World world, LivingEntity invokingEntity) {
 		int aoeRange = strategy.getEffectRange();
 
 		// get entities within AABB
 		AxisAlignedBB aabb = new AxisAlignedBB(invokingEntity.posX - aoeRange, invokingEntity.posY - aoeRange,
 				invokingEntity.posZ - aoeRange, invokingEntity.posX + aoeRange, invokingEntity.posY + aoeRange,
 				invokingEntity.posZ + aoeRange);
-		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, aabb);
+		List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class, aabb);
 
-		for (EntityLivingBase foundEntity : entities) {
+		for (LivingEntity foundEntity : entities) {
 
 			// determine if target is invoker
 			boolean isInvoker = hasIdenticalUniqueID(invokingEntity, foundEntity);

@@ -2,7 +2,7 @@ package bassebombecraft.event.charm;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.SPAWN_PARTICLES_FREQUENCY;
-import static bassebombecraft.entity.EntityUtils.isEntityLiving;
+import static bassebombecraft.entity.EntityUtils.isLivingEntity;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
@@ -10,13 +10,13 @@ import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
-import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 /**
  * Event handler for managing charmed mobs, i.e. removal on death and update for the charm to time out.
@@ -36,10 +36,10 @@ public class CharmedMobEventHandler {
 
 	@SubscribeEvent
 	static public void handleEvent(LivingUpdateEvent event) {
-		if (!isEntityLiving(event.getEntityLiving())) return;
+		if (!isLivingEntity(event.getLivingEntity())) return;
 
 		// cast
-		EntityLiving entityLiving = EntityLiving.class.cast(event.getEntityLiving());
+		LivingEntity entityLiving = LivingEntity.class.cast(event.getLivingEntity());
 
 		// get repository
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
@@ -66,10 +66,10 @@ public class CharmedMobEventHandler {
 
 	@SubscribeEvent
 	public static void handleEvent(LivingDeathEvent event) {
-		if (!isEntityLiving(event.getEntityLiving())) return;
+		if (!isLivingEntity(event.getLivingEntity())) return;
 
 		// cast
-		EntityLiving entityLiving = EntityLiving.class.cast(event.getEntityLiving());
+		LivingEntity entityLiving = LivingEntity.class.cast(event.getLivingEntity());
 
 		// get repository
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();

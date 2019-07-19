@@ -9,10 +9,10 @@ import com.typesafe.config.Config;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.EntityLlamaSpit;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -78,7 +78,7 @@ public class LlamaSpit implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
+	public void applyEffect(Entity target, World world, LivingEntity invoker) {
 		Vec3d v3 = invoker.getLook(1);
 
 		EntityLlamaSpit projectile = new EntityLlamaSpit(world, invoker.posX,

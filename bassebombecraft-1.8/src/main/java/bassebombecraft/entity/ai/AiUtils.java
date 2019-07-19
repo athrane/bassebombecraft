@@ -7,12 +7,11 @@ import java.util.Set;
 
 import bassebombecraft.entity.EntityUtils;
 import bassebombecraft.entity.ai.task.AiCommandersTargeting;
+import bassebombecraft.entity.ai.task.CommanderControlledTargeting;
 import bassebombecraft.entity.ai.task.CompanionAttack;
 import bassebombecraft.entity.ai.task.FollowEntity;
-import bassebombecraft.entity.ai.task.CommanderControlledTargeting;
 import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIAttackRangedBow;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -50,10 +49,9 @@ public class AiUtils {
 	/**
 	 * Clear passive and fighting AI tasks.
 	 * 
-	 * @param entity
-	 *            to clear AI tasks for.
+	 * @param entity to clear AI tasks for.
 	 */
-	public static void clearAiTasks(EntityLiving entity) {
+	public static void clearAiTasks(LivingEntity entity) {
 		removeTasks(entity.tasks);
 		removeTasks(entity.targetTasks);
 	}
@@ -61,8 +59,7 @@ public class AiUtils {
 	/**
 	 * Remove tasks in a concurrently safe way
 	 * 
-	 * @param tasks
-	 *            AI tasks.
+	 * @param tasks AI tasks.
 	 */
 	static void removeTasks(EntityAITasks tasks) {
 		Set<EntityAITaskEntry> entries = tasks.taskEntries;
@@ -83,12 +80,10 @@ public class AiUtils {
 	/**
 	 * Assign passive AI tasks.
 	 * 
-	 * @param entity
-	 *            to clear AI tasks for.
-	 * @param entries
-	 *            tasks entries.
+	 * @param entity  to clear AI tasks for.
+	 * @param entries tasks entries.
 	 */
-	public static void assignAiTasks(EntityLiving entity, Set<EntityAITaskEntry> entries) {
+	public static void assignAiTasks(LivingEntity entity, Set<EntityAITaskEntry> entries) {
 		for (EntityAITaskEntry entry : entries) {
 			int priority = entry.priority;
 			EntityAIBase task = entry.action;
@@ -99,12 +94,10 @@ public class AiUtils {
 	/**
 	 * Assign target AI tasks.
 	 * 
-	 * @param entity
-	 *            to clear AI tasks for.
-	 * @param entries
-	 *            tasks entries.
+	 * @param entity  to clear AI tasks for.
+	 * @param entries tasks entries.
 	 */
-	public static void assignAiTargetTasks(EntityLiving entity, Set<EntityAITaskEntry> entries) {
+	public static void assignAiTargetTasks(LivingEntity entity, Set<EntityAITaskEntry> entries) {
 		for (EntityAITaskEntry entry : entries) {
 			int priority = entry.priority;
 			EntityAIBase task = entry.action;
@@ -115,30 +108,28 @@ public class AiUtils {
 	/**
 	 * Build AI for charmed mob.
 	 * 
-	 * @param entity
-	 *            entity which will configured with charmed AI.
-	 * @param commander
-	 *            entity which charmed mob.
+	 * @param entity    entity which will configured with charmed AI.
+	 * @param commander entity which charmed mob.
 	 */
-	public static void buildCharmedMobAi(EntityLiving entity, EntityLivingBase commander) {
+	public static void buildCharmedMobAi(LivingEntity entity, LivingEntity commander) {
 
 		// set tasks
 		entity.tasks.addTask(1, new EntityAISwimming(entity));
-		
+
 		// setup attacking if commander is player
 		if (isEntityPlayer(commander)) {
 			// type cast
 			EntityPlayer player = (EntityPlayer) commander;
 			entity.tasks.addTask(2, new CompanionAttack(entity, player));
 		} else {
-			entity.tasks.addTask(2, new CompanionAttack(entity));			
-		}		
-		
+			entity.tasks.addTask(2, new CompanionAttack(entity));
+		}
+
 		// setup remainig tasks
 		entity.tasks.addTask(3, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
 		entity.tasks.addTask(5, new EntityAILookIdle(entity));
 
-		// exit setting target tasks if entity isn't a creature 
+		// exit setting target tasks if entity isn't a creature
 		// including commander controlled targeting
 		if (!isEntityCreature(entity))
 			return;
@@ -151,12 +142,10 @@ public class AiUtils {
 	/**
 	 * Build AI for kitten army.
 	 * 
-	 * @param entity
-	 *            entity which will configured with kitten army AI.
-	 * @param commander
-	 *            entity which commands skeleton.
+	 * @param entity    entity which will configured with kitten army AI.
+	 * @param commander entity which commands skeleton.
 	 */
-	public static void buildKittenArmyAi(EntityOcelot entity, EntityLivingBase commander) {
+	public static void buildKittenArmyAi(EntityOcelot entity, LivingEntity commander) {
 
 		entity.tasks.addTask(1, new EntityAISwimming(entity));
 		entity.tasks.addTask(2, entity.getAISit());
@@ -168,20 +157,18 @@ public class AiUtils {
 		entity.tasks.addTask(9, new EntityAILookIdle(entity));
 
 		// type cast
-		EntityCreature entityCreature = EntityCreature.class.cast(entity);		
+		EntityCreature entityCreature = EntityCreature.class.cast(entity);
 		setupTargetingTasks(entityCreature, commander);
 	}
 
 	/**
 	 * Build AI for skeleton army.
 	 * 
-	 * @param entity
-	 *            entity which will configured with kitten army AI.
-	 * @param commander
-	 *            entity which commands skeleton.
+	 * @param entity    entity which will configured with kitten army AI.
+	 * @param commander entity which commands skeleton.
 	 * 
 	 */
-	public static void buildSkeletonArmyAi(EntitySkeleton entity, EntityLivingBase commander) {
+	public static void buildSkeletonArmyAi(EntitySkeleton entity, LivingEntity commander) {
 
 		entity.tasks.addTask(1, new EntityAISwimming(entity));
 		entity.tasks.addTask(2, new EntityAIFleeSun(entity, 1.0F));
@@ -198,13 +185,11 @@ public class AiUtils {
 	/**
 	 * Build AI for Creeper army.
 	 * 
-	 * @param entity
-	 *            entity which will configured with kitten army AI.
-	 * @param commander
-	 *            entity which commands skeleton.
+	 * @param entity    entity which will configured with kitten army AI.
+	 * @param commander entity which commands skeleton.
 	 * 
 	 */
-	public static void buildCreeperArmyAi(EntityCreeper entity, EntityLivingBase commander) {
+	public static void buildCreeperArmyAi(EntityCreeper entity, LivingEntity commander) {
 
 		entity.tasks.addTask(1, new EntityAISwimming(entity));
 		entity.tasks.addTask(2, new EntityAICreeperSwell(entity));
@@ -215,41 +200,41 @@ public class AiUtils {
 		// type cast
 		EntityCreature entityCreature = EntityCreature.class.cast(entity);
 		setupTargetingTasks(entityCreature, commander);
-	}	
-	
+	}
+
 	/**
-	 * Setup targeting. 
-	 * Mob commanded targeting is only set if commander is a player entity.
+	 * Setup targeting. Mob commanded targeting is only set if commander is a player
+	 * entity.
 	 * 
-	 * @param entity entity to set targeting for.
+	 * @param entity    entity to set targeting for.
 	 * @param commander commander (if defined).
 	 */
-	static void setupTargetingTasks(EntityCreature entity, EntityLivingBase commander) {
-		
+	static void setupTargetingTasks(EntityCreature entity, LivingEntity commander) {
+
 		// setup targeting if commander is player
 		if (isEntityPlayer(commander)) {
 
 			// type cast
 			EntityPlayer player = (EntityPlayer) commander;
-			
+
 			// set commander targeting
 			entity.targetTasks.addTask(1, new CommanderControlledTargeting(entity, player));
 			return;
 		}
 
 		// set AI commander targeting if commander is a living entity
-		if(EntityUtils.isEntityLiving(commander)) {
+		if (EntityUtils.isLivingEntity(commander)) {
 
 			// type cast
-			EntityLiving commander2 = (EntityLiving) commander;
-			
-			entity.targetTasks.addTask(1, new AiCommandersTargeting(entity, commander2));		
+			LivingEntity commander2 = (LivingEntity) commander;
+
+			entity.targetTasks.addTask(1, new AiCommandersTargeting(entity, commander2));
 			entity.targetTasks.addTask(2, new EntityAIHurtByTarget(entity, DONT_CALL_FOR_HELP, new Class[0]));
 			return;
 		}
-		
-		// set AI commander targeting if commander is a living entity base		
+
+		// set AI commander targeting if commander is a living entity base
 		entity.targetTasks.addTask(1, new EntityAIHurtByTarget(entity, DONT_CALL_FOR_HELP, new Class[0]));
 	}
-	
+
 }

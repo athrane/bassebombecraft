@@ -1,7 +1,9 @@
 package bassebombecraft.potion;
 
 import bassebombecraft.item.action.ShootBaconBazooka;
+import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
+import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
 import net.minecraft.potion.Potion;
 
 /**

@@ -11,8 +11,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import bassebombecraft.event.entity.team.TeamRepository;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 
 /**
  * Default implementation of the {@linkplain CharmedMobsRepository}.
@@ -24,10 +23,10 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	/**
 	 * Charmed mobs.
 	 */
-	Map<EntityLiving, CharmedMob> charmedMobs = new ConcurrentHashMap<EntityLiving, CharmedMob>();
+	Map<LivingEntity, CharmedMob> charmedMobs = new ConcurrentHashMap<LivingEntity, CharmedMob>();
 
 	@Override
-	public void add(EntityLiving entity, EntityLivingBase commander) {
+	public void add(LivingEntity entity, LivingEntity commander) {
 
 		// exist if entity is team member
 		TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
@@ -46,7 +45,7 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	}
 
 	@Override
-	public void remove(EntityLiving entity) {
+	public void remove(LivingEntity entity) {
 		if (!contains(entity))
 			return;
 
@@ -61,7 +60,7 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	}
 
 	@Override
-	public void update(EntityLiving entity) {
+	public void update(LivingEntity entity) {
 		if (!contains(entity))
 			return;
 
@@ -75,7 +74,7 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	}
 
 	@Override
-	public boolean contains(EntityLiving entity) {
+	public boolean contains(LivingEntity entity) {
 		return charmedMobs.containsKey(entity);
 	}
 	

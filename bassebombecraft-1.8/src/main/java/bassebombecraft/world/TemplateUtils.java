@@ -1,21 +1,21 @@
 package bassebombecraft.world;
 
-import static bassebombecraft.ModConstants.*;
+import static bassebombecraft.ModConstants.MODID;
+import static bassebombecraft.ModConstants.VERSION;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
 import bassebombecraft.BassebombeCraft;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.gen.feature.template.PlacementSettings;
+import net.minecraft.world.gen.feature.template.Template;
+import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
-import net.minecraft.world.gen.structure.template.PlacementSettings;
-import net.minecraft.world.gen.structure.template.Template;
-import net.minecraft.world.gen.structure.template.TemplateManager;
 
 /**
  * Helper class for using templates

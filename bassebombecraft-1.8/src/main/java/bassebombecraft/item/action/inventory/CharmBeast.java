@@ -7,8 +7,7 @@ import com.typesafe.config.Config;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 
 /**
@@ -26,17 +25,16 @@ public class CharmBeast implements InventoryItemActionStrategy {
 	 * Effect range.
 	 */
 	int range;
-	
+
 	/**
 	 * CharmBeast constructor
 	 * 
-	 * @param key
-	 *            configuration key to initialize particle rendering info from.
+	 * @param key configuration key to initialize particle rendering info from.
 	 */
 	public CharmBeast(String key) {
 		infos = createFromConfig(key);
 		Config configuration = getBassebombeCraft().getConfiguration();
-		range = configuration.getInt(key + ".Range");		
+		range = configuration.getInt(key + ".Range");
 	}
 
 	@Override
@@ -52,12 +50,12 @@ public class CharmBeast implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
+	public void applyEffect(Entity target, World world, LivingEntity invoker) {
 
 		// skip if entity can't be charmed
-		if (!(target instanceof EntityLiving))
+		if (!(target instanceof LivingEntity))
 			return;
-		EntityLiving entityLiving = (EntityLiving) target;
+		LivingEntity entityLiving = (LivingEntity) target;
 
 		// register mob as charmed
 		getBassebombeCraft().getCharmedMobsRepository().add(entityLiving, invoker);

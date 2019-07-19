@@ -1,10 +1,6 @@
 package bassebombecraft.event.block.temporary;
 
-import bassebombecraft.event.particle.DefaultParticleRendering;
-import bassebombecraft.event.particle.ParticleRendering;
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
-import net.minecraft.util.math.BlockPos;
 
 /**
  * Default implementation of {@linkplain TemporaryBlock}.

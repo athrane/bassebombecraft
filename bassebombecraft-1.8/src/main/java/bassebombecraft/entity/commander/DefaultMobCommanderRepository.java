@@ -9,8 +9,8 @@ import java.util.Map;
 import bassebombecraft.entity.commander.command.AttackCommandersTargetCommand;
 import bassebombecraft.entity.commander.command.AttackNearestMobCommand;
 import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
-import bassebombecraft.entity.commander.command.NullCommand;
 import bassebombecraft.entity.commander.command.DanceCommand;
+import bassebombecraft.entity.commander.command.NullCommand;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class DefaultMobCommanderRepository implements MobCommanderRepository {

@@ -36,8 +36,7 @@ import bassebombecraft.projectile.action.SpawnKittenArmy;
 import bassebombecraft.projectile.action.SpawnLavaBlock;
 import bassebombecraft.projectile.action.SpawnLightningBolt;
 import bassebombecraft.projectile.action.SpawnSquid;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -70,12 +69,17 @@ public class CompanionAttack extends EntityAIBase {
 	/**
 	 * Target entity.
 	 */
-	final EntityLiving entity;
+	final LivingEntity entity;
 
-	EntityLivingBase attackTarget;
+	LivingEntity attackTarget;
 	double entityMoveSpeed = 1.0D;
 	double distanceToTargetSq;
 	boolean isTargetClose;
+
+	/**
+	 * Observation counter..
+	 */
+	int observationCounter = 0;
 
 	/**
 	 * List of long range actions.
@@ -95,10 +99,9 @@ public class CompanionAttack extends EntityAIBase {
 	/**
 	 * CompanionAttack constructor.
 	 * 
-	 * @param entity
-	 *            entity that the tasks is applied to.
+	 * @param entity entity that the tasks is applied to.
 	 */
-	public CompanionAttack(EntityLiving entity) {
+	public CompanionAttack(LivingEntity entity) {
 		this.entity = entity;
 
 		// "interactive" AI, including attack
@@ -136,25 +139,24 @@ public class CompanionAttack extends EntityAIBase {
 	/**
 	 * CompanionAttack constructor.
 	 * 
-	 * @param entity
-	 *            entity that the tasks is applied to.
-	 * @param commander
-	 *            entity which commands entity.
+	 * @param entity    entity that the tasks is applied to.
+	 * @param commander entity which commands entity.
 	 */
-	public CompanionAttack(EntityLiving entity, EntityPlayer commander) {
+	public CompanionAttack(LivingEntity entity, EntityPlayer commander) {
 		this(entity);
 		this.commander = commander;
 	}
 
 	@Override
 	public boolean shouldExecute() {
+		System.out.println("DEBUG: shouldExecute: entity=" + entity);
 
 		// exit if no living target is defined
 		if (!hasAliveTarget(this.entity))
 			return false;
 
 		// get candidate
-		EntityLivingBase targetCandidate = getAliveTarget(this.entity);
+		LivingEntity targetCandidate = getAliveTarget(this.entity);
 
 		// set target
 		attackTarget = targetCandidate;
@@ -163,14 +165,14 @@ public class CompanionAttack extends EntityAIBase {
 
 	@Override
 	public void startExecuting() {
+		System.out.println("DEBUG: startExecuting: entity=" + entity);
+
 		// NO-OP
 	}
 
 	@Override
 	public void updateTask() {
-
-		// look at target
-		entity.getLookHelper().setLookPositionWithEntity(attackTarget, 30.0F, 30.0F);
+		System.out.println("DEBUG: updateTask: entity=" + entity);
 
 		// get repository
 		FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
@@ -178,6 +180,11 @@ public class CompanionAttack extends EntityAIBase {
 		// exit if frequency isn't active
 		if (!repository.isActive(AI_COMPANION_ATTACK_UPDATE_FREQUENCY))
 			return;
+
+		System.out.println("DEBUG: updateTask: will update this turn");
+
+		// look at target
+		entity.getLookHelper().setLookPositionWithEntity(attackTarget, 30.0F, 30.0F);
 
 		// get movement info
 		distanceToTargetSq = this.entity.getDistanceSq(attackTarget.posX, attackTarget.getEntityBoundingBox().minY,
@@ -188,22 +195,30 @@ public class CompanionAttack extends EntityAIBase {
 		if (isTargetClose) {
 			entity.getNavigator().clearPath();
 		} else {
-			entity.getNavigator().tryMoveToEntityLiving(attackTarget, entityMoveSpeed);
+			entity.getNavigator().tryMoveToLivingEntity(attackTarget, entityMoveSpeed);
 		}
 
-		// select behaviour type
-		String aiAction = "";
-		if (isTargetClose)
-			aiAction = doCloseRangeAction();
-		else
-			aiAction = doLongRangeAction();
-
 		// add AI observation event
-		// System.out.println("target=" + attackTarget);
-		// System.out.println("dist=" + distanceToTargetSq);
-		// System.out.println("isTargetClose=" + isTargetClose);
-		// System.out.println("action=" + aiAction);
-		// String uid = commander.getName();
+		// type, position, health
+		doAiObservation("before");
+		System.out.println("DEBUG: dist=" + distanceToTargetSq);
+		System.out.println("DEBUG: isTargetClose=" + isTargetClose);
+
+		// select behaviour type
+		String action = "";
+		if (isTargetClose)
+			action = doCloseRangeAction();
+		else
+			action = doLongRangeAction();
+
+		doAiObservation("after");
+		System.out.println("action=" + action);
+		System.out.println("DEBUG: dist=" + distanceToTargetSq);
+		System.out.println("DEBUG: isTargetClose=" + isTargetClose);
+
+		// increase observation counter
+		observationCounter++;
+
 		try {
 			// aiObserve(uid, distanceToTargetSq, isTargetClose, aiAction);
 		} catch (Exception e) {
@@ -211,6 +226,18 @@ public class CompanionAttack extends EntityAIBase {
 			// NOP
 		}
 
+	}
+
+	void doAiObservation(String stage) {
+		String id = new StringBuilder().append(this.hashCode()).append("-").append(observationCounter).append("-")
+				.append(stage).toString();
+		System.out.println("observation-id=" + id);
+		System.out.println("source.name=" + entity.getName());
+		System.out.println("source.health=" + entity.getHealth());
+		System.out.println("source.position=" + entity.getPosition().toLong());
+		System.out.println("target.name=" + attackTarget.getName());
+		System.out.println("target.health=" + attackTarget.getHealth());
+		System.out.println("target.position=" + attackTarget.getPosition().toLong());
 	}
 
 	/**
@@ -250,6 +277,8 @@ public class CompanionAttack extends EntityAIBase {
 	 */
 	@Override
 	public boolean shouldContinueExecuting() {
+		System.out.println("DEBUG: shouldContinueExecuting: entity=" + entity);
+
 		return shouldExecute() || !entity.getNavigator().noPath();
 	}
 
@@ -258,6 +287,8 @@ public class CompanionAttack extends EntityAIBase {
 	 */
 	@Override
 	public void resetTask() {
+		System.out.println("DEBUG: resetTask: entity=" + entity);
+
 		attackTarget = null;
 	}
 }

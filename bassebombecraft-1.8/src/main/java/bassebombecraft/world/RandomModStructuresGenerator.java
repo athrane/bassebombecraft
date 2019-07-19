@@ -59,6 +59,8 @@ public class RandomModStructuresGenerator implements IWorldGenerator {
 			return;
 		if (infos.isEmpty())
 			return;
+		
+		// get random structure
 		int index = random.nextInt(infos.size());
 		StructureInfo info = infos.get(index);
 

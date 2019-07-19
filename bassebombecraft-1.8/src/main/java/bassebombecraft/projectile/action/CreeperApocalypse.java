@@ -1,8 +1,8 @@
 package bassebombecraft.projectile.action;
 
+import bassebombecraft.potion.MobEffects;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.projectile.EntityThrowable;
-import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;

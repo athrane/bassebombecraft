@@ -4,29 +4,28 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.EntityPlayer;
 
 public class DefaultTargetedEntitiesRepository implements TargetedEntitiesRepository {
-	
 
 	/**
 	 * Targeted entities.
 	 */
-	Set<EntityLivingBase> targets = new HashSet<EntityLivingBase>();
-	
+	Set<LivingEntity> targets = new HashSet<LivingEntity>();
+
 	@Override
-	public void add(EntityLivingBase entity) {
+	public void add(LivingEntity entity) {
 		targets.add(entity);
 	}
 
 	@Override
-	public void remove(EntityLivingBase entity) {
+	public void remove(LivingEntity entity) {
 		targets.remove(entity);
 	}
 
 	@Override
-	public Stream<EntityLivingBase> get(EntityPlayer commander) {
+	public Stream<LivingEntity> get(EntityPlayer commander) {
 		return targets.stream();
 	}
 
@@ -34,7 +33,7 @@ public class DefaultTargetedEntitiesRepository implements TargetedEntitiesReposi
 	 * Factory method.
 	 * 
 	 * @return repository instance.
-	 */	
+	 */
 	public static TargetedEntitiesRepository getInstance() {
 		return new DefaultTargetedEntitiesRepository();
 	}

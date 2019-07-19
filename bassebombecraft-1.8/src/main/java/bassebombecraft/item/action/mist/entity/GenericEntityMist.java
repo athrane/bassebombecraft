@@ -14,7 +14,7 @@ import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.geom.GeometryUtils;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -74,7 +74,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 	/*
 	 * Invoking entity.
 	 */
-	EntityLivingBase entity;
+	LivingEntity entity;
 
 	/**
 	 * Invoking entity look unit vector.
@@ -105,7 +105,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 	}
 
 	@Override
-	public void onRightClick(World world, EntityLivingBase entity) {
+	public void onRightClick(World world, LivingEntity entity) {
 		this.entity = entity;
 		isActive = true;
 		ticksCounter = 0;
@@ -120,16 +120,16 @@ public class GenericEntityMist implements RightClickedItemAction {
 	 * @param invokingEntity
 	 *            entity object
 	 */
-	void applyEffect(World world, EntityLivingBase invokingEntity) {
+	void applyEffect(World world, LivingEntity invokingEntity) {
 		int aoeRange = strategy.getEffectRange();
 
 		// get entities within AABB
 		AxisAlignedBB aabb = new AxisAlignedBB(mistPos.x - aoeRange, mistPos.y - aoeRange,
 				mistPos.z - aoeRange, mistPos.x + aoeRange, mistPos.y + aoeRange,
 				mistPos.z + aoeRange);
-		List<EntityLivingBase> entities = world.getEntitiesWithinAABB(EntityLivingBase.class, aabb);
+		List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class, aabb);
 
-		for (EntityLivingBase foundEntity : entities) {
+		for (LivingEntity foundEntity : entities) {
 
 			// skip invoking entity if strategy specifies it
 			if (hasIdenticalUniqueID(invokingEntity, foundEntity)) {
@@ -199,7 +199,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 	 *            entity object
 	 */
 
-	void calculateMistPostition(World world, EntityLivingBase entity) {
+	void calculateMistPostition(World world, LivingEntity entity) {
 		entityLook = entity.getLook(1);
 		Vec3d entityLookX4 = new Vec3d(entityLook.x * INVOCATION_DIST, entityLook.y * INVOCATION_DIST,
 				entityLook.z * INVOCATION_DIST);

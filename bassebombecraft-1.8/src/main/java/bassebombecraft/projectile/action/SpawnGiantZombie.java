@@ -5,7 +5,7 @@ import static bassebombecraft.entity.ai.AiUtils.buildCharmedMobAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAiTasks;
 
 import bassebombecraft.event.entity.team.TeamRepository;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.EntityGiantZombie;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.math.RayTraceResult;
@@ -19,7 +19,7 @@ public class SpawnGiantZombie implements ProjectileAction {
 	@Override
 	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
 
-		EntityLivingBase owner = projectile.getThrower();
+		LivingEntity owner = projectile.getThrower();
 
 		EntityGiantZombie entity = new EntityGiantZombie(world);
 		entity.setLocationAndAngles(projectile.posX, projectile.posY, projectile.posZ, projectile.rotationYaw,

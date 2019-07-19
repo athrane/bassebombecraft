@@ -2,8 +2,7 @@ package bassebombecraft.entity.ai.task;
 
 import static bassebombecraft.player.PlayerUtils.isEntityPlayer;
 
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.pathfinding.PathNavigate;
@@ -18,9 +17,9 @@ public class FollowEntity extends EntityAIBase {
 
 	static final int UPDATE_DELAY = 10;
 
-	final EntityLiving entity;
+	final LivingEntity entity;
 	int timeToRecalcPath;
-	EntityLivingBase leaderEntity;
+	LivingEntity leaderEntity;
 	double followSpeed;
 	PathNavigate petPathfinder;
 	float minDistance;
@@ -31,18 +30,13 @@ public class FollowEntity extends EntityAIBase {
 	/**
 	 * FollowEntity AI task.
 	 * 
-	 * @param entity
-	 *            entity to which the task is applied.
-	 * @param leader
-	 *            entity to be followed.
-	 * @param followSpeedIn
-	 *            following speed.
-	 * @param minDistIn
-	 *            minimum distance.
-	 * @param maxDistIn
-	 *            maximum distance.
+	 * @param entity        entity to which the task is applied.
+	 * @param leader        entity to be followed.
+	 * @param followSpeedIn following speed.
+	 * @param minDistIn     minimum distance.
+	 * @param maxDistIn     maximum distance.
 	 */
-	public FollowEntity(EntityLiving entity, EntityLivingBase leader, double followSpeedIn, float minDistIn,
+	public FollowEntity(LivingEntity entity, LivingEntity leader, double followSpeedIn, float minDistIn,
 			float maxDistIn) {
 		this.entity = entity;
 		this.leaderEntity = leader;
@@ -51,8 +45,8 @@ public class FollowEntity extends EntityAIBase {
 		this.minDistance = minDistIn;
 		this.maxDistance = maxDistIn;
 		minDistanceSqr = minDistance * minDistance;
-		
-		//  "movement" AI
+
+		// "movement" AI
 		this.setMutexBits(1);
 	}
 
@@ -122,7 +116,7 @@ public class FollowEntity extends EntityAIBase {
 		timeToRecalcPath = UPDATE_DELAY;
 
 		// calculate path
-		petPathfinder.tryMoveToEntityLiving(leaderEntity, followSpeed);
+		petPathfinder.tryMoveToLivingEntity(leaderEntity, followSpeed);
 	}
 
 	/**
@@ -138,8 +132,8 @@ public class FollowEntity extends EntityAIBase {
 	 * Returns true if minimum distance is reached.
 	 *
 	 * @return true if minimum distance is reached.
-	 */	
-	boolean isMinimumDistanceReached() {	
+	 */
+	boolean isMinimumDistanceReached() {
 		double distSqr = entity.getDistanceSq(leaderEntity);
 
 		// exit if minimum distance reached
@@ -147,5 +141,4 @@ public class FollowEntity extends EntityAIBase {
 		return result;
 	}
 
-	
 }

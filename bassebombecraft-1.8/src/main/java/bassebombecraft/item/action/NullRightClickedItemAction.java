@@ -1,7 +1,7 @@
 package bassebombecraft.item.action;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 public class NullRightClickedItemAction implements RightClickedItemAction {
 
 	@Override
-	public void onRightClick(World world, EntityLivingBase entity) {
+	public void onRightClick(World world, LivingEntity entity) {
 		// NOP
 	}
 

@@ -2,20 +2,20 @@ package bassebombecraft.predicate;
 
 import com.google.common.base.Predicate;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 
 /**
  * Discard self filter.
  */
-public class DiscardSelf implements Predicate<EntityLivingBase> {
-	EntityLivingBase entity;
+public class DiscardSelf implements Predicate<LivingEntity> {
+	LivingEntity entity;
 
-	public void set(EntityLivingBase entity) {
+	public void set(LivingEntity entity) {
 		this.entity = entity;
 	}
 
 	@Override
-	public boolean apply(EntityLivingBase otherEntity) {
+	public boolean apply(LivingEntity otherEntity) {
 		if (this.entity == null)
 			return false;
 		if (otherEntity == null)

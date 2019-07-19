@@ -6,12 +6,12 @@ import java.util.Random;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
@@ -36,16 +36,18 @@ public class Chickenize implements InventoryItemActionStrategy {
 	public boolean applyOnlyIfSelected() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean shouldApplyEffect(Entity target, boolean targetIsInvoker) {
-		if (targetIsInvoker) return false;
-		if (target instanceof EntityChicken) return false;
+		if (targetIsInvoker)
+			return false;
+		if (target instanceof EntityChicken)
+			return false;
 		return true;
 	}
-	
+
 	@Override
-	public void applyEffect(Entity target, World world, EntityLivingBase invoker) {
+	public void applyEffect(Entity target, World world, LivingEntity invoker) {
 
 		// get entity position
 		BlockPos position = target.getPosition();
@@ -64,13 +66,13 @@ public class Chickenize implements InventoryItemActionStrategy {
 		// play sound
 		Random random = chicken.getRNG();
 		chicken.playSound(SOUND, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
-	}	
-	
+	}
+
 	@Override
 	public int getEffectRange() {
-		return 5; 
+		return 5;
 	}
-	
+
 	@Override
 	public ParticleRenderingInfo[] getRenderingInfos() {
 		return INFOS;

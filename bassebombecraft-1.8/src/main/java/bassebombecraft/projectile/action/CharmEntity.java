@@ -2,8 +2,7 @@ package bassebombecraft.projectile.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -22,14 +21,14 @@ public class CharmEntity implements ProjectileAction {
 			return;
 
 		// skip if entity can't be charmed, i.e is a living entity
-		if (!(movObjPos.entityHit instanceof EntityLiving))
+		if (!(movObjPos.entityHit instanceof LivingEntity))
 			return;
 		
 		// type cast
-		EntityLiving entityLiving = (EntityLiving) movObjPos.entityHit;
+		LivingEntity entityLiving = (LivingEntity) movObjPos.entityHit;
 
 		// get thrower
-		EntityLivingBase thrower = projectile.getThrower();
+		LivingEntity thrower = projectile.getThrower();
 		
 		// register mob as charmed
 		getBassebombeCraft().getCharmedMobsRepository().add(entityLiving, thrower);

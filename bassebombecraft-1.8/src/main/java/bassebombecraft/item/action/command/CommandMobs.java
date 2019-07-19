@@ -6,11 +6,11 @@ import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.item.action.RightClickedItemAction;
 import bassebombecraft.player.PlayerUtils;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
 /**
@@ -22,7 +22,7 @@ public class CommandMobs implements RightClickedItemAction {
 	static final SoundEvent SOUND = SoundEvents.EVOCATION_ILLAGER_CAST_SPELL;
 
 	@Override
-	public void onRightClick(World world, EntityLivingBase entity) {
+	public void onRightClick(World world, LivingEntity Fentity) {
 
 		// get repository
 		MobCommanderRepository repository = getBassebombeCraft().getMobCommanderRepository();
