@@ -28,7 +28,7 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
 import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.SkeletonEntity;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -168,7 +168,7 @@ public class AiUtils {
 	 * @param commander entity which commands skeleton.
 	 * 
 	 */
-	public static void buildSkeletonArmyAi(EntitySkeleton entity, LivingEntity commander) {
+	public static void buildSkeletonArmyAi(SkeletonEntity entity, LivingEntity commander) {
 
 		entity.tasks.addTask(1, new EntityAISwimming(entity));
 		entity.tasks.addTask(2, new EntityAIFleeSun(entity, 1.0F));

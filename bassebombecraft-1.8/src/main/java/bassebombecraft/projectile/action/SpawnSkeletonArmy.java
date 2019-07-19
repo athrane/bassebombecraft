@@ -10,7 +10,7 @@ import com.typesafe.config.Config;
 
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.SkeletonEntity;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -58,7 +58,7 @@ public class SpawnSkeletonArmy implements ProjectileAction {
 		for (int i = 0; i < skeletons; i++) {
 
 			// create skeleton
-			EntitySkeleton entity = new EntitySkeleton(world);
+			SkeletonEntity entity = new SkeletonEntity(world);
 			entity.setSwingingArms(true);
 
 			// calculate random position
