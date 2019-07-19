@@ -2,7 +2,7 @@ package bassebombecraft.entity.commander.command;
 
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
-import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -22,7 +22,7 @@ public class AttackCommandersTargetCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean shouldExecute(PlayerEntity commander, EntityCreature entity) {
+	public boolean shouldExecute(PlayerEntity commander, CreatureEntity entity) {
 
 		// get target
 		LivingEntity target = commander.getLastAttackedEntity();
@@ -31,7 +31,7 @@ public class AttackCommandersTargetCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean continueExecuting(PlayerEntity commander, EntityCreature entity) {
+	public boolean continueExecuting(PlayerEntity commander, CreatureEntity entity) {
 
 		// get target
 		LivingEntity target = commander.getLastAttackedEntity();

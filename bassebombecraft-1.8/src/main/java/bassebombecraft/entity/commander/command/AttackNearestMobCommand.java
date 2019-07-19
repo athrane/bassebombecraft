@@ -11,7 +11,7 @@ import bassebombecraft.entity.EntityDistanceSorter;
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
 import bassebombecraft.predicate.DiscardTeamMembers;
-import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.PlayerEntity;
@@ -66,7 +66,7 @@ public class AttackNearestMobCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean shouldExecute(PlayerEntity commander, EntityCreature entity) {
+	public boolean shouldExecute(PlayerEntity commander, CreatureEntity entity) {
 
 		// initialize filter
 		discardMembersFilter.set(entity);
@@ -93,7 +93,7 @@ public class AttackNearestMobCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean continueExecuting(PlayerEntity commander, EntityCreature entity) {
+	public boolean continueExecuting(PlayerEntity commander, CreatureEntity entity) {
 
 		// get target
 		LivingEntity target = entity.getAttackTarget();

@@ -3,8 +3,8 @@ package bassebombecraft.entity;
 import bassebombecraft.entity.ai.task.CompanionAttack;
 import bassebombecraft.event.rendering.RenderingEventHandler;
 import bassebombecraft.player.PlayerDirection;
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.util.math.MathHelper;
@@ -64,17 +64,17 @@ public class EntityUtils {
 	}
 
 	/**
-	 * return true if entity is a {@linkplain EntityCreature}.
+	 * return true if entity is a {@linkplain CreatureEntity}.
 	 * 
 	 * @param entity
 	 *            entity to test.
 	 * 
-	 * @return true if entity is a {@linkplain EntityCreature}.
+	 * @return true if entity is a {@linkplain CreatureEntity}.
 	 */
-	public static boolean isEntityCreature(Entity entity) {
+	public static boolean isCreatureEntity(Entity entity) {
 		if (entity == null)
 			return false;
-		return entity instanceof EntityCreature;
+		return entity instanceof CreatureEntity;
 	}
 
 	/**

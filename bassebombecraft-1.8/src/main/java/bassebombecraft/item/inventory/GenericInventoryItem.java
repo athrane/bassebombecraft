@@ -10,8 +10,8 @@ import static bassebombecraft.config.ConfigUtils.resolveTooltip;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
-import static bassebombecraft.player.PlayerUtils.isPlayerEntity;
 import static bassebombecraft.player.PlayerUtils.isItemHeldInOffHand;
+import static bassebombecraft.player.PlayerUtils.isPlayerEntity;
 import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import java.util.List;

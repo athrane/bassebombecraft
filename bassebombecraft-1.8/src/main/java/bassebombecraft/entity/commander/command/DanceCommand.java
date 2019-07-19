@@ -8,7 +8,7 @@ import com.typesafe.config.Config;
 
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
-import net.minecraft.entity.EntityCreature;
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 /**
@@ -46,12 +46,12 @@ public class DanceCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean shouldExecute(PlayerEntity commander, EntityCreature entity) {
+	public boolean shouldExecute(PlayerEntity commander, CreatureEntity entity) {
 		return true;
 	}
 
 	@Override
-	public boolean continueExecuting(PlayerEntity commander, EntityCreature entity) {
+	public boolean continueExecuting(PlayerEntity commander, CreatureEntity entity) {
 
 		// clear target
 		entity.setAttackTarget(null);
@@ -77,7 +77,7 @@ public class DanceCommand implements MobCommand {
 	 *            entity which might jump.
 	 * @return true if entity should jump.
 	 */
-	boolean shouldJump(EntityCreature entity) {
+	boolean shouldJump(CreatureEntity entity) {
 		Random random = entity.getRNG();
 		return random.nextDouble() > jumpChance;
 	}
