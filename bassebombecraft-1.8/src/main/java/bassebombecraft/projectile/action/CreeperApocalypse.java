@@ -1,7 +1,7 @@
 package bassebombecraft.projectile.action;
 
 import bassebombecraft.potion.MobEffects;
-import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.RayTraceResult;
@@ -23,7 +23,7 @@ public class CreeperApocalypse implements ProjectileAction {
 	public void execute(EntityThrowable projectile, World world, RayTraceResult movObjPos) {
 
 		for (int i = 0; i < NUMBER_CREEPER; i++) {
-			EntityCreeper creeper = new EntityCreeper(world);
+			CreeperEntity creeper = new CreeperEntity(world);
 
 			// set powered
 			creeper.setCreeperState(CREEPER_FUSED);
