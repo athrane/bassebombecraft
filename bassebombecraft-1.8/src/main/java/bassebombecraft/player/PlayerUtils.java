@@ -20,8 +20,7 @@ public class PlayerUtils {
 	/**
 	 * Calculate player feet position (as a Y coordinate).
 	 * 
-	 * @param player
-	 *            player object.
+	 * @param player player object.
 	 * 
 	 * @return player feet position (as a Y coordinate).
 	 */
@@ -33,8 +32,7 @@ public class PlayerUtils {
 	/**
 	 * Calculate player feet position (as a Y coordinate).
 	 * 
-	 * @param player
-	 *            player object.
+	 * @param player player object.
 	 * 
 	 * @return player feet position (as a Y coordinate).
 	 */
@@ -45,10 +43,8 @@ public class PlayerUtils {
 	/**
 	 * Returns true if y coordinate is below the player y position.
 	 * 
-	 * @param y
-	 *            coordinate to compare.
-	 * @param player
-	 *            player object.
+	 * @param y      coordinate to compare.
+	 * @param player player object.
 	 * 
 	 * @return true if y coordinate is below the player y position.
 	 */
@@ -60,8 +56,7 @@ public class PlayerUtils {
 	/**
 	 * Get player eye position.
 	 * 
-	 * @param player
-	 *            player object.
+	 * @param player player object.
 	 * 
 	 * @return player eye position.
 	 */
@@ -78,8 +73,7 @@ public class PlayerUtils {
 	 * Return player direction as an integer between 0 to 3: 0 when looking south, 1
 	 * when looking West, 2 looking North and 3 looking East.
 	 * 
-	 * @param player
-	 *            player object.
+	 * @param player player object.
 	 * 
 	 * @return player direction as an integer between 0 to 3.
 	 */
@@ -91,10 +85,8 @@ public class PlayerUtils {
 	/**
 	 * Send chat message to player.
 	 * 
-	 * @param player
-	 *            to message to.
-	 * @param string
-	 *            message to send to player.
+	 * @param player to message to.
+	 * @param string message to send to player.
 	 */
 	public static void sendChatMessageToPlayer(PlayerEntity player, String string) {
 		ITextComponent message = new TextComponentString(string);
@@ -105,10 +97,8 @@ public class PlayerUtils {
 	 * Returns true if entities has identical unique ID's. Returns false if either
 	 * entity is null.
 	 * 
-	 * @param e1
-	 *            entity one to test.
-	 * @param e2
-	 *            entity two to test.
+	 * @param e1 entity one to test.
+	 * @param e2 entity two to test.
 	 * @return true if entities has identical unique ID's.
 	 */
 	public static boolean hasIdenticalUniqueID(Entity e1, Entity e2) {
@@ -122,8 +112,7 @@ public class PlayerUtils {
 	/**
 	 * return true if entity is a {@linkplain PlayerEntity}.
 	 * 
-	 * @param entity
-	 *            entity to test.
+	 * @param entity entity to test.
 	 * 
 	 * @return true if entity is a {@linkplain PlayerEntity}.
 	 */
@@ -136,10 +125,8 @@ public class PlayerUtils {
 	/**
 	 * Returns true if item is held in player off hand.
 	 * 
-	 * @param player
-	 *            player to test.
-	 * @param item
-	 *            item to test whether it is held in off hand.
+	 * @param player player to test.
+	 * @param item   item to test whether it is held in off hand.
 	 * 
 	 * @return true if item is held in player off hand.
 	 */
@@ -160,10 +147,8 @@ public class PlayerUtils {
 	/**
 	 * Returns true if item is held in hotbar.
 	 * 
-	 * @param player
-	 *            player to test.
-	 * @param item
-	 *            item to test whether it is held in off hand.
+	 * @param player player to test.
+	 * @param item   item to test whether it is held in off hand.
 	 * 
 	 * @return true if item is held in player off hand.
 	 */
@@ -190,16 +175,14 @@ public class PlayerUtils {
 	 * @return player UID.
 	 */
 	public static String getClientSidePlayerUId() {
-		return Minecraft.getMinecraft().getSession().getUsername();
+		return Minecraft.getInstance().getSession().getUsername();		
 	}
 
 	/**
 	 * Calculate player position
 	 * 
-	 * @param player
-	 *            player
-	 * @param partialTicks
-	 *            partial ticks.
+	 * @param player       player
+	 * @param partialTicks partial ticks.
 	 * 
 	 * @return player position.
 	 */
