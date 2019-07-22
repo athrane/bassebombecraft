@@ -10,11 +10,11 @@ import bassebombecraft.event.frequency.FrequencyRepository;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Event handler for rendering particles.
@@ -25,7 +25,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ParticleRenderingEventHandler {
 
 	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public static void handleEvent(PlayerTickEvent event) {
 
 		// get repository

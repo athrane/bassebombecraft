@@ -87,13 +87,13 @@ import bassebombecraft.item.inventory.ReaperIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.item.Item;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.ObjectHolder;
 
@@ -106,148 +106,85 @@ public class ItemRegistryEventHandler {
 
 	/**
 	 * The set of book items.
-	 */	
-	static Item[] bookItems = {
-			new TeleportBook(),
-			new SetSpawnPointBook(),	
-			new SmallFireballBook(),	
-			new LargeFireballBook(),		
-			new SmallFireballRingBook(),		
-			new LingeringFlameBook(),	
-			new LingeringFuryBook(),	
-			new LavaSpiralMistBook(),	
-			new ToxicMistBook(),		
-			new WitherSkullBook(),	
-			new WitherMistBook(),		
-			new MovingWitherMistBook(),				
-			new MovingLavaMistBook(),			
-			new MovingLavaMultiMistBook(),				
-			new MovingIceMultiMistBook(),			
-			new MovingRainbowMistBook(),			
-			new MovingWaterMultiMistBook(),			
-			new HealingMistBook(),
-			new MovingTntMistBook(),
-			new SpawnFlamingChickenBook(),
-			new SpawnSquidBook(),
-			new BaconBazookaBook(),
-			new CreeperCannonBook(),
-			new PrimedCreeperCannonBook(),
-			new BearBlasterBook(),
-			new CreeperApocalypseBook(),
-			new Spawn100ChickensBook(),
-			new SpawnManyCowsBook(),
-			new Spawn100RainingLlamasBook(),
-			new SpawnKittenArmyBook(),
-			new SpawnSkeletonArmyBook(),
-			new SpawnCreeperArmyBook(),
-			new SpawnGiantZombieBook(),
-			new BeastmasterMistBook(),
-			new BeastmasterBook(),
-			new SpawnGuardianBook(),
-			new SpawnDragonBook(),
-			new MultipleArrowsBook(),
-			new CobwebBook(),
-			new IceBlockBook(),
-			new LavaBlockBook(),
-			new DigMobHoleBook(),
-			new LightningBoltBook(),
-			new LightningBoltMistBook(),
-			new FallingAnvilBook(),
-			new EmitHorizontalForceBook(),
-			new EmitVerticalForceBook(),
-			new EmitVerticalForceMistBook(),
-			new BuildStairsBook(),
-			new VacuumMistBook(),
-			new CopyPasteBlocksBook(),
-			new DuplicateBlockBook(),
-			new BuildRoadBook(),
-			new BuildRainbowRoadBook(),
-			new BuildMineBook(),
-			new BuildAbyssBook(),
-			new BuildSmallHoleBook(),
-			new NaturalizeBook(),
-			new RainbownizeBook(),
-			new BuildTowerBook()
-	};
-	
+	 */
+	static Item[] bookItems = { new TeleportBook(), new SetSpawnPointBook(), new SmallFireballBook(),
+			new LargeFireballBook(), new SmallFireballRingBook(), new LingeringFlameBook(), new LingeringFuryBook(),
+			new LavaSpiralMistBook(), new ToxicMistBook(), new WitherSkullBook(), new WitherMistBook(),
+			new MovingWitherMistBook(), new MovingLavaMistBook(), new MovingLavaMultiMistBook(),
+			new MovingIceMultiMistBook(), new MovingRainbowMistBook(), new MovingWaterMultiMistBook(),
+			new HealingMistBook(), new MovingTntMistBook(), new SpawnFlamingChickenBook(), new SpawnSquidBook(),
+			new BaconBazookaBook(), new CreeperCannonBook(), new PrimedCreeperCannonBook(), new BearBlasterBook(),
+			new CreeperApocalypseBook(), new Spawn100ChickensBook(), new SpawnManyCowsBook(),
+			new Spawn100RainingLlamasBook(), new SpawnKittenArmyBook(), new SpawnSkeletonArmyBook(),
+			new SpawnCreeperArmyBook(), new SpawnGiantZombieBook(), new BeastmasterMistBook(), new BeastmasterBook(),
+			new SpawnGuardianBook(), new SpawnDragonBook(), new MultipleArrowsBook(), new CobwebBook(),
+			new IceBlockBook(), new LavaBlockBook(), new DigMobHoleBook(), new LightningBoltBook(),
+			new LightningBoltMistBook(), new FallingAnvilBook(), new EmitHorizontalForceBook(),
+			new EmitVerticalForceBook(), new EmitVerticalForceMistBook(), new BuildStairsBook(), new VacuumMistBook(),
+			new CopyPasteBlocksBook(), new DuplicateBlockBook(), new BuildRoadBook(), new BuildRainbowRoadBook(),
+			new BuildMineBook(), new BuildAbyssBook(), new BuildSmallHoleBook(), new NaturalizeBook(),
+			new RainbownizeBook(), new BuildTowerBook() };
+
 	/**
 	 * The set of inventory items.
 	 */
-	static Item[] inventoryItems = {
-			new RainIdolInventoryItem(),
-			new ChickenizeIdolInventoryItem(),
-			new AngelIdolInventoryItem(),
-			new LevitationIdolInventoryItem(),
-			new LightningBoltIdolInventoryItem(),
-			new FlowerIdolInventoryItem(),
-			new RainbownizeIdolInventoryItem(),
-			new FlameBlastIdolInventoryItem(),
-			new CharmBeastIdolInventoryItem(),
-			new BlindnessIdolInventoryItem(),
-			new PinkynizeIdolInventoryItem(),
-			new PrimeMobIdolInventoryItem(),
-			new LlamaSpitIdolInventoryItem(),
-			new EggProjectileIdolInventoryItem(),
-			new MeteorIdolInventoryItem(),
-			new SaturationIdolInventoryItem(),
-			new MobsAggroIdolInventoryItem(),
-			new ReaperIdolInventoryItem(),
-			new MassExtinctionEventIdolInventoryItem(),
-			new MobsLevitationIdolInventoryItem()
-	};
+	static Item[] inventoryItems = { new RainIdolInventoryItem(), new ChickenizeIdolInventoryItem(),
+			new AngelIdolInventoryItem(), new LevitationIdolInventoryItem(), new LightningBoltIdolInventoryItem(),
+			new FlowerIdolInventoryItem(), new RainbownizeIdolInventoryItem(), new FlameBlastIdolInventoryItem(),
+			new CharmBeastIdolInventoryItem(), new BlindnessIdolInventoryItem(), new PinkynizeIdolInventoryItem(),
+			new PrimeMobIdolInventoryItem(), new LlamaSpitIdolInventoryItem(), new EggProjectileIdolInventoryItem(),
+			new MeteorIdolInventoryItem(), new SaturationIdolInventoryItem(), new MobsAggroIdolInventoryItem(),
+			new ReaperIdolInventoryItem(), new MassExtinctionEventIdolInventoryItem(),
+			new MobsLevitationIdolInventoryItem() };
 
 	/**
 	 * The set of baton items.
-	 */	
-	static Item[] batonItems = {
-			new MobCommandersBaton()
-	};
+	 */
+	static Item[] batonItems = { new MobCommandersBaton() };
 
 	/**
 	 * The set of basic items.
-	 */	
-	static Item[] basicItems = {
-			new TerminatorEyeItem(),
-			ModConstants.TARGETING_OVERLAY_ITEM
-	};
+	 */
+	static Item[] basicItems = { new TerminatorEyeItem(), ModConstants.TARGETING_OVERLAY_ITEM };
 
 	/**
-	 * Handle {@linkplain RegistryEvent.Register<Item>} event
-	 * to register items with forge.
+	 * Handle {@linkplain RegistryEvent.Register<Item>} event to register items with
+	 * forge.
 	 * 
 	 * @param event to handle.
 	 */
 	@SubscribeEvent
 	public static void handleEvent(RegistryEvent.Register<Item> event) {
 		IForgeRegistry<Item> registry = event.getRegistry();
-		registry.registerAll(bookItems);	
-		registry.registerAll(inventoryItems);			
-		registry.registerAll(batonItems);	
-		registry.registerAll(basicItems);			
+		registry.registerAll(bookItems);
+		registry.registerAll(inventoryItems);
+		registry.registerAll(batonItems);
+		registry.registerAll(basicItems);
 	}
-	
+
 	/**
-	 * Handle {@linkplain ModelRegistryEvent} event
-	 * to register models for rendering.
+	 * Handle {@linkplain ModelRegistryEvent} event to register models for
+	 * rendering.
 	 * 
 	 * @param event to handle.
 	 */
 	@SubscribeEvent
-	@SideOnly(Side.CLIENT)
+	@OnlyIn(Dist.CLIENT)
 	public static void handleEvent(ModelRegistryEvent event) {
-		Stream.of(bookItems).forEach(i -> registerModel(i));		
-		Stream.of(inventoryItems).forEach(i -> registerModel(i));		
-		Stream.of(batonItems).forEach(i -> registerModel(i));		
-		Stream.of(basicItems).forEach(i -> registerModel(i));		
-	}	
-	
+		Stream.of(bookItems).forEach(i -> registerModel(i));
+		Stream.of(inventoryItems).forEach(i -> registerModel(i));
+		Stream.of(batonItems).forEach(i -> registerModel(i));
+		Stream.of(basicItems).forEach(i -> registerModel(i));
+	}
+
 	/**
 	 * Register model for item.
 	 * 
 	 * @param item for which the model is registered.
 	 */
 	static void registerModel(Item item) {
-		ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation( item.getRegistryName(), "inventory"));
+		ModelLoader.setCustomModelResourceLocation(item, 0,
+				new ModelResourceLocation(item.getRegistryName(), "inventory"));
 	}
 
 	/**
@@ -263,11 +200,9 @@ public class ItemRegistryEventHandler {
 	 * Get inventory items.
 	 * 
 	 * @return inventory items.
-	 */	
+	 */
 	public static Item[] getInventoryItems() {
 		return inventoryItems;
-	}	
-	
-	
-	
+	}
+
 }
