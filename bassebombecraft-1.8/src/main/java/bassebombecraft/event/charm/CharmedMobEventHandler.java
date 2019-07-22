@@ -36,21 +36,19 @@ public class CharmedMobEventHandler {
 
 	@SubscribeEvent
 	static public void handleEvent(LivingUpdateEvent event) {
-		if (!isLivingEntity(event.getLivingEntity())) return;
-
-		// cast
-		LivingEntity entityLiving = LivingEntity.class.cast(event.getLivingEntity());
+		if (!isLivingEntity(event.getEntityLiving())) return;
+		LivingEntity entity = event.getEntityLiving();
 
 		// get repository
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
 		FrequencyRepository frequencyRepository = getBassebombeCraft().getFrequencyRepository(); 
 		
 		// exit if entity isn't charmed
-		if (!repository.contains(entityLiving))
+		if (!repository.contains(entity))
 			return;
 
 		// update charm
-		repository.update(entityLiving);
+		repository.update(entity);
 
 		// exit if frequency isn't active
 		if(!frequencyRepository.isActive(SPAWN_PARTICLES_FREQUENCY)) return;
@@ -59,23 +57,21 @@ public class CharmedMobEventHandler {
 		ParticleRenderingRepository particleRepository = getBassebombeCraft().getParticleRenderingRepository();
 					
 		// register directive for rendering
-		BlockPos pos = entityLiving.getPosition();
+		BlockPos pos = entity.getPosition();
 		ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
 		particleRepository.add(particle);
 	}
 
 	@SubscribeEvent
 	public static void handleEvent(LivingDeathEvent event) {
-		if (!isLivingEntity(event.getLivingEntity())) return;
-
-		// cast
-		LivingEntity entityLiving = LivingEntity.class.cast(event.getLivingEntity());
+		if (!isLivingEntity(event.getEntityLiving())) return;
+		LivingEntity entity = event.getEntityLiving();
 
 		// get repository
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
 		
 		// remove
-		repository.remove(entityLiving);
+		repository.remove(entity);
 	}
 	
 }
