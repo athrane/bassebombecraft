@@ -189,7 +189,6 @@ public class BassebombeCraft {
 
 		// initialize MC entities
 		ProjectileInitializer.getInstance().initialize(this, modTab);
-		BlockInitializer.getInstance().initialize(modTab);
 		initializeWorldGenerators();
 
 		logger.info("Initialized BasseBombeCraft " + VERSION);

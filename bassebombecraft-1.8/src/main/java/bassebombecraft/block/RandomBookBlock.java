@@ -4,6 +4,7 @@ import java.util.Random;
 
 import bassebombecraft.BassebombeCraft;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -15,9 +16,12 @@ public class RandomBookBlock extends Block {
 
 	public final static String BLOCK_NAME = RandomBookBlock.class.getSimpleName();
 
-	public RandomBookBlock(Material materialIn) {
-		super(materialIn);
-		setUnlocalizedName(BLOCK_NAME);
+	public RandomBookBlock() {
+		super(Properties
+				.create(Material.IRON)
+				.sound(SoundType.METAL)
+				.hardnessAndResistance(2.0F).lightValue(14));				 
+		setRegistryName(BLOCK_NAME);
 	}
 
 	@Override
