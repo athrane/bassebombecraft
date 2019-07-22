@@ -17,20 +17,20 @@ public class TeamMembershipEventHandler {
 
 	@SubscribeEvent
 	static public void handleEvent(LivingDeathEvent event) {
-
+		
 		// get repository
 		TeamRepository repository = getBassebombeCraft().getTeamRepository();
 
 		// remove living entity from team upon death
-		if (isLivingEntity(event.getLivingEntity())) {
-			LivingEntity entity = (LivingEntity) event.getLivingEntity();			
+		if (isLivingEntity(event.getEntityLiving())) {
+			LivingEntity entity = event.getEntityLiving();
 			repository.remove(entity);					
 			return;
 		}
 		
 		// disband team if dead entity is commander
-		if (isPlayerEntity(event.getLivingEntity())) {
-			PlayerEntity player = (PlayerEntity ) event.getLivingEntity();			
+		if (isPlayerEntity(event.getEntityLiving())) {
+			PlayerEntity player = (PlayerEntity) event.getEntityLiving();			
 			repository.deleteTeam(player);
 			return;
 		}
