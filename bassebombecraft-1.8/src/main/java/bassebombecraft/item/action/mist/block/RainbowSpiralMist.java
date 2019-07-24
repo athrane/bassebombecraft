@@ -7,7 +7,7 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -23,7 +23,7 @@ public class RainbowSpiralMist implements BlockMistActionStrategy {
 	static final boolean DONT_HARVEST = false;
 	static final int EFFECT_DURATION = 800; // Measured in ticks
 
-	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.NOTE;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.NOTE;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.75F;

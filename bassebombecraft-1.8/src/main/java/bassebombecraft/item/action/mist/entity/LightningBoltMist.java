@@ -6,7 +6,8 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -33,7 +34,7 @@ public class LightningBoltMist implements EntityMistActionStrategy {
 		float g = 0.75F;
 		float b = 0.75F;
 		int numbers = 5;
-		EnumParticleTypes type = EnumParticleTypes.CLOUD;
+		BasicParticleType type = ParticleTypes.CLOUD;
 		int duration = 20;
 		double speed = 0.1;
 		ParticleRenderingInfo flame = getInstance(type, numbers, duration, r, g, b, speed);
@@ -42,7 +43,7 @@ public class LightningBoltMist implements EntityMistActionStrategy {
 		g = 0.0F;
 		b = 0.25F;
 		numbers = 1;
-		type = EnumParticleTypes.WATER_DROP;
+		type = ParticleTypes.WATER_DROP;
 		duration = 20;
 		speed = 0.01;
 		ParticleRenderingInfo lava = getInstance(type, numbers, duration, r, g, b, speed);

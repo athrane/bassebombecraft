@@ -9,7 +9,7 @@ import bassebombecraft.geom.BlockDirective;
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.EnumDyeColor;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -24,7 +24,7 @@ public class MovingRainbowMist implements BlockMistActionStrategy {
 	static final boolean DONT_HARVEST = false;
 	static final int EFFECT_DURATION = 200; // Measured in ticks
 
-	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.NOTE;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.NOTE;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.75F;

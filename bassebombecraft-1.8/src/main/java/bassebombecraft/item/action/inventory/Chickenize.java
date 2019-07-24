@@ -8,7 +8,8 @@ import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -21,7 +22,7 @@ import net.minecraft.world.World;
 public class Chickenize implements InventoryItemActionStrategy {
 	static final int CHILD_AGE = 0;
 	SoundEvent SOUND = SoundEvents.ENTITY_CHICKEN_HURT;
-	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.FIREWORKS_SPARK;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.FIREWORKS_SPARK;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.0F;

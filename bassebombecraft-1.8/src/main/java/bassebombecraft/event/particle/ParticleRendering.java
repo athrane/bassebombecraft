@@ -2,7 +2,7 @@ package bassebombecraft.event.particle;
 
 import java.util.Random;
 
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.math.BlockPos;
 
 /**
@@ -22,7 +22,7 @@ public interface ParticleRendering {
 	 * 
 	 * @return particle type to render.
 	 */
-	EnumParticleTypes getParticleType();
+	BasicParticleType getParticleType();
 
 	/**
 	 * Get number of particle instances to render per update.
@@ -46,8 +46,7 @@ public interface ParticleRendering {
 	/**
 	 * Return red color component.
 	 * 
-	 * @param random
-	 *            random generator to randomise the color.
+	 * @param random random generator to randomise the color.
 	 * 
 	 * @return red color component
 	 */
@@ -56,8 +55,7 @@ public interface ParticleRendering {
 	/**
 	 * Return green color component.
 	 * 
-	 * @param random
-	 *            random generator to randomise the color.
+	 * @param random random generator to randomise the color.
 	 * 
 	 * @return green color component
 	 */
@@ -66,8 +64,7 @@ public interface ParticleRendering {
 	/**
 	 * Return blue color component.
 	 * 
-	 * @param random
-	 *            random generator to randomise the color.
+	 * @param random random generator to randomise the color.
 	 * 
 	 * @return blue color component
 	 */

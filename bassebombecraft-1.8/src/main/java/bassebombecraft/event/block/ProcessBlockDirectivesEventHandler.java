@@ -14,7 +14,9 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.WorldQueryImpl;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -35,7 +37,7 @@ public class ProcessBlockDirectivesEventHandler {
 	static final float G = 1.0F;
 	static final float B = 1.0F;
 	static final int PARTICLE_NUMBER = 5;
-	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.SPELL_INSTANT;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.SPELL_INSTANT;
 	static final int PARTICLE_DURATION = 20;
 	static final double PARTICLE_SPEED = 3.0D; // Particle speed
 	static final ParticleRenderingInfo PARTICLE_INFO = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R,

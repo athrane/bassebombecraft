@@ -7,7 +7,7 @@ import bassebombecraft.projectile.action.ProjectileAction;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.item.Item;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -49,7 +49,7 @@ public class GenericEggProjectile extends ThrowableEntity {
 		behaviour.execute(this, worldObj, movObjPos);
 
 		for (int j = 0; j < 8; ++j) {
-			worldObj.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ,
+			worldObj.spawnParticle(ParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ,
 					((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D,
 					((double) this.rand.nextFloat() - 0.5D) * 0.08D, new int[] { Item.getIdFromItem(Items.EGG) });
 		}

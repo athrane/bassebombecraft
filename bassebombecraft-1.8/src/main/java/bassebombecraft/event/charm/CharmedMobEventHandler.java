@@ -11,7 +11,8 @@ import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
@@ -19,7 +20,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 /**
- * Event handler for managing charmed mobs, i.e. removal on death and update for the charm to time out.
+ * Event handler for managing charmed mobs, i.e. removal on death and update for
+ * the charm to time out.
  */
 @Mod.EventBusSubscriber
 public class CharmedMobEventHandler {
@@ -28,7 +30,7 @@ public class CharmedMobEventHandler {
 	static final float G = 1.0F;
 	static final float B = 1.0F;
 	static final int PARTICLE_NUMBER = 1;
-	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.HEART;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.HEART;
 	static final int PARTICLE_DURATION = 20; // Measured in world ticks
 	static final double PARTICLE_SPEED = 0.3;
 	static final ParticleRenderingInfo PARTICLE_INFO = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R,
@@ -36,13 +38,14 @@ public class CharmedMobEventHandler {
 
 	@SubscribeEvent
 	static public void handleEvent(LivingUpdateEvent event) {
-		if (!isLivingEntity(event.getEntityLiving())) return;
+		if (!isLivingEntity(event.getEntityLiving()))
+			return;
 		LivingEntity entity = event.getEntityLiving();
 
 		// get repository
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
-		FrequencyRepository frequencyRepository = getBassebombeCraft().getFrequencyRepository(); 
-		
+		FrequencyRepository frequencyRepository = getBassebombeCraft().getFrequencyRepository();
+
 		// exit if entity isn't charmed
 		if (!repository.contains(entity))
 			return;
@@ -51,11 +54,12 @@ public class CharmedMobEventHandler {
 		repository.update(entity);
 
 		// exit if frequency isn't active
-		if(!frequencyRepository.isActive(SPAWN_PARTICLES_FREQUENCY)) return;
-				
+		if (!frequencyRepository.isActive(SPAWN_PARTICLES_FREQUENCY))
+			return;
+
 		// get repository
 		ParticleRenderingRepository particleRepository = getBassebombeCraft().getParticleRenderingRepository();
-					
+
 		// register directive for rendering
 		BlockPos pos = entity.getPosition();
 		ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
@@ -64,14 +68,15 @@ public class CharmedMobEventHandler {
 
 	@SubscribeEvent
 	public static void handleEvent(LivingDeathEvent event) {
-		if (!isLivingEntity(event.getEntityLiving())) return;
+		if (!isLivingEntity(event.getEntityLiving()))
+			return;
 		LivingEntity entity = event.getEntityLiving();
 
 		// get repository
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
-		
+
 		// remove
 		repository.remove(entity);
 	}
-	
+
 }

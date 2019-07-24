@@ -15,7 +15,8 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.GeometryUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -28,7 +29,7 @@ public class Naturalize implements InventoryItemActionStrategy {
 
 	static final boolean DONT_HARVEST = false;
 
-	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.SPELL_MOB;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.SPELL_MOB;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.0F;
@@ -43,7 +44,7 @@ public class Naturalize implements InventoryItemActionStrategy {
 	 * Spiral size.
 	 */
 	static final int SPIRAL_SIZE = 20;
-	
+
 	/**
 	 * Random generator
 	 */
@@ -71,9 +72,8 @@ public class Naturalize implements InventoryItemActionStrategy {
 
 	/**
 	 * Naturalize constructor.
-	
-	/**
-	 * Naturalize constructor.
+	 * 
+	 * /** Naturalize constructor.
 	 */
 	public Naturalize() {
 		super();
@@ -81,7 +81,7 @@ public class Naturalize implements InventoryItemActionStrategy {
 		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 
 		// calculate spiral
-		spiralCoordinates = GeometryUtils.calculateSpiral(SPIRAL_SIZE, SPIRAL_SIZE);		
+		spiralCoordinates = GeometryUtils.calculateSpiral(SPIRAL_SIZE, SPIRAL_SIZE);
 	}
 
 	@Override
@@ -99,10 +99,9 @@ public class Naturalize implements InventoryItemActionStrategy {
 
 		// calculate position
 		BlockPos targetPosition = calculatePostion(target);
-		
+
 		// locate ground block
-		BlockPos groundPosition = locateGroundBlockPos(targetPosition, ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK,
-				world);
+		BlockPos groundPosition = locateGroundBlockPos(targetPosition, ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK, world);
 
 		// create flower block
 		BlockPos flowerPos = groundPosition.up();
@@ -125,17 +124,18 @@ public class Naturalize implements InventoryItemActionStrategy {
 	/**
 	 * Calculate target position in spiral.
 	 * 
-	 * @param target
-	 *            target to calculate position for.
+	 * @param target target to calculate position for.
 	 * 
 	 * @return target position in spiral
 	 */
 	BlockPos calculatePostion(Entity target) {
 
 		// initialize if no last position or a new position
-		if (spiralCenter == null) initializeSpiral(target);		
-		if (!spiralCenter.equals(target.getPosition())) initializeSpiral(target);
-		
+		if (spiralCenter == null)
+			initializeSpiral(target);
+		if (!spiralCenter.equals(target.getPosition()))
+			initializeSpiral(target);
+
 		// exit if entire spiral is processed
 		if (spiralCounter >= spiralCoordinates.size())
 			return target.getPosition();
@@ -147,13 +147,14 @@ public class Naturalize implements InventoryItemActionStrategy {
 		int x = spiralCenter.getX() + spiralCoord.getX();
 		int y = spiralCenter.getY();
 		int z = spiralCenter.getZ() + spiralCoord.getZ();
-		BlockPos groundCandidate = new BlockPos(x, y, z);	
-		
+		BlockPos groundCandidate = new BlockPos(x, y, z);
+
 		// update spiral
-		spiralCounter++;	
-				
+		spiralCounter++;
+
 		return groundCandidate;
-	}	
+	}
+
 	/**
 	 * Initialize spiral
 	 * 
@@ -161,7 +162,7 @@ public class Naturalize implements InventoryItemActionStrategy {
 	 */
 	void initializeSpiral(Entity target) {
 		spiralCounter = 0;
-		spiralCenter = new BlockPos(target);		
+		spiralCenter = new BlockPos(target);
 	}
-	
+
 }

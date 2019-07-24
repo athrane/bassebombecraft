@@ -9,7 +9,7 @@ import java.util.Random;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -27,7 +27,7 @@ public class NaturalizeSpiralMist implements BlockMistActionStrategy {
 	static final boolean DONT_HARVEST = false;
 	static final int EFFECT_DURATION = 400; // Measured in ticks
 
-	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.SPELL_MOB;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.SPELL_MOB;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.0F;

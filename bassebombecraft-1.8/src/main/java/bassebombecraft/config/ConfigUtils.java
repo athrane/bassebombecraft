@@ -19,7 +19,8 @@ import com.typesafe.config.ConfigRenderOptions;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.file.FileUtils;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleTypes;
 
 /**
  * Configuration utility class.
@@ -36,13 +37,12 @@ public class ConfigUtils {
 	 * Create array with single {@linkplain ParticleRenderingInfo} from
 	 * configuration.
 	 * 
-	 * @param key
-	 *            configuration key to read configuration from.
+	 * @param key configuration key to read configuration from.
 	 * @return array with single {@linkplain ParticleRenderingInfo}.
 	 */
 	public static ParticleRenderingInfo[] createFromConfig(String key) {
 		Config configuration = getBassebombeCraft().getConfiguration();
-		EnumParticleTypes particleType = EnumParticleTypes.getByName(configuration.getString(key + ".Particles.Type"));
+		BasicParticleType particleType = ParticleTypes.getByName(configuration.getString(key + ".Particles.Type"));
 		int number = configuration.getInt(key + ".Particles.Number");
 		int duration = configuration.getInt(key + ".Particles.Duration");
 		double colorR = configuration.getDouble(key + ".Particles.Color.R");
@@ -57,8 +57,7 @@ public class ConfigUtils {
 	/**
 	 * Create list of {@linkplain StructureInfo} from configuration file.
 	 * 
-	 * @param key
-	 *            configuration key to read configuration from.
+	 * @param key configuration key to read configuration from.
 	 * @return list of {@linkplain StructureInfo} from configuration file.
 	 */
 	public static List<StructureInfo> createStructureInfosFromConfig(String key) {
@@ -72,13 +71,11 @@ public class ConfigUtils {
 	}
 
 	/**
-	 * Resolve entity cooldown value from configuration. If no key is defined
-	 * then the default value is returned.
+	 * Resolve entity cooldown value from configuration. If no key is defined then
+	 * the default value is returned.
 	 * 
-	 * @param key
-	 *            configuration key.
-	 * @param defaultValue
-	 *            default cooldown value.
+	 * @param key          configuration key.
+	 * @param defaultValue default cooldown value.
 	 * @return resolve cooldown value from configuration.
 	 */
 	public static int resolveCoolDown(String key, int defaultValue) {
@@ -97,10 +94,8 @@ public class ConfigUtils {
 	 * Resolve entity tooltip from configuration. If no key is defined then the
 	 * default value is returned.
 	 * 
-	 * @param key
-	 *            configuration key.
-	 * @param defaultValue
-	 *            default cooldown value.
+	 * @param key          configuration key.
+	 * @param defaultValue default cooldown value.
 	 * @return resolve cooldown value from configuration.
 	 */
 	public static String resolveTooltip(String key, String defaultValue) {
@@ -118,13 +113,11 @@ public class ConfigUtils {
 	/**
 	 * Load configuration.
 	 * 
-	 * If external configuration file doesn't exist then it is created. If
-	 * extesrnal configuration file exist then it is loaded.
+	 * If external configuration file doesn't exist then it is created. If extesrnal
+	 * configuration file exist then it is loaded.
 	 * 
-	 * @param configDirectory
-	 *            mod configuration directory,
-	 * @param logger
-	 *            logger object
+	 * @param configDirectory mod configuration directory,
+	 * @param logger          logger object
 	 * @return configuration object
 	 */
 	public static Config loadConfig(File configDirectory, Logger logger) {

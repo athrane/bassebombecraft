@@ -7,7 +7,8 @@ import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -21,7 +22,7 @@ public class SpawnLightningBolt implements InventoryItemActionStrategy {
 
 	static final int EFFECT_DURATION = 200; // Measured in ticks
 
-	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.SPELL_MOB;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.SPELL_MOB;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.75F;
