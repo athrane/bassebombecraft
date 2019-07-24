@@ -10,6 +10,7 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.Logger;
 
@@ -20,7 +21,10 @@ import com.typesafe.config.ConfigRenderOptions;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.file.FileUtils;
 import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
+import net.minecraft.particles.IParticleData;
+import net.minecraft.particles.ParticleType;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 
 /**
  * Configuration utility class.
@@ -42,15 +46,18 @@ public class ConfigUtils {
 	 */
 	public static ParticleRenderingInfo[] createFromConfig(String key) {
 		Config configuration = getBassebombeCraft().getConfiguration();
-		BasicParticleType particleType = ParticleTypes.getByName(configuration.getString(key + ".Particles.Type"));
+		String particleTypeName = configuration.getString(key + ".Particles.Type");
+		ResourceLocation key2 = new ResourceLocation(particleTypeName);
+		Optional<ParticleType<? extends IParticleData>> particleType = Registry.PARTICLE_TYPE.getValue(key2);
+		BasicParticleType castParticleType = (BasicParticleType) particleType.get(); // type cast
 		int number = configuration.getInt(key + ".Particles.Number");
 		int duration = configuration.getInt(key + ".Particles.Duration");
 		double colorR = configuration.getDouble(key + ".Particles.Color.R");
 		double colorG = configuration.getDouble(key + ".Particles.Color.G");
 		double colorB = configuration.getDouble(key + ".Particles.Color.B");
 		double speed = configuration.getDouble(key + ".Particles.Speed");
-		ParticleRenderingInfo mist = getInstance(particleType, number, duration, (float) colorR, (float) colorG,
-				(float) colorB, speed);
+		ParticleRenderingInfo mist = getInstance(castParticleType, number, duration,
+				(float) colorR, (float) colorG, (float) colorB, speed);
 		return new ParticleRenderingInfo[] { mist };
 	}
 
