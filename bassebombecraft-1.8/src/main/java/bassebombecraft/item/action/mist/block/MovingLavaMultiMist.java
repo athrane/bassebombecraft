@@ -4,7 +4,7 @@ import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -18,7 +18,7 @@ public class MovingLavaMultiMist implements BlockMistActionStrategy {
 	static final boolean DONT_HARVEST = false;
 	static final int EFFECT_DURATION = 200; // Measured in ticks
 
-	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.FLAME;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.FLAME;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.0F;

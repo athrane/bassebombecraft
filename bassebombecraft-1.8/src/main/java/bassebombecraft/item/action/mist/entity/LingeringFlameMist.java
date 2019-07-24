@@ -4,7 +4,8 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -32,7 +33,7 @@ public class LingeringFlameMist implements EntityMistActionStrategy {
 		float g = 0.25F;
 		float b = 0.25F;		
 		int numbers = 4;
-		EnumParticleTypes type = EnumParticleTypes.FLAME;
+		BasicParticleType type = ParticleTypes.FLAME;
 		int duration = 20;		
 		double speed = 0.075;
 		ParticleRenderingInfo flame = getInstance(type, numbers, duration, r, g, b, speed);
@@ -41,7 +42,7 @@ public class LingeringFlameMist implements EntityMistActionStrategy {
 		g = 0.25F;
 		b = 0.25F;		
 		numbers = 1;
-		type = EnumParticleTypes.LAVA;
+		type = ParticleTypes.LAVA;
 		duration = 20;		
 		speed = 0.01;		
 		ParticleRenderingInfo lava = getInstance(type, numbers, duration, r, g, b, speed);

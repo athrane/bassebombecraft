@@ -8,7 +8,8 @@ import java.util.Random;
 
 import bassebombecraft.event.frequency.FrequencyRepository;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -60,10 +61,8 @@ public class ParticleRenderingEventHandler {
 	/**
 	 * Render particles.
 	 * 
-	 * @param world
-	 *            world object.
-	 * @param repository
-	 *            particle rendering repository.
+	 * @param world      world object.
+	 * @param repository particle rendering repository.
 	 */
 	static void render(World world, ParticleRenderingRepository repository) {
 
@@ -86,23 +85,20 @@ public class ParticleRenderingEventHandler {
 	/**
 	 * Returns true if particle should be rendered with custom color.
 	 * 
-	 * @param particle
-	 *            particle to inspect.
+	 * @param particle particle to inspect.
 	 * 
 	 * @return true if particle should be rendered with custom color.
 	 */
 	static boolean renderWithCustomColor(ParticleRendering particle) {
-		EnumParticleTypes type = particle.getParticleType();
-		return (type == EnumParticleTypes.SPELL_MOB);
+		BasicParticleType type = particle.getParticleType();
+		return (type == ParticleTypes.SPELL_MOB);
 	}
 
 	/**
 	 * Render single particle.
 	 * 
-	 * @param world
-	 *            world object
-	 * @param particle
-	 *            particle to render.
+	 * @param world    world object
+	 * @param particle particle to render.
 	 */
 	static void renderParticle(World world, ParticleRendering particle) {
 		double speed = particle.getSpeed();
@@ -113,21 +109,20 @@ public class ParticleRenderingEventHandler {
 		double x = particle.getPosition().getX() + 0.5D;
 		double y = particle.getPosition().getY() + 1;
 		double z = particle.getPosition().getZ() + 0.5D;
-		world.spawnParticle(particle.getParticleType(), x, y, z, d0, d1, d2);
+
+		world.addParticle(particle.getParticleType(), x, y, z, d0, d1, d2);
 	}
 
 	/**
 	 * Render single particle with custom color.
 	 * 
 	 * Assumes that the particle is of a type which supports custom colors, e.g.
-	 * {@linkplain EnumParticleTypes.SPELL_MOB}.
+	 * {@linkplain ParticleTypes.SPELL_MOB}.
 	 * 
 	 * The particle is rendered without any acceleration
 	 * 
-	 * @param world
-	 *            world object
-	 * @param particle
-	 *            particle to render.
+	 * @param world    world object
+	 * @param particle particle to render.
 	 */
 	static void renderParticleWithCustomColor(World world, ParticleRendering particle) {
 		Random random = getBassebombeCraft().getRandom();
@@ -138,14 +133,13 @@ public class ParticleRenderingEventHandler {
 		double x = particle.getPosition().getX() + 0.5D;
 		double y = particle.getPosition().getY() + 1;
 		double z = particle.getPosition().getZ() + 0.5D;
-		world.spawnParticle(particle.getParticleType(), x, y, z, r, g, b);
+		world.addParticle(particle.getParticleType(), x, y, z, d0, d1, d2);
 	}
 
 	/**
 	 * Calculate random speed.
 	 * 
-	 * @param speed
-	 *            particle speed.
+	 * @param speed particle speed.
 	 * 
 	 * @return double between -PARTICLE_SPEED..PARTICLE_SPEED.
 	 */

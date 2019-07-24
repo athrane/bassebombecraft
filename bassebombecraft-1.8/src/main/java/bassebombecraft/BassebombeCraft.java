@@ -16,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.typesafe.config.Config;
 
-import bassebombecraft.block.BlockInitializer;
 import bassebombecraft.config.ConfigUtils;
 import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;
@@ -35,11 +34,9 @@ import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.item.ItemRegistryEventHandler;
 import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
-import bassebombecraft.projectile.ProjectileInitializer;
 import bassebombecraft.proxy.ClientProxy;
 import bassebombecraft.proxy.Proxy;
 import bassebombecraft.proxy.ServerProxy;
-import bassebombecraft.world.RandomModStructuresGenerator;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.server.MinecraftServer;
@@ -47,13 +44,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 @Mod(MODID)
 public class BassebombeCraft {
@@ -156,7 +153,7 @@ public class BassebombeCraft {
 		// some preinit code
 
 		// load configuration file
-		File configDirectory = event.getModConfigurationDirectory();
+		File configDirectory = FMLPaths.CONFIGDIR.get().toFile();
 		config = ConfigUtils.loadConfig(configDirectory, logger);
 
 		// initialise frequency repository
@@ -188,8 +185,8 @@ public class BassebombeCraft {
 		validateVersion(logger);
 
 		// initialize MC entities
-		ProjectileInitializer.getInstance().initialize(this, modTab);
-		initializeWorldGenerators();
+		// ProjectileInitializer.getInstance().initialize(this, modTab);
+		//initializeWorldGenerators();
 
 		logger.info("Initialized BasseBombeCraft " + VERSION);
 	}
@@ -218,8 +215,10 @@ public class BassebombeCraft {
 	 * Initialize world generators.
 	 */
 	void initializeWorldGenerators() {
-		GameRegistry.registerWorldGenerator(new RandomModStructuresGenerator(),
-				ModConstants.MOD_STRUCUTRE_GENERATOR_WEIGHT);
+		/*
+		 * GameRegistry.registerWorldGenerator(new RandomModStructuresGenerator(),
+		 * ModConstants.MOD_STRUCUTRE_GENERATOR_WEIGHT);
+		 */
 	}
 
 	/**

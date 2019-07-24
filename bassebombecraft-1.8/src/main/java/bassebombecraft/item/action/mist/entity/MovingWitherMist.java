@@ -6,7 +6,7 @@ import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.potion.MobEffects;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleTypes;
 import net.minecraft.util.math.Vec3d;
 
 /**
@@ -18,7 +18,7 @@ public class MovingWitherMist implements EntityMistActionStrategy {
 
 	static final int EFFECT_DURATION = 200; // Measured in ticks
 
-	static final EnumParticleTypes PARTICLE_TYPE = EnumParticleTypes.SPELL_MOB;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.SPELL_MOB;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.0F;

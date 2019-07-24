@@ -2,7 +2,8 @@ package bassebombecraft.event.particle;
 
 import java.util.Random;
 
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 
 /**
@@ -36,7 +37,7 @@ public class DefaultParticleRendering implements ParticleRendering {
 	}
 
 	@Override
-	public EnumParticleTypes getParticleType() {
+	public BasicParticleType getParticleType() {
 		return info.getParticleType();
 	}
 
