@@ -25,9 +25,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -37,8 +36,8 @@ import net.minecraft.world.World;
  */
 public class DuplicateBlock implements BlockClickedItemAction {
 
-	static final EnumActionResult USED_ITEM = EnumActionResult.SUCCESS;
-	static final EnumActionResult DIDNT_USED_ITEM = EnumActionResult.PASS;
+	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
+	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;
 
 	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
 
@@ -72,19 +71,19 @@ public class DuplicateBlock implements BlockClickedItemAction {
 		repository = getBassebombeCraft().getBlockDirectivesRepository();
 	}
 
-	
 	@Override
-	public EnumActionResult onItemUse(PlayerEntity player, World worldIn, BlockPos pos, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ) {
-
+	public ActionResultType onItemUse(ItemUseContext context) {
 		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
 			return DIDNT_USED_ITEM;
 
 		// create world query
+		PlayerEntity player = context.getPlayer();
+		BlockPos pos = context.getPos();		
 		WorldQueryImpl worldQuery = new WorldQueryImpl(player, pos);
 
 		// calculate structure
-		Block sourceBlock = getBlockFromPosition(worldQuery.getTargetBlockPosition(), worldIn);
+		World world = context.getWorld();
+		Block sourceBlock = getBlockFromPosition(worldQuery.getTargetBlockPosition(), world);
 		Structure structure = createDuplicatedBlock(sourceBlock, worldQuery);
 
 		// calculate Y offset in structure
@@ -100,9 +99,9 @@ public class DuplicateBlock implements BlockClickedItemAction {
 		// add directives
 		repository.addAll(directives);
 
-		return USED_ITEM;
+		return USED_ITEM;		
 	}
-
+	
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		// NO-OP

@@ -30,9 +30,8 @@ import bassebombecraft.structure.Structure;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -42,7 +41,8 @@ import net.minecraft.world.World;
  */
 public class BuildTower implements BlockClickedItemAction {
 
-	static final EnumActionResult USED_ITEM = EnumActionResult.SUCCESS;
+	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
+	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;
 
 	/**
 	 * Random generator.
@@ -125,10 +125,10 @@ public class BuildTower implements BlockClickedItemAction {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(PlayerEntity player, World worldIn, BlockPos pos, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ) {
-
+	public ActionResultType onItemUse(ItemUseContext context) {
 		// calculate if selected block is a ground block
+		BlockPos pos = context.getPos();
+		PlayerEntity player = context.getPlayer();
 		boolean isGroundBlock = isBelowPlayerYPosition(pos.getY(), player);
 
 		// exit if not click on ground block
@@ -275,7 +275,7 @@ public class BuildTower implements BlockClickedItemAction {
 			builder.buildMobSpawner(room2, structure);
 			builder.buildMobSpawner(room3, structure);
 			builder.buildMobSpawner(room4, structure);
-			
+
 			// calculate offset etc for next iteration
 			offset = new BlockPos(0, offset.getY() + height, 0);
 		}
@@ -289,8 +289,7 @@ public class BuildTower implements BlockClickedItemAction {
 	/**
 	 * Calculate the room height from the layer number.
 	 * 
-	 * @param layer
-	 *            layer number.
+	 * @param layer layer number.
 	 * @return room height calculated from the layer number.
 	 */
 	int calculateRoomHeight(int layer) {
@@ -302,10 +301,8 @@ public class BuildTower implements BlockClickedItemAction {
 	/**
 	 * Returns true if top criteria for tower has been reached.
 	 * 
-	 * @param currentFloorWidth
-	 *            current floor width.
-	 * @param currentFloorDepth
-	 *            current floor depth.
+	 * @param currentFloorWidth current floor width.
+	 * @param currentFloorDepth current floor depth.
 	 * 
 	 * @return true if top criteria for tower has been reached.
 	 */
@@ -320,8 +317,7 @@ public class BuildTower implements BlockClickedItemAction {
 	/**
 	 * Returns true if stairs should be place in room #1.
 	 * 
-	 * @param layer
-	 *            current tower layer.
+	 * @param layer current tower layer.
 	 * @return true if stairs should be place in room #1
 	 */
 	boolean placeStairsInRoom1(int layer) {

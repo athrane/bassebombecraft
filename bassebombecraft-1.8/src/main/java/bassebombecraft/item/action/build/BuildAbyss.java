@@ -19,9 +19,8 @@ import bassebombecraft.structure.Structure;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -35,8 +34,8 @@ public class BuildAbyss implements BlockClickedItemAction {
 	private static final int WATER_HEIGHT = 2;
 	private static final int HOLE_HEIGHT = 50;
 
-	static final EnumActionResult USED_ITEM = EnumActionResult.SUCCESS;
-	static final EnumActionResult DIDNT_USED_ITEM = EnumActionResult.PASS;
+	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
+	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;
 
 	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
 
@@ -63,11 +62,8 @@ public class BuildAbyss implements BlockClickedItemAction {
 		repository = getBassebombeCraft().getBlockDirectivesRepository();
 	}
 
-	
 	@Override
-	public EnumActionResult onItemUse(PlayerEntity player, World worldIn, BlockPos pos, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ) {
-
+	public ActionResultType onItemUse(ItemUseContext context) {
 		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
 			return DIDNT_USED_ITEM;
 
@@ -75,12 +71,14 @@ public class BuildAbyss implements BlockClickedItemAction {
 		Structure structure = createStructure();
 
 		// calculate Y offset in structure
+		PlayerEntity player = context.getPlayer();
 		int yOffset = calculatePlayerFeetPosititionAsInt(player);
 
 		// get player direction
 		PlayerDirection playerDirection = getPlayerDirection(player);
 
 		// calculate set of block directives
+		BlockPos pos = context.getPos();
 		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
 		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
 
@@ -119,12 +117,9 @@ public class BuildAbyss implements BlockClickedItemAction {
 	/**
 	 * Add layer to the abyss.
 	 * 
-	 * @param composite
-	 *            structure to which the layer is added.
-	 * @param yOffset
-	 *            y-offset where layer is added.
-	 * @param zOffset
-	 *            z-offset where layer is added.
+	 * @param composite structure to which the layer is added.
+	 * @param yOffset   y-offset where layer is added.
+	 * @param zOffset   z-offset where layer is added.
 	 */
 	void addLayer(Structure composite, int yOffset, int zOffset) {
 

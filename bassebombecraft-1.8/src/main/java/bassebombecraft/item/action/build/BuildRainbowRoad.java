@@ -23,9 +23,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -34,8 +33,8 @@ import net.minecraft.world.World;
  */
 public class BuildRainbowRoad implements BlockClickedItemAction {
 
-	static final EnumActionResult USED_ITEM = EnumActionResult.SUCCESS;
-	static final EnumActionResult DIDNT_USED_ITEM = EnumActionResult.PASS;
+	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
+	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;
 
 	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
 
@@ -70,14 +69,15 @@ public class BuildRainbowRoad implements BlockClickedItemAction {
 		repository = getBassebombeCraft().getBlockDirectivesRepository();
 	}
 
+	
 	@Override
-	public EnumActionResult onItemUse(PlayerEntity player, World worldIn, BlockPos pos, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ) {
-
+	public ActionResultType onItemUse(ItemUseContext context) {
 		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
 			return DIDNT_USED_ITEM;
 
 		// calculate if selected block is a ground block
+		BlockPos pos = context.getPos();
+		PlayerEntity player = context.getPlayer();		
 		boolean isGroundBlock = isBelowPlayerYPosition(pos.getY(), player);
 
 		// calculate structure

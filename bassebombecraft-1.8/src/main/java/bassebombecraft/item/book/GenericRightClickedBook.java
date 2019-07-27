@@ -19,8 +19,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.CooldownTracker;
-import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -46,25 +46,22 @@ public class GenericRightClickedBook extends Item {
 	 * Item tooltip.
 	 */
 	String tooltip;
-	
+
 	/**
 	 * Generic book constructor.
 	 * 
-	 * @param name
-	 *            item name.
-	 * @param action
-	 *            item action object which is invoked when item is right
-	 *            clicked.
+	 * @param name   item name.
+	 * @param action item action object which is invoked when item is right clicked.
 	 */
 	public GenericRightClickedBook(String name, RightClickedItemAction action) {
 		super(new Item.Properties().group(getItemGroup()));
 		doCommonItemInitialization(this, name);
-		
+
 		this.action = action;
 
 		// get cooldown or default value
 		coolDown = resolveCoolDown(name, ITEM_BOOK_DEFAULT_COOLDOWN);
-		tooltip = resolveTooltip(name, ITEM_DEFAULT_TOOLTIP);				
+		tooltip = resolveTooltip(name, ITEM_DEFAULT_TOOLTIP);
 	}
 
 	@Override
@@ -89,17 +86,18 @@ public class GenericRightClickedBook extends Item {
 
 		// apply action
 		action.onRightClick(worldIn, playerIn);
-		return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+
+		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
 	}
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
-	
+
 	@Override
 	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
 		tooltip.add(TextFormatting.GREEN + this.tooltip);
 	}
-	
+
 }
