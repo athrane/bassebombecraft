@@ -4,7 +4,8 @@ import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import net.minecraft.util.ParticleTypes;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
