@@ -5,7 +5,7 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
-import net.minecraft.util.ParticleTypes;
+import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.math.Vec3d;
 
 /**

@@ -5,8 +5,9 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.potion.MobEffects;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.ParticleTypes;
 import net.minecraft.util.math.Vec3d;
 
 /**
