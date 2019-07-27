@@ -31,10 +31,12 @@ public interface Proxy {
 	public String getUser() throws OperationNotSupportedException;
 
 	/**
-	 * Register block for rendering.
+	 * Register block for rendering (at client side).
 	 * 
 	 * @param block     block to be registered.
 	 * @param blockName block name.
+	 * 
+	 * @throws OperationNotSupportedException if operation isn't supported.
 	 */
 	public void registerItemForRendering(Block block, String blockName) throws OperationNotSupportedException;
 	

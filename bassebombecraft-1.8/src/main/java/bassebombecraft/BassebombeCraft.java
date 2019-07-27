@@ -46,6 +46,7 @@ import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
@@ -139,12 +140,11 @@ public class BassebombeCraft {
 		// store mod instance
 		instance = this;
 
-		// Register the setup method for mod loading
+		// Register listeners
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-
-		// Register the doClientStuff method for mod loading
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
-
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
+		
 		// Register ourselves for server and other game events we are interested in
 		MinecraftForge.EVENT_BUS.register(this);
 	}
@@ -191,22 +191,26 @@ public class BassebombeCraft {
 		logger.info("Initialized BasseBombeCraft " + VERSION);
 	}
 
-	void doClientStuff(final FMLClientSetupEvent event) {
-		// do something that can only be done on the client
+	void clientSetup(final FMLClientSetupEvent event) {
+		// NO-OP
 	}
 
+	void loadComplete( FMLLoadCompleteEvent event ) {
+		// NO-OP		
+    }
+	
 	@SubscribeEvent
-	public void serverAboutTostart(FMLServerAboutToStartEvent event) {
+	void serverAboutTostart(FMLServerAboutToStartEvent event) {
 		server = event.getServer();
 	}
 
 	@SubscribeEvent
-	public void serverStarted(FMLServerStartedEvent event) {
+	void serverStarted(FMLServerStartedEvent event) {
 		proxy.startAnalyticsSession();
 	}
 
 	@SubscribeEvent
-	public void serverStopped(FMLServerStoppedEvent event) {
+	void serverStopped(FMLServerStoppedEvent event) {
 		proxy.endAnalyticsSession();
 		server = null;
 	}
