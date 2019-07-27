@@ -18,6 +18,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -73,23 +75,23 @@ public class GenericBlockClickedBook extends Item {
 		return false;
 	}
 
+	
 	@Override
-	public EnumActionResult onItemUse(PlayerEntity player, World worldIn, BlockPos pos, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ) {
-
+	public ActionResultType onItemUse(ItemUseContext context) {
 		// exit if invoked at client side
-		if (isWorldAtClientSide(worldIn)) {
-			return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+		if (isWorldAtClientSide(context.getWorld())) {
+			return super.onItemUse(context);
 		}
-
+		
 		// post analytics
+		PlayerEntity player = context.getPlayer();
 		getProxy().postItemUsage(this.getUnlocalizedName(),player.getName());
 
 		// add cooldown
 		CooldownTracker tracker = player.getCooldownTracker();
 		tracker.setCooldown(this, coolDown);
 
-		return action.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+		return action.onItemUse(context);
 	}
 
 	@Override

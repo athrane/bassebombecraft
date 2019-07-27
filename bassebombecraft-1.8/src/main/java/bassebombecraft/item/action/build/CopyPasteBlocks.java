@@ -34,9 +34,8 @@ import bassebombecraft.world.TemplateUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -45,6 +44,9 @@ import net.minecraft.world.World;
  * replication of block structures.
  */
 public class CopyPasteBlocks implements BlockClickedItemAction {
+
+	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
+	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;
 
 	static final String MSG_COPIED = "Copied blocks.";
 	static final String MSG_ILLEGAL_TRIGGER = "Illegal trigger. Click on a ground block to paste.";
@@ -148,10 +150,10 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	}
 
 	@Override
-	public EnumActionResult onItemUse(PlayerEntity player, World worldIn, BlockPos pos, EnumHand hand,
-			EnumFacing facing, float hitX, float hitY, float hitZ) {
-
+	public ActionResultType onItemUse(ItemUseContext context) {
 		// create world query
+		BlockPos pos = context.getPos();
+		PlayerEntity player = context.getPlayer();
 		WorldQueryImpl worldQuery = new WorldQueryImpl(player, pos);
 
 		// update state and create structure
@@ -170,7 +172,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		// add directives
 		directivesRepository.addAll(directives);
 
-		return EnumActionResult.SUCCESS;
+		return USED_ITEM;
 	}
 
 	@Override
@@ -181,8 +183,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	/**
 	 * Update book state depending on the blocks selected.
 	 * 
-	 * @param worldQuery
-	 *            world query object.
+	 * @param worldQuery world query object.
 	 * 
 	 * @return structure to build.
 	 */
@@ -231,11 +232,10 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	}
 
 	/**
-	 * Returns true if invoked block is a legal first marker. Block is a legal
-	 * first marker if it is a ground block.
+	 * Returns true if invoked block is a legal first marker. Block is a legal first
+	 * marker if it is a ground block.
 	 * 
-	 * @param isGroundBlock
-	 *            boolean to indicate if invoked block is a ground block.
+	 * @param isGroundBlock boolean to indicate if invoked block is a ground block.
 	 * 
 	 * @return true if invoked block is a legal first marker.
 	 */
@@ -244,14 +244,11 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	}
 
 	/**
-	 * Returns true if invoked block is legal second marker. Block is a legal
-	 * second marker if it is a ground block and it isn't identical to the first
-	 * marker.
+	 * Returns true if invoked block is legal second marker. Block is a legal second
+	 * marker if it is a ground block and it isn't identical to the first marker.
 	 * 
-	 * @param isGroundBlock
-	 *            boolean to indicate if invoked block is a ground block.
-	 * @param pos
-	 *            block position.
+	 * @param isGroundBlock boolean to indicate if invoked block is a ground block.
+	 * @param pos           block position.
 	 * 
 	 * @return true is block is a legal second marker.
 	 */
@@ -263,15 +260,12 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	}
 
 	/**
-	 * Returns true if trigger block is legal. Block is a legal trigger if it is
-	 * a ground block and it isn't identical to the first or second marker.
+	 * Returns true if trigger block is legal. Block is a legal trigger if it is a
+	 * ground block and it isn't identical to the first or second marker.
 	 * 
-	 * @param isGroundBlock
-	 *            boolean to indicate if invoked block is a ground block.
-	 * @param pos
-	 *            trigger position.
-	 * @param playerIn
-	 *            player object.
+	 * @param isGroundBlock boolean to indicate if invoked block is a ground block.
+	 * @param pos           trigger position.
+	 * @param playerIn      player object.
 	 * @return
 	 */
 	boolean isLegalTrigger(boolean isGroundBlock, BlockPos trigger, PlayerEntity playerIn) {
@@ -298,8 +292,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * 
 	 * Block is a legal "resetter" if it is a non-ground block.
 	 * 
-	 * @param isGroundBlock
-	 *            boolean to indicate if invoked block is a ground block.
+	 * @param isGroundBlock boolean to indicate if invoked block is a ground block.
 	 * 
 	 * @return true if captured blocks should bed reset
 	 */
@@ -310,10 +303,8 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	/**
 	 * Register first marker.
 	 * 
-	 * @param pos
-	 *            marker position.
-	 * @param playerIn
-	 *            player object.
+	 * @param pos      marker position.
+	 * @param playerIn player object.
 	 */
 	void registerFirstMarker(BlockPos pos, PlayerEntity playerIn) {
 		firstMarker = pos;
@@ -339,8 +330,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	/**
 	 * Register second marker.
 	 * 
-	 * @param pos
-	 *            marker position.
+	 * @param pos marker position.
 	 */
 	void registerSecondMarker(BlockPos pos) {
 		secondMarker = pos;
@@ -468,12 +458,9 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	/**
 	 * Calculate translation vector.
 	 * 
-	 * @param captureOffset
-	 *            capture offset.
-	 * @param captureSize
-	 *            capture size.
-	 * @param playerDirection
-	 *            player direction.
+	 * @param captureOffset   capture offset.
+	 * @param captureSize     capture size.
+	 * @param playerDirection player direction.
 	 * 
 	 * @return translation vector.
 	 */
@@ -500,8 +487,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	/**
 	 * Generate structure for captured content.
 	 * 
-	 * @param worldQuery
-	 *            world query object.
+	 * @param worldQuery world query object.
 	 * 
 	 * @return structure containing the captured content.
 	 */
@@ -517,10 +503,8 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	/**
 	 * Generate structure for captured content.
 	 * 
-	 * @param capturedBlocks
-	 *            list of captured block directives.
-	 * @param worldQuery
-	 *            world query object.
+	 * @param capturedBlocks list of captured block directives.
+	 * @param worldQuery     world query object.
 	 * 
 	 * @return structure containing the captured content.
 	 */

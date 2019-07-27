@@ -1,12 +1,9 @@
 package bassebombecraft.item.action;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.item.ItemUseContext;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.world.World;
 
 /**
@@ -17,18 +14,11 @@ public interface BlockClickedItemAction {
 	/**
 	 * On block right clicked with item.
 	 * 
-	 * @param player
-	 * @param worldIn
-	 * @param pos
-	 * @param hand
-	 * @param facing
-	 * @param hitX
-	 * @param hitY
-	 * @param hitZ
-	 * @return action result enum.
+	 * @param context item use context.
+	 * 
+	 * @return action result..
 	 */
-	EnumActionResult onItemUse(PlayerEntity player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing,
-			float hitX, float hitY, float hitZ);
+	ActionResultType onItemUse(ItemUseContext context);
 
 	/**
 	 * On item update.
