@@ -37,6 +37,7 @@ import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.proxy.ClientProxy;
 import bassebombecraft.proxy.Proxy;
 import bassebombecraft.proxy.ServerProxy;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.server.MinecraftServer;
@@ -382,6 +383,15 @@ public class BassebombeCraft {
 		return random;
 	}
 
+	/** 
+	 * Get Minecraft client.
+	 * 
+	 * @return Minecraft client
+	 */
+	public static Minecraft getMincraft() {
+		return Minecraft.getInstance();
+	}
+	
 	/**
 	 * Get frequency repository.
 	 * 

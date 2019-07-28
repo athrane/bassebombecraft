@@ -1,26 +1,18 @@
 package bassebombecraft.event.particle;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getMincraft;
 import static bassebombecraft.ModConstants.RENDERING_FREQUENCY;
 import static bassebombecraft.world.WorldUtils.isWorldAtServerSide;
 
 import java.util.Random;
 
 import bassebombecraft.event.frequency.FrequencyRepository;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.IAnimatedSprite;
-import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.client.particle.SpellParticle;
-import net.minecraft.client.particle.SpellParticle.Factory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleType;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -137,12 +129,12 @@ public class ParticleRenderingEventHandler {
 	 */
 	static void renderParticleWithCustomColor(World world, ParticleRendering particle) {
 		Random random = getBassebombeCraft().getRandom();
-		
+
 		double speed = particle.getSpeed();
 		double d0 = calculateRandomSpeed(speed);
 		double d1 = calculateRandomSpeed(speed);
 		double d2 = calculateRandomSpeed(speed);
-		
+
 		float r = particle.getRedColorComponent(random);
 		float g = particle.getGreenColorComponent(random);
 		float b = particle.getBlueColorComponent(random);
@@ -150,10 +142,10 @@ public class ParticleRenderingEventHandler {
 		double x = particle.getPosition().getX() + 0.5D;
 		double y = particle.getPosition().getY() + 1;
 		double z = particle.getPosition().getZ() + 0.5D;
-		
-        ParticleManager manager = Minecraft.getInstance().particles;		        
-        Particle spellParticle = manager.addParticle(ParticleTypes.EFFECT, x, y, z, d0,d1,d2);
-        spellParticle.setColor(r,g,b);	
+
+		ParticleManager manager = getMincraft().particles;
+		Particle spellParticle = manager.addParticle(ParticleTypes.EFFECT, x, y, z, d0, d1, d2);
+		spellParticle.setColor(r, g, b);
 	}
 
 	/**
