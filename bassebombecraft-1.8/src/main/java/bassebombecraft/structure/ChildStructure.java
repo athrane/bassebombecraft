@@ -2,7 +2,8 @@ package bassebombecraft.structure;
 
 import bassebombecraft.geom.BlockDirective;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 
 /**
@@ -15,7 +16,7 @@ public class ChildStructure implements Structure {
 	BlockPos offset;
 	BlockPos size;
 	Block block;
-	IBlockState state;	
+	BlockState state;	
 
 	/**
 	 * ChildStructure constructor which builds a structure out of air.
@@ -76,7 +77,7 @@ public class ChildStructure implements Structure {
 	 * @param state block state used to build structure.
 	 */
 	@Deprecated
-	public ChildStructure(BlockDirective offset, BlockDirective size, Block block, IBlockState state) {
+	public ChildStructure(BlockDirective offset, BlockDirective size, Block block, BlockState state) {
 		super();
 		this.offset = new BlockPos(offset.getX(), offset.getY(), offset.getZ());
 		this.size= new BlockPos(size.getX(), size.getY(), size.getZ());
@@ -92,7 +93,7 @@ public class ChildStructure implements Structure {
 	 * @param block block type used to build structure.
 	 * @param state block state used to build structure.
 	 */
-	public ChildStructure(BlockPos offset, BlockPos size, Block block, IBlockState state) {
+	public ChildStructure(BlockPos offset, BlockPos size, Block block, BlockState state) {
 		super();
 		this.offset = offset;
 		this.size = size;
@@ -136,7 +137,7 @@ public class ChildStructure implements Structure {
 	}
 
 	@Override
-	public IBlockState getBlockState() {
+	public BlockState getBlockState() {
 		if(state != null) return state;
 		return block.getDefaultState();
 	}
@@ -181,7 +182,7 @@ public class ChildStructure implements Structure {
 	}	
 	
 	public static Structure createWoodStructure(BlockDirective offset, BlockDirective size) {
-		return new ChildStructure(offset, size, Blocks.PLANKS);
+		return new ChildStructure(offset, size, Blocks.OAK_PLANKS);
 	}	
 
 	public static Structure createOakFenceStructure(BlockPos offset, BlockPos size) {

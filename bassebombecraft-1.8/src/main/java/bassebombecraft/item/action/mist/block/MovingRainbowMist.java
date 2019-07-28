@@ -7,7 +7,7 @@ import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
 import net.minecraft.block.BlockColored;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
@@ -56,7 +56,7 @@ public class MovingRainbowMist implements BlockMistActionStrategy {
 	 * 
 	 * @return block based on wool color.
 	 */
-	IBlockState selectWoolColor() {
+	BlockState selectWoolColor() {
 		int colorSelector = colorCounter % NUMBER_COLORS;
 
 		switch (colorSelector) {

@@ -3,7 +3,8 @@ package bassebombecraft.geom;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
  
 /**
@@ -13,7 +14,7 @@ public class BlockDirective {
 	Block block;
 	boolean harvest;
 	BlockPos blockPos;
-	IBlockState state;
+	BlockState state;
 
 	/**
 	 * BlockDirective constructor. Block is located at (0,0,0). Block is made of
@@ -224,7 +225,7 @@ public class BlockDirective {
 	 * @return defined block state. If state isn't defined then the default
 	 *         state for the block is returned.
 	 */
-	public IBlockState getState() {
+	public BlockState getState() {
 		if (isStateful())
 			return state;
 		return block.getDefaultState();
@@ -236,7 +237,7 @@ public class BlockDirective {
 	 * @param state
 	 *            new state.
 	 */
-	public void setState(IBlockState state) {
+	public void setState(BlockState state) {
 		this.state = state;
 	}
 

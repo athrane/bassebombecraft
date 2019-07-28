@@ -16,8 +16,9 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.WorldQuery;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.IProperty;
@@ -49,7 +50,7 @@ public class BlockUtils {
 	 * Number of rainbow wool colors.
 	 */
 	static final int NUMBER_PINK_COLORS = 2;
-	
+
 	/**
 	 * Create single block of designated block type.
 	 * 
@@ -57,10 +58,8 @@ public class BlockUtils {
 	 * 
 	 * The block is only harvested if the block directive specifies it.
 	 * 
-	 * @param blockDirective
-	 *            block directive for block to create.
-	 * @param worldQuery
-	 *            world query object.
+	 * @param blockDirective block directive for block to create.
+	 * @param worldQuery     world query object.
 	 */
 	public static void createBlock(BlockDirective blockDirective, WorldQuery worldQuery) {
 		if (worldQuery.isWorldAtClientSide())
@@ -75,7 +74,7 @@ public class BlockUtils {
 
 		// harvest block
 		if (blockDirective.harvestBlock()) {
-			IBlockState blockState = getBlockStateFromPosition(blockPosition, worldQuery);
+			BlockState blockState = getBlockStateFromPosition(blockPosition, worldQuery);
 			ItemStack emptyItemStack = new ItemStack(block);
 			block.harvestBlock(worldQuery.getWorld(), worldQuery.getPlayer(), blockPosition, blockState,
 					NULL_TILE_ENTITY, emptyItemStack);
@@ -88,24 +87,20 @@ public class BlockUtils {
 	/**
 	 * Get block from block position.
 	 * 
-	 * @param blockPosition
-	 *            position of the block.
-	 * @param world
-	 *            world object.
+	 * @param blockPosition position of the block.
+	 * @param world         world object.
 	 * @return block located at block position
 	 */
 	public static Block getBlockFromPosition(BlockPos blockPosition, World world) {
-		IBlockState blockState = world.getBlockState(blockPosition);
+		BlockState blockState = world.getBlockState(blockPosition);
 		return blockState.getBlock();
 	}
 
 	/**
 	 * Get block from block position.
 	 * 
-	 * @param blockPosition
-	 *            position of the block.
-	 * @param worldQuery
-	 *            world query object.
+	 * @param blockPosition position of the block.
+	 * @param worldQuery    world query object.
 	 * @return block located at block position
 	 */
 	public static Block getBlockFromPosition(BlockPos blockPosition, WorldQuery worldQuery) {
@@ -116,10 +111,8 @@ public class BlockUtils {
 	/**
 	 * Get block defined at position specified by block directive.
 	 * 
-	 * @param blockDirective
-	 *            directive to get the block from.
-	 * @param worldQuery
-	 *            world query object.
+	 * @param blockDirective directive to get the block from.
+	 * @param worldQuery     world query object.
 	 * @return block defined at position specified by block directive.
 	 */
 	public static Block getBlockFromPosition(BlockDirective blockDirective, WorldQuery worldQuery) {
@@ -130,13 +123,11 @@ public class BlockUtils {
 	/**
 	 * Get block state from block position.
 	 * 
-	 * @param blockPosition
-	 *            position of the block.
-	 * @param worldQuery
-	 *            world query object.
+	 * @param blockPosition position of the block.
+	 * @param worldQuery    world query object.
 	 * @return block state located at block position
 	 */
-	public static IBlockState getBlockStateFromPosition(BlockPos blockPosition, WorldQuery worldQuery) {
+	public static BlockState getBlockStateFromPosition(BlockPos blockPosition, WorldQuery worldQuery) {
 		World world = worldQuery.getWorld();
 		return world.getBlockState(blockPosition);
 	}
@@ -144,21 +135,20 @@ public class BlockUtils {
 	/**
 	 * Rotate block state FACING property.
 	 * 
-	 * If block state doesn't have the FACING property defined then the source
-	 * state is returned unchanged.
+	 * If block state doesn't have the FACING property defined then the source state
+	 * is returned unchanged.
 	 * 
-	 * The orientation is defined in degrees and only the values 0, 90, 180 and
-	 * 270 are processed. For all other values the FACING property is returned
+	 * The orientation is defined in degrees and only the values 0, 90, 180 and 270
+	 * are processed. For all other values the FACING property is returned
 	 * unchanged.
 	 * 
-	 * @param source
-	 *            State source block state.
-	 * @param orientation
-	 *            orientation in degrees that the block state should be rotated.
+	 * @param source      State source block state.
+	 * @param orientation orientation in degrees that the block state should be
+	 *                    rotated.
 	 * 
 	 * @return rotated block state where the FACING property is updated.
 	 */
-	public static IBlockState rotateBlockStateWithFacingProperty(IBlockState sourceState, double orientation) {
+	public static BlockState rotateBlockStateWithFacingProperty(BlockState sourceState, double orientation) {
 
 		// exit if angle is zero
 		if (orientation == 0)
@@ -176,21 +166,19 @@ public class BlockUtils {
 		EnumFacing value = calculateFacingProperty(facing, orientation);
 
 		// create now rotated state
-		IBlockState rotatedState = sourceState.withProperty(FACING, value);
+		BlockState rotatedState = sourceState.withProperty(FACING, value);
 		return rotatedState;
 	}
 
 	/**
 	 * Calculate FACING property from orientation and source property.
 	 * 
-	 * The orientation is defined in degrees and only the values 0, 90, 180 and
-	 * 270 are processed. For all other values the FACING property is returned
+	 * The orientation is defined in degrees and only the values 0, 90, 180 and 270
+	 * are processed. For all other values the FACING property is returned
 	 * unchanged.
 	 * 
-	 * @param sourceFacing
-	 *            source FACING property.
-	 * @param orientation
-	 *            orientation in degrees to rotate the property.
+	 * @param sourceFacing source FACING property.
+	 * @param orientation  orientation in degrees to rotate the property.
 	 * @return rotated facing property.
 	 */
 	public static EnumFacing calculateFacingProperty(EnumFacing sourceFacing, double orientation) {
@@ -236,12 +224,11 @@ public class BlockUtils {
 	/**
 	 * Returns true if block state has the FACING property defined.
 	 * 
-	 * @param state
-	 *            block state to test.
+	 * @param state block state to test.
 	 * 
 	 * @return true if block state has the FACING property defined.
 	 */
-	public static boolean hasFacingProperty(IBlockState state) {
+	public static boolean hasFacingProperty(BlockState state) {
 		ImmutableMap<IProperty<?>, Comparable<?>> properties = state.getProperties();
 		return properties.containsKey(FACING);
 	}
@@ -249,8 +236,7 @@ public class BlockUtils {
 	/**
 	 * Returns true if the set of blocks is all of type air.
 	 * 
-	 * @param blocks
-	 *            set of blocks to query.
+	 * @param blocks set of blocks to query.
 	 * @return true if the set of blocks is all of type air.
 	 */
 	public static boolean containsAirBlocksOnly(Iterable<BlockPos> blocks, WorldQuery worldQuery) {
@@ -269,14 +255,10 @@ public class BlockUtils {
 	/**
 	 * Add temporary block.
 	 * 
-	 * @param world
-	 *            world object.
-	 * @param pos
-	 *            position where temporary block should be spawned.
-	 * @param tempBlock
-	 *            temporary block to set.
-	 * @param duration
-	 *            duration in game ticks for temporary block to exist.
+	 * @param world     world object.
+	 * @param pos       position where temporary block should be spawned.
+	 * @param tempBlock temporary block to set.
+	 * @param duration  duration in game ticks for temporary block to exist.
 	 */
 	public static void setTemporaryBlock(World world, BlockPos pos, Block tempBlock, int duration) {
 
@@ -289,17 +271,15 @@ public class BlockUtils {
 	/**
 	 * Add temporary block.
 	 * 
-	 * @param world
-	 *            world object.
-	 * @param tempDirective
-	 *            temporary block directive where temporary block should be spawned.
-	 * @param duration
-	 *            duration in game ticks for temporary block to exist.
+	 * @param world         world object.
+	 * @param tempDirective temporary block directive where temporary block should
+	 *                      be spawned.
+	 * @param duration      duration in game ticks for temporary block to exist.
 	 */
 	public static void setTemporaryBlock(World world, BlockDirective tempDirective, int duration) {
 
 		// create original block
-		Block block = BlockUtils.getBlockFromPosition(tempDirective.getBlockPosition(), world);		
+		Block block = BlockUtils.getBlockFromPosition(tempDirective.getBlockPosition(), world);
 		BlockDirective orgDirective = new BlockDirective(tempDirective.getBlockPosition(), block, DONT_HARVEST);
 
 		// create temporary block
@@ -307,16 +287,15 @@ public class BlockUtils {
 		TemporaryBlockRepository tempBlockRepository = getBassebombeCraft().getTemporaryBlockRepository();
 		tempBlockRepository.add(temporaryBlock);
 	}
-	
+
 	/**
 	 * Select rainbow colored wool block.
 	 * 
-	 * @param colorCounter
-	 *            current color counter between 0..8.
+	 * @param colorCounter current color counter between 0..8.
 	 * 
 	 * @return rainbow colored wool block.
 	 */
-	public static IBlockState selectRainbowColoredWool(int colorCounter) {
+	public static BlockState selectRainbowColoredWool(int colorCounter) {
 		int colorSelector = colorCounter % NUMBER_RAINBOW_COLORS;
 
 		switch (colorSelector) {
@@ -341,16 +320,15 @@ public class BlockUtils {
 			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.WHITE);
 		}
 	}
-	
+
 	/**
 	 * Select pink colored wool block.
 	 * 
-	 * @param colorCounter
-	 *            current color counter between 0..1.
+	 * @param colorCounter current color counter between 0..1.
 	 * 
 	 * @return pink colored wool block.
 	 */
-	public static IBlockState selectPinkColoredWool(int colorCounter) {
+	public static BlockState selectPinkColoredWool(int colorCounter) {
 		int colorSelector = colorCounter % NUMBER_RAINBOW_COLORS;
 
 		switch (colorSelector) {
@@ -363,5 +341,5 @@ public class BlockUtils {
 			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.PINK);
 		}
 	}
-	
+
 }

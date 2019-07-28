@@ -14,9 +14,10 @@ import net.minecraft.block.BlockSandStone;
 import net.minecraft.block.BlockSandStone.EnumType;
 import net.minecraft.block.BlockStainedGlassPane;
 import net.minecraft.block.BlockStairs;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.BlockStoneBrick;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -78,7 +79,7 @@ public class BuildUtils {
 		
 		offset = new BlockPos(globalOffset.getX() - 2, globalOffset.getY(), globalOffset.getZ());
 		size = new BlockPos(5, 1, 1);		
-		IBlockState state = Blocks.SANDSTONE_STAIRS.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.SOUTH);
+		BlockState state = Blocks.SANDSTONE_STAIRS.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.SOUTH);
 		structure.add(new ChildStructure(offset, size, Blocks.SANDSTONE_STAIRS, state));		
 	}
 
@@ -222,7 +223,7 @@ public class BuildUtils {
 				zOffset = globalOffset.getZ() + 1;
 				offset = new BlockPos(xOffset, yOffset, zOffset);
 				size = new BlockPos(1, 1, 1);
-				IBlockState state = materials.getState().withProperty(BlockStairs.FACING, EnumFacing.WEST);
+				BlockState state = materials.getState().withProperty(BlockStairs.FACING, EnumFacing.WEST);
 				structure.add(new ChildStructure(offset, size, materials.getStairMaterial(), state));
 
 				// add air block
@@ -257,7 +258,7 @@ public class BuildUtils {
 				zOffset = globalOffset.getZ();
 				offset = new BlockPos(xOffset, yOffset, zOffset);
 				size = new BlockPos(1, 1, 1);
-				IBlockState state = materials.getState().withProperty(BlockStairs.FACING, EnumFacing.NORTH);
+				BlockState state = materials.getState().withProperty(BlockStairs.FACING, EnumFacing.NORTH);
 				structure.add(new ChildStructure(offset, size, materials.getStairMaterial(), state));
 
 				// add air block
@@ -293,7 +294,7 @@ public class BuildUtils {
 				zOffset = globalOffset.getZ() - 1;
 				offset = new BlockPos(xOffset, yOffset, zOffset);
 				size = new BlockPos(1, 1, 1);
-				IBlockState state = materials.getState().withProperty(BlockStairs.FACING, EnumFacing.EAST);
+				BlockState state = materials.getState().withProperty(BlockStairs.FACING, EnumFacing.EAST);
 				structure.add(new ChildStructure(offset, size, materials.getStairMaterial(), state));
 
 				// add air block
@@ -328,7 +329,7 @@ public class BuildUtils {
 				zOffset = globalOffset.getZ();
 				offset = new BlockPos(xOffset, yOffset, zOffset);
 				size = new BlockPos(1, 1, 1);
-				IBlockState state = materials.getState().withProperty(BlockStairs.FACING, EnumFacing.SOUTH);
+				BlockState state = materials.getState().withProperty(BlockStairs.FACING, EnumFacing.SOUTH);
 				structure.add(new ChildStructure(offset, size, materials.getStairMaterial(), state));
 
 				// add air block
@@ -376,43 +377,43 @@ public class BuildUtils {
 		switch (selection) {
 
 		case 1:
-			return new BuildMaterial(Blocks.BRICK_BLOCK);
+			return new BuildMaterial(Blocks.BRICKS);
 		case 2:
-			return new BuildMaterial(Blocks.NETHER_BRICK);
+			return new BuildMaterial(Blocks.NETHER_BRICKS);
 		case 3:
 			return new BuildMaterial(Blocks.SANDSTONE);
 		case 4:
 			return new BuildMaterial(Blocks.STONE);
 		case 5: {
-			IBlockState state = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT,
+			BlockState state = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT,
 					BlockStone.EnumType.ANDESITE_SMOOTH);
 			return new BuildMaterial(Blocks.STONE, state);
 		}
 		case 6: {
-			IBlockState state = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT,
+			BlockState state = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT,
 					BlockStone.EnumType.DIORITE_SMOOTH);
 			return new BuildMaterial(Blocks.STONE, state);
 		}
 		case 7: {
-			IBlockState state = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT,
+			BlockState state = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT,
 					BlockStone.EnumType.GRANITE_SMOOTH);
 			return new BuildMaterial(Blocks.STONE, state);
 		}
 
 		case 8:
-			return new BuildMaterial(Blocks.STONEBRICK);
+			return new BuildMaterial(Blocks.STONE_BRICKS);
 		case 9: {
-			IBlockState state = Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT,
+			BlockState state = Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT,
 					BlockStoneBrick.EnumType.CHISELED);
 			return new BuildMaterial(Blocks.STONE, state);
 		}
 		case 10: {
-			IBlockState state = Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT,
+			BlockState state = Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT,
 					BlockStoneBrick.EnumType.CRACKED);
 			return new BuildMaterial(Blocks.STONE, state);
 		}
 		case 11: {
-			IBlockState state = Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT,
+			BlockState state = Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT,
 					BlockStoneBrick.EnumType.MOSSY);
 			return new BuildMaterial(Blocks.STONE, state);
 		}
@@ -422,13 +423,13 @@ public class BuildUtils {
 		case 13:
 			return new BuildMaterial(Blocks.COBBLESTONE);
 		case 14:
-			return new BuildMaterial(Blocks.MAGMA);
+			return new BuildMaterial(Blocks.MAGMA_BLOCK);
 		case 15:
-			return new BuildMaterial(Blocks.LOG);
+			return new BuildMaterial(Blocks.OAK_LOG);
 		case 16:
-			return new BuildMaterial(Blocks.LOG2);
+			return new BuildMaterial(Blocks.SPRUCE_LOG);
 		case 17:
-			return new BuildMaterial(Blocks.PLANKS);
+			return new BuildMaterial(Blocks.OAK_PLANKS);
 
 		default:
 			return new BuildMaterial(Blocks.SANDSTONE);
@@ -510,7 +511,7 @@ public class BuildUtils {
 	 * @param solidMaterial
 	 *            solid material.
 	 */
-	public static StairsMaterial createInstance(IBlockState state, Block stairMaterial, Block solidMaterial) {
+	public static StairsMaterial createInstance(BlockState state, Block stairMaterial, Block solidMaterial) {
 		return new StairsMaterial(state, stairMaterial, solidMaterial);
 	}
 
@@ -522,7 +523,7 @@ public class BuildUtils {
 	 * @param state
 	 *            build material state.
 	 */
-	public static BuildMaterial createInstance(Block buildMaterial, IBlockState state) {
+	public static BuildMaterial createInstance(Block buildMaterial, BlockState state) {
 		return new BuildMaterial(buildMaterial, state);
 	}
 
@@ -535,7 +536,7 @@ public class BuildUtils {
 	 *            stair material state.
 	 */
 	public static BuildMaterial createStainedGlassPaneBuildMaterial(EnumDyeColor color) {
-		IBlockState state = Blocks.STAINED_GLASS_PANE.getDefaultState().withProperty(BlockStainedGlassPane.COLOR,
+		BlockState state = Blocks.STAINED_GLASS_PANE.getDefaultState().withProperty(BlockStainedGlassPane.COLOR,
 				color);
 		return new BuildMaterial(Blocks.STAINED_GLASS_PANE, state);
 	}
@@ -549,7 +550,7 @@ public class BuildUtils {
 	 *            stair material state.
 	 */
 	public static BuildMaterial createSandstoneBuildMaterial(EnumType type) {
-		IBlockState state = Blocks.SANDSTONE.getDefaultState().withProperty(BlockSandStone.TYPE, type);
+		BlockState state = Blocks.SANDSTONE.getDefaultState().withProperty(BlockSandStone.TYPE, type);
 		return new BuildMaterial(Blocks.SANDSTONE, state);
 	}
 

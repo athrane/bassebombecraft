@@ -18,7 +18,7 @@ import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.BlockColored;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.EnumDyeColor;
@@ -122,7 +122,7 @@ public class BuildRainbowRoad implements BlockClickedItemAction {
 			// create path
 			BlockPos offset = new BlockPos(displacement, Y_OFFSET_DOWN, Z_SIZE * index);
 			BlockPos size = new BlockPos(X_SIZE, Y_SIZE, 1);
-			IBlockState state = Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.MAGENTA);
+			BlockState state = Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.MAGENTA);
 			composite.add(new ChildStructure(offset, size, Blocks.WOOL, state));
 			
 			offset = new BlockPos(displacement, Y_OFFSET_DOWN, (Z_SIZE * index)+1);

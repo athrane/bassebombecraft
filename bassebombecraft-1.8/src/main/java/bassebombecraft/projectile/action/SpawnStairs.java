@@ -17,7 +17,8 @@ import bassebombecraft.item.action.build.tower.StairsMaterial;
 import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.CompositeStructure;
 import net.minecraft.block.BlockStairs;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.EnumFacing;
@@ -74,7 +75,7 @@ public class SpawnStairs implements ProjectileAction {
 
 			// create material
 			CompositeStructure composite = new CompositeStructure();
-			IBlockState state = Blocks.STONE_BRICK_STAIRS.getDefaultState().withProperty(BlockStairs.FACING,
+			BlockState state = Blocks.STONE_BRICK_STAIRS.getDefaultState().withProperty(BlockStairs.FACING,
 					EnumFacing.SOUTH);
 			StairsMaterial stairsMaterial = createInstance(state, Blocks.STONE_BRICK_STAIRS, Blocks.STONEBRICK);
 

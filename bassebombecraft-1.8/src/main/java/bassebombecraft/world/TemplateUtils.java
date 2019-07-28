@@ -6,7 +6,7 @@ import static bassebombecraft.ModConstants.VERSION;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import bassebombecraft.BassebombeCraft;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -103,7 +103,7 @@ public class TemplateUtils {
 		}
 
 		// get block state
-		IBlockState iblockstate = world.getBlockState(offset);
+		BlockState iblockstate = world.getBlockState(offset);
 		world.notifyBlockUpdate(offset, iblockstate, iblockstate, 3);
 
 		// define bounding box

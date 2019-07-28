@@ -1,7 +1,7 @@
 package bassebombecraft.structure;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 
 /**
  * Interface for a structure in the world.
@@ -64,7 +64,7 @@ public interface Structure {
 	 * @return block state to build structure with. If state wasn't defined for
 	 *         structure then the block default state is returned.
 	 */
-	IBlockState getBlockState();
+	BlockState getBlockState();
 
 	/**
 	 * Returns true if structure is composite.
@@ -74,8 +74,8 @@ public interface Structure {
 	boolean isComposite();
 
 	/**
-	 * Return children structures if structure is a composite. Otherwise an
-	 * empty array is returned.
+	 * Return children structures if structure is a composite. Otherwise an empty
+	 * array is returned.
 	 * 
 	 * @return children structures.
 	 */
@@ -84,8 +84,7 @@ public interface Structure {
 	/**
 	 * Add child structure to composite.
 	 * 
-	 * @param child
-	 *            child structure.
+	 * @param child child structure.
 	 */
 	void add(Structure child);
 

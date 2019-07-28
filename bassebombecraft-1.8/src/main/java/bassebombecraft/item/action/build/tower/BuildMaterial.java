@@ -1,25 +1,23 @@
 package bassebombecraft.item.action.build.tower;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 
 /**
  * Data object for specification of build materials with meta data.
  */
 public class BuildMaterial {
 
-	IBlockState state;
+	BlockState state;
 	Block buildMaterial;
 
 	/**
 	 * BuildMaterial constructor.
 	 * 
-	 * @param buildMaterial
-	 *            build  material.
-	 * @param state
-	 *            stair material state.
+	 * @param buildMaterial build material.
+	 * @param state         stair material state.
 	 */
-	public BuildMaterial(Block buildMaterial, IBlockState state ) {
+	public BuildMaterial(Block buildMaterial, BlockState state) {
 		super();
 		this.state = state;
 		this.buildMaterial = buildMaterial;
@@ -28,16 +26,16 @@ public class BuildMaterial {
 	/**
 	 * FloorMaterial constructor. Material is created with default state.
 	 * 
-	 * @param floorMaterial
-	 *            solid material.
+	 * @param floorMaterial solid material.
 	 */
 	public BuildMaterial(Block floorMaterial) {
 		super();
 		this.state = floorMaterial.getDefaultState();
-		this.buildMaterial = floorMaterial;;
+		this.buildMaterial = floorMaterial;
+		;
 	}
-	
-	public IBlockState getState() {
+
+	public BlockState getState() {
 		return state;
 	}
 
