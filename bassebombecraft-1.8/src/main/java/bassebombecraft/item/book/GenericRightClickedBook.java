@@ -21,7 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.CooldownTracker;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
@@ -69,9 +69,9 @@ public class GenericRightClickedBook extends Item {
 		return false;
 	}
 
+	
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, EnumHand handIn) {
-
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
 		// exit if invoked at client side
 		if (isWorldAtClientSide(worldIn)) {
 			return super.onItemRightClick(worldIn, playerIn, handIn);
