@@ -3,7 +3,6 @@ package bassebombecraft.event.particle;
 import java.util.Random;
 
 import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 
 /**
@@ -11,7 +10,6 @@ import net.minecraft.util.math.BlockPos;
  */
 public class DefaultParticleRendering implements ParticleRendering {
 
-	static final Color COLOR_WHITE = new Color(255, 255, 255);
 	static final int INFINITE_DURATION = -1;
 	private BlockPos position;
 	private int duration;
@@ -20,10 +18,8 @@ public class DefaultParticleRendering implements ParticleRendering {
 	/**
 	 * DefaultParticleRendering constructor.
 	 * 
-	 * @param pos
-	 *            particle position.
-	 * @param info
-	 *            particle rendering info.
+	 * @param pos  particle position.
+	 * @param info particle rendering info.
 	 */
 	private DefaultParticleRendering(BlockPos pos, ParticleRenderingInfo info) {
 		this.position = pos;
@@ -74,7 +70,7 @@ public class DefaultParticleRendering implements ParticleRendering {
 		float rgbBlue = info.getBlueColorComponent();
 		return (random.nextFloat() * 0.25f) + (rgbBlue * 0.75f) - 0.12f;
 	}
-	
+
 	@Override
 	public double getSpeed() {
 		return info.getSpeed();
@@ -83,10 +79,8 @@ public class DefaultParticleRendering implements ParticleRendering {
 	/**
 	 * Factory method for creation of a particle rendering info object.
 	 * 
-	 * @param pos
-	 *            particle position.
-	 * @param info
-	 *            particle rendering info.
+	 * @param pos  particle position.
+	 * @param info particle rendering info.
 	 * 
 	 * @return particle rendering object.
 	 */
