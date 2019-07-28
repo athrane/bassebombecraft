@@ -9,12 +9,13 @@ import java.util.Random;
 import com.typesafe.config.Config;
 
 import bassebombecraft.event.entity.team.TeamRepository;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.SkeletonEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.Items;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -58,8 +59,7 @@ public class SpawnSkeletonArmy implements ProjectileAction {
 		for (int i = 0; i < skeletons; i++) {
 
 			// create skeleton
-			SkeletonEntity entity = new SkeletonEntity(world);
-			entity.setSwingingArms(true);
+			SkeletonEntity entity = EntityType.SKELETON.create(world);
 
 			// calculate random position
 			Random random = entity.getRNG();
@@ -71,12 +71,11 @@ public class SpawnSkeletonArmy implements ProjectileAction {
 			entity.setLocationAndAngles(positionX, positionY, positionZ, projectile.rotationYaw, PITCH);
 
 			// add bow
-			ItemStack bowStack = new ItemStack(Items.BOW);
-			entity.setHeldItem(EnumHand.MAIN_HAND, bowStack);
+			entity.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.BOW));
 
 			// helmet
 			ItemStack helmetstack = new ItemStack(Items.DIAMOND_HELMET);
-			entity.setItemStackToSlot(EntityEquipmentSlot.HEAD, helmetstack);
+			entity.setItemStackToSlot(EquipmentSlotType.HEAD, helmetstack);
 
 			// get owner
 			LivingEntity thrower = projectile.getThrower();
@@ -90,7 +89,7 @@ public class SpawnSkeletonArmy implements ProjectileAction {
 			buildSkeletonArmyAi(entity, thrower);
 
 			// spawn
-			world.spawnEntity(entity);
+			world.addEntity(entity);
 		}
 	}
 
