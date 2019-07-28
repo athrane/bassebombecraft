@@ -18,8 +18,8 @@ import bassebombecraft.player.PlayerUtils;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower.EnumFlowerType;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -67,7 +67,7 @@ public class GeometryUtils {
 
 			// create directive
 			Block block = getBlockFromPosition(typedBlockPos, worldQuery);
-			IBlockState blockState = getBlockStateFromPosition(typedBlockPos, worldQuery);
+			BlockState blockState = getBlockStateFromPosition(typedBlockPos, worldQuery);
 			BlockDirective directive = new BlockDirective(typedBlockPos, block, DONT_HARVEST);
 			directive.setState(blockState);
 			result.add(directive);
@@ -95,7 +95,7 @@ public class GeometryUtils {
 	 * @return result list of calculated {@linkplain BlockDirective}.
 	 */
 	public static List<BlockDirective> calculateBlockDirectives(Iterable<BlockPos> blockPosSet, Block block,
-			IBlockState blockState) {
+			BlockState blockState) {
 		return calculateBlockDirectives(blockPosSet, block, blockState, HARVEST);
 	}
 
@@ -120,7 +120,7 @@ public class GeometryUtils {
 	 * @return result list of calculated {@linkplain BlockDirective}.
 	 */
 	public static List<BlockDirective> calculateBlockDirectives(Iterable<BlockPos> blockPosSet, Block block,
-			IBlockState blockState, boolean harvest) {
+			BlockState blockState, boolean harvest) {
 
 		List<BlockDirective> result = new ArrayList<BlockDirective>();
 
@@ -169,8 +169,8 @@ public class GeometryUtils {
 			BlockDirective rotatedDirective = new BlockDirective(RotatedPosition, sourceDirective.block, sourceDirective.harvest);
 
 			// add block state to rotated directive
-			IBlockState sourceState = sourceDirective.getState();
-			IBlockState rotatedState = rotateBlockStateWithFacingProperty(sourceState, angle);
+			BlockState sourceState = sourceDirective.getState();
+			BlockState rotatedState = rotateBlockStateWithFacingProperty(sourceState, angle);
 
 			rotatedDirective.setState(rotatedState);
 			result.add(rotatedDirective);
@@ -525,7 +525,7 @@ public class GeometryUtils {
 	 */
 	static boolean isUsefulGroundBlock(BlockPos target, World world) {
 		Block block = getBlockFromPosition(target, world);
-		IBlockState defaultState = block.getDefaultState();
+		BlockState defaultState = block.getDefaultState();
 		Material material = defaultState.getMaterial();
 		return (material.isSolid());
 	}
@@ -543,7 +543,7 @@ public class GeometryUtils {
 	 */
 	static boolean isUsefullAirTypeBlock(BlockPos target, World world) {
 		Block block = getBlockFromPosition(target, world);
-		IBlockState defaultState = block.getDefaultState();
+		BlockState defaultState = block.getDefaultState();
 		Material material = defaultState.getMaterial();
 		return (!material.isSolid());
 	}
@@ -578,7 +578,7 @@ public class GeometryUtils {
 	 * 
 	 * @return Select flower type.
 	 */
-	static IBlockState selectRedFlowerType(Random random) {
+	static BlockState selectRedFlowerType(Random random) {
 		int flowerType = random.nextInt(7);
 
 		switch (flowerType) {

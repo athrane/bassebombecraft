@@ -12,7 +12,7 @@ import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.WorldQueryImpl;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
@@ -21,6 +21,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
+
 /**
  * Event handler for processing of {@linkplain BlockDirective}.
  * 
@@ -46,7 +47,7 @@ public class ProcessBlockDirectivesEventHandler {
 
 	@SubscribeEvent
 	public static void handleEvent(PlayerTickEvent event) throws Exception {
-		
+
 		// get repository
 		BlockDirectivesRepository repository = getBassebombeCraft().getBlockDirectivesRepository();
 
@@ -59,7 +60,8 @@ public class ProcessBlockDirectivesEventHandler {
 		World world = player.getEntityWorld();
 
 		// exit if at client side
-		if (isWorldAtClientSide(world)) return;		
+		if (isWorldAtClientSide(world))
+			return;
 
 		// create world query
 		WorldQueryImpl worldQuery = new WorldQueryImpl(player, NULL_POSITION);
@@ -71,28 +73,27 @@ public class ProcessBlockDirectivesEventHandler {
 	}
 
 	/**
-	 * Process directive if an air directive is encountered then the directive
-	 * is skipped and another one is processed.
+	 * Process directive if an air directive is encountered then the directive is
+	 * skipped and another one is processed.
 	 * 
 	 * @param world
 	 * @param worldQuery
 	 * 
-	 * @throws Exception
-	 *             if processing fails.
+	 * @throws Exception if processing fails.
 	 */
 	static void processDirective(World world, WorldQueryImpl worldQuery) throws Exception {
-		
-		// get repositories		
+
+		// get repositories
 		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 		ParticleRenderingRepository particleRepository = getBassebombeCraft().getParticleRenderingRepository();
-		
+
 		while (directivesRepository.containsDirectives()) {
 
 			// get directive
 			BlockDirective directive = directivesRepository.getNext();
 
 			// skip if source and target states are both air
-			IBlockState currentState = world.getBlockState(directive.getBlockPosition());
+			BlockState currentState = world.getBlockState(directive.getBlockPosition());
 			if (currentState.equals(directive.getState()))
 				continue;
 

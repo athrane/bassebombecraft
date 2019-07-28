@@ -17,7 +17,7 @@ import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
@@ -29,7 +29,7 @@ public class DefaultBuilder implements Builder {
 	/**
 	 * Stairs material.
 	 */
-	final static IBlockState STAIRS_STATE = Blocks.STONE_BRICK_STAIRS.getDefaultState().withProperty(BlockStairs.FACING,
+	final static BlockState STAIRS_STATE = Blocks.STONE_BRICK_STAIRS.getDefaultState().withProperty(BlockStairs.FACING,
 			EnumFacing.SOUTH);
 
 	/**

@@ -21,7 +21,7 @@ import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -135,7 +135,7 @@ public class DuplicateBlock implements BlockClickedItemAction {
 		}
 
 		// create regular variant
-		IBlockState blockState = getBlockStateFromPosition(blockPosition, worldQuery);
+		BlockState blockState = getBlockStateFromPosition(blockPosition, worldQuery);
 		composite.add(new ChildStructure(offset, size, sourceBlock, blockState));
 		return composite;
 	}

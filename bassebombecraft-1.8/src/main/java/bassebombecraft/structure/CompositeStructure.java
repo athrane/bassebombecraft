@@ -3,7 +3,7 @@ package bassebombecraft.structure;
 import java.util.ArrayList;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 
 /**
  * Composite structure which consist of multiple structures.
@@ -48,7 +48,7 @@ public class CompositeStructure implements Structure {
 	}
 	
 	@Override
-	public IBlockState getBlockState() {
+	public BlockState getBlockState() {
 		throw new UnsupportedOperationException("Getting block state not supported for composite structure.");
 	}
 

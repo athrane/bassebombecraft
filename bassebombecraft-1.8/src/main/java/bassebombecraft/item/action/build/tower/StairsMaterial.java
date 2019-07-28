@@ -1,14 +1,14 @@
 package bassebombecraft.item.action.build.tower;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 
 /**
  * Data object for specification of stairs materials.
  */
 public class StairsMaterial {
 
-	IBlockState state;
+	BlockState state;
 	Block stairMaterial;
 	Block solidMaterial;
 
@@ -22,14 +22,14 @@ public class StairsMaterial {
 	 * @param solidMaterial
 	 *            solid material.
 	 */
-	public StairsMaterial(IBlockState state, Block stairMaterial, Block solidMaterial) {
+	public StairsMaterial(BlockState state, Block stairMaterial, Block solidMaterial) {
 		super();
 		this.state = state;
 		this.stairMaterial = stairMaterial;
 		this.solidMaterial = solidMaterial;
 	}
 
-	public IBlockState getState() {
+	public BlockState getState() {
 		return state;
 	}
 
