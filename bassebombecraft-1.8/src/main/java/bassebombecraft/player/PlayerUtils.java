@@ -1,6 +1,6 @@
 package bassebombecraft.player;
 
-import static net.minecraft.client.Minecraft.getMinecraft;
+import static bassebombecraft.BassebombeCraft.*;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 
 /**
  * Utility for calculating information about the player.
@@ -89,7 +89,7 @@ public class PlayerUtils {
 	 * @param string message to send to player.
 	 */
 	public static void sendChatMessageToPlayer(PlayerEntity player, String string) {
-		ITextComponent message = new TextComponentString(string);
+		ITextComponent message = new StringTextComponent(string);
 		player.sendMessage(message);
 	}
 
@@ -175,7 +175,7 @@ public class PlayerUtils {
 	 * @return player UID.
 	 */
 	public static String getClientSidePlayerUId() {
-		return Minecraft.getInstance().getSession().getUsername();		
+		return Minecraft.getInstance().getSession().getUsername();
 	}
 
 	/**
@@ -199,7 +199,7 @@ public class PlayerUtils {
 	 * @return true if player is defined in Minecraft.
 	 */
 	public static boolean isPlayerDefined() {
-		return (getMinecraft().player != null);
+		return (getMincraft().player != null);
 	}
 
 	/**
@@ -210,7 +210,7 @@ public class PlayerUtils {
 	public static PlayerEntity getPlayer() {
 		if (!isPlayerDefined())
 			return null;
-		return Minecraft.getMinecraft().player;
+		return getMincraft().player;
 	}
 
 }
