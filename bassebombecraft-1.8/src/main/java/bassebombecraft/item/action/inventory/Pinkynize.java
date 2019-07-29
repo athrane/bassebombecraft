@@ -16,6 +16,7 @@ import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.GeometryUtils;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
@@ -106,7 +107,8 @@ public class Pinkynize implements InventoryItemActionStrategy {
 		BlockPos groundPosition = locateGroundBlockPos(targetPosition, ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK, world);
 
 		// create wool block
-		BlockDirective directive = new BlockDirective(groundPosition, Blocks.WOOL, DONT_HARVEST);
+		BlockState woolBlock = selectPinkColoredWool(colorCounter);		
+		BlockDirective directive = new BlockDirective(groundPosition, woolBlock.getBlock(), DONT_HARVEST);
 		directive.setState(selectPinkColoredWool(colorCounter));
 
 		// create block

@@ -18,6 +18,7 @@ import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
@@ -50,7 +51,7 @@ public class DefaultBuilder implements Builder {
 	 */
 	public DefaultBuilder(Random random) {
 		this.random = random;
-		stairsMaterial = createInstance(STAIRS_STATE, Blocks.STONE_BRICK_STAIRS, Blocks.STONEBRICK);
+		stairsMaterial = createInstance(STAIRS_STATE, Blocks.STONE_BRICK_STAIRS, Blocks.STONE_BRICKS);
 	}
 
 	@Override

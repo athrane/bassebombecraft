@@ -14,6 +14,7 @@ import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.GeometryUtils;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.particles.BasicParticleType;
@@ -107,8 +108,9 @@ public class Rainbownize implements InventoryItemActionStrategy {
 		BlockPos groundPosition = locateGroundBlockPos(targetPosition, ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK, world);
 
 		// create wool block
-		BlockDirective directive = new BlockDirective(groundPosition, Blocks.WOOL, DONT_HARVEST);
-		directive.setState(selectRainbowColoredWool(colorCounter));
+		BlockState woolBlock = selectRainbowColoredWool(colorCounter);
+		BlockDirective directive = new BlockDirective(groundPosition, woolBlock.getBlock(), DONT_HARVEST);
+		directive.setState(woolBlock);
 
 		// create block
 		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
@@ -128,8 +130,7 @@ public class Rainbownize implements InventoryItemActionStrategy {
 	/**
 	 * Calculate target position in spiral.
 	 * 
-	 * @param target
-	 *            target to calculate position for.
+	 * @param target target to calculate position for.
 	 * 
 	 * @return target position in spiral
 	 */
@@ -163,8 +164,7 @@ public class Rainbownize implements InventoryItemActionStrategy {
 	/**
 	 * Initialize spiral
 	 * 
-	 * @param target
-	 *            target to initialize spiral from from.
+	 * @param target target to initialize spiral from from.
 	 */
 	void initializeSpiral(Entity target) {
 		spiralCounter = 0;

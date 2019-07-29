@@ -362,7 +362,7 @@ public class BuildUtils {
 	 */
 	public static void addMobSpawner(Structure structure, BlockPos globalOffset) {
 		BlockPos size = new BlockPos(1, 1, 1);		
-		structure.add(new ChildStructure(globalOffset, size, Blocks.MOB_SPAWNER));
+		structure.add(new ChildStructure(globalOffset, size, Blocks.MOB));
 	}
 	
 	/**
@@ -403,7 +403,7 @@ public class BuildUtils {
 		case 8:
 			return new BuildMaterial(Blocks.STONE_BRICKS);
 		case 9: {
-			BlockState state = Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT,
+			BlockState state = Blocks.STONE_BRICKS.getDefaultState().withProperty(BlockStoneBrick.VARIANT,
 					BlockStoneBrick.EnumType.CHISELED);
 			return new BuildMaterial(Blocks.STONE, state);
 		}
