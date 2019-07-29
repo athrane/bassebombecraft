@@ -3,22 +3,22 @@ package bassebombecraft.item.action.mist.entity;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.potion.MobEffects;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.Vec3d;
 
 /**
- * Implementation of {@linkplain EntityMistActionStrategy} for construction of mist
- * action. This class builds a mist with a poison effect.
+ * Implementation of {@linkplain EntityMistActionStrategy} for construction of
+ * mist action. This class builds a mist with a poison effect.
  */
 public class ToxicMist implements EntityMistActionStrategy {
 
 	static final int EFFECT_DURATION = 200; // Measured in ticks
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.SPELL_MOB;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.0F;
@@ -34,8 +34,8 @@ public class ToxicMist implements EntityMistActionStrategy {
 	 * 
 	 * @return potion effect
 	 */
-	PotionEffect createEffect() {
-		return new PotionEffect(MobEffects.POISON, getEffectDuration());
+	EffectInstance createEffect() {
+		return new EffectInstance(Effects.POISON, getEffectDuration());
 	}
 
 	@Override

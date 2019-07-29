@@ -9,7 +9,7 @@ import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.potion.MobEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.world.World;
 
 /**
@@ -81,8 +81,8 @@ public class AddMobsAggroEffect implements InventoryItemActionStrategy {
 	 * 
 	 * @return potion effect
 	 */
-	PotionEffect createEffect() {
-		return new PotionEffect(MobEffects.MOBS_AGGRO_POTION, duration);
+	EffectInstance createEffect() {
+		return new EffectInstance(MobEffects.MOBS_AGGRO_POTION, duration);
 	}
 
 }

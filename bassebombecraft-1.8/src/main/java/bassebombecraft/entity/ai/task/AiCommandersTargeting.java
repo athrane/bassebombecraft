@@ -8,6 +8,7 @@ import bassebombecraft.potion.MobEffects;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.EntityAITarget;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.PotionEffect;
 
 /**
@@ -85,7 +86,7 @@ public class AiCommandersTargeting extends EntityAITarget {
 		super.taskOwner.setFire(ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE);
 
 		// add aggro effect
-		PotionEffect effect = new PotionEffect(MobEffects.MOBS_AGGRO_POTION,
+		EffectInstance effect = new EffectInstance(MobEffects.MOBS_AGGRO_POTION,
 				ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_AGGRO);
 		super.taskOwner.addPotionEffect(effect);
 	}
