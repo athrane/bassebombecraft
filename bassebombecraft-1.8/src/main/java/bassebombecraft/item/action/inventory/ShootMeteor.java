@@ -10,7 +10,7 @@ import com.typesafe.config.Config;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.EntityLargeFireball;
+import net.minecraft.entity.projectile.FireballEntity;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 public class ShootMeteor implements InventoryItemActionStrategy {
 
 	static final float PITCH_OFFSET = 0.0F;
-	static final SoundEvent SOUND = SoundEvents.ENTITY_FIREWORK_BLAST;
+	static final SoundEvent SOUND = SoundEvents.ENTITY_FIREWORK_ROCKET_LARGE_BLAST;
 	static Random random = new Random();
 
 	/**
@@ -38,8 +38,7 @@ public class ShootMeteor implements InventoryItemActionStrategy {
 	/**
 	 * AddLevitationEffect constructor
 	 * 
-	 * @param key
-	 *            configuration key to initialize particle rendering info from.
+	 * @param key configuration key to initialize particle rendering info from.
 	 */
 	public ShootMeteor(String key) {
 		infos = createFromConfig(key);
@@ -68,13 +67,13 @@ public class ShootMeteor implements InventoryItemActionStrategy {
 		double posZ = target.posZ + (random.nextInt(10) - 5);
 
 		double d0 = target.posX - posX;
-		double d1 = target.getEntityBoundingBox().minY + (double) (target.height / 3.0F) - posY;
+		double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 3.0F) - posY;
 		double d2 = target.posZ - posZ;
 
-		EntityLargeFireball projectile = new EntityLargeFireball(world, posX, posY, posZ, d0, d1, d2);
+		FireballEntity projectile = new FireballEntity(world, posX, posY, posZ, d0, d1, d2);
 
 		invoker.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
-		world.spawnEntity(projectile);
+		world.addEntity(projectile);
 	}
 
 	@Override
