@@ -22,6 +22,7 @@ import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -355,7 +356,7 @@ public class BuildMine implements BlockClickedItemAction {
 		// add bridge
 		offset = new BlockPos(-1, -1, 1);
 		size = new BlockPos(2, 1, 8);
-		composite.add(new ChildStructure(offset, size, Blocks.BRICK_BLOCK));
+		composite.add(new ChildStructure(offset, size, Blocks.BRICKS));
 
 		// door entry - back
 		addOakFencedDoorEntryFront(composite, new BlockPos(0, 0, 9));
@@ -633,7 +634,7 @@ public class BuildMine implements BlockClickedItemAction {
 
 		for (int i = 0; i < columns; i++) {
 			offset = new BlockPos(globalOffset.getX(), globalOffset.getY(), globalOffset.getZ() + (i * 2));
-			structure.add(new ChildStructure(offset, size, Blocks.BRICK_BLOCK));
+			structure.add(new ChildStructure(offset, size, Blocks.BRICKS));
 		}
 	}
 

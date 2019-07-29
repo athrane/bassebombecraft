@@ -7,6 +7,7 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
+import net.minecraft.block.BlockState;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
@@ -45,7 +46,8 @@ public class RainbowSpiralMist implements BlockMistActionStrategy {
 		colorCounter++;
 
 		// create wool block
-		BlockDirective directive = new BlockDirective(target, Blocks.WOOL, DONT_HARVEST);
+		BlockState woolBlock = selectRainbowColoredWool(colorCounter);
+		BlockDirective directive = new BlockDirective(target, woolBlock.getBlock(), DONT_HARVEST);
 		directive.setState(selectRainbowColoredWool(colorCounter));
 
 		// create block

@@ -2,6 +2,7 @@ package bassebombecraft.projectile.action;
 
 import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.AxisAlignedBB;
