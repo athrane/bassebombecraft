@@ -19,10 +19,10 @@ import net.minecraft.world.World;
  */
 public class CommandMobs implements RightClickedItemAction {
 
-	static final SoundEvent SOUND = SoundEvents.EVOCATION_ILLAGER_CAST_SPELL;
+	static final SoundEvent SOUND = SoundEvents.ENTITY_EVOKER_CAST_SPELL;
 
 	@Override
-	public void onRightClick(World world, LivingEntity Fentity) {
+	public void onRightClick(World world, LivingEntity entity) {
 
 		// get repository
 		MobCommanderRepository repository = getBassebombeCraft().getMobCommanderRepository();
