@@ -6,10 +6,10 @@ import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import com.typesafe.config.Config;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.potion.MobEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.world.World;
 
 /**
@@ -73,8 +73,8 @@ public class AddLevitationEffect implements InventoryItemActionStrategy {
 	 * 
 	 * @return potion effect
 	 */
-	PotionEffect createEffect() {
-		return new PotionEffect(MobEffects.LEVITATION, duration);
+	EffectInstance createEffect() {
+		return new EffectInstance(Effects.LEVITATION, duration);
 	}
 
 }

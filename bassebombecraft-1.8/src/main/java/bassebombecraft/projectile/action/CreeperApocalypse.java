@@ -1,9 +1,10 @@
 package bassebombecraft.projectile.action;
 
-import bassebombecraft.potion.MobEffects;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -23,22 +24,23 @@ public class CreeperApocalypse implements ProjectileAction {
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
 
 		for (int i = 0; i < NUMBER_CREEPER; i++) {
-			CreeperEntity creeper = new CreeperEntity(world);
+			CreeperEntity entity = EntityType.CREEPER.create(world);
 
 			// set powered
-			creeper.setCreeperState(CREEPER_FUSED);
+			entity.setCreeperState(CREEPER_FUSED);
 
 			// set position
-			creeper.setLocationAndAngles(projectile.posX, projectile.posY, projectile.posZ, projectile.rotationYaw,
+			entity.setLocationAndAngles(projectile.posX, projectile.posY, projectile.posZ, projectile.rotationYaw,
 					PITCH);
 
 			// prime
-			creeper.ignite();
+			entity.ignite();
 
 			// add potion effect
-			creeper.addPotionEffect(createEffect());
+			entity.addPotionEffect(createEffect());
 
-			world.spawnEntity(creeper);
+			// spawn
+			world.addEntity(entity);
 		}
 	}
 
@@ -47,8 +49,8 @@ public class CreeperApocalypse implements ProjectileAction {
 	 * 
 	 * @return potion effect
 	 */
-	PotionEffect createEffect() {
-		return new PotionEffect(MobEffects.RESISTANCE, EFFECT_DURATION, AMPLIFIER);
+	EffectInstance createEffect() {
+		return new EffectInstance(Effects.RESISTANCE, EFFECT_DURATION, AMPLIFIER);
 	}
 
 }
