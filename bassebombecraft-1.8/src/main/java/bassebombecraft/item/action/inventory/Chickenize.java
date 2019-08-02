@@ -61,14 +61,14 @@ public class Chickenize implements InventoryItemActionStrategy {
 		target.remove();
 
 		// spawn chicken
-		ChickenEntity netity = EntityType.CHICKEN.create(world);
-		netity.setGrowingAge(CHILD_AGE);
-		netity.setLocationAndAngles(position.getX(), position.getY(), position.getZ(), yaw, pitch);
-		world.addEntity(netity);
+		ChickenEntity entity = EntityType.CHICKEN.create(world);
+		entity.setGrowingAge(CHILD_AGE);
+		entity.setLocationAndAngles(position.getX(), position.getY(), position.getZ(), yaw, pitch);
+		world.addEntity(entity);
 
 		// play sound
 		Random random = getBassebombeCraft().getRandom();
-		netity.playSound(SOUND, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+		entity.playSound(SOUND, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
 	}
 
 	@Override
