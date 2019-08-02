@@ -12,15 +12,16 @@ import com.typesafe.config.Config;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
-import net.minecraft.potion.Potion;
+import net.minecraft.potion.Effect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
- * Potion which shoots a mob along its view vector.
+ * Effect which shoots a mob along its view vector.
  */
-public class MobProjectilePotion extends Potion {
+public class MobProjectileEffect extends Effect {
 
 	/**
 	 * Explosion will make smoke.
@@ -40,10 +41,9 @@ public class MobProjectilePotion extends Potion {
 	/**
 	 * MobProjectilePotion constructor.
 	 * 
-	 * @param key
-	 *            configuration key.
+	 * @param key configuration key.
 	 */
-	public MobProjectilePotion(String key) {
+	public MobProjectileEffect(String key) {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
 
 		Config configuration = getBassebombeCraft().getConfiguration();
@@ -64,30 +64,33 @@ public class MobProjectilePotion extends Potion {
 		double x = lookVec.x * force;
 		double y = lookVec.y * force;
 		double z = lookVec.z * force;
-		entity.move(MoverType.SELF, x, y, z);
+		Vec3d moveVec = new Vec3d(x, y, z);
+		entity.move(MoverType.SELF, moveVec);
 
 		// get hit entities
 		World world = entity.getEntityWorld();
-		AxisAlignedBB aabb = entity.getEntityBoundingBox();
+		AxisAlignedBB aabb = entity.getBoundingBox();
 		List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class, aabb);
 
 		// explosion if any entities where hit
 		if (!entities.isEmpty()) {
-			
-			for(LivingEntity hitEntity : entities) {				
+
+			for (LivingEntity hitEntity : entities) {
 
 				// skip entity itself
-				if(hitEntity.equals(entity)) continue;
-				
+				if (hitEntity.equals(entity))
+					continue;
+
 				// trigger explosion
 				explode(entity, world, explosion);
-				
+
 				// kill projectile mob
-				entity.setDead();
-				
-				return;				
+				DamageSource cause = DamageSource.MAGIC;
+				entity.onDeath(cause);
+
+				return;
 			}
-			
+
 		}
 
 		// explode at the end of duration

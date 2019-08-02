@@ -15,12 +15,13 @@ import bassebombecraft.entity.EntityDistanceSorter;
 import bassebombecraft.predicate.DiscardSelf;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.Potion;
+import net.minecraft.potion.Effect;
 import net.minecraft.util.math.AxisAlignedBB;
+
 /**
- * Potion which make a mob aggro any entity, e.g. would attack it on sight.
+ * Effect which make a mob aggro any entity, e.g. would attack it on sight.
  */
-public class MobsAggroPotion extends Potion {
+public class MobsAggroEffect extends Effect {
 
 	/**
 	 * First list index.
@@ -30,7 +31,7 @@ public class MobsAggroPotion extends Potion {
 	/**
 	 * Configuration key.
 	 */
-	final static String CONFIG_KEY = MobsAggroPotion.class.getSimpleName();
+	final static String CONFIG_KEY = MobsAggroEffect.class.getSimpleName();
 
 	/**
 	 * Target distance.
@@ -46,11 +47,11 @@ public class MobsAggroPotion extends Potion {
 	 * Discard self filter.
 	 */
 	DiscardSelf discardSelfFilter = new DiscardSelf();
-	
+
 	/**
 	 * MobAggroPotion constructor.
 	 */
-	public MobsAggroPotion() {
+	public MobsAggroEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
 		Config configuration = getBassebombeCraft().getConfiguration();
 		targetDistance = configuration.getInt(CONFIG_KEY + ".TargetDistance");
@@ -63,30 +64,31 @@ public class MobsAggroPotion extends Potion {
 		if (entity == null)
 			return;
 
-		// exit if entity isn't a creature to support targeting		
-		if(!supportTargeting(entity)) return;
-		
+		// exit if entity isn't a creature to support targeting
+		if (!supportTargeting(entity))
+			return;
+
 		// get target (either as creature or living entity)
-		LivingEntity target  = null;
-		if(isCreatureEntity(entity)) {
+		LivingEntity target = null;
+		if (isCreatureEntity(entity)) {
 			CreatureEntity entityCreature = (CreatureEntity) entity;
-			target = entityCreature.getAttackTarget();			
+			target = entityCreature.getAttackTarget();
 		} else {
 			LivingEntity entityLiving = (LivingEntity) entity;
-			target = entityLiving.getAttackTarget();						
+			target = entityLiving.getLastAttackedEntity();
 		}
-				
+
 		// exit if target is defined and isn't dead
-		if ((target != null) && (!target.isDead))
+		if ((target != null) && (!target.isAlive()))
 			return;
 
 		// initialize filter
 		discardSelfFilter.set(entity);
-		
+
 		// get list of mobs
-		AxisAlignedBB aabb = entity.getEntityBoundingBox().expand(targetDistance, targetDistance, targetDistance);
+		AxisAlignedBB aabb = entity.getBoundingBox().expand(targetDistance, targetDistance, targetDistance);
 		List<LivingEntity> targetList = entity.world.getEntitiesWithinAABB(LivingEntity.class, aabb, discardSelfFilter);
-		
+
 		// exit if no targets where found
 		if (targetList.isEmpty())
 			return;
@@ -94,23 +96,25 @@ public class MobsAggroPotion extends Potion {
 		// sort mobs
 		entityDistanceSorter.setEntity(entity);
 		Collections.sort(targetList, entityDistanceSorter);
-		
+
 		// get new target
 		LivingEntity newTarget = targetList.get(FIRST_INDEX);
-		
+
 		// update target (either as creature or living entity)
-		if(isCreatureEntity(entity)) {
+		if (isCreatureEntity(entity)) {
 			CreatureEntity entityCreature = (CreatureEntity) entity;
-			entityCreature.setAttackTarget(newTarget);			
+			entityCreature.setAttackTarget(newTarget);
 		} else {
 			LivingEntity entityLiving = (LivingEntity) entity;
-			entityLiving .setAttackTarget(newTarget);			
+			entityLiving.attackEntityAsMob(newTarget);
 		}
 	}
 
 	boolean supportTargeting(LivingEntity entity) {
-		if(isCreatureEntity(entity)) return true;
-		if(isLivingEntity(entity)) return true;
+		if (isCreatureEntity(entity))
+			return true;
+		if (isLivingEntity(entity))
+			return true;
 		return false;
 	}
 

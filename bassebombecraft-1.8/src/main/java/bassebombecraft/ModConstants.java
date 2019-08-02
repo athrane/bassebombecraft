@@ -5,6 +5,7 @@ import bassebombecraft.entity.ai.task.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
 import bassebombecraft.event.particle.ParticleRenderingEventHandler;
 import bassebombecraft.item.basic.HudItem;
+import net.minecraft.potion.EffectType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 
@@ -171,7 +172,7 @@ public class ModConstants {
 	/**
 	 * Not a bad potion effect.
 	 */
-	public static final boolean NOT_BAD_POTION_EFFECT = false;
+	public static final EffectType NOT_BAD_POTION_EFFECT = EffectType.NEUTRAL;
 	
 	/**
 	 * Potion trigger time, measured in mob death time.
