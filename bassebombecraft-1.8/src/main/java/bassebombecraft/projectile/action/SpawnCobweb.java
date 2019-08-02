@@ -32,7 +32,7 @@ public class SpawnCobweb implements ProjectileAction {
 
 		// encapsulate mob bounding box in web
 		Entity entity = movObjPos.entityHit;
-		AxisAlignedBB aabb = entity.getEntityBoundingBox();
+		AxisAlignedBB aabb = entity.getBoundingBox();
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
 		for (Object pos : BlockPos.getAllInBox(min, max)) {

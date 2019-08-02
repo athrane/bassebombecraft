@@ -72,7 +72,7 @@ public class AttackNearestMobCommand implements MobCommand {
 		discardMembersFilter.set(entity);
 
 		// get list of mobs
-		AxisAlignedBB aabb = entity.getEntityBoundingBox().expand(targetDistance, targetDistance, targetDistance);
+		AxisAlignedBB aabb = entity.getBoundingBox().expand(targetDistance, targetDistance, targetDistance);
 		List<MobEntity> targetList = entity.world.getEntitiesWithinAABB(MobEntity.class, aabb, discardMembersFilter);
 
 		// exit if no targets where found

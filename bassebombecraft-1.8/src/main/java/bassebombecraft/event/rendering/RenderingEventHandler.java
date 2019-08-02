@@ -145,7 +145,7 @@ public class RenderingEventHandler {
 	}
 
 	static void renderCharmedEntity(LivingEntity entity, Vec3d playerPos) {
-		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();
+		Vec3d entityPos = entity.getBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);
 		renderTextBillboard(playerPos, entityPos, CHARMED_LABEL, TEXT_BILLBOARD_ROTATION);
 
@@ -163,7 +163,7 @@ public class RenderingEventHandler {
 	}
 
 	static void renderTeamEntity(PlayerEntity player, LivingEntity entity, Vec3d playerPos) {
-		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();
+		Vec3d entityPos = entity.getBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);
 		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
 
@@ -187,14 +187,14 @@ public class RenderingEventHandler {
 	}
 
 	static void renderTargetedEntity(LivingEntity target, Vec3d playerPos) {
-		Vec3d targetPos = target.getEntityBoundingBox().getCenter();
+		Vec3d targetPos = target.getBoundingBox().getCenter();
 		renderRectangleBillboard(playerPos, targetPos);
 		renderTextBillboard(playerPos, targetPos, TARGET_LABEL, TEXT_BILLBOARD_ROTATION);
 	}
 
 	static void renderTargetedEntity(LivingEntity entity, LivingEntity target, Vec3d playerPos) {
-		Vec3d entityPos = entity.getEntityBoundingBox().getCenter();
-		Vec3d targetPos = target.getEntityBoundingBox().getCenter();
+		Vec3d entityPos = entity.getBoundingBox().getCenter();
+		Vec3d targetPos = target.getBoundingBox().getCenter();
 		renderRectangleBillboard(playerPos, targetPos);
 		renderTextBillboard(playerPos, targetPos, TARGET_LABEL, TEXT_BILLBOARD_ROTATION);
 		renderLineBillboard(playerPos, entityPos, targetPos);

@@ -97,7 +97,7 @@ public class DigMobHole implements ProjectileAction {
 		if (movObjPos.typeOfHit.equals(ENTITY)) {
 
 			Entity entity = movObjPos.entityHit;
-			AxisAlignedBB aabb = entity.getEntityBoundingBox();		
+			AxisAlignedBB aabb = entity.getBoundingBox();		
 			BlockPos min = new BlockPos(aabb.minX, aabb.minY - holeHeightExpansion , aabb.minZ);
 			BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
 			for (BlockPos pos : BlockPos.getAllInBox(min, max)) {
