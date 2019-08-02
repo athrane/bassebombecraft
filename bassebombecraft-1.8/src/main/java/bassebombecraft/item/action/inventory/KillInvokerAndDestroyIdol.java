@@ -22,8 +22,7 @@ public class KillInvokerAndDestroyIdol implements InventoryItemActionStrategy {
 	/**
 	 * SpawnRain constructor
 	 * 
-	 * @param key
-	 *            configuration key to initialize particle rendering info from.
+	 * @param key configuration key to initialize particle rendering info from.
 	 */
 	public KillInvokerAndDestroyIdol(String key) {
 		infos = createFromConfig(key);
@@ -41,15 +40,15 @@ public class KillInvokerAndDestroyIdol implements InventoryItemActionStrategy {
 
 	@Override
 	public void applyEffect(Entity target, World world, LivingEntity invoker) {
-		
+
 		// destroy idol
 		Iterable<ItemStack> heldEquipment = invoker.getHeldEquipment();
-				
-		for (ItemStack equipment :  heldEquipment) {
+
+		for (ItemStack equipment : heldEquipment) {
 			int damage = equipment.getMaxDamage();
-			equipment.setItemDamage(damage);
+			equipment.setDamage(damage);
 		}
-		
+
 		// kill target
 		invoker.onKillCommand();
 	}
