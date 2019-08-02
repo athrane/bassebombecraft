@@ -11,18 +11,19 @@ import java.util.Map;
 import com.typesafe.config.Config;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.Potion;
+import net.minecraft.potion.Effect;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 /**
- * Potion which primes a mob for explosion.
+ * Effect which primes a mob for explosion.
  */
-public class MobPrimingPotion extends Potion {
+public class MobPrimingEffect extends Effect {
 
 	/**
 	 * Configuration key.
 	 */
-	final static String CONFIG_KEY = MobPrimingPotion.class.getSimpleName();
+	final static String CONFIG_KEY = MobPrimingEffect.class.getSimpleName();
 
 	/**
 	 * Explosion will make smoke.
@@ -58,7 +59,7 @@ public class MobPrimingPotion extends Potion {
 	/**
 	 * MobPrimingPotion constructor.
 	 */
-	public MobPrimingPotion() {
+	public MobPrimingEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
 
 		Config configuration = getBassebombeCraft().getConfiguration();
@@ -76,7 +77,7 @@ public class MobPrimingPotion extends Potion {
 		// create primed entity
 		if (!primed.containsKey(entity)) {
 			PrimedEntity value = new PrimedEntity(countDown);
-			primed.put(entity, value);
+			primed.put(entity, value);			
 			return;
 		}
 
@@ -88,15 +89,16 @@ public class MobPrimingPotion extends Potion {
 		if (value.countdown > 0)
 			return;
 
-		// remove from map		
+		// remove from map
 		primed.remove(entity);
-		
+
 		// kill mob
-		entity.setDead();
-			
+		DamageSource cause = DamageSource.MAGIC;
+		entity.onDeath(cause);
+
 		// explode
 		World world = entity.getEntityWorld();
-		explode(entity, world, explosion);		
+		explode(entity, world, explosion);
 	}
 
 	@Override
