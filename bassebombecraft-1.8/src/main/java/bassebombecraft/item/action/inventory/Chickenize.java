@@ -1,13 +1,15 @@
 package bassebombecraft.item.action.inventory;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import java.util.Random;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundEvent;
@@ -22,7 +24,7 @@ import net.minecraft.world.World;
 public class Chickenize implements InventoryItemActionStrategy {
 	static final int CHILD_AGE = 0;
 	SoundEvent SOUND = SoundEvents.ENTITY_CHICKEN_HURT;
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.FIREWORKS_SPARK;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.ENTITY_EFFECT;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.0F;
@@ -42,7 +44,7 @@ public class Chickenize implements InventoryItemActionStrategy {
 	public boolean shouldApplyEffect(Entity target, boolean targetIsInvoker) {
 		if (targetIsInvoker)
 			return false;
-		if (target instanceof EntityChicken)
+		if (target instanceof ChickenEntity)
 			return false;
 		return true;
 	}
@@ -56,17 +58,17 @@ public class Chickenize implements InventoryItemActionStrategy {
 		float pitch = target.rotationPitch;
 
 		// kill of entity
-		world.removeEntity(target);
+		target.remove();
 
 		// spawn chicken
-		EntityChicken chicken = new EntityChicken(world);
-		chicken.setGrowingAge(CHILD_AGE);
-		chicken.setLocationAndAngles(position.getX(), position.getY(), position.getZ(), yaw, pitch);
-		world.spawnEntity(chicken);
+		ChickenEntity netity = EntityType.CHICKEN.create(world);
+		netity.setGrowingAge(CHILD_AGE);
+		netity.setLocationAndAngles(position.getX(), position.getY(), position.getZ(), yaw, pitch);
+		world.addEntity(netity);
 
 		// play sound
-		Random random = chicken.getRNG();
-		chicken.playSound(SOUND, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+		Random random = getBassebombeCraft().getRandom();
+		netity.playSound(SOUND, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
 	}
 
 	@Override
