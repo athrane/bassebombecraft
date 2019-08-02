@@ -187,7 +187,7 @@ public class CompanionAttack extends EntityAIBase {
 		entity.getLookHelper().setLookPositionWithEntity(attackTarget, 30.0F, 30.0F);
 
 		// get movement info
-		distanceToTargetSq = this.entity.getDistanceSq(attackTarget.posX, attackTarget.getEntityBoundingBox().minY,
+		distanceToTargetSq = this.entity.getDistanceSq(attackTarget.posX, attackTarget.getBoundingBox().minY,
 				attackTarget.posZ);
 		isTargetClose = (distanceToTargetSq < AI_COMPANION_ATTACK_MINIMUM_RANGE);
 

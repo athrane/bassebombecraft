@@ -56,7 +56,7 @@ public class LightningBoltMist implements EntityMistActionStrategy {
 	public void applyEffectToEntity(LivingEntity target, Vec3d mistPos, LivingEntity invoker) {
 		World world = target.getEntityWorld();
 
-		AxisAlignedBB aabb = target.getEntityBoundingBox();
+		AxisAlignedBB aabb = target.getBoundingBox();
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
 		for (Object pos : BlockPos.getAllInBox(min, max)) {

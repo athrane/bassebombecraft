@@ -85,7 +85,7 @@ public class ShootEgg implements InventoryItemActionStrategy {
 		
 		// from EntityLlama.spit()
         double d0 = target.posX - invoker.posX;
-        double d1 = target.getEntityBoundingBox().minY + (double)(target.height / 3.0F) - projectile.posY;
+        double d1 = target.getBoundingBox().minY + (double)(target.height / 3.0F) - projectile.posY;
         double d2 = target.posZ - invoker.posZ;
         float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
         projectile.shoot(d0, d1 + (double)f, d2, velocity, inaccuracy);
