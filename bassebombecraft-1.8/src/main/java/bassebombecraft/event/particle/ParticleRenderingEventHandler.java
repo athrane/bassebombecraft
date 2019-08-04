@@ -94,7 +94,7 @@ public class ParticleRenderingEventHandler {
 	 */
 	static boolean renderWithCustomColor(ParticleRendering particle) {
 		BasicParticleType type = particle.getParticleType();
-		return (type == ParticleTypes.SPELL_MOB);
+		return (type == ParticleTypes.EFFECT);
 	}
 
 	/**
@@ -120,7 +120,7 @@ public class ParticleRenderingEventHandler {
 	 * Render single particle with custom color.
 	 * 
 	 * Assumes that the particle is of a type which supports custom colors, e.g.
-	 * {@linkplain ParticleTypes.SPELL_MOB}.
+	 * {@linkplain ParticleTypes.EFFECT}.
 	 * 
 	 * The particle is rendered without any acceleration
 	 * 
