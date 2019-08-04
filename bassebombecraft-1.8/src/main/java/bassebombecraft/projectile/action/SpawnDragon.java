@@ -1,7 +1,9 @@
 package bassebombecraft.projectile.action;
 
-import net.minecraft.entity.boss.EntityDragon;
-import net.minecraft.entity.boss.dragon.phase.PhaseList;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.entity.boss.dragon.phase.PhaseType;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -14,12 +16,19 @@ public class SpawnDragon implements ProjectileAction {
 
 	@Override
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
-
-		EntityDragon entity = new EntityDragon(world);
+		EnderDragonEntity entity = EntityType.ENDER_DRAGON.create(world);
 		entity.setLocationAndAngles(projectile.posX, projectile.posY, projectile.posZ, projectile.rotationYaw,
 				projectile.rotationPitch);
-		entity.getPhaseManager().setPhase(PhaseList.HOLDING_PATTERN);
-		world.spawnEntity(entity);
+
+		// get owner
+		LivingEntity commander = projectile.getThrower();
+
+		// set phase and player as target
+		entity.getPhaseManager().setPhase(PhaseType.STRAFE_PLAYER);
+		entity.getPhaseManager().getPhase(PhaseType.STRAFE_PLAYER).setTarget(commander);
+
+		// spawn
+		world.addEntity(entity);
 	}
 
 }

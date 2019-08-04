@@ -9,8 +9,9 @@ import com.typesafe.config.Config;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.EntityEgg;
+import net.minecraft.entity.projectile.EggEntity;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
@@ -54,8 +55,7 @@ public class ShootEgg implements InventoryItemActionStrategy {
 	/**
 	 * AddLevitationEffect constructor
 	 * 
-	 * @param key
-	 *            configuration key to initialize particle rendering info from.
+	 * @param key configuration key to initialize particle rendering info from.
 	 */
 	public ShootEgg(String key) {
 		infos = createFromConfig(key);
@@ -80,18 +80,18 @@ public class ShootEgg implements InventoryItemActionStrategy {
 
 	@Override
 	public void applyEffect(Entity target, World world, LivingEntity invoker) {
+		EggEntity projectile = EntityType.EGG.create(world);
 
-		EntityEgg projectile = new EntityEgg(world, invoker);
-		
 		// from EntityLlama.spit()
-        double d0 = target.posX - invoker.posX;
-        double d1 = target.getBoundingBox().minY + (double)(target.height / 3.0F) - projectile.posY;
-        double d2 = target.posZ - invoker.posZ;
-        float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
-        projectile.shoot(d0, d1 + (double)f, d2, velocity, inaccuracy);
-				
+		double d0 = target.posX - invoker.posX;
+		double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 3.0F) - invoker.posY;
+		double d2 = target.posZ - invoker.posZ;
+		float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
+		projectile.shoot(d0, d1 + (double) f, d2, 1.5F, 10.0F);
 		invoker.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
-		world.spawnEntity(projectile);
+
+		// spawn
+		world.addEntity(projectile);
 	}
 
 	@Override
