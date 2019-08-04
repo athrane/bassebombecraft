@@ -16,7 +16,6 @@ import net.minecraft.entity.projectile.LlamaSpitEntity;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -79,7 +78,6 @@ public class LlamaSpit implements InventoryItemActionStrategy {
 
 	@Override
 	public void applyEffect(Entity target, World world, LivingEntity invoker) {
-		Vec3d v3 = invoker.getLook(1);
 		Random random = getBassebombeCraft().getRandom();
 
 		LlamaSpitEntity entity = EntityType.LLAMA_SPIT.create(world);

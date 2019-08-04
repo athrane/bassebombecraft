@@ -5,26 +5,25 @@ import static bassebombecraft.entity.ai.AiUtils.buildCharmedMobAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAiTasks;
 
 import bassebombecraft.event.entity.team.TeamRepository;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.EntityGiantZombie;
+import net.minecraft.entity.monster.GiantEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain ProjectileAction} which spawns a giant zombie.
+ * Implementation of the {@linkplain ProjectileAction} which spawns a giant
+ * zombie.
  */
 public class SpawnGiantZombie implements ProjectileAction {
 
 	@Override
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
-
 		LivingEntity owner = projectile.getThrower();
-
-		EntityGiantZombie entity = new EntityGiantZombie(world);
+		GiantEntity entity = EntityType.GIANT.create(world);
 		entity.setLocationAndAngles(projectile.posX, projectile.posY, projectile.posZ, projectile.rotationYaw,
 				projectile.rotationPitch);
-		world.spawnEntity(entity);
 
 		// add entity to team
 		TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
@@ -33,6 +32,9 @@ public class SpawnGiantZombie implements ProjectileAction {
 		// set AI
 		clearAiTasks(entity);
 		buildCharmedMobAi(entity, owner);
+
+		// spawn
+		world.addEntity(entity);
 	}
 
 }
