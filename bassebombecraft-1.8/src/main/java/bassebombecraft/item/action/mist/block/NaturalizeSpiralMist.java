@@ -29,7 +29,7 @@ public class NaturalizeSpiralMist implements BlockMistActionStrategy {
 	static final boolean DONT_HARVEST = false;
 	static final int EFFECT_DURATION = 400; // Measured in ticks
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.SPELL_MOB;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.0F;

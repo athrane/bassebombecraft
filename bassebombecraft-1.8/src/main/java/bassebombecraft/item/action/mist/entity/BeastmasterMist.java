@@ -17,7 +17,7 @@ public class BeastmasterMist implements EntityMistActionStrategy {
 
 	static final int EFFECT_DURATION = 1000; // Measured in ticks
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.SPELL_MOB;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.0F;

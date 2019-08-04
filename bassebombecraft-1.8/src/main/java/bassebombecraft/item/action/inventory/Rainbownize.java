@@ -29,7 +29,7 @@ import net.minecraft.world.World;
  */
 public class Rainbownize implements InventoryItemActionStrategy {
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.SPELL_MOB;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.0F;

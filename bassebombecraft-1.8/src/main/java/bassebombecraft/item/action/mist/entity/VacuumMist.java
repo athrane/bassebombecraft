@@ -19,7 +19,7 @@ public class VacuumMist implements EntityMistActionStrategy {
 	static final int EFFECT_DURATION = 500; // Measured in ticks
 	static final int FORCE = 5; // pull force in blocks
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.SPELL_MOB;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.75F;
