@@ -15,11 +15,9 @@ import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.WorldQuery;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockColored;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.properties.PropertyDirection;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.IProperty;
 import net.minecraft.util.EnumFacing;
@@ -301,23 +299,23 @@ public class BlockUtils {
 		switch (colorSelector) {
 
 		case 0:
-			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.MAGENTA);
+			return Blocks.MAGENTA_WOOL.getDefaultState();
 		case 1:
-			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.PURPLE);
+			return Blocks.PURPLE_WOOL.getDefaultState();
 		case 2:
-			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.BLUE);
+			return Blocks.BLUE_WOOL.getDefaultState();
 		case 3:
-			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIGHT_BLUE);
+			return Blocks.LIGHT_BLUE_WOOL.getDefaultState();
 		case 4:
-			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.LIME);
+			return Blocks.LIME_WOOL.getDefaultState();
 		case 5:
-			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.YELLOW);
+			return Blocks.YELLOW_WOOL.getDefaultState();
 		case 6:
-			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.ORANGE);
+			return Blocks.ORANGE_WOOL.getDefaultState();
 		case 7:
-			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.RED);
+			return Blocks.RED_WOOL.getDefaultState();
 		default:
-			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.WHITE);
+			return Blocks.WHITE_WOOL.getDefaultState();
 		}
 	}
 
@@ -334,11 +332,11 @@ public class BlockUtils {
 		switch (colorSelector) {
 
 		case 0:
-			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.PINK);
+			return Blocks.PINK_WOOL.getDefaultState();
 		case 1:
-			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.MAGENTA);
+			return Blocks.MAGENTA_WOOL.getDefaultState();
 		default:
-			return Blocks.WOOL.getDefaultState().withProperty(BlockColored.COLOR, EnumDyeColor.PINK);
+			return Blocks.PINK_WOOL.getDefaultState();
 		}
 	}
 
