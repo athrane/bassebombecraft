@@ -15,24 +15,12 @@ public class BuildMaterial {
 	 * BuildMaterial constructor.
 	 * 
 	 * @param buildMaterial build material.
-	 * @param state         stair material state.
+	 * @param state         material state.
 	 */
 	public BuildMaterial(Block buildMaterial, BlockState state) {
 		super();
 		this.state = state;
 		this.buildMaterial = buildMaterial;
-	}
-
-	/**
-	 * FloorMaterial constructor. Material is created with default state.
-	 * 
-	 * @param floorMaterial solid material.
-	 */
-	public BuildMaterial(Block floorMaterial) {
-		super();
-		this.state = floorMaterial.getDefaultState();
-		this.buildMaterial = floorMaterial;
-		;
 	}
 
 	public BlockState getState() {

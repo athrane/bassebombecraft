@@ -10,15 +10,9 @@ import bassebombecraft.item.action.build.tower.StairsMaterial;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSandStone;
-import net.minecraft.block.BlockSandStone.EnumType;
-import net.minecraft.block.BlockStainedGlassPane;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockStone;
-import net.minecraft.block.BlockStoneBrick;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
@@ -30,10 +24,8 @@ public class BuildUtils {
 	/**
 	 * Add oak fenced doorway entry turning front (oriented along the x axis).
 	 * 
-	 * @param structure
-	 *            structure where door is added to.
-	 * @param globalOffset
-	 *            global offset.
+	 * @param structure    structure where door is added to.
+	 * @param globalOffset global offset.
 	 */
 	public static void addMainEntranceFront(Structure structure, BlockPos globalOffset) {
 		BlockPos offset = new BlockPos(-2 + globalOffset.getX(), globalOffset.getY(), globalOffset.getZ());
@@ -76,20 +68,17 @@ public class BuildUtils {
 		size = new BlockPos(1, 4, 2);
 		structure.add(new ChildStructure(offset, size, Blocks.OBSIDIAN));
 
-		
 		offset = new BlockPos(globalOffset.getX() - 2, globalOffset.getY(), globalOffset.getZ());
-		size = new BlockPos(5, 1, 1);		
+		size = new BlockPos(5, 1, 1);
 		BlockState state = Blocks.SANDSTONE_STAIRS.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.SOUTH);
-		structure.add(new ChildStructure(offset, size, Blocks.SANDSTONE_STAIRS, state));		
+		structure.add(new ChildStructure(offset, size, Blocks.SANDSTONE_STAIRS, state));
 	}
 
 	/**
 	 * Add oak fenced doorway entry turning front (oriented along the x axis).
 	 * 
-	 * @param structure
-	 *            structure where door is added to.
-	 * @param globalOffset
-	 *            global offset.
+	 * @param structure    structure where door is added to.
+	 * @param globalOffset global offset.
 	 */
 	public static void addOakFencedDoorEntryFront(Structure structure, BlockPos globalOffset) {
 		BlockPos offset = new BlockPos(-1 + globalOffset.getX(), globalOffset.getY(), globalOffset.getZ());
@@ -109,10 +98,8 @@ public class BuildUtils {
 	/**
 	 * Add doorway entry at turning sideway (oriented along the Z axis).
 	 * 
-	 * @param structure
-	 *            structure where door is added to.
-	 * @param globalOffset
-	 *            global offset.
+	 * @param structure    structure where door is added to.
+	 * @param globalOffset global offset.
 	 */
 	public static void addOakFencedDoorEntryFrontSideways(Structure structure, BlockPos globalOffset) {
 		BlockPos offset = new BlockPos(globalOffset.getX(), globalOffset.getY(), globalOffset.getZ() + 1);
@@ -135,12 +122,9 @@ public class BuildUtils {
 	/**
 	 * Add stair up.
 	 * 
-	 * @param height
-	 *            stairs height
-	 * @param structure
-	 *            structure where stair is added to.
-	 * @param globalOffset
-	 *            global offset.
+	 * @param height       stairs height
+	 * @param structure    structure where stair is added to.
+	 * @param globalOffset global offset.
 	 */
 	public static void addSolidStairUp(int height, StairsMaterial materials, Structure structure,
 			BlockPos globalOffset) {
@@ -150,15 +134,11 @@ public class BuildUtils {
 	/**
 	 * Add solid stairs up.
 	 * 
-	 * @param height
-	 *            stairs height
+	 * @param height        stairs height
 	 * 
-	 * @param structure
-	 *            structure where structure is added to.
-	 * @param postStructure
-	 *            structure to add structure for post processing.
-	 * @param globalOffset
-	 *            global offset.
+	 * @param structure     structure where structure is added to.
+	 * @param postStructure structure to add structure for post processing.
+	 * @param globalOffset  global offset.
 	 */
 	public static void addSolidStairsUp(int height, StairsMaterial materials, Structure structure,
 			Structure postStructure, BlockPos globalOffset) {
@@ -194,15 +174,11 @@ public class BuildUtils {
 	/**
 	 * Add spiral stairs up.
 	 * 
-	 * @param height
-	 *            stairs height
+	 * @param height        stairs height
 	 * 
-	 * @param structure
-	 *            structure where structure is added to.
-	 * @param postStructure
-	 *            structure to add structure for post processing.
-	 * @param globalOffset
-	 *            global offset.
+	 * @param structure     structure where structure is added to.
+	 * @param postStructure structure to add structure for post processing.
+	 * @param globalOffset  global offset.
 	 */
 	public static void addSpiralStairsUp(int height, StairsMaterial materials, Structure structure,
 			Structure postStructure, BlockPos globalOffset) {
@@ -355,16 +331,14 @@ public class BuildUtils {
 	/**
 	 * Add mob spawner.
 	 * 
-	 * @param structure
-	 *            structure where mob spawner is added to.
-	 * @param globalOffset
-	 *            global offset.
+	 * @param structure    structure where mob spawner is added to.
+	 * @param globalOffset global offset.
 	 */
 	public static void addMobSpawner(Structure structure, BlockPos globalOffset) {
-		BlockPos size = new BlockPos(1, 1, 1);		
-		structure.add(new ChildStructure(globalOffset, size, Blocks.MOB));
+		BlockPos size = new BlockPos(1, 1, 1);
+		structure.add(new ChildStructure(globalOffset, size, Blocks.SPAWNER));
 	}
-	
+
 	/**
 	 * Select random floor material.
 	 * 
@@ -377,62 +351,42 @@ public class BuildUtils {
 		switch (selection) {
 
 		case 1:
-			return new BuildMaterial(Blocks.BRICKS);
+			return createBuildMaterial(Blocks.BRICKS);
 		case 2:
-			return new BuildMaterial(Blocks.NETHER_BRICKS);
+			return createBuildMaterial(Blocks.NETHER_BRICKS);
 		case 3:
-			return new BuildMaterial(Blocks.SANDSTONE);
+			return createBuildMaterial(Blocks.SANDSTONE);
 		case 4:
-			return new BuildMaterial(Blocks.STONE);
-		case 5: {
-			BlockState state = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT,
-					BlockStone.EnumType.ANDESITE_SMOOTH);
-			return new BuildMaterial(Blocks.STONE, state);
-		}
-		case 6: {
-			BlockState state = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT,
-					BlockStone.EnumType.DIORITE_SMOOTH);
-			return new BuildMaterial(Blocks.STONE, state);
-		}
-		case 7: {
-			BlockState state = Blocks.STONE.getDefaultState().withProperty(BlockStone.VARIANT,
-					BlockStone.EnumType.GRANITE_SMOOTH);
-			return new BuildMaterial(Blocks.STONE, state);
-		}
-
+			return createBuildMaterial(Blocks.STONE);
+		case 5:
+			return createBuildMaterial(Blocks.ANDESITE);
+		case 6:
+			return createBuildMaterial(Blocks.DIORITE);
+		case 7:
+			return createBuildMaterial(Blocks.POLISHED_GRANITE);
 		case 8:
-			return new BuildMaterial(Blocks.STONE_BRICKS);
-		case 9: {
-			BlockState state = Blocks.STONE_BRICKS.getDefaultState().withProperty(BlockStoneBrick.VARIANT,
-					BlockStoneBrick.EnumType.CHISELED);
-			return new BuildMaterial(Blocks.STONE, state);
-		}
-		case 10: {
-			BlockState state = Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT,
-					BlockStoneBrick.EnumType.CRACKED);
-			return new BuildMaterial(Blocks.STONE, state);
-		}
-		case 11: {
-			BlockState state = Blocks.STONEBRICK.getDefaultState().withProperty(BlockStoneBrick.VARIANT,
-					BlockStoneBrick.EnumType.MOSSY);
-			return new BuildMaterial(Blocks.STONE, state);
-		}
-
+			return createBuildMaterial(Blocks.STONE_BRICKS);
+		case 9:
+			return createBuildMaterial(Blocks.CHISELED_STONE_BRICKS);
+		case 10:
+			return createBuildMaterial(Blocks.CRACKED_STONE_BRICKS);
+		case 11:
+			return createBuildMaterial(Blocks.MOSSY_STONE_BRICKS);
 		case 12:
-			return new BuildMaterial(Blocks.MOSSY_COBBLESTONE);
+			return createBuildMaterial(Blocks.MOSSY_COBBLESTONE);
 		case 13:
-			return new BuildMaterial(Blocks.COBBLESTONE);
+			return createBuildMaterial(Blocks.COBBLESTONE);
 		case 14:
-			return new BuildMaterial(Blocks.MAGMA_BLOCK);
+			return createBuildMaterial(Blocks.MAGMA_BLOCK);
 		case 15:
-			return new BuildMaterial(Blocks.OAK_LOG);
+			return createBuildMaterial(Blocks.OAK_LOG);
 		case 16:
-			return new BuildMaterial(Blocks.SPRUCE_LOG);
+			return createBuildMaterial(Blocks.SPRUCE_LOG);
 		case 17:
-			return new BuildMaterial(Blocks.OAK_PLANKS);
+			return createBuildMaterial(Blocks.OAK_PLANKS);
 
 		default:
-			return new BuildMaterial(Blocks.SANDSTONE);
+			return createBuildMaterial(Blocks.SANDSTONE);
 		}
 	}
 
@@ -442,20 +396,29 @@ public class BuildUtils {
 	 * @return random wall material
 	 */
 	public static BuildMaterial selectWallMaterial(Random random) {
-
-		int selection = random.nextInt(3);
+		int selection = random.nextInt(8);
 
 		switch (selection) {
 
 		case 0:
-			return createSandstoneBuildMaterial(BlockSandStone.EnumType.DEFAULT);
+			return createBuildMaterial(Blocks.SANDSTONE);
 		case 1:
-			return createSandstoneBuildMaterial(BlockSandStone.EnumType.CHISELED);
+			return createBuildMaterial(Blocks.CHISELED_RED_SANDSTONE);
 		case 2:
-			return createSandstoneBuildMaterial(BlockSandStone.EnumType.SMOOTH);
+			return createBuildMaterial(Blocks.CHISELED_SANDSTONE);
+		case 3:
+			return createBuildMaterial(Blocks.CUT_RED_SANDSTONE);
+		case 4:
+			return createBuildMaterial(Blocks.CUT_SANDSTONE);
+		case 5:
+			return createBuildMaterial(Blocks.RED_SANDSTONE);
+		case 6:
+			return createBuildMaterial(Blocks.SMOOTH_RED_SANDSTONE);
+		case 7:
+			return createBuildMaterial(Blocks.SMOOTH_SANDSTONE);
 
 		default:
-			return new BuildMaterial(Blocks.SANDSTONE);
+			return createBuildMaterial(Blocks.SANDSTONE);
 		}
 	}
 
@@ -470,46 +433,43 @@ public class BuildUtils {
 		switch (selection) {
 
 		case 0:
-			return createStainedGlassPaneBuildMaterial(EnumDyeColor.WHITE);
+			return createBuildMaterial(Blocks.WHITE_STAINED_GLASS_PANE);
 		case 1:
-			return createStainedGlassPaneBuildMaterial(EnumDyeColor.BLUE);
+			return createBuildMaterial(Blocks.BLUE_STAINED_GLASS_PANE);
 		case 2:
-			return createStainedGlassPaneBuildMaterial(EnumDyeColor.CYAN);
+			return createBuildMaterial(Blocks.CYAN_STAINED_GLASS_PANE);
 		case 3:
-			return createStainedGlassPaneBuildMaterial(EnumDyeColor.GREEN);
+			return createBuildMaterial(Blocks.GREEN_STAINED_GLASS_PANE);
 		case 4:
-			return createStainedGlassPaneBuildMaterial(EnumDyeColor.LIGHT_BLUE);
+			return createBuildMaterial(Blocks.LIGHT_BLUE_STAINED_GLASS_PANE);
 		case 5:
-			return createStainedGlassPaneBuildMaterial(EnumDyeColor.LIME);
+			return createBuildMaterial(Blocks.LIME_STAINED_GLASS_PANE);
 		case 6:
-			return createStainedGlassPaneBuildMaterial(EnumDyeColor.MAGENTA);
+			return createBuildMaterial(Blocks.MAGENTA_STAINED_GLASS_PANE);
 		case 7:
-			return createStainedGlassPaneBuildMaterial(EnumDyeColor.ORANGE);
+			return createBuildMaterial(Blocks.ORANGE_STAINED_GLASS_PANE);
 		case 8:
-			return createStainedGlassPaneBuildMaterial(EnumDyeColor.PINK);
+			return createBuildMaterial(Blocks.PINK_STAINED_GLASS_PANE);
 		case 9:
-			return createStainedGlassPaneBuildMaterial(EnumDyeColor.PURPLE);
+			return createBuildMaterial(Blocks.PURPLE_STAINED_GLASS_PANE);
 		case 10:
-			return createStainedGlassPaneBuildMaterial(EnumDyeColor.RED);
+			return createBuildMaterial(Blocks.RED_STAINED_GLASS_PANE);
 		case 11:
-			return createStainedGlassPaneBuildMaterial(EnumDyeColor.SILVER);
+			return createBuildMaterial(Blocks.LIGHT_GRAY_STAINED_GLASS_PANE);
 		case 12:
-			return createStainedGlassPaneBuildMaterial(EnumDyeColor.YELLOW);
+			return createBuildMaterial(Blocks.YELLOW_STAINED_GLASS_PANE);
 
 		default:
-			return new BuildMaterial(Blocks.GLASS_PANE);
+			return createBuildMaterial(Blocks.GLASS_PANE);
 		}
 	}
 
 	/**
 	 * Stairs material factory method.
 	 * 
-	 * @param state
-	 *            stair material state.
-	 * @param stairMaterial
-	 *            stair material.
-	 * @param solidMaterial
-	 *            solid material.
+	 * @param state         stair material state.
+	 * @param stairMaterial stair material.
+	 * @param solidMaterial solid material.
 	 */
 	public static StairsMaterial createInstance(BlockState state, Block stairMaterial, Block solidMaterial) {
 		return new StairsMaterial(state, stairMaterial, solidMaterial);
@@ -518,40 +478,10 @@ public class BuildUtils {
 	/**
 	 * Build material factory method.
 	 * 
-	 * @param solidMaterial
-	 *            build material.
-	 * @param state
-	 *            build material state.
+	 * @param solidMaterial build material.
 	 */
-	public static BuildMaterial createInstance(Block buildMaterial, BlockState state) {
-		return new BuildMaterial(buildMaterial, state);
-	}
-
-	/**
-	 * Build material factory method with stained glass pane as material.
-	 * 
-	 * @param color
-	 *            glass color.
-	 * @param state
-	 *            stair material state.
-	 */
-	public static BuildMaterial createStainedGlassPaneBuildMaterial(EnumDyeColor color) {
-		BlockState state = Blocks.STAINED_GLASS_PANE.getDefaultState().withProperty(BlockStainedGlassPane.COLOR,
-				color);
-		return new BuildMaterial(Blocks.STAINED_GLASS_PANE, state);
-	}
-
-	/**
-	 * Build material factory method with stand stone as material.
-	 * 
-	 * @param color
-	 *            sandstone type.
-	 * @param state
-	 *            stair material state.
-	 */
-	public static BuildMaterial createSandstoneBuildMaterial(EnumType type) {
-		BlockState state = Blocks.SANDSTONE.getDefaultState().withProperty(BlockSandStone.TYPE, type);
-		return new BuildMaterial(Blocks.SANDSTONE, state);
+	public static BuildMaterial createBuildMaterial(Block buildMaterial) {
+		return new BuildMaterial(buildMaterial, buildMaterial.getDefaultState());
 	}
 
 }
