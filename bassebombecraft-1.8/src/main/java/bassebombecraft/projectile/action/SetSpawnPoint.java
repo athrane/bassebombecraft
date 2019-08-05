@@ -1,11 +1,16 @@
 package bassebombecraft.projectile.action;
 
-import bassebombecraft.player.PlayerUtils;
+import static bassebombecraft.block.BlockUtils.calculatePosition;
+import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
+import static bassebombecraft.projectile.ProjectileUtils.*;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -13,8 +18,8 @@ import net.minecraft.world.World;
  * Implementation of the {@linkplain ProjectileAction} which sets the spawn
  * point.
  * 
- * If a block is hit then the spawn point is set there . If a mob is hit the
- * spawn point will be set at the mobs position.
+ * If a block is hit then the spawn point is set there. If an entity is hit the
+ * spawn point will be set at the entity position.
  */
 public class SetSpawnPoint implements ProjectileAction {
 
@@ -24,72 +29,53 @@ public class SetSpawnPoint implements ProjectileAction {
 	static final boolean FORCED = true;
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
-
-		// exit if not a player
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
+		
+		// exit if thrower isn't a player
 		LivingEntity thrower = projectile.getThrower();
-		if (!PlayerUtils.isPlayerEntity(thrower))
+		if (!isTypePlayerEntity(thrower))
 			return;
 
+		// exit if nothing was hit
+		if (isNothingHit(result))
+			return;
+		
+		// declare 
 		BlockPos spawnPosition = null;
+		
+		// spawn at hit entity
+		if (isEntityHit(result)) {
 
-		// spawn a temporary lava block if no entity was hit
-		if (movObjPos.entityHit == null) {
+			// exit if result isn't entity ray trace result;
+			if (!isTypeEntityRayTraceResult(result))
+				return;
 
-			// calculate position
-			spawnPosition = calculatePosition(world, movObjPos);
-
-		} else {
-
-			// spawn temporary ice block around the hit mob
-			Entity entity = movObjPos.entityHit;
+			// get entity
+			Entity entity = ((EntityRayTraceResult) result).getEntity();
 
 			// get position
 			spawnPosition = entity.getPosition();
 		}
 
+		// spawn at hit block 
+		if(isBlockHit(result)) {
+			
+			// exit if result isn't entity ray trace result
+			if (!isTypeBlockRayTraceResult(result))
+				return;			
+			
+			// type cast
+			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
+
+			// get block position 
+			spawnPosition = calculatePosition(blockResult);
+		}
+		
 		// type cast
 		PlayerEntity player = (PlayerEntity) thrower;
 
-		player.setSpawnPoint(spawnPosition, FORCED);
-		return;
-	}
-
-	/**
-	 * Calculate position.
-	 * 
-	 * @param world
-	 *            world object.
-	 * 
-	 * @param movObjPos
-	 *            hit object.
-	 * 
-	 * @return position where block should be spawned.
-	 */
-	BlockPos calculatePosition(World world, RayTraceResult movObjPos) {
-		switch (movObjPos.sideHit) {
-
-		case UP:
-			return movObjPos.getBlockPos().up();
-
-		case DOWN:
-			return movObjPos.getBlockPos().down();
-
-		case SOUTH:
-			return movObjPos.getBlockPos().south();
-
-		case NORTH:
-			return movObjPos.getBlockPos().north();
-
-		case EAST:
-			return movObjPos.getBlockPos().east();
-
-		case WEST:
-			return movObjPos.getBlockPos().west();
-
-		default:
-			return movObjPos.getBlockPos().up();
-		}
+		// set spawn point
+		player.setSpawnPoint(spawnPosition, FORCED, world.getDimension().getType());		
 	}
 
 }

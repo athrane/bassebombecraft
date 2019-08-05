@@ -1,8 +1,12 @@
 package bassebombecraft.projectile.action;
 
+import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
+import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.entity.projectile.ThrowableEntity;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -17,21 +21,26 @@ public class EmitHorizontalForce implements ProjectileAction {
 	static final int FORCE = 10; // Emit force
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
 
-		// NO-OP if no entity was hit
-		if (movObjPos.entityHit == null) {
-			// NO-OP
+		// exit if no entity was hit
+		if (!isEntityHit(result))
 			return;
-		}
+		
+		// exit if result isn't entity ray trace result;
+		if (!isTypeEntityRayTraceResult(result))
+			return;
 
+		// get entity
+		Entity entity = ((EntityRayTraceResult) result).getEntity();
+		
 		// push mob
-		Vec3d motionVec = new Vec3d(projectile.motionX, projectile.motionY, projectile.motionZ);
+		Vec3d motion = projectile.getMotion();
+		Vec3d motionVec = new Vec3d(motion.getX(), motion.getY(), motion.getZ());
 		double x = motionVec.x * FORCE;
 		double y = motionVec.y * FORCE;
 		double z = motionVec.z * FORCE;
-		Vec3d motionVecForced = new Vec3d(x, y, z);
-		Entity entityHit = movObjPos.entityHit;
-		entityHit.move(MoverType.SELF, motionVecForced.x, motionVecForced.y, motionVecForced.z);
+		Vec3d motionVecForced = new Vec3d(x, y, z);				
+		entity.move(MoverType.SELF, motionVecForced);
 	}
 }

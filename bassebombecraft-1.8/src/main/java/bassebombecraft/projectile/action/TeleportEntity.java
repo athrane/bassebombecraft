@@ -1,71 +1,68 @@
 package bassebombecraft.projectile.action;
 
+import static bassebombecraft.block.BlockUtils.calculatePosition;
+import static bassebombecraft.projectile.ProjectileUtils.isBlockHit;
+import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
+import static bassebombecraft.projectile.ProjectileUtils.isNothingHit;
+import static bassebombecraft.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
+import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain ProjectileAction} which teleports entity to
- * hit block / entity.
+ * Implementation of the {@linkplain ProjectileAction} which teleports the
+ * entity to hit block / entity.
  */
 public class TeleportEntity implements ProjectileAction {
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
 
-		// teleport if no entity was hit
-		if (movObjPos.entityHit == null) {
-			BlockPos teleportPosition = calculatePosition(world, movObjPos);
-			LivingEntity thrower = projectile.getThrower();
-			thrower.setPositionAndUpdate(teleportPosition.getX(), teleportPosition.getY(), teleportPosition.getZ());
+		// exit if nothing was hit
+		if (isNothingHit(result))
 			return;
+
+		// declare
+		BlockPos teleportPosition = null;
+
+		// teleport if entity was hit
+		if (isEntityHit(result)) {
+
+			// exit if result isn't entity ray trace result
+			if (!isTypeEntityRayTraceResult(result))
+				return;
+
+			// get entity
+			Entity entity = ((EntityRayTraceResult) result).getEntity();
+
+			// get entity position
+			teleportPosition = entity.getPosition();
 		}
 
-		// get entity position
-		Entity entityHit = movObjPos.entityHit;
-		BlockPos teleportPosition = entityHit.getPosition();
+		// teleport if block was hit
+		if (isBlockHit(result)) {
+
+			// exit if result isn't entity ray trace result
+			if (!isTypeBlockRayTraceResult(result))
+				return;
+
+			// type cast
+			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
+
+			// get block position
+			teleportPosition = calculatePosition(blockResult);
+		}
+
+		// teleport
 		LivingEntity thrower = projectile.getThrower();
 		thrower.setPositionAndUpdate(teleportPosition.getX(), teleportPosition.getY(), teleportPosition.getZ());
-	}
-
-	/**
-	 * Calculate position.
-	 * 
-	 * @param world
-	 *            world object.
-	 * 
-	 * @param movObjPos
-	 *            hit object.
-	 * 
-	 * @return position where block should be spawned.
-	 */
-	BlockPos calculatePosition(World world, RayTraceResult movObjPos) {
-		switch (movObjPos.sideHit) {
-
-		case UP:
-			return movObjPos.getBlockPos().up();
-
-		case DOWN:
-			return movObjPos.getBlockPos().down();
-
-		case SOUTH:
-			return movObjPos.getBlockPos().south();
-
-		case NORTH:
-			return movObjPos.getBlockPos().north();
-
-		case EAST:
-			return movObjPos.getBlockPos().east();
-
-		case WEST:
-			return movObjPos.getBlockPos().west();
-
-		default:
-			return movObjPos.getBlockPos().up();
-		}
 	}
 
 }

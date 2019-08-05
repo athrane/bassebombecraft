@@ -1,6 +1,6 @@
 package bassebombecraft.predicate;
 
-import static bassebombecraft.player.PlayerUtils.isPlayerEntity;
+import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
 import com.google.common.base.Predicate;
 
@@ -25,7 +25,7 @@ public class DiscardCommander implements Predicate<LivingEntity> {
 			return false;
 
 		// exit if not a player
-		if (!isPlayerEntity(entity))
+		if (!isTypePlayerEntity(entity))
 			return false;
 
 		// type cast

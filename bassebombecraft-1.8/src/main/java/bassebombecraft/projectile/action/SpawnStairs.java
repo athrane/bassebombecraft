@@ -7,6 +7,7 @@ import static bassebombecraft.entity.EntityUtils.getPlayerDirection;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.item.action.build.BuildUtils.addSolidStairUp;
 import static bassebombecraft.item.action.build.BuildUtils.createInstance;
+import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
 
 import java.util.List;
 
@@ -53,10 +54,10 @@ public class SpawnStairs implements ProjectileAction {
 	}
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
 
 		// spawn a temporary lava block if no entity was hit
-		if (movObjPos.entityHit == null) {
+		if (!isEntityHit(result)) {
 
 			// get thrower
 			LivingEntity owner = projectile.getThrower();
@@ -65,7 +66,7 @@ public class SpawnStairs implements ProjectileAction {
 			int yFeetPosition = calculateEntityFeetPosititionAsInt(owner);
 
 			// calculate target position
-			BlockPos targetPosition = calculatePosition(world, movObjPos);
+			BlockPos targetPosition = calculatePosition(world, result);
 
 			// calculate stairs height
 			int stairsHeight = Math.abs(yFeetPosition - targetPosition.getY()) + 1;

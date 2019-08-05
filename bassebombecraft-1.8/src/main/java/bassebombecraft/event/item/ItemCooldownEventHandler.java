@@ -1,6 +1,6 @@
 package bassebombecraft.event.item;
 
-import static bassebombecraft.player.PlayerUtils.isPlayerEntity;
+import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
 import bassebombecraft.item.ItemUtils;
 import bassebombecraft.item.inventory.GenericInventoryItem;
@@ -41,7 +41,7 @@ public class ItemCooldownEventHandler {
 
 		// exit if entity isn't player
 		LivingEntity entity = event.getLivingEntity();
-		if (!isPlayerEntity(entity))
+		if (!isTypePlayerEntity(entity))
 			return;
 
 		// type cast as player

@@ -3,6 +3,8 @@ package bassebombecraft.projectile.action;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
+import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
+import static bassebombecraft.projectile.ProjectileUtils.*;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
 import static net.minecraft.util.math.RayTraceResult.Type.BLOCK;
 import static net.minecraft.util.math.RayTraceResult.Type.ENTITY;
@@ -20,6 +22,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -76,36 +79,53 @@ public class DigMobHole implements ProjectileAction {
 	}
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
-		CompositeStructure composite = new CompositeStructure();
-
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
+					
 		// dig a small hole if block was hit
-		if (movObjPos.typeOfHit.equals(BLOCK)) {
+		if (isBlockHit(result)) {
 
 			// calculate set of block directives
-			BlockPos offset = calculatePosition(world, movObjPos);
+			BlockPos offset = calculatePosition(world, result);
 
+			CompositeStructure composite = new CompositeStructure();			
 			createVerticalStructure(composite);
 			PlayerDirection playerDirection = PlayerDirection.South;
 			List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, composite);
 
 			// add directives
 			repository.addAll(directives);
+			
+			return;
 		}
 
 		// dig hole around mob if mob was hit
-		if (movObjPos.typeOfHit.equals(ENTITY)) {
+		if (isEntityHit(result)) 			
+			handleEntityWasHit(result);
+	}
 
-			Entity entity = movObjPos.entityHit;
-			AxisAlignedBB aabb = entity.getBoundingBox();		
-			BlockPos min = new BlockPos(aabb.minX, aabb.minY - holeHeightExpansion , aabb.minZ);
-			BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
-			for (BlockPos pos : BlockPos.getAllInBox(min, max)) {
-				double translateY = aabb.maxY - aabb.minY;
-				BlockPos tranlatedPos = pos.add(0, -translateY, 0);
-				BlockDirective directive = new BlockDirective(tranlatedPos, Blocks.AIR, DONT_HARVEST);
-				repository.add(directive);
-			}
+	/**
+	 * Handle entity was hit by projectile.
+	 * 
+	 * @param result ray tracing result.
+	 */
+	void handleEntityWasHit(RayTraceResult result) {
+		
+		// exit if result isn't entity ray trace result;
+		if (!isTypeEntityRayTraceResult(result))
+			return;
+
+		// get entity
+		Entity entity = ((EntityRayTraceResult) result).getEntity();
+
+		// get entity aabb and convert it into air blocks
+		AxisAlignedBB aabb = entity.getBoundingBox();		
+		BlockPos min = new BlockPos(aabb.minX, aabb.minY - holeHeightExpansion , aabb.minZ);
+		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
+		for (BlockPos pos : BlockPos.getAllInBox(min, max)) {
+			double translateY = aabb.maxY - aabb.minY;
+			BlockPos tranlatedPos = pos.add(0, -translateY, 0);
+			BlockDirective directive = new BlockDirective(tranlatedPos, Blocks.AIR, DONT_HARVEST);
+			repository.add(directive);
 		}
 	}
 

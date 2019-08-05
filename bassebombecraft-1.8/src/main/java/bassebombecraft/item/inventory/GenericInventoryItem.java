@@ -11,7 +11,7 @@ import static bassebombecraft.event.particle.DefaultParticleRendering.getInstanc
 import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
 import static bassebombecraft.player.PlayerUtils.isItemHeldInOffHand;
-import static bassebombecraft.player.PlayerUtils.isPlayerEntity;
+import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import java.util.List;
@@ -93,7 +93,7 @@ public class GenericInventoryItem extends Item {
 
 		// determine if item is held by player and should activate from off hand
 		boolean shouldActivateFromOffHand = false;
-		if (isPlayerEntity(entityIn)) {
+		if (isTypePlayerEntity(entityIn)) {
 			PlayerEntity player = (PlayerEntity) entityIn;
 			shouldActivateFromOffHand = isItemHeldInOffHand(player, stack);
 		}
@@ -117,7 +117,7 @@ public class GenericInventoryItem extends Item {
 			return;
 
 		// exit if entity isn't player
-		if (!isPlayerEntity(entityIn))
+		if (!isTypePlayerEntity(entityIn))
 			return;
 
 		// type cast as player

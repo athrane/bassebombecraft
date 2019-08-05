@@ -12,23 +12,22 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain RightClickedItemAction} which shoot an egg projectile
- * which executes an {@linkplain ProjectileAction} on impact.
+ * Implementation of the {@linkplain RightClickedItemAction} which shoot an egg
+ * projectile which executes an {@linkplain ProjectileAction} on impact.
  */
 public class GenericShootEggProjectile implements RightClickedItemAction {
 
 	static final float PITCH_OFFSET = 0.0F;
 	static final float VELOCITY = 3.0F;
 	static final float INACCURANCY = 1.0F;
-	static final SoundEvent SOUND = SoundEvents.EVOCATION_ILLAGER_CAST_SPELL;	
+	static final SoundEvent SOUND = SoundEvents.ENTITY_EVOKER_CAST_SPELL;
 	static Random random = new Random();
 	ProjectileAction action;
 
 	/**
 	 * GenericShootEggProjectile constructor.
 	 * 
-	 * @param action
-	 *            item action which is executed on impact.
+	 * @param action item action which is executed on impact.
 	 */
 	public GenericShootEggProjectile(ProjectileAction action) {
 		this.action = action;
@@ -40,7 +39,7 @@ public class GenericShootEggProjectile implements RightClickedItemAction {
 		GenericEggProjectile projectile = new GenericEggProjectile(world, entity, action);
 		projectile.shoot(entity, entity.rotationPitch, entity.rotationYaw, PITCH_OFFSET, VELOCITY, INACCURANCY);
 		entity.playSound(SOUND, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 0.8F));
-		world.spawnEntity(projectile);
+		world.addEntity(projectile);
 	}
 
 	@Override
