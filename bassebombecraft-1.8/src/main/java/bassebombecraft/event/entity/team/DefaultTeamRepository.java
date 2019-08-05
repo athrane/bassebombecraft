@@ -119,7 +119,7 @@ public class DefaultTeamRepository implements TeamRepository {
 			return;
 
 		// if entity is player then add as commander
-		if (PlayerUtils.isPlayerEntity(creator)) {
+		if (PlayerUtils.isTypePlayerEntity(creator)) {
 			PlayerEntity commander = (PlayerEntity) creator;
 			addToCommandersTeam(commander, entity);
 			return;

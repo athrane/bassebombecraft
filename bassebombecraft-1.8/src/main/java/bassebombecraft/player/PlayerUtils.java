@@ -116,7 +116,7 @@ public class PlayerUtils {
 	 * 
 	 * @return true if entity is a {@linkplain PlayerEntity}.
 	 */
-	public static boolean isPlayerEntity(Entity entity) {
+	public static boolean isTypePlayerEntity(Entity entity) {
 		if (entity == null)
 			return false;
 		return entity instanceof PlayerEntity;

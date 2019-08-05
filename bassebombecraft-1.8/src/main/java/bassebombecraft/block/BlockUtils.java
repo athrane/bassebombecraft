@@ -22,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.IProperty;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
 
 /**
@@ -251,6 +252,39 @@ public class BlockUtils {
 	}
 
 	/**
+	 * Calculate block position that was hit by ray tracing result.
+	 * 
+	 * @param result ray trace result.
+	 * 
+	 * @return block position that was hit.
+	 */
+	public static BlockPos calculatePosition(BlockRayTraceResult result) {
+
+		switch (result.getFace()) {
+
+		case UP:
+			return result.getPos().up();
+		case DOWN:
+			return result.getPos().down();
+
+		case SOUTH:
+			return result.getPos().south();
+
+		case NORTH:
+			return result.getPos().north();
+
+		case EAST:
+			return result.getPos().east();
+
+		case WEST:
+			return result.getPos().west();
+
+		default:
+			return result.getPos().up();
+		}
+	}
+
+	/**
 	 * Add temporary block.
 	 * 
 	 * @param world     world object.
@@ -262,7 +296,6 @@ public class BlockUtils {
 
 		// create temporary block
 		BlockDirective tempDirective = new BlockDirective(pos, tempBlock, DONT_HARVEST);
-
 		setTemporaryBlock(world, tempDirective, duration);
 	}
 

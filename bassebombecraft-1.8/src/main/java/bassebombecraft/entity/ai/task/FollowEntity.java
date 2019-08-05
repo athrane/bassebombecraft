@@ -1,6 +1,6 @@
 package bassebombecraft.entity.ai.task;
 
-import static bassebombecraft.player.PlayerUtils.isPlayerEntity;
+import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -67,7 +67,7 @@ public class FollowEntity extends EntityAIBase {
 		}
 
 		// exit if player spectator
-		if (isPlayerEntity(leaderEntity)) {
+		if (isTypePlayerEntity(leaderEntity)) {
 			if (((PlayerEntity) leaderEntity).isSpectator())
 				return false;
 		}

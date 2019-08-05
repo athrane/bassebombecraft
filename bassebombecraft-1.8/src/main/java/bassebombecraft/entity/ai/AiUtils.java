@@ -1,7 +1,7 @@
 package bassebombecraft.entity.ai;
 
 import static bassebombecraft.entity.EntityUtils.isCreatureEntity;
-import static bassebombecraft.player.PlayerUtils.isPlayerEntity;
+import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
 import java.util.Set;
 
@@ -117,7 +117,7 @@ public class AiUtils {
 		entity.tasks.addTask(1, new EntityAISwimming(entity));
 
 		// setup attacking if commander is player
-		if (isPlayerEntity(commander)) {
+		if (isTypePlayerEntity(commander)) {
 			// type cast
 			PlayerEntity player = (PlayerEntity) commander;
 			entity.tasks.addTask(2, new CompanionAttack(entity, player));
@@ -212,7 +212,7 @@ public class AiUtils {
 	static void setupTargetingTasks(CreatureEntity entity, LivingEntity commander) {
 
 		// setup targeting if commander is player
-		if (isPlayerEntity(commander)) {
+		if (isTypePlayerEntity(commander)) {
 
 			// type cast
 			PlayerEntity player = (PlayerEntity) commander;

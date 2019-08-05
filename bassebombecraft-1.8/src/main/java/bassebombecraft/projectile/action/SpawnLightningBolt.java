@@ -1,12 +1,15 @@
 package bassebombecraft.projectile.action;
 
 import static bassebombecraft.ModConstants.LIGHTNING_NOT_EFFECT_ONLY;
+import static bassebombecraft.projectile.ProjectileUtils.isEntityRayTraceResult;
+import static bassebombecraft.projectile.ProjectileUtils.wasEntityHit;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -19,10 +22,10 @@ import net.minecraft.world.World;
 public class SpawnLightningBolt implements ProjectileAction {
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
 
 		// spawn a lightning bolt if no entity was hit
-		if (movObjPos.entityHit == null) {
+		if (!wasEntityHit(result))
 			BlockPos spawnPosition = calculatePosition(world, movObjPos);
 			EntityLightningBolt bolt = new EntityLightningBolt(world, spawnPosition.getX(), spawnPosition.getY(),
 					spawnPosition.getZ(), LIGHTNING_NOT_EFFECT_ONLY);
@@ -30,8 +33,14 @@ public class SpawnLightningBolt implements ProjectileAction {
 			return;
 		}
 
+		// exit if result isn't entity ray trace result;
+		if (!isEntityRayTraceResult(result))
+			return;
+	
+		// get entity
+		Entity entity = ((EntityRayTraceResult) result).getEntity();
+	
 		// spawn lightning bolts around the hit mob
-		Entity entity = movObjPos.entityHit;
 		AxisAlignedBB aabb = entity.getBoundingBox();
 		
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);

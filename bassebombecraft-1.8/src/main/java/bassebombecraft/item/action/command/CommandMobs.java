@@ -28,7 +28,7 @@ public class CommandMobs implements RightClickedItemAction {
 		MobCommanderRepository repository = getBassebombeCraft().getMobCommanderRepository();
 
 		// exit if not a player
-		if (!PlayerUtils.isPlayerEntity(entity))
+		if (!PlayerUtils.isTypePlayerEntity(entity))
 			return;
 
 		// typecast
