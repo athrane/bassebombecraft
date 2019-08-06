@@ -9,7 +9,7 @@ import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceRes
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -69,7 +69,7 @@ public class SpawnSquid implements ProjectileAction {
 		}
 
 		// spawn squid
-		ChickenEntity entity = EntityType.CHICKEN.create(world);
+		SquidEntity entity = EntityType.SQUID.create(world);
 		double lx = posVec.x;
 		double ly = posVec.y + Y_SPAWN_OFFSET;
 		double lz = posVec.z;

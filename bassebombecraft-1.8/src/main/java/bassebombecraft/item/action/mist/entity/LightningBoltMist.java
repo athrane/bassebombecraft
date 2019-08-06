@@ -1,11 +1,13 @@
 package bassebombecraft.item.action.mist.entity;
 
-import static bassebombecraft.ModConstants.LIGHTNING_NOT_EFFECT_ONLY;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.world.WorldUtils.*;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
+import bassebombecraft.world.WorldUtils;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -37,19 +39,18 @@ public class LightningBoltMist implements EntityMistActionStrategy {
 		BasicParticleType type = ParticleTypes.CLOUD;
 		int duration = 20;
 		double speed = 0.1;
-		ParticleRenderingInfo flame = getInstance(type, numbers, duration, r, g, b, speed);
+		ParticleRenderingInfo cloud = getInstance(type, numbers, duration, r, g, b, speed);
 
 		r = 0.0F;
 		g = 0.0F;
 		b = 0.25F;
 		numbers = 1;
-		type = ParticleTypes.WATER_DROP;
+		type = ParticleTypes.FALLING_WATER;
 		duration = 20;
 		speed = 0.01;
-		ParticleRenderingInfo lava = getInstance(type, numbers, duration, r, g, b, speed);
+		ParticleRenderingInfo water = getInstance(type, numbers, duration, r, g, b, speed);
 
-		infos = new ParticleRenderingInfo[] { flame, lava };
-
+		infos = new ParticleRenderingInfo[] { cloud, water };
 	}
 
 	@Override
@@ -61,9 +62,9 @@ public class LightningBoltMist implements EntityMistActionStrategy {
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
 		for (Object pos : BlockPos.getAllInBox(min, max)) {
 			BlockPos typedPos = (BlockPos) pos;
-			EntityLightningBolt bolt = new EntityLightningBolt(world, typedPos.getX(), typedPos.getY(), typedPos.getZ(),
-					LIGHTNING_NOT_EFFECT_ONLY);
-			world.addWeatherEffect(bolt);
+			LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
+			bolt.setPosition(typedPos.getX(), typedPos.getY(), typedPos.getZ());
+			addLightning(bolt, world);
 		}
 	}
 

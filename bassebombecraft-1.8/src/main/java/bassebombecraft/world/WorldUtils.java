@@ -1,5 +1,8 @@
 package bassebombecraft.world;
 
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.effect.LightningBoltEntity;
+import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
 
 /**
@@ -10,8 +13,7 @@ public class WorldUtils {
 	/**
 	 * Return true if world is a client side (i.e. remote).
 	 * 
-	 * @param world
-	 *            to test.
+	 * @param world to test.
 	 * @return true if world is a client side (i.e. remote).
 	 */
 	public static boolean isWorldAtClientSide(World world) {
@@ -21,11 +23,67 @@ public class WorldUtils {
 	/**
 	 * Return true if world is a server side (i.e. not remote).
 	 * 
-	 * @param world
-	 *            to test.
+	 * @param world to test.
 	 * @return true if world is a server side (i.e. not remote).
 	 */
 	public static boolean isWorldAtServerSide(World world) {
 		return (!world.isRemote);
-	}	
+	}
+
+	/**
+	 * Return true if entity is a {@linkplain ServerWorld}.
+	 * 
+	 * @param entity entity to test.
+	 * 
+	 * @return true if entity is a {@linkplain ServerWorld}.
+	 */
+	public static boolean isTypeServerWorld(World world) {
+		if (world == null)
+			return false;
+		return world instanceof ServerWorld;
+	}
+
+	/**
+	 * Return true if entity is a {@linkplain ClientWorld}.
+	 * 
+	 * @param entity entity to test.
+	 * 
+	 * @return true if entity is a {@linkplain ClientWorld}.
+	 */
+	public static boolean isTypeClientWorld(World world) {
+		if (world == null)
+			return false;
+		return world instanceof ClientWorld;
+	}
+
+	/**
+	 * Add lightning bolt to the world if the world is either a
+	 * {@linkplain ServerWorld} or a {@linkplain ClientWorld}.
+	 * 
+	 * @param entity lightning bolt which is added to the world.
+	 * @param world  the world where the bolt is added to.
+	 */
+	public static void addLightning(LightningBoltEntity entity, World world) {
+
+		if (isTypeServerWorld(world)) {
+
+			// type cast
+			ServerWorld serverWorld = (ServerWorld) world;
+
+			// add lightning
+			serverWorld.addLightningBolt(entity);			
+			return;
+		}
+		
+		if (isTypeClientWorld(world)) {
+
+			// type cast
+			ClientWorld serverWorld = (ClientWorld) world;
+
+			// add lightning
+			serverWorld.addLightning(entity);			
+			return;
+		}
+		
+	}
 }

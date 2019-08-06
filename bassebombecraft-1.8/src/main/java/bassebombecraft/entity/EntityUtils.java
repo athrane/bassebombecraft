@@ -71,35 +71,35 @@ public class EntityUtils {
 	 * 
 	 * @return true if entity is a {@linkplain CreatureEntity}.
 	 */
-	public static boolean isCreatureEntity(Entity entity) {
+	public static boolean isTypeCreatureEntity(Entity entity) {
 		if (entity == null)
 			return false;
 		return entity instanceof CreatureEntity;
 	}
 
 	/**
-	 * return true if entity is a {@linkplain MobEntity}.
+	 * Return true if entity is a {@linkplain MobEntity}.
 	 * 
 	 * @param entity
 	 *            entity to test.
 	 * 
 	 * @return true if entity is a {@linkplain MobEntity}.
 	 */
-	public static boolean isMobEntity(Entity entity) {
+	public static boolean isTypeMobEntity(Entity entity) {
 		if (entity == null)
 			return false;
 		return entity instanceof MobEntity;
 	}
 
 	/**
-	 * return true if entity is a {@linkplain LivingEntity}.
+	 * Return true if entity is a {@linkplain LivingEntity}.
 	 * 
 	 * @param entity
 	 *            entity to test.
 	 * 
 	 * @return true if entity is a {@linkplain LivingEntity}.
 	 */
-	public static boolean isLivingEntity(Entity entity) {
+	public static boolean isTypeLivingEntity(Entity entity) {
 		if (entity == null)
 			return false;
 		return entity instanceof LivingEntity;

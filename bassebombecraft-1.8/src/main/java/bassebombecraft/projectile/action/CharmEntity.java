@@ -33,7 +33,7 @@ public class CharmEntity implements ProjectileAction {
 		Entity entity = ((EntityRayTraceResult) result).getEntity();
 
 		// exit if entity can't be charmed, i.e isn't a living entity
-		if (!EntityUtils.isLivingEntity(entity))
+		if (!EntityUtils.isTypeLivingEntity(entity))
 			return;
 
 		// type cast
