@@ -3,8 +3,8 @@ package bassebombecraft.potion;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
-import static bassebombecraft.entity.EntityUtils.isCreatureEntity;
-import static bassebombecraft.entity.EntityUtils.isLivingEntity;
+import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
+import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 
 import java.util.Collections;
 import java.util.List;
@@ -70,7 +70,7 @@ public class MobsAggroEffect extends Effect {
 
 		// get target (either as creature or living entity)
 		LivingEntity target = null;
-		if (isCreatureEntity(entity)) {
+		if (isTypeCreatureEntity(entity)) {
 			CreatureEntity entityCreature = (CreatureEntity) entity;
 			target = entityCreature.getAttackTarget();
 		} else {
@@ -101,7 +101,7 @@ public class MobsAggroEffect extends Effect {
 		LivingEntity newTarget = targetList.get(FIRST_INDEX);
 
 		// update target (either as creature or living entity)
-		if (isCreatureEntity(entity)) {
+		if (isTypeCreatureEntity(entity)) {
 			CreatureEntity entityCreature = (CreatureEntity) entity;
 			entityCreature.setAttackTarget(newTarget);
 		} else {
@@ -111,9 +111,9 @@ public class MobsAggroEffect extends Effect {
 	}
 
 	boolean supportTargeting(LivingEntity entity) {
-		if (isCreatureEntity(entity))
+		if (isTypeCreatureEntity(entity))
 			return true;
-		if (isLivingEntity(entity))
+		if (isTypeLivingEntity(entity))
 			return true;
 		return false;
 	}

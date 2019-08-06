@@ -163,12 +163,7 @@ public class ModConstants {
 	 * Flag which indicates that a block should be harvested when processed.
 	 */
 	public static final boolean HARVEST = true;
-	
-	/**
-	 * Lightning isn't created with effect only, but with block changes.
-	 */
-	public static final boolean LIGHTNING_NOT_EFFECT_ONLY = false; 
-	
+		
 	/**
 	 * Not a bad potion effect.
 	 */

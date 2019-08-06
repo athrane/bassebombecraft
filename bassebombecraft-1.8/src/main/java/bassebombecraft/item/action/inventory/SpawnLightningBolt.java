@@ -1,12 +1,13 @@
 package bassebombecraft.item.action.inventory;
 
-import static bassebombecraft.ModConstants.LIGHTNING_NOT_EFFECT_ONLY;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.world.WorldUtils.addLightning;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -52,9 +53,9 @@ public class SpawnLightningBolt implements InventoryItemActionStrategy {
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
 		for (Object pos : BlockPos.getAllInBox(min, max)) {
 			BlockPos typedPos = (BlockPos) pos;
-			EntityLightningBolt bolt = new EntityLightningBolt(world, typedPos.getX(), typedPos.getY(), typedPos.getZ(),
-					LIGHTNING_NOT_EFFECT_ONLY);
-			world.addWeatherEffect(bolt);
+			LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
+			bolt.setPosition(typedPos.getX(), typedPos.getY(), typedPos.getZ());
+			addLightning(bolt, world);
 		}
 	}
 

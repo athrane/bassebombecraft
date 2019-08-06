@@ -10,11 +10,12 @@ import java.util.Random;
 import com.typesafe.config.Config;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
@@ -25,7 +26,7 @@ import net.minecraft.world.World;
  */
 public class ShootCreeperCannon implements RightClickedItemAction {
 
-	static final SoundEvent SOUND = SoundEvents.EVOCATION_ILLAGER_CAST_SPELL;
+	static final SoundEvent SOUND = SoundEvents.ENTITY_EVOKER_CAST_SPELL;
 
 	/**
 	 * DEfines whether creeper is primed.
@@ -60,7 +61,7 @@ public class ShootCreeperCannon implements RightClickedItemAction {
 	public void onRightClick(World world, LivingEntity entity) {
 
 		// create projectile entity
-		CreeperEntity projectileEntity = new CreeperEntity(world);
+		CreeperEntity projectileEntity = EntityType.CREEPER.create(world);
 		projectileEntity.copyLocationAndAnglesFrom(entity);
 
 		// prime
@@ -68,7 +69,7 @@ public class ShootCreeperCannon implements RightClickedItemAction {
 			projectileEntity.ignite();
 
 		// select potion
-		Potion potion = null;
+		Effect potion = null;
 		if (isPrimed)
 			potion = PRIMED_CREEPER_CANNON_POTION;
 		else
@@ -78,18 +79,18 @@ public class ShootCreeperCannon implements RightClickedItemAction {
 		setProjectileEntityPosition(entity, projectileEntity, spawnDisplacement);
 
 		// add potion effect
-		PotionEffect effect = new PotionEffect(potion, duration);
+		EffectInstance effect = new EffectInstance(potion, duration);
 		projectileEntity.addPotionEffect(effect);
 
 		// set no health to trigger death (in max 20 ticks)
 		projectileEntity.setHealth(0.0F);
 
 		// add spawn sound
-		Random random = entity.getRNG();
+		Random random = getBassebombeCraft().getRandom();
 		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
 
 		// spawn
-		world.spawnEntity(projectileEntity);
+		world.addEntity(projectileEntity);
 	}
 
 	@Override

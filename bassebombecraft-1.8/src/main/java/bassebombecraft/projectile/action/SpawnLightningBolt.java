@@ -1,14 +1,18 @@
 package bassebombecraft.projectile.action;
 
-import static bassebombecraft.ModConstants.LIGHTNING_NOT_EFFECT_ONLY;
-import static bassebombecraft.projectile.ProjectileUtils.isEntityRayTraceResult;
-import static bassebombecraft.projectile.ProjectileUtils.wasEntityHit;
+import static bassebombecraft.block.BlockUtils.calculatePosition;
+import static bassebombecraft.projectile.ProjectileUtils.isBlockHit;
+import static bassebombecraft.projectile.ProjectileUtils.isNothingHit;
+import static bassebombecraft.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
+import static bassebombecraft.world.WorldUtils.addLightning;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.effect.EntityLightningBolt;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -24,71 +28,42 @@ public class SpawnLightningBolt implements ProjectileAction {
 	@Override
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
 
-		// spawn a lightning bolt if no entity was hit
-		if (!wasEntityHit(result))
-			BlockPos spawnPosition = calculatePosition(world, movObjPos);
-			EntityLightningBolt bolt = new EntityLightningBolt(world, spawnPosition.getX(), spawnPosition.getY(),
-					spawnPosition.getZ(), LIGHTNING_NOT_EFFECT_ONLY);
-			world.addWeatherEffect(bolt);
+		// exit if nothing was hit
+		if (isNothingHit(result))
+			return;
+
+		// spawn a lightning bolt if a block was hit
+		if (isBlockHit(result)) {
+
+			// exit if result isn't block ray trace result
+			if (!isTypeBlockRayTraceResult(result))
+				return;
+
+			// type cast
+			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
+
+			BlockPos spawnPosition = calculatePosition(blockResult);
+			LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
+			bolt.setPosition(spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getZ());
+			addLightning(bolt, world);
 			return;
 		}
 
-		// exit if result isn't entity ray trace result;
-		if (!isEntityRayTraceResult(result))
-			return;
-	
 		// get entity
 		Entity entity = ((EntityRayTraceResult) result).getEntity();
-	
+
 		// spawn lightning bolts around the hit mob
 		AxisAlignedBB aabb = entity.getBoundingBox();
-		
+
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
 		for (Object pos : BlockPos.getAllInBox(min, max)) {
 			BlockPos typedPos = (BlockPos) pos;
-			EntityLightningBolt bolt = new EntityLightningBolt(world, typedPos.getX(), typedPos.getY(), typedPos.getZ(),
-					LIGHTNING_NOT_EFFECT_ONLY);
-			world.addWeatherEffect(bolt);
+			LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
+			bolt.setPosition(typedPos.getX(), typedPos.getY(), typedPos.getZ());
+			addLightning(bolt, world);
 		}
 
-	}
-
-	/**
-	 * Calculate position.
-	 * 
-	 * @param world
-	 *            world object.
-	 * 
-	 * @param movObjPos
-	 *            hit object.
-	 * 
-	 * @return position where block should be spawned.
-	 */
-	BlockPos calculatePosition(World world, RayTraceResult movObjPos) {
-		switch (movObjPos.sideHit) {
-
-		case UP:
-			return movObjPos.getBlockPos().up();
-
-		case DOWN:
-			return movObjPos.getBlockPos().down();
-
-		case SOUTH:
-			return movObjPos.getBlockPos().south();
-
-		case NORTH:
-			return movObjPos.getBlockPos().north();
-
-		case EAST:
-			return movObjPos.getBlockPos().east();
-
-		case WEST:
-			return movObjPos.getBlockPos().west();
-
-		default:
-			return movObjPos.getBlockPos().up();
-		}
 	}
 
 }

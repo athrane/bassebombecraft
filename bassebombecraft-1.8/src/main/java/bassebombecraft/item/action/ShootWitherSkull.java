@@ -1,10 +1,13 @@
 package bassebombecraft.item.action;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+
 import java.util.Random;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.EntityWitherSkull;
+import net.minecraft.entity.projectile.WitherSkullEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -12,22 +15,26 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain RightClickedItemAction} which shoot a large
- * fireball.
+ * Implementation of the {@linkplain RightClickedItemAction} which shoot a
+ * wither skull.
  */
 public class ShootWitherSkull implements RightClickedItemAction {
 
 	static final SoundEvent SOUND = SoundEvents.ENTITY_WITHER_SHOOT;
-	static Random random = new Random();
 
 	@Override
 	public void onRightClick(World world, LivingEntity entity) {
 		Vec3d v3 = entity.getLook(1);
-		EntityWitherSkull projectile = new EntityWitherSkull(world, entity.posX, entity.posY + entity.getEyeHeight(),
-				entity.posZ, v3.x, v3.y, v3.z);
-		projectile.shootingEntity = entity;
+		WitherSkullEntity projectile = EntityType.WITHER_SKULL.create(world);
+		projectile.setPosition(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
+		projectile.setMotion(v3);
+
+		// add spawn sound
+		Random random = getBassebombeCraft().getRandom();
 		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
-		world.spawnEntity(projectile);
+
+		// spawn
+		world.addEntity(projectile);
 	}
 
 	@Override

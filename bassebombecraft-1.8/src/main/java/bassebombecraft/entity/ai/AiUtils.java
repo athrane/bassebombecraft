@@ -1,6 +1,6 @@
 package bassebombecraft.entity.ai;
 
-import static bassebombecraft.entity.EntityUtils.isCreatureEntity;
+import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
 import java.util.Set;
@@ -131,7 +131,7 @@ public class AiUtils {
 
 		// exit setting target tasks if entity isn't a creature
 		// including commander controlled targeting
-		if (!isCreatureEntity(entity))
+		if (!isTypeCreatureEntity(entity))
 			return;
 
 		// type cast
@@ -223,7 +223,7 @@ public class AiUtils {
 		}
 
 		// set AI commander targeting if commander is a living entity
-		if (EntityUtils.isLivingEntity(commander)) {
+		if (EntityUtils.isTypeLivingEntity(commander)) {
 
 			// type cast
 			LivingEntity commander2 = (LivingEntity) commander;

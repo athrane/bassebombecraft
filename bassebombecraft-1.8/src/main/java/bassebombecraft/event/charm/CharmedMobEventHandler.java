@@ -2,7 +2,7 @@ package bassebombecraft.event.charm;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.SPAWN_PARTICLES_FREQUENCY;
-import static bassebombecraft.entity.EntityUtils.isLivingEntity;
+import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
@@ -38,7 +38,7 @@ public class CharmedMobEventHandler {
 
 	@SubscribeEvent
 	static public void handleEvent(LivingUpdateEvent event) {
-		if (!isLivingEntity(event.getEntityLiving()))
+		if (!isTypeLivingEntity(event.getEntityLiving()))
 			return;
 		LivingEntity entity = event.getEntityLiving();
 
@@ -68,7 +68,7 @@ public class CharmedMobEventHandler {
 
 	@SubscribeEvent
 	public static void handleEvent(LivingDeathEvent event) {
-		if (!isLivingEntity(event.getEntityLiving()))
+		if (!isTypeLivingEntity(event.getEntityLiving()))
 			return;
 		LivingEntity entity = event.getEntityLiving();
 

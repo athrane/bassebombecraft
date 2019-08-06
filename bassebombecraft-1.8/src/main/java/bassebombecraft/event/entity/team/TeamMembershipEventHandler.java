@@ -1,7 +1,7 @@
 package bassebombecraft.event.entity.team;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.entity.EntityUtils.isLivingEntity;
+import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
 import net.minecraft.entity.LivingEntity;
@@ -22,7 +22,7 @@ public class TeamMembershipEventHandler {
 		TeamRepository repository = getBassebombeCraft().getTeamRepository();
 
 		// remove living entity from team upon death
-		if (isLivingEntity(event.getEntityLiving())) {
+		if (isTypeLivingEntity(event.getEntityLiving())) {
 			LivingEntity entity = event.getEntityLiving();
 			repository.remove(entity);					
 			return;

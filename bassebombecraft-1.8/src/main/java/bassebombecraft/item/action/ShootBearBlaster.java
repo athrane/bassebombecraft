@@ -9,10 +9,11 @@ import java.util.Random;
 import com.typesafe.config.Config;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.EntityPolarBear;
+import net.minecraft.entity.passive.PolarBearEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
@@ -23,7 +24,7 @@ import net.minecraft.world.World;
  */
 public class ShootBearBlaster implements RightClickedItemAction {
 
-	static final SoundEvent SOUND = SoundEvents.EVOCATION_ILLAGER_CAST_SPELL;
+	static final SoundEvent SOUND = SoundEvents.ENTITY_EVOKER_CAST_SPELL;
 
 	/**
 	 * Configuration key.
@@ -66,7 +67,7 @@ public class ShootBearBlaster implements RightClickedItemAction {
 	public void onRightClick(World world, LivingEntity entity) {
 
 		// create projectile entity
-		EntityPolarBear projectileEntity = new EntityPolarBear(world);
+		PolarBearEntity projectileEntity = EntityType.POLAR_BEAR.create(world);
 		projectileEntity.setGrowingAge(age);
 		projectileEntity.copyLocationAndAnglesFrom(entity);
 
@@ -74,7 +75,7 @@ public class ShootBearBlaster implements RightClickedItemAction {
 		setProjectileEntityPosition(entity, projectileEntity, spawnDisplacement);
 
 		// add potion effect
-		PotionEffect effect = new PotionEffect(BEAR_BLASTER_POTION, duration);
+		EffectInstance effect = new EffectInstance(BEAR_BLASTER_POTION, duration);
 		projectileEntity.addPotionEffect(effect);
 
 		// set no health to trigger death (in max 20 ticks)
@@ -82,11 +83,11 @@ public class ShootBearBlaster implements RightClickedItemAction {
 			projectileEntity.setHealth(0.0F);
 
 		// add spawn sound
-		Random random = entity.getRNG();
+		Random random = getBassebombeCraft().getRandom();
 		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
 
 		// spawn
-		world.spawnEntity(projectileEntity);
+		world.addEntity(projectileEntity);
 	}
 
 	@Override
