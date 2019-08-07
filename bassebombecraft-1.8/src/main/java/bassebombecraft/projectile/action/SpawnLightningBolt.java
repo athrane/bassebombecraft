@@ -43,9 +43,7 @@ public class SpawnLightningBolt implements ProjectileAction {
 			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
 
 			BlockPos spawnPosition = calculatePosition(blockResult);
-			LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
-			bolt.setPosition(spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getZ());
-			addLightning(bolt, world);
+			addLightningAtBlockPos(world, spawnPosition);
 			return;
 		}
 
@@ -57,13 +55,19 @@ public class SpawnLightningBolt implements ProjectileAction {
 
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
-		for (Object pos : BlockPos.getAllInBox(min, max)) {
-			BlockPos typedPos = (BlockPos) pos;
-			LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
-			bolt.setPosition(typedPos.getX(), typedPos.getY(), typedPos.getZ());
-			addLightning(bolt, world);
-		}
+		BlockPos.getAllInBox(min, max).forEach(pos -> addLightningAtBlockPos(world, pos));
+	}
 
+	/**
+	 * Add lightning at block position.
+	 * 
+	 * @param world world.
+	 * @param pos   block position where lightning is added.
+	 */
+	void addLightningAtBlockPos(World world, BlockPos pos) {
+		LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
+		bolt.setPosition(pos.getX(), pos.getY(), pos.getZ());
+		addLightning(bolt, world);
 	}
 
 }
