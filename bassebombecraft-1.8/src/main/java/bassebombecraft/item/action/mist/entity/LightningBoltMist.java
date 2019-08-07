@@ -1,15 +1,15 @@
 package bassebombecraft.item.action.mist.entity;
 
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
-import static bassebombecraft.world.WorldUtils.*;
+import static bassebombecraft.world.WorldUtils.addLightning;
+import static net.minecraft.particles.ParticleTypes.CLOUD;
+import static net.minecraft.particles.ParticleTypes.FALLING_WATER;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.world.WorldUtils;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -36,7 +36,7 @@ public class LightningBoltMist implements EntityMistActionStrategy {
 		float g = 0.75F;
 		float b = 0.75F;
 		int numbers = 5;
-		BasicParticleType type = ParticleTypes.CLOUD;
+		BasicParticleType type = CLOUD;
 		int duration = 20;
 		double speed = 0.1;
 		ParticleRenderingInfo cloud = getInstance(type, numbers, duration, r, g, b, speed);
@@ -45,7 +45,7 @@ public class LightningBoltMist implements EntityMistActionStrategy {
 		g = 0.0F;
 		b = 0.25F;
 		numbers = 1;
-		type = ParticleTypes.FALLING_WATER;
+		type = FALLING_WATER;
 		duration = 20;
 		speed = 0.01;
 		ParticleRenderingInfo water = getInstance(type, numbers, duration, r, g, b, speed);
@@ -60,12 +60,19 @@ public class LightningBoltMist implements EntityMistActionStrategy {
 		AxisAlignedBB aabb = target.getBoundingBox();
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
-		for (Object pos : BlockPos.getAllInBox(min, max)) {
-			BlockPos typedPos = (BlockPos) pos;
-			LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
-			bolt.setPosition(typedPos.getX(), typedPos.getY(), typedPos.getZ());
-			addLightning(bolt, world);
-		}
+		BlockPos.getAllInBox(min, max).forEach(pos -> addLightningAtBlockPos(world, pos));
+	}
+
+	/**
+	 * Add lightning at block position.
+	 * 
+	 * @param world world.
+	 * @param pos   block position where lightning is added.
+	 */
+	void addLightningAtBlockPos(World world, BlockPos pos) {
+		LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
+		bolt.setPosition(pos.getX(), pos.getY(), pos.getZ());
+		addLightning(bolt, world);
 	}
 
 	@Override

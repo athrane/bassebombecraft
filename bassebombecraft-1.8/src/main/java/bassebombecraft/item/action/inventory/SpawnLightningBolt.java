@@ -2,6 +2,7 @@ package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 import static bassebombecraft.world.WorldUtils.addLightning;
+import static net.minecraft.particles.ParticleTypes.EFFECT;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
@@ -9,7 +10,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -23,7 +23,7 @@ public class SpawnLightningBolt implements InventoryItemActionStrategy {
 
 	static final int EFFECT_DURATION = 200; // Measured in ticks
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
+	static final BasicParticleType PARTICLE_TYPE = EFFECT;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.75F;
@@ -51,12 +51,19 @@ public class SpawnLightningBolt implements InventoryItemActionStrategy {
 		AxisAlignedBB aabb = target.getBoundingBox();
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
-		for (Object pos : BlockPos.getAllInBox(min, max)) {
-			BlockPos typedPos = (BlockPos) pos;
-			LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
-			bolt.setPosition(typedPos.getX(), typedPos.getY(), typedPos.getZ());
-			addLightning(bolt, world);
-		}
+		BlockPos.getAllInBox(min, max).forEach(pos -> addLightningAtBlockPos(world, pos));
+	}
+
+	/**
+	 * Add lightning at block position.
+	 * 
+	 * @param world world.
+	 * @param pos   block position where lightning is added.
+	 */
+	void addLightningAtBlockPos(World world, BlockPos pos) {
+		LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
+		bolt.setPosition(pos.getX(), pos.getY(), pos.getZ());
+		addLightning(bolt, world);
 	}
 
 	@Override
