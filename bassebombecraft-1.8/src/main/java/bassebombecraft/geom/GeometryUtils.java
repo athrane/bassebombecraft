@@ -17,9 +17,8 @@ import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.player.PlayerUtils;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFlower.EnumFlowerType;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import static net.minecraft.block.Blocks.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
@@ -256,7 +255,7 @@ public class GeometryUtils {
 		int zTo = structure.getSizeZ() - 1;
 		BlockPos to = from.add(xTo, yTo, zTo);
 
-		Iterable<BlockPos> blockPosSet = BlockPos.getAllInBox(from, to);
+		blockPosSet = BlockPos.getAllInBox(from, to);
 
 		// calculate block directives
 		List<BlockDirective> directives = calculateBlockDirectives(blockPosSet, structure.getBlock(),
@@ -559,19 +558,8 @@ public class GeometryUtils {
 	 * @return block directive with flower.
 	 */
 	public static BlockDirective createFlowerDirective(BlockPos position, Random random) {
-		int flowerType = random.nextInt(6);
-
-		switch (flowerType) {
-
-		case 0:
-			BlockDirective yellow = new BlockDirective(position, Blocks.YELLOW_FLOWER, DONT_HARVEST);
-			return yellow;
-		case 1:
-		default:
-			BlockDirective red = new BlockDirective(position, Blocks.RED_FLOWER, DONT_HARVEST);
-			red.setState(selectRedFlowerType(random));
-			return red;
-		}
+		Block blockType = selectFlower(random);
+		return new BlockDirective(position, blockType, DONT_HARVEST);
 	}
 
 	/**
@@ -579,40 +567,39 @@ public class GeometryUtils {
 	 * 
 	 * @return Select flower type.
 	 */
-	static BlockState selectRedFlowerType(Random random) {
-		int flowerType = random.nextInt(7);
+	static Block selectFlower(Random random) {
+		int flowerType = random.nextInt(12);
 
 		switch (flowerType) {
 
 		case 0:
-			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
-					EnumFlowerType.ALLIUM);
+			return ALLIUM;
 		case 1:
-			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
-					EnumFlowerType.BLUE_ORCHID);
-		case 2:
-			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
-					EnumFlowerType.HOUSTONIA);
-		case 3:
-			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
-					EnumFlowerType.ORANGE_TULIP);
-		case 4:
-			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
-					EnumFlowerType.OXEYE_DAISY);
-		case 5:
-			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
-					EnumFlowerType.PINK_TULIP);
-		case 6:
-			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
-					EnumFlowerType.POPPY);
-		case 7:
-			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
-					EnumFlowerType.WHITE_TULIP);
+			return AZURE_BLUET;
+		case 2:			
+			return BLUE_ORCHID;
+		case 3:			
+			return CORNFLOWER;
+		case 4:			
+			return DANDELION;
+		case 5:			
+			return LILY_OF_THE_VALLEY;
+		case 6:			
+			return ORANGE_TULIP;
+		case 7:			
+			return OXEYE_DAISY;
+		case 8:			
+			return PINK_TULIP;
+		case 9:			
+			return POPPY;
+		case 10:			
+			return RED_TULIP;
+		case 11:			
+			return WHITE_TULIP;
+			
 		default:
-			return Blocks.RED_FLOWER.getDefaultState().withProperty(Blocks.RED_FLOWER.getTypeProperty(),
-					EnumFlowerType.POPPY);
+			return RED_TULIP;
 		}
-
 	}
-
+	
 }
