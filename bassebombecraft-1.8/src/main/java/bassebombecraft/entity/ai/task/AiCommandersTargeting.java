@@ -39,7 +39,7 @@ public class AiCommandersTargeting extends EntityAITarget {
 	public boolean shouldExecute() {
 
 		// exit if command is dead
-		if (commander.isDead)
+		if (!commander.isAlive())
 			selfDestruct();
 
 		// exit if commander doesn't has a target

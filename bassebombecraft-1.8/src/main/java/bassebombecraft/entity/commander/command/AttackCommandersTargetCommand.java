@@ -41,7 +41,7 @@ public class AttackCommandersTargetCommand implements MobCommand {
 			return false;
 
 		// exit if target is dead
-		if (target.isDead)
+		if (!target.isAlive())
 			return false;
 
 		// update target
