@@ -103,7 +103,7 @@ public class AttackNearestMobCommand implements MobCommand {
 			return false;
 
 		// exit if target is dead
-		if (target.isDead)
+		if (!target.isAlive())
 			return false;
 
 		return true;

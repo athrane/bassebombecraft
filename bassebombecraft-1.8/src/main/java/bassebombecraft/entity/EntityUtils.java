@@ -155,7 +155,7 @@ public class EntityUtils {
 		LivingEntity target = entity.getAttackTarget();
 		if (target == null)
 			return false;
-		if (target.isDead)
+		if (!target.isAlive())
 			return false;
 		return true;
 	}
