@@ -1,32 +1,50 @@
 package bassebombecraft.projectile;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
+import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
+import bassebombecraft.event.particle.ParticleRendering;
+import bassebombecraft.event.particle.ParticleRenderingInfo;
+import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.projectile.action.NullAction;
 import bassebombecraft.projectile.action.ProjectileAction;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
+import net.minecraft.entity.projectile.ProjectileItemEntity;
 import net.minecraft.item.Item;
-import net.minecraft.util.ParticleTypes;
+import net.minecraft.item.Items;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
-public class GenericEggProjectile extends ThrowableEntity {
+public class GenericEggProjectile extends ProjectileItemEntity {
+
+	static final float R = 1.0F;
+	static final float G = 1.0F;
+	static final float B = 1.0F;
+	static final int PARTICLE_NUMBER = 5;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.INSTANT_EFFECT;
+	static final int PARTICLE_DURATION = 20; // Measured in world ticks
+	static final double PARTICLE_SPEED = 0.3;
+	static final ParticleRenderingInfo PARTICLE_INFO = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R,
+			G, B, PARTICLE_SPEED);
 
 	public final static String PROJECTILE_NAME = "EggProjectile";
 	ProjectileAction behaviour = new NullAction();
 
-	public GenericEggProjectile(World worldIn) {
-		super(worldIn);
-	}
-
-	public GenericEggProjectile(World worldIn, LivingEntity entity, ProjectileAction behaviour) {
-		super(worldIn, entity);
+	/**
+	 * GenericEggProjectile constructor.
+	 * 
+	 * @param world     world object.
+	 * @param entity    projectile thrower.
+	 * @param behaviour projectile behaviour.
+	 */
+	public GenericEggProjectile(World world, LivingEntity entity, ProjectileAction behaviour) {
+		super(EntityType.EGG, entity, world);
 		setBehaviour(behaviour);
-	}
-
-	public GenericEggProjectile(World worldIn, double x, double y, double z) {
-		super(worldIn, x, y, z);
 	}
 
 	public void setBehaviour(ProjectileAction behaviour) {
@@ -36,25 +54,30 @@ public class GenericEggProjectile extends ThrowableEntity {
 	/**
 	 * Called when this ThrowableEntity hits a block or entity.
 	 */
-	protected void onImpact(RayTraceResult movObjPos) {
+	@Override
+	protected void onImpact(RayTraceResult result) {
 
 		// get world
-		World worldObj = this.getEntityWorld();
+		World world = this.getEntityWorld();
 
 		// exit if on client side
-		if (isWorldAtClientSide(worldObj))
+		if (isWorldAtClientSide(world))
 			return;
 
 		// execute behaviour
-		behaviour.execute(this, worldObj, movObjPos);
+		behaviour.execute(this, world, result);
 
-		for (int j = 0; j < 8; ++j) {
-			worldObj.spawnParticle(ParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ,
-					((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D,
-					((double) this.rand.nextFloat() - 0.5D) * 0.08D, new int[] { Item.getIdFromItem(Items.EGG) });
-		}
+		// add impact particle for rendering
+		ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
+		ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
+		repository.add(particle);
 
-		// destroy this projectile
-		this.setDead();
+		// remove this projectile
+		remove();
+	}
+
+	@Override
+	protected Item func_213885_i() {
+		return Items.EGG;
 	}
 }
