@@ -474,7 +474,7 @@ public class BuildUtils {
 	public static StairsMaterial createInstance(BlockState state, Block stairMaterial, Block solidMaterial) {
 		return new StairsMaterial(state, stairMaterial, solidMaterial);
 	}
-
+	
 	/**
 	 * Build material factory method.
 	 * 
