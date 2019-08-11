@@ -6,7 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
- 
+
 /**
  * Class for directing the creation/modification/harvesting of blocks.
  */
@@ -17,8 +17,8 @@ public class BlockDirective {
 	BlockState state;
 
 	/**
-	 * BlockDirective constructor. Block is located at (0,0,0). Block is made of
-	 * air and can be harvested.
+	 * BlockDirective constructor. Block is located at (0,0,0). Block is made of air
+	 * and can be harvested.
 	 */
 	public BlockDirective() {
 		set(0, 0, 0);
@@ -41,42 +41,9 @@ public class BlockDirective {
 	}
 
 	/**
-	 * BlockDirective constructor. Block is made of source block and can be
-	 * harvested.
-	 * 
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param block
-	 */
-	@Deprecated
-	public BlockDirective(int x, int y, int z, Block block) {
-		set(x, y, z);
-		this.block = block;
-		this.harvest = true;
-	}
-
-	/**
-	 * BlockDirective constructor. Block is made of source block.
-	 * 
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param block
-	 * @param harvest
-	 */
-	@Deprecated
-	public BlockDirective(int x, int y, int z, Block block, boolean harvest) {
-		set(x, y, z);
-		this.block = block;
-		this.harvest = harvest;
-	}
-
-	/**
 	 * BlockDirective constructor. Block is a copy of source block directive.
 	 * 
-	 * @param other
-	 *            source block directive.
+	 * @param other source block directive.
 	 */
 	public BlockDirective(BlockDirective other) {
 		set(other.getBlockPosition());
@@ -88,11 +55,9 @@ public class BlockDirective {
 	/**
 	 * BlockDirective constructor.
 	 * 
-	 * @param blockPos
-	 *            block position
+	 * @param blockPos block position
 	 * @param block
-	 * @param harvest
-	 *            defines if block should be harvested.
+	 * @param harvest  defines if block should be harvested.
 	 */
 	public BlockDirective(BlockPos blockPos, Block block, boolean harvest) {
 		this.blockPos = blockPos;
@@ -105,10 +70,8 @@ public class BlockDirective {
 	 * 
 	 * Block is defined to be harvested.
 	 * 
-	 * @param blockPos
-	 *            block position
-	 * @param block
-	 *            block type.
+	 * @param blockPos block position
+	 * @param block    block type.
 	 */
 	public BlockDirective(BlockPos blockPos, Block block) {
 		this(blockPos, block, true);
@@ -175,7 +138,7 @@ public class BlockDirective {
 	}
 
 	public boolean equals(BlockDirective other) {
-		return blockPos.equals(other);
+		return blockPos.equals(other.getBlockPosition());
 	}
 
 	public String toString() {
@@ -189,8 +152,8 @@ public class BlockDirective {
 	/**
 	 * returns true if block should harvested.
 	 * 
-	 * The block is harvested if the target block type is air and the block
-	 * directs harvesting.
+	 * The block is harvested if the target block type is air and the block directs
+	 * harvesting.
 	 * 
 	 * @return true if block should harvested.
 	 */
@@ -219,11 +182,11 @@ public class BlockDirective {
 	}
 
 	/**
-	 * Returns defined block state. If state isn't defined then the default
-	 * state for the block is returned.
+	 * Returns defined block state. If state isn't defined then the default state
+	 * for the block is returned.
 	 * 
-	 * @return defined block state. If state isn't defined then the default
-	 *         state for the block is returned.
+	 * @return defined block state. If state isn't defined then the default state
+	 *         for the block is returned.
 	 */
 	public BlockState getState() {
 		if (isStateful())
@@ -234,19 +197,16 @@ public class BlockDirective {
 	/**
 	 * Set state.
 	 * 
-	 * @param state
-	 *            new state.
+	 * @param state new state.
 	 */
 	public void setState(BlockState state) {
 		this.state = state;
 	}
 
 	/**
-	 * Translates position of directive by subtraction of the translation
-	 * vector.
+	 * Translates position of directive by subtraction of the translation vector.
 	 * 
-	 * @param translationVector
-	 *            translation vector
+	 * @param translationVector translation vector
 	 */
 	public void translate(BlockPos translationVector) {
 		int x = blockPos.getX() - translationVector.getX();
@@ -255,4 +215,19 @@ public class BlockDirective {
 		set(x, y, z);
 	}
 
+	/**
+	 * Factory method.
+	 * 
+	 * @param blockPos   position
+	 * @param block      block
+	 * @param blockState block state
+	 * @param harvest    true if block should be harvested.
+	 * 
+	 * @return block directive.
+	 */
+	public static BlockDirective getInstance(BlockPos blockPos, Block block, BlockState blockState, boolean harvest) {
+		BlockDirective directive = new BlockDirective(blockPos, block, harvest);
+		directive.setState(blockState);
+		return directive;
+	}
 }

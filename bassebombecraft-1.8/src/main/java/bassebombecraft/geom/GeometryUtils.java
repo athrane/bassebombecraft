@@ -7,18 +7,32 @@ import static bassebombecraft.block.BlockUtils.containsAirBlocksOnly;
 import static bassebombecraft.block.BlockUtils.getBlockFromPosition;
 import static bassebombecraft.block.BlockUtils.getBlockStateFromPosition;
 import static bassebombecraft.block.BlockUtils.rotateBlockStateWithFacingProperty;
+import static bassebombecraft.geom.BlockDirective.getInstance;
+import static net.minecraft.block.Blocks.ALLIUM;
+import static net.minecraft.block.Blocks.AZURE_BLUET;
+import static net.minecraft.block.Blocks.BLUE_ORCHID;
+import static net.minecraft.block.Blocks.CORNFLOWER;
+import static net.minecraft.block.Blocks.DANDELION;
+import static net.minecraft.block.Blocks.LILY_OF_THE_VALLEY;
+import static net.minecraft.block.Blocks.ORANGE_TULIP;
+import static net.minecraft.block.Blocks.OXEYE_DAISY;
+import static net.minecraft.block.Blocks.PINK_TULIP;
+import static net.minecraft.block.Blocks.POPPY;
+import static net.minecraft.block.Blocks.RED_TULIP;
+import static net.minecraft.block.Blocks.WHITE_TULIP;
 
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.player.PlayerUtils;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import static net.minecraft.block.Blocks.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
@@ -48,32 +62,14 @@ public class GeometryUtils {
 	 * The block directive is configured not to harvest the target block when
 	 * processed.
 	 * 
-	 * @param blockPosSet
-	 *            set of {@linkplain BlockPos} to capture.
-	 * @param worldQuery
-	 *            world query object.
-	 * @param result
-	 *            list of captured {@linkplain BlockDirective}.
+	 * @param blocks     stream of {@linkplain BlockPos} to capture.
+	 * @param worldQuery world query object.
+	 * 
+	 * @param result     list of captured {@linkplain BlockDirective}.
 	 */
-	public static List<BlockDirective> captureBlockDirectives(Iterable<BlockPos> blockPosSet, WorldQuery worldQuery) {
-
-		List<BlockDirective> result = new ArrayList<BlockDirective>();
-
-		// capture directives
-		for (Object blockPos : blockPosSet) {
-
-			// type cast
-			BlockPos typedBlockPos = (BlockPos) blockPos;
-
-			// create directive
-			Block block = getBlockFromPosition(typedBlockPos, worldQuery);
-			BlockState blockState = getBlockStateFromPosition(typedBlockPos, worldQuery);
-			BlockDirective directive = new BlockDirective(typedBlockPos, block, DONT_HARVEST);
-			directive.setState(blockState);
-			result.add(directive);
-		}
-
-		return result;
+	public static List<BlockDirective> captureBlockDirectives(Stream<BlockPos> blocks, WorldQuery worldQuery) {
+		return blocks.map(p -> getInstance(p, getBlockFromPosition(p, worldQuery),
+				getBlockStateFromPosition(p, worldQuery), DONT_HARVEST)).collect(Collectors.toList());
 	}
 
 	/**
@@ -82,73 +78,31 @@ public class GeometryUtils {
 	 * 
 	 * Block and block state are created individually for each block position.
 	 * 
-	 * The block directive is configured to harvest the target block when
-	 * processed.
+	 * The block directive is configured to harvest the target block when processed.
 	 * 
-	 * @param blockPosSet
-	 *            set of {@linkplain BlockPos} to create block directives from..
-	 * @param block
-	 *            block to create all block directives with.
-	 * @param blockState
-	 *            block state to create all block directives with.
+	 * @param blocks     stream of {@linkplain BlockPos} to create block directives
+	 *                   from.
+	 * @param block      block to create all block directives with.
+	 * @param blockState block state to create all block directives with.
+	 * @param harvest    define whether existing blocks should be harvested.
 	 * 
 	 * @return result list of calculated {@linkplain BlockDirective}.
 	 */
-	public static List<BlockDirective> calculateBlockDirectives(Iterable<BlockPos> blockPosSet, Block block,
-			BlockState blockState) {
-		return calculateBlockDirectives(blockPosSet, block, blockState, HARVEST);
-	}
-
-	/**
-	 * Calculate block directives from set of blocks (to support creation of the
-	 * block in the game world).
-	 * 
-	 * Block and block state are created individually for each block position.
-	 * 
-	 * The block directive is configured to harvest the target block when
-	 * processed.
-	 * 
-	 * @param blockPosSet
-	 *            set of {@linkplain BlockPos} to create block directives from..
-	 * @param block
-	 *            block to create all block directives with.
-	 * @param blockState
-	 *            block state to create all block directives with.
-	 * @param harvest
-	 *            define whether existing blocks should be harvested.
-	 * 
-	 * @return result list of calculated {@linkplain BlockDirective}.
-	 */
-	public static List<BlockDirective> calculateBlockDirectives(Iterable<BlockPos> blockPosSet, Block block,
+	public static List<BlockDirective> calculateBlockDirectives(Stream<BlockPos> blocks, Block block,
 			BlockState blockState, boolean harvest) {
-
-		List<BlockDirective> result = new ArrayList<BlockDirective>();
-
-		// create directives
-		for (BlockPos blockPos : blockPosSet) {
-
-			// create directive
-			BlockDirective directive = new BlockDirective(blockPos, block, harvest);
-			directive.setState(blockState);
-			result.add(directive);
-		}
-
-		return result;
+		return blocks.map(p -> getInstance(p, block, blockState, harvest)).collect(Collectors.toList());
 	}
 
 	/**
-	 * Rotate coordinates of a set of block directives in source set around the
-	 * Y axis.
+	 * Rotate coordinates of a set of block directives in source set around the Y
+	 * axis.
 	 * 
 	 * Creates a new set of block directives.
 	 * 
-	 * @param offset
-	 *            offset block position containing the X and Z coordinate to
-	 *            rotate around.
-	 * @param angle
-	 *            angle to rotate coordinates.
-	 * @param source
-	 *            list of source coordinates.
+	 * @param offset offset block position containing the X and Z coordinate to
+	 *               rotate around.
+	 * @param angle  angle to rotate coordinates.
+	 * @param source list of source coordinates.
 	 * 
 	 * @return list containing the rotated coordinates
 	 */
@@ -166,7 +120,8 @@ public class GeometryUtils {
 			// create rotated directive
 			BlockPos RotatedPosition = new BlockPos((int) rotationPoint[0], sourceDirective.getBlockPosition().getY(),
 					(int) rotationPoint[1]);
-			BlockDirective rotatedDirective = new BlockDirective(RotatedPosition, sourceDirective.block, sourceDirective.harvest);
+			BlockDirective rotatedDirective = new BlockDirective(RotatedPosition, sourceDirective.block,
+					sourceDirective.harvest);
 
 			// add block state to rotated directive
 			BlockState sourceState = sourceDirective.getState();
@@ -179,13 +134,10 @@ public class GeometryUtils {
 	}
 
 	/**
-	 * Rotate coordinates around the Y axis at origin, e.g. X/Z origin
-	 * coordinates.
+	 * Rotate coordinates around the Y axis at origin, e.g. X/Z origin coordinates.
 	 * 
-	 * @param angle
-	 *            angle to rotate coordinates.
-	 * @param source
-	 *            list of source coordinates.
+	 * @param angle  angle to rotate coordinates.
+	 * @param source list of source coordinates.
 	 * 
 	 * @return list containing the rotated coordinates
 	 */
@@ -196,13 +148,10 @@ public class GeometryUtils {
 	/**
 	 * Rotate unit vector coordinates around the Y axis at origin.
 	 * 
-	 * @param offset
-	 *            offset block position containing the X and Z coordinate to
-	 *            rotate around.
-	 * @param angle
-	 *            angle to rotate coordinates.
-	 * @param vector
-	 *            vector which is rotated.
+	 * @param offset offset block position containing the X and Z coordinate to
+	 *               rotate around.
+	 * @param angle  angle to rotate coordinates.
+	 * @param vector vector which is rotated.
 	 * 
 	 * @return vector rotated around the Y-axis at origin.
 	 */
@@ -217,27 +166,23 @@ public class GeometryUtils {
 	}
 
 	/**
-	 * Private method for calculation of list of {@linkplain BlockDirective}
-	 * from a child structure.
+	 * Private method for calculation of list of {@linkplain BlockDirective} from a
+	 * child structure.
 	 * 
 	 * One block directive is added for each block position.
 	 * 
-	 * The rectangle is defined by a global offset (x,z,y) and dimensions
-	 * (width, height, depth).
+	 * The rectangle is defined by a global offset (x,z,y) and dimensions (width,
+	 * height, depth).
 	 * 
-	 * The rectangle (e.g. list of directives) is rotated depending on the
-	 * player direction.
+	 * The rectangle (e.g. list of directives) is rotated depending on the player
+	 * direction.
 	 * 
-	 * @param offset
-	 *            offset block position.
-	 * @param playerDirection
-	 *            player direction which controls the rotation of the
-	 *            coordinates.
-	 * @param structure
-	 *            structure which defines the local offset, size and block
-	 *            characteristics of the created rectangle.
-	 * @param harvest
-	 *            define whether existing blocks should be harvested.
+	 * @param offset          offset block position.
+	 * @param playerDirection player direction which controls the rotation of the
+	 *                        coordinates.
+	 * @param structure       structure which defines the local offset, size and
+	 *                        block characteristics of the created rectangle.
+	 * @param harvest         define whether existing blocks should be harvested.
 	 * @return list of block directive (e.g. coordinates) for the blocks in the
 	 *         structure.
 	 */
@@ -254,11 +199,10 @@ public class GeometryUtils {
 		int yTo = structure.getSizeY() - 1;
 		int zTo = structure.getSizeZ() - 1;
 		BlockPos to = from.add(xTo, yTo, zTo);
-
-		blockPosSet = BlockPos.getAllInBox(from, to);
+		Stream<BlockPos> blocks = BlockPos.getAllInBox(from, to);
 
 		// calculate block directives
-		List<BlockDirective> directives = calculateBlockDirectives(blockPosSet, structure.getBlock(),
+		List<BlockDirective> directives = calculateBlockDirectives(blocks, structure.getBlock(),
 				structure.getBlockState(), harvest);
 
 		// rotate directives to player orientation
@@ -277,13 +221,11 @@ public class GeometryUtils {
 	 * 
 	 * The structure is rotated depending on player direction.
 	 * 
-	 * @param offset
-	 *            global offset.
-	 * @param playerDirection
-	 *            player direction which controls the rotation of the
-	 *            coordinates.
-	 * @param structure
-	 *            structure which defines the size of the created rectangle.
+	 * @param offset          global offset.
+	 * @param playerDirection player direction which controls the rotation of the
+	 *                        coordinates.
+	 * @param structure       structure which defines the size of the created
+	 *                        rectangle.
 	 * 
 	 * @return list of block directives (e.g. coordinates) for the blocks in the
 	 *         structure.
@@ -299,15 +241,12 @@ public class GeometryUtils {
 	 * 
 	 * The structure is rotated depending on player direction.
 	 * 
-	 * @param offset
-	 *            global offset.
-	 * @param playerDirection
-	 *            player direction which controls the rotation of the
-	 *            coordinates.
-	 * @param structure
-	 *            structure which defines the size of the created rectangle.
-	 * @param harvest
-	 *            define whether existing blocks should be harvested.
+	 * @param offset          global offset.
+	 * @param playerDirection player direction which controls the rotation of the
+	 *                        coordinates.
+	 * @param structure       structure which defines the size of the created
+	 *                        rectangle.
+	 * @param harvest         define whether existing blocks should be harvested.
 	 * 
 	 * @return list of block directives (e.g. coordinates) for the blocks in the
 	 *         structure.
@@ -331,8 +270,8 @@ public class GeometryUtils {
 	/**
 	 * Calculate degrees from player direction.
 	 * 
-	 * @param playerDirection
-	 *            player direction from which the degrees are calculated.
+	 * @param playerDirection player direction from which the degrees are
+	 *                        calculated.
 	 * 
 	 * @return calculated degrees from player direction.
 	 */
@@ -367,18 +306,15 @@ public class GeometryUtils {
 	}
 
 	/**
-	 * Capture rectangle as list of {@linkplain BlockDirective}. One block
-	 * directive is captured for each block position.
+	 * Capture rectangle as list of {@linkplain BlockDirective}. One block directive
+	 * is captured for each block position.
 	 * 
-	 * The rectangle is defined by a global offset (x,z,y) and dimensions
-	 * (width, height, depth)
+	 * The rectangle is defined by a global offset (x,z,y) and dimensions (width,
+	 * height, depth)
 	 * 
-	 * @param offset
-	 *            capture offset.
-	 * @param size
-	 *            capture size.
-	 * @param worldQuery
-	 *            world query object.
+	 * @param offset     capture offset.
+	 * @param size       capture size.
+	 * @param worldQuery world query object.
 	 * 
 	 * @return list of coordinates for the blocks in the structure.
 	 */
@@ -398,14 +334,14 @@ public class GeometryUtils {
 			int layerYDelta = 0;
 			int layerZDelta = size.getZ() - 1;
 			BlockPos to = from.add(layerXDelta, layerYDelta, layerZDelta);
-			Iterable<BlockPos> blockPosSet = BlockPos.getAllInBox(from, to);
+			Stream<BlockPos> blocks = BlockPos.getAllInBox(from, to);
 
 			// exit if blocks is of type air
-			if (containsAirBlocksOnly(blockPosSet, worldQuery))
+			if (containsAirBlocksOnly(blocks, worldQuery))
 				return result;
 
 			// add blocks from this layer
-			result.addAll(captureBlockDirectives(blockPosSet, worldQuery));
+			result.addAll(captureBlockDirectives(blocks, worldQuery));
 
 			// increase layer
 			yCounter++;
@@ -415,10 +351,8 @@ public class GeometryUtils {
 	/**
 	 * Translate set of block directives using translation vector.
 	 * 
-	 * @param translationVector
-	 *            translation vector
-	 * @param directives
-	 *            set of block directives.
+	 * @param translationVector translation vector
+	 * @param directives        set of block directives.
 	 * 
 	 * @return translated list of block directives.
 	 */
@@ -436,10 +370,8 @@ public class GeometryUtils {
 	/**
 	 * Calculate spiral.
 	 * 
-	 * @param maxX
-	 *            maximum x coordinate.
-	 * @param maxY
-	 *            maximum y coordinate
+	 * @param maxX maximum x coordinate.
+	 * @param maxY maximum y coordinate
 	 * @return list of block positions with x/z coordinates defined. the Y
 	 *         coordinate is 0 for all block positions.
 	 */
@@ -474,17 +406,14 @@ public class GeometryUtils {
 	 * Locate ground block, i.e. a block with air/water above and solid ground
 	 * below.
 	 * 
-	 * If block is air/water block then move down until ground block is located.
-	 * If block is ground block then move up until block above air/water.
+	 * If block is air/water block then move down until ground block is located. If
+	 * block is ground block then move up until block above air/water.
 	 * 
-	 * @param target
-	 *            block to process.
-	 * @param iterations
-	 *            number of blocks to query before returning null. Should be a
-	 *            positive integer.
+	 * @param target     block to process.
+	 * @param iterations number of blocks to query before returning null. Should be
+	 *                   a positive integer.
 	 * 
-	 * @param world
-	 *            world object.
+	 * @param world      world object.
 	 * @return ground block, i.e. a block with air/water above and solid ground
 	 *         below. If no block was found then original block position is
 	 *         returned.
@@ -514,13 +443,11 @@ public class GeometryUtils {
 	}
 
 	/**
-	 * Returns true if block is a useful "ground" type block, i.e. NOT liquid,
-	 * air, plants or grass.
+	 * Returns true if block is a useful "ground" type block, i.e. NOT liquid, air,
+	 * plants or grass.
 	 * 
-	 * @param target
-	 *            target block.
-	 * @param world
-	 *            world object
+	 * @param target target block.
+	 * @param world  world object
 	 * @return
 	 */
 	static boolean isUsefulGroundBlock(BlockPos target, World world) {
@@ -531,13 +458,11 @@ public class GeometryUtils {
 	}
 
 	/**
-	 * Returns true if block is a useful "air" type block, i.e. liquid, air,
-	 * plants or grass.
+	 * Returns true if block is a useful "air" type block, i.e. liquid, air, plants
+	 * or grass.
 	 * 
-	 * @param target
-	 *            target block.
-	 * @param world
-	 *            world object
+	 * @param target target block.
+	 * @param world  world object
 	 * 
 	 * @return true if block is a useful "air" type block.
 	 */
@@ -551,10 +476,8 @@ public class GeometryUtils {
 	/**
 	 * Creates block directive with flower.
 	 * 
-	 * @param position
-	 *            block position for flower.
-	 * @param random
-	 *            random generator.
+	 * @param position block position for flower.
+	 * @param random   random generator.
 	 * @return block directive with flower.
 	 */
 	public static BlockDirective createFlowerDirective(BlockPos position, Random random) {
@@ -576,30 +499,30 @@ public class GeometryUtils {
 			return ALLIUM;
 		case 1:
 			return AZURE_BLUET;
-		case 2:			
+		case 2:
 			return BLUE_ORCHID;
-		case 3:			
+		case 3:
 			return CORNFLOWER;
-		case 4:			
+		case 4:
 			return DANDELION;
-		case 5:			
+		case 5:
 			return LILY_OF_THE_VALLEY;
-		case 6:			
+		case 6:
 			return ORANGE_TULIP;
-		case 7:			
+		case 7:
 			return OXEYE_DAISY;
-		case 8:			
+		case 8:
 			return PINK_TULIP;
-		case 9:			
+		case 9:
 			return POPPY;
-		case 10:			
+		case 10:
 			return RED_TULIP;
-		case 11:			
+		case 11:
 			return WHITE_TULIP;
-			
+
 		default:
 			return RED_TULIP;
 		}
 	}
-	
+
 }
