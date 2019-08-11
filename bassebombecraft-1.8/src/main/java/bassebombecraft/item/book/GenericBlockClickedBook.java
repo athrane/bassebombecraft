@@ -11,6 +11,8 @@ import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import bassebombecraft.item.action.BlockClickedItemAction;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -21,9 +23,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.CooldownTracker;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Generic Book implementation.
@@ -46,15 +51,13 @@ public class GenericBlockClickedBook extends Item {
 	 * Item tooltip.
 	 */
 	String tooltip;
-	
+
 	/**
 	 * Generic book constructor.
 	 * 
-	 * @param name
-	 *            item name.
-	 * @param action
-	 *            item action object which is invoked when item is right clicked
-	 *            with this item.
+	 * @param name   item name.
+	 * @param action item action object which is invoked when item is right clicked
+	 *               with this item.
 	 */
 	public GenericBlockClickedBook(String name, BlockClickedItemAction action) {
 		super(new Item.Properties().group(getItemGroup()));
@@ -64,7 +67,7 @@ public class GenericBlockClickedBook extends Item {
 
 		// get cooldown or default value
 		coolDown = resolveCoolDown(name, ITEM_BOOK_DEFAULT_COOLDOWN);
-		tooltip = resolveTooltip(name, ITEM_DEFAULT_TOOLTIP);		
+		tooltip = resolveTooltip(name, ITEM_DEFAULT_TOOLTIP);
 	}
 
 	@Override
@@ -72,17 +75,16 @@ public class GenericBlockClickedBook extends Item {
 		return false;
 	}
 
-	
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
 		// exit if invoked at client side
 		if (isWorldAtClientSide(context.getWorld())) {
 			return super.onItemUse(context);
 		}
-		
+
 		// post analytics
 		PlayerEntity player = context.getPlayer();
-		getProxy().postItemUsage(this.getUnlocalizedName(),player.getName());
+		getProxy().postItemUsage(this.getUnlocalizedName(), player.getName());
 
 		// add cooldown
 		CooldownTracker tracker = player.getCooldownTracker();
@@ -95,10 +97,13 @@ public class GenericBlockClickedBook extends Item {
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
-		
+
+	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(TextFormatting.GREEN + this.tooltip);
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
+			ITooltipFlag flagIn) {
+		ITextComponent text = new TranslationTextComponent(TextFormatting.GREEN + this.tooltip);
+		tooltip.add(text);
 	}
-	
+
 }
