@@ -145,7 +145,7 @@ public class BassebombeCraft {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
-		
+
 		// Register ourselves for server and other game events we are interested in
 		MinecraftForge.EVENT_BUS.register(this);
 	}
@@ -185,9 +185,7 @@ public class BassebombeCraft {
 
 		validateVersion(logger);
 
-		// initialize MC entities
-		// ProjectileInitializer.getInstance().initialize(this, modTab);
-		//initializeWorldGenerators();
+		// initializeWorldGenerators();
 
 		logger.info("Initialized BasseBombeCraft " + VERSION);
 	}
@@ -196,10 +194,10 @@ public class BassebombeCraft {
 		// NO-OP
 	}
 
-	void loadComplete( FMLLoadCompleteEvent event ) {
-		// NO-OP		
-    }
-	
+	void loadComplete(FMLLoadCompleteEvent event) {
+		// NO-OP
+	}
+
 	@SubscribeEvent
 	void serverAboutTostart(FMLServerAboutToStartEvent event) {
 		server = event.getServer();
@@ -383,7 +381,7 @@ public class BassebombeCraft {
 		return random;
 	}
 
-	/** 
+	/**
 	 * Get Minecraft client.
 	 * 
 	 * @return Minecraft client
@@ -391,7 +389,7 @@ public class BassebombeCraft {
 	public static Minecraft getMincraft() {
 		return Minecraft.getInstance();
 	}
-	
+
 	/**
 	 * Get frequency repository.
 	 * 
