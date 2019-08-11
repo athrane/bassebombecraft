@@ -2,6 +2,7 @@ package bassebombecraft.proxy;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.config.VersionUtils.endServerSession;
+import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startServerSession;
 
 import javax.naming.OperationNotSupportedException;
@@ -40,6 +41,17 @@ public class ServerProxy implements Proxy {
 			Logger logger = getBassebombeCraft().getLogger();
 			logger.error("Ending usage session failed with: " + ex.getMessage());
 		}		
+	}
+
+	@Override
+	public void postItemUsage(String itemName, String user) {
+		try {
+			postItemUsageEvent(itemName, user);
+
+		} catch (Exception ex) {
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Posting usage failed with: " + ex.getMessage());
+		}
 	}
 		
 	@Override

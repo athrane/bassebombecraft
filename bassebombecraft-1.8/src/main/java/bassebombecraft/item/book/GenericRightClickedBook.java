@@ -83,7 +83,7 @@ public class GenericRightClickedBook extends Item {
 		}
 
 		// post analytics
-		getProxy().postItemUsage(this.getUnlocalizedName(), playerIn.getName());
+		getProxy().postItemUsage(this.getRegistryName().toString(), playerIn.getGameProfile().getName());
 
 		// add cooldown
 		CooldownTracker tracker = playerIn.getCooldownTracker();

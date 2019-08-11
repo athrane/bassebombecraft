@@ -20,7 +20,15 @@ public interface Proxy {
 	 * Shutdown analytics.
 	 */
 	public void endAnalyticsSession();
-
+	
+	/**
+	 * Post item usage.
+	 * 
+	 * @param itemName used item.
+	 * @param user user who used item.
+	 */
+	public void postItemUsage(String itemName, String user);
+	
 	/**
 	 * Get user.
 	 * 
