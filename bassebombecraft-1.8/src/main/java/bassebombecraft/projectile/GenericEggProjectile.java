@@ -22,6 +22,11 @@ import net.minecraft.world.World;
 
 public class GenericEggProjectile extends ProjectileItemEntity {
 
+	/**
+	 * Null behaviour.
+	 */
+	static final ProjectileAction NULL_BEHAVIOUR = new NullAction();
+
 	static final float R = 1.0F;
 	static final float G = 1.0F;
 	static final float B = 1.0F;
@@ -33,7 +38,30 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 			G, B, PARTICLE_SPEED);
 
 	public final static String PROJECTILE_NAME = "EggProjectile";
-	ProjectileAction behaviour = new NullAction();
+
+	/**
+	 * Behaviour, initial null.
+	 */
+	ProjectileAction behaviour = NULL_BEHAVIOUR;
+
+	/**
+	 * GenericEggProjectile no-arg constructor.
+	 * 
+	 * Initialises entity with null behaviour.
+	 */
+
+	/**
+	 * GenericEggProjectile constructor
+	 * 
+	 * Supports initialization in class {@linkplain EntityTypeRegistryEventHandler}.
+	 * 
+	 * @param type  entity type.
+	 * @param world world.
+	 */
+	public GenericEggProjectile(EntityType<? extends ProjectileItemEntity> type, World world) {
+		super(type, world);
+		setBehaviour(NULL_BEHAVIOUR);
+	}
 
 	/**
 	 * GenericEggProjectile constructor.
@@ -47,6 +75,11 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 		setBehaviour(behaviour);
 	}
 
+	/**
+	 * Sets behaviour.
+	 * 
+	 * @param behaviour projectile behaviour.
+	 */
 	public void setBehaviour(ProjectileAction behaviour) {
 		this.behaviour = behaviour;
 	}
