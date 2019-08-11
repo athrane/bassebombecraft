@@ -138,11 +138,10 @@ public class GenericInventoryItem extends Item {
 		tracker.setCooldown(this, coolDown);
 
 		// post analytics		
-		getProxy().postItemUsage(getUnlocalizedName(), player.getName());
+		getProxy().postItemUsage(this.getRegistryName().toString(), player.getGameProfile().getName());
 
 		// apply effect
 		applyEffect(worldIn, (LivingEntity) entityIn);
-
 	}
 
 	/**
