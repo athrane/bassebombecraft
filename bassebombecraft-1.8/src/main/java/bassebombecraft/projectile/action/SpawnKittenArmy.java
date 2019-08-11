@@ -10,11 +10,14 @@ import java.util.Random;
 import com.typesafe.config.Config;
 
 import bassebombecraft.event.entity.team.TeamRepository;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.OcelotEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 
 /**
@@ -73,7 +76,7 @@ public class SpawnKittenArmy implements ProjectileAction {
 		for (int i = 0; i < kittens; i++) {
 
 			// create ocelot
-			OcelotEntity entity = new OcelotEntity(world);
+			OcelotEntity entity = EntityType.OCELOT.create(world);
 
 			// set age
 			if (i == 0)
@@ -82,13 +85,9 @@ public class SpawnKittenArmy implements ProjectileAction {
 				entity.setGrowingAge(age);
 
 			// set tamed
-			entity.setTamed(true);
-			entity.setTameSkin(CAT_TYPE);
-
 			
 			// set owner
 			LivingEntity owner = projectile.getThrower();
-			entity.setOwnerId(owner.getUniqueID());
 
 			// set in love with player
 			if (owner instanceof PlayerEntity) {
@@ -115,12 +114,13 @@ public class SpawnKittenArmy implements ProjectileAction {
 
 			// set name
 			if (renderCustomName) {
-				entity.setCustomNameTag(getKittenName(random, i));
-				entity.setAlwaysRenderNameTag(true);
+				ITextComponent name = new StringTextComponent(getKittenName(random, i));
+				entity.setCustomName(name);
+				entity.setCustomNameVisible(true);
 			}
 
 			// spawn
-			world.spawnEntity(entity);
+			world.addEntity(entity);
 		}
 	}
 
