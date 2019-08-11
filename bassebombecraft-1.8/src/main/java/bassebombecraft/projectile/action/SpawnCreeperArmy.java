@@ -9,6 +9,7 @@ import java.util.Random;
 import com.typesafe.config.Config;
 
 import bassebombecraft.event.entity.team.TeamRepository;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
@@ -55,7 +56,7 @@ public class SpawnCreeperArmy implements ProjectileAction {
 		for (int i = 0; i < creepers; i++) {
 
 			// create skeleton
-			CreeperEntity entity = new CreeperEntity(world);
+			CreeperEntity entity = EntityType.CREEPER.create(world);
 
 			// calculate random position
 			Random random = entity.getRNG();
@@ -78,7 +79,7 @@ public class SpawnCreeperArmy implements ProjectileAction {
 			buildCreeperArmyAi(entity, thrower);
 
 			// spawn
-			world.spawnEntity(entity);
+			world.addEntity(entity);
 		}
 	}
 
