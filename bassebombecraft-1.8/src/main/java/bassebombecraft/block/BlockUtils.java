@@ -7,6 +7,8 @@ import static net.minecraft.util.EnumFacing.NORTH;
 import static net.minecraft.util.EnumFacing.SOUTH;
 import static net.minecraft.util.EnumFacing.WEST;
 
+import java.util.stream.Stream;
+
 import com.google.common.collect.ImmutableMap;
 
 import bassebombecraft.event.block.temporary.DefaultTemporaryBlock;
@@ -233,22 +235,14 @@ public class BlockUtils {
 	}
 
 	/**
-	 * Returns true if the set of blocks is all of type air.
+	 * Returns true if the set of blocks are all of type air.
 	 * 
-	 * @param blocks set of blocks to query.
-	 * @return true if the set of blocks is all of type air.
+	 * @param stream of blocks to query.
+	 * 
+	 * @return true if the blocks are all of type air.
 	 */
-	public static boolean containsAirBlocksOnly(Iterable<BlockPos> blocks, WorldQuery worldQuery) {
-		for (BlockPos blockPos : blocks) {
-
-			// get block
-			Block block = getBlockFromPosition(blockPos, worldQuery);
-
-			// exit if block isn't of type air
-			if (block != Blocks.AIR)
-				return false;
-		}
-		return true;
+	public static boolean containsAirBlocksOnly(Stream<BlockPos> blocks, WorldQuery worldQuery) {
+		return blocks.map(bp -> getBlockFromPosition(bp, worldQuery)).anyMatch(b -> b != Blocks.AIR);
 	}
 
 	/**
