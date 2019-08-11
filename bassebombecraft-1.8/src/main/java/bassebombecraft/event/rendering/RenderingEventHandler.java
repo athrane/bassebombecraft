@@ -207,22 +207,22 @@ public class RenderingEventHandler {
 		setupBillboardRendering();
 
 		// get minecraft
-		Minecraft mc = Minecraft.getMinecraft();
+		Minecraft mc = Minecraft.getInstance();
 
 		// enable for rendering of text
-		GlStateManager.enableTexture2D();
+		GlStateManager.enableTexture();
 
 		// translate to camera position
-		GlStateManager.translate(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
+		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
 
 		// set up billboard rotation
 		setupBillboardRotation();
 
 		// scale text
-		GlStateManager.scale(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
+		GlStateManager.scalef(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 
 		// add addition rotation
-		GlStateManager.rotate(rotation.w, rotation.x, rotation.y, rotation.z);
+		GlStateManager.rotatef(rotation.w, rotation.x, rotation.y, rotation.z);
 
 		// draw
 		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
@@ -237,17 +237,17 @@ public class RenderingEventHandler {
 		setupBillboardRendering();
 
 		// set line width & color
-		GlStateManager.glLineWidth(BILLBOARD_LINE_WIDTH);
-		GlStateManager.color(1, 1, 1);
+		GlStateManager.lineWidth(BILLBOARD_LINE_WIDTH);
+		GlStateManager.color3f(1.0F, 1.0F, 1.0F);
 
 		// translate to camera position
-		GlStateManager.translate(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
+		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
 
 		// set up billboard rotation
 		setupBillboardRotation();
 
 		// add addition rotation
-		GlStateManager.rotate(rotation.w, rotation.x, rotation.y, rotation.z);
+		GlStateManager.rotatef(rotation.w, rotation.x, rotation.y, rotation.z);
 
 		// create tessellator & bufferbuilder
 		Tessellator tessellator = Tessellator.getInstance();
@@ -280,11 +280,11 @@ public class RenderingEventHandler {
 		setupBillboardRendering();
 
 		// set line width & color
-		GlStateManager.glLineWidth(1);
-		GlStateManager.color(1, 1, 1);
+		GlStateManager.lineWidth(1);
+		GlStateManager.color3f(1.0F, 1.0F, 1.0F);
 
 		// translate and rotate billboard
-		GlStateManager.translate(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
+		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
 		setupBillboardRotation();
 
 		// create tessellator & bufferbuilder
@@ -322,11 +322,11 @@ public class RenderingEventHandler {
 		setupBillboardRendering();
 
 		// set line width & color
-		GlStateManager.glLineWidth(BILLBOARD_LINE_WIDTH);
-		GlStateManager.color(1, 1, 1);
+		GlStateManager.lineWidth(BILLBOARD_LINE_WIDTH);
+		GlStateManager.color3f(1.0F, 1.0F, 1.0F);
 
 		// translate to camera position
-		GlStateManager.translate(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
+		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
 
 		// set up billboard rotation
 		setupBillboardRotation();
@@ -354,11 +354,11 @@ public class RenderingEventHandler {
 		setupBillboardRendering();
 
 		// set line width & color
-		GlStateManager.glLineWidth(2);
-		GlStateManager.color(1, 0, 0);
+		GlStateManager.lineWidth(2);
+		GlStateManager.color3f(1.0F, 1.0F, 1.0F);
 
 		// translate and rotate billboard
-		GlStateManager.translate(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
+		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
 		setupBillboardRotation();
 
 		// create tessellator & bufferbuilder
@@ -387,7 +387,7 @@ public class RenderingEventHandler {
 		ParticleRendering[] paticles = repository.getParticles();
 
 		// set line width & color
-		GlStateManager.glLineWidth(1);
+		GlStateManager.lineWidth(1);
 		Color color = new Color(255, 255, 255, 150);
 
 		// render particles
