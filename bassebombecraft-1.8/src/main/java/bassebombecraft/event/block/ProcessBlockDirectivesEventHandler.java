@@ -37,7 +37,7 @@ public class ProcessBlockDirectivesEventHandler {
 	static final float G = 1.0F;
 	static final float B = 1.0F;
 	static final int PARTICLE_NUMBER = 5;
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.SPELL_INSTANT;
+	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
 	static final int PARTICLE_DURATION = 20;
 	static final double PARTICLE_SPEED = 3.0D; // Particle speed
 	static final ParticleRenderingInfo PARTICLE_INFO = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R,
