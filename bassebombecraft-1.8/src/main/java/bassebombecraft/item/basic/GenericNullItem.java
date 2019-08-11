@@ -11,6 +11,8 @@ import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -22,8 +24,12 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.Hand;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Generic NOP item implementation.
@@ -69,8 +75,6 @@ public class GenericNullItem extends Item {
 		return false;
 	}
 
-	
-	
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
 		// exit if invoked at client side
@@ -87,7 +91,7 @@ public class GenericNullItem extends Item {
 
 		// apply action
 		action.onRightClick(worldIn, playerIn);
-		
+
 		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
 	}
 
@@ -96,9 +100,12 @@ public class GenericNullItem extends Item {
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(TextFormatting.GREEN + this.tooltip);
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
+			ITooltipFlag flagIn) {
+		ITextComponent text = new TranslationTextComponent(TextFormatting.GREEN + this.tooltip);
+		tooltip.add(text);
 	}
 
 }

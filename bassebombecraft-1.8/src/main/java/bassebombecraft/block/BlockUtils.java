@@ -2,6 +2,7 @@ package bassebombecraft.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.NULL_TILE_ENTITY;
+import static net.minecraft.state.properties.BlockStateProperties.FACING;
 
 import java.util.stream.Stream;
 
@@ -14,7 +15,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
-import static net.minecraft.state.properties.BlockStateProperties.*;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;

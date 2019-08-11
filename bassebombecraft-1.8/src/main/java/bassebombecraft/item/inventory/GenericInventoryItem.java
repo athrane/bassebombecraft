@@ -16,6 +16,8 @@ import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
@@ -30,8 +32,12 @@ import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Generic Book implementation.
@@ -205,9 +211,12 @@ public class GenericInventoryItem extends Item {
 		}
 	}
 
+	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
-		tooltip.add(TextFormatting.GREEN + this.tooltip);
+	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
+			ITooltipFlag flagIn) {
+		ITextComponent text = new TranslationTextComponent(TextFormatting.GREEN + this.tooltip);
+		tooltip.add(text);
 	}
 		
 	/**
