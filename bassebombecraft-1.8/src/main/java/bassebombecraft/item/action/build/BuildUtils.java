@@ -2,6 +2,49 @@ package bassebombecraft.item.action.build;
 
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
 import static bassebombecraft.structure.ChildStructure.createOakFenceStructure;
+import static net.minecraft.block.Blocks.AIR;
+import static net.minecraft.block.Blocks.ANDESITE;
+import static net.minecraft.block.Blocks.BLUE_STAINED_GLASS_PANE;
+import static net.minecraft.block.Blocks.BRICKS;
+import static net.minecraft.block.Blocks.CHISELED_RED_SANDSTONE;
+import static net.minecraft.block.Blocks.CHISELED_SANDSTONE;
+import static net.minecraft.block.Blocks.CHISELED_STONE_BRICKS;
+import static net.minecraft.block.Blocks.COBBLESTONE;
+import static net.minecraft.block.Blocks.CRACKED_STONE_BRICKS;
+import static net.minecraft.block.Blocks.CUT_RED_SANDSTONE;
+import static net.minecraft.block.Blocks.CUT_SANDSTONE;
+import static net.minecraft.block.Blocks.CYAN_STAINED_GLASS_PANE;
+import static net.minecraft.block.Blocks.DIORITE;
+import static net.minecraft.block.Blocks.GLASS_PANE;
+import static net.minecraft.block.Blocks.GREEN_STAINED_GLASS_PANE;
+import static net.minecraft.block.Blocks.LIGHT_BLUE_STAINED_GLASS_PANE;
+import static net.minecraft.block.Blocks.LIGHT_GRAY_STAINED_GLASS_PANE;
+import static net.minecraft.block.Blocks.LIME_STAINED_GLASS_PANE;
+import static net.minecraft.block.Blocks.MAGENTA_STAINED_GLASS_PANE;
+import static net.minecraft.block.Blocks.MAGMA_BLOCK;
+import static net.minecraft.block.Blocks.MOSSY_COBBLESTONE;
+import static net.minecraft.block.Blocks.MOSSY_STONE_BRICKS;
+import static net.minecraft.block.Blocks.NETHER_BRICKS;
+import static net.minecraft.block.Blocks.OAK_LOG;
+import static net.minecraft.block.Blocks.OAK_PLANKS;
+import static net.minecraft.block.Blocks.OBSIDIAN;
+import static net.minecraft.block.Blocks.ORANGE_STAINED_GLASS_PANE;
+import static net.minecraft.block.Blocks.PINK_STAINED_GLASS_PANE;
+import static net.minecraft.block.Blocks.POLISHED_GRANITE;
+import static net.minecraft.block.Blocks.PURPLE_STAINED_GLASS_PANE;
+import static net.minecraft.block.Blocks.RED_SANDSTONE;
+import static net.minecraft.block.Blocks.RED_STAINED_GLASS_PANE;
+import static net.minecraft.block.Blocks.SANDSTONE;
+import static net.minecraft.block.Blocks.SANDSTONE_STAIRS;
+import static net.minecraft.block.Blocks.SMOOTH_RED_SANDSTONE;
+import static net.minecraft.block.Blocks.SMOOTH_SANDSTONE;
+import static net.minecraft.block.Blocks.SPAWNER;
+import static net.minecraft.block.Blocks.SPRUCE_LOG;
+import static net.minecraft.block.Blocks.STONE;
+import static net.minecraft.block.Blocks.STONE_BRICKS;
+import static net.minecraft.block.Blocks.WHITE_STAINED_GLASS_PANE;
+import static net.minecraft.block.Blocks.YELLOW_STAINED_GLASS_PANE;
+import static net.minecraft.util.Direction.*;
 
 import java.util.Random;
 
@@ -10,10 +53,8 @@ import bassebombecraft.item.action.build.tower.StairsMaterial;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.EnumFacing;
+import static net.minecraft.block.StairsBlock.*;
 import net.minecraft.util.math.BlockPos;
 
 /**
@@ -42,36 +83,36 @@ public class BuildUtils {
 
 		offset = new BlockPos(-3 + globalOffset.getX(), globalOffset.getY(), globalOffset.getZ() - 1);
 		size = new BlockPos(1, 4, 2);
-		structure.add(new ChildStructure(offset, size, Blocks.OBSIDIAN));
+		structure.add(new ChildStructure(offset, size, OBSIDIAN));
 
 		offset = new BlockPos(-2 + globalOffset.getX(), globalOffset.getY() + 3, globalOffset.getZ() - 1);
 		size = new BlockPos(1, 3, 2);
-		structure.add(new ChildStructure(offset, size, Blocks.OBSIDIAN));
+		structure.add(new ChildStructure(offset, size, OBSIDIAN));
 
 		offset = new BlockPos(-1 + globalOffset.getX(), globalOffset.getY() + 5, globalOffset.getZ() - 1);
 		size = new BlockPos(1, 2, 2);
-		structure.add(new ChildStructure(offset, size, Blocks.OBSIDIAN));
+		structure.add(new ChildStructure(offset, size, OBSIDIAN));
 
 		offset = new BlockPos(globalOffset.getX(), globalOffset.getY() + 6, globalOffset.getZ() - 1);
 		size = new BlockPos(1, 3, 2);
-		structure.add(new ChildStructure(offset, size, Blocks.OBSIDIAN));
+		structure.add(new ChildStructure(offset, size, OBSIDIAN));
 
 		offset = new BlockPos(1 + globalOffset.getX(), globalOffset.getY() + 5, globalOffset.getZ() - 1);
 		size = new BlockPos(1, 2, 2);
-		structure.add(new ChildStructure(offset, size, Blocks.OBSIDIAN));
+		structure.add(new ChildStructure(offset, size, OBSIDIAN));
 
 		offset = new BlockPos(2 + globalOffset.getX(), globalOffset.getY() + 3, globalOffset.getZ() - 1);
 		size = new BlockPos(1, 3, 2);
-		structure.add(new ChildStructure(offset, size, Blocks.OBSIDIAN));
+		structure.add(new ChildStructure(offset, size, OBSIDIAN));
 
 		offset = new BlockPos(3 + globalOffset.getX(), globalOffset.getY(), globalOffset.getZ() - 1);
 		size = new BlockPos(1, 4, 2);
-		structure.add(new ChildStructure(offset, size, Blocks.OBSIDIAN));
+		structure.add(new ChildStructure(offset, size, OBSIDIAN));
 
 		offset = new BlockPos(globalOffset.getX() - 2, globalOffset.getY(), globalOffset.getZ());
 		size = new BlockPos(5, 1, 1);
-		BlockState state = Blocks.SANDSTONE_STAIRS.getDefaultState().withProperty(BlockStairs.FACING, EnumFacing.SOUTH);
-		structure.add(new ChildStructure(offset, size, Blocks.SANDSTONE_STAIRS, state));
+		BlockState state = SANDSTONE_STAIRS.getDefaultState().with(FACING, SOUTH);
+		structure.add(new ChildStructure(offset, size, SANDSTONE_STAIRS, state));
 	}
 
 	/**
@@ -167,7 +208,7 @@ public class BuildUtils {
 			yOffset = globalOffset.getY() + 2 + index;
 			offset = new BlockPos(xOffset, yOffset, zOffset);
 			size = new BlockPos(2, 4, 1);
-			postStructure.add(new ChildStructure(offset, size, Blocks.AIR));
+			postStructure.add(new ChildStructure(offset, size, AIR));
 		}
 	}
 
@@ -199,13 +240,13 @@ public class BuildUtils {
 				zOffset = globalOffset.getZ() + 1;
 				offset = new BlockPos(xOffset, yOffset, zOffset);
 				size = new BlockPos(1, 1, 1);
-				BlockState state = materials.getState().withProperty(BlockStairs.FACING, EnumFacing.WEST);
+				BlockState state = materials.getState().with(FACING, WEST);
 				structure.add(new ChildStructure(offset, size, materials.getStairMaterial(), state));
 
 				// add air block
 				offset = offset.add(0, 1, 0);
 				size = new BlockPos(1, 3, 1);
-				postStructure.add(new ChildStructure(offset, size, Blocks.AIR));
+				postStructure.add(new ChildStructure(offset, size, AIR));
 
 				xOffset = globalOffset.getX();
 				yOffset = globalOffset.getY() + 1 + index;
@@ -217,7 +258,7 @@ public class BuildUtils {
 				// add air block
 				offset = offset.add(0, 1, 0);
 				size = new BlockPos(1, 3, 1);
-				postStructure.add(new ChildStructure(offset, size, Blocks.AIR));
+				postStructure.add(new ChildStructure(offset, size, AIR));
 			}
 
 			if (index % 4 == 1) {
@@ -234,13 +275,13 @@ public class BuildUtils {
 				zOffset = globalOffset.getZ();
 				offset = new BlockPos(xOffset, yOffset, zOffset);
 				size = new BlockPos(1, 1, 1);
-				BlockState state = materials.getState().withProperty(BlockStairs.FACING, EnumFacing.NORTH);
+				BlockState state = materials.getState().with(FACING, NORTH);						
 				structure.add(new ChildStructure(offset, size, materials.getStairMaterial(), state));
 
 				// add air block
 				offset = offset.add(0, 1, 0);
 				size = new BlockPos(1, 3, 1);
-				postStructure.add(new ChildStructure(offset, size, Blocks.AIR));
+				postStructure.add(new ChildStructure(offset, size, AIR));
 
 				xOffset = globalOffset.getX();
 				yOffset = globalOffset.getY() + 1 + index;
@@ -252,7 +293,7 @@ public class BuildUtils {
 				// add air block
 				offset = offset.add(0, 1, 0);
 				size = new BlockPos(1, 3, 1);
-				postStructure.add(new ChildStructure(offset, size, Blocks.AIR));
+				postStructure.add(new ChildStructure(offset, size, AIR));
 
 			}
 
@@ -270,13 +311,13 @@ public class BuildUtils {
 				zOffset = globalOffset.getZ() - 1;
 				offset = new BlockPos(xOffset, yOffset, zOffset);
 				size = new BlockPos(1, 1, 1);
-				BlockState state = materials.getState().withProperty(BlockStairs.FACING, EnumFacing.EAST);
+				BlockState state = materials.getState().with(FACING, EAST);
 				structure.add(new ChildStructure(offset, size, materials.getStairMaterial(), state));
 
 				// add air block
 				offset = offset.add(0, 1, 0);
 				size = new BlockPos(1, 3, 1);
-				postStructure.add(new ChildStructure(offset, size, Blocks.AIR));
+				postStructure.add(new ChildStructure(offset, size, AIR));
 
 				xOffset = globalOffset.getX() + 2;
 				yOffset = globalOffset.getY() + 1 + index;
@@ -288,7 +329,7 @@ public class BuildUtils {
 				// add air block
 				offset = offset.add(0, 1, 0);
 				size = new BlockPos(1, 3, 1);
-				postStructure.add(new ChildStructure(offset, size, Blocks.AIR));
+				postStructure.add(new ChildStructure(offset, size, AIR));
 			}
 
 			if (index % 4 == 3) {
@@ -305,13 +346,13 @@ public class BuildUtils {
 				zOffset = globalOffset.getZ();
 				offset = new BlockPos(xOffset, yOffset, zOffset);
 				size = new BlockPos(1, 1, 1);
-				BlockState state = materials.getState().withProperty(BlockStairs.FACING, EnumFacing.SOUTH);
+				BlockState state = materials.getState().with(FACING, SOUTH);
 				structure.add(new ChildStructure(offset, size, materials.getStairMaterial(), state));
 
 				// add air block
 				offset = offset.add(0, 1, 0);
 				size = new BlockPos(1, 3, 1);
-				postStructure.add(new ChildStructure(offset, size, Blocks.AIR));
+				postStructure.add(new ChildStructure(offset, size, AIR));
 
 				xOffset = globalOffset.getX() + 2;
 				yOffset = globalOffset.getY() + 1 + index;
@@ -323,7 +364,7 @@ public class BuildUtils {
 				// add air block
 				offset = offset.add(0, 1, 0);
 				size = new BlockPos(1, 3, 1);
-				postStructure.add(new ChildStructure(offset, size, Blocks.AIR));
+				postStructure.add(new ChildStructure(offset, size, AIR));
 			}
 		}
 	}
@@ -336,7 +377,7 @@ public class BuildUtils {
 	 */
 	public static void addMobSpawner(Structure structure, BlockPos globalOffset) {
 		BlockPos size = new BlockPos(1, 1, 1);
-		structure.add(new ChildStructure(globalOffset, size, Blocks.SPAWNER));
+		structure.add(new ChildStructure(globalOffset, size, SPAWNER));
 	}
 
 	/**
@@ -351,42 +392,42 @@ public class BuildUtils {
 		switch (selection) {
 
 		case 1:
-			return createBuildMaterial(Blocks.BRICKS);
+			return createBuildMaterial(BRICKS);
 		case 2:
-			return createBuildMaterial(Blocks.NETHER_BRICKS);
+			return createBuildMaterial(NETHER_BRICKS);
 		case 3:
-			return createBuildMaterial(Blocks.SANDSTONE);
+			return createBuildMaterial(SANDSTONE);
 		case 4:
-			return createBuildMaterial(Blocks.STONE);
+			return createBuildMaterial(STONE);
 		case 5:
-			return createBuildMaterial(Blocks.ANDESITE);
+			return createBuildMaterial(ANDESITE);
 		case 6:
-			return createBuildMaterial(Blocks.DIORITE);
+			return createBuildMaterial(DIORITE);
 		case 7:
-			return createBuildMaterial(Blocks.POLISHED_GRANITE);
+			return createBuildMaterial(POLISHED_GRANITE);
 		case 8:
-			return createBuildMaterial(Blocks.STONE_BRICKS);
+			return createBuildMaterial(STONE_BRICKS);
 		case 9:
-			return createBuildMaterial(Blocks.CHISELED_STONE_BRICKS);
+			return createBuildMaterial(CHISELED_STONE_BRICKS);
 		case 10:
-			return createBuildMaterial(Blocks.CRACKED_STONE_BRICKS);
+			return createBuildMaterial(CRACKED_STONE_BRICKS);
 		case 11:
-			return createBuildMaterial(Blocks.MOSSY_STONE_BRICKS);
+			return createBuildMaterial(MOSSY_STONE_BRICKS);
 		case 12:
-			return createBuildMaterial(Blocks.MOSSY_COBBLESTONE);
+			return createBuildMaterial(MOSSY_COBBLESTONE);
 		case 13:
-			return createBuildMaterial(Blocks.COBBLESTONE);
+			return createBuildMaterial(COBBLESTONE);
 		case 14:
-			return createBuildMaterial(Blocks.MAGMA_BLOCK);
+			return createBuildMaterial(MAGMA_BLOCK);
 		case 15:
-			return createBuildMaterial(Blocks.OAK_LOG);
+			return createBuildMaterial(OAK_LOG);
 		case 16:
-			return createBuildMaterial(Blocks.SPRUCE_LOG);
+			return createBuildMaterial(SPRUCE_LOG);
 		case 17:
-			return createBuildMaterial(Blocks.OAK_PLANKS);
+			return createBuildMaterial(OAK_PLANKS);
 
 		default:
-			return createBuildMaterial(Blocks.SANDSTONE);
+			return createBuildMaterial(SANDSTONE);
 		}
 	}
 
@@ -401,24 +442,24 @@ public class BuildUtils {
 		switch (selection) {
 
 		case 0:
-			return createBuildMaterial(Blocks.SANDSTONE);
+			return createBuildMaterial(SANDSTONE);
 		case 1:
-			return createBuildMaterial(Blocks.CHISELED_RED_SANDSTONE);
+			return createBuildMaterial(CHISELED_RED_SANDSTONE);
 		case 2:
-			return createBuildMaterial(Blocks.CHISELED_SANDSTONE);
+			return createBuildMaterial(CHISELED_SANDSTONE);
 		case 3:
-			return createBuildMaterial(Blocks.CUT_RED_SANDSTONE);
+			return createBuildMaterial(CUT_RED_SANDSTONE);
 		case 4:
-			return createBuildMaterial(Blocks.CUT_SANDSTONE);
+			return createBuildMaterial(CUT_SANDSTONE);
 		case 5:
-			return createBuildMaterial(Blocks.RED_SANDSTONE);
+			return createBuildMaterial(RED_SANDSTONE);
 		case 6:
-			return createBuildMaterial(Blocks.SMOOTH_RED_SANDSTONE);
+			return createBuildMaterial(SMOOTH_RED_SANDSTONE);
 		case 7:
-			return createBuildMaterial(Blocks.SMOOTH_SANDSTONE);
+			return createBuildMaterial(SMOOTH_SANDSTONE);
 
 		default:
-			return createBuildMaterial(Blocks.SANDSTONE);
+			return createBuildMaterial(SANDSTONE);
 		}
 	}
 
@@ -433,34 +474,34 @@ public class BuildUtils {
 		switch (selection) {
 
 		case 0:
-			return createBuildMaterial(Blocks.WHITE_STAINED_GLASS_PANE);
+			return createBuildMaterial(WHITE_STAINED_GLASS_PANE);
 		case 1:
-			return createBuildMaterial(Blocks.BLUE_STAINED_GLASS_PANE);
+			return createBuildMaterial(BLUE_STAINED_GLASS_PANE);
 		case 2:
-			return createBuildMaterial(Blocks.CYAN_STAINED_GLASS_PANE);
+			return createBuildMaterial(CYAN_STAINED_GLASS_PANE);
 		case 3:
-			return createBuildMaterial(Blocks.GREEN_STAINED_GLASS_PANE);
+			return createBuildMaterial(GREEN_STAINED_GLASS_PANE);
 		case 4:
-			return createBuildMaterial(Blocks.LIGHT_BLUE_STAINED_GLASS_PANE);
+			return createBuildMaterial(LIGHT_BLUE_STAINED_GLASS_PANE);
 		case 5:
-			return createBuildMaterial(Blocks.LIME_STAINED_GLASS_PANE);
+			return createBuildMaterial(LIME_STAINED_GLASS_PANE);
 		case 6:
-			return createBuildMaterial(Blocks.MAGENTA_STAINED_GLASS_PANE);
+			return createBuildMaterial(MAGENTA_STAINED_GLASS_PANE);
 		case 7:
-			return createBuildMaterial(Blocks.ORANGE_STAINED_GLASS_PANE);
+			return createBuildMaterial(ORANGE_STAINED_GLASS_PANE);
 		case 8:
-			return createBuildMaterial(Blocks.PINK_STAINED_GLASS_PANE);
+			return createBuildMaterial(PINK_STAINED_GLASS_PANE);
 		case 9:
-			return createBuildMaterial(Blocks.PURPLE_STAINED_GLASS_PANE);
+			return createBuildMaterial(PURPLE_STAINED_GLASS_PANE);
 		case 10:
-			return createBuildMaterial(Blocks.RED_STAINED_GLASS_PANE);
+			return createBuildMaterial(RED_STAINED_GLASS_PANE);
 		case 11:
-			return createBuildMaterial(Blocks.LIGHT_GRAY_STAINED_GLASS_PANE);
+			return createBuildMaterial(LIGHT_GRAY_STAINED_GLASS_PANE);
 		case 12:
-			return createBuildMaterial(Blocks.YELLOW_STAINED_GLASS_PANE);
+			return createBuildMaterial(YELLOW_STAINED_GLASS_PANE);
 
 		default:
-			return createBuildMaterial(Blocks.GLASS_PANE);
+			return createBuildMaterial(GLASS_PANE);
 		}
 	}
 
@@ -474,7 +515,7 @@ public class BuildUtils {
 	public static StairsMaterial createInstance(BlockState state, Block stairMaterial, Block solidMaterial) {
 		return new StairsMaterial(state, stairMaterial, solidMaterial);
 	}
-	
+
 	/**
 	 * Build material factory method.
 	 * 

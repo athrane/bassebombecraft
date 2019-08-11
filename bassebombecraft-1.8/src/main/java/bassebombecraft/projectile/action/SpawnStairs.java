@@ -9,6 +9,10 @@ import static bassebombecraft.item.action.build.BuildUtils.addSolidStairUp;
 import static bassebombecraft.item.action.build.BuildUtils.createInstance;
 import static bassebombecraft.projectile.ProjectileUtils.isBlockHit;
 import static bassebombecraft.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
+import static net.minecraft.block.Blocks.STONE_BRICKS;
+import static net.minecraft.block.Blocks.STONE_BRICK_STAIRS;
+import static net.minecraft.block.StairsBlock.FACING;
+import static net.minecraft.util.Direction.SOUTH;
 
 import java.util.List;
 
@@ -19,12 +23,9 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.item.action.build.tower.StairsMaterial;
 import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.CompositeStructure;
-import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
@@ -69,7 +70,7 @@ public class SpawnStairs implements ProjectileAction {
 
 		// type cast
 		BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
-		
+
 		// get thrower
 		LivingEntity owner = projectile.getThrower();
 
@@ -87,9 +88,8 @@ public class SpawnStairs implements ProjectileAction {
 
 		// create material
 		CompositeStructure composite = new CompositeStructure();
-		BlockState state = Blocks.STONE_BRICK_STAIRS.getDefaultState().withProperty(BlockStairs.FACING,
-				EnumFacing.SOUTH);
-		StairsMaterial stairsMaterial = createInstance(state, Blocks.STONE_BRICK_STAIRS, Blocks.STONEBRICK);
+		BlockState state = STONE_BRICK_STAIRS.getDefaultState().with(FACING, SOUTH);
+		StairsMaterial stairsMaterial = createInstance(state, STONE_BRICK_STAIRS, STONE_BRICKS);
 
 		// create stairs structure
 		addSolidStairUp(stairsHeight, stairsMaterial, composite, stairOffset);
