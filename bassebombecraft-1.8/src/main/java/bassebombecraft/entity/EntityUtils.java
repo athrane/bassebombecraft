@@ -9,17 +9,13 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
 /**
  * Utility class for entity manipulation.
  */
 public class EntityUtils {
-
-	/**
-	 * Explosion will make smoke.
-	 */
-	static final boolean IS_SMOKING = true;
 
 	/**
 	 * Calculate spawn position for projectile entity
@@ -60,7 +56,7 @@ public class EntityUtils {
 	 */
 	public static void explode(LivingEntity entity, World world, int size) {
 		world.createExplosion(entity, entity.getPosition().getX(), entity.getPosition().getY(),
-				entity.getPosition().getZ(), size, IS_SMOKING);
+				entity.getPosition().getZ(), size, Explosion.Mode.DESTROY);
 	}
 
 	/**

@@ -7,6 +7,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
 /**
@@ -16,7 +17,6 @@ import net.minecraft.world.World;
  */
 public class LingeringFlameMist implements EntityMistActionStrategy {
 	
-	static final boolean IS_SMOKING = true;
 	int explosionRadius;
 	ParticleRenderingInfo[] infos;
 
@@ -54,7 +54,7 @@ public class LingeringFlameMist implements EntityMistActionStrategy {
 	@Override
 	public void applyEffectToEntity(LivingEntity target, Vec3d mistPos, LivingEntity invoker) {
 		World world = target.getEntityWorld();
-		world.createExplosion(target, mistPos.x, mistPos.y, mistPos.z, explosionRadius, IS_SMOKING);
+		world.createExplosion(target, mistPos.x, mistPos.y, mistPos.z, explosionRadius, Explosion.Mode.DESTROY);
 	}
 
 	@Override
