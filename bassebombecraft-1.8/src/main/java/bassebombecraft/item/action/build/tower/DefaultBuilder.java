@@ -8,6 +8,10 @@ import static bassebombecraft.item.action.build.BuildUtils.createInstance;
 import static bassebombecraft.item.action.build.BuildUtils.selectFloorMaterial;
 import static bassebombecraft.item.action.build.BuildUtils.selectWindowMaterial;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
+import static net.minecraft.block.Blocks.STONE_BRICKS;
+import static net.minecraft.block.Blocks.STONE_BRICK_STAIRS;
+import static net.minecraft.block.StairsBlock.FACING;
+import static net.minecraft.util.Direction.SOUTH;
 
 import java.util.Random;
 
@@ -16,10 +20,7 @@ import bassebombecraft.item.action.build.tower.Room.RoomType;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 
 /**
@@ -30,8 +31,7 @@ public class DefaultBuilder implements Builder {
 	/**
 	 * Stairs material.
 	 */
-	final static BlockState STAIRS_STATE = Blocks.STONE_BRICK_STAIRS.getDefaultState().withProperty(BlockStairs.FACING,
-			EnumFacing.SOUTH);
+	final static BlockState STAIRS_STATE = STONE_BRICK_STAIRS.getDefaultState().with(FACING, SOUTH);
 
 	/**
 	 * Stairs material.
@@ -46,12 +46,11 @@ public class DefaultBuilder implements Builder {
 	/**
 	 * DefaultBuilder constructor.
 	 * 
-	 * @param random
-	 *            random generator.
+	 * @param random random generator.
 	 */
 	public DefaultBuilder(Random random) {
 		this.random = random;
-		stairsMaterial = createInstance(STAIRS_STATE, Blocks.STONE_BRICK_STAIRS, Blocks.STONE_BRICKS);
+		stairsMaterial = createInstance(STAIRS_STATE, STONE_BRICK_STAIRS, STONE_BRICKS);
 	}
 
 	@Override
@@ -168,8 +167,7 @@ public class DefaultBuilder implements Builder {
 	/**
 	 * Returns true if there is space for a solid staircase.
 	 * 
-	 * @param size
-	 *            room size.
+	 * @param size room size.
 	 * 
 	 * @return true if there is space for a solid staircase.
 	 */
@@ -200,7 +198,6 @@ public class DefaultBuilder implements Builder {
 			// NO-OP
 		}
 		}
-
 
 		int windowXZSize = 2;
 		int windowYSize = 2;
@@ -233,7 +230,7 @@ public class DefaultBuilder implements Builder {
 		}
 		default: {
 			// NO-OP
-		}		
+		}
 		}
 	}
 
@@ -261,7 +258,7 @@ public class DefaultBuilder implements Builder {
 		}
 		default: {
 			// NO-OP
-		}		
+		}
 		}
 
 		return 0;
@@ -288,7 +285,7 @@ public class DefaultBuilder implements Builder {
 		}
 		default: {
 			// NO-OP
-		}		
+		}
 		}
 
 		// calculate door offset
@@ -351,7 +348,7 @@ public class DefaultBuilder implements Builder {
 		}
 		default: {
 			// NO-OP
-		}		
+		}
 		}
 
 		return 0;
