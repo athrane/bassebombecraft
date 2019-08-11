@@ -2,14 +2,8 @@ package bassebombecraft.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.NULL_TILE_ENTITY;
-import static net.minecraft.util.EnumFacing.EAST;
-import static net.minecraft.util.EnumFacing.NORTH;
-import static net.minecraft.util.EnumFacing.SOUTH;
-import static net.minecraft.util.EnumFacing.WEST;
 
 import java.util.stream.Stream;
-
-import com.google.common.collect.ImmutableMap;
 
 import bassebombecraft.event.block.temporary.DefaultTemporaryBlock;
 import bassebombecraft.event.block.temporary.TemporaryBlock;
@@ -19,11 +13,9 @@ import bassebombecraft.geom.WorldQuery;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.item.ItemStack;
-import net.minecraft.state.IProperty;
+import static net.minecraft.state.properties.BlockStateProperties.*;
 import net.minecraft.util.Direction;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.World;
@@ -32,11 +24,6 @@ import net.minecraft.world.World;
  * Block utilities.
  */
 public class BlockUtils {
-
-	/**
-	 * Default FACING property for querying about the property.
-	 */
-	public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
 
 	/**
 	 * Don't harvest temporary block.
@@ -162,13 +149,13 @@ public class BlockUtils {
 			return sourceState;
 
 		// get facing property
-		EnumFacing facing = sourceState.get(getValue(FACING);
+		Direction direction = sourceState.get(FACING);
 
 		// calculate new orientation
-		EnumFacing value = calculateFacingProperty(facing, orientation);
+		Direction newDirection = calculateFacingProperty(direction, orientation);
 
 		// create now rotated state
-		BlockState rotatedState = sourceState.withProperty(FACING, value);
+		BlockState rotatedState = sourceState.with(FACING, newDirection);
 		return rotatedState;
 	}
 
@@ -193,13 +180,13 @@ public class BlockUtils {
 
 		if (orientation == 180) {
 			Direction d0 = direction.rotateY();
-			return d0.rotateY();			
+			return d0.rotateY();
 		}
 
 		if (orientation == 270) {
 			Direction d0 = direction.rotateY();
-			Direction d1 = d0.rotateY();			
-			return d1.rotateY();			
+			Direction d1 = d0.rotateY();
+			return d1.rotateY();
 		}
 
 		return direction;
@@ -213,8 +200,7 @@ public class BlockUtils {
 	 * @return true if block state has the FACING property defined.
 	 */
 	public static boolean hasFacingProperty(BlockState state) {
-		ImmutableMap<IProperty<?>, Comparable<?>> properties = state.getProperties();
-		return properties.containsKey(FACING);
+		return state.has(FACING);
 	}
 
 	/**
