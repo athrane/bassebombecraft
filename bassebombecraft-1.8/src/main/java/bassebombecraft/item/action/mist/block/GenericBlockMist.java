@@ -181,7 +181,7 @@ public class GenericBlockMist implements RightClickedItemAction {
 			float y = entity.getEyeHeight();
 			double z = entityLookXn.z;
 
-			mistPositions[index] = entityPos.addVector(x, y, z);
+			mistPositions[index] = entityPos.add(x, y, z);
 		}
 	}
 

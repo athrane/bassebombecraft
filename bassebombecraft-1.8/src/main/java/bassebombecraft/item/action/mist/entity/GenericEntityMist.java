@@ -207,7 +207,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 		double x = entityLookX4.x;
 		float y = entity.getEyeHeight();
 		double z = entityLookX4.z;
-		mistPos = entityPos.addVector(x, y, z);
+		mistPos = entityPos.add(x, y, z);
 	}
 
 	/**
