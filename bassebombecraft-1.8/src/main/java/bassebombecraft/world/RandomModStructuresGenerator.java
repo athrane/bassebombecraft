@@ -13,8 +13,11 @@ import bassebombecraft.config.StructureInfo;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.IChunkGenerator;
+import net.minecraft.world.chunk.AbstractChunkProvider;
+import net.minecraft.world.dimension.Dimension;
+import net.minecraft.world.dimension.OverworldDimension;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.fml.common.IWorldGenerator;
 
 /**
@@ -43,23 +46,24 @@ public class RandomModStructuresGenerator implements IWorldGenerator {
 	 */
 	public RandomModStructuresGenerator() {
 		Config configuration = getBassebombeCraft().getConfiguration();
-		enabled = configuration.getBoolean(CONFIG_KEY+".enabled");
+		enabled = configuration.getBoolean(CONFIG_KEY + ".enabled");
 		infos = ConfigUtils.createStructureInfosFromConfig(CONFIG_KEY + ".structures");
 	}
 
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator,
-			IChunkProvider chunkProvider) {
+	public void generate(Random random, int chunkX, int chunkZ, World world, ChunkGenerator chunkGenerator,
+			AbstractChunkProvider chunkProvider) {
 
 		// exit if not enabled
-		if(!enabled) return;
-		
+		if (!enabled)
+			return;
+
 		// get structure info
 		if (infos == null)
 			return;
 		if (infos.isEmpty())
 			return;
-		
+
 		// get random structure
 		int index = random.nextInt(infos.size());
 		StructureInfo info = infos.get(index);
@@ -86,8 +90,7 @@ public class RandomModStructuresGenerator implements IWorldGenerator {
 	 * @param chunkX
 	 * @param chunkZ
 	 * @param world
-	 * @param info
-	 *            structure info
+	 * @param info   structure info
 	 * 
 	 * @return true if structure should spawn in the current biome.
 	 */
@@ -103,57 +106,42 @@ public class RandomModStructuresGenerator implements IWorldGenerator {
 		if (biome.equalsIgnoreCase("any"))
 			return true;
 
-		Biome currentBiome = world.getBiomeProvider().getBiome(new BlockPos(chunkX, 0, chunkZ));
-		String name = currentBiome.getBiomeName();
+		Biome currentBiome = world.getBiome(new BlockPos(chunkX, 0, chunkZ));
+		String name = currentBiome.getCategory().getName();
 		return biome.equalsIgnoreCase(name);
 	}
 
 	/**
 	 * Return true if structure should be generated in the current dimension.
 	 * 
-	 * @param world
-	 *            world object.
-	 * @param info
-	 *            structure info.
+	 * @param world world object.
+	 * @param info  structure info.
 	 * 
 	 * @return true if structure should be generated in the current dimension.
 	 */
 	boolean generateInThisDimension(World world, StructureInfo info) {
-		switch (world.provider.getDimensionType()) {
+		Dimension dimension = world.getDimension();
 
-		case NETHER:
-			return false;
-
-		case THE_END:
-			return false;
-
-		case OVERWORLD:
+		if (dimension instanceof OverworldDimension)
 			return true;
 
-		default:
-			return false;
-		}
+		return false;
 	}
 
 	/**
 	 * Generate structure.
 	 * 
-	 * @param random
-	 *            random generator.
-	 * @param chunkX
-	 *            chunk X
-	 * @param chunkZ
-	 *            chunk Z
-	 * @param world
-	 *            world object.
-	 * @param info
-	 *            structure info to generate.
+	 * @param random random generator.
+	 * @param chunkX chunk X
+	 * @param chunkZ chunk Z
+	 * @param world  world object.
+	 * @param info   structure info to generate.
 	 */
 	void generateStructure(Random random, int chunkX, int chunkZ, World world, StructureInfo info) {
 		// calculate position
 		int x = chunkX * 16 + random.nextInt(16);
 		int z = chunkZ * 16 + random.nextInt(16);
-		int y = world.getHeight(x, z);
+		int y = world.getHeight(Heightmap.Type.WORLD_SURFACE_WG, x, z);
 
 		BlockPos basePos = new BlockPos(x, y, z);
 		String structureName = MODID + ":" + info.getName();
