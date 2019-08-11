@@ -22,6 +22,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.IProperty;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -161,7 +162,7 @@ public class BlockUtils {
 			return sourceState;
 
 		// get facing property
-		EnumFacing facing = sourceState.getValue(FACING);
+		EnumFacing facing = sourceState.get(getValue(FACING);
 
 		// calculate new orientation
 		EnumFacing value = calculateFacingProperty(facing, orientation);
@@ -172,54 +173,36 @@ public class BlockUtils {
 	}
 
 	/**
-	 * Calculate FACING property from orientation and source property.
+	 * Calculate direction property from orientation and source property.
 	 * 
 	 * The orientation is defined in degrees and only the values 0, 90, 180 and 270
 	 * are processed. For all other values the FACING property is returned
 	 * unchanged.
 	 * 
-	 * @param sourceFacing source FACING property.
-	 * @param orientation  orientation in degrees to rotate the property.
+	 * @param direction   source FACING direction.
+	 * @param orientation orientation in degrees to rotate the property.
 	 * @return rotated facing property.
 	 */
-	public static EnumFacing calculateFacingProperty(EnumFacing sourceFacing, double orientation) {
+	public static Direction calculateFacingProperty(Direction direction, double orientation) {
 		if (orientation == 0)
-			return sourceFacing;
+			return direction;
 
 		if (orientation == 90) {
-			if (sourceFacing == SOUTH)
-				return WEST;
-			if (sourceFacing == WEST)
-				return NORTH;
-			if (sourceFacing == NORTH)
-				return EAST;
-			if (sourceFacing == EAST)
-				return SOUTH;
+			return direction.rotateY();
 		}
 
 		if (orientation == 180) {
-			if (sourceFacing == SOUTH)
-				return NORTH;
-			if (sourceFacing == WEST)
-				return EAST;
-			if (sourceFacing == NORTH)
-				return SOUTH;
-			if (sourceFacing == EAST)
-				return WEST;
+			Direction d0 = direction.rotateY();
+			return d0.rotateY();			
 		}
 
 		if (orientation == 270) {
-			if (sourceFacing == SOUTH)
-				return EAST;
-			if (sourceFacing == WEST)
-				return SOUTH;
-			if (sourceFacing == NORTH)
-				return WEST;
-			if (sourceFacing == EAST)
-				return NORTH;
+			Direction d0 = direction.rotateY();
+			Direction d1 = d0.rotateY();			
+			return d1.rotateY();			
 		}
 
-		return sourceFacing;
+		return direction;
 	}
 
 	/**
