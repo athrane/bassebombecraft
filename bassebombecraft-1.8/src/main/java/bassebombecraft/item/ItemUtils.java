@@ -17,7 +17,6 @@ public class ItemUtils {
 	 *            item name.
 	 */
 	public static void doCommonItemInitialization(Item item, String name) {		
-		item.setUnlocalizedName(name);
 		item.setRegistryName(name);
 	}
 
