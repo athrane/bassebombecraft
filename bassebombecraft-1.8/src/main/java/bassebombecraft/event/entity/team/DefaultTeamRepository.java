@@ -48,7 +48,7 @@ public class DefaultTeamRepository implements TeamRepository {
 
 		@Override
 		public String toString() {
-			return "Team: " + commander.getDisplayNameString();
+			return "Team: " + commander.getGameProfile().getName();
 		}
 
 	}
