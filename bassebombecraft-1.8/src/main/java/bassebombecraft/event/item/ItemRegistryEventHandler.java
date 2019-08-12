@@ -188,15 +188,6 @@ public class ItemRegistryEventHandler {
 	}
 
 	/**
-	 * Get book items.
-	 * 
-	 * @return book items.
-	 */
-	public static Item[] getBookItems() {
-		return bookItems;
-	}
-
-	/**
 	 * Get inventory items.
 	 * 
 	 * @return inventory items.

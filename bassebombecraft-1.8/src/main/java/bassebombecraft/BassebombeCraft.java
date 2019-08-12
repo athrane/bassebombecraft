@@ -306,15 +306,6 @@ public class BassebombeCraft {
 	}
 
 	/**
-	 * Get array of book items.
-	 * 
-	 * @return array of book items.
-	 */
-	public Item[] getBookItems() {
-		return ItemRegistryEventHandler.getBookItems();
-	}
-
-	/**
 	 * Get array of inventory items.
 	 * 
 	 * @return array of inventory items.
