@@ -1,53 +1,23 @@
 package bassebombecraft.block;
 
-import java.util.Random;
+import static bassebombecraft.ModConstants.MODID;
 
-import bassebombecraft.BassebombeCraft;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.Item;
 
 /**
  * Random book block which drops a random book when destroyed.
  */
 public class RandomBookBlock extends Block {
 
+	/**
+	 * Block name.
+	 */
 	public final static String BLOCK_NAME = RandomBookBlock.class.getSimpleName();
 
 	public RandomBookBlock() {
 		super(Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(2.0F).lightValue(14));
-		setRegistryName(BLOCK_NAME);
+		setRegistryName(MODID, BLOCK_NAME);
 	}
-
-	@Override
-	public Item getItemDropped(BlockState state, Random rand, int fortune) {
-		Item[] bookItems = BassebombeCraft.getBassebombeCraft().getBookItems();
-
-		// exit if no list is returned
-		if (bookItems == null)
-			return super.getItemDropped(state, rand, fortune);
-
-		// return random book
-		int randomBook = rand.nextInt(bookItems.length);
-		return bookItems[randomBook];
-
-	}
-
-	@Override
-	public int quantityDropped(Random random) {
-		return 1;
-	}
-
-	@Override
-	public int quantityDroppedWithBonus(int fortune, Random random) {
-		return 1;
-	}
-
-	@Override
-	public int quantityDropped(BlockState state, int fortune, Random random) {
-		return 1;
-	}
-
 }

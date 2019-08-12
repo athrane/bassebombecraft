@@ -18,7 +18,6 @@ public class BlockRegistryEventHandler {
 	 */	
     @SubscribeEvent
     public static void handleEvent(RegistryEvent.Register<Block> event) {
-    	//new Block(Block.Properties.create(Material.IRON)).setRegistryName(ChickenMod.MODID,"test_block")    	
         event.getRegistry().register(new RandomBookBlock());
     }
     
