@@ -2,15 +2,16 @@ package bassebombecraft.event.charm;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.ai.AiUtils.assignAiTargetTasks;
-import static bassebombecraft.entity.ai.AiUtils.assignAiTasks;
+import static bassebombecraft.entity.ai.AiUtils.assignAiGoals;
 import static bassebombecraft.entity.ai.AiUtils.buildCharmedMobAi;
-import static bassebombecraft.entity.ai.AiUtils.clearAiTasks;
+import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import bassebombecraft.event.entity.team.TeamRepository;
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 
 /**
@@ -23,10 +24,10 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	/**
 	 * Charmed mobs.
 	 */
-	Map<LivingEntity, CharmedMob> charmedMobs = new ConcurrentHashMap<LivingEntity, CharmedMob>();
+	Map<CreatureEntity, CharmedMob> charmedMobs = new ConcurrentHashMap<CreatureEntity, CharmedMob>();
 
 	@Override
-	public void add(LivingEntity entity, LivingEntity commander) {
+	public void add(CreatureEntity entity, LivingEntity commander) {
 
 		// exist if entity is team member
 		TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
@@ -37,7 +38,7 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 		// create charmed mob container
 		CharmedMob charmedMob = new CharmedMob(entity, EFFECT_DURATION);
 
-		clearAiTasks(entity);
+		clearAllAiGoals(entity);
 		buildCharmedMobAi(entity, commander);
 
 		// store mob
@@ -45,14 +46,14 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	}
 
 	@Override
-	public void remove(LivingEntity entity) {
+	public void remove(CreatureEntity entity) {
 		if (!contains(entity))
 			return;
 
 		// restore AI tasks
 		CharmedMob charmedMob = charmedMobs.get(entity);
-		clearAiTasks(entity);
-		assignAiTasks(entity, charmedMob.getTasks());
+		clearAllAiGoals(entity);
+		assignAiGoals(entity, charmedMob.getTasks());
 		assignAiTargetTasks(entity, charmedMob.getTargetTasks());
 
 		// remove mob from repository
@@ -60,7 +61,7 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	}
 
 	@Override
-	public void update(LivingEntity entity) {
+	public void update(CreatureEntity entity) {
 		if (!contains(entity))
 			return;
 
@@ -74,7 +75,7 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	}
 
 	@Override
-	public boolean contains(LivingEntity entity) {
+	public boolean contains(CreatureEntity entity) {
 		return charmedMobs.containsKey(entity);
 	}
 	

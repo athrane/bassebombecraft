@@ -2,7 +2,7 @@ package bassebombecraft.projectile.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.ai.AiUtils.buildCharmedMobAi;
-import static bassebombecraft.entity.ai.AiUtils.clearAiTasks;
+import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.EntityType;
@@ -30,7 +30,7 @@ public class SpawnGiantZombie implements ProjectileAction {
 		teamRepository.add(owner, entity);
 
 		// set AI
-		clearAiTasks(entity);
+		clearAllAiGoals(entity);
 		buildCharmedMobAi(entity, owner);
 
 		// spawn

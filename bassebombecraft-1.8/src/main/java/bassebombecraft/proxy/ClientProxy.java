@@ -72,7 +72,7 @@ public class ClientProxy implements Proxy {
 
 	@Override
 	public void registerItemForRendering(Block block, String blockName) {
-		ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
+		ItemModelMesher mesher = Minecraft.getInstance().getRenderItem().getItemModelMesher();
 		ModelResourceLocation location = new ModelResourceLocation(MODID + ":" + blockName, "inventory");
 		mesher.register(Item.getItemFromBlock(block), META, location);
 	}

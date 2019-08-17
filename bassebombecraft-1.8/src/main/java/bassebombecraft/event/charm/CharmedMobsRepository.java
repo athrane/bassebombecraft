@@ -2,6 +2,7 @@ package bassebombecraft.event.charm;
 
 import java.util.Collection;
 
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 
 /**
@@ -15,14 +16,14 @@ public interface CharmedMobsRepository {
 	 * @param entity    mob which is charmed.
 	 * @param commander entity which charmed mob.
 	 */
-	public void add(LivingEntity entity, LivingEntity commander);
+	public void add(CreatureEntity entity, LivingEntity commander);
 
 	/**
 	 * Remove mob.
 	 * 
 	 * @param entity mob which is removed.
 	 */
-	public void remove(LivingEntity entity);
+	public void remove(CreatureEntity entity);
 
 	/**
 	 * Update charm.
@@ -31,7 +32,7 @@ public interface CharmedMobsRepository {
 	 * 
 	 * @param entity mob which is charmed.
 	 */
-	public void update(LivingEntity entity);
+	public void update(CreatureEntity entity);
 
 	/**
 	 * Returns true if mob is already charmed.
@@ -39,7 +40,7 @@ public interface CharmedMobsRepository {
 	 * @param entity mob to query.
 	 * @return true if mob is already charmed.
 	 */
-	public boolean contains(LivingEntity entity);
+	public boolean contains(CreatureEntity entity);
 
 	/**
 	 * Get charmed mobs. Iteration must be take place in synchronized section.

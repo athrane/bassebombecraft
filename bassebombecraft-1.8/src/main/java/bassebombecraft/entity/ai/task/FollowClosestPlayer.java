@@ -1,60 +1,55 @@
 package bassebombecraft.entity.ai.task;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.EntityAIBase;
+import java.util.EnumSet;
+
+import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.pathfinding.PathNavigator;
 
 /**
- * AI task for companion, e.g. charmed mob or guardian.
+ * AI goal for companion, e.g. charmed mob or guardian.
  * 
- * The task will follow the closest player.
+ * The goal will follow the closest player.
  */
-public class FollowClosestPlayer extends EntityAIBase {
+public class FollowClosestPlayer extends Goal {
 
 	static final int UPDATE_DELAY = 10;
 	static final float WATCH_DIST = 8.0F;
 
-	final LivingEntity entity;
+	final CreatureEntity entity;
 	PlayerEntity closestPlayer;
 	int updateDelayCounter = 0;
 	float minDistanceSqr; // minimum distance to player (squared)
 	double movementSpeed;
 
 	/**
-	 * FollowClosestPlayer AI task.
+	 * FollowClosestPlayer AI goal.
 	 * 
-	 * @param entity
-	 *            entity to which the task is applied.
-	 * @param minDistance
-	 *            minimum distance to keep to the nearest player.
-	 * @param movementSpeed
-	 *            movement speed.
+	 * @param entity        entity to which the task is applied.
+	 * @param minDistance   minimum distance to keep to the nearest player.
+	 * @param movementSpeed movement speed.
 	 */
-	public FollowClosestPlayer(LivingEntity entity, float minDistance, double movementSpeed) {
+	public FollowClosestPlayer(CreatureEntity entity, float minDistance, double movementSpeed) {
 		this.entity = entity;
 		this.minDistanceSqr = minDistance * minDistance;
 		this.movementSpeed = movementSpeed;
-		
-		//  "movement" AI
-		this.setMutexBits(1);		
+
+		// "movement" AI
+		setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
 	}
 
 	@Override
 	public boolean shouldExecute() {
-		closestPlayer = this.entity.getEntityWorld().getClosestPlayerToEntity(entity, WATCH_DIST);
+		closestPlayer = this.entity.getEntityWorld().getClosestPlayer(entity, WATCH_DIST);
 		return (closestPlayer != null);
 	}
 
-	/**
-	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */
 	@Override
 	public boolean shouldContinueExecuting() {
-
 		// if player isn't alive then determine if a new player can be found
-		if (!closestPlayer.isEntityAlive())
+		if (!closestPlayer.isAlive())
 			return shouldExecute();
-
 		return isMinimumDistanceReached();
 	}
 
@@ -64,7 +59,7 @@ public class FollowClosestPlayer extends EntityAIBase {
 	}
 
 	@Override
-	public void updateTask() {
+	public void tick() {
 
 		// add pause between attacks
 		updateDelayCounter = updateDelayCounter + 1;
@@ -74,7 +69,9 @@ public class FollowClosestPlayer extends EntityAIBase {
 			return;
 		updateDelayCounter = 0;
 
-		entity.getNavigator().tryMoveToLivingEntity(closestPlayer, movementSpeed);
+		// move towards
+		PathNavigator navigator = entity.getNavigator();
+		navigator.tryMoveToEntityLiving(closestPlayer, movementSpeed);
 	}
 
 	/**

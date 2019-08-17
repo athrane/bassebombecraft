@@ -2,7 +2,7 @@ package bassebombecraft.projectile.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.ai.AiUtils.buildSkeletonArmyAi;
-import static bassebombecraft.entity.ai.AiUtils.clearAiTasks;
+import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 
 import java.util.Random;
 
@@ -85,7 +85,7 @@ public class SpawnSkeletonArmy implements ProjectileAction {
 			teamRepository.add(thrower, entity);
 
 			// set AI
-			clearAiTasks(entity);
+			clearAllAiGoals(entity);
 			buildSkeletonArmyAi(entity, thrower);
 
 			// spawn
