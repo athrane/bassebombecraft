@@ -78,9 +78,10 @@ public class FollowClosestPlayer extends Goal {
 	 * Resets the task
 	 */
 	@Override
-	public void resetTask() {
+	public void resetTask() {		
 		closestPlayer = null;
-		entity.getNavigator().clearPath();
+		PathNavigator navigator = entity.getNavigator();
+		navigator.clearPath();
 	}
 
 	/**
