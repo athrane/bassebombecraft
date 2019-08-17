@@ -2,33 +2,35 @@ package bassebombecraft.entity.ai.task;
 
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
+import java.util.EnumSet;
+
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.pathfinding.PathNavigate;
+import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.pathfinding.PathNodeType;
 
 /**
- * AI task for companion, e.g. charmed mob or guardian.
+ * AI goal for companion, e.g. charmed mob or guardian.
  * 
- * The task will follow the designated entity.
+ * The goal will follow the designated entity.
  */
-public class FollowEntity extends EntityAIBase {
+public class FollowEntity extends Goal {
 
 	static final int UPDATE_DELAY = 10;
 
-	final LivingEntity entity;
+	final CreatureEntity entity;
 	int timeToRecalcPath;
 	LivingEntity leaderEntity;
 	double followSpeed;
-	PathNavigate petPathfinder;
 	float minDistance;
 	float maxDistance;
 	float oldWaterCost;
 	float minDistanceSqr; // minimum distance to player (squared)
 
 	/**
-	 * FollowEntity AI task.
+	 * FollowEntity AI goal.
 	 * 
 	 * @param entity        entity to which the task is applied.
 	 * @param leader        entity to be followed.
@@ -36,18 +38,17 @@ public class FollowEntity extends EntityAIBase {
 	 * @param minDistIn     minimum distance.
 	 * @param maxDistIn     maximum distance.
 	 */
-	public FollowEntity(LivingEntity entity, LivingEntity leader, double followSpeedIn, float minDistIn,
+	public FollowEntity(CreatureEntity entity, LivingEntity leader, double followSpeedIn, float minDistIn,
 			float maxDistIn) {
 		this.entity = entity;
 		this.leaderEntity = leader;
 		this.followSpeed = followSpeedIn;
-		this.petPathfinder = entity.getNavigator();
 		this.minDistance = minDistIn;
 		this.maxDistance = maxDistIn;
 		minDistanceSqr = minDistance * minDistance;
 
 		// "movement" AI
-		this.setMutexBits(1);
+		setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
 	}
 
 	/**
@@ -61,7 +62,7 @@ public class FollowEntity extends EntityAIBase {
 			return false;
 
 		// if leader isn't alive clear leader from task
-		if (!leaderEntity.isEntityAlive()) {
+		if (!leaderEntity.isAlive()) {
 			leaderEntity = null;
 			return false;
 		}
@@ -86,7 +87,7 @@ public class FollowEntity extends EntityAIBase {
 			return false;
 
 		// if player isn't alive
-		if (!leaderEntity.isEntityAlive())
+		if (!leaderEntity.isAlive())
 			return false;
 
 		return isMinimumDistanceReached();
@@ -100,10 +101,11 @@ public class FollowEntity extends EntityAIBase {
 	}
 
 	@Override
-	public void updateTask() {
+	public void tick() {
 
 		// look at
-		entity.getLookHelper().setLookPositionWithEntity(leaderEntity, 10.0F, (float) entity.getVerticalFaceSpeed());
+		entity.getLookController().setLookPositionWithEntity(leaderEntity, 10.0F,
+				(float) entity.getVerticalFaceSpeed());
 
 		// update counter
 		timeToRecalcPath--;
@@ -116,7 +118,8 @@ public class FollowEntity extends EntityAIBase {
 		timeToRecalcPath = UPDATE_DELAY;
 
 		// calculate path
-		petPathfinder.tryMoveToLivingEntity(leaderEntity, followSpeed);
+		PathNavigator navigator = entity.getNavigator();
+		navigator.tryMoveToEntityLiving(leaderEntity, followSpeed);
 	}
 
 	/**
@@ -124,8 +127,8 @@ public class FollowEntity extends EntityAIBase {
 	 */
 	@Override
 	public void resetTask() {
-		petPathfinder.clearPath();
-		entity.setPathPriority(PathNodeType.WATER, this.oldWaterCost);
+		PathNavigator navigator = entity.getNavigator();
+		navigator.clearPath();
 	}
 
 	/**

@@ -3,30 +3,25 @@ package bassebombecraft.entity.ai;
 import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
-import java.util.Set;
+import java.util.stream.Stream;
 
-import bassebombecraft.entity.EntityUtils;
-import bassebombecraft.entity.ai.task.AiCommandersTargeting;
 import bassebombecraft.entity.ai.task.CommanderControlledTargeting;
 import bassebombecraft.entity.ai.task.CompanionAttack;
 import bassebombecraft.entity.ai.task.FollowEntity;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIAttackRangedBow;
-import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.ai.EntityAICreeperSwell;
-import net.minecraft.entity.ai.EntityAIFleeSun;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILeapAtTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIOcelotAttack;
-import net.minecraft.entity.ai.EntityAIOcelotSit;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITasks;
-import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
+import net.minecraft.entity.ai.goal.CreeperSwellGoal;
+import net.minecraft.entity.ai.goal.FleeSunGoal;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.GoalSelector;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.entity.ai.goal.LookAtGoal;
+import net.minecraft.entity.ai.goal.LookRandomlyGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.OcelotAttackGoal;
+import net.minecraft.entity.ai.goal.PrioritizedGoal;
+import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.SkeletonEntity;
 import net.minecraft.entity.passive.OcelotEntity;
@@ -37,72 +32,69 @@ import net.minecraft.entity.player.PlayerEntity;
  */
 public class AiUtils {
 
-	static final boolean DONT_CALL_FOR_HELP = false;
-	static final boolean NEARBY_ONLY = true;
-	static final boolean SHOULD_CHECK_SIGHT = true;
+	/**
+	 * Initial goal priority.
+	 */
+	static final int INITIAL_GOAL_PRIORITY = 0;
+
 	static final double MOVEMENT_SPEED = 1.5D; // movement speed towards player
 	static final float MINIMUM_DIST = 6.0F; // Entity minimum distance to player
-	static final float MAXIMUM_DIST = 50.0F; // Entity maximum distance to
-												// player
-	static final float WATCH_DIST = 10.0F;
+	static final float MAXIMUM_DIST = 50.0F; // Entity maximum distance to player
 
 	/**
-	 * Clear passive and fighting AI tasks.
+	 * Clear passive and fighting AI goals.
 	 * 
-	 * @param entity to clear AI tasks for.
+	 * @param entity whose goals are cleared.
 	 */
-	public static void clearAiTasks(LivingEntity entity) {
-		removeTasks(entity.tasks);
-		removeTasks(entity.targetTasks);
+	public static void clearAllAiGoals(CreatureEntity entity) {
+		removeGoals(entity.goalSelector);
+		removeGoals(entity.targetSelector);
 	}
 
 	/**
-	 * Remove tasks in a concurrently safe way
+	 * Remove goals in a concurrently safe way
 	 * 
-	 * @param tasks AI tasks.
+	 * @param selector AI goal selector.
 	 */
-	static void removeTasks(EntityAITasks tasks) {
-		Set<EntityAITaskEntry> entries = tasks.taskEntries;
-		EntityAITaskEntry[] entriesArray = entries.toArray(new EntityAITaskEntry[entries.size()]);
-
-		for (EntityAITaskEntry entry : entriesArray) {
-			// get task
-			EntityAIBase task = entry.action;
-
-			// set to true to force removal
-			entry.using = true;
-
-			// remove
-			tasks.removeTask(task);
-		}
+	static void removeGoals(GoalSelector selector) {
+		Stream<PrioritizedGoal> goals = selector.getRunningGoals();
+		goals.forEach(g -> selector.removeGoal(g));
 	}
 
 	/**
-	 * Assign passive AI tasks.
+	 * Assign passive AI goals.
 	 * 
-	 * @param entity  to clear AI tasks for.
-	 * @param entries tasks entries.
+	 * The first goal in the stream is added with highest priority, i.e. 1. The
+	 * priority is increased for each subsequent goal.
+	 * 
+	 * @param entity entity to assign goals to.
+	 * @param goals  stream of goals.
 	 */
-	public static void assignAiTasks(LivingEntity entity, Set<EntityAITaskEntry> entries) {
-		for (EntityAITaskEntry entry : entries) {
-			int priority = entry.priority;
-			EntityAIBase task = entry.action;
-			entity.tasks.addTask(priority, task);
-		}
+	public static void assignAiGoals(CreatureEntity entity, Stream<Goal> goals) {
+		// use integer array to hold running counter for task priority
+		int[] priority = { INITIAL_GOAL_PRIORITY };
+
+		// get goals and add them to the entity
+		GoalSelector selector = entity.goalSelector;
+		goals.forEachOrdered(g -> selector.addGoal(priority[0]++, g));
 	}
 
 	/**
-	 * Assign target AI tasks.
+	 * Assign target AI goals.
 	 * 
-	 * @param entity  to clear AI tasks for.
-	 * @param entries tasks entries.
+	 * The first goal in the stream is added with highest priority, i.e. 1. The
+	 * priority is increased for each subsequent goal.
+	 * 
+	 * @param entity entity to assign goals to.
+	 * @param goals  stream of goals.
 	 */
-	public static void assignAiTargetTasks(LivingEntity entity, Set<EntityAITaskEntry> entries) {
-		for (EntityAITaskEntry entry : entries) {
-			int priority = entry.priority;
-			EntityAIBase task = entry.action;
-			entity.targetTasks.addTask(priority, task);
-		}
+	public static void assignAiTargetTasks(CreatureEntity entity, Stream<Goal> goals) {
+		// use integer array to hold running counter for task priority
+		int[] priority = { INITIAL_GOAL_PRIORITY };
+
+		// get goals and add them to the entity
+		GoalSelector selector = entity.targetSelector;
+		goals.forEachOrdered(g -> selector.addGoal(priority[0]++, g));
 	}
 
 	/**
@@ -111,52 +103,52 @@ public class AiUtils {
 	 * @param entity    entity which will configured with charmed AI.
 	 * @param commander entity which charmed mob.
 	 */
-	public static void buildCharmedMobAi(LivingEntity entity, LivingEntity commander) {
+	public static void buildCharmedMobAi(CreatureEntity entity, LivingEntity commander) {
 
-		// set tasks
-		entity.tasks.addTask(1, new EntityAISwimming(entity));
+		// set goals
+		GoalSelector selector = entity.goalSelector;
+		selector.addGoal(0, new SwimGoal(entity));
 
 		// setup attacking if commander is player
 		if (isTypePlayerEntity(commander)) {
+
 			// type cast
 			PlayerEntity player = (PlayerEntity) commander;
-			entity.tasks.addTask(2, new CompanionAttack(entity, player));
-		} else {
-			entity.tasks.addTask(2, new CompanionAttack(entity));
-		}
+			selector.addGoal(2, new CompanionAttack(entity, player));
+		} else
+			selector.addGoal(2, new CompanionAttack(entity));
 
-		// setup remainig tasks
-		entity.tasks.addTask(3, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
-		entity.tasks.addTask(5, new EntityAILookIdle(entity));
+		// setup remaining tasks
+		selector.addGoal(3, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
+		selector.addGoal(5, new LookRandomlyGoal(entity));
 
 		// exit setting target tasks if entity isn't a creature
 		// including commander controlled targeting
 		if (!isTypeCreatureEntity(entity))
 			return;
 
-		// type cast
+		// set targeting goals
 		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);
 		setupTargetingTasks(entityCreature, commander);
 	}
 
 	/**
-	 * Build AI for kitten army.
+	 * s Build AI for kitten army.
 	 * 
 	 * @param entity    entity which will configured with kitten army AI.
 	 * @param commander entity which commands skeleton.
 	 */
 	public static void buildKittenArmyAi(OcelotEntity entity, LivingEntity commander) {
 
-		entity.tasks.addTask(1, new EntityAISwimming(entity));
-		entity.tasks.addTask(2, entity.getAISit());
-		entity.tasks.addTask(3, new EntityAIFollowOwner(entity, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
-		entity.tasks.addTask(4, new EntityAIOcelotSit(entity, 0.8D));
-		entity.tasks.addTask(5, new EntityAILeapAtTarget(entity, 0.3F));
-		entity.tasks.addTask(6, new EntityAIOcelotAttack(entity));
-		entity.tasks.addTask(7, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
-		entity.tasks.addTask(9, new EntityAILookIdle(entity));
+		// set goals
+		GoalSelector selector = entity.goalSelector;
+		selector.addGoal(1, new SwimGoal(entity));
+		selector.addGoal(2, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
+		selector.addGoal(3, new LeapAtTargetGoal(entity, 0.3F));
+		selector.addGoal(4, new OcelotAttackGoal(entity));
+		selector.addGoal(5, new LookRandomlyGoal(entity));
 
-		// type cast
+		// set targeting goals
 		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);
 		setupTargetingTasks(entityCreature, commander);
 	}
@@ -170,14 +162,15 @@ public class AiUtils {
 	 */
 	public static void buildSkeletonArmyAi(SkeletonEntity entity, LivingEntity commander) {
 
-		entity.tasks.addTask(1, new EntityAISwimming(entity));
-		entity.tasks.addTask(2, new EntityAIFleeSun(entity, 1.0F));
-		entity.tasks.addTask(3, new EntityAIPanic(entity, 1.4D));
-		entity.tasks.addTask(4, new EntityAIAttackRangedBow(entity, 1.0D, 20, 15.0F));
-		entity.tasks.addTask(5, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
-		entity.tasks.addTask(7, new EntityAILookIdle(entity));
+		// set goals
+		GoalSelector selector = entity.goalSelector;
+		selector.addGoal(1, new SwimGoal(entity));
+		selector.addGoal(2, new FleeSunGoal(entity, 1.0D));
+		selector.addGoal(2, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
+		selector.addGoal(3, new LookAtGoal(entity, PlayerEntity.class, 8.0F));
+		selector.addGoal(3, new LookRandomlyGoal(entity));
 
-		// type cast
+		// set targeting goals
 		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);
 		setupTargetingTasks(entityCreature, commander);
 	}
@@ -191,11 +184,14 @@ public class AiUtils {
 	 */
 	public static void buildCreeperArmyAi(CreeperEntity entity, LivingEntity commander) {
 
-		entity.tasks.addTask(1, new EntityAISwimming(entity));
-		entity.tasks.addTask(2, new EntityAICreeperSwell(entity));
-		entity.tasks.addTask(4, new EntityAIAttackMelee(entity, 1.0D, false));
-		entity.tasks.addTask(5, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
-		entity.tasks.addTask(7, new EntityAILookIdle(entity));
+		// set goals
+		GoalSelector selector = entity.goalSelector;
+		selector.addGoal(1, new SwimGoal(entity));
+		selector.addGoal(2, new CreeperSwellGoal(entity));
+		selector.addGoal(3, new MeleeAttackGoal(entity, 1.0D, false));
+		selector.addGoal(2, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
+		selector.addGoal(3, new LookAtGoal(entity, PlayerEntity.class, 8.0F));
+		selector.addGoal(3, new LookRandomlyGoal(entity));
 
 		// type cast
 		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);
@@ -218,23 +214,16 @@ public class AiUtils {
 			PlayerEntity player = (PlayerEntity) commander;
 
 			// set commander targeting
-			entity.targetTasks.addTask(1, new CommanderControlledTargeting(entity, player));
+			GoalSelector selector = entity.targetSelector;
+			selector.addGoal(0, new CommanderControlledTargeting(entity, player));
 			return;
 		}
 
 		// set AI commander targeting if commander is a living entity
-		if (EntityUtils.isTypeLivingEntity(commander)) {
-
-			// type cast
-			LivingEntity commander2 = (LivingEntity) commander;
-
-			entity.targetTasks.addTask(1, new AiCommandersTargeting(entity, commander2));
-			entity.targetTasks.addTask(2, new EntityAIHurtByTarget(entity, DONT_CALL_FOR_HELP, new Class[0]));
-			return;
-		}
-
-		// set AI commander targeting if commander is a living entity base
-		entity.targetTasks.addTask(1, new EntityAIHurtByTarget(entity, DONT_CALL_FOR_HELP, new Class[0]));
+		GoalSelector selector = entity.targetSelector;
+		selector.addGoal(0, new CommanderControlledTargeting(entity, commander));
+		selector.addGoal(1, new HurtByTargetGoal(entity));
+		return;
 	}
 
 }

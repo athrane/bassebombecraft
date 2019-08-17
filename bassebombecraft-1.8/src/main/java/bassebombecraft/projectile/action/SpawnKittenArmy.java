@@ -2,7 +2,7 @@ package bassebombecraft.projectile.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.ai.AiUtils.buildKittenArmyAi;
-import static bassebombecraft.entity.ai.AiUtils.clearAiTasks;
+import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 
 import java.util.List;
 import java.util.Random;
@@ -109,7 +109,7 @@ public class SpawnKittenArmy implements ProjectileAction {
 			teamRepository.add(owner, entity);
 			
 			// set AI
-			clearAiTasks(entity);
+			clearAllAiGoals(entity);
 			buildKittenArmyAi(entity, owner);
 
 			// set name
