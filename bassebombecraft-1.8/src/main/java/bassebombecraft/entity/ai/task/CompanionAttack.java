@@ -7,6 +7,7 @@ import static bassebombecraft.entity.EntityUtils.getAliveTarget;
 import static bassebombecraft.entity.EntityUtils.hasAliveTarget;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
@@ -36,9 +37,12 @@ import bassebombecraft.projectile.action.SpawnKittenArmy;
 import bassebombecraft.projectile.action.SpawnLavaBlock;
 import bassebombecraft.projectile.action.SpawnLightningBolt;
 import bassebombecraft.projectile.action.SpawnSquid;
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.EntityAIBase;
+import net.minecraft.entity.ai.controller.LookController;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.pathfinding.PathNavigator;
 
 /**
  * AI task for companion, e.g. charmed mob or guardian.
@@ -46,7 +50,7 @@ import net.minecraft.entity.player.PlayerEntity;
  * The task will attack the targeted mob using the abilities implement in the
  * BassBombeCraft mod.
  */
-public class CompanionAttack extends EntityAIBase {
+public class CompanionAttack extends Goal {
 
 	static final ProjectileAction COWEB_PROJECTILE_ACTION = new SpawnCobweb();
 	static final ProjectileAction ICEBLOCK_PROJECTILE_ACTION = new SpawnIceBlock();
@@ -66,11 +70,8 @@ public class CompanionAttack extends EntityAIBase {
 
 	final static String CREEPER_CANNON_CONFIG_KEY = ShootCreeperCannon.class.getSimpleName();
 	final static boolean ISNT_PRIMED = false;
-	/**
-	 * Target entity.
-	 */
-	final LivingEntity entity;
 
+	CreatureEntity entity;
 	LivingEntity attackTarget;
 	double entityMoveSpeed = 1.0D;
 	double distanceToTargetSq;
@@ -101,11 +102,11 @@ public class CompanionAttack extends EntityAIBase {
 	 * 
 	 * @param entity entity that the tasks is applied to.
 	 */
-	public CompanionAttack(LivingEntity entity) {
+	public CompanionAttack(CreatureEntity entity) {
 		this.entity = entity;
 
-		// "interactive" AI, including attack
-		this.setMutexBits(3);
+		// "interactive" AI
+		setMutexFlags(EnumSet.of(Goal.Flag.LOOK));
 
 		longRangeActions = new ArrayList<RightClickedItemAction>();
 		longRangeActions.add(new ShootSmallFireball());
@@ -143,13 +144,11 @@ public class CompanionAttack extends EntityAIBase {
 	 * @param commander entity which commands entity.
 	 */
 	public CompanionAttack(LivingEntity entity, PlayerEntity commander) {
-		this(entity);
 		this.commander = commander;
 	}
 
 	@Override
 	public boolean shouldExecute() {
-		System.out.println("DEBUG: shouldExecute: entity=" + entity);
 
 		// exit if no living target is defined
 		if (!hasAliveTarget(this.entity))
@@ -165,14 +164,11 @@ public class CompanionAttack extends EntityAIBase {
 
 	@Override
 	public void startExecuting() {
-		System.out.println("DEBUG: startExecuting: entity=" + entity);
-
 		// NO-OP
 	}
 
 	@Override
-	public void updateTask() {
-		System.out.println("DEBUG: updateTask: entity=" + entity);
+	public void tick() {
 
 		// get repository
 		FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
@@ -181,10 +177,10 @@ public class CompanionAttack extends EntityAIBase {
 		if (!repository.isActive(AI_COMPANION_ATTACK_UPDATE_FREQUENCY))
 			return;
 
-		System.out.println("DEBUG: updateTask: will update this turn");
-
 		// look at target
-		entity.getLookHelper().setLookPositionWithEntity(attackTarget, 30.0F, 30.0F);
+		// look at
+		LookController lookController = entity.getLookController();
+		lookController.setLookPositionWithEntity(attackTarget, 10.0F, (float) entity.getVerticalFaceSpeed());
 
 		// get movement info
 		distanceToTargetSq = this.entity.getDistanceSq(attackTarget.posX, attackTarget.getBoundingBox().minY,
@@ -192,17 +188,16 @@ public class CompanionAttack extends EntityAIBase {
 		isTargetClose = (distanceToTargetSq < AI_COMPANION_ATTACK_MINIMUM_RANGE);
 
 		// move closer if target isn't a minimum range
+		PathNavigator navigator = entity.getNavigator();
 		if (isTargetClose) {
-			entity.getNavigator().clearPath();
+			navigator.clearPath();
 		} else {
-			entity.getNavigator().tryMoveToLivingEntity(attackTarget, entityMoveSpeed);
+			entity.getNavigator().tryMoveToEntityLiving(attackTarget, entityMoveSpeed);
 		}
 
 		// add AI observation event
 		// type, position, health
-		doAiObservation("before");
-		System.out.println("DEBUG: dist=" + distanceToTargetSq);
-		System.out.println("DEBUG: isTargetClose=" + isTargetClose);
+		// doAiObservation("before");
 
 		// select behaviour type
 		String action = "";
@@ -211,10 +206,7 @@ public class CompanionAttack extends EntityAIBase {
 		else
 			action = doLongRangeAction();
 
-		doAiObservation("after");
-		System.out.println("action=" + action);
-		System.out.println("DEBUG: dist=" + distanceToTargetSq);
-		System.out.println("DEBUG: isTargetClose=" + isTargetClose);
+		// doAiObservation("after");
 
 		// increase observation counter
 		observationCounter++;
@@ -277,8 +269,6 @@ public class CompanionAttack extends EntityAIBase {
 	 */
 	@Override
 	public boolean shouldContinueExecuting() {
-		System.out.println("DEBUG: shouldContinueExecuting: entity=" + entity);
-
 		return shouldExecute() || !entity.getNavigator().noPath();
 	}
 
@@ -287,8 +277,6 @@ public class CompanionAttack extends EntityAIBase {
 	 */
 	@Override
 	public void resetTask() {
-		System.out.println("DEBUG: resetTask: entity=" + entity);
-
 		attackTarget = null;
 	}
 }

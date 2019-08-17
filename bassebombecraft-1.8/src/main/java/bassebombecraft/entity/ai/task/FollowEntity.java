@@ -6,6 +6,7 @@ import java.util.EnumSet;
 
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.pathfinding.PathNavigator;
@@ -104,8 +105,8 @@ public class FollowEntity extends Goal {
 	public void tick() {
 
 		// look at
-		entity.getLookController().setLookPositionWithEntity(leaderEntity, 10.0F,
-				(float) entity.getVerticalFaceSpeed());
+		LookController lookController = entity.getLookController();
+		lookController.setLookPositionWithEntity(leaderEntity, 10.0F, (float) entity.getVerticalFaceSpeed());
 
 		// update counter
 		timeToRecalcPath--;
