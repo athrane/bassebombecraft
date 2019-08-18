@@ -11,9 +11,13 @@ import net.minecraft.entity.player.PlayerEntity;
  * Discard commander filter. Returns false if candidate is equal to commander.
  */
 public class DiscardCommander implements Predicate<LivingEntity> {
-	PlayerEntity commander;
+	
+	/**
+	 * Commander to be discarded.
+	 */
+	LivingEntity commander;
 
-	public void set(PlayerEntity commander) {
+	public void set(LivingEntity commander) {
 		this.commander = commander;
 	}
 

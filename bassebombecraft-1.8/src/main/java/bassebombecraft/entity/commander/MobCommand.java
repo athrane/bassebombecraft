@@ -2,7 +2,7 @@ package bassebombecraft.entity.commander;
 
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
 import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.LivingEntity;
 
 /**
  * Interface for mob command.
@@ -26,24 +26,20 @@ public interface MobCommand {
 	/**
 	 * Initialize command if command should be executed.
 	 * 
-	 * @param commander
-	 *            commander to initialize command from.
-	 * @param entity
-	 *            entity commanded by mob commander.
+	 * @param commander commander to initialize command from.
+	 * @param entity    entity commanded by mob commander.
 	 * 
 	 * @return true if command should start to execute.
 	 */
-	boolean shouldExecute(PlayerEntity commander, CreatureEntity entity);
+	boolean shouldExecute(LivingEntity commander, CreatureEntity entity);
 
 	/**
 	 * Execute command.
 	 * 
-	 * @param commander
-	 *            commander.
-	 * @param entity
-	 *            entity commanded by mob commander.
+	 * @param commander commander.
+	 * @param entity    entity commanded by mob commander.
 	 * 
 	 * @return true if command should continue to execute.
 	 */
-	boolean continueExecuting(PlayerEntity commander, CreatureEntity entity);
+	boolean continueExecuting(LivingEntity commander, CreatureEntity entity);
 }

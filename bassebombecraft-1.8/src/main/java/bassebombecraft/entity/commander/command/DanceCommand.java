@@ -9,6 +9,7 @@ import com.typesafe.config.Config;
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
 import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 /**
@@ -46,12 +47,12 @@ public class DanceCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean shouldExecute(PlayerEntity commander, CreatureEntity entity) {
+	public boolean shouldExecute(LivingEntity commander, CreatureEntity entity) {
 		return true;
 	}
 
 	@Override
-	public boolean continueExecuting(PlayerEntity commander, CreatureEntity entity) {
+	public boolean continueExecuting(LivingEntity commander, CreatureEntity entity) {
 
 		// clear target
 		entity.setAttackTarget(null);

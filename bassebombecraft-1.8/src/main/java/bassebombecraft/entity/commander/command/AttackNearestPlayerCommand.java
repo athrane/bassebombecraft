@@ -65,7 +65,7 @@ public class AttackNearestPlayerCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean shouldExecute(PlayerEntity commander, CreatureEntity entity) {
+	public boolean shouldExecute(LivingEntity commander, CreatureEntity entity) {
 
 		// initialize filter
 		discardTeamCommander.set(commander);
@@ -93,7 +93,7 @@ public class AttackNearestPlayerCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean continueExecuting(PlayerEntity commander, CreatureEntity entity) {
+	public boolean continueExecuting(LivingEntity commander, CreatureEntity entity) {
 
 		// get target
 		LivingEntity target = entity.getAttackTarget();
