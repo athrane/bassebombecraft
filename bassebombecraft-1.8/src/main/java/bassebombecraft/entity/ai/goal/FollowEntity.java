@@ -1,4 +1,4 @@
-package bassebombecraft.entity.ai.task;
+package bassebombecraft.entity.ai.goal;
 
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;

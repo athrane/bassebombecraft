@@ -1,4 +1,4 @@
-package bassebombecraft.entity.ai.task;
+package bassebombecraft.entity.ai.goal;
 
 import static bassebombecraft.entity.EntityUtils.getAliveTarget;
 import static bassebombecraft.entity.EntityUtils.hasAliveTarget;
