@@ -11,6 +11,8 @@ import bassebombecraft.entity.commander.command.AttackNearestMobCommand;
 import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
 import bassebombecraft.entity.commander.command.DanceCommand;
 import bassebombecraft.entity.commander.command.NullCommand;
+import bassebombecraft.player.PlayerUtils;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 public class DefaultMobCommanderRepository implements MobCommanderRepository {
@@ -31,7 +33,7 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 	static final DanceCommand STOP_COMMAND = new DanceCommand();
 
 	/**
-	 * Attack commanders targer command.
+	 * Attack commanders target command.
 	 */
 	static final AttackCommandersTargetCommand ATTACK_COMMANDERS_TARGET_COMMAND = new AttackCommandersTargetCommand();
 	
@@ -73,41 +75,41 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 	/**
 	 * Commander container.
 	 */
-	Map<PlayerEntity, MobCommanderState> commanders;
+	Map<LivingEntity, MobCommanderState> commanders;
 
 	/**
 	 * DefaultMobCommanderRepository constructor.
 	 */
 	public DefaultMobCommanderRepository() {
 		super();
-		this.commanders = Collections.synchronizedMap(new HashMap<PlayerEntity, MobCommanderState>());
+		this.commanders = Collections.synchronizedMap(new HashMap<LivingEntity, MobCommanderState>());
 	}
 
 	@Override
-	public boolean isRegistered(PlayerEntity player) {
-		if (player == null)
+	public boolean isRegistered(LivingEntity entity) {
+		if (entity == null)
 			return false;
-		return (commanders.containsKey(player));
+		return (commanders.containsKey(entity));
 	}
 
 	@Override
-	public void register(PlayerEntity player) {
-		if (player == null)
+	public void register(LivingEntity entity) {
+		if (entity == null)
 			return;
-		if (isRegistered(player)) {
+		if (isRegistered(entity)) {
 			return;
 		}
 
 		// add new commander
 		MobCommanderState state = new MobCommanderState(NULL_COMMAND);
-		commanders.put(player, state);
+		commanders.put(entity, state);
 	}
 
 	@Override
-	public void remove(PlayerEntity player) {
-		if (player == null)
+	public void remove(LivingEntity entity) {
+		if (entity == null)
 			return;
-		commanders.remove(player);
+		commanders.remove(entity);
 	}
 
 	@Override
@@ -116,31 +118,40 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 	}
 
 	@Override
-	public MobCommand getCommand(PlayerEntity player) {
-		if (player == null)
+	public MobCommand getCommand(LivingEntity entity) {
+		if (entity == null)
 			return NULL_COMMAND;
 
-		if (!isRegistered(player))
+		if (!isRegistered(entity))
 			return NULL_COMMAND;
 
 		// return current command.
-		MobCommanderState state = commanders.get(player);
+		MobCommanderState state = commanders.get(entity);
 		return state.getCommand();
 	}
 
 	@Override
-	public void cycle(PlayerEntity player) {
-		register(player);
+	public void cycle(LivingEntity entity) {
+		register(entity);
 
 		// get command
-		MobCommanderState state = commanders.get(player);
+		MobCommanderState state = commanders.get(entity);
 		MobCommand command = state.getCommand();
 
 		internalCycleCommand(state, command);
 		
 		// update GUI
 		command = state.getCommand();		
-		sendChatMessageToPlayer(player, "Krenko commands: " + command.getTitle());
+		
+		// if commander is player entity then send chat message
+		if(PlayerUtils.isTypePlayerEntity(entity)) {
+			
+			// type cast
+			PlayerEntity player = (PlayerEntity) entity;
+						
+			// send message
+			sendChatMessageToPlayer(player, "Krenko commands: " + command.getTitle());			
+		}
 		
 	}
 
