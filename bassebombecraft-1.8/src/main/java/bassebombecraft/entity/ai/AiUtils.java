@@ -3,8 +3,17 @@ package bassebombecraft.entity.ai;
 import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
+import java.lang.reflect.Field;
+import java.util.Set;
 import java.util.stream.Stream;
 
+import static org.apache.commons.lang3.reflect.FieldUtils.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.google.common.collect.Sets;
+
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.entity.ai.goal.CommanderControlledTargeting;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.entity.ai.goal.FollowEntity;
@@ -12,7 +21,6 @@ import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.CreeperSwellGoal;
 import net.minecraft.entity.ai.goal.FleeSunGoal;
-import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.GoalSelector;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
@@ -33,6 +41,11 @@ import net.minecraft.entity.player.PlayerEntity;
 public class AiUtils {
 
 	/**
+	 * Force access to private fields when using reflection.
+	 */
+	static final boolean FORCE_ACCESS = true;
+
+	/**
 	 * Initial goal priority.
 	 */
 	static final int INITIAL_GOAL_PRIORITY = 0;
@@ -40,6 +53,34 @@ public class AiUtils {
 	static final double MOVEMENT_SPEED = 1.5D; // movement speed towards player
 	static final float MINIMUM_DIST = 6.0F; // Entity minimum distance to player
 	static final float MAXIMUM_DIST = 50.0F; // Entity maximum distance to player
+
+	/**
+	 * Logger.
+	 */
+	static Logger logger = LogManager.getLogger(BassebombeCraft.class);
+
+	/**
+	 * Capture goals from {@linkplain GoalSelector}.
+	 * 
+	 * Goals are accessed using reflection to access private goals field in the goal
+	 * selector.
+	 * 
+	 * @param selector goal selector to get goals from.
+	 * 
+	 * @return set of goals from goals selector.
+	 */
+	public static Set<PrioritizedGoal> captureGoals(GoalSelector selector) {
+		try {
+			Field field = selector.getClass().getDeclaredField("goals");
+			return (Set<PrioritizedGoal>) readField(field, selector, FORCE_ACCESS);
+		} catch (NoSuchFieldException | SecurityException | IllegalAccessException e) {
+			logger.error("Failed to capture goals due to the error: " + e.getMessage());
+			// TODO: add to centralized exception handling.
+
+			// return null set
+			return Sets.newLinkedHashSet();
+		}
+	}
 
 	/**
 	 * Clear passive and fighting AI goals.
@@ -64,37 +105,37 @@ public class AiUtils {
 	/**
 	 * Assign passive AI goals.
 	 * 
-	 * The first goal in the stream is added with highest priority, i.e. 1. The
-	 * priority is increased for each subsequent goal.
-	 * 
 	 * @param entity entity to assign goals to.
-	 * @param goals  stream of goals.
+	 * @param goals  set of goals.
 	 */
-	public static void assignAiGoals(CreatureEntity entity, Stream<Goal> goals) {
-		// use integer array to hold running counter for task priority
-		int[] priority = { INITIAL_GOAL_PRIORITY };
-
-		// get goals and add them to the entity
-		GoalSelector selector = entity.goalSelector;
-		goals.forEachOrdered(g -> selector.addGoal(priority[0]++, g));
+	public static void assignAiGoals(CreatureEntity entity, Set<PrioritizedGoal> goals) {
+		try {
+			GoalSelector selector = entity.goalSelector;
+			Field field = selector.getClass().getDeclaredField("goals");
+			writeField(field, selector, goals, FORCE_ACCESS);
+		} catch (NoSuchFieldException | SecurityException | IllegalAccessException e) {
+			logger.error("Failed to assign goals due to the error: " + e.getMessage());
+			// TODO: add to centralized exception handling.
+			// NO-OP
+		}
 	}
 
 	/**
 	 * Assign target AI goals.
 	 * 
-	 * The first goal in the stream is added with highest priority, i.e. 1. The
-	 * priority is increased for each subsequent goal.
-	 * 
 	 * @param entity entity to assign goals to.
-	 * @param goals  stream of goals.
+	 * @param goals  set of goals.
 	 */
-	public static void assignAiTargetTasks(CreatureEntity entity, Stream<Goal> goals) {
-		// use integer array to hold running counter for task priority
-		int[] priority = { INITIAL_GOAL_PRIORITY };
-
-		// get goals and add them to the entity
-		GoalSelector selector = entity.targetSelector;
-		goals.forEachOrdered(g -> selector.addGoal(priority[0]++, g));
+	public static void assignAiTargetGoals(CreatureEntity entity, Set<PrioritizedGoal> goals) {
+		try {
+			GoalSelector selector = entity.targetSelector;
+			Field field = selector.getClass().getDeclaredField("goals");
+			writeField(field, selector, goals, FORCE_ACCESS);
+		} catch (NoSuchFieldException | SecurityException | IllegalAccessException e) {
+			logger.error("Failed to assign goals due to the error: " + e.getMessage());
+			// TODO: add to centralized exception handling.
+			// NO-OP
+		}
 	}
 
 	/**
@@ -199,8 +240,9 @@ public class AiUtils {
 	}
 
 	/**
-	 * Setup targeting. Mob commanded targeting is only set if commander is a player
-	 * entity.
+	 * Setup targeting.
+	 * 
+	 * Mob commanded targeting is only set if commander is a player entity.
 	 * 
 	 * @param entity    entity to set targeting for.
 	 * @param commander commander (if defined).

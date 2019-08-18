@@ -1,8 +1,8 @@
 package bassebombecraft.event.charm;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.entity.ai.AiUtils.assignAiTargetTasks;
 import static bassebombecraft.entity.ai.AiUtils.assignAiGoals;
+import static bassebombecraft.entity.ai.AiUtils.assignAiTargetGoals;
 import static bassebombecraft.entity.ai.AiUtils.buildCharmedMobAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 
@@ -13,6 +13,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
+import static bassebombecraft.event.charm.CharmedMob.*;
+
 
 /**
  * Default implementation of the {@linkplain CharmedMobsRepository}.
@@ -31,12 +33,11 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 
 		// exist if entity is team member
 		TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
-		if(teamRepository.isMember(commander, entity)) {
+		if (teamRepository.isMember(commander, entity))
 			return;
-		}
-		
+
 		// create charmed mob container
-		CharmedMob charmedMob = new CharmedMob(entity, EFFECT_DURATION);
+		CharmedMob charmedMob = CharmedMob.getInstance(entity, EFFECT_DURATION);
 
 		clearAllAiGoals(entity);
 		buildCharmedMobAi(entity, commander);
@@ -53,8 +54,8 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 		// restore AI tasks
 		CharmedMob charmedMob = charmedMobs.get(entity);
 		clearAllAiGoals(entity);
-		assignAiGoals(entity, charmedMob.getTasks());
-		assignAiTargetTasks(entity, charmedMob.getTargetTasks());
+		assignAiGoals(entity, charmedMob.getGoals());
+		assignAiTargetGoals(entity, charmedMob.getTargetGoals());
 
 		// remove mob from repository
 		charmedMobs.remove(entity);
@@ -78,7 +79,7 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	public boolean contains(CreatureEntity entity) {
 		return charmedMobs.containsKey(entity);
 	}
-	
+
 	@Override
 	public Collection<CharmedMob> get() {
 		return charmedMobs.values();
