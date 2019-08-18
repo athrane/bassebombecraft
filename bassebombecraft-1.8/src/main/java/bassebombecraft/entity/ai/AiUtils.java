@@ -207,7 +207,7 @@ public class AiUtils {
 	 */
 	static void setupTargetingTasks(CreatureEntity entity, LivingEntity commander) {
 
-		// setup targeting if commander is player
+		// setup targeting if commander is player entity
 		if (isTypePlayerEntity(commander)) {
 
 			// type cast

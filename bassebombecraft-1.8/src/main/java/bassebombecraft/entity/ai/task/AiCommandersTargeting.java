@@ -31,7 +31,7 @@ public class AiCommandersTargeting extends Goal {
 	final CreatureEntity entity;
 
 	/**
-	 * Mob AI commander.
+	 * Mob commander.
 	 */
 	LivingEntity commander;
 

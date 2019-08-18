@@ -1,18 +1,20 @@
 package bassebombecraft.entity.ai.task;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
+
+import java.util.EnumSet;
 
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.EntityAITarget;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.ai.goal.Goal;
 
 /**
- * AI target acquisition task which is commanded the by mob commander.
+ * AI target acquisition goal which is commanded the by mob commander.
  */
-public class CommanderControlledTargeting extends EntityAITarget {
+public class CommanderControlledTargeting extends Goal {
 
 	/**
 	 * Null target.
@@ -20,22 +22,27 @@ public class CommanderControlledTargeting extends EntityAITarget {
 	static final LivingEntity NULL_TARGET = null;
 
 	/**
+	 * Goal owner.
+	 */
+	final CreatureEntity entity;
+
+	/**
 	 * Mob commander.
 	 */
-	PlayerEntity commander;
+	LivingEntity commander;
 
 	/**
 	 * CommanderControlledTargeting constructor.
 	 * 
-	 * @param owner     commanded entity.
+	 * @param entity    commanded entity.
 	 * @param commander entity which commands entity.
 	 */
-	public CommanderControlledTargeting(CreatureEntity owner, PlayerEntity commander) {
-		super(owner, false);
+	public CommanderControlledTargeting(CreatureEntity entity, LivingEntity commander) {
+		this.entity = entity;
 		this.commander = commander;
 
-		// Uncategorised compatible with every task
-		// this.setMutexBits(1);
+		// "target" AI
+		setMutexFlags(EnumSet.of(TARGET));
 	}
 
 	@Override
@@ -46,12 +53,9 @@ public class CommanderControlledTargeting extends EntityAITarget {
 		MobCommand command = repository.getCommand(commander);
 
 		// initialize command
-		return command.shouldExecute(commander, this.taskOwner);
+		return command.shouldExecute(commander, entity);
 	}
 
-	/**
-	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */
 	@Override
 	public boolean shouldContinueExecuting() {
 
@@ -60,17 +64,17 @@ public class CommanderControlledTargeting extends EntityAITarget {
 		MobCommand command = repository.getCommand(commander);
 
 		// execute command
-		return command.continueExecuting(commander, this.taskOwner);
+		return command.continueExecuting(commander, entity);
 	}
 
 	@Override
 	public void startExecuting() {
-		super.startExecuting();
+		// NO-OP
 	}
 
 	@Override
 	public void resetTask() {
-		super.resetTask();
+		// NO-OP
 	}
 
 }
