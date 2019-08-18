@@ -10,9 +10,9 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.Vec3d;
 
 /**
- * Implementation of {@linkplain EntityMistActionStrategy} for construction of mist
- * action. This class builds a mist with a vertical force effect that forcefully pulls
- * mobs up.
+ * Implementation of {@linkplain EntityMistActionStrategy} for construction of
+ * mist action. This class builds a mist with a vertical force effect that
+ * forcefully pulls mobs up.
  */
 public class EmitVerticalForceMist implements EntityMistActionStrategy {
 
@@ -33,7 +33,8 @@ public class EmitVerticalForceMist implements EntityMistActionStrategy {
 	@Override
 	public void applyEffectToEntity(LivingEntity target, Vec3d mistPos, LivingEntity invoker) {
 		// push mob
-		target.move(MoverType.SELF,0, FORCE, 0);
+		Vec3d motionVecForced = new Vec3d(0, FORCE, 0);
+		target.move(MoverType.SELF, motionVecForced);
 	}
 
 	@Override
