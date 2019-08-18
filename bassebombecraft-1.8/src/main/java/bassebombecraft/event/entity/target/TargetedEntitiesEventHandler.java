@@ -20,7 +20,7 @@ public class TargetedEntitiesEventHandler {
 		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
 
 		// remove entity from team upon death
-		LivingEntity entity = event.getLivingEntity();
+		LivingEntity entity = event.getEntityLiving();
 		repository.remove(entity);
 
 	}

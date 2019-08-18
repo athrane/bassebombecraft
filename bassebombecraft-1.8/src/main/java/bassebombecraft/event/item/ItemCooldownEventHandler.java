@@ -40,7 +40,7 @@ public class ItemCooldownEventHandler {
 		GenericInventoryItem inventoryItem = (GenericInventoryItem) item;
 
 		// exit if entity isn't player
-		LivingEntity entity = event.getLivingEntity();
+		LivingEntity entity = event.getEntityLiving();
 		if (!isTypePlayerEntity(entity))
 			return;
 
