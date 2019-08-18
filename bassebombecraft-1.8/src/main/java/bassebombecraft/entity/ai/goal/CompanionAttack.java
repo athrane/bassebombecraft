@@ -39,8 +39,8 @@ import bassebombecraft.projectile.action.SpawnKittenArmy;
 import bassebombecraft.projectile.action.SpawnLavaBlock;
 import bassebombecraft.projectile.action.SpawnLightningBolt;
 import bassebombecraft.projectile.action.SpawnSquid;
-import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
@@ -101,14 +101,14 @@ public class CompanionAttack extends Goal {
 	/**
 	 * Goal owner.
 	 */
-	CreatureEntity entity;
+	MobEntity entity;
 
 	/**
 	 * CompanionAttack constructor.
 	 * 
 	 * @param entity entity that the tasks is applied to.
 	 */
-	public CompanionAttack(CreatureEntity entity) {
+	public CompanionAttack(MobEntity entity) {
 		this.entity = entity;
 
 		// "interactive" AI

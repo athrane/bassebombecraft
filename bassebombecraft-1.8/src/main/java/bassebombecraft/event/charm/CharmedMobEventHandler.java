@@ -2,7 +2,7 @@ package bassebombecraft.event.charm;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.SPAWN_PARTICLES_FREQUENCY;
-import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
+import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
@@ -10,7 +10,7 @@ import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
@@ -38,9 +38,9 @@ public class CharmedMobEventHandler {
 
 	@SubscribeEvent
 	static public void handleEvent(LivingUpdateEvent event) {
-		if (!isTypeLivingEntity(event.getEntityLiving()))
+		if (!isTypeMobEntity(event.getEntityLiving()))
 			return;
-		LivingEntity entity = event.getEntityLiving();
+		MobEntity entity = (MobEntity) event.getEntityLiving();
 
 		// get repository
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
@@ -68,9 +68,9 @@ public class CharmedMobEventHandler {
 
 	@SubscribeEvent
 	public static void handleEvent(LivingDeathEvent event) {
-		if (!isTypeLivingEntity(event.getEntityLiving()))
+		if (!isTypeMobEntity(event.getEntityLiving()))
 			return;
-		LivingEntity entity = event.getEntityLiving();
+		MobEntity entity = (MobEntity) event.getEntityLiving();
 
 		// get repository
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();

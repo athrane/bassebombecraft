@@ -2,12 +2,14 @@ package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;
 
 import com.typesafe.config.Config;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.world.World;
 
 /**
@@ -52,13 +54,15 @@ public class CharmBeast implements InventoryItemActionStrategy {
 	@Override
 	public void applyEffect(Entity target, World world, LivingEntity invoker) {
 
-		// skip if entity can't be charmed
-		if (!(target instanceof LivingEntity))
+		// skip if entity can't be charmed, i.e. is a mob entity
+		if (!isTypeMobEntity(target))
 			return;
-		LivingEntity entityLiving = (LivingEntity) target;
+		
+		// type cast		
+		MobEntity mobEntity = (MobEntity) target;
 
 		// register mob as charmed
-		getBassebombeCraft().getCharmedMobsRepository().add(entityLiving, invoker);
+		getBassebombeCraft().getCharmedMobsRepository().add(mobEntity, invoker);
 	}
 
 	@Override

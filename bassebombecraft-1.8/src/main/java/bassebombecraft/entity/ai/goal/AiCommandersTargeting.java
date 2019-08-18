@@ -16,7 +16,7 @@ import net.minecraft.potion.EffectInstance;
 /**
  * AI target acquisition goal which attacks commanders target.
  * 
- * Entity self-destructs if commmander has died and aggros everything.
+ * Entity self-destructs if commander has died and aggros everything.
  */
 public class AiCommandersTargeting extends Goal {
 
