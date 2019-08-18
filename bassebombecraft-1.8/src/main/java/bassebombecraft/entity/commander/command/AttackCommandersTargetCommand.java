@@ -4,7 +4,6 @@ import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 
 /**
  * Attack commander's target command.
@@ -22,7 +21,7 @@ public class AttackCommandersTargetCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean shouldExecute(PlayerEntity commander, CreatureEntity entity) {
+	public boolean shouldExecute(LivingEntity commander, CreatureEntity entity) {
 
 		// get target
 		LivingEntity target = commander.getLastAttackedEntity();
@@ -31,7 +30,7 @@ public class AttackCommandersTargetCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean continueExecuting(PlayerEntity commander, CreatureEntity entity) {
+	public boolean continueExecuting(LivingEntity commander, CreatureEntity entity) {
 
 		// get target
 		LivingEntity target = commander.getLastAttackedEntity();
