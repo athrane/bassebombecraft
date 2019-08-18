@@ -1,5 +1,8 @@
 package bassebombecraft.entity.ai.task;
 
+import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
+import static net.minecraft.entity.ai.goal.Goal.Flag.MOVE;
+
 import java.util.EnumSet;
 
 import net.minecraft.entity.CreatureEntity;
@@ -17,8 +20,16 @@ public class FollowClosestPlayer extends Goal {
 	static final int UPDATE_DELAY = 10;
 	static final float WATCH_DIST = 8.0F;
 
+	/**
+	 * Goal owner.
+	 */
 	final CreatureEntity entity;
+
+	/**
+	 * Closed playe to follow.
+	 */
 	PlayerEntity closestPlayer;
+
 	int updateDelayCounter = 0;
 	float minDistanceSqr; // minimum distance to player (squared)
 	double movementSpeed;
@@ -36,7 +47,7 @@ public class FollowClosestPlayer extends Goal {
 		this.movementSpeed = movementSpeed;
 
 		// "movement" AI
-		setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+		setMutexFlags(EnumSet.of(MOVE, LOOK));
 	}
 
 	@Override
@@ -74,11 +85,8 @@ public class FollowClosestPlayer extends Goal {
 		navigator.tryMoveToEntityLiving(closestPlayer, movementSpeed);
 	}
 
-	/**
-	 * Resets the task
-	 */
 	@Override
-	public void resetTask() {		
+	public void resetTask() {
 		closestPlayer = null;
 		PathNavigator navigator = entity.getNavigator();
 		navigator.clearPath();

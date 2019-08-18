@@ -5,9 +5,11 @@ import static bassebombecraft.ModConstants.AI_COMPANION_ATTACK_MINIMUM_RANGE;
 import static bassebombecraft.ModConstants.AI_COMPANION_ATTACK_UPDATE_FREQUENCY;
 import static bassebombecraft.entity.EntityUtils.getAliveTarget;
 import static bassebombecraft.entity.EntityUtils.hasAliveTarget;
+import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.Random;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
@@ -45,9 +47,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.pathfinding.PathNavigator;
 
 /**
- * AI task for companion, e.g. charmed mob or guardian.
+ * AI goal for companion, e.g. charmed mob or guardian.
  * 
- * The task will attack the targeted mob using the abilities implement in the
+ * The goal will attack the targeted mob using the abilities implemented in the
  * BassBombeCraft mod.
  */
 public class CompanionAttack extends Goal {
@@ -71,7 +73,6 @@ public class CompanionAttack extends Goal {
 	final static String CREEPER_CANNON_CONFIG_KEY = ShootCreeperCannon.class.getSimpleName();
 	final static boolean ISNT_PRIMED = false;
 
-	CreatureEntity entity;
 	LivingEntity attackTarget;
 	double entityMoveSpeed = 1.0D;
 	double distanceToTargetSq;
@@ -98,6 +99,11 @@ public class CompanionAttack extends Goal {
 	PlayerEntity commander;
 
 	/**
+	 * Goal owner.
+	 */
+	CreatureEntity entity;
+
+	/**
 	 * CompanionAttack constructor.
 	 * 
 	 * @param entity entity that the tasks is applied to.
@@ -106,7 +112,7 @@ public class CompanionAttack extends Goal {
 		this.entity = entity;
 
 		// "interactive" AI
-		setMutexFlags(EnumSet.of(Goal.Flag.LOOK));
+		setMutexFlags(EnumSet.of(LOOK));
 
 		longRangeActions = new ArrayList<RightClickedItemAction>();
 		longRangeActions.add(new ShootSmallFireball());
@@ -178,7 +184,6 @@ public class CompanionAttack extends Goal {
 			return;
 
 		// look at target
-		// look at
 		LookController lookController = entity.getLookController();
 		lookController.setLookPositionWithEntity(attackTarget, 10.0F, (float) entity.getVerticalFaceSpeed());
 
@@ -240,8 +245,9 @@ public class CompanionAttack extends Goal {
 	 * @return chosen action.
 	 */
 	String doCloseRangeAction() {
+		Random random = getBassebombeCraft().getRandom();
 		int numberActions = longRangeActions.size();
-		int choice = entity.getRNG().nextInt(numberActions);
+		int choice = random.nextInt(numberActions);
 		RightClickedItemAction action = closeRangeActions.get(choice);
 		action.onRightClick(entity.getEntityWorld(), entity);
 		return ReflectionToStringBuilder.toString(action);
@@ -256,25 +262,20 @@ public class CompanionAttack extends Goal {
 	 * @return chosen action.
 	 */
 	String doLongRangeAction() {
+		Random random = getBassebombeCraft().getRandom();
 		int numberActions = longRangeActions.size();
-		int choice = entity.getRNG().nextInt(numberActions);
+		int choice = random.nextInt(numberActions);
 		RightClickedItemAction action = longRangeActions.get(choice);
 		action.onRightClick(entity.getEntityWorld(), entity);
 		return ReflectionToStringBuilder.toString(action);
 		// action.getClass().getSimpleName();
 	}
 
-	/**
-	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */
 	@Override
 	public boolean shouldContinueExecuting() {
 		return shouldExecute() || !entity.getNavigator().noPath();
 	}
 
-	/**
-	 * Resets the task
-	 */
 	@Override
 	public void resetTask() {
 		attackTarget = null;
