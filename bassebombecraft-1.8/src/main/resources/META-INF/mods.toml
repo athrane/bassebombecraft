@@ -16,22 +16,27 @@ issueTrackerURL="https://github.com/athrane/bassebombecraft/issues" #optional
 [[mods]] #mandatory
 	# The modid of the mod
 	modId="bassebombecraft" #mandatory
+	
 	# The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
 	version="${file.jarVersion}" #mandatory
+	
 	# A display name for the mod
 	displayName="BasseBombeCraft Mod" #mandatory
+	
 	# A URL to query for updates for this mod. See the JSON update specification <here>
 	updateJSONURL="https://github.com/athrane/bassebombecraft/blob/master/bassebombecraft-1.8/version.json" #optional
+	
 	# A URL for the "homepage" for this mod, displayed in the mod UI
 	displayURL="http://minecraft.curseforge.com/projects/bassebombecraft" #optional
+	
 	# A file name (in the root of the mod JAR) containing a logo for display
 	logoFile="bassebombecraft_logo.png" #optional
+	
 	# A text field displayed in the mod UI
 	credits=":-)" #optional
+	
 	# A text field displayed in the mod UI
 	authors="Allan & Andreas Thrane Andersen (einheriii@gmail.com)" #optional
+	
 	# The description text for the mod (multi line!) (#mandatory)
-	description='''
-A collection of 80+ magical books, idols and blocks for adventuring and construction. 
-The magic needed by BasseBombe when he plays Minecraft.	
-'''
+	description='''A collection of 80+ magical books, idols and blocks for adventuring and construction in Minecraft.'''
