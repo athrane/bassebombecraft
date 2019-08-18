@@ -1,4 +1,4 @@
-package bassebombecraft.entity.ai.task;
+package bassebombecraft.entity.ai.goal;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;

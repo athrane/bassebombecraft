@@ -1,7 +1,7 @@
 package bassebombecraft;
 
-import bassebombecraft.entity.ai.task.AiCommandersTargeting;
-import bassebombecraft.entity.ai.task.CompanionAttack;
+import bassebombecraft.entity.ai.goal.AiCommandersTargeting;
+import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
 import bassebombecraft.event.particle.ParticleRenderingEventHandler;
 import bassebombecraft.item.basic.HudItem;

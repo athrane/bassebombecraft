@@ -1,6 +1,6 @@
 package bassebombecraft.entity;
 
-import bassebombecraft.entity.ai.task.CompanionAttack;
+import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.rendering.RenderingEventHandler;
 import bassebombecraft.player.PlayerDirection;
 import net.minecraft.entity.CreatureEntity;

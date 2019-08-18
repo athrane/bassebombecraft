@@ -1,4 +1,4 @@
-package bassebombecraft.entity.ai.task;
+package bassebombecraft.entity.ai.goal;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.AI_COMPANION_ATTACK_MINIMUM_RANGE;

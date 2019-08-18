@@ -5,9 +5,9 @@ import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
 import java.util.stream.Stream;
 
-import bassebombecraft.entity.ai.task.CommanderControlledTargeting;
-import bassebombecraft.entity.ai.task.CompanionAttack;
-import bassebombecraft.entity.ai.task.FollowEntity;
+import bassebombecraft.entity.ai.goal.CommanderControlledTargeting;
+import bassebombecraft.entity.ai.goal.CompanionAttack;
+import bassebombecraft.entity.ai.goal.FollowEntity;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.CreeperSwellGoal;
