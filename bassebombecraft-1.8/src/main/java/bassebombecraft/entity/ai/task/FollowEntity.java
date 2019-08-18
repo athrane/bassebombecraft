@@ -1,6 +1,9 @@
 package bassebombecraft.entity.ai.task;
 
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
+import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
+import static net.minecraft.entity.ai.goal.Goal.Flag.MOVE;
+import static net.minecraft.pathfinding.PathNodeType.WATER;
 
 import java.util.EnumSet;
 
@@ -10,7 +13,6 @@ import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.pathfinding.PathNodeType;
 
 /**
  * AI goal for companion, e.g. charmed mob or guardian.
@@ -21,7 +23,11 @@ public class FollowEntity extends Goal {
 
 	static final int UPDATE_DELAY = 10;
 
+	/**
+	 * Goal owner.
+	 */
 	final CreatureEntity entity;
+
 	int timeToRecalcPath;
 	LivingEntity leaderEntity;
 	double followSpeed;
@@ -49,12 +55,9 @@ public class FollowEntity extends Goal {
 		minDistanceSqr = minDistance * minDistance;
 
 		// "movement" AI
-		setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+		setMutexFlags(EnumSet.of(MOVE, LOOK));
 	}
 
-	/**
-	 * Returns whether the EntityAIBase should begin execution.
-	 */
 	@Override
 	public boolean shouldExecute() {
 
@@ -77,9 +80,6 @@ public class FollowEntity extends Goal {
 		return isMinimumDistanceReached();
 	}
 
-	/**
-	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */
 	@Override
 	public boolean shouldContinueExecuting() {
 
@@ -97,8 +97,8 @@ public class FollowEntity extends Goal {
 	@Override
 	public void startExecuting() {
 		timeToRecalcPath = 0;
-		oldWaterCost = entity.getPathPriority(PathNodeType.WATER);
-		entity.setPathPriority(PathNodeType.WATER, 0.0F);
+		oldWaterCost = entity.getPathPriority(WATER);
+		entity.setPathPriority(WATER, 0.0F);
 	}
 
 	@Override
@@ -123,9 +123,6 @@ public class FollowEntity extends Goal {
 		navigator.tryMoveToEntityLiving(leaderEntity, followSpeed);
 	}
 
-	/**
-	 * Resets the task
-	 */
 	@Override
 	public void resetTask() {
 		PathNavigator navigator = entity.getNavigator();
