@@ -19,6 +19,7 @@ import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.entity.ai.goal.FollowEntity;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.CreeperSwellGoal;
 import net.minecraft.entity.ai.goal.FleeSunGoal;
 import net.minecraft.entity.ai.goal.GoalSelector;
@@ -87,7 +88,7 @@ public class AiUtils {
 	 * 
 	 * @param entity whose goals are cleared.
 	 */
-	public static void clearAllAiGoals(CreatureEntity entity) {
+	public static void clearAllAiGoals(MobEntity entity) {
 		removeGoals(entity.goalSelector);
 		removeGoals(entity.targetSelector);
 	}
@@ -108,7 +109,7 @@ public class AiUtils {
 	 * @param entity entity to assign goals to.
 	 * @param goals  set of goals.
 	 */
-	public static void assignAiGoals(CreatureEntity entity, Set<PrioritizedGoal> goals) {
+	public static void assignAiGoals(MobEntity entity, Set<PrioritizedGoal> goals) {
 		try {
 			GoalSelector selector = entity.goalSelector;
 			Field field = selector.getClass().getDeclaredField("goals");
@@ -126,7 +127,7 @@ public class AiUtils {
 	 * @param entity entity to assign goals to.
 	 * @param goals  set of goals.
 	 */
-	public static void assignAiTargetGoals(CreatureEntity entity, Set<PrioritizedGoal> goals) {
+	public static void assignAiTargetGoals(MobEntity entity, Set<PrioritizedGoal> goals) {
 		try {
 			GoalSelector selector = entity.targetSelector;
 			Field field = selector.getClass().getDeclaredField("goals");
@@ -144,7 +145,7 @@ public class AiUtils {
 	 * @param entity    entity which will configured with charmed AI.
 	 * @param commander entity which charmed mob.
 	 */
-	public static void buildCharmedMobAi(CreatureEntity entity, LivingEntity commander) {
+	public static void buildCharmedMobAi(MobEntity entity, LivingEntity commander) {
 
 		// set goals
 		GoalSelector selector = entity.goalSelector;

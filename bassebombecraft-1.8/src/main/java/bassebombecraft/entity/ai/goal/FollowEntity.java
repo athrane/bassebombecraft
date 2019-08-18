@@ -7,8 +7,8 @@ import static net.minecraft.pathfinding.PathNodeType.WATER;
 
 import java.util.EnumSet;
 
-import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
@@ -26,7 +26,7 @@ public class FollowEntity extends Goal {
 	/**
 	 * Goal owner.
 	 */
-	final CreatureEntity entity;
+	final MobEntity entity;
 
 	int timeToRecalcPath;
 	LivingEntity leaderEntity;
@@ -45,8 +45,7 @@ public class FollowEntity extends Goal {
 	 * @param minDistIn     minimum distance.
 	 * @param maxDistIn     maximum distance.
 	 */
-	public FollowEntity(CreatureEntity entity, LivingEntity leader, double followSpeedIn, float minDistIn,
-			float maxDistIn) {
+	public FollowEntity(MobEntity entity, LivingEntity leader, double followSpeedIn, float minDistIn, float maxDistIn) {
 		this.entity = entity;
 		this.leaderEntity = leader;
 		this.followSpeed = followSpeedIn;

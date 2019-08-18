@@ -4,8 +4,8 @@ import static bassebombecraft.entity.ai.AiUtils.captureGoals;
 
 import java.util.Set;
 
-import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
 
 /**
@@ -26,7 +26,7 @@ public class CharmedMob {
 	/**
 	 * Charmed mob.
 	 */
-	final LivingEntity entity;
+	final MobEntity entity;
 
 	/**
 	 * Charm duration in ticks
@@ -40,7 +40,7 @@ public class CharmedMob {
 	 * @param duration duration of charm in measured in ticks.
 	 * 
 	 */
-	CharmedMob(CreatureEntity entity, int duration) {
+	CharmedMob(MobEntity entity, int duration) {
 		this.entity = entity;
 		goals = captureGoals(entity.goalSelector);
 		targetGoals = captureGoals(entity.targetSelector);
@@ -76,7 +76,7 @@ public class CharmedMob {
 	 * @param duration duration of charm in measured in ticks.
 	 * 
 	 */
-	public static CharmedMob getInstance(CreatureEntity entity, int duration) {
+	public static CharmedMob getInstance(MobEntity entity, int duration) {
 		return new CharmedMob(entity, duration);
 	}
 

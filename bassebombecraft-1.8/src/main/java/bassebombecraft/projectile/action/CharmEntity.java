@@ -1,12 +1,13 @@
 package bassebombecraft.projectile.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
+import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;
 import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
+import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 
-import bassebombecraft.entity.EntityUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
@@ -32,18 +33,18 @@ public class CharmEntity implements ProjectileAction {
 		// get entity
 		Entity entity = ((EntityRayTraceResult) result).getEntity();
 
-		// exit if entity can't be charmed, i.e isn't a living entity
-		if (!EntityUtils.isTypeLivingEntity(entity))
+		// skip if entity can't be charmed, i.e. is a mob entity
+		if (!isTypeMobEntity(entity))
 			return;
 
 		// type cast
-		LivingEntity entityLiving = (LivingEntity) entity;
+		MobEntity mobEntity = (MobEntity) entity;
 
 		// get thrower
 		LivingEntity thrower = projectile.getThrower();
 
 		// register mob as charmed
-		getBassebombeCraft().getCharmedMobsRepository().add(entityLiving, thrower);
+		getBassebombeCraft().getCharmedMobsRepository().add(mobEntity, thrower);
 	}
 
 }

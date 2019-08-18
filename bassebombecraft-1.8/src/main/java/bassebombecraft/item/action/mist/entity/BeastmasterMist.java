@@ -1,17 +1,19 @@
 package bassebombecraft.item.action.mist.entity;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.Vec3d;
 
 /**
- * Implementation of {@linkplain EntityMistActionStrategy} for construction of mist
- * action. This class builds a mist which charm a mob.
+ * Implementation of {@linkplain EntityMistActionStrategy} for construction of
+ * mist action. This class builds a mist which charm a mob.
  */
 public class BeastmasterMist implements EntityMistActionStrategy {
 
@@ -31,13 +33,15 @@ public class BeastmasterMist implements EntityMistActionStrategy {
 	@Override
 	public void applyEffectToEntity(LivingEntity target, Vec3d mistPos, LivingEntity invoker) {
 
-		// skip if entity can't be charmed
-		if (!(target instanceof LivingEntity))
+		// skip if entity can't be charmed, i.e. is a mob entity
+		if (!isTypeMobEntity(target))
 			return;
-		LivingEntity entityLiving = (LivingEntity) target;
+
+		// type cast		
+		MobEntity mobEntity = (MobEntity) target;
 
 		// register mob as charmed
-		getBassebombeCraft().getCharmedMobsRepository().add(entityLiving,invoker);
+		getBassebombeCraft().getCharmedMobsRepository().add(mobEntity, invoker);
 	}
 
 	@Override
