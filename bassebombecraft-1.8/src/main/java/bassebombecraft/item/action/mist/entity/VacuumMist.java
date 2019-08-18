@@ -43,7 +43,7 @@ public class VacuumMist implements EntityMistActionStrategy {
 		double y = pullVec.y * FORCE;
 		double z = pullVec.z * FORCE;
 		Vec3d motionVecForced = new Vec3d(x, y, z);
-		target.move(MoverType.SELF, motionVecForced.x, motionVecForced.y, motionVecForced.z);
+		target.move(MoverType.SELF, motionVecForced);
 	}
 
 	@Override
