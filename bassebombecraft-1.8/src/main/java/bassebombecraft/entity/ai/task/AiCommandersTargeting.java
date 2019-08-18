@@ -2,19 +2,33 @@ package bassebombecraft.entity.ai.task;
 
 import static bassebombecraft.entity.EntityUtils.getAliveTarget;
 import static bassebombecraft.entity.EntityUtils.hasAliveTarget;
+import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
+
+import java.util.EnumSet;
 
 import bassebombecraft.ModConstants;
 import bassebombecraft.potion.MobEffects;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.EntityAITarget;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.PotionEffect;
 
 /**
- * AI target acquisition task which attacks commanders target.
+ * AI target acquisition goal which attacks commanders target.
+ * 
+ * Entity self-destructs if commmander has died and aggros everything.
  */
-public class AiCommandersTargeting extends EntityAITarget {
+public class AiCommandersTargeting extends Goal {
+
+	/**
+	 * Null/No target value to use when clearing the target.
+	 */
+	static final LivingEntity NO_TARGET = null;
+
+	/**
+	 * Goal owner.
+	 */
+	final CreatureEntity entity;
 
 	/**
 	 * Mob AI commander.
@@ -24,21 +38,21 @@ public class AiCommandersTargeting extends EntityAITarget {
 	/**
 	 * AiCommandersTargeting constructor.
 	 * 
-	 * @param owner     commanded entity.
+	 * @param entity    commanded entity.
 	 * @param commander entity which commands entity.
 	 */
-	public AiCommandersTargeting(CreatureEntity owner, LivingEntity commander) {
-		super(owner, false);
+	public AiCommandersTargeting(CreatureEntity entity, LivingEntity commander) {
+		this.entity = entity;
 		this.commander = commander;
 
-		// Uncategorised compatible with every task
-		// this.setMutexBits(1);
+		// "target" AI
+		setMutexFlags(EnumSet.of(TARGET));
 	}
 
 	@Override
 	public boolean shouldExecute() {
 
-		// exit if command is dead
+		// exit if commander is dead
 		if (!commander.isAlive())
 			selfDestruct();
 
@@ -50,9 +64,6 @@ public class AiCommandersTargeting extends EntityAITarget {
 		return true;
 	}
 
-	/**
-	 * Returns whether an in-progress EntityAIBase should continue executing
-	 */
 	@Override
 	public boolean shouldContinueExecuting() {
 
@@ -64,31 +75,31 @@ public class AiCommandersTargeting extends EntityAITarget {
 		LivingEntity target = getAliveTarget(commander);
 
 		// update target
-		super.taskOwner.setAttackTarget(target);
-
+		entity.setAttackTarget(target);
 		return true;
 	}
 
 	@Override
 	public void startExecuting() {
-		super.startExecuting();
+		// NO-OP
 	}
 
 	@Override
 	public void resetTask() {
-		super.resetTask();
+		// clear target
+		entity.setAttackTarget(NO_TARGET);
 	}
 
 	/**
 	 * Self-destruct entity by settings on fire and apply aggro effect.
 	 */
 	void selfDestruct() {
-		super.taskOwner.setFire(ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE);
+		entity.setFire(ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE);
 
 		// add aggro effect
 		EffectInstance effect = new EffectInstance(MobEffects.MOBS_AGGRO_POTION,
 				ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_AGGRO);
-		super.taskOwner.addPotionEffect(effect);
+		entity.addPotionEffect(effect);
 	}
 
 }
