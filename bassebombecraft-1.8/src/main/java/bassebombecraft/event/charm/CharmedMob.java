@@ -1,42 +1,58 @@
 package bassebombecraft.event.charm;
 
+import static bassebombecraft.entity.ai.AiUtils.captureGoals;
+
 import java.util.Set;
 
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.EntityAITasks.EntityAITaskEntry;
+import net.minecraft.entity.ai.goal.PrioritizedGoal;
 
 /**
  * Charmed mob.
  */
 public class CharmedMob {
 
-	final Set<EntityAITaskEntry> tasks; // captured AI tasks.
-	final Set<EntityAITaskEntry> targetTasks; // captured AI target tasks.
-	final LivingEntity entity; // charmed mob.
-	private int duration; // Measured in ticks.
+	/**
+	 * Captured AI goals.
+	 */
+	final Set<PrioritizedGoal> goals;
+
+	/**
+	 * Captured AI targeting goals.
+	 */
+	final Set<PrioritizedGoal> targetGoals;
+
+	/**
+	 * Charmed mob.
+	 */
+	final LivingEntity entity;
+
+	/**
+	 * Charm duration in ticks
+	 */
+	int duration;
 
 	/**
 	 * CharmedMob constructor.
 	 * 
-	 * @param entity
-	 *            charmed mob.
-	 * @param duration
-	 *            duration of charm in measured in ticks.
+	 * @param entity   charmed mob.
+	 * @param duration duration of charm in measured in ticks.
 	 * 
 	 */
-	CharmedMob(LivingEntity entity, int duration) {
+	CharmedMob(CreatureEntity entity, int duration) {
 		this.entity = entity;
-		tasks = entity.tasks.taskEntries;
-		targetTasks = entity.targetTasks.taskEntries;
+		goals = captureGoals(entity.goalSelector);
+		targetGoals = captureGoals(entity.targetSelector);
 		this.duration = duration;
 	}
 
-	public Set<EntityAITaskEntry> getTasks() {
-		return tasks;
+	public Set<PrioritizedGoal> getGoals() {
+		return goals;
 	}
 
-	public Set<EntityAITaskEntry> getTargetTasks() {
-		return targetTasks;
+	public Set<PrioritizedGoal> getTargetGoals() {
+		return targetGoals;
 	}
 
 	public LivingEntity getEntity() {
@@ -51,6 +67,17 @@ public class CharmedMob {
 
 	public boolean isCharmExpired() {
 		return (duration == 0);
+	}
+
+	/**
+	 * CharmedMob factory method.
+	 * 
+	 * @param entity   charmed mob.
+	 * @param duration duration of charm in measured in ticks.
+	 * 
+	 */
+	public static CharmedMob getInstance(CreatureEntity entity, int duration) {
+		return new CharmedMob(entity, duration);
 	}
 
 }
