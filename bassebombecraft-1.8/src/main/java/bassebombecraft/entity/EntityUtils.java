@@ -3,10 +3,12 @@ package bassebombecraft.entity;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.rendering.RenderingEventHandler;
 import bassebombecraft.player.PlayerDirection;
+import bassebombecraft.player.PlayerUtils;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
@@ -145,10 +147,22 @@ public class EntityUtils {
 	 * 
 	 * @param entity
 	 *            entity to query.
+	 *            
 	 * @return if entity has a attacking target defined which is alive.
 	 */
 	public static boolean hasAliveTarget(LivingEntity entity) {
-		LivingEntity target = entity.getAttackTarget();
+		
+		// declare target
+		LivingEntity target = null;
+		
+		// get attack target if type is creature entity
+		if(EntityUtils.isTypeCreatureEntity(entity)) {
+			CreatureEntity typedEntity = (CreatureEntity) entity;			
+			target = typedEntity.getAttackTarget();
+		} else {						
+			target = entity.getLastAttackedEntity();
+		}
+			
 		if (target == null)
 			return false;
 		if (!target.isAlive())
@@ -163,10 +177,18 @@ public class EntityUtils {
 	 * 
 	 * @param entity
 	 *            to get live target from.
+	 *            
 	 * @return live target from entity.
 	 */
 	public static LivingEntity getAliveTarget(LivingEntity entity) {
-		return entity.getAttackTarget();
+
+		// get attack target if type is creature entity
+		if(EntityUtils.isTypeCreatureEntity(entity)) {
+			CreatureEntity typedEntity = (CreatureEntity) entity;			
+			return typedEntity.getAttackTarget();
+		} else {						
+			return entity.getLastAttackedEntity();
+		}
 	}
 
 }
