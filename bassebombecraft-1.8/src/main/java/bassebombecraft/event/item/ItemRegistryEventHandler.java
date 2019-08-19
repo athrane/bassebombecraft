@@ -1,7 +1,5 @@
 package bassebombecraft.event.item;
 
-import java.util.stream.Stream;
-
 import bassebombecraft.ModConstants;
 import bassebombecraft.item.basic.TerminatorEyeItem;
 import bassebombecraft.item.baton.MobCommandersBaton;
@@ -85,12 +83,10 @@ import bassebombecraft.item.inventory.RainIdolInventoryItem;
 import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
 import bassebombecraft.item.inventory.ReaperIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -156,10 +152,10 @@ public class ItemRegistryEventHandler {
 	@SubscribeEvent
 	public static void handleEvent(RegistryEvent.Register<Item> event) {
 		IForgeRegistry<Item> registry = event.getRegistry();
-		//registry.registerAll(bookItems);
-		//registry.registerAll(inventoryItems);
-		//registry.registerAll(batonItems);
-		//registry.registerAll(basicItems);
+		// registry.registerAll(bookItems);
+		// registry.registerAll(inventoryItems);
+		// registry.registerAll(batonItems);
+		// registry.registerAll(basicItems);
 	}
 
 	/**
@@ -171,20 +167,10 @@ public class ItemRegistryEventHandler {
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
 	public static void handleEvent(ModelRegistryEvent event) {
-		//Stream.of(bookItems).forEach(i -> registerModel(i));
-		//Stream.of(inventoryItems).forEach(i -> registerModel(i));
-		//Stream.of(batonItems).forEach(i -> registerModel(i));
-		//Stream.of(basicItems).forEach(i -> registerModel(i));
-	}
-
-	/**
-	 * Register model for item.
-	 * 
-	 * @param item for which the model is registered.
-	 */
-	static void registerModel(Item item) {
-		ModelLoader.setCustomModelResourceLocation(item, 0,
-				new ModelResourceLocation(item.getRegistryName(), "inventory"));
+		// Stream.of(bookItems).forEach(i -> registerModel(i));
+		// Stream.of(inventoryItems).forEach(i -> registerModel(i));
+		// Stream.of(batonItems).forEach(i -> registerModel(i));
+		// Stream.of(basicItems).forEach(i -> registerModel(i));
 	}
 
 	/**
