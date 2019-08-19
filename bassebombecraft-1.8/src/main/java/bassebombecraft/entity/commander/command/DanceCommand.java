@@ -10,7 +10,7 @@ import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.Vec3d;
 
 /**
  * Dance command.
@@ -59,13 +59,14 @@ public class DanceCommand implements MobCommand {
 
 		// set jumping
 		if (shouldJump(entity)) {
-			entity.getJumpHelper().setJumping();
-			
-			Random random = entity.getRNG();	
-			float strafe = random.nextInt(10) - 5; 
+			entity.getJumpController().setJumping();
+
+			Random random = getBassebombeCraft().getRandom();
+			float strafe = random.nextInt(10) - 5;
 			float vertical = 0;
-			float forward = random.nextInt(10) - 5; 
-			entity.travel(strafe, vertical, forward);
+			float forward = random.nextInt(10) - 5;
+			Vec3d danceVec = new Vec3d(strafe, vertical, forward);
+			entity.travel(danceVec);
 		}
 
 		return true;
@@ -74,12 +75,11 @@ public class DanceCommand implements MobCommand {
 	/**
 	 * Return true if entity should jump.
 	 * 
-	 * @param entity
-	 *            entity which might jump.
+	 * @param entity entity which might jump.
 	 * @return true if entity should jump.
 	 */
 	boolean shouldJump(CreatureEntity entity) {
-		Random random = entity.getRNG();
+		Random random = getBassebombeCraft().getRandom();
 		return random.nextDouble() > jumpChance;
 	}
 
