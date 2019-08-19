@@ -1,19 +1,12 @@
 package bassebombecraft.proxy;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startSession;
 import static bassebombecraft.player.PlayerUtils.getClientSidePlayerUId;
 
 import org.apache.logging.log4j.Logger;
-
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.renderer.model.ModelResourceLocation;
-import net.minecraft.item.Item;
 
 /**
  * Implementation of the {@linkplain Proxy} interface.
@@ -68,13 +61,6 @@ public class ClientProxy implements Proxy {
 	@Override
 	public String getUser() {
 		return getClientSidePlayerUId();
-	}
-
-	@Override
-	public void registerItemForRendering(Block block, String blockName) {
-		ItemModelMesher mesher = Minecraft.getInstance().getRenderItem().getItemModelMesher();
-		ModelResourceLocation location = new ModelResourceLocation(MODID + ":" + blockName, "inventory");
-		mesher.register(Item.getItemFromBlock(block), META, location);
 	}
 
 }

@@ -9,7 +9,6 @@ import javax.naming.OperationNotSupportedException;
 
 import org.apache.logging.log4j.Logger;
 
-import net.minecraft.block.Block;
 import net.minecraft.server.MinecraftServer;
 
 /**
@@ -40,7 +39,7 @@ public class ServerProxy implements Proxy {
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
 			logger.error("Ending usage session failed with: " + ex.getMessage());
-		}		
+		}
 	}
 
 	@Override
@@ -53,15 +52,10 @@ public class ServerProxy implements Proxy {
 			logger.error("Posting usage failed with: " + ex.getMessage());
 		}
 	}
-		
+
 	@Override
 	public String getUser() throws OperationNotSupportedException {
 		throw new OperationNotSupportedException("Only invoke this method client side.");
 	}
 
-	@Override
-	public void registerItemForRendering(Block block, String blockName)throws OperationNotSupportedException {
-		throw new OperationNotSupportedException("Only invoke this method client side.");
-	}
-	
 }

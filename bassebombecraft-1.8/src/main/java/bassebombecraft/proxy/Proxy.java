@@ -2,8 +2,6 @@ package bassebombecraft.proxy;
 
 import javax.naming.OperationNotSupportedException;
 
-import net.minecraft.block.Block;
-
 /**
  * Interface for mod proxy.
  * 
@@ -20,15 +18,15 @@ public interface Proxy {
 	 * Shutdown analytics.
 	 */
 	public void endAnalyticsSession();
-	
+
 	/**
 	 * Post item usage.
 	 * 
 	 * @param itemName used item.
-	 * @param user user who used item.
+	 * @param user     user who used item.
 	 */
 	public void postItemUsage(String itemName, String user);
-	
+
 	/**
 	 * Get user.
 	 * 
@@ -38,14 +36,4 @@ public interface Proxy {
 	 */
 	public String getUser() throws OperationNotSupportedException;
 
-	/**
-	 * Register block for rendering (at client side).
-	 * 
-	 * @param block     block to be registered.
-	 * @param blockName block name.
-	 * 
-	 * @throws OperationNotSupportedException if operation isn't supported.
-	 */
-	public void registerItemForRendering(Block block, String blockName) throws OperationNotSupportedException;
-	
 }
