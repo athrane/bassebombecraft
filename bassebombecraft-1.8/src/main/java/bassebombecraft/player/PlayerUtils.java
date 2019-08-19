@@ -54,22 +54,6 @@ public class PlayerUtils {
 	}
 
 	/**
-	 * Get player eye position.
-	 * 
-	 * @param player player object.
-	 * 
-	 * @return player eye position.
-	 */
-	public static Vec3d getPlayerEyePos(PlayerEntity player) {
-		Vec3d eyePosition = new Vec3d(player.posX,
-				player.posY + (player.getEntityWorld().isRemote ? player.getEyeHeight() - player.getDefaultEyeHeight()
-						: player.getEyeHeight()),
-				player.posZ);
-
-		return eyePosition;
-	}
-
-	/**
 	 * Return player direction as an integer between 0 to 3: 0 when looking south, 1
 	 * when looking West, 2 looking North and 3 looking East.
 	 * 
