@@ -11,21 +11,20 @@ public class ItemUtils {
 	/**
 	 * Do common initialisation of item.
 	 * 
-	 * @param item
-	 *            item to initialise.
-	 * @param name
-	 *            item name.
+	 * Name is stored with lower case in the item registry.
+	 * 
+	 * @param item item which is initialised..
+	 * @param name item name.
 	 */
-	public static void doCommonItemInitialization(Item item, String name) {		
-		item.setRegistryName(name);
+	public static void doCommonItemInitialization(Item item, String name) {
+		item.setRegistryName(name.toLowerCase());
 	}
 
 	/**
 	 * Returns true if object is a subclass of the
 	 * {@linkplain GenericInventoryItem}.
 	 * 
-	 * @param object
-	 *            to test.
+	 * @param object to test.
 	 * @return true if object is a subclass of the
 	 *         {@linkplain GenericInventoryItem}.
 	 */
