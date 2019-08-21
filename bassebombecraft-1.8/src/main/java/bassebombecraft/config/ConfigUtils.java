@@ -47,7 +47,7 @@ public class ConfigUtils {
 	public static ParticleRenderingInfo[] createFromConfig(String key) {
 		Config configuration = getBassebombeCraft().getConfiguration();
 		String particleTypeName = configuration.getString(key + ".Particles.Type");
-		ResourceLocation key2 = new ResourceLocation(particleTypeName);
+		ResourceLocation key2 = new ResourceLocation(particleTypeName.toLowerCase());
 		Optional<ParticleType<? extends IParticleData>> particleType = Registry.PARTICLE_TYPE.getValue(key2);
 		BasicParticleType castParticleType = (BasicParticleType) particleType.get(); // type cast
 		int number = configuration.getInt(key + ".Particles.Number");
@@ -56,8 +56,8 @@ public class ConfigUtils {
 		double colorG = configuration.getDouble(key + ".Particles.Color.G");
 		double colorB = configuration.getDouble(key + ".Particles.Color.B");
 		double speed = configuration.getDouble(key + ".Particles.Speed");
-		ParticleRenderingInfo mist = getInstance(castParticleType, number, duration,
-				(float) colorR, (float) colorG, (float) colorB, speed);
+		ParticleRenderingInfo mist = getInstance(castParticleType, number, duration, (float) colorR, (float) colorG,
+				(float) colorB, speed);
 		return new ParticleRenderingInfo[] { mist };
 	}
 
