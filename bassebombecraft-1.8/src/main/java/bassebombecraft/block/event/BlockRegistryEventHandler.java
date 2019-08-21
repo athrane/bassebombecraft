@@ -1,5 +1,6 @@
-package bassebombecraft.block;
+package bassebombecraft.block.event;
 
+import bassebombecraft.block.RandomBookBlock;
 import net.minecraft.block.Block;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

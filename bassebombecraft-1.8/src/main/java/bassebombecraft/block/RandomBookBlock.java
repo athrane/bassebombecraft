@@ -18,6 +18,6 @@ public class RandomBookBlock extends Block {
 
 	public RandomBookBlock() {
 		super(Properties.create(Material.IRON).sound(SoundType.METAL).hardnessAndResistance(2.0F).lightValue(14));
-		setRegistryName(MODID, BLOCK_NAME);
+		setRegistryName(MODID, BLOCK_NAME.toLowerCase());
 	}
 }
