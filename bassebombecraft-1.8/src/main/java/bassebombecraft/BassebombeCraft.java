@@ -51,7 +51,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 @Mod(MODID)
@@ -136,22 +135,12 @@ public class BassebombeCraft {
 	 * BassebombeCraft constructor.
 	 */
 	public BassebombeCraft() {
-		super();
 
 		// store mod instance
 		instance = this;
 
-		// Register listeners
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
-
 		// Register ourselves for server and other game events we are interested in
 		MinecraftForge.EVENT_BUS.register(this);
-	}
-
-	void setup(final FMLCommonSetupEvent event) {
-		// some preinit code
 
 		// load configuration file
 		File configDirectory = FMLPaths.CONFIGDIR.get().toFile();
@@ -180,20 +169,22 @@ public class BassebombeCraft {
 
 		// initialise targeted entities repository
 		targetedEntitiesRepository = DefaultTargetedEntitiesRepository.getInstance();
+	}
 
+	@SubscribeEvent
+	void setup(final FMLCommonSetupEvent event) {
 		logger.info("Starting to initialize BasseBombeCraft");
-
 		validateVersion(logger);
-
 		// initializeWorldGenerators();
-
 		logger.info("Initialized BasseBombeCraft " + VERSION);
 	}
 
+	@SubscribeEvent
 	void clientSetup(final FMLClientSetupEvent event) {
 		// NO-OP
 	}
 
+	@SubscribeEvent
 	void loadComplete(FMLLoadCompleteEvent event) {
 		// NO-OP
 	}
