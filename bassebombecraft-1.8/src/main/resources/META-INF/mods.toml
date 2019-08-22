@@ -18,13 +18,13 @@ issueTrackerURL="https://github.com/athrane/bassebombecraft/issues" #optional
 	modId="bassebombecraft" #mandatory
 	
 	# The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-	version="${file.jarVersion}" #mandatory
+	version="${version}" #mandatory
 	
 	# A display name for the mod
 	displayName="BasseBombeCraft Mod" #mandatory
 	
 	# A URL to query for updates for this mod. See the JSON update specification <here>
-	updateJSONURL="https://github.com/athrane/bassebombecraft/blob/master/bassebombecraft-1.8/version.json" #optional
+	updateJSONURL="https://github.com/athrane/bassebombecraft/blob/master/bassebombecraft-1.8/bassebombecraft_update.json" #optional
 	
 	# A URL for the "homepage" for this mod, displayed in the mod UI
 	displayURL="http://minecraft.curseforge.com/projects/bassebombecraft" #optional
