@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:item/DuplicateBlockBook"
+        "layer0": "bassebombecraft:item/duplicateblockbook"
     },
  	"display": {
         "thirdperson_righthand": {

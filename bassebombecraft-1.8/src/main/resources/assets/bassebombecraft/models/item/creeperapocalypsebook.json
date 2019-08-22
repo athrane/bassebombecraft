@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:item/CreeperApocalypseBook"
+        "layer0": "bassebombecraft:item/creeperapocalypsebook"
     },
  	"display": {
         "thirdperson_righthand": {

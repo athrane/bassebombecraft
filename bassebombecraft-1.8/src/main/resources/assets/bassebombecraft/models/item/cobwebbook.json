@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:item/CobwebBook"
+        "layer0": "bassebombecraft:item/cobwebbook"
     },
  	"display": {
         "thirdperson_righthand": {

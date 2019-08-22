@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:item/EggProjectileIdolinventoryitem"
+        "layer0": "bassebombecraft:item/eggprojectileidolinventoryitem"
     },
  	"display": {
         "thirdperson_righthand": {
