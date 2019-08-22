@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:item/llamaspitIdolinventoryitem"
+        "layer0": "bassebombecraft:item/llamaspitidolinventoryitem"
     },
  	"display": {
         "thirdperson_righthand": {

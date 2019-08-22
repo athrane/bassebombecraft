@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:item/DigMobHoleBook"
+        "layer0": "bassebombecraft:item/digmobholebook"
     },
  	"display": {
         "thirdperson_righthand": {
