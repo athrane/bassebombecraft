@@ -47,6 +47,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class GenericInventoryItem extends Item {
 
 	/**
+	 * Item properties which places item in tab.
+	 */
+	public static final Properties ITEM_PROPERTIES = new Item.Properties().group(getItemGroup());
+
+	/**
 	 * Item strategy.
 	 */
 	InventoryItemActionStrategy strategy;
@@ -65,28 +70,25 @@ public class GenericInventoryItem extends Item {
 	 * Item tooltip.
 	 */
 	String tooltip;
-	
+
 	/**
 	 * GenericInventoryItem constructor.
 	 * 
-	 * @param name
-	 *            item name.
-	 * @param strategy
-	 *            inventory item strategy.
+	 * @param name     item name.
+	 * @param strategy inventory item strategy.
 	 */
 	public GenericInventoryItem(String name, InventoryItemActionStrategy strategy) {
-		super(new Item.Properties().group(getItemGroup()));
+		super(ITEM_PROPERTIES);
 		doCommonItemInitialization(this, name);
-		
+
 		this.strategy = strategy;
 		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
 
 		// get cooldown or default value
 		coolDown = resolveCoolDown(name, ITEM_IDOL_DEFAULT_COOLDOWN);
-		tooltip = resolveTooltip(name, ITEM_DEFAULT_TOOLTIP);				
+		tooltip = resolveTooltip(name, ITEM_DEFAULT_TOOLTIP);
 	}
 
-	
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 
@@ -138,7 +140,7 @@ public class GenericInventoryItem extends Item {
 		CooldownTracker tracker = player.getCooldownTracker();
 		tracker.setCooldown(this, coolDown);
 
-		// post analytics		
+		// post analytics
 		getProxy().postItemUsage(this.getRegistryName().toString(), player.getGameProfile().getName());
 
 		// apply effect
@@ -148,8 +150,7 @@ public class GenericInventoryItem extends Item {
 	/**
 	 * Returns true if item is in user hotbar.
 	 * 
-	 * @param itemSlot
-	 *            user item slot. the hotbar is between 0 and 8 inclusive.
+	 * @param itemSlot user item slot. the hotbar is between 0 and 8 inclusive.
 	 * 
 	 * @return true if item is is user hotbar
 	 */
@@ -164,10 +165,8 @@ public class GenericInventoryItem extends Item {
 	/**
 	 * Apply effect to creatures within range.
 	 * 
-	 * @param world
-	 *            world object
-	 * @param invokingEntity
-	 *            entity object
+	 * @param world          world object
+	 * @param invokingEntity entity object
 	 */
 	void applyEffect(World world, LivingEntity invokingEntity) {
 		int aoeRange = strategy.getEffectRange();
@@ -196,8 +195,7 @@ public class GenericInventoryItem extends Item {
 	/**
 	 * Render a effect at some position.
 	 * 
-	 * @param position
-	 *            effect position.
+	 * @param position effect position.
 	 */
 	void renderEffect(Vec3d position) {
 
@@ -218,7 +216,7 @@ public class GenericInventoryItem extends Item {
 		ITextComponent text = new TranslationTextComponent(TextFormatting.GREEN + this.tooltip);
 		tooltip.add(text);
 	}
-		
+
 	/**
 	 * Return cooldown value for item.
 	 * 
@@ -227,5 +225,5 @@ public class GenericInventoryItem extends Item {
 	public int getCoolDown() {
 		return coolDown;
 	}
-	
+
 }

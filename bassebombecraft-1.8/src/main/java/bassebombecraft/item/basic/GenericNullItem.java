@@ -39,6 +39,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class GenericNullItem extends Item {
 
 	/**
+	 * Item properties which places item in tab.
+	 */
+	public static final Properties ITEM_PROPERTIES = new Item.Properties().group(getItemGroup());
+
+	/**
 	 * Item action.
 	 */
 	RightClickedItemAction action;
@@ -60,7 +65,7 @@ public class GenericNullItem extends Item {
 	 * @param action item action object which is invoked when item is right clicked.
 	 */
 	public GenericNullItem(String name, RightClickedItemAction action) {
-		super(new Item.Properties().group(getItemGroup()));
+		super(ITEM_PROPERTIES);
 		doCommonItemInitialization(this, name);
 
 		this.action = action;
