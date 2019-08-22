@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/LightningBoltBook"
+        "layer0": "bassebombecraft:item/lightningboltbook"
     },
  	"display": {
         "thirdperson_righthand": {

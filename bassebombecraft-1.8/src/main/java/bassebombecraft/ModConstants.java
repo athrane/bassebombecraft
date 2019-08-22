@@ -1,10 +1,14 @@
 package bassebombecraft;
 
+import static bassebombecraft.BassebombeCraft.getItemGroup;
+
 import bassebombecraft.entity.ai.goal.AiCommandersTargeting;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
 import bassebombecraft.event.particle.ParticleRenderingEventHandler;
 import bassebombecraft.item.basic.HudItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.Properties;
 import net.minecraft.potion.EffectType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -242,6 +246,11 @@ public class ModConstants {
 	/**
 	 * Minimum range for close quarters attacks in {@linkplain CompanionAttack}. Measured in blocks.
 	 */	
-	public static final int AI_COMPANION_ATTACK_MINIMUM_RANGE = 5; 
+	public static final int AI_COMPANION_ATTACK_MINIMUM_RANGE = 5;
+
+	/**
+	 * Item properties which places item in tab.
+	 */
+	public static final Properties ITEM_PROPERTIES= new Item.Properties().group(getItemGroup()); 
 
 }

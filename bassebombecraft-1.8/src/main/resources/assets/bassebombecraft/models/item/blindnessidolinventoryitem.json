@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/BlindnessIdolInventoryItem"
+        "layer0": "bassebombecraft:item/blindnessidolinventoryitem"
     },
  	"display": {
         "thirdperson_righthand": {

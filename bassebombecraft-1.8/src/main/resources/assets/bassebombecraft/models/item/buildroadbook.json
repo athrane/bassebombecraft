@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-       "layer0": "bassebombecraft:items/BuildRoadBook"
+       "layer0": "bassebombecraft:item/buildroadbook"
     },
  	"display": {
         "thirdperson_righthand": {

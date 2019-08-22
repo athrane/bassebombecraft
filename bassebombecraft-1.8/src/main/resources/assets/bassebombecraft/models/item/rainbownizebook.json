@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/RainbownizeBook"
+        "layer0": "bassebombecraft:item/rainbownizebook"
     },
  	"display": {
         "thirdperson_righthand": {

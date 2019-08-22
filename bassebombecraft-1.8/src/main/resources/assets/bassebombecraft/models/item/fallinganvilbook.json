@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/FallingAnvilBook"
+        "layer0": "bassebombecraft:item/fallinganvilbook"
     },
  	"display": {
         "thirdperson_righthand": {

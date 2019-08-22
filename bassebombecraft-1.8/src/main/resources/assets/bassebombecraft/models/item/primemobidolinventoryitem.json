@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/PrimeMobIdolInventoryItem"
+        "layer0": "bassebombecraft:item/primemobidolinventoryitem"
     },
  	"display": {
         "thirdperson_righthand": {

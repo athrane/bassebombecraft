@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/MovingIceMultiMistBook"
+        "layer0": "bassebombecraft:item/movingIcemultimistbook"
     },
  	"display": {
         "thirdperson_righthand": {

@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/EmitVerticalForceMistBook"
+        "layer0": "bassebombecraft:item/emitverticalforcemistbook"
     },
  	"display": {
         "thirdperson_righthand": {

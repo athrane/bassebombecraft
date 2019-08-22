@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/BuildMineBook"
+        "layer0": "bassebombecraft:item/buildminebook"
     },
  	"display": {
         "thirdperson_righthand": {

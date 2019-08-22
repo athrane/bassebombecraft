@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/SmallFireballRingBook"
+        "layer0": "bassebombecraft:item/smallfireballringbook"
     },
  	"display": {
         "thirdperson_righthand": {

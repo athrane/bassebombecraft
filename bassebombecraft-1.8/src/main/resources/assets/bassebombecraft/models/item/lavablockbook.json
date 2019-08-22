@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/LavaBlockBook"
+        "layer0": "bassebombecraft:item/lavablockbook"
     },
  	"display": {
         "thirdperson_righthand": {

@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/IceBlockBook"
+        "layer0": "bassebombecraft:item/iceblockbook"
     },
  	"display": {
         "thirdperson_righthand": {

@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/HealingMistBook"
+        "layer0": "bassebombecraft:item/healingmistbook"
     },
  	"display": {
         "thirdperson_righthand": {
