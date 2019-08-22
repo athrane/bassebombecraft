@@ -39,6 +39,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class GenericRightClickedBook extends Item {
 
 	/**
+	 * Item properties which places item in tab.
+	 */
+	public static final Properties ITEM_PROPERTIES = new Item.Properties().group(getItemGroup());
+
+	/**
 	 * Item action.
 	 */
 	RightClickedItemAction action;
@@ -60,7 +65,7 @@ public class GenericRightClickedBook extends Item {
 	 * @param action item action object which is invoked when item is right clicked.
 	 */
 	public GenericRightClickedBook(String name, RightClickedItemAction action) {
-		super(new Item.Properties().group(getItemGroup()));
+		super(ITEM_PROPERTIES);
 		doCommonItemInitialization(this, name);
 
 		this.action = action;
@@ -94,12 +99,12 @@ public class GenericRightClickedBook extends Item {
 
 		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
 	}
-	
+
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
-	
+
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
