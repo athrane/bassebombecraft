@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/LingeringFlameBook"
+        "layer0": "bassebombecraft:item/lingeringflamebook"
     },
  	"display": {
         "thirdperson_righthand": {

@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/SpawnSquidBook"
+        "layer0": "bassebombecraft:item/spawnsquidbook"
     },
  	"display": {
         "thirdperson_righthand": {

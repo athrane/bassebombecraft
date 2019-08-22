@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/Spawn100ChickensBook"
+        "layer0": "bassebombecraft:item/spawn100chickensbook"
     },
  	"display": {
         "thirdperson_righthand": {

@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/PinkynizeIdolInventoryItem"
+        "layer0": "bassebombecraft:item/pinkynizeidolinventoryitem"
     },
  	"display": {
         "thirdperson_righthand": {

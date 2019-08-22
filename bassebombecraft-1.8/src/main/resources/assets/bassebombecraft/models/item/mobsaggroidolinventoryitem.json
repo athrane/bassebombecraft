@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/MobsAggroIdolInventoryItem"
+        "layer0": "bassebombecraft:item/mobsaggroidolinventoryitem"
     },
  	"display": {
         "thirdperson_righthand": {

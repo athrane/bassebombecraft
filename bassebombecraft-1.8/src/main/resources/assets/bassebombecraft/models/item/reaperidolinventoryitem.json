@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/ReaperIdolInventoryItem"
+        "layer0": "bassebombecraft:item/reaperidolinventoryitem"
     },
  	"display": {
         "thirdperson_righthand": {

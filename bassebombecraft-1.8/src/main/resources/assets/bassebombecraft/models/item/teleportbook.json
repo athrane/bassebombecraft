@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:items/TeleportBook"
+        "layer0": "bassebombecraft:item/teleportbook"
     },
  	"display": {
         "thirdperson_righthand": {
