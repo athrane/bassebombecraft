@@ -1,5 +1,6 @@
 package bassebombecraft.event.item;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.ModConstants;
 import bassebombecraft.item.basic.TerminatorEyeItem;
 import bassebombecraft.item.baton.MobCommandersBaton;
@@ -91,13 +92,11 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.ObjectHolder;
 
 /**
  * Event handler for registration of items.
  */
-@Mod.EventBusSubscriber
-@ObjectHolder(ModConstants.MODID)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ItemRegistryEventHandler {
 
 	/**
@@ -152,10 +151,10 @@ public class ItemRegistryEventHandler {
 	@SubscribeEvent
 	public static void handleEvent(RegistryEvent.Register<Item> event) {
 		IForgeRegistry<Item> registry = event.getRegistry();
-		// registry.registerAll(bookItems);
-		// registry.registerAll(inventoryItems);
-		// registry.registerAll(batonItems);
-		// registry.registerAll(basicItems);
+		registry.registerAll(bookItems);
+		registry.registerAll(inventoryItems);
+		registry.registerAll(batonItems);
+		registry.registerAll(basicItems);
 	}
 
 	/**
