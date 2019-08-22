@@ -1,5 +1,7 @@
 {
     "variants": {
-        "normal": { "model": "bassebombecraft:RandomBookBlock" }
+        "": [
+            { "model": "bassebombecraft:block/randombookblock" }
+        ]
     }
 }
