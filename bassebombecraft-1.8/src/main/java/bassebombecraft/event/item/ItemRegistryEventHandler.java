@@ -1,6 +1,5 @@
 package bassebombecraft.event.item;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.ModConstants;
 import bassebombecraft.item.basic.TerminatorEyeItem;
 import bassebombecraft.item.baton.MobCommandersBaton;
