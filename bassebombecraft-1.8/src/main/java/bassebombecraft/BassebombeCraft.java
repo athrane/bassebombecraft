@@ -74,7 +74,7 @@ public class BassebombeCraft {
 	/**
 	 * {@linkplain ItemGroup} which implements creative tab.
 	 */
-	static final ItemGroup modItemGroup = createItemGroup(TAB_NAME);
+	static final ItemGroup MOD_ITEMGROUP = createItemGroup(TAB_NAME);
 
 	/**
 	 * Charmed Mob repository
@@ -320,7 +320,7 @@ public class BassebombeCraft {
 	 * @return item group.
 	 */
 	public static ItemGroup getItemGroup() {
-		return modItemGroup;
+		return MOD_ITEMGROUP;
 	}
 
 	/**
