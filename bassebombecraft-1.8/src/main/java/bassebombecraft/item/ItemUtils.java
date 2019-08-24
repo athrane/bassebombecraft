@@ -28,7 +28,7 @@ public class ItemUtils {
 	 * @return true if object is a subclass of the
 	 *         {@linkplain GenericInventoryItem}.
 	 */
-	public static boolean isInventoryItem(Object object) {
+	public static boolean isTypeInventoryItem(Object object) {
 		Class<? extends Object> superClass = GenericInventoryItem.class;
 		return superClass.isAssignableFrom(object.getClass());
 	}
