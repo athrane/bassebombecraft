@@ -428,14 +428,11 @@ public class GeometryUtils {
 
 		// if upper block isn't useful - then move up
 		if (!isUsefullAirTypeBlock(target.up(), world)) {
-			// System.out.println("upper isn't useful air block - go up.");
 			return locateGroundBlockPos(target.up(), newIterations, world);
 		}
 
 		// if upper is OK - but current isn't - then move down
 		if (!isUsefulGroundBlock(target, world)) {
-			// System.out.println("useful air block - not useful ground block -
-			// go down.");
 			return locateGroundBlockPos(target.down(), newIterations, world);
 		}
 
