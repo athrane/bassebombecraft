@@ -24,7 +24,11 @@ issueTrackerURL="https://github.com/athrane/bassebombecraft/issues" #optional
 	displayName="BasseBombeCraft Mod" #mandatory
 	
 	# A URL to query for updates for this mod. See the JSON update specification <here>
+<<<<<<< HEAD
 	updateJSONURL="https://raw.githubusercontent.com/athrane/bassebombecraft/1.31/bassebombecraft-1.8/bassebombecraft_update.json" #optional
+=======
+	updateJSONURL="https://github.com/athrane/bassebombecraft/blob/master/bassebombecraft-1.8/bassebombecraft_update.json" #optional
+>>>>>>> refs/remotes/origin/master
 	
 	# A URL for the "homepage" for this mod, displayed in the mod UI
 	displayURL="http://minecraft.curseforge.com/projects/bassebombecraft" #optional
