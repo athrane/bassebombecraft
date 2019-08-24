@@ -36,7 +36,7 @@ public class ModConstants {
     /**
      * In game tab name.
      */
-    public static final String TAB_NAME= "BasseBombeCraft";        
+    public static final String TAB_NAME= "bassebombecraft";        
     
     /**
      * Forge domain.
