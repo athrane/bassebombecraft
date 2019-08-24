@@ -3,15 +3,13 @@ package bassebombecraft.item.action.mist.block;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 import static bassebombecraft.geom.GeometryUtils.createFlowerDirective;
-
-import java.util.Random;
+import static net.minecraft.block.Blocks.GRASS_BLOCK;
+import static net.minecraft.particles.ParticleTypes.EFFECT;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
-import net.minecraft.block.Blocks;
 import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -24,12 +22,10 @@ import net.minecraft.world.World;
  */
 public class NaturalizeSpiralMist implements BlockMistActionStrategy {
 
-	static final float FLOWER_CHANCE = 0.75F;
-
 	static final boolean DONT_HARVEST = false;
 	static final int EFFECT_DURATION = 400; // Measured in ticks
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
+	static final BasicParticleType PARTICLE_TYPE = EFFECT;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.0F;
@@ -42,41 +38,23 @@ public class NaturalizeSpiralMist implements BlockMistActionStrategy {
 
 	int colorCounter = 0;
 
-	/**
-	 * Random generator.
-	 */
-	Random random = new Random();
-
 	@Override
 	public void applyEffectToBlock(BlockPos target, World world) {
 		colorCounter++;
 
 		// create dirt block
-		BlockDirective directive = new BlockDirective(target, Blocks.GRASS, DONT_HARVEST);
+		BlockDirective directive = new BlockDirective(target, GRASS_BLOCK, DONT_HARVEST);
 
 		// create block
 		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 		directivesRepository.add(directive);
 
-		if (shouldPlaceFlower()) {
-			// create flower block
-			BlockPos flowerPos = target.up();
-			directive = createFlowerDirective(flowerPos, random);
+		// create flower block
+		BlockPos flowerPos = target.up();
+		directive = createFlowerDirective(flowerPos, getBassebombeCraft().getRandom());
 
-			// create block
-			directivesRepository.add(directive);
-		}
-	}
-
-	/**
-	 * Determines if a flower should be spawned.
-	 * 
-	 * @return true if a flower should be spawned
-	 */
-	boolean shouldPlaceFlower() {
-		if (random.nextFloat() < FLOWER_CHANCE)
-			return true;
-		return false;
+		// create block
+		directivesRepository.add(directive);
 	}
 
 	@Override

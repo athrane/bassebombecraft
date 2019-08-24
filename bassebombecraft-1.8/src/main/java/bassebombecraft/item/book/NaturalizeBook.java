@@ -9,7 +9,7 @@ import bassebombecraft.item.action.mist.block.NaturalizeSpiralMist;
  */
 public class NaturalizeBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "NaturalizeBook";
+	public final static String ITEM_NAME = NaturalizeBook.class.getSimpleName();
 	static final BlockMistActionStrategy STRATEGY = new NaturalizeSpiralMist();
 
 	public NaturalizeBook() {
