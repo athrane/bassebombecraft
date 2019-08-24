@@ -7,4 +7,5 @@ jdk:
   
 build:
   ci:
-   - gradle build
+  - source /etc/drydock/.env  
+  - gradle build
