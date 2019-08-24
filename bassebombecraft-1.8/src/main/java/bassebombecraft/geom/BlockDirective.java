@@ -1,5 +1,7 @@
 package bassebombecraft.geom;
 
+import static bassebombecraft.block.BlockUtils.isTypeBlockDirective;
+
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import net.minecraft.block.Block;
@@ -131,7 +133,7 @@ public class BlockDirective {
 	}
 
 	public boolean equals(Object other) {
-		if (other instanceof BlockDirective) {
+		if (isTypeBlockDirective(other)) {
 			return equals((BlockDirective) other);
 		}
 		return false;

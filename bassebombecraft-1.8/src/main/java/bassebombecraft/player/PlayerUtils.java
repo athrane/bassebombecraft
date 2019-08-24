@@ -1,6 +1,8 @@
 package bassebombecraft.player;
 
-import static bassebombecraft.BassebombeCraft.*;
+import static bassebombecraft.BassebombeCraft.getMincraft;
+
+import java.util.Optional;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -101,9 +103,10 @@ public class PlayerUtils {
 	 * @return true if entity is a {@linkplain PlayerEntity}.
 	 */
 	public static boolean isTypePlayerEntity(Entity entity) {
-		if (entity == null)
-			return false;
-		return entity instanceof PlayerEntity;
+		Optional<Entity> oe = Optional.ofNullable(entity);
+		if (oe.isPresent())
+			return oe.get() instanceof PlayerEntity;
+		return false;
 	}
 
 	/**
