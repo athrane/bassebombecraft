@@ -33,7 +33,7 @@ public class ItemCooldownEventHandler {
 		Item item = itemStack.getItem();
 
 		// exit if item isn't an idol
-		if (!ItemUtils.isInventoryItem(item))
+		if (!ItemUtils.isTypeInventoryItem(item))
 			return;
 
 		// type cast as idol
