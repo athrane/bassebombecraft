@@ -1,6 +1,10 @@
 package bassebombecraft.world;
 
+import java.util.Optional;
+
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
@@ -38,9 +42,10 @@ public class WorldUtils {
 	 * @return true if entity is a {@linkplain ServerWorld}.
 	 */
 	public static boolean isTypeServerWorld(World world) {
-		if (world == null)
-			return false;
-		return world instanceof ServerWorld;
+		Optional<World> ow = Optional.ofNullable(world);
+		if (ow.isPresent())
+			return ow.get() instanceof World;
+		return false;
 	}
 
 	/**
@@ -51,9 +56,10 @@ public class WorldUtils {
 	 * @return true if entity is a {@linkplain ClientWorld}.
 	 */
 	public static boolean isTypeClientWorld(World world) {
-		if (world == null)
-			return false;
-		return world instanceof ClientWorld;
+		Optional<World> ow = Optional.ofNullable(world);
+		if (ow.isPresent())
+			return ow.get() instanceof ClientWorld;
+		return false;
 	}
 
 	/**

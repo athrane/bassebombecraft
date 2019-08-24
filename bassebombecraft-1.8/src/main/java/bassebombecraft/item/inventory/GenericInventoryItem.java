@@ -7,6 +7,7 @@ import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.ModConstants.ITEM_IDOL_DEFAULT_COOLDOWN;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 import static bassebombecraft.config.ConfigUtils.resolveTooltip;
+import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
@@ -122,7 +123,7 @@ public class GenericInventoryItem extends Item {
 			return;
 
 		// exit if entity isn't a LivingEntity
-		if (!(entityIn instanceof LivingEntity))
+		if (!(isTypeLivingEntity(entityIn)))
 			return;
 
 		// exit if entity isn't player

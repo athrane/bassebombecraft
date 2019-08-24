@@ -2,6 +2,7 @@ package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 
 import com.typesafe.config.Config;
 
@@ -60,7 +61,7 @@ public class AddMobsAggroEffect implements InventoryItemActionStrategy {
 
 	@Override
 	public void applyEffect(Entity target, World world, LivingEntity invoker) {
-		if (target instanceof LivingEntity) {
+		if (isTypeLivingEntity(target)) {
 			LivingEntity entityLivingBase = (LivingEntity) target;
 			entityLivingBase.addPotionEffect(createEffect());
 		}

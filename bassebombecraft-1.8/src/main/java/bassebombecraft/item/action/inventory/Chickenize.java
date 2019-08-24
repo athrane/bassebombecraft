@@ -1,6 +1,7 @@
 package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import java.util.Random;

@@ -3,6 +3,7 @@ package bassebombecraft.projectile.action;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.ai.AiUtils.buildKittenArmyAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
+import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
 import java.util.List;
 import java.util.Random;
@@ -85,12 +86,12 @@ public class SpawnKittenArmy implements ProjectileAction {
 				entity.setGrowingAge(age);
 
 			// set tamed
-			
+
 			// set owner
 			LivingEntity owner = projectile.getThrower();
 
 			// set in love with player
-			if (owner instanceof PlayerEntity) {
+			if (isTypePlayerEntity(owner)) {
 				PlayerEntity player = (PlayerEntity) owner;
 				entity.setInLove(player);
 			}
@@ -107,7 +108,7 @@ public class SpawnKittenArmy implements ProjectileAction {
 			// add entity to team
 			TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
 			teamRepository.add(owner, entity);
-			
+
 			// set AI
 			clearAllAiGoals(entity);
 			buildKittenArmyAi(entity, owner);
@@ -127,12 +128,10 @@ public class SpawnKittenArmy implements ProjectileAction {
 	/**
 	 * Return random kitten name from list.
 	 * 
-	 * @param random
-	 *            random object.
-	 * @param index
-	 *            kitten index.
-	 * @return random kitten name from list. If kitten index is 0 then "Cloud"
-	 *         is returned".
+	 * @param random random object.
+	 * @param index  kitten index.
+	 * @return random kitten name from list. If kitten index is 0 then "Cloud" is
+	 *         returned".
 	 */
 	String getKittenName(Random random, int index) {
 		if (index == 0) {

@@ -4,6 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.NULL_TILE_ENTITY;
 import static net.minecraft.state.properties.BlockStateProperties.FACING;
 
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import bassebombecraft.event.block.temporary.DefaultTemporaryBlock;
@@ -336,4 +337,18 @@ public class BlockUtils {
 		}
 	}
 
+	/**
+	 * Return true if object is a {@linkplain BlockDirective}.
+	 * 
+	 * @param obj object to test.
+	 * 
+	 * @return true if entity is a {@linkplain BlockDirective}.
+	 */
+	public static boolean isTypeBlockDirective(Object obj) {
+		Optional<Object> oe = Optional.ofNullable(obj);
+		if (oe.isPresent())
+			return oe.get() instanceof BlockDirective;
+		return false;
+	}
+	
 }
