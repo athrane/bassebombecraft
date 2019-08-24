@@ -149,8 +149,9 @@ public class CompanionAttack extends Goal {
 	 * @param entity    entity that the tasks is applied to.
 	 * @param commander entity which commands entity.
 	 */
-	public CompanionAttack(LivingEntity entity, PlayerEntity commander) {
+	public CompanionAttack(MobEntity entity, PlayerEntity commander) {
 		this.commander = commander;
+		this.entity = entity;
 	}
 
 	@Override
