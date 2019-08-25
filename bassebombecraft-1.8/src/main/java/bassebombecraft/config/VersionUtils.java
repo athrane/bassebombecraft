@@ -1,5 +1,6 @@
 package bassebombecraft.config;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.ANALYTICS_URL;
 import static bassebombecraft.ModConstants.DOWNLOAD_URL;
 import static bassebombecraft.ModConstants.GA_API_VERSION;
@@ -79,8 +80,7 @@ public class VersionUtils {
 	/**
 	 * Start session.
 	 * 
-	 * @param uid
-	 *            user ID.
+	 * @param uid user ID.
 	 * 
 	 * @throws Exception
 	 */
@@ -111,14 +111,13 @@ public class VersionUtils {
 		request = new HttpPost(uri);
 
 		// post
-		task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);	
+		task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
 
 	/**
 	 * End session
 	 * 
-	 * @param uid
-	 *            user ID.
+	 * @param uid user ID.
 	 * @throws Exception
 	 */
 	public static void endSession(String uid) throws Exception {
@@ -137,12 +136,10 @@ public class VersionUtils {
 		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
 
-	
 	/**
 	 * Post item usage event.
 	 * 
-	 * @param uid
-	 *            user ID.
+	 * @param uid user ID.
 	 * 
 	 * @throws Exception
 	 */
@@ -166,8 +163,7 @@ public class VersionUtils {
 	/**
 	 * start server session.
 	 * 
-	 * @param uid
-	 *            server ID.
+	 * @param uid server ID.
 	 * @throws Exception
 	 */
 	public static void startServerSession(String uid) throws Exception {
@@ -189,8 +185,7 @@ public class VersionUtils {
 	/**
 	 * End server session.
 	 * 
-	 * @param uid
-	 *            user ID.
+	 * @param uid user ID.
 	 * @throws Exception
 	 */
 	public static void endServerSession(String uid) throws Exception {
@@ -212,21 +207,21 @@ public class VersionUtils {
 	/**
 	 * AI Observe.
 	 * 
-	 * @param uid
-	 *            user ID.
+	 * @param uid user ID.
 	 * 
 	 * @throws Exception
 	 */
-	public static void aiObserve(String uid, double distanceToTargetSq, boolean isTargetClose, String aiAction) throws Exception {
-		
+	public static void aiObserve(String uid, double distanceToTargetSq, boolean isTargetClose, String aiAction)
+			throws Exception {
+
 		// Build the server URI together with the parameters
 		String category = NAME + "-" + VERSION;
 		String action = "AI Observe";
 		List<NameValuePair> postParameters = createPostAiEventParameters(uid, category, action);
 		postParameters.add(new BasicNameValuePair("cd1", Double.toString(distanceToTargetSq)));
-		postParameters.add(new BasicNameValuePair("cd2", Boolean.toString(isTargetClose)));		
-		postParameters.add(new BasicNameValuePair("cd3", aiAction));		
-		
+		postParameters.add(new BasicNameValuePair("cd2", Boolean.toString(isTargetClose)));
+		postParameters.add(new BasicNameValuePair("cd3", aiAction));
+
 		URIBuilder uriBuilder = new URIBuilder(ANALYTICS_URL);
 		uriBuilder.addParameters(postParameters);
 
@@ -237,16 +232,13 @@ public class VersionUtils {
 		// post
 		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
-	
+
 	/**
 	 * Create parameters for app session start.
 	 * 
-	 * @param uid
-	 *            user ID.
-	 * @param category
-	 *            event category.
-	 * @param action
-	 *            event action
+	 * @param uid      user ID.
+	 * @param category event category.
+	 * @param action   event action
 	 * 
 	 * @return parameters for session start.
 	 */
@@ -271,29 +263,19 @@ public class VersionUtils {
 	/**
 	 * Create parameters for app system info.
 	 * 
-	 * @param uid
-	 *            user ID.
-	 * @param category
-	 *            event category.
-	 * @param action
-	 *            event action
+	 * @param uid      user ID.
+	 * @param category event category.
+	 * @param action   event action
 	 * 
 	 * @return parameters for system info.
 	 */
 	static List<NameValuePair> createSystemInfoParameters(String uid, String category, String action) {
-		
-		String userInfo = new StringBuilder()
-			.append(System.getProperty("user.name"))
-			.append(";")			
-			.append(System.getProperty("os.name"))
-			.append(",")
-			.append(System.getProperty("os.version"))
-			.append(",")
-			.append(System.getProperty("os.arch"))
-			.append(";")
-			.append(System.getProperty("java.version"))
-			.toString();
-		
+
+		String userInfo = new StringBuilder().append(System.getProperty("user.name")).append(";")
+				.append(System.getProperty("os.name")).append(",").append(System.getProperty("os.version")).append(",")
+				.append(System.getProperty("os.arch")).append(";").append(System.getProperty("java.version"))
+				.toString();
+
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("v", GA_API_VERSION));
 		parameters.add(new BasicNameValuePair("t", GA_HITTYPE_EVENT));
@@ -307,20 +289,17 @@ public class VersionUtils {
 		parameters.add(new BasicNameValuePair("ec", category));
 		parameters.add(new BasicNameValuePair("ea", action));
 		parameters.add(new BasicNameValuePair("el", userInfo));
-		//parameters.add(new BasicNameValuePair("cd1", "System information"));		
-		//parameters.add(new BasicNameValuePair("cm1", userAgentStr));		
+		// parameters.add(new BasicNameValuePair("cd1", "System information"));
+		// parameters.add(new BasicNameValuePair("cm1", userAgentStr));
 		return parameters;
 	}
-	
+
 	/**
 	 * Create parameters for app session end.
 	 * 
-	 * @param uid
-	 *            user ID.
-	 * @param category
-	 *            event category.
-	 * @param action
-	 *            event action
+	 * @param uid      user ID.
+	 * @param category event category.
+	 * @param action   event action
 	 * @return parameters for session start.
 	 */
 	static List<NameValuePair> createEndAppSessionPerameters(String uid, String category, String action) {
@@ -344,12 +323,9 @@ public class VersionUtils {
 	/**
 	 * Create parameters for event based item usage.
 	 * 
-	 * @param uid
-	 *            user ID.
-	 * @param category
-	 *            event category.
-	 * @param action
-	 *            event action
+	 * @param uid      user ID.
+	 * @param category event category.
+	 * @param action   event action
 	 * 
 	 * @return parameters for session start.
 	 */
@@ -373,12 +349,9 @@ public class VersionUtils {
 	/**
 	 * Create parameters for event for AI.
 	 * 
-	 * @param uid
-	 *            user ID.
-	 * @param category
-	 *            event category.
-	 * @param action
-	 *            event action
+	 * @param uid      user ID.
+	 * @param category event category.
+	 * @param action   event action
 	 * 
 	 * @return parameters for session start.
 	 */
@@ -399,14 +372,11 @@ public class VersionUtils {
 		return parameters;
 	}
 
-	
 	/**
 	 * Validate version.
-	 * 
-	 * @param logger
-	 *            mod logger.
 	 */
-	public static void validateVersion(Logger logger) {
+	public static void validateVersion() {
+		Logger logger = getBassebombeCraft().getLogger();
 		Gson gson = new Gson();
 
 		// declare stream
