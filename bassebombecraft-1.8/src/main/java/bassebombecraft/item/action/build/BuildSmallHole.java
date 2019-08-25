@@ -5,10 +5,10 @@ import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.player.PlayerUtils.calculatePlayerFeetPosititionAsInt;
 import static bassebombecraft.player.PlayerUtils.getPlayerDirection;
 import static bassebombecraft.player.PlayerUtils.isBelowPlayerYPosition;
-import static bassebombecraft.structure.ChildStructure.createAirStructure;
+import static bassebombecraft.structure.ChildStructure.*;
+import static bassebombecraft.structure.CompositeStructure.getInstance;
 
 import java.util.List;
-import java.util.Random;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
@@ -25,7 +25,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain BlockClickedItemAction} which dig a small
+ * Implementation of the {@linkplain BlockClickedItemAction} which digs a small
  * hole.
  */
 public class BuildSmallHole implements BlockClickedItemAction {
@@ -33,30 +33,32 @@ public class BuildSmallHole implements BlockClickedItemAction {
 	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
 	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;
 
-	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
+	/**
+	 * Offset for horizontal hole.
+	 */
+	final static BlockPos HORIZONTAL_OFFSET = new BlockPos(-1, -1, -1);
 
 	/**
-	 * Random generator.
+	 * Size for horizontal hole.
 	 */
-	Random random = new Random();
+	final static BlockPos HORIZONTAL_SIZE = new BlockPos(3, 1, 3);
+
+	/**
+	 * Offset for vertical hole.
+	 */
+	final static BlockPos VERTICAL_OFFSET = new BlockPos(-1, 0, 0);
+
+	/**
+	 * Size for vertical hole.
+	 */
+	final static BlockPos VERTICAL_SIZE = new BlockPos(3, 3, 1);
+
+	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
 
 	/**
 	 * Ticks exists since first marker was set.
 	 */
 	int ticksExisted = 0;
-
-	/**
-	 * Process block directives repository.
-	 */
-	BlockDirectivesRepository repository;
-
-	/**
-	 * BuildSmallHole constructor.
-	 */
-	public BuildSmallHole() {
-		super();
-		repository = getBassebombeCraft().getBlockDirectivesRepository();
-	}
 
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
@@ -86,6 +88,7 @@ public class BuildSmallHole implements BlockClickedItemAction {
 		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
 
 		// add directives
+		BlockDirectivesRepository repository = getBassebombeCraft().getBlockDirectivesRepository();
 		repository.addAll(directives);
 
 		return USED_ITEM;
@@ -93,7 +96,7 @@ public class BuildSmallHole implements BlockClickedItemAction {
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-
+		// NO-OP
 	}
 
 	/**
@@ -102,12 +105,8 @@ public class BuildSmallHole implements BlockClickedItemAction {
 	 * @return created structure.
 	 */
 	Structure createHorizontalStructure() {
-		CompositeStructure composite = new CompositeStructure();
-
-		BlockPos offset = new BlockPos(-1, -1, -1);
-		BlockPos size = new BlockPos(3, 1, 3);
-		composite.add(createAirStructure(offset, size));
-
+		CompositeStructure composite = getInstance();
+		composite.add(createAirStructure(HORIZONTAL_OFFSET, HORIZONTAL_SIZE));
 		return composite;
 	}
 
@@ -117,12 +116,8 @@ public class BuildSmallHole implements BlockClickedItemAction {
 	 * @return created structure.
 	 */
 	Structure createVerticalStructure() {
-		CompositeStructure composite = new CompositeStructure();
-
-		BlockPos offset = new BlockPos(-1, 0, 0);
-		BlockPos size = new BlockPos(3, 3, 1);
-		composite.add(createAirStructure(offset, size));
-
+		CompositeStructure composite = getInstance();
+		composite.add(createAirStructure(VERTICAL_OFFSET, VERTICAL_SIZE));
 		return composite;
 	}
 

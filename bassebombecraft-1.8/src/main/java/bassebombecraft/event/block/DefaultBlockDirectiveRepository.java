@@ -1,13 +1,13 @@
 package bassebombecraft.event.block;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.geom.BlockDirective;
 
 /**
@@ -16,27 +16,25 @@ import bassebombecraft.geom.BlockDirective;
 public class DefaultBlockDirectiveRepository implements BlockDirectivesRepository {
 
 	/**
-	 * Logger.
+	 * Queue of block directives to process.
 	 */
-	static Logger logger = LogManager.getLogger(BassebombeCraft.class);
-	
 	BlockingQueue<BlockDirective> queue = new LinkedBlockingQueue<BlockDirective>();
 
 	@Override
 	public void add(BlockDirective directive) {
 		if (directive == null)
-			return;			
-		
+			return;
 		try {
 			queue.put(directive);
 		} catch (InterruptedException e) {
-			logger.error("Failed to add block directive: "+ directive+ " due to exception: " + e);
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Failed to add block directive: " + directive + " due to exception: " + e);
 		}
 	}
 
 	@Override
 	public void addAll(List<BlockDirective> directives) {
-		if (directives == null)
+		if (directives.isEmpty())
 			return;
 		queue.addAll(directives);
 	}

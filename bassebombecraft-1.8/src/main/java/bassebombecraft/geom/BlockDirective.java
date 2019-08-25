@@ -218,17 +218,21 @@ public class BlockDirective {
 	}
 
 	/**
-	 * Factory method.
+	 * Block directive factory method.
+	 * 
+	 * The directive is created with a new immutable {@linkplain BlockPos} to avoid
+	 * position changes after creation of the directive.
 	 * 
 	 * @param blockPos   position
 	 * @param block      block
 	 * @param blockState block state
 	 * @param harvest    true if block should be harvested.
 	 * 
-	 * @return block directive.
+	 * @return block directive. The directive is created with a new immutable block
+	 *         position.
 	 */
 	public static BlockDirective getInstance(BlockPos blockPos, Block block, BlockState blockState, boolean harvest) {
-		BlockDirective directive = new BlockDirective(blockPos, block, harvest);
+		BlockDirective directive = new BlockDirective(blockPos.toImmutable(), block, harvest);
 		directive.setState(blockState);
 		return directive;
 	}
