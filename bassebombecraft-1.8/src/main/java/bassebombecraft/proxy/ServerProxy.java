@@ -54,6 +54,16 @@ public class ServerProxy implements Proxy {
 	}
 
 	@Override
+	public void postException(Exception e) {
+		try {
+			postException(e);
+		} catch (Exception ex) {
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Posting exception:" + e.getMessage() + " failed with: " + ex.getMessage());
+		}		
+	}
+	
+	@Override
 	public String getUser() throws OperationNotSupportedException {
 		throw new OperationNotSupportedException("Only invoke this method client side.");
 	}

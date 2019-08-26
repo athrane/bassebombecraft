@@ -6,6 +6,7 @@ import static bassebombecraft.ModConstants.DOWNLOAD_URL;
 import static bassebombecraft.ModConstants.GA_API_VERSION;
 import static bassebombecraft.ModConstants.GA_APP_ID;
 import static bassebombecraft.ModConstants.GA_HITTYPE_EVENT;
+import static bassebombecraft.ModConstants.GA_HITTYPE_EXCEPTION;
 import static bassebombecraft.ModConstants.GA_PROPERTY;
 import static bassebombecraft.ModConstants.GA_SESSION_END;
 import static bassebombecraft.ModConstants.GA_SESSION_START;
@@ -16,6 +17,8 @@ import static bassebombecraft.ModConstants.VERSION_URL;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
@@ -30,7 +33,6 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.FutureRequestExecutionService;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpRequestFutureTask;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.logging.log4j.Logger;
 
@@ -98,7 +100,7 @@ public class VersionUtils {
 		HttpPost request = new HttpPost(uri);
 
 		// post
-		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 
 		// Build the server URI together with the parameters
 		action = "System info";
@@ -111,7 +113,7 @@ public class VersionUtils {
 		request = new HttpPost(uri);
 
 		// post
-		task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
 
 	/**
@@ -133,7 +135,7 @@ public class VersionUtils {
 		HttpPost request = new HttpPost(uri);
 
 		// post
-		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
 
 	/**
@@ -157,7 +159,7 @@ public class VersionUtils {
 		HttpPost request = new HttpPost(uri);
 
 		// post
-		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
 
 	/**
@@ -179,7 +181,7 @@ public class VersionUtils {
 		HttpPost request = new HttpPost(uri);
 
 		// post
-		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
 
 	/**
@@ -201,7 +203,37 @@ public class VersionUtils {
 		HttpPost request = new HttpPost(uri);
 
 		// post
-		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+	}
+
+	/**
+	 * Post exception.
+	 * 
+	 * @param uid user ID.
+	 * @param e   exception to report.
+	 * 
+	 * @throws Exception
+	 */
+	public static void postException(String uid, Exception e) throws Exception {
+
+		// Build the server URI together with the parameters
+		String category = NAME + "-" + VERSION;
+
+		// get stacktrace as string
+		StringWriter sw = new StringWriter();
+		e.printStackTrace(new PrintWriter(sw));
+		String description = sw.toString();
+
+		List<NameValuePair> postParameters = createExceptionParameters(uid, category, description);
+		URIBuilder uriBuilder = new URIBuilder(ANALYTICS_URL);
+		uriBuilder.addParameters(postParameters);
+
+		// build request
+		URI uri = uriBuilder.build();
+		HttpPost request = new HttpPost(uri);
+
+		// post
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
 
 	/**
@@ -230,7 +262,7 @@ public class VersionUtils {
 		HttpPost request = new HttpPost(uri);
 
 		// post
-		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
 
 	/**
@@ -369,6 +401,30 @@ public class VersionUtils {
 		parameters.add(new BasicNameValuePair("ec", category));
 		parameters.add(new BasicNameValuePair("ea", action));
 		parameters.add(new BasicNameValuePair("el", uid));
+		return parameters;
+	}
+
+	/**
+	 * Create parameters for exception.
+	 * 
+	 * @param uid         user ID.
+	 * @param category    event category.
+	 * @param description exception description.
+	 */
+	static List<NameValuePair> createExceptionParameters(String uid, String category, String description) {
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair("v", GA_API_VERSION));
+		parameters.add(new BasicNameValuePair("t", GA_HITTYPE_EXCEPTION));
+		parameters.add(new BasicNameValuePair("tid", GA_PROPERTY));
+		parameters.add(new BasicNameValuePair("ds", GA_SOURCE));
+		parameters.add(new BasicNameValuePair("an", NAME));
+		parameters.add(new BasicNameValuePair("aid", GA_APP_ID));
+		parameters.add(new BasicNameValuePair("av", VERSION));
+		parameters.add(new BasicNameValuePair("cid", uid));
+		parameters.add(new BasicNameValuePair("uid", uid));
+		parameters.add(new BasicNameValuePair("exd", description));
+		parameters.add(new BasicNameValuePair("exf", "0"));
+		parameters.add(new BasicNameValuePair("ec", category));
 		return parameters;
 	}
 

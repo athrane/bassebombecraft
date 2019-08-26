@@ -28,6 +28,13 @@ public interface Proxy {
 	public void postItemUsage(String itemName, String user);
 
 	/**
+	 * Report exception.
+	 * 
+	 * @param e exception for report
+	 */
+	public void postException(Exception e);
+	
+	/**
 	 * Get user.
 	 * 
 	 * @return mod user.

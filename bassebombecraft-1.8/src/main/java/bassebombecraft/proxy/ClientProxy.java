@@ -2,7 +2,7 @@ package bassebombecraft.proxy;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.config.VersionUtils.endSession;
-import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
+import static bassebombecraft.config.VersionUtils.*;
 import static bassebombecraft.config.VersionUtils.startSession;
 import static bassebombecraft.player.PlayerUtils.getClientSidePlayerUId;
 
@@ -51,6 +51,16 @@ public class ClientProxy implements Proxy {
 			Logger logger = getBassebombeCraft().getLogger();
 			logger.error("Posting usage failed with: " + ex.getMessage());
 		}
+	}
+	
+	@Override
+	public void postException(Exception e) {
+		try {
+			postException(e);
+		} catch (Exception ex) {
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Posting exception:" + e.getMessage() + " failed with: " + ex.getMessage());
+		}		
 	}
 
 	/**

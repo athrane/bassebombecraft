@@ -99,6 +99,11 @@ public class ModConstants {
 	public static final String GA_HITTYPE_EVENT = "event";
 
 	/**
+	 * GA exception hit type.
+	 */	
+	public static final String GA_HITTYPE_EXCEPTION = "exception";
+	
+	/**
 	 * GA session start.
 	 */		
 	public static final String GA_SESSION_START = "start";

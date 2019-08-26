@@ -370,4 +370,13 @@ public class BassebombeCraft {
 		return frequencyRepository;
 	}
 
+	/**
+	 * Exception reporting facility.
+	 * 
+	 * @param e exception to report.
+	 */
+	public void reportException(Exception e) {
+		proxy.postException(e);
+	}
+
 }
