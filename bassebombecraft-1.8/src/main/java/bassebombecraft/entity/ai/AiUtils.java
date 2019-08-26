@@ -1,5 +1,6 @@
 package bassebombecraft.entity.ai;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
@@ -76,7 +77,7 @@ public class AiUtils {
 			return (Set<PrioritizedGoal>) readField(field, selector, FORCE_ACCESS);
 		} catch (NoSuchFieldException | SecurityException | IllegalAccessException e) {
 			logger.error("Failed to capture goals due to the error: " + e.getMessage());
-			// TODO: add to centralized exception handling.
+			getBassebombeCraft().reportException(e);
 
 			// return null set
 			return Sets.newLinkedHashSet();
@@ -116,8 +117,8 @@ public class AiUtils {
 			writeField(field, selector, goals, FORCE_ACCESS);
 		} catch (NoSuchFieldException | SecurityException | IllegalAccessException e) {
 			logger.error("Failed to assign goals due to the error: " + e.getMessage());
-			// TODO: add to centralized exception handling.
-			// NO-OP
+			getBassebombeCraft().reportException(e);
+			// NO-OP			
 		}
 	}
 
@@ -134,7 +135,7 @@ public class AiUtils {
 			writeField(field, selector, goals, FORCE_ACCESS);
 		} catch (NoSuchFieldException | SecurityException | IllegalAccessException e) {
 			logger.error("Failed to assign goals due to the error: " + e.getMessage());
-			// TODO: add to centralized exception handling.
+			getBassebombeCraft().reportException(e);
 			// NO-OP
 		}
 	}

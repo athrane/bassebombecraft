@@ -29,6 +29,7 @@ public class DefaultBlockDirectiveRepository implements BlockDirectivesRepositor
 		} catch (InterruptedException e) {
 			Logger logger = getBassebombeCraft().getLogger();
 			logger.error("Failed to add block directive: " + directive + " due to exception: " + e);
+			getBassebombeCraft().reportException(e);					
 		}
 	}
 

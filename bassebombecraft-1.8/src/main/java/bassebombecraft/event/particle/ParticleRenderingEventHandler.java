@@ -84,7 +84,7 @@ public class ParticleRenderingEventHandler {
 				}
 			}
 		} catch (Exception e) {
-			getBassebombeCraft().reportException(e);
+			getBassebombeCraft().reportAndLogException(e);
 		}
 	}
 

@@ -220,10 +220,8 @@ public class CompanionAttack extends Goal {
 		try {
 			// aiObserve(uid, distanceToTargetSq, isTargetClose, aiAction);
 		} catch (Exception e) {
-			// TODO: add to centralized exception handling.
-			// NOP
+			getBassebombeCraft().reportAndLogException(e);
 		}
-
 	}
 
 	void doAiObservation(String stage) {

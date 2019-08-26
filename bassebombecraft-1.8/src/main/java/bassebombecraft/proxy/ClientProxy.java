@@ -27,7 +27,7 @@ public class ClientProxy implements Proxy {
 
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
-			logger.error("Initiating usage session failed with: " + ex.getMessage());
+			logger.error("Initiating usage session failed with: " + ex.getMessage());			
 		}
 	}
 

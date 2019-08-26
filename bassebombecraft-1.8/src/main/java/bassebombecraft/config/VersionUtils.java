@@ -39,6 +39,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.ModConstants;
 import bassebombecraft.config.http.HttpCallback;
 import bassebombecraft.config.http.HttpRequestHandler;
@@ -464,6 +465,7 @@ public class VersionUtils {
 
 		} catch (Exception e) {
 			logger.info("Failed to validate version due to exception:" + e.getMessage());
+			getBassebombeCraft().reportException(e);
 		} finally {
 			if (is == null)
 				return;
@@ -471,6 +473,7 @@ public class VersionUtils {
 				is.close();
 			} catch (IOException e) {
 				logger.info("Failed to close connection for version validation due to exception:" + e.getMessage());
+				getBassebombeCraft().reportException(e);				
 			}
 		}
 	}

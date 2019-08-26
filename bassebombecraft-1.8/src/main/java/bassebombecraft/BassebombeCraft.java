@@ -1,5 +1,6 @@
 package bassebombecraft;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.ModConstants.TAB_NAME;
 import static bassebombecraft.config.VersionUtils.validateVersion;
@@ -330,6 +331,7 @@ public class BassebombeCraft {
 		try {
 			return proxy.getUser();
 		} catch (OperationNotSupportedException e) {
+			getBassebombeCraft().reportAndLogException(e);			
 			throw new RuntimeException(e);
 		}
 	}
@@ -373,10 +375,20 @@ public class BassebombeCraft {
 	/**
 	 * Exception reporting facility.
 	 * 
+	 * @param e exception to report and log.
+	 */
+	public void reportAndLogException(Exception e) {
+		logger.error(e.getMessage());
+		proxy.postException(e);
+	}
+
+	/**
+	 * Exception reporting facility.
+	 * 
 	 * @param e exception to report.
 	 */
 	public void reportException(Exception e) {
 		proxy.postException(e);
 	}
-
+	
 }
