@@ -1,12 +1,14 @@
 package bassebombecraft;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.ModConstants.TAB_NAME;
 import static bassebombecraft.config.VersionUtils.validateVersion;
 import static bassebombecraft.tab.ItemGroupFactory.createItemGroup;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Optional;
 import java.util.Random;
 
 import javax.naming.OperationNotSupportedException;
@@ -378,8 +380,16 @@ public class BassebombeCraft {
 	 * @param e exception to report and log.
 	 */
 	public void reportAndLogException(Exception e) {
-		logger.error(e.getMessage());
-		proxy.postException(e);
+		Optional<String> nullableString = Optional.ofNullable(e.getMessage());
+		nullableString.ifPresent(s -> logger.error(s));		
+		
+		// get and log stack trace 
+		StringWriter sw = new StringWriter();
+		e.printStackTrace(new PrintWriter(sw));
+		String stacktraceString = sw.toString();		
+		logger.error(stacktraceString);
+		
+		reportException(e);
 	}
 
 	/**

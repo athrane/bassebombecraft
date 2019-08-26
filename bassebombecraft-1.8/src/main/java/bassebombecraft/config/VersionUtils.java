@@ -6,7 +6,6 @@ import static bassebombecraft.ModConstants.DOWNLOAD_URL;
 import static bassebombecraft.ModConstants.GA_API_VERSION;
 import static bassebombecraft.ModConstants.GA_APP_ID;
 import static bassebombecraft.ModConstants.GA_HITTYPE_EVENT;
-import static bassebombecraft.ModConstants.GA_HITTYPE_EXCEPTION;
 import static bassebombecraft.ModConstants.GA_PROPERTY;
 import static bassebombecraft.ModConstants.GA_SESSION_END;
 import static bassebombecraft.ModConstants.GA_SESSION_START;
@@ -39,7 +38,6 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.ModConstants;
 import bassebombecraft.config.http.HttpCallback;
 import bassebombecraft.config.http.HttpRequestHandler;
@@ -142,7 +140,8 @@ public class VersionUtils {
 	/**
 	 * Post item usage event.
 	 * 
-	 * @param uid user ID.
+	 * @param uid  user ID.
+	 * @param item name.
 	 * 
 	 * @throws Exception
 	 */
@@ -220,7 +219,7 @@ public class VersionUtils {
 		// Build the server URI together with the parameters
 		String category = NAME + "-" + VERSION;
 
-		// get stacktrace as string
+		// get stack trace as string
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
 		String description = sw.toString();
@@ -380,6 +379,30 @@ public class VersionUtils {
 	}
 
 	/**
+	 * Create parameters for exception.
+	 * 
+	 * @param uid         user ID.
+	 * @param category    event category.
+	 * @param description exception description.
+	 */
+	static List<NameValuePair> createExceptionParameters(String uid, String category, String description) {
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair("v", GA_API_VERSION));
+		parameters.add(new BasicNameValuePair("t", GA_HITTYPE_EVENT));
+		parameters.add(new BasicNameValuePair("tid", GA_PROPERTY));
+		parameters.add(new BasicNameValuePair("ds", GA_SOURCE));
+		parameters.add(new BasicNameValuePair("an", NAME));
+		parameters.add(new BasicNameValuePair("aid", GA_APP_ID));
+		parameters.add(new BasicNameValuePair("av", VERSION));
+		parameters.add(new BasicNameValuePair("cid", uid));
+		parameters.add(new BasicNameValuePair("uid", uid));
+		parameters.add(new BasicNameValuePair("ec", category));
+		parameters.add(new BasicNameValuePair("ea", "Exception"));
+		parameters.add(new BasicNameValuePair("el", description));
+		return parameters;
+	}
+
+	/**
 	 * Create parameters for event for AI.
 	 * 
 	 * @param uid      user ID.
@@ -402,30 +425,6 @@ public class VersionUtils {
 		parameters.add(new BasicNameValuePair("ec", category));
 		parameters.add(new BasicNameValuePair("ea", action));
 		parameters.add(new BasicNameValuePair("el", uid));
-		return parameters;
-	}
-
-	/**
-	 * Create parameters for exception.
-	 * 
-	 * @param uid         user ID.
-	 * @param category    event category.
-	 * @param description exception description.
-	 */
-	static List<NameValuePair> createExceptionParameters(String uid, String category, String description) {
-		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
-		parameters.add(new BasicNameValuePair("v", GA_API_VERSION));
-		parameters.add(new BasicNameValuePair("t", GA_HITTYPE_EXCEPTION));
-		parameters.add(new BasicNameValuePair("tid", GA_PROPERTY));
-		parameters.add(new BasicNameValuePair("ds", GA_SOURCE));
-		parameters.add(new BasicNameValuePair("an", NAME));
-		parameters.add(new BasicNameValuePair("aid", GA_APP_ID));
-		parameters.add(new BasicNameValuePair("av", VERSION));
-		parameters.add(new BasicNameValuePair("cid", uid));
-		parameters.add(new BasicNameValuePair("uid", uid));
-		parameters.add(new BasicNameValuePair("exd", description));
-		parameters.add(new BasicNameValuePair("exf", "0"));
-		parameters.add(new BasicNameValuePair("ec", category));
 		return parameters;
 	}
 
@@ -473,7 +472,7 @@ public class VersionUtils {
 				is.close();
 			} catch (IOException e) {
 				logger.info("Failed to close connection for version validation due to exception:" + e.getMessage());
-				getBassebombeCraft().reportException(e);				
+				getBassebombeCraft().reportException(e);
 			}
 		}
 	}
