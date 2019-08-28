@@ -251,6 +251,26 @@ public class ModConstants {
 	/**
 	 * Item properties which places item in tab.
 	 */
-	public static final Properties ITEM_PROPERTIES= new Item.Properties().group(getItemGroup()); 
+	public static final Properties ITEM_PROPERTIES= new Item.Properties().group(getItemGroup());
+
+	/**
+	 * Rendering: Line width for rendering billboards.
+	 */
+	public static final int BILLBOARD_LINE_WIDTH = 1;
+
+	/**
+	 * Rendering: Triangle height for equilateral triangle with side length 1.
+	 */
+	public static final float EQUILATERAL_TRIANGLE_HEIGHT = 0.866F;
+
+	/**
+	 * Rendering: Text scale
+	 */
+	public static final float TEXT_SCALE = 0.03F;
+
+	/**
+	 * Rendering Text color.
+	 */
+	public static final int TEXT_COLOR = 0xFFFFFF; 
 
 }
