@@ -4,11 +4,9 @@ import static bassebombecraft.block.BlockUtils.calculatePosition;
 import static bassebombecraft.projectile.ProjectileUtils.isBlockHit;
 import static bassebombecraft.projectile.ProjectileUtils.isNothingHit;
 import static bassebombecraft.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
-import static bassebombecraft.world.WorldUtils.addLightning;
+import static bassebombecraft.world.WorldUtils.addLightningAtBlockPos;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -56,18 +54,6 @@ public class SpawnLightningBolt implements ProjectileAction {
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
 		BlockPos.getAllInBox(min, max).forEach(pos -> addLightningAtBlockPos(world, pos));
-	}
-
-	/**
-	 * Add lightning at block position.
-	 * 
-	 * @param world world.
-	 * @param pos   block position where lightning is added.
-	 */
-	void addLightningAtBlockPos(World world, BlockPos pos) {
-		LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
-		bolt.setPosition(pos.getX(), pos.getY(), pos.getZ());
-		addLightning(bolt, world);
 	}
 
 }
