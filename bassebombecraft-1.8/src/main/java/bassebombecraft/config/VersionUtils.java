@@ -237,23 +237,18 @@ public class VersionUtils {
 	}
 
 	/**
-	 * AI Observe.
+	 * Post AI observation.
 	 * 
-	 * @param uid user ID.
-	 * 
+	 * @param uid         user ID.
+	 * @param type        observation type.
+	 * @param observation observation data. *
 	 * @throws Exception
 	 */
-	public static void aiObserve(String uid, double distanceToTargetSq, boolean isTargetClose, String aiAction)
-			throws Exception {
+	public static void postAiObservation(String uid, String type, String observation) throws Exception {
 
 		// Build the server URI together with the parameters
 		String category = NAME + "-" + VERSION;
-		String action = "AI Observe";
-		List<NameValuePair> postParameters = createPostAiEventParameters(uid, category, action);
-		postParameters.add(new BasicNameValuePair("cd1", Double.toString(distanceToTargetSq)));
-		postParameters.add(new BasicNameValuePair("cd2", Boolean.toString(isTargetClose)));
-		postParameters.add(new BasicNameValuePair("cd3", aiAction));
-
+		List<NameValuePair> postParameters = createPostAiEventParameters(uid, category, observation);
 		URIBuilder uriBuilder = new URIBuilder(ANALYTICS_URL);
 		uriBuilder.addParameters(postParameters);
 
@@ -411,7 +406,7 @@ public class VersionUtils {
 	 * 
 	 * @return parameters for session start.
 	 */
-	static List<NameValuePair> createPostAiEventParameters(String uid, String category, String action) {
+	static List<NameValuePair> createPostAiEventParameters(String uid, String category, String observation) {
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("v", GA_API_VERSION));
 		parameters.add(new BasicNameValuePair("t", GA_HITTYPE_EVENT));
@@ -423,8 +418,8 @@ public class VersionUtils {
 		parameters.add(new BasicNameValuePair("cid", uid));
 		parameters.add(new BasicNameValuePair("uid", uid));
 		parameters.add(new BasicNameValuePair("ec", category));
-		parameters.add(new BasicNameValuePair("ea", action));
-		parameters.add(new BasicNameValuePair("el", uid));
+		parameters.add(new BasicNameValuePair("ea", "AI Observe"));
+		parameters.add(new BasicNameValuePair("el", observation));
 		return parameters;
 	}
 

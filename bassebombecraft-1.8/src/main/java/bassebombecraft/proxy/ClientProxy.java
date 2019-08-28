@@ -64,6 +64,16 @@ public class ClientProxy implements Proxy {
 			logger.error("Posting exception:" + e.getMessage() + " failed with: " + ex.getMessage());
 		}
 	}
+	
+	@Override
+	public void postAiObservation(String type, String observation) {
+		try {
+			VersionUtils.postAiObservation(getUser(), type, observation);
+		} catch (Exception ex) {
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Posting AI observation: failed with: " + ex.getMessage());
+		}		
+	}
 
 	/**
 	 * Get player UID at client side.

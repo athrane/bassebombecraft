@@ -271,6 +271,11 @@ public class ModConstants {
 	/**
 	 * Rendering Text color.
 	 */
-	public static final int TEXT_COLOR = 0xFFFFFF; 
+	public static final int TEXT_COLOR = 0xFFFFFF;
+
+	/**
+	 * Defines should be effect only.
+	 */
+	public static final boolean LIGHTNING_BOLT_NOT_EFFECT_ONLY = false; 
 
 }

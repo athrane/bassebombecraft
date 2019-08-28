@@ -65,6 +65,16 @@ public class ServerProxy implements Proxy {
 	}
 
 	@Override
+	public void postAiObservation(String type, String observation) {
+		try {
+			VersionUtils.postAiObservation(getUser(), type, observation);
+		} catch (Exception ex) {
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Posting AI observation: failed with: " + ex.getMessage());
+		}		
+	}
+	
+	@Override
 	public String getUser() throws OperationNotSupportedException {
 		throw new OperationNotSupportedException("Only invoke this method client side.");
 	}

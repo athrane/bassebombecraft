@@ -37,7 +37,7 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 	static final ParticleRenderingInfo PARTICLE_INFO = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R,
 			G, B, PARTICLE_SPEED);
 
-	public final static String PROJECTILE_NAME = "EggProjectile";
+	public final static String PROJECTILE_NAME = GenericEggProjectile.class.getSimpleName();
 
 	/**
 	 * Behaviour, initial null.
@@ -97,16 +97,21 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 		if (isWorldAtClientSide(world))
 			return;
 
-		// execute behaviour
-		behaviour.execute(this, world, result);
+		try {
+			// execute behaviour
+			behaviour.execute(this, world, result);
 
-		// add impact particle for rendering
-		ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
-		ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
-		repository.add(particle);
+			// add impact particle for rendering
+			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
+			ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
+			repository.add(particle);
 
-		// remove this projectile
-		remove();
+			// remove this projectile
+			remove();
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 	@Override

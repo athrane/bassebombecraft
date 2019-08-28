@@ -33,7 +33,15 @@ public interface Proxy {
 	 * @param e exception for report
 	 */
 	public void postException(Exception e);
-	
+
+	/**
+	 * Post AI observation .
+	 * 
+	 * @param type        observation type.
+	 * @param observation observation data.
+	 */
+	public void postAiObservation(String type, String observation);
+
 	/**
 	 * Get user.
 	 * 
