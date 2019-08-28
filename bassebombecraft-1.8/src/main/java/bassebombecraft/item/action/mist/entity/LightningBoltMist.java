@@ -1,14 +1,12 @@
 package bassebombecraft.item.action.mist.entity;
 
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
-import static bassebombecraft.world.WorldUtils.addLightning;
+import static bassebombecraft.world.WorldUtils.addLightningAtBlockPos;
 import static net.minecraft.particles.ParticleTypes.CLOUD;
 import static net.minecraft.particles.ParticleTypes.FALLING_WATER;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -61,18 +59,6 @@ public class LightningBoltMist implements EntityMistActionStrategy {
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
 		BlockPos.getAllInBox(min, max).forEach(pos -> addLightningAtBlockPos(world, pos));
-	}
-
-	/**
-	 * Add lightning at block position.
-	 * 
-	 * @param world world.
-	 * @param pos   block position where lightning is added.
-	 */
-	void addLightningAtBlockPos(World world, BlockPos pos) {
-		LightningBoltEntity bolt = EntityType.LIGHTNING_BOLT.create(world);
-		bolt.setPosition(pos.getX(), pos.getY(), pos.getZ());
-		addLightning(bolt, world);
 	}
 
 	@Override

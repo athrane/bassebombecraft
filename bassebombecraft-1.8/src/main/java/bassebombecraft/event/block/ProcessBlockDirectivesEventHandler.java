@@ -100,7 +100,7 @@ public class ProcessBlockDirectivesEventHandler {
 			// process directive
 			createBlock(directive, worldQuery);
 
-			// register directive for rendering
+			// register directive for particle rendering
 			BlockPos pos = directive.getBlockPosition();
 			ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
 			particleRepository.add(particle);

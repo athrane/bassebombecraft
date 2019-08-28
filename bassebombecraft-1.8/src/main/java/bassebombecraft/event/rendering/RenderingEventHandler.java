@@ -7,6 +7,10 @@ import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 import static bassebombecraft.player.PlayerUtils.getPlayer;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
+import static bassebombecraft.rendering.RenderingUtils.renderLineBillboard;
+import static bassebombecraft.rendering.RenderingUtils.renderRectangleBillboard;
+import static bassebombecraft.rendering.RenderingUtils.renderTextBillboard;
+import static bassebombecraft.rendering.RenderingUtils.renderTriangleBillboard;
 import static bassebombecraft.rendering.RenderingUtils.resetBillboardRendering;
 import static bassebombecraft.rendering.RenderingUtils.setupBillboardRendering;
 import static bassebombecraft.rendering.RenderingUtils.setupBillboardRotation;
@@ -31,6 +35,7 @@ import bassebombecraft.event.particle.ParticleRenderingRepository;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -47,18 +52,6 @@ import net.minecraftforge.fml.common.Mod;
  */
 @Mod.EventBusSubscriber
 public class RenderingEventHandler {
-
-	static int testCounter = 0;
-
-	/**
-	 * Text color.
-	 */
-	static final int TEXT_COLOR = 0xFFFFFF;
-
-	/**
-	 * Text scale
-	 */
-	static final float TEXT_SCALE = 0.03F;
 
 	/**
 	 * Charmed label.
@@ -98,21 +91,9 @@ public class RenderingEventHandler {
 	static final Vector4f TEAM_N_CHARMED_BILLBOARD_ROTATION = new Vector4f(0.0F, 0.0F, 1.0F,
 			TEAM_N_CHARMED_BILLBOARD_ANGLE);
 
-	/**
-	 * Line width for rendering billboards.
-	 */
-	static final int BILLBOARD_LINE_WIDTH = 1;
-
-	/**
-	 * Triangle height for equilateral triangle with side length 1.
-	 */
-	static final float EQUILATERAL_TRIANGLE_HEIGHT = 0.866F;
-
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
 	public static void handleEvent(RenderWorldLastEvent event) {
-		testCounter++;
-		testCounter = testCounter % 360;
 
 		// exit if player is undefined
 		if (!isPlayerDefined())
@@ -131,8 +112,7 @@ public class RenderingEventHandler {
 		// renderParticles(playerPos);
 		renderCharmedEntities(player, playerPos);
 		renderTeamEntities(player, playerPos);
-		renderTargetedEntities(player, playerPos);
-
+		renderTargetedEntities(player, playerPos);		
 	}
 
 	static void renderCharmedEntities(PlayerEntity player, Vec3d playerPos) {
@@ -198,153 +178,6 @@ public class RenderingEventHandler {
 		renderRectangleBillboard(playerPos, targetPos);
 		renderTextBillboard(playerPos, targetPos, TARGET_LABEL, TEXT_BILLBOARD_ROTATION);
 		renderLineBillboard(playerPos, entityPos, targetPos);
-	}
-
-	/**
-	 * Render text at origin.
-	 */
-	static void renderTextBillboard(Vec3d playerPos, Vec3d entityPos, String text, Vector4f rotation) {
-		setupBillboardRendering();
-
-		// get minecraft
-		Minecraft mc = Minecraft.getInstance();
-
-		// enable for rendering of text
-		GlStateManager.enableTexture();
-
-		// translate to camera position
-		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
-
-		// set up billboard rotation
-		setupBillboardRotation();
-
-		// scale text
-		GlStateManager.scalef(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
-
-		// add addition rotation
-		GlStateManager.rotatef(rotation.w, rotation.x, rotation.y, rotation.z);
-
-		// draw
-		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
-
-		resetBillboardRendering();
-	}
-
-	/**
-	 * Render a equilateral triangle billboard centered at origin.
-	 */
-	static void renderTriangleBillboard(Vec3d playerPos, Vec3d entityPos, Vector4f rotation) {
-		setupBillboardRendering();
-
-		// set line width & color
-		GlStateManager.lineWidth(BILLBOARD_LINE_WIDTH);
-		GlStateManager.color3f(1.0F, 1.0F, 1.0F);
-
-		// translate to camera position
-		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
-
-		// set up billboard rotation
-		setupBillboardRotation();
-
-		// add addition rotation
-		GlStateManager.rotatef(rotation.w, rotation.x, rotation.y, rotation.z);
-
-		// create tessellator & bufferbuilder
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder bufferBuilder = tessellator.getBuffer();
-
-		// build buffer
-		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
-
-		// AB
-		bufferBuilder.pos(0 - 0.5F, 0 - 0.289F, 0).endVertex();
-		bufferBuilder.pos(1 - 0.5F, 0 - 0.289F, 0).endVertex();
-
-		// BC
-		bufferBuilder.pos(1 - 0.5F, 0 - 0.289F, 0).endVertex();
-		bufferBuilder.pos(0.5F - 0.5F, EQUILATERAL_TRIANGLE_HEIGHT - 0.289F, 0).endVertex();
-
-		// CA
-		bufferBuilder.pos(0.5F - 0.5F, EQUILATERAL_TRIANGLE_HEIGHT - 0.289F, 0).endVertex();
-		bufferBuilder.pos(0 - 0.5F, -0.289F, 0).endVertex();
-
-		tessellator.draw();
-
-		resetBillboardRendering();
-	}
-
-	/**
-	 * Render a rectangle billboard centered at origin.
-	 */
-	static void renderRectangleBillboard(Vec3d playerPos, Vec3d entityPos) {
-		setupBillboardRendering();
-
-		// set line width & color
-		GlStateManager.lineWidth(1);
-		GlStateManager.color3f(1.0F, 1.0F, 1.0F);
-
-		// translate and rotate billboard
-		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
-		setupBillboardRotation();
-
-		// create tessellator & bufferbuilder
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder bufferBuilder = tessellator.getBuffer();
-
-		// build buffer
-		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
-
-		// AB
-		bufferBuilder.pos(0 - 0.5F, 0 - 0.5F, 0).endVertex();
-		bufferBuilder.pos(1 - 0.5F, 0 - 0.5F, 0).endVertex();
-
-		// BC
-		bufferBuilder.pos(1 - 0.5F, 0 - 0.5F, 0).endVertex();
-		bufferBuilder.pos(1 - 0.5F, 1 - 0.5F, 0).endVertex();
-
-		// CD
-		bufferBuilder.pos(1 - 0.5F, 1 - 0.5F, 0).endVertex();
-		bufferBuilder.pos(0 - 0.5F, 1 - 0.5F, 0).endVertex();
-
-		// DA
-		bufferBuilder.pos(0 - 0.5F, 1 - 0.5F, 0).endVertex();
-		bufferBuilder.pos(0 - 0.5F, 0 - 0.5F, 0).endVertex();
-
-		tessellator.draw();
-
-		resetBillboardRendering();
-	}
-
-	/**
-	 * Render a line centered at origin.
-	 */
-	static void renderLineBillboard(Vec3d playerPos, Vec3d entityPos, Vec3d targetPos) {
-		setupBillboardRendering();
-
-		// set line width & color
-		GlStateManager.lineWidth(BILLBOARD_LINE_WIDTH);
-		GlStateManager.color3f(1.0F, 1.0F, 1.0F);
-
-		// translate to camera position
-		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
-
-		// set up billboard rotation
-		setupBillboardRotation();
-
-		// create tessellator & bufferbuilder
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder bufferBuilder = tessellator.getBuffer();
-
-		// build buffer
-		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
-
-		// ET
-		bufferBuilder.pos(0, 0, 0).endVertex();
-		bufferBuilder.pos(targetPos.x - entityPos.x, targetPos.y - entityPos.y, targetPos.z - entityPos.z).endVertex();
-
-		tessellator.draw();
-
-		resetBillboardRendering();
 	}
 
 	/**

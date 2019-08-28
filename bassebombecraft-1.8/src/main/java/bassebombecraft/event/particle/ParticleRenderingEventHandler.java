@@ -68,20 +68,23 @@ public class ParticleRenderingEventHandler {
 	 * @param repository particle rendering repository.
 	 */
 	static void render(World world, ParticleRenderingRepository repository) {
+		try {
+			// get and render particles
+			ParticleRendering[] particles = repository.getParticles();
+			for (ParticleRendering particle : particles) {
 
-		// get and render particles
-		ParticleRendering[] particles = repository.getParticles();
-		for (ParticleRendering particle : particles) {
-
-			// render multiple instances of particles if specified
-			for (int i = 0; i < particle.getNumber(); i++) {
-				if (renderWithCustomColor(particle)) {
-					renderParticleWithCustomColor(world, particle);
-					continue;
+				// render multiple instances of particles if specified
+				int numberToRender = particle.getNumber();
+				for (int i = 0; i < numberToRender; i++) {
+					if (renderWithCustomColor(particle)) {
+						renderParticleWithCustomColor(world, particle);
+						continue;
+					}
+					renderParticle(world, particle);
 				}
-				renderParticle(world, particle);
 			}
-
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
 		}
 	}
 

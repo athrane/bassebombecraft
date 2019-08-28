@@ -1,5 +1,6 @@
 package bassebombecraft.config;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.ANALYTICS_URL;
 import static bassebombecraft.ModConstants.DOWNLOAD_URL;
 import static bassebombecraft.ModConstants.GA_API_VERSION;
@@ -15,6 +16,8 @@ import static bassebombecraft.ModConstants.VERSION_URL;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,7 +32,6 @@ import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.FutureRequestExecutionService;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.impl.client.HttpRequestFutureTask;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.logging.log4j.Logger;
 
@@ -79,8 +81,7 @@ public class VersionUtils {
 	/**
 	 * Start session.
 	 * 
-	 * @param uid
-	 *            user ID.
+	 * @param uid user ID.
 	 * 
 	 * @throws Exception
 	 */
@@ -98,7 +99,7 @@ public class VersionUtils {
 		HttpPost request = new HttpPost(uri);
 
 		// post
-		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 
 		// Build the server URI together with the parameters
 		action = "System info";
@@ -111,14 +112,13 @@ public class VersionUtils {
 		request = new HttpPost(uri);
 
 		// post
-		task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);	
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
 
 	/**
 	 * End session
 	 * 
-	 * @param uid
-	 *            user ID.
+	 * @param uid user ID.
 	 * @throws Exception
 	 */
 	public static void endSession(String uid) throws Exception {
@@ -134,15 +134,14 @@ public class VersionUtils {
 		HttpPost request = new HttpPost(uri);
 
 		// post
-		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
 
-	
 	/**
 	 * Post item usage event.
 	 * 
-	 * @param uid
-	 *            user ID.
+	 * @param uid  user ID.
+	 * @param item name.
 	 * 
 	 * @throws Exception
 	 */
@@ -160,14 +159,13 @@ public class VersionUtils {
 		HttpPost request = new HttpPost(uri);
 
 		// post
-		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
 
 	/**
 	 * start server session.
 	 * 
-	 * @param uid
-	 *            server ID.
+	 * @param uid server ID.
 	 * @throws Exception
 	 */
 	public static void startServerSession(String uid) throws Exception {
@@ -183,14 +181,13 @@ public class VersionUtils {
 		HttpPost request = new HttpPost(uri);
 
 		// post
-		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
 
 	/**
 	 * End server session.
 	 * 
-	 * @param uid
-	 *            user ID.
+	 * @param uid user ID.
 	 * @throws Exception
 	 */
 	public static void endServerSession(String uid) throws Exception {
@@ -206,27 +203,28 @@ public class VersionUtils {
 		HttpPost request = new HttpPost(uri);
 
 		// post
-		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
 
 	/**
-	 * AI Observe.
+	 * Post exception.
 	 * 
-	 * @param uid
-	 *            user ID.
+	 * @param uid user ID.
+	 * @param e   exception to report.
 	 * 
 	 * @throws Exception
 	 */
-	public static void aiObserve(String uid, double distanceToTargetSq, boolean isTargetClose, String aiAction) throws Exception {
-		
+	public static void postException(String uid, Exception e) throws Exception {
+
 		// Build the server URI together with the parameters
 		String category = NAME + "-" + VERSION;
-		String action = "AI Observe";
-		List<NameValuePair> postParameters = createPostAiEventParameters(uid, category, action);
-		postParameters.add(new BasicNameValuePair("cd1", Double.toString(distanceToTargetSq)));
-		postParameters.add(new BasicNameValuePair("cd2", Boolean.toString(isTargetClose)));		
-		postParameters.add(new BasicNameValuePair("cd3", aiAction));		
-		
+
+		// get stack trace as string
+		StringWriter sw = new StringWriter();
+		e.printStackTrace(new PrintWriter(sw));
+		String description = sw.toString();
+
+		List<NameValuePair> postParameters = createExceptionParameters(uid, category, description);
 		URIBuilder uriBuilder = new URIBuilder(ANALYTICS_URL);
 		uriBuilder.addParameters(postParameters);
 
@@ -235,18 +233,39 @@ public class VersionUtils {
 		HttpPost request = new HttpPost(uri);
 
 		// post
-		HttpRequestFutureTask<Boolean> task = executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
 	}
-	
+
+	/**
+	 * Post AI observation.
+	 * 
+	 * @param uid         user ID.
+	 * @param type        observation type.
+	 * @param observation observation data. *
+	 * @throws Exception
+	 */
+	public static void postAiObservation(String uid, String type, String observation) throws Exception {
+
+		// Build the server URI together with the parameters
+		String category = NAME + "-" + VERSION;
+		List<NameValuePair> postParameters = createPostAiEventParameters(uid, category, observation);
+		URIBuilder uriBuilder = new URIBuilder(ANALYTICS_URL);
+		uriBuilder.addParameters(postParameters);
+
+		// build request
+		URI uri = uriBuilder.build();
+		HttpPost request = new HttpPost(uri);
+
+		// post
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+	}
+
 	/**
 	 * Create parameters for app session start.
 	 * 
-	 * @param uid
-	 *            user ID.
-	 * @param category
-	 *            event category.
-	 * @param action
-	 *            event action
+	 * @param uid      user ID.
+	 * @param category event category.
+	 * @param action   event action
 	 * 
 	 * @return parameters for session start.
 	 */
@@ -271,29 +290,19 @@ public class VersionUtils {
 	/**
 	 * Create parameters for app system info.
 	 * 
-	 * @param uid
-	 *            user ID.
-	 * @param category
-	 *            event category.
-	 * @param action
-	 *            event action
+	 * @param uid      user ID.
+	 * @param category event category.
+	 * @param action   event action
 	 * 
 	 * @return parameters for system info.
 	 */
 	static List<NameValuePair> createSystemInfoParameters(String uid, String category, String action) {
-		
-		String userInfo = new StringBuilder()
-			.append(System.getProperty("user.name"))
-			.append(";")			
-			.append(System.getProperty("os.name"))
-			.append(",")
-			.append(System.getProperty("os.version"))
-			.append(",")
-			.append(System.getProperty("os.arch"))
-			.append(";")
-			.append(System.getProperty("java.version"))
-			.toString();
-		
+
+		String userInfo = new StringBuilder().append(System.getProperty("user.name")).append(";")
+				.append(System.getProperty("os.name")).append(",").append(System.getProperty("os.version")).append(",")
+				.append(System.getProperty("os.arch")).append(";").append(System.getProperty("java.version"))
+				.toString();
+
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("v", GA_API_VERSION));
 		parameters.add(new BasicNameValuePair("t", GA_HITTYPE_EVENT));
@@ -307,20 +316,17 @@ public class VersionUtils {
 		parameters.add(new BasicNameValuePair("ec", category));
 		parameters.add(new BasicNameValuePair("ea", action));
 		parameters.add(new BasicNameValuePair("el", userInfo));
-		//parameters.add(new BasicNameValuePair("cd1", "System information"));		
-		//parameters.add(new BasicNameValuePair("cm1", userAgentStr));		
+		// parameters.add(new BasicNameValuePair("cd1", "System information"));
+		// parameters.add(new BasicNameValuePair("cm1", userAgentStr));
 		return parameters;
 	}
-	
+
 	/**
 	 * Create parameters for app session end.
 	 * 
-	 * @param uid
-	 *            user ID.
-	 * @param category
-	 *            event category.
-	 * @param action
-	 *            event action
+	 * @param uid      user ID.
+	 * @param category event category.
+	 * @param action   event action
 	 * @return parameters for session start.
 	 */
 	static List<NameValuePair> createEndAppSessionPerameters(String uid, String category, String action) {
@@ -344,12 +350,9 @@ public class VersionUtils {
 	/**
 	 * Create parameters for event based item usage.
 	 * 
-	 * @param uid
-	 *            user ID.
-	 * @param category
-	 *            event category.
-	 * @param action
-	 *            event action
+	 * @param uid      user ID.
+	 * @param category event category.
+	 * @param action   event action
 	 * 
 	 * @return parameters for session start.
 	 */
@@ -371,18 +374,13 @@ public class VersionUtils {
 	}
 
 	/**
-	 * Create parameters for event for AI.
+	 * Create parameters for exception.
 	 * 
-	 * @param uid
-	 *            user ID.
-	 * @param category
-	 *            event category.
-	 * @param action
-	 *            event action
-	 * 
-	 * @return parameters for session start.
+	 * @param uid         user ID.
+	 * @param category    event category.
+	 * @param description exception description.
 	 */
-	static List<NameValuePair> createPostAiEventParameters(String uid, String category, String action) {
+	static List<NameValuePair> createExceptionParameters(String uid, String category, String description) {
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("v", GA_API_VERSION));
 		parameters.add(new BasicNameValuePair("t", GA_HITTYPE_EVENT));
@@ -394,19 +392,42 @@ public class VersionUtils {
 		parameters.add(new BasicNameValuePair("cid", uid));
 		parameters.add(new BasicNameValuePair("uid", uid));
 		parameters.add(new BasicNameValuePair("ec", category));
-		parameters.add(new BasicNameValuePair("ea", action));
-		parameters.add(new BasicNameValuePair("el", uid));
+		parameters.add(new BasicNameValuePair("ea", "Exception"));
+		parameters.add(new BasicNameValuePair("el", description));
 		return parameters;
 	}
 
-	
+	/**
+	 * Create parameters for event for AI.
+	 * 
+	 * @param uid      user ID.
+	 * @param category event category.
+	 * @param action   event action
+	 * 
+	 * @return parameters for session start.
+	 */
+	static List<NameValuePair> createPostAiEventParameters(String uid, String category, String observation) {
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair("v", GA_API_VERSION));
+		parameters.add(new BasicNameValuePair("t", GA_HITTYPE_EVENT));
+		parameters.add(new BasicNameValuePair("tid", GA_PROPERTY));
+		parameters.add(new BasicNameValuePair("ds", GA_SOURCE));
+		parameters.add(new BasicNameValuePair("an", NAME));
+		parameters.add(new BasicNameValuePair("aid", GA_APP_ID));
+		parameters.add(new BasicNameValuePair("av", VERSION));
+		parameters.add(new BasicNameValuePair("cid", uid));
+		parameters.add(new BasicNameValuePair("uid", uid));
+		parameters.add(new BasicNameValuePair("ec", category));
+		parameters.add(new BasicNameValuePair("ea", "AI Observe"));
+		parameters.add(new BasicNameValuePair("el", observation));
+		return parameters;
+	}
+
 	/**
 	 * Validate version.
-	 * 
-	 * @param logger
-	 *            mod logger.
 	 */
-	public static void validateVersion(Logger logger) {
+	public static void validateVersion() {
+		Logger logger = getBassebombeCraft().getLogger();
 		Gson gson = new Gson();
 
 		// declare stream
@@ -438,6 +459,7 @@ public class VersionUtils {
 
 		} catch (Exception e) {
 			logger.info("Failed to validate version due to exception:" + e.getMessage());
+			getBassebombeCraft().reportException(e);
 		} finally {
 			if (is == null)
 				return;
@@ -445,6 +467,7 @@ public class VersionUtils {
 				is.close();
 			} catch (IOException e) {
 				logger.info("Failed to close connection for version validation due to exception:" + e.getMessage());
+				getBassebombeCraft().reportException(e);
 			}
 		}
 	}

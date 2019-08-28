@@ -31,7 +31,7 @@ public class ModConstants {
     /**
      * Mod version.
      */
-    public static final String VERSION = "1.14.3-1.31-alpha";
+    public static final String VERSION = "1.14.3-1.31-alpha2";
     
     /**
      * In game tab name.
@@ -97,7 +97,7 @@ public class ModConstants {
 	 * GA event hit type.
 	 */	
 	public static final String GA_HITTYPE_EVENT = "event";
-
+	
 	/**
 	 * GA session start.
 	 */		
@@ -251,6 +251,31 @@ public class ModConstants {
 	/**
 	 * Item properties which places item in tab.
 	 */
-	public static final Properties ITEM_PROPERTIES= new Item.Properties().group(getItemGroup()); 
+	public static final Properties ITEM_PROPERTIES= new Item.Properties().group(getItemGroup());
+
+	/**
+	 * Rendering: Line width for rendering billboards.
+	 */
+	public static final int BILLBOARD_LINE_WIDTH = 1;
+
+	/**
+	 * Rendering: Triangle height for equilateral triangle with side length 1.
+	 */
+	public static final float EQUILATERAL_TRIANGLE_HEIGHT = 0.866F;
+
+	/**
+	 * Rendering: Text scale
+	 */
+	public static final float TEXT_SCALE = 0.03F;
+
+	/**
+	 * Rendering Text color.
+	 */
+	public static final int TEXT_COLOR = 0xFFFFFF;
+
+	/**
+	 * Defines should be effect only.
+	 */
+	public static final boolean LIGHTNING_BOLT_NOT_EFFECT_ONLY = false; 
 
 }

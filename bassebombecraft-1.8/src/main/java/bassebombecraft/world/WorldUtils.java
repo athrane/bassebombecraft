@@ -2,10 +2,10 @@ package bassebombecraft.world;
 
 import java.util.Optional;
 
+import bassebombecraft.ModConstants;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
 
@@ -63,6 +63,18 @@ public class WorldUtils {
 	}
 
 	/**
+	 * Add lightning at block position.
+	 * 
+	 * @param world world.
+	 * @param pos   block position where lightning is added.
+	 */
+	public static void addLightningAtBlockPos(World world, BlockPos pos) {
+		LightningBoltEntity bolt = new LightningBoltEntity(world, pos.getX(), pos.getY(), pos.getZ(),
+				ModConstants.LIGHTNING_BOLT_NOT_EFFECT_ONLY);
+		addLightning(bolt, world);
+	}
+
+	/**
 	 * Add lightning bolt to the world if the world is either a
 	 * {@linkplain ServerWorld} or a {@linkplain ClientWorld}.
 	 * 
@@ -77,19 +89,19 @@ public class WorldUtils {
 			ServerWorld serverWorld = (ServerWorld) world;
 
 			// add lightning
-			serverWorld.addLightningBolt(entity);			
+			serverWorld.addLightningBolt(entity);
 			return;
 		}
-		
+
 		if (isTypeClientWorld(world)) {
 
 			// type cast
 			ClientWorld serverWorld = (ClientWorld) world;
 
 			// add lightning
-			serverWorld.addLightning(entity);			
+			serverWorld.addLightning(entity);
 			return;
 		}
-		
+
 	}
 }

@@ -1,5 +1,7 @@
 package bassebombecraft.file;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,7 +30,7 @@ public class FileUtils {
 			writer.close();
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			getBassebombeCraft().reportAndLogException(e);
 		}
 	}
 
@@ -47,7 +49,7 @@ public class FileUtils {
 			writer.close();
 
 		} catch (IOException e) {
-			e.printStackTrace();
+			getBassebombeCraft().reportAndLogException(e);
 		}
 	}
 

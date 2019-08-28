@@ -1,12 +1,14 @@
 package bassebombecraft.proxy;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.config.VersionUtils.endSession;
+import static bassebombecraft.config.VersionUtils.*;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startSession;
 import static bassebombecraft.player.PlayerUtils.getClientSidePlayerUId;
 
 import org.apache.logging.log4j.Logger;
+
+import bassebombecraft.config.VersionUtils;
 
 /**
  * Implementation of the {@linkplain Proxy} interface.
@@ -27,7 +29,7 @@ public class ClientProxy implements Proxy {
 
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
-			logger.error("Initiating usage session failed with: " + ex.getMessage());
+			logger.error("Initiating usage session failed with: " + ex.getMessage());			
 		}
 	}
 
@@ -51,6 +53,26 @@ public class ClientProxy implements Proxy {
 			Logger logger = getBassebombeCraft().getLogger();
 			logger.error("Posting usage failed with: " + ex.getMessage());
 		}
+	}
+	
+	@Override
+	public void postException(Exception e) {
+		try {
+			VersionUtils.postException(getUser(), e);
+		} catch (Exception ex) {
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Posting exception:" + e.getMessage() + " failed with: " + ex.getMessage());
+		}
+	}
+	
+	@Override
+	public void postAiObservation(String type, String observation) {
+		try {
+			VersionUtils.postAiObservation(getUser(), type, observation);
+		} catch (Exception ex) {
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Posting AI observation: failed with: " + ex.getMessage());
+		}		
 	}
 
 	/**

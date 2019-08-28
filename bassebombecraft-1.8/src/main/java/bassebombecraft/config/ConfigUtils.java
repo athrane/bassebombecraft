@@ -18,6 +18,7 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigRenderOptions;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.file.FileUtils;
 import net.minecraft.particles.BasicParticleType;
@@ -120,14 +121,13 @@ public class ConfigUtils {
 	/**
 	 * Load configuration.
 	 * 
-	 * If external configuration file doesn't exist then it is created. If extesrnal
-	 * configuration file exist then it is loaded.
+	 * If external configuration file doesn't exist then it is created. If an
+	 * external configuration file exist then it is loaded.
 	 * 
 	 * @param configDirectory mod configuration directory,
-	 * @param logger          logger object
-	 * @return configuration object
 	 */
-	public static Config loadConfig(File configDirectory, Logger logger) {
+	public static Config loadConfig(File configDirectory) {
+		Logger logger = getBassebombeCraft().getLogger();
 
 		// create external file name
 		String externalFileName = new StringBuilder().append(MODID).append("-").append(VERSION)

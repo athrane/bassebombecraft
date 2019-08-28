@@ -9,6 +9,7 @@ import javax.naming.OperationNotSupportedException;
 
 import org.apache.logging.log4j.Logger;
 
+import bassebombecraft.config.VersionUtils;
 import net.minecraft.server.MinecraftServer;
 
 /**
@@ -53,6 +54,26 @@ public class ServerProxy implements Proxy {
 		}
 	}
 
+	@Override
+	public void postException(Exception e) {
+		try {
+			VersionUtils.postException(getUser(), e);
+		} catch (Exception ex) {
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Posting exception:" + e.getMessage() + " failed with: " + ex.getMessage());
+		}
+	}
+
+	@Override
+	public void postAiObservation(String type, String observation) {
+		try {
+			VersionUtils.postAiObservation(getUser(), type, observation);
+		} catch (Exception ex) {
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Posting AI observation: failed with: " + ex.getMessage());
+		}		
+	}
+	
 	@Override
 	public String getUser() throws OperationNotSupportedException {
 		throw new OperationNotSupportedException("Only invoke this method client side.");

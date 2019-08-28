@@ -205,13 +205,8 @@ public class GeometryUtils {
 		List<BlockDirective> directives = calculateBlockDirectives(blocks, structure.getBlock(),
 				structure.getBlockState(), harvest);
 
-		// rotate directives to player orientation
-		// for (BlockDirective c : directives) System.out.println("rect c=" +
-		// c);
 		int rotationDegrees = calculateDegreesFromPlayerDirection(playerDirection);
 		List<BlockDirective> rotatedDirectives = rotateCoordinatesAroundYAxis(offset, rotationDegrees, directives);
-		// for (BlockDirective c : rotatedDirectives)
-		// System.out.println("rotated rect c=" + c);
 		return rotatedDirectives;
 	}
 

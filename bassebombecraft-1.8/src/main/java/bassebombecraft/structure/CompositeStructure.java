@@ -11,7 +11,7 @@ import net.minecraft.block.BlockState;
 public class CompositeStructure implements Structure {
 
 	ArrayList<Structure> children = new ArrayList<Structure>();
-	
+
 	@Override
 	public int getSizeX() {
 		return 0;
@@ -46,7 +46,7 @@ public class CompositeStructure implements Structure {
 	public Block getBlock() {
 		throw new UnsupportedOperationException("Getting block not supported for composite structure.");
 	}
-	
+
 	@Override
 	public BlockState getBlockState() {
 		throw new UnsupportedOperationException("Getting block state not supported for composite structure.");
@@ -66,5 +66,14 @@ public class CompositeStructure implements Structure {
 	public void add(Structure child) {
 		this.children.add(child);
 	}
-	
+
+	/**
+	 * Factory method for composite structure.
+	 * 
+	 * @return composite structure
+	 */
+	public static CompositeStructure getInstance() {
+		return new CompositeStructure();
+	}
+
 }

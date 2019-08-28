@@ -2,11 +2,13 @@ package bassebombecraft;
 
 import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.ModConstants.TAB_NAME;
-import static bassebombecraft.ModConstants.VERSION;
 import static bassebombecraft.config.VersionUtils.validateVersion;
 import static bassebombecraft.tab.ItemGroupFactory.createItemGroup;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.Optional;
 import java.util.Random;
 
 import javax.naming.OperationNotSupportedException;
@@ -45,12 +47,11 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 @Mod(MODID)
@@ -139,12 +140,12 @@ public class BassebombeCraft {
 		// store mod instance
 		instance = this;
 
-		// Register ourselves for server and other game events we are interested in
+		// Register ourselves for forge events
 		MinecraftForge.EVENT_BUS.register(this);
 
 		// load configuration file
 		File configDirectory = FMLPaths.CONFIGDIR.get().toFile();
-		config = ConfigUtils.loadConfig(configDirectory, logger);
+		config = ConfigUtils.loadConfig(configDirectory);
 
 		// initialise frequency repository
 		frequencyRepository = DefaultFrequencyRepository.getInstance();
@@ -169,24 +170,15 @@ public class BassebombeCraft {
 
 		// initialise targeted entities repository
 		targetedEntitiesRepository = DefaultTargetedEntitiesRepository.getInstance();
+
+		// register event handler for FMLCommonSetupEvent event on the mod event bus
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 	}
 
 	@SubscribeEvent
-	void setup(final FMLCommonSetupEvent event) {
-		logger.info("Starting to initialize BasseBombeCraft");
-		validateVersion(logger);
+	void setup(FMLCommonSetupEvent event) {
+		validateVersion();
 		// initializeWorldGenerators();
-		logger.info("Initialized BasseBombeCraft " + VERSION);
-	}
-
-	@SubscribeEvent
-	void clientSetup(final FMLClientSetupEvent event) {
-		// NO-OP
-	}
-
-	@SubscribeEvent
-	void loadComplete(FMLLoadCompleteEvent event) {
-		// NO-OP
 	}
 
 	@SubscribeEvent
@@ -341,6 +333,7 @@ public class BassebombeCraft {
 		try {
 			return proxy.getUser();
 		} catch (OperationNotSupportedException e) {
+			getBassebombeCraft().reportAndLogException(e);			
 			throw new RuntimeException(e);
 		}
 	}
@@ -381,4 +374,31 @@ public class BassebombeCraft {
 		return frequencyRepository;
 	}
 
+	/**
+	 * Exception reporting facility.
+	 * 
+	 * @param e exception to report and log.
+	 */
+	public void reportAndLogException(Exception e) {
+		Optional<String> nullableString = Optional.ofNullable(e.getMessage());
+		nullableString.ifPresent(s -> logger.error(s));		
+		
+		// get and log stack trace 
+		StringWriter sw = new StringWriter();
+		e.printStackTrace(new PrintWriter(sw));
+		String stacktraceString = sw.toString();		
+		logger.error(stacktraceString);
+		
+		reportException(e);
+	}
+
+	/**
+	 * Exception reporting facility.
+	 * 
+	 * @param e exception to report.
+	 */
+	public void reportException(Exception e) {
+		proxy.postException(e);
+	}
+	
 }
