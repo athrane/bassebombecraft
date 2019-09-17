@@ -4,6 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.ai.AiUtils.buildKittenArmyAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
+import static bassebombecraft.entity.EntityUtils.*;
 
 import java.util.List;
 import java.util.Random;
@@ -94,14 +95,8 @@ public class SpawnKittenArmy implements ProjectileAction {
 				entity.setTamedBy(player);
 			}
 
-			// calculate random position
-			Random random = entity.getRNG();
-			int randomX = random.nextInt(spawnSize) - (spawnSize / 2);
-			int randomZ = random.nextInt(spawnSize) - (spawnSize / 2);
-			double positionX = projectile.posX + randomX;
-			double positionY = projectile.posY;
-			double positionZ = projectile.posZ + randomZ;
-			entity.setLocationAndAngles(positionX, positionY, positionZ, projectile.rotationYaw, PITCH);
+			// calculate random spawn position
+			setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnSize, entity);
 
 			// add entity to team
 			TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
@@ -113,6 +108,7 @@ public class SpawnKittenArmy implements ProjectileAction {
 
 			// set name
 			if (renderCustomName) {
+				Random random = getBassebombeCraft().getRandom();
 				ITextComponent name = new StringTextComponent(getKittenName(random, i));
 				entity.setCustomName(name);
 				entity.setCustomNameVisible(true);

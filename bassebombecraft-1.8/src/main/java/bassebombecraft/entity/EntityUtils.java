@@ -1,6 +1,9 @@
 package bassebombecraft.entity;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+
 import java.util.Optional;
+import java.util.Random;
 
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.rendering.RenderingEventHandler;
@@ -9,6 +12,7 @@ import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
@@ -18,6 +22,11 @@ import net.minecraft.world.World;
  * Utility class for entity manipulation.
  */
 public class EntityUtils {
+
+	/*
+	 * Spawn location rotation pitch
+	 */
+	static final float PITCH = 0.0F;
 
 	/**
 	 * Calculate spawn position for projectile entity
@@ -176,4 +185,21 @@ public class EntityUtils {
 		}
 	}
 
+	/**
+	 * Set a random spawn position for entity.
+	 * 
+	 * @param pos         block position to spawn from.
+	 * @param rotationYaw rotation yaw to spawn from.
+	 * @param spawnSize   spawn areas in blocks.
+	 * @param entity      entity to set position for.
+	 */
+	public static void setRandomSpawnPosition(BlockPos pos, float rotationYaw, int spawnSize, LivingEntity entity) {
+		Random random = getBassebombeCraft().getRandom();
+		int randomX = random.nextInt(spawnSize) - (spawnSize / 2);
+		int randomZ = random.nextInt(spawnSize) - (spawnSize / 2);
+		double positionX = pos.getX() + randomX;
+		double positionY = pos.getY();
+		double positionZ = pos.getZ() + randomZ;
+		entity.setLocationAndAngles(positionX, positionY, positionZ, rotationYaw, PITCH);
+	}
 }

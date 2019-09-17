@@ -1,10 +1,9 @@
 package bassebombecraft.projectile.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
 import static bassebombecraft.entity.ai.AiUtils.buildSkeletonArmyAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
-
-import java.util.Random;
 
 import com.typesafe.config.Config;
 
@@ -61,14 +60,8 @@ public class SpawnSkeletonArmy implements ProjectileAction {
 			// create skeleton
 			SkeletonEntity entity = EntityType.SKELETON.create(world);
 
-			// calculate random position
-			Random random = entity.getRNG();
-			int randomX = random.nextInt(spawnSize) - (spawnSize / 2);
-			int randomZ = random.nextInt(spawnSize) - (spawnSize / 2);
-			double positionX = projectile.posX + randomX;
-			double positionY = projectile.posY;
-			double positionZ = projectile.posZ + randomZ;
-			entity.setLocationAndAngles(positionX, positionY, positionZ, projectile.rotationYaw, PITCH);
+			// calculate random spawn position
+			setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnSize, entity);
 
 			// add bow
 			entity.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.BOW));

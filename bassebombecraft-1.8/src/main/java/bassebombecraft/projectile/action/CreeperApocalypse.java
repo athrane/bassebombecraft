@@ -1,5 +1,7 @@
 package bassebombecraft.projectile.action;
 
+import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
+
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
@@ -17,8 +19,9 @@ public class CreeperApocalypse implements ProjectileAction {
 	static final int NUMBER_CREEPER = 100;
 	static final float PITCH = 0.0F;
 	static final int EFFECT_DURATION = 200; // Measured in ticks
-	private static final int AMPLIFIER = 255;
-	private static final int CREEPER_FUSED = 1;
+	static final int AMPLIFIER = 255;
+	static final int CREEPER_FUSED = 1;
+	static final int SPAWN_SIZE = 1;
 
 	@Override
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
@@ -28,10 +31,9 @@ public class CreeperApocalypse implements ProjectileAction {
 
 			// set powered
 			entity.setCreeperState(CREEPER_FUSED);
-
+			
 			// set position
-			entity.setLocationAndAngles(projectile.posX, projectile.posY, projectile.posZ, projectile.rotationYaw,
-					PITCH);
+			setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, SPAWN_SIZE, entity);
 
 			// prime
 			entity.ignite();
