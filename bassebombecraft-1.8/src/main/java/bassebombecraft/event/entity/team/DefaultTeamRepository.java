@@ -89,6 +89,20 @@ public class DefaultTeamRepository implements TeamRepository {
 		teams.remove(commander);
 	}
 
+	
+	@Override
+	public int size(PlayerEntity commander) {
+		if (commander == null)
+			return 0;
+		if (!isCommander(commander))
+			return 0;		
+		
+		// get team
+		Team team = teams.get(commander);
+
+		return team.members.size();
+	}
+
 	/**
 	 * Add team member to commander's team.
 	 * 
@@ -130,7 +144,7 @@ public class DefaultTeamRepository implements TeamRepository {
 		if (!teamMembership.containsKey(creator))
 			return;
 
-		// get team that create is member of
+		// get team that creator is member of
 		Team team = teamMembership.get(creator);
 
 		// get commander

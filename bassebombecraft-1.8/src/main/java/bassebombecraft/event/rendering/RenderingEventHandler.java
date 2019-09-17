@@ -18,6 +18,7 @@ import static bassebombecraft.rendering.RenderingUtils.renderTextBillboardV2;
 import static bassebombecraft.rendering.RenderingUtils.renderTriangleBillboard;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
@@ -52,6 +53,16 @@ import net.minecraftforge.fml.common.Mod;
  */
 @Mod.EventBusSubscriber
 public class RenderingEventHandler {
+
+	/**
+	 * Number of targets to render.
+	 */
+	static final int TARGETS_TO_RENDER = 7;
+
+	/**
+	 * Number of targets to render.
+	 */	
+	static final int TEAM_MEMBERS_TO_RENDER = 7;
 
 	/**
 	 * HUD displacement of text.
@@ -188,7 +199,7 @@ public class RenderingEventHandler {
 		TargetedEntitiesRepository targetRepository = getBassebombeCraft().getTargetedEntitiesRepository();
 		Stream<LivingEntity> targets = targetRepository.get(player);
 
-		Vec3d textTranslation = new Vec3d(-7, 4, 4);
+		Vec3d textTranslation = new Vec3d(8, 4, 4);
 		renderHudTextBillboard(translation, textTranslation, "TARGETS");
 
 		// create counter to use inside loop
@@ -198,19 +209,20 @@ public class RenderingEventHandler {
 		targets.forEach(m -> {
 			int counter = count.incrementAndGet();
 
-			// exit if 5 members has been rendered
-			if (counter > 5)
+			// exit if enough members has been rendered
+			if (counter > TARGETS_TO_RENDER)
 				return;
 
 			int disp = 0 + counter;
-			String text = "Target: " + m.getEntityString();
+			String targetName = m.getName().getUnformattedComponentText();			
+			String text = "Target: " + targetName;
 			renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * disp, 0), text);
 		});
 	}
 
 	static void renderCharmedInfo(Vec3d translation) {
 		// Render HUD charmed info
-		Vec3d textTranslation = new Vec3d(7, 0, 4);
+		Vec3d textTranslation = new Vec3d(8, 0, 4);
 		renderHudTextBillboard(translation, textTranslation, "CHARMED");
 		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 1, 0), "Numbers: ");
 		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 2, 0), "Timeout #1: ");
@@ -220,11 +232,11 @@ public class RenderingEventHandler {
 	static void renderTeamInfo(PlayerEntity player, Vec3d translation) {
 		TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
 		Collection<LivingEntity> team = teamRepository.get(player);
-		int teamSize = team.size();
+		int teamSize = teamRepository.size(player);
 		MobCommanderRepository commanderRepository = getBassebombeCraft().getMobCommanderRepository();
 		MobCommand command = commanderRepository.getCommand(player);
 
-		Vec3d textTranslation = new Vec3d(7, 4, 4);
+		Vec3d textTranslation = new Vec3d(8, 4, 4);
 		renderHudTextBillboard(translation, textTranslation, "TEAM");
 		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 1, 0),
 				"Command: " + command.getTitle());
@@ -237,12 +249,15 @@ public class RenderingEventHandler {
 		team.forEach(m -> {
 			int counter = count.incrementAndGet();
 
-			// exit if 5 members has been rendered
-			if (counter > 5)
+			// exit if enough members has been rendered
+			if (counter > TEAM_MEMBERS_TO_RENDER)
 				return;
 
 			int disp = 2 + counter;
-			String text = "Member: " + m.getEntityString() + ", Target: " + getAliveTarget(m);
+			Optional<LivingEntity> optTarget = Optional.ofNullable(getAliveTarget(m));			
+			String memberName = m.getName().getUnformattedComponentText();
+			String targetName = optTarget.map(t -> t.getName().getUnformattedComponentText()).orElse("N/A");
+			String text = "Member: " + memberName + ", Target: " + targetName;
 			renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * disp, 0), text);
 		});
 

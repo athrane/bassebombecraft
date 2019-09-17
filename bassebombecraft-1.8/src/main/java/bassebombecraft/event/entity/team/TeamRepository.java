@@ -34,6 +34,15 @@ public interface TeamRepository {
 	public void deleteTeam(PlayerEntity commander);
 
 	/**
+	 * Get team size for commander.
+	 * 
+	 * @param commander commander to get team size for.
+	 * 
+	 * @return size of commanders team.
+	 */
+	public int size(PlayerEntity commander);
+	
+	/**
 	 * Add team member.
 	 * 
 	 * If creator isn't a player then the entity is added to the team to which the
@@ -77,5 +86,5 @@ public interface TeamRepository {
 	 * @return collection of team members.
 	 */
 	public Collection<LivingEntity> get(PlayerEntity commander);
-
+	
 }
