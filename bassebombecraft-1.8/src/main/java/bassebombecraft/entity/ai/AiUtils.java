@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,10 +34,8 @@ import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.OcelotAttackGoal;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
 import net.minecraft.entity.ai.goal.RangedBowAttackGoal;
-import net.minecraft.entity.ai.goal.RestrictSunGoal;
 import net.minecraft.entity.ai.goal.SitGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
-import net.minecraft.entity.monster.AbstractSkeletonEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.SkeletonEntity;
 import net.minecraft.entity.passive.CatEntity;
@@ -81,7 +80,7 @@ public class AiUtils {
 		try {
 			Field field = selector.getClass().getDeclaredField("goals");
 			return (Set<PrioritizedGoal>) readField(field, selector, FORCE_ACCESS);
-		} catch (NoSuchFieldException | SecurityException | IllegalAccessException e) {
+		} catch (Exception e) {
 			logger.error("Failed to capture goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);
 
@@ -105,13 +104,24 @@ public class AiUtils {
 	 * 
 	 * @param selector AI goal selector.
 	 */
+	@SuppressWarnings("unchecked")
 	static void removeGoals(GoalSelector selector) {
-		Stream<PrioritizedGoal> goals = selector.getRunningGoals();
-		goals.forEach(g -> selector.removeGoal(g));
+		try {
+			Field field = selector.getClass().getDeclaredField("goals");
+			Set<PrioritizedGoal> goals = (Set<PrioritizedGoal>) readField(field, selector, FORCE_ACCESS);			
+			goals.forEach(g -> selector.removeGoal(g));
+			
+		} catch (Exception e) {
+			logger.error("Failed to remove goals due to the error: " + e.getMessage());
+			getBassebombeCraft().reportException(e);
+		}
 	}
 
 	/**
 	 * Assign passive AI goals.
+	 * 
+	 * Goals are accessed using reflection to access private goals field in the goal
+	 * selector.
 	 * 
 	 * @param entity entity to assign goals to.
 	 * @param goals  set of goals.
@@ -121,7 +131,7 @@ public class AiUtils {
 			GoalSelector selector = entity.goalSelector;
 			Field field = selector.getClass().getDeclaredField("goals");
 			writeField(field, selector, goals, FORCE_ACCESS);
-		} catch (NoSuchFieldException | SecurityException | IllegalAccessException e) {
+		} catch (Exception e) {
 			logger.error("Failed to assign goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);
 			// NO-OP
@@ -131,6 +141,9 @@ public class AiUtils {
 	/**
 	 * Assign target AI goals.
 	 * 
+	 * Goals are accessed using reflection to access private goals field in the goal
+	 * selector.
+	 * 
 	 * @param entity entity to assign goals to.
 	 * @param goals  set of goals.
 	 */
@@ -139,7 +152,7 @@ public class AiUtils {
 			GoalSelector selector = entity.targetSelector;
 			Field field = selector.getClass().getDeclaredField("goals");
 			writeField(field, selector, goals, FORCE_ACCESS);
-		} catch (NoSuchFieldException | SecurityException | IllegalAccessException e) {
+		} catch (Exception e) {
 			logger.error("Failed to assign goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);
 			// NO-OP
