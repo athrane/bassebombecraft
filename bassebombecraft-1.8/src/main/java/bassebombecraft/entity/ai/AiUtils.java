@@ -22,10 +22,8 @@ import bassebombecraft.entity.ai.goal.FollowEntity;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.CatSitOnBlockGoal;
 import net.minecraft.entity.ai.goal.CreeperSwellGoal;
 import net.minecraft.entity.ai.goal.FleeSunGoal;
-import net.minecraft.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.entity.ai.goal.GoalSelector;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
@@ -34,8 +32,11 @@ import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.OcelotAttackGoal;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
+import net.minecraft.entity.ai.goal.RangedBowAttackGoal;
+import net.minecraft.entity.ai.goal.RestrictSunGoal;
 import net.minecraft.entity.ai.goal.SitGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
+import net.minecraft.entity.monster.AbstractSkeletonEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.SkeletonEntity;
 import net.minecraft.entity.passive.CatEntity;
@@ -75,6 +76,7 @@ public class AiUtils {
 	 * 
 	 * @return set of goals from goals selector.
 	 */
+	@SuppressWarnings("unchecked")
 	public static Set<PrioritizedGoal> captureGoals(GoalSelector selector) {
 		try {
 			Field field = selector.getClass().getDeclaredField("goals");
@@ -187,14 +189,14 @@ public class AiUtils {
 	 */
 	public static void buildKittenArmyAi(CatEntity entity, LivingEntity commander) {
 
-		// set goals
+		// set goals, priority is: attack then follow leader
 		GoalSelector selector = entity.goalSelector;
 		selector.addGoal(1, new SwimGoal(entity));
-		selector.addGoal(2, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
-		selector.addGoal(1, new SitGoal(entity));
-		selector.addGoal(3, new LeapAtTargetGoal(entity, 0.3F));
-		selector.addGoal(4, new OcelotAttackGoal(entity));
-		selector.addGoal(5, new LookRandomlyGoal(entity));
+		selector.addGoal(2, new LeapAtTargetGoal(entity, 0.3F));
+		selector.addGoal(3, new OcelotAttackGoal(entity));
+		selector.addGoal(4, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
+		selector.addGoal(5, new SitGoal(entity));
+		selector.addGoal(6, new LookRandomlyGoal(entity));
 
 		// set targeting goals
 		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);
@@ -210,13 +212,14 @@ public class AiUtils {
 	 */
 	public static void buildSkeletonArmyAi(SkeletonEntity entity, LivingEntity commander) {
 
-		// set goals
+		// set goals, priority is: attack then follow leader
 		GoalSelector selector = entity.goalSelector;
 		selector.addGoal(1, new SwimGoal(entity));
 		selector.addGoal(2, new FleeSunGoal(entity, 1.0D));
-		selector.addGoal(2, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
-		selector.addGoal(3, new LookAtGoal(entity, PlayerEntity.class, 8.0F));
-		selector.addGoal(3, new LookRandomlyGoal(entity));
+		selector.addGoal(3, new RangedBowAttackGoal<>(entity, 1.0D, 20, 15.0F));
+		selector.addGoal(4, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
+		selector.addGoal(5, new LookAtGoal(entity, PlayerEntity.class, 8.0F));
+		selector.addGoal(6, new LookRandomlyGoal(entity));
 
 		// set targeting goals
 		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);
@@ -232,14 +235,14 @@ public class AiUtils {
 	 */
 	public static void buildCreeperArmyAi(CreeperEntity entity, LivingEntity commander) {
 
-		// set goals
+		// set goals, priority is: attack then follow leader
 		GoalSelector selector = entity.goalSelector;
 		selector.addGoal(1, new SwimGoal(entity));
 		selector.addGoal(2, new CreeperSwellGoal(entity));
 		selector.addGoal(3, new MeleeAttackGoal(entity, 1.0D, false));
-		selector.addGoal(2, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
-		selector.addGoal(3, new LookAtGoal(entity, PlayerEntity.class, 8.0F));
-		selector.addGoal(3, new LookRandomlyGoal(entity));
+		selector.addGoal(4, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
+		selector.addGoal(5, new LookAtGoal(entity, PlayerEntity.class, 8.0F));
+		selector.addGoal(6, new LookRandomlyGoal(entity));
 
 		// type cast
 		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);

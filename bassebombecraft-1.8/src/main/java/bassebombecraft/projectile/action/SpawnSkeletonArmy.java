@@ -54,7 +54,7 @@ public class SpawnSkeletonArmy implements ProjectileAction {
 	}
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
 		for (int i = 0; i < skeletons; i++) {
 
 			// create skeleton
