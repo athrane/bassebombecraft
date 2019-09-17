@@ -61,7 +61,7 @@ public class RenderingEventHandler {
 
 	/**
 	 * Number of targets to render.
-	 */	
+	 */
 	static final int TEAM_MEMBERS_TO_RENDER = 7;
 
 	/**
@@ -199,7 +199,7 @@ public class RenderingEventHandler {
 		TargetedEntitiesRepository targetRepository = getBassebombeCraft().getTargetedEntitiesRepository();
 		Stream<LivingEntity> targets = targetRepository.get(player);
 
-		Vec3d textTranslation = new Vec3d(8, 4, 4);
+		Vec3d textTranslation = new Vec3d(-8, 4, 4);
 		renderHudTextBillboard(translation, textTranslation, "TARGETS");
 
 		// create counter to use inside loop
@@ -214,7 +214,7 @@ public class RenderingEventHandler {
 				return;
 
 			int disp = 0 + counter;
-			String targetName = m.getName().getUnformattedComponentText();			
+			String targetName = m.getName().getUnformattedComponentText();
 			String text = "Target: " + targetName;
 			renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * disp, 0), text);
 		});
@@ -254,7 +254,7 @@ public class RenderingEventHandler {
 				return;
 
 			int disp = 2 + counter;
-			Optional<LivingEntity> optTarget = Optional.ofNullable(getAliveTarget(m));			
+			Optional<LivingEntity> optTarget = Optional.ofNullable(getAliveTarget(m));
 			String memberName = m.getName().getUnformattedComponentText();
 			String targetName = optTarget.map(t -> t.getName().getUnformattedComponentText()).orElse("N/A");
 			String text = "Member: " + memberName + ", Target: " + targetName;
