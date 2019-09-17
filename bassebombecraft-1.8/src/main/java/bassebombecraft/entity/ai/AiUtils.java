@@ -3,12 +3,13 @@ package bassebombecraft.entity.ai;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
+import static org.apache.commons.lang3.reflect.FieldUtils.readField;
+import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 
 import java.lang.reflect.Field;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static org.apache.commons.lang3.reflect.FieldUtils.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,8 +22,10 @@ import bassebombecraft.entity.ai.goal.FollowEntity;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.goal.CatSitOnBlockGoal;
 import net.minecraft.entity.ai.goal.CreeperSwellGoal;
 import net.minecraft.entity.ai.goal.FleeSunGoal;
+import net.minecraft.entity.ai.goal.FollowOwnerGoal;
 import net.minecraft.entity.ai.goal.GoalSelector;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
@@ -31,10 +34,11 @@ import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.OcelotAttackGoal;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
+import net.minecraft.entity.ai.goal.SitGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.SkeletonEntity;
-import net.minecraft.entity.passive.OcelotEntity;
+import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 /**
@@ -118,7 +122,7 @@ public class AiUtils {
 		} catch (NoSuchFieldException | SecurityException | IllegalAccessException e) {
 			logger.error("Failed to assign goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);
-			// NO-OP			
+			// NO-OP
 		}
 	}
 
@@ -181,12 +185,13 @@ public class AiUtils {
 	 * @param entity    entity which will configured with kitten army AI.
 	 * @param commander entity which commands skeleton.
 	 */
-	public static void buildKittenArmyAi(OcelotEntity entity, LivingEntity commander) {
+	public static void buildKittenArmyAi(CatEntity entity, LivingEntity commander) {
 
 		// set goals
 		GoalSelector selector = entity.goalSelector;
 		selector.addGoal(1, new SwimGoal(entity));
 		selector.addGoal(2, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
+		selector.addGoal(1, new SitGoal(entity));
 		selector.addGoal(3, new LeapAtTargetGoal(entity, 0.3F));
 		selector.addGoal(4, new OcelotAttackGoal(entity));
 		selector.addGoal(5, new LookRandomlyGoal(entity));

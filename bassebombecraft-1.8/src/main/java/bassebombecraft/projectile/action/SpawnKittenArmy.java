@@ -13,7 +13,7 @@ import com.typesafe.config.Config;
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.OcelotEntity;
+import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.RayTraceResult;
@@ -73,11 +73,11 @@ public class SpawnKittenArmy implements ProjectileAction {
 	}
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
 		for (int i = 0; i < kittens; i++) {
 
-			// create ocelot
-			OcelotEntity entity = EntityType.OCELOT.create(world);
+			// create cat
+			CatEntity entity = EntityType.CAT.create(world);
 
 			// set age
 			if (i == 0)
@@ -85,15 +85,13 @@ public class SpawnKittenArmy implements ProjectileAction {
 			else
 				entity.setGrowingAge(age);
 
-			// set tamed
-
 			// set owner
 			LivingEntity owner = projectile.getThrower();
 
-			// set in love with player
+			// set tamed by player 
 			if (isTypePlayerEntity(owner)) {
 				PlayerEntity player = (PlayerEntity) owner;
-				entity.setInLove(player);
+				entity.setTamedBy(player);
 			}
 
 			// calculate random position
