@@ -40,7 +40,7 @@ public interface MobCommanderRepository {
 	public void clear();
 
 	/**
-	 * Get next mob command.
+	 * Get current mob command.
 	 * 
 	 * @param entity commander to get command from.
 	 * 

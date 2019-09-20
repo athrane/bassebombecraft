@@ -1,10 +1,9 @@
 package bassebombecraft.projectile.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
 import static bassebombecraft.entity.ai.AiUtils.buildCreeperArmyAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
-
-import java.util.Random;
 
 import com.typesafe.config.Config;
 
@@ -55,17 +54,11 @@ public class SpawnCreeperArmy implements ProjectileAction {
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
 		for (int i = 0; i < creepers; i++) {
 
-			// create skeleton
+			// create creeper
 			CreeperEntity entity = EntityType.CREEPER.create(world);
 
-			// calculate random position
-			Random random = entity.getRNG();
-			int randomX = random.nextInt(spawnSize) - (spawnSize / 2);
-			int randomZ = random.nextInt(spawnSize) - (spawnSize / 2);
-			double positionX = projectile.posX + randomX;
-			double positionY = projectile.posY;
-			double positionZ = projectile.posZ + randomZ;
-			entity.setLocationAndAngles(positionX, positionY, positionZ, projectile.rotationYaw, PITCH);
+			// calculate random spawn position
+			setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnSize, entity);
 
 			// get owner
 			LivingEntity thrower = projectile.getThrower();

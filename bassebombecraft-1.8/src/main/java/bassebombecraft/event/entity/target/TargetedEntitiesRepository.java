@@ -18,7 +18,7 @@ public interface TargetedEntitiesRepository {
 	public void add(LivingEntity entity);
 
 	/**
-	 * Remove team member from any team.
+	 * Remove target from any team.
 	 * 
 	 * @param entity entity which is removed as targeted.
 	 */

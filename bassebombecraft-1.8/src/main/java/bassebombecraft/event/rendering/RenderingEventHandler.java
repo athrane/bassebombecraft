@@ -2,47 +2,48 @@ package bassebombecraft.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.TARGETING_OVERLAY_ITEM;
+import static bassebombecraft.ModConstants.TEXT_BILLBOARD_ROTATION;
+import static bassebombecraft.ModConstants.TEXT_COLOR;
+import static bassebombecraft.ModConstants.VERSION;
 import static bassebombecraft.entity.EntityUtils.getAliveTarget;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 import static bassebombecraft.player.PlayerUtils.getPlayer;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
+import static bassebombecraft.rendering.RenderingUtils.renderHudTextBillboard;
 import static bassebombecraft.rendering.RenderingUtils.renderLineBillboard;
 import static bassebombecraft.rendering.RenderingUtils.renderRectangleBillboard;
 import static bassebombecraft.rendering.RenderingUtils.renderTextBillboard;
+import static bassebombecraft.rendering.RenderingUtils.renderTextBillboardV2;
 import static bassebombecraft.rendering.RenderingUtils.renderTriangleBillboard;
-import static bassebombecraft.rendering.RenderingUtils.resetBillboardRendering;
-import static bassebombecraft.rendering.RenderingUtils.setupBillboardRendering;
-import static bassebombecraft.rendering.RenderingUtils.setupBillboardRotation;
 
-import java.awt.Color;
 import java.util.Collection;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 import javax.vecmath.Vector4f;
 
-import org.lwjgl.opengl.GL11;
-
-import com.mojang.blaze3d.platform.GlStateManager;
-
 import bassebombecraft.entity.EntityUtils;
+import bassebombecraft.entity.commander.MobCommand;
+import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.charm.CharmedMob;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
-import bassebombecraft.event.particle.ParticleRendering;
-import bassebombecraft.event.particle.ParticleRenderingRepository;
+import bassebombecraft.rendering.RenderingUtils;
+import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -52,6 +53,26 @@ import net.minecraftforge.fml.common.Mod;
  */
 @Mod.EventBusSubscriber
 public class RenderingEventHandler {
+
+	/**
+	 * Number of targets to render.
+	 */
+	static final int TARGETS_TO_RENDER = 7;
+
+	/**
+	 * Number of targets to render.
+	 */
+	static final int TEAM_MEMBERS_TO_RENDER = 7;
+
+	/**
+	 * HUD displacement of text.
+	 */
+	static final double HUD_TEXT_DISP = 0.3;
+
+	/**
+	 * Random constant to put text above the hotbar.
+	 */
+	static final int TEXT_RANDOM_Y_OFFSET = 31 + 4 + 12;
 
 	/**
 	 * Charmed label.
@@ -69,16 +90,6 @@ public class RenderingEventHandler {
 	static final String TARGET_LABEL = "Target";
 
 	/**
-	 * Angle for rotation of text billboard.
-	 */
-	static final int TEXT_BILLBOARD_ANGLE = 180;
-
-	/**
-	 * Rotation of text billboard.
-	 */
-	static final Vector4f TEXT_BILLBOARD_ROTATION = new Vector4f(0.0F, 0.0F, 1.0F, TEXT_BILLBOARD_ANGLE);
-
-	/**
 	 * Angle for rotation of billboard for triangle for rendering team members and
 	 * charmed entities.
 	 */
@@ -90,6 +101,63 @@ public class RenderingEventHandler {
 	 */
 	static final Vector4f TEAM_N_CHARMED_BILLBOARD_ROTATION = new Vector4f(0.0F, 0.0F, 1.0F,
 			TEAM_N_CHARMED_BILLBOARD_ANGLE);
+
+	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
+	public static void handleEvent(EntityViewRenderEvent event) {
+		// TODO: Can this replace loops for rendering of charmed, team and targets?
+		return;
+	}
+
+	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
+	public static void handleEvent(RenderLivingEvent event) {
+		// TODO: Can this replace loops for rendering of charmed, team and targets?
+	}
+
+	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
+	public static void handleEvent(RenderGameOverlayEvent event) {
+
+		// exit if player is undefined
+		if (!isPlayerDefined())
+			return;
+
+		// get player
+		PlayerEntity player = getPlayer();
+
+		// exit if targeting overlay isn't in hotbar
+		if (!isItemInHotbar(player, TARGETING_OVERLAY_ITEM))
+			return;
+
+		// get player position
+		Vec3d playerPos = CalculatePlayerPosition(player, event.getPartialTicks());
+
+		// get font renderer
+		Minecraft mc = Minecraft.getInstance();
+		FontRenderer fontRenderer = mc.fontRenderer;
+
+		String text = "Hello technical info!";
+		MainWindow window = event.getWindow();
+		int x = (window.getScaledWidth() - fontRenderer.getStringWidth(text)) / 2;
+		int y = window.getScaledHeight() - TEXT_RANDOM_Y_OFFSET - 70;
+		fontRenderer.drawString(text, x, y, TEXT_COLOR);
+		fontRenderer.drawString("Position(PP): " + playerPos, x, y + 10, TEXT_COLOR);
+		fontRenderer.drawString("Look: " + player.getLookVec(), x, y + 20, TEXT_COLOR);
+
+		Vec3d renderPos = RenderingUtils.getRenderPos();
+		fontRenderer.drawString("Render position(RP): " + renderPos, x, y + 30, TEXT_COLOR);
+
+		Vec3d translation = playerPos.subtract(renderPos);
+		fontRenderer.drawString("PP-RP: " + translation, x, y + 40, TEXT_COLOR);
+
+		Vec3d playerView = new Vec3d(mc.getRenderManager().playerViewX, mc.getRenderManager().playerViewY, 0);
+		fontRenderer.drawString("Plaver view: " + playerView, x, y + 50, TEXT_COLOR);
+
+		final Entity rve = mc.getRenderViewEntity();
+		Vec3d rve2 = new Vec3d(rve.rotationPitch, rve.rotationYaw, 0);
+		fontRenderer.drawString("Render view entity: " + rve2, x, y + 60, TEXT_COLOR);
+	}
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
@@ -109,10 +177,95 @@ public class RenderingEventHandler {
 		// get player position
 		Vec3d playerPos = CalculatePlayerPosition(player, event.getPartialTicks());
 
-		// renderParticles(playerPos);
-		renderCharmedEntities(player, playerPos);
-		renderTeamEntities(player, playerPos);
-		renderTargetedEntities(player, playerPos);		
+		try {
+			// render
+			renderCharmedEntities(player, playerPos);
+			renderTeamEntities(player, playerPos);
+			renderTargetedEntities(player, playerPos);
+			Vec3d renderPos = RenderingUtils.getRenderPos();
+			Vec3d translation = playerPos.subtract(renderPos);
+			renderCompass(translation);
+			renderHudVersionInfo(translation);
+			renderTeamInfo(player, translation);
+			renderTargetsInfo(player, translation);
+			renderCharmedInfo(translation);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
+	}
+
+	static void renderTargetsInfo(PlayerEntity player, Vec3d translation) {
+		TargetedEntitiesRepository targetRepository = getBassebombeCraft().getTargetedEntitiesRepository();
+		Stream<LivingEntity> targets = targetRepository.get(player);
+
+		Vec3d textTranslation = new Vec3d(-8, 4, 4);
+		renderHudTextBillboard(translation, textTranslation, "TARGETS");
+
+		// create counter to use inside loop
+		final AtomicInteger count = new AtomicInteger();
+
+		// render members
+		targets.forEach(m -> {
+			int counter = count.incrementAndGet();
+
+			// exit if enough members has been rendered
+			if (counter > TARGETS_TO_RENDER)
+				return;
+
+			int disp = 0 + counter;
+			String targetName = m.getName().getUnformattedComponentText();
+			String text = "Target: " + targetName;
+			renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * disp, 0), text);
+		});
+	}
+
+	static void renderCharmedInfo(Vec3d translation) {
+		// Render HUD charmed info
+		Vec3d textTranslation = new Vec3d(8, 0, 4);
+		renderHudTextBillboard(translation, textTranslation, "CHARMED");
+		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 1, 0), "Numbers: ");
+		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 2, 0), "Timeout #1: ");
+		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 3, 0), "Timeout #2: ");
+	}
+
+	static void renderTeamInfo(PlayerEntity player, Vec3d translation) {
+		TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
+		Collection<LivingEntity> team = teamRepository.get(player);
+		int teamSize = teamRepository.size(player);
+		MobCommanderRepository commanderRepository = getBassebombeCraft().getMobCommanderRepository();
+		MobCommand command = commanderRepository.getCommand(player);
+
+		Vec3d textTranslation = new Vec3d(8, 4, 4);
+		renderHudTextBillboard(translation, textTranslation, "TEAM");
+		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 1, 0),
+				"Command: " + command.getTitle());
+		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 2, 0), "Size: " + teamSize);
+
+		// create counter to use inside loop
+		final AtomicInteger count = new AtomicInteger();
+
+		// render members
+		team.forEach(m -> {
+			int counter = count.incrementAndGet();
+
+			// exit if enough members has been rendered
+			if (counter > TEAM_MEMBERS_TO_RENDER)
+				return;
+
+			int disp = 2 + counter;
+			Optional<LivingEntity> optTarget = Optional.ofNullable(getAliveTarget(m));
+			String memberName = m.getName().getUnformattedComponentText();
+			String targetName = optTarget.map(t -> t.getName().getUnformattedComponentText()).orElse("N/A");
+			String text = "Member: " + memberName + ", Target: " + targetName;
+			renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * disp, 0), text);
+		});
+
+	}
+
+	static void renderHudVersionInfo(Vec3d translation) {
+		renderTextBillboardV2(translation.add(5, 5, 0), "HUD // BasseBombeCraft, version " + VERSION,
+				TEXT_BILLBOARD_ROTATION);
 	}
 
 	static void renderCharmedEntities(PlayerEntity player, Vec3d playerPos) {
@@ -181,113 +334,35 @@ public class RenderingEventHandler {
 	}
 
 	/**
-	 * Render a billboard at origin.
+	 * Render compass.
+	 * 
+	 * @param translation translation vector.
 	 */
-	static void renderBillboardOrgin(Vec3d playerPos, Vec3d entityPos) {
-		setupBillboardRendering();
+	static void renderCompass(Vec3d translation) {
+		Vec3d ct = translation.add(5, 0, 0);
+		Vector4f br1 = new Vector4f(0.0F, 1.0F, 0.0F, 0.0F);
+		RenderingUtils.renderRotatedTextBillboard(ct, br1, "-E-");
 
-		// set line width & color
-		GlStateManager.lineWidth(2);
-		GlStateManager.color3f(1.0F, 1.0F, 1.0F);
+		Vector4f br2 = new Vector4f(0.0F, 1.0F, 0.0F, 45);
+		RenderingUtils.renderRotatedTextBillboard(ct, br2, "-NE-");
 
-		// translate and rotate billboard
-		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
-		setupBillboardRotation();
+		Vector4f br3 = new Vector4f(0.0F, 1.0F, 0.0F, 90);
+		RenderingUtils.renderRotatedTextBillboard(ct, br3, "-N-");
 
-		// create tessellator & bufferbuilder
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder bufferBuilder = tessellator.getBuffer();
+		Vector4f br4 = new Vector4f(0.0F, 1.0F, 0.0F, 90 + 45);
+		RenderingUtils.renderRotatedTextBillboard(ct, br4, "-NW-");
 
-		// build buffer
-		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
+		Vector4f br5 = new Vector4f(0.0F, 1.0F, 0.0F, 180);
+		RenderingUtils.renderRotatedTextBillboard(ct, br5, "-W-");
 
-		// AB
-		bufferBuilder.pos(0, 0, 0).endVertex();
-		bufferBuilder.pos(1, 0, 0).endVertex();
+		Vector4f br6 = new Vector4f(0.0F, 1.0F, 0.0F, 180 + 45);
+		RenderingUtils.renderRotatedTextBillboard(ct, br6, "-SW-");
 
-		// DA
-		bufferBuilder.pos(0, 1, 0).endVertex();
-		bufferBuilder.pos(0, 0, 0).endVertex();
+		Vector4f br7 = new Vector4f(0.0F, 1.0F, 0.0F, 270);
+		RenderingUtils.renderRotatedTextBillboard(ct, br7, "-S-");
 
-		tessellator.draw();
-
-		resetBillboardRendering();
-	}
-
-	static void renderParticles(Vec3d playerPos) {
-		// get particles
-		ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
-		ParticleRendering[] paticles = repository.getParticles();
-
-		// set line width & color
-		GlStateManager.lineWidth(1);
-		Color color = new Color(255, 255, 255, 150);
-
-		// render particles
-		for (ParticleRendering particle : paticles) {
-			BlockPos pos = particle.getPosition();
-			double d0 = pos.getX();
-			double d1 = pos.getY();
-			double d2 = pos.getZ();
-			double dx = 1;
-			double dy = 1;
-			double dz = 1;
-			Vec3d posA = new Vec3d(d0, d1, d2);
-
-			renderBox(playerPos.x, playerPos.y, playerPos.z, dx, dy, dz, posA, color);
-		}
-	}
-
-	/**
-	 * Render a box.
-	 */
-	@Deprecated
-	static void renderBox(double doubleX, double doubleY, double doubleZ, double dx, double dy, double dz, Vec3d posA,
-			Color c) {
-		Tessellator tessellator = Tessellator.getInstance();
-		BufferBuilder bufferBuilder = tessellator.getBuffer();
-		bufferBuilder.setTranslation(-doubleX, -doubleY, -doubleZ);
-		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
-
-		// AB
-		bufferBuilder.pos(posA.x, posA.y, posA.z).endVertex();
-		bufferBuilder.pos(posA.x, posA.y, posA.z + dz).endVertex();
-		// BC
-		bufferBuilder.pos(posA.x, posA.y, posA.z + dz).endVertex();
-		bufferBuilder.pos(posA.x + dx, posA.y, posA.z + dz).endVertex();
-		// CD
-		bufferBuilder.pos(posA.x + dx, posA.y, posA.z + dz).endVertex();
-		bufferBuilder.pos(posA.x + dx, posA.y, posA.z).endVertex();
-		// DA
-		bufferBuilder.pos(posA.x + dx, posA.y, posA.z).endVertex();
-		bufferBuilder.pos(posA.x, posA.y, posA.z).endVertex();
-		// EF
-		bufferBuilder.pos(posA.x, posA.y + dy, posA.z).endVertex();
-		bufferBuilder.pos(posA.x, posA.y + dy, posA.z + dz).endVertex();
-		// FG
-		bufferBuilder.pos(posA.x, posA.y + dy, posA.z + dz).endVertex();
-		bufferBuilder.pos(posA.x + dx, posA.y + dy, posA.z + dz).endVertex();
-		// GH
-		bufferBuilder.pos(posA.x + dx, posA.y + dy, posA.z + dz).endVertex();
-		bufferBuilder.pos(posA.x + dx, posA.y + dy, posA.z).endVertex();
-		// HE
-		bufferBuilder.pos(posA.x + dx, posA.y + dy, posA.z).endVertex();
-		bufferBuilder.pos(posA.x, posA.y + dy, posA.z).endVertex();
-		// AE
-		bufferBuilder.pos(posA.x, posA.y, posA.z).endVertex();
-		bufferBuilder.pos(posA.x, posA.y + dy, posA.z).endVertex();
-		// BF
-		bufferBuilder.pos(posA.x, posA.y, posA.z + dz).endVertex();
-		bufferBuilder.pos(posA.x, posA.y + dy, posA.z + dz).endVertex();
-		// CG
-		bufferBuilder.pos(posA.x + dx, posA.y, posA.z + dz).endVertex();
-		bufferBuilder.pos(posA.x + dx, posA.y + dy, posA.z + dz).endVertex();
-		// DH
-		bufferBuilder.pos(posA.x + dx, posA.y, posA.z).endVertex();
-		bufferBuilder.pos(posA.x + dx, posA.y + dy, posA.z).endVertex();
-
-		tessellator.draw();
-		bufferBuilder.setTranslation(0, 0, 0);
+		Vector4f br8 = new Vector4f(0.0F, 1.0F, 0.0F, 270 + 45);
+		RenderingUtils.renderRotatedTextBillboard(ct, br8, "-SE-");
 	}
 
 }

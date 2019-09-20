@@ -3,12 +3,14 @@ package bassebombecraft.entity.ai;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
+import static org.apache.commons.lang3.reflect.FieldUtils.readField;
+import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 
 import java.lang.reflect.Field;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static org.apache.commons.lang3.reflect.FieldUtils.*;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,10 +33,12 @@ import net.minecraft.entity.ai.goal.LookRandomlyGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.OcelotAttackGoal;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
+import net.minecraft.entity.ai.goal.RangedBowAttackGoal;
+import net.minecraft.entity.ai.goal.SitGoal;
 import net.minecraft.entity.ai.goal.SwimGoal;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.SkeletonEntity;
-import net.minecraft.entity.passive.OcelotEntity;
+import net.minecraft.entity.passive.CatEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 /**
@@ -71,11 +75,12 @@ public class AiUtils {
 	 * 
 	 * @return set of goals from goals selector.
 	 */
+	@SuppressWarnings("unchecked")
 	public static Set<PrioritizedGoal> captureGoals(GoalSelector selector) {
 		try {
 			Field field = selector.getClass().getDeclaredField("goals");
 			return (Set<PrioritizedGoal>) readField(field, selector, FORCE_ACCESS);
-		} catch (NoSuchFieldException | SecurityException | IllegalAccessException e) {
+		} catch (Exception e) {
 			logger.error("Failed to capture goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);
 
@@ -99,13 +104,24 @@ public class AiUtils {
 	 * 
 	 * @param selector AI goal selector.
 	 */
+	@SuppressWarnings("unchecked")
 	static void removeGoals(GoalSelector selector) {
-		Stream<PrioritizedGoal> goals = selector.getRunningGoals();
-		goals.forEach(g -> selector.removeGoal(g));
+		try {
+			Field field = selector.getClass().getDeclaredField("goals");
+			Set<PrioritizedGoal> goals = (Set<PrioritizedGoal>) readField(field, selector, FORCE_ACCESS);			
+			goals.forEach(g -> selector.removeGoal(g));
+			
+		} catch (Exception e) {
+			logger.error("Failed to remove goals due to the error: " + e.getMessage());
+			getBassebombeCraft().reportException(e);
+		}
 	}
 
 	/**
 	 * Assign passive AI goals.
+	 * 
+	 * Goals are accessed using reflection to access private goals field in the goal
+	 * selector.
 	 * 
 	 * @param entity entity to assign goals to.
 	 * @param goals  set of goals.
@@ -115,15 +131,18 @@ public class AiUtils {
 			GoalSelector selector = entity.goalSelector;
 			Field field = selector.getClass().getDeclaredField("goals");
 			writeField(field, selector, goals, FORCE_ACCESS);
-		} catch (NoSuchFieldException | SecurityException | IllegalAccessException e) {
+		} catch (Exception e) {
 			logger.error("Failed to assign goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);
-			// NO-OP			
+			// NO-OP
 		}
 	}
 
 	/**
 	 * Assign target AI goals.
+	 * 
+	 * Goals are accessed using reflection to access private goals field in the goal
+	 * selector.
 	 * 
 	 * @param entity entity to assign goals to.
 	 * @param goals  set of goals.
@@ -133,7 +152,7 @@ public class AiUtils {
 			GoalSelector selector = entity.targetSelector;
 			Field field = selector.getClass().getDeclaredField("goals");
 			writeField(field, selector, goals, FORCE_ACCESS);
-		} catch (NoSuchFieldException | SecurityException | IllegalAccessException e) {
+		} catch (Exception e) {
 			logger.error("Failed to assign goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);
 			// NO-OP
@@ -181,15 +200,16 @@ public class AiUtils {
 	 * @param entity    entity which will configured with kitten army AI.
 	 * @param commander entity which commands skeleton.
 	 */
-	public static void buildKittenArmyAi(OcelotEntity entity, LivingEntity commander) {
+	public static void buildKittenArmyAi(CatEntity entity, LivingEntity commander) {
 
-		// set goals
+		// set goals, priority is: attack then follow leader
 		GoalSelector selector = entity.goalSelector;
 		selector.addGoal(1, new SwimGoal(entity));
-		selector.addGoal(2, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
-		selector.addGoal(3, new LeapAtTargetGoal(entity, 0.3F));
-		selector.addGoal(4, new OcelotAttackGoal(entity));
-		selector.addGoal(5, new LookRandomlyGoal(entity));
+		selector.addGoal(2, new LeapAtTargetGoal(entity, 0.3F));
+		selector.addGoal(3, new OcelotAttackGoal(entity));
+		selector.addGoal(4, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
+		selector.addGoal(5, new SitGoal(entity));
+		selector.addGoal(6, new LookRandomlyGoal(entity));
 
 		// set targeting goals
 		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);
@@ -205,13 +225,14 @@ public class AiUtils {
 	 */
 	public static void buildSkeletonArmyAi(SkeletonEntity entity, LivingEntity commander) {
 
-		// set goals
+		// set goals, priority is: attack then follow leader
 		GoalSelector selector = entity.goalSelector;
 		selector.addGoal(1, new SwimGoal(entity));
 		selector.addGoal(2, new FleeSunGoal(entity, 1.0D));
-		selector.addGoal(2, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
-		selector.addGoal(3, new LookAtGoal(entity, PlayerEntity.class, 8.0F));
-		selector.addGoal(3, new LookRandomlyGoal(entity));
+		selector.addGoal(3, new RangedBowAttackGoal<>(entity, 1.0D, 20, 15.0F));
+		selector.addGoal(4, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
+		selector.addGoal(5, new LookAtGoal(entity, PlayerEntity.class, 8.0F));
+		selector.addGoal(6, new LookRandomlyGoal(entity));
 
 		// set targeting goals
 		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);
@@ -227,14 +248,14 @@ public class AiUtils {
 	 */
 	public static void buildCreeperArmyAi(CreeperEntity entity, LivingEntity commander) {
 
-		// set goals
+		// set goals, priority is: attack then follow leader
 		GoalSelector selector = entity.goalSelector;
 		selector.addGoal(1, new SwimGoal(entity));
 		selector.addGoal(2, new CreeperSwellGoal(entity));
 		selector.addGoal(3, new MeleeAttackGoal(entity, 1.0D, false));
-		selector.addGoal(2, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
-		selector.addGoal(3, new LookAtGoal(entity, PlayerEntity.class, 8.0F));
-		selector.addGoal(3, new LookRandomlyGoal(entity));
+		selector.addGoal(4, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
+		selector.addGoal(5, new LookAtGoal(entity, PlayerEntity.class, 8.0F));
+		selector.addGoal(6, new LookRandomlyGoal(entity));
 
 		// type cast
 		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);

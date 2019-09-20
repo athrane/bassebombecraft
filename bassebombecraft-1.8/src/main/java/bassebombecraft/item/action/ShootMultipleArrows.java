@@ -25,6 +25,7 @@ public class ShootMultipleArrows implements RightClickedItemAction {
 	static final float INACCURACY = 1.0F;
 	static final int ROTATE_DEGREES_M2 = -6;
 	static final int ROTATE_DEGREES_M1 = -3;
+	static final int ROTATE_DEGREES_0 = 0;
 	static final int ROTATE_DEGREES_1 = 3;
 	static final int ROTATE_DEGREES_2 = 6;
 	static final float FORCE_MODIFIER = 1.5F;
@@ -34,14 +35,11 @@ public class ShootMultipleArrows implements RightClickedItemAction {
 	public void onRightClick(World world, LivingEntity entity) {
 		Vec3d playerLook = entity.getLook(1);
 
-		Random random = getBassebombeCraft().getRandom();
-
-		ArrowEntity projectile = EntityType.ARROW.create(world);
-		entity.playSound(SOUND, 1.0F, 1.0F / random.nextFloat() * 0.4F + 0.8F);
-		world.addEntity(projectile);
-
 		// rotate player look vector and create new rotated arrow
-		Vec3d orientation = GeometryUtils.rotateUnitVectorAroundYAxisAtOrigin(ROTATE_DEGREES_M2, playerLook);
+		Vec3d orientation = GeometryUtils.rotateUnitVectorAroundYAxisAtOrigin(ROTATE_DEGREES_0, playerLook);
+		spawnArrow(world, entity, orientation);
+		
+		orientation = GeometryUtils.rotateUnitVectorAroundYAxisAtOrigin(ROTATE_DEGREES_M2, playerLook);
 		spawnArrow(world, entity, orientation);
 
 		orientation = GeometryUtils.rotateUnitVectorAroundYAxisAtOrigin(ROTATE_DEGREES_M1, playerLook);
@@ -64,8 +62,9 @@ public class ShootMultipleArrows implements RightClickedItemAction {
 	 */
 	void spawnArrow(World world, LivingEntity entity, Vec3d orientation) {
 		Random random = getBassebombeCraft().getRandom();
-
+		
 		ArrowEntity projectile = EntityType.ARROW.create(world);
+		projectile.setPosition(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);		
 		float velocity = ARROW_FORCE * FORCE_MODIFIER;
 		projectile.shoot(orientation.x, orientation.y, orientation.z, velocity, INACCURACY);
 		entity.playSound(SOUND, 1.0F, 1.0F / random.nextFloat() * 0.4F + 0.8F);
@@ -74,7 +73,7 @@ public class ShootMultipleArrows implements RightClickedItemAction {
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		// NOP
+		// NO-OP
 	}
 
 }
