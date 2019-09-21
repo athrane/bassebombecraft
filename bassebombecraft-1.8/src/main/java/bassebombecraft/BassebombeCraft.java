@@ -176,7 +176,6 @@ public class BassebombeCraft {
 			reportAndLogException(e);
 			throw e;
 		} catch (Exception e) {
-			logger.error("cp:e");
 			reportAndLogException(e);
 			throw e;
 		}
