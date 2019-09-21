@@ -15,7 +15,7 @@ jobs:
         java-version: 1.8
         
     - name: Display the path
-      run: echo ${PATH}
+      run: ls -la
       shell: bash
                        
     - name: Build with Maven
