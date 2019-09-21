@@ -55,7 +55,7 @@ public class ServerProxy implements Proxy {
 	}
 
 	@Override
-	public void postException(Exception e) {
+	public void postException(Throwable e) {
 		try {
 			VersionUtils.postException(getUser(), e);
 		} catch (Exception ex) {

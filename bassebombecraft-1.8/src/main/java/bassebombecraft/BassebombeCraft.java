@@ -147,29 +147,39 @@ public class BassebombeCraft {
 		File configDirectory = FMLPaths.CONFIGDIR.get().toFile();
 		config = ConfigUtils.loadConfig(configDirectory);
 
-		// initialise frequency repository
-		frequencyRepository = DefaultFrequencyRepository.getInstance();
+		try {
+			// initialise frequency repository
+			frequencyRepository = DefaultFrequencyRepository.getInstance();
 
-		// Initialise charmed mobs repository
-		charmedMobsRepository = DefaultCharmedMobsRepository.getInstance();
+			// Initialise charmed mobs repository
+			charmedMobsRepository = DefaultCharmedMobsRepository.getInstance();
 
-		// Initialise directives repository
-		blockDirectivesRepository = DefaultBlockDirectiveRepository.getInstance();
+			// Initialise directives repository
+			blockDirectivesRepository = DefaultBlockDirectiveRepository.getInstance();
 
-		// Initialise temporary block repository
-		tempBlockRepository = DefaultTemporaryBlockRepository.getInstance();
+			// Initialise temporary block repository
+			tempBlockRepository = DefaultTemporaryBlockRepository.getInstance();
 
-		// Initialise particle rendering repository
-		particleRepository = DefaultParticleRenderingRepository.getInstance();
+			// Initialise particle rendering repository
+			particleRepository = DefaultParticleRenderingRepository.getInstance();
 
-		// Initialise mob commander repository
-		mobCommanderRepository = DefaultMobCommanderRepository.getInstance();
+			// Initialise mob commander repository
+			mobCommanderRepository = DefaultMobCommanderRepository.getInstance();
 
-		// initialise team repository
-		teamRepository = DefaultTeamRepository.getInstance();
+			// initialise team repository
+			teamRepository = DefaultTeamRepository.getInstance();
 
-		// initialise targeted entities repository
-		targetedEntitiesRepository = DefaultTargetedEntitiesRepository.getInstance();
+			// initialise targeted entities repository
+			targetedEntitiesRepository = DefaultTargetedEntitiesRepository.getInstance();
+
+		} catch (ExceptionInInitializerError e) {
+			reportAndLogException(e);
+			throw e;
+		} catch (Exception e) {
+			logger.error("cp:e");
+			reportAndLogException(e);
+			throw e;
+		}
 
 		// register event handler for FMLCommonSetupEvent event on the mod event bus
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -333,7 +343,7 @@ public class BassebombeCraft {
 		try {
 			return proxy.getUser();
 		} catch (OperationNotSupportedException e) {
-			getBassebombeCraft().reportAndLogException(e);			
+			getBassebombeCraft().reportAndLogException(e);
 			throw new RuntimeException(e);
 		}
 	}
@@ -379,16 +389,16 @@ public class BassebombeCraft {
 	 * 
 	 * @param e exception to report and log.
 	 */
-	public void reportAndLogException(Exception e) {
+	public void reportAndLogException(Throwable e) {
 		Optional<String> nullableString = Optional.ofNullable(e.getMessage());
-		nullableString.ifPresent(s -> logger.error(s));		
-		
-		// get and log stack trace 
+		nullableString.ifPresent(s -> logger.error(s));
+
+		// get and log stack trace
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
-		String stacktraceString = sw.toString();		
+		String stacktraceString = sw.toString();
 		logger.error(stacktraceString);
-		
+
 		reportException(e);
 	}
 
@@ -397,8 +407,8 @@ public class BassebombeCraft {
 	 * 
 	 * @param e exception to report.
 	 */
-	public void reportException(Exception e) {
+	public void reportException(Throwable e) {
 		proxy.postException(e);
 	}
-	
+
 }

@@ -214,7 +214,7 @@ public class VersionUtils {
 	 * 
 	 * @throws Exception
 	 */
-	public static void postException(String uid, Exception e) throws Exception {
+	public static void postException(String uid, Throwable e) throws Exception {
 
 		// Build the server URI together with the parameters
 		String category = NAME + "-" + VERSION;

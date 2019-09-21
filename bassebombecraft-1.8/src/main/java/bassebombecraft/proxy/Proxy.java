@@ -32,7 +32,7 @@ public interface Proxy {
 	 * 
 	 * @param e exception for report
 	 */
-	public void postException(Exception e);
+	public void postException(Throwable e);
 
 	/**
 	 * Post AI observation .
