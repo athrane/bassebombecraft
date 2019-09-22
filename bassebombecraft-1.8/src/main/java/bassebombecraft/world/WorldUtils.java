@@ -6,8 +6,8 @@ import bassebombecraft.ModConstants;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.ServerWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 /**
  * World utility class.
