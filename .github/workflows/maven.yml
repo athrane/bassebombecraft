@@ -17,6 +17,10 @@ jobs:
     - name: Display the path
       run: ls -la
       shell: bash
-                                              
+
+    - name: Chmod
+      run: chmod +x ./bassebombecraft-1.8/gradlew
+      shell: bash
+
     - name: Build with Gradle
       run: ./bassebombecraft-1.8/gradlew -p ./bassebombecraft-1.8 build                       
