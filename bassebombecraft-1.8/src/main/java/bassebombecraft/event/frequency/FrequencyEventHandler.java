@@ -2,9 +2,9 @@ package bassebombecraft.event.frequency;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
+import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 
 /**
  * Event handler for frequency updates.
