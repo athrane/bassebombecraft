@@ -18,9 +18,16 @@ jobs:
       run: ls -la
       shell: bash
 
-    - name: Chmod
-      run: chmod +x ./bassebombecraft-1.8/gradlew
+    - name: Make gradlew executable    
+      run: chmod +x ./bassebombecraft-1.8/gradlew      
+      shell: bash
+
+    - name: Delete gradle.properties     
+      run: rm ./bassebombecraft-1.8/gradle.properties       
       shell: bash
 
     - name: Build with Gradle
       run: ./bassebombecraft-1.8/gradlew -p ./bassebombecraft-1.8 build                       
+
+
+
