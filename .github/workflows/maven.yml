@@ -19,4 +19,4 @@ jobs:
       shell: bash
                                               
     - name: Build with Gradle
-      run: ./gradlew -p ./bassebombecraft-1.8 build                       
+      run: ./bassebombecraft-1.8/gradlew -p ./bassebombecraft-1.8 build                       
