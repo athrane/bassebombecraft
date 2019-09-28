@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:book"
+		},
+		{
+			"item": "minecraft:dragon_egg"
+		},
+		{
+			"item": "minecraft:skull",
+			"data": 5
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:SpawnDragonBook"
+	}
+}
