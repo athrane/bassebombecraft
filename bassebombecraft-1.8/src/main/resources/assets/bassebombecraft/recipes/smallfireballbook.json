@@ -5,8 +5,7 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:fire_charge",
-		    "data": 0			
+			"item": "minecraft:fire_charge"			
 		}
 	],
 	"result": {
