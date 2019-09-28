@@ -1,0 +1,23 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"x  ",
+		" y ",
+		"  z"
+	],
+	"key": {
+		"x": {
+			"item": "minecraft:skull",
+			"data": 4
+		},
+		"y": {
+			"item": "minecraft:blaze_rod"
+		},
+		"z": {
+			"item": "minecraft:emerald"
+		}		
+	},
+	"result": {
+		"item": "bassebombecraft:MobCommandersBaton"
+	}
+}
