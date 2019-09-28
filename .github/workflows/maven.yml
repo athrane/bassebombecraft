@@ -6,12 +6,28 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    
     steps:
     - uses: actions/checkout@v1
     - name: Set up JDK 1.8
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Build with Maven
-      run: mvn package --file bassebombecraft/bassebombecraft-1.8/pom.xml
+        
+    - name: Display the path
+      run: ls -la
+      shell: bash
+
+    - name: Make gradlew executable    
+      run: chmod +x ./bassebombecraft-1.8/gradlew      
+      shell: bash
+
+    - name: Delete gradle.properties     
+      run: rm ./bassebombecraft-1.8/gradle.properties       
+      shell: bash
+
+    - name: Build with Gradle
+      run: ./bassebombecraft-1.8/gradlew -p ./bassebombecraft-1.8 build                       
+
+
+
