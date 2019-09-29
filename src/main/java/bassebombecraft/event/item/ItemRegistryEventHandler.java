@@ -157,21 +157,6 @@ public class ItemRegistryEventHandler {
 	}
 
 	/**
-	 * Handle {@linkplain ModelRegistryEvent} event to register models for
-	 * rendering.
-	 * 
-	 * @param event to handle.
-	 */
-	@SubscribeEvent
-	@OnlyIn(Dist.CLIENT)
-	public static void handleEvent(ModelRegistryEvent event) {
-		// Stream.of(bookItems).forEach(i -> registerModel(i));
-		// Stream.of(inventoryItems).forEach(i -> registerModel(i));
-		// Stream.of(batonItems).forEach(i -> registerModel(i));
-		// Stream.of(basicItems).forEach(i -> registerModel(i));
-	}
-
-	/**
 	 * Get inventory items.
 	 * 
 	 * @return inventory items.
