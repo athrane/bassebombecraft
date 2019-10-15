@@ -7,7 +7,7 @@ import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import com.typesafe.config.Config;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.potion.MobEffects;
+import bassebombecraft.event.potion.PotionRegistryEventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
@@ -83,7 +83,7 @@ public class AddMobsAggroEffect implements InventoryItemActionStrategy {
 	 * @return potion effect
 	 */
 	EffectInstance createEffect() {
-		return new EffectInstance(MobEffects.MOBS_AGGRO_POTION, duration);
+		return new EffectInstance(PotionRegistryEventHandler.MOBS_AGGRO_EFFECT, duration);
 	}
 
 }

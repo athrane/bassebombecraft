@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.Mod;
 public class TemporaryBlockEventHandler {
 
 	@SubscribeEvent
-	public static void handleEvent(PlayerTickEvent event) {		
+	public static void handlePlayerTickEvent(PlayerTickEvent event) {		
 		
 		// get repositories		
 		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();

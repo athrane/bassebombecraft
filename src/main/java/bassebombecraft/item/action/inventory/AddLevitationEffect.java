@@ -31,6 +31,11 @@ public class AddLevitationEffect implements InventoryItemActionStrategy {
 	int duration;
 
 	/**
+	 * Effect amplification.
+	 */	
+	int amplification;
+
+	/**
 	 * AddLevitationEffect constructor
 	 * 
 	 * @param key configuration key to initialize particle rendering info from.
@@ -39,6 +44,7 @@ public class AddLevitationEffect implements InventoryItemActionStrategy {
 		infos = createFromConfig(key);
 		Config configuration = getBassebombeCraft().getConfiguration();
 		duration = configuration.getInt(key + ".Duration");
+		amplification = configuration.getInt(key + ".Amplification");		
 	}
 
 	@Override
@@ -75,7 +81,7 @@ public class AddLevitationEffect implements InventoryItemActionStrategy {
 	 * @return potion effect
 	 */
 	EffectInstance createEffect() {
-		return new EffectInstance(Effects.LEVITATION, duration);
+		return new EffectInstance(Effects.LEVITATION, duration, amplification);
 	}
 
 }

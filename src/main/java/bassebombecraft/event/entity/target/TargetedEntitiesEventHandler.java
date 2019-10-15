@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.Mod;
 public class TargetedEntitiesEventHandler {
 
 	@SubscribeEvent
-	static public void handleEvent(LivingDeathEvent event) {
+	static public void handleLivingDeathEvent(LivingDeathEvent event) {
 
 		// get repository
 		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();

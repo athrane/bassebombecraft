@@ -2,6 +2,7 @@ package bassebombecraft;
 
 import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.ModConstants.TAB_NAME;
+import static bassebombecraft.config.ModConfiguration.loadConfig;
 import static bassebombecraft.config.VersionUtils.validateVersion;
 import static bassebombecraft.tab.ItemGroupFactory.createItemGroup;
 
@@ -16,9 +17,11 @@ import javax.naming.OperationNotSupportedException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.electronwill.nightconfig.core.UnmodifiableConfig;
 import com.typesafe.config.Config;
 
 import bassebombecraft.config.ConfigUtils;
+import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.block.BlockDirectivesRepository;
@@ -148,6 +151,10 @@ public class BassebombeCraft {
 		config = ConfigUtils.loadConfig(configDirectory);
 
 		try {
+
+			// load configuration
+			loadConfig();
+
 			// initialise frequency repository
 			frequencyRepository = DefaultFrequencyRepository.getInstance();
 
@@ -289,14 +296,33 @@ public class BassebombeCraft {
 	}
 
 	/**
+	 * Get frequency repository.
+	 * 
+	 * @return frequency repository
+	 */
+	public FrequencyRepository getFrequencyRepository() {
+		return frequencyRepository;
+	}
+	
+	/**
 	 * Get mod configuration.
 	 * 
 	 * @return mod configuration.
 	 */
+	@Deprecated
 	public Config getConfiguration() {
 		return config;
 	}
 
+	/**
+	 * Get mod configuration from TOML file.
+	 * 
+	 * @return mod configuration from TOML file.
+	 */
+	public UnmodifiableConfig getTomlConfiguration() {
+		return ModConfiguration.COMMON_CONFIG.getValues();						
+	}
+	
 	/**
 	 * Get array of inventory items.
 	 * 
@@ -373,16 +399,7 @@ public class BassebombeCraft {
 	public static Minecraft getMincraft() {
 		return Minecraft.getInstance();
 	}
-
-	/**
-	 * Get frequency repository.
-	 * 
-	 * @return frequency repository
-	 */
-	public FrequencyRepository getFrequencyRepository() {
-		return frequencyRepository;
-	}
-
+	
 	/**
 	 * Exception reporting facility.
 	 * 

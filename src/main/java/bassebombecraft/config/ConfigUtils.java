@@ -14,6 +14,7 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.Logger;
 
+import com.electronwill.nightconfig.core.UnmodifiableConfig;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigRenderOptions;
@@ -25,6 +26,8 @@ import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
+import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
+import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 
 /**
  * Configuration utility class.
@@ -81,20 +84,35 @@ public class ConfigUtils {
 	 * Resolve entity cooldown value from configuration. If no key is defined then
 	 * the default value is returned.
 	 * 
+	 * please notice: config.getOptionalInt(..) is used due to a type cast bug in
+	 * the forge configuration class.
+	 * 
 	 * @param key          configuration key.
 	 * @param defaultValue default cooldown value.
+	 * 
 	 * @return resolve cooldown value from configuration.
 	 */
 	public static int resolveCoolDown(String key, int defaultValue) {
 
+		// define configuration path in .TOML file
+		String tomlPath = key + ".cooldown";
+
+		// get optional value from forge config
+		// please notice: config.getOptionalInt(..) is used due to a type cast bug
+		UnmodifiableConfig config = getBassebombeCraft().getTomlConfiguration();
+		if (config.contains(tomlPath))
+			return getInt(tomlPath);
+
+		// get value for typesafe config
 		Config configuration = getBassebombeCraft().getConfiguration();
 		String path = key + ".Cooldown";
 
-		// return default value if path is undefined
-		if (!configuration.hasPath(path))
-			return defaultValue;
+		// return value if path is defined
+		if (configuration.hasPath(path))
+			return configuration.getInt(path);
 
-		return configuration.getInt(path);
+		// return default value if path is undefined
+		return defaultValue;
 	}
 
 	/**
@@ -103,9 +121,20 @@ public class ConfigUtils {
 	 * 
 	 * @param key          configuration key.
 	 * @param defaultValue default cooldown value.
+	 * 
 	 * @return resolve cooldown value from configuration.
 	 */
 	public static String resolveTooltip(String key, String defaultValue) {
+
+		// define configuration path in .TOML file
+		String tomlPath = key + ".tooltip";
+
+		// get optional value from forge config
+		UnmodifiableConfig config = getBassebombeCraft().getTomlConfiguration();
+		if (config.contains(tomlPath)) {
+			ConfigValue<String> configValue = config.get(tomlPath);
+			return configValue.get();
+		}
 
 		Config configuration = getBassebombeCraft().getConfiguration();
 		String path = key + ".Tooltip";
@@ -150,6 +179,25 @@ public class ConfigUtils {
 		logger.info("Loading configuration file from: " + externalFile.getAbsolutePath());
 
 		return ConfigFactory.parseFile(externalFile);
+	}
+
+	/**
+	 * Get integer value from .TOML configuration file.
+	 * 
+	 * @param path configuration path in .TOML configuration file.
+	 * 
+	 * @return integer value from .TOML configuration file
+	 */
+	public static int getInt(String path) {
+		UnmodifiableConfig config = getBassebombeCraft().getTomlConfiguration();
+		try {
+			IntValue configValue = config.get(path);
+			Integer retval = configValue.get();
+			return retval;
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+			throw e;
+		}
 	}
 
 }

@@ -116,5 +116,22 @@
 
     "_comment": "basic blocks",
     "item.bassebombecraft.terminatoreyeitem": "Terminator Eye",
-    "item.bassebombecraft.huditem": "BasseBombeCraft tactical heads up display (HUD)."
+    "item.bassebombecraft.huditem": "BasseBombeCraft tactical heads up display (HUD)",
+    
+    "_comment": "effects",
+    "effect.bassebombecraft.amplifiereffect": "Amplify potion effects",
+
+	"_comment": "potions",
+    "item.minecraft.potion.effect.weakamplificationpotion": "Potion of Weak Amplification",
+    "item.minecraft.lingering_potion.effect.weakamplificationpotion": "Lingering Potion of Weak Amplification",        
+    "item.minecraft.potion.effect.amplificationpotion": "Potion of Amplification",
+    "item.minecraft.lingering_potion.effect.amplificationpotion": "Lingering Potion of Amplification",        
+    "item.minecraft.potion.effect.superioramplificationpotion": "Potion of Superior Amplification",
+    "item.minecraft.lingering_potion.effect.superioramplificationpotion": "Lingering Potion of Superior Amplification",
+
+	"_comment": "potion potency",
+    "potion.potency.32": "(Weak)",
+    "potion.potency.64": "(Normal)",
+    "potion.potency.128": "(Superior)"
+            
 }

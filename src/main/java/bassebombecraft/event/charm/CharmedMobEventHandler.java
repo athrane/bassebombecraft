@@ -37,7 +37,7 @@ public class CharmedMobEventHandler {
 			G, B, PARTICLE_SPEED);
 
 	@SubscribeEvent
-	static public void handleEvent(LivingUpdateEvent event) {
+	static public void handleLivingUpdateEvent(LivingUpdateEvent event) {
 		if (!isTypeMobEntity(event.getEntityLiving()))
 			return;
 		MobEntity entity = (MobEntity) event.getEntityLiving();

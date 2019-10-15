@@ -1,10 +1,11 @@
-package bassebombecraft.potion;
+package bassebombecraft.potion.effect;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
 import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
+import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,14 +25,19 @@ import net.minecraft.util.math.AxisAlignedBB;
 public class MobsAggroEffect extends Effect {
 
 	/**
+	 * Effect identifier.
+	 */
+	public final static String NAME = MobsAggroEffect.class.getSimpleName();
+	
+	/**
 	 * First list index.
 	 */
-	static final int FIRST_INDEX = 0;
+	final static int FIRST_INDEX = 0;
 
 	/**
 	 * Configuration key.
 	 */
-	final static String CONFIG_KEY = MobsAggroEffect.class.getSimpleName();
+	final static String CONFIG_KEY = NAME;
 
 	/**
 	 * Target distance.
@@ -53,12 +59,13 @@ public class MobsAggroEffect extends Effect {
 	 */
 	public MobsAggroEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
+		doCommonEffectInitialization(this, NAME);		
 		Config configuration = getBassebombeCraft().getConfiguration();
 		targetDistance = configuration.getInt(CONFIG_KEY + ".TargetDistance");
 	}
 
 	@Override
-	public void performEffect(LivingEntity entity, int magicNumber) {
+	public void performEffect(LivingEntity entity, int amplifier) {
 
 		// exit if entity is undefined
 		if (entity == null)

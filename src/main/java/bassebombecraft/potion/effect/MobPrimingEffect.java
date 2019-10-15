@@ -1,9 +1,10 @@
-package bassebombecraft.potion;
+package bassebombecraft.potion.effect;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
 import static bassebombecraft.entity.EntityUtils.explode;
+import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,9 +22,14 @@ import net.minecraft.world.World;
 public class MobPrimingEffect extends Effect {
 
 	/**
+	 * Effect identifier.
+	 */
+	public final static String NAME = MobPrimingEffect.class.getSimpleName();
+	
+	/**
 	 * Configuration key.
 	 */
-	final static String CONFIG_KEY = MobPrimingEffect.class.getSimpleName();
+	final static String CONFIG_KEY = NAME;
 
 	/**
 	 * Explosion will make smoke.
@@ -61,6 +67,7 @@ public class MobPrimingEffect extends Effect {
 	 */
 	public MobPrimingEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
+		doCommonEffectInitialization(this, NAME);
 
 		Config configuration = getBassebombeCraft().getConfiguration();
 		countDown = configuration.getInt(CONFIG_KEY + ".Countdown");
@@ -68,7 +75,7 @@ public class MobPrimingEffect extends Effect {
 	}
 
 	@Override
-	public void performEffect(LivingEntity entity, int magicNumber) {
+	public void performEffect(LivingEntity entity, int amplifier) {
 
 		// exit if entity is undefined
 		if (entity == null)

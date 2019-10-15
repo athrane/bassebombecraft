@@ -2,12 +2,12 @@ package bassebombecraft.item.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.EntityUtils.setProjectileEntityPosition;
-import static bassebombecraft.potion.MobEffects.BACON_BAZOOKA_POTION;
 
 import java.util.Random;
 
 import com.typesafe.config.Config;
 
+import static bassebombecraft.event.potion.PotionRegistryEventHandler.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -69,7 +69,7 @@ public class ShootBaconBazooka implements RightClickedItemAction {
 		setProjectileEntityPosition(entity, projectileEntity, spawnDisplacement);
 
 		// add potion effect
-		EffectInstance effect = new EffectInstance(BACON_BAZOOKA_POTION, duration);
+		EffectInstance effect = new EffectInstance(BACON_BAZOOKA_EFFECT, duration);
 		projectileEntity.addPotionEffect(effect);
 
 		// set no health to trigger death (in max 20 ticks)

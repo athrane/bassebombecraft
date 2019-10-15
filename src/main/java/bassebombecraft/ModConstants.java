@@ -51,10 +51,20 @@ public class ModConstants {
 	public static final String CONFIG_FILE_POSTFIX = ".conf";
 
 	/**
+	 * TOML Configuration file post fix.
+	 */
+	public static final String CONFIG_FILE_TOML_POSTFIX = ".toml";
+	
+	/**
 	 * Configuration file name.
 	 */
 	public static final String INTERNAL_CONFIG_FILE_NAME = MODID + CONFIG_FILE_POSTFIX;
 
+	/**
+	 * Configuration file name.
+	 */
+	public static final String INTERNAL_TOML_CONFIG_FILE_NAME = MODID + "-common" + CONFIG_FILE_TOML_POSTFIX;
+	
 	/**
 	 * Download URL.
 	 */
@@ -295,4 +305,19 @@ public class ModConstants {
 	 */
 	public static final boolean LIGHTNING_BOLT_NOT_EFFECT_ONLY = false;
 
+	/**
+	 * Week amplification potion name.
+	 */
+	public final static String WEAK_AMPLIFICATION_POTION_NAME = "WeakAmplificationPotion";
+	
+	/**
+	 * Amplification potion name.
+	 */
+	public final static String AMPLIFICATION_POTION_NAME = "AmplificationPotion";
+
+	/**
+	 * Superior amplification potion name.
+	 */
+	public final static String SUPERIOR_AMPLIFICATION_POTION_NAME = "SuperiorAmplificationPotion";
+	
 }

@@ -30,7 +30,7 @@ public class ParticleRenderingEventHandler {
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
-	public static void handleEvent(PlayerTickEvent event) {
+	public static void handlePlayerTickEvent(PlayerTickEvent event) {
 
 		// get repository
 		ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
