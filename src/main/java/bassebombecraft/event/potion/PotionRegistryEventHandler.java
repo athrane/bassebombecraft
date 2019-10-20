@@ -110,7 +110,7 @@ public class PotionRegistryEventHandler {
 
 		// add recipe
 		base = Ingredient.fromStacks(PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), amplificationPotion));
-		reagant = Ingredient.fromStacks(new ItemStack(Items.CHORUS_FRUIT));
+		reagant = Ingredient.fromStacks(new ItemStack(Items.NETHER_STAR));
 		out = PotionUtils.addPotionToItemStack(new ItemStack(Items.POTION), superiorAmplificationPotion);
 		BrewingRecipeRegistry.addRecipe(new BrewingRecipe(base, reagant, out));				
 	}
