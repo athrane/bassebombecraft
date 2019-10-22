@@ -1,10 +1,14 @@
 package bassebombecraft.config;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.ModConstants.*;
+import static bassebombecraft.ModConstants.AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.INTERNAL_TOML_CONFIG_FILE_NAME;
 import static bassebombecraft.ModConstants.ITEM_BASICITEM_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
+import static bassebombecraft.ModConstants.MOB_AGGRO_POTION_NAME;
+import static bassebombecraft.ModConstants.MOB_PRIMING_POTION_NAME;
+import static bassebombecraft.ModConstants.SUPERIOR_AMPLIFICATION_POTION_NAME;
+import static bassebombecraft.ModConstants.WEAK_AMPLIFICATION_POTION_NAME;
 import static net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR;
 
 import java.nio.file.Path;
@@ -16,6 +20,8 @@ import com.electronwill.nightconfig.core.io.WritingMode;
 
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.basic.TerminatorEyeItem;
+import bassebombecraft.potion.effect.MobAggroEffect;
+import bassebombecraft.potion.effect.MobPrimingEffect;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig.Type;
@@ -39,6 +45,11 @@ public class ModConfiguration {
 	 * Potion category.
 	 */
 	static final String CATEGORY_POTIONS = "Potions";
+
+	/**
+	 * Potion effect category.
+	 */
+	static final String CATEGORY_POTION_EFFECT = "PotionEffects";
 
 	/**
 	 * Common configuration builder.
@@ -69,7 +80,21 @@ public class ModConfiguration {
 	// SuperiorAmplificationPotion
 	public static ForgeConfigSpec.IntValue SuperioramplificationPotionAmplifier;
 	public static ForgeConfigSpec.IntValue SuperioramplificationPotionDuration;
-	
+
+	// MobAggroPotion
+	public static ForgeConfigSpec.IntValue mobAggroPotionAmplifier;
+	public static ForgeConfigSpec.IntValue mobAggroPotionDuration;
+
+	// PrimedMobPotion
+	public static ForgeConfigSpec.IntValue mobPrimingPotionAmplifier;
+	public static ForgeConfigSpec.IntValue mobPrimingPotionDuration;
+
+	// MobPrimingEffect
+	public static ForgeConfigSpec.IntValue mobPrimingEffectCountdown;
+
+	// MobPrimingEffect
+	public static ForgeConfigSpec.IntValue mobAggroEffectAreaOfEffect;
+
 	static {
 
 		// build general section
@@ -80,6 +105,10 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment("Basic item settings").push(CATEGORY_BASIC_ITEMS);
 		setupBasicItemsGeneralConfig();
 		setupBasicItemsConfig();
+		COMMON_BUILDER.pop();
+
+		COMMON_BUILDER.comment("Potion effect settings").push(CATEGORY_POTION_EFFECT);
+		setupPotionEffectsConfig();
 		COMMON_BUILDER.pop();
 
 		COMMON_BUILDER.comment("Potion settings").push(CATEGORY_POTIONS);
@@ -124,33 +153,74 @@ public class ModConfiguration {
 	}
 
 	/**
+	 * Define configuration for potion effects.
+	 */
+	static void setupPotionEffectsConfig() {
+
+		// mob priming effect
+		String mobPrimingEffectName = MobPrimingEffect.NAME;
+		COMMON_BUILDER.comment(mobPrimingEffectName + " settings").push(mobPrimingEffectName);
+		mobPrimingEffectCountdown = COMMON_BUILDER.comment("Countdown of the effect in game ticks.")
+				.defineInRange("countdown", 60, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// mob aggro effect
+		String mobAggroEffectName = MobAggroEffect.NAME;
+		COMMON_BUILDER.comment(mobAggroEffectName + " settings").push(mobAggroEffectName);
+		mobAggroEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.").defineInRange("areaOfEffect",
+				10, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+	}
+
+	/**
 	 * Define configuration for potions.
 	 */
 	static void setupPotionsConfig() {
 
+		// weak amplification potion
 		String weakAmplificationPotionName = WEAK_AMPLIFICATION_POTION_NAME;
 		COMMON_BUILDER.comment(weakAmplificationPotionName + " settings").push(weakAmplificationPotionName);
-		amplificationPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion.").defineInRange("amplifier", 16, 0,
-				Integer.MAX_VALUE);
+		amplificationPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion.").defineInRange("amplifier", 16,
+				0, Integer.MAX_VALUE);
 		amplificationPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
 				.defineInRange("duration", 600, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
-		
+
+		// amplification potion
 		String amplificationPotionName = AMPLIFICATION_POTION_NAME;
 		COMMON_BUILDER.comment(amplificationPotionName + " settings").push(amplificationPotionName);
-		amplificationPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion.").defineInRange("amplifier", 64, 0,
-				Integer.MAX_VALUE);
+		amplificationPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion.").defineInRange("amplifier", 64,
+				0, Integer.MAX_VALUE);
 		amplificationPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
 				.defineInRange("duration", 600, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
-		
+
+		// superior amplification potion
 		String superiorAmplificationPotionName = SUPERIOR_AMPLIFICATION_POTION_NAME;
 		COMMON_BUILDER.comment(superiorAmplificationPotionName + " settings").push(superiorAmplificationPotionName);
-		amplificationPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion.").defineInRange("amplifier", 128, 0,
-				Integer.MAX_VALUE);
+		amplificationPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion.").defineInRange("amplifier", 128,
+				0, Integer.MAX_VALUE);
 		amplificationPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
 				.defineInRange("duration", 600, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();		
+		COMMON_BUILDER.pop();
+
+		// mob aggro potion
+		String mobAggroPotionName = MOB_AGGRO_POTION_NAME;
+		COMMON_BUILDER.comment(mobAggroPotionName + " settings").push(mobAggroPotionName);
+		mobAggroPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion. Not used by potion.")
+				.defineInRange("amplifier", 0, 0, Integer.MAX_VALUE);
+		mobAggroPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
+				.defineInRange("duration", 1200, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// mob priming potion
+		String mobPrimingPotionName = MOB_PRIMING_POTION_NAME;
+		COMMON_BUILDER.comment(mobPrimingPotionName + " settings").push(mobPrimingPotionName);
+		mobPrimingPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion, i.e. the resulting explosion.")
+				.defineInRange("amplifier", 10, 0, Integer.MAX_VALUE);
+		mobPrimingPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
+				.defineInRange("duration", 1200, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
 	}
 
 	/**

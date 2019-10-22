@@ -5,6 +5,7 @@ import static bassebombecraft.config.ConfigUtils.createFromConfig;
 
 import com.typesafe.config.Config;
 
+import static bassebombecraft.entity.EntityUtils.*;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -52,9 +53,7 @@ public class MassExtinctionEvent implements InventoryItemActionStrategy {
 
 	@Override
 	public void applyEffect(Entity target, World world, LivingEntity invoker) {
-
-		// kill target		
-		target.onKillCommand();
+		killEntity(invoker);
 	}
 
 	@Override

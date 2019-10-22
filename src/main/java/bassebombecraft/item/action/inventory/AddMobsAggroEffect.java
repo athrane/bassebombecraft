@@ -83,7 +83,7 @@ public class AddMobsAggroEffect implements InventoryItemActionStrategy {
 	 * @return potion effect
 	 */
 	EffectInstance createEffect() {
-		return new EffectInstance(PotionRegistryEventHandler.MOBS_AGGRO_EFFECT, duration);
+		return new EffectInstance(PotionRegistryEventHandler.MOB_AGGRO_EFFECT, duration);
 	}
 
 }

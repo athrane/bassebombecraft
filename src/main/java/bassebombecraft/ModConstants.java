@@ -319,5 +319,15 @@ public class ModConstants {
 	 * Superior amplification potion name.
 	 */
 	public final static String SUPERIOR_AMPLIFICATION_POTION_NAME = "SuperiorAmplificationPotion";
+
+	/**
+	 * Mob aggro potion name.
+	 */
+	public final static String MOB_AGGRO_POTION_NAME = "MobAggroPotion";
+
+	/**
+	 * Mob priming potion name.
+	 */
+	public final static String MOB_PRIMING_POTION_NAME = "MobPrimingPotion";
 	
 }

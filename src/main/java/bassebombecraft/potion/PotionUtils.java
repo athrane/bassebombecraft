@@ -1,10 +1,18 @@
 package bassebombecraft.potion;
 
-import static bassebombecraft.ModConstants.*;
+import static bassebombecraft.ModConstants.MODID;
+import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
+
 import bassebombecraft.config.ConfigUtils;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Potion;
+import net.minecraftforge.common.brewing.BrewingRecipe;
+import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 
 /**
  * Utility for potions.
@@ -48,7 +56,7 @@ public class PotionUtils {
 
 		// get configuration
 		int duration = ConfigUtils.getInt(path + ".duration");
-		int amplifier = ConfigUtils.getInt(path  + ".amplifier");
+		int amplifier = ConfigUtils.getInt(path + ".amplifier");
 
 		// create effect instance
 		EffectInstance effectInstance = new EffectInstance(effect, duration, amplifier);
@@ -58,6 +66,20 @@ public class PotionUtils {
 		Potion potion = new Potion(name, effectInstance);
 		potion.setRegistryName(MODID, registryName);
 		return potion;
+	}
+
+	/**
+	 * REgister potion with the Forge {@linkplain BrewingRecipeRegistry}.
+	 * 
+	 * @param basePotion   base potion to create potion form.
+	 * @param reagent      reagent in potion.
+	 * @param targetPotion target potion.
+	 */
+	public static void registerPotionRecipe(Potion basePotion, Item reagent, Potion targetPotion) {
+		Ingredient baseItem = Ingredient.fromStacks(addPotionToItemStack(new ItemStack(Items.POTION), basePotion));
+		Ingredient reagantItem = Ingredient.fromStacks(new ItemStack(reagent));
+		ItemStack out = addPotionToItemStack(new ItemStack(Items.POTION), targetPotion);
+		BrewingRecipeRegistry.addRecipe(new BrewingRecipe(baseItem, reagantItem, out));
 	}
 
 }

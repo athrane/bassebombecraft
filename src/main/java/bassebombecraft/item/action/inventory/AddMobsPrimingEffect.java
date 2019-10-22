@@ -84,7 +84,7 @@ public class AddMobsPrimingEffect implements InventoryItemActionStrategy {
 	 * @return potion effect
 	 */
 	EffectInstance createEffect() {
-		return new EffectInstance(PotionRegistryEventHandler.PRIMED_MOB_EFFECT, duration);
+		return new EffectInstance(PotionRegistryEventHandler.MOB_PRIMING_EFFECT, duration);
 	}
 
 }

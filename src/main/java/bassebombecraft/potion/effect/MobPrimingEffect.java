@@ -1,23 +1,27 @@
 package bassebombecraft.potion.effect;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
-import static bassebombecraft.entity.EntityUtils.explode;
+import static bassebombecraft.config.ModConfiguration.mobPrimingEffectCountdown;
+import static bassebombecraft.entity.EntityUtils.*;
+import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.typesafe.config.Config;
-
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 /**
  * Effect which primes a mob for explosion.
+ * 
+ * Final explosion effect is defined by amplifier.
+ * 
+ * The effect has no effect on the player.
  */
 public class MobPrimingEffect extends Effect {
 
@@ -25,11 +29,6 @@ public class MobPrimingEffect extends Effect {
 	 * Effect identifier.
 	 */
 	public final static String NAME = MobPrimingEffect.class.getSimpleName();
-	
-	/**
-	 * Configuration key.
-	 */
-	final static String CONFIG_KEY = NAME;
 
 	/**
 	 * Explosion will make smoke.
@@ -38,6 +37,8 @@ public class MobPrimingEffect extends Effect {
 
 	/**
 	 * Class for doing primed entity count down.
+	 * 
+	 * Final explosion effect is defined by amplifier.
 	 */
 	class PrimedEntity {
 		public PrimedEntity(int countDown) {
@@ -58,20 +59,12 @@ public class MobPrimingEffect extends Effect {
 	final int countDown;
 
 	/**
-	 * Explosion size.
-	 */
-	final int explosion;
-
-	/**
-	 * MobPrimingPotion constructor.
+	 * MobPrimingEffect constructor.
 	 */
 	public MobPrimingEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
 		doCommonEffectInitialization(this, NAME);
-
-		Config configuration = getBassebombeCraft().getConfiguration();
-		countDown = configuration.getInt(CONFIG_KEY + ".Countdown");
-		explosion = configuration.getInt(CONFIG_KEY + ".Explosion");
+		countDown = mobPrimingEffectCountdown.get();
 	}
 
 	@Override
@@ -81,13 +74,35 @@ public class MobPrimingEffect extends Effect {
 		if (entity == null)
 			return;
 
+		// exit if entity is player
+		if (isTypePlayerEntity(entity))
+			return;
+
 		// create primed entity
 		if (!primed.containsKey(entity)) {
 			PrimedEntity value = new PrimedEntity(countDown);
-			primed.put(entity, value);			
+			primed.put(entity, value);
+			
+			// if creeper then set primed
+			if(isTypeCreeperEntity(entity)) {
+				CreeperEntity creeper = (CreeperEntity) entity;
+				creeper.ignite();
+			}
+
+			// set glowing
+			entity.setGlowing(true);			
+			
 			return;
 		}
 
+		// remove if primed entity is dead
+		if(!entity.isAlive()) {
+
+			// remove from map
+			primed.remove(entity);
+			return;
+		}
+		
 		// count down
 		PrimedEntity value = primed.get(entity);
 		value.countdown--;
@@ -100,12 +115,11 @@ public class MobPrimingEffect extends Effect {
 		primed.remove(entity);
 
 		// kill mob
-		DamageSource cause = DamageSource.MAGIC;
-		entity.onDeath(cause);
+		killEntity(entity);
 
 		// explode
 		World world = entity.getEntityWorld();
-		explode(entity, world, explosion);
+		explode(entity, world, amplifier);
 	}
 
 	@Override
