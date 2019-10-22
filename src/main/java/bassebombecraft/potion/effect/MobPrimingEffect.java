@@ -3,7 +3,9 @@ package bassebombecraft.potion.effect;
 import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
 import static bassebombecraft.config.ModConfiguration.mobPrimingEffectCountdown;
-import static bassebombecraft.entity.EntityUtils.*;
+import static bassebombecraft.entity.EntityUtils.explode;
+import static bassebombecraft.entity.EntityUtils.isTypeCreeperEntity;
+import static bassebombecraft.entity.EntityUtils.killEntity;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 
@@ -13,7 +15,6 @@ import java.util.Map;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.potion.Effect;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 /**
@@ -82,27 +83,27 @@ public class MobPrimingEffect extends Effect {
 		if (!primed.containsKey(entity)) {
 			PrimedEntity value = new PrimedEntity(countDown);
 			primed.put(entity, value);
-			
+
 			// if creeper then set primed
-			if(isTypeCreeperEntity(entity)) {
+			if (isTypeCreeperEntity(entity)) {
 				CreeperEntity creeper = (CreeperEntity) entity;
 				creeper.ignite();
 			}
 
 			// set glowing
-			entity.setGlowing(true);			
-			
+			entity.setGlowing(true);
+
 			return;
 		}
 
 		// remove if primed entity is dead
-		if(!entity.isAlive()) {
+		if (!entity.isAlive()) {
 
 			// remove from map
 			primed.remove(entity);
 			return;
 		}
-		
+
 		// count down
 		PrimedEntity value = primed.get(entity);
 		value.countdown--;
