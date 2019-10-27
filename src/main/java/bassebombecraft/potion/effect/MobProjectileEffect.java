@@ -1,10 +1,11 @@
-package bassebombecraft.potion;
+package bassebombecraft.potion.effect;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
 import static bassebombecraft.ModConstants.POTION_MOB_DEATH_TIME_TRIGGER;
 import static bassebombecraft.entity.EntityUtils.explode;
+import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 
 import java.util.List;
 
@@ -23,6 +24,11 @@ import net.minecraft.world.World;
  */
 public class MobProjectileEffect extends Effect {
 
+	/**
+	 * Effect identifier.
+	 */
+	public final static String NAME = MobProjectileEffect.class.getSimpleName();
+	
 	/**
 	 * Explosion will make smoke.
 	 */
@@ -45,14 +51,14 @@ public class MobProjectileEffect extends Effect {
 	 */
 	public MobProjectileEffect(String key) {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
-
+		doCommonEffectInitialization(this, NAME);		
 		Config configuration = getBassebombeCraft().getConfiguration();
 		force = configuration.getInt(key + ".Force");
 		explosion = configuration.getInt(key + ".Explosion");
 	}
 
 	@Override
-	public void performEffect(LivingEntity entity, int magicNumber) {
+	public void performEffect(LivingEntity entity, int amplifier) {
 
 		if (entity == null)
 			return;

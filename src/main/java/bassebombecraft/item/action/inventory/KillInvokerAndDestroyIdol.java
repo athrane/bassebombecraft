@@ -1,6 +1,7 @@
 package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.entity.EntityUtils.killEntity;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
@@ -50,7 +51,7 @@ public class KillInvokerAndDestroyIdol implements InventoryItemActionStrategy {
 		}
 
 		// kill target
-		invoker.onKillCommand();
+		killEntity(invoker);
 	}
 
 	@Override

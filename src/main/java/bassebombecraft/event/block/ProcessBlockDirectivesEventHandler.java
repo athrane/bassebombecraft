@@ -46,7 +46,7 @@ public class ProcessBlockDirectivesEventHandler {
 	static final BlockPos NULL_POSITION = null; // NULL block position.
 
 	@SubscribeEvent
-	public static void handleEvent(PlayerTickEvent event) throws Exception {
+	public static void handlePlayerTickEvent(PlayerTickEvent event) throws Exception {
 
 		// get repository
 		BlockDirectivesRepository repository = getBassebombeCraft().getBlockDirectivesRepository();

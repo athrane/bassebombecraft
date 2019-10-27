@@ -7,10 +7,16 @@ import bassebombecraft.item.action.NullRightClickedItemAction;
  */
 public class HudItem extends GenericNullItem {
 
-	public final static String ITEM_NAME = HudItem.class.getSimpleName();
+	/**
+	 * Item identifier.
+	 */	
+	public final static String NAME = HudItem.class.getSimpleName();
 
+	/**
+	 * HudItem no-arg constructor,
+	 */	
 	public HudItem() {
-		super(ITEM_NAME, new NullRightClickedItemAction());
+		super(NAME, new NullRightClickedItemAction());
 	}
 
 }

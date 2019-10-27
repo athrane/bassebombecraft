@@ -7,10 +7,16 @@ import bassebombecraft.item.action.NullRightClickedItemAction;
  */
 public class TerminatorEyeItem extends GenericNullItem {
 
-	public final static String ITEM_NAME = TerminatorEyeItem.class.getSimpleName();
+	/**
+	 * Item identifier.
+	 */
+	public final static String NAME = TerminatorEyeItem.class.getSimpleName();
 
+	/**
+	 * TerminatorEyeItem no-arg constructor,
+	 */
 	public TerminatorEyeItem() {
-		super(ITEM_NAME, new NullRightClickedItemAction());
+		super(NAME, new NullRightClickedItemAction());
 	}
 
 }

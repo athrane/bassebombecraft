@@ -104,20 +104,20 @@ public class RenderingEventHandler {
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
-	public static void handleEvent(EntityViewRenderEvent event) {
+	public static void handleEntityViewRenderEvent(EntityViewRenderEvent event) {
 		// TODO: Can this replace loops for rendering of charmed, team and targets?
 		return;
 	}
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
-	public static void handleEvent(RenderLivingEvent event) {
+	public static void handleRenderLivingEvent(RenderLivingEvent event) {
 		// TODO: Can this replace loops for rendering of charmed, team and targets?
 	}
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
-	public static void handleEvent(RenderGameOverlayEvent event) {
+	public static void handleRenderGameOverlayEvent(RenderGameOverlayEvent event) {
 
 		// exit if player is undefined
 		if (!isPlayerDefined())
@@ -161,7 +161,7 @@ public class RenderingEventHandler {
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
-	public static void handleEvent(RenderWorldLastEvent event) {
+	public static void handleRenderWolrdLastEvent(RenderWorldLastEvent event) {
 
 		// exit if player is undefined
 		if (!isPlayerDefined())

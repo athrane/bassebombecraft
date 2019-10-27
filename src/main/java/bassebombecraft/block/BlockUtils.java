@@ -2,7 +2,7 @@ package bassebombecraft.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.NULL_TILE_ENTITY;
-import static net.minecraft.state.properties.BlockStateProperties.FACING;
+import static net.minecraft.state.properties.BlockStateProperties.*;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -16,6 +16,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -128,6 +129,9 @@ public class BlockUtils {
 	 * If block state doesn't have the FACING property defined then the source state
 	 * is returned unchanged.
 	 * 
+	 * The facing property is defined in multiple times in MC, i.e. in {@linkplain BlockStateProperties}
+	 * and in {@linkplain StairsBlock} where is it a redefinition of {@linkplain BlockStateProperties.HORIZONTAL_FACING}
+	 * 
 	 * The orientation is defined in degrees and only the values 0, 90, 180 and 270
 	 * are processed. For all other values the FACING property is returned
 	 * unchanged.
@@ -143,23 +147,42 @@ public class BlockUtils {
 		// exit if angle is zero
 		if (orientation == 0)
 			return sourceState;
+		
+		// rotate if block state have the FACING property defined.
+		if (hasFacingProperty(sourceState)) {
+			
+			// get direction 
+			Direction direction = sourceState.get(FACING);
+			
+			// calculate new orientation
+			Direction newDirection = calculateFacingProperty(direction, orientation);
+			
+			// create now rotated state
+			BlockState rotatedState = sourceState.with(FACING, newDirection);
 
-		// exit if block state doesn't have the FACING property defined.
-		// source state is returned unchanged
-		if (!hasFacingProperty(sourceState))
-			return sourceState;
+			return rotatedState;			
+		}
 
-		// get facing property
-		Direction direction = sourceState.get(FACING);
-
-		// calculate new orientation
-		Direction newDirection = calculateFacingProperty(direction, orientation);
-
-		// create now rotated state
-		BlockState rotatedState = sourceState.with(FACING, newDirection);
-		return rotatedState;
+		// rotate if block state have the HORIZONTAL_FACING property defined.
+		if (hasHorizontalFacingProperty(sourceState)) {
+			
+			// get direction 
+			Direction direction = sourceState.get(HORIZONTAL_FACING);
+			
+			// calculate new orientation
+			Direction newDirection = calculateFacingProperty(direction, orientation);
+			
+			// create now rotated state
+			BlockState rotatedState = sourceState.with(HORIZONTAL_FACING, newDirection);
+			
+			return rotatedState;			
+		}
+		
+		// return block state unchanged
+		return sourceState;		
 	}
 
+	
 	/**
 	 * Calculate direction property from orientation and source property.
 	 * 
@@ -190,11 +213,12 @@ public class BlockUtils {
 			return d1.rotateY();
 		}
 
+		
 		return direction;
 	}
 
 	/**
-	 * Returns true if block state has the FACING property defined.
+	 * Returns true if block state has the {@linkplain BlockStateProperties} .FACING property defined.
 	 * 
 	 * @param state block state to test.
 	 * 
@@ -204,6 +228,17 @@ public class BlockUtils {
 		return state.has(FACING);
 	}
 
+	/**
+	 * Returns true if block state has the {@linkplain BlockStateProperties} .HORIZONTAL_FACING property defined.
+	 * 
+	 * @param state block state to test.
+	 * 
+	 * @return true if block state has the HORIZONTAL_FACING property defined.
+	 */
+	public static boolean hasHorizontalFacingProperty(BlockState state) {
+		return state.has(HORIZONTAL_FACING);
+	}
+	
 	/**
 	 * Returns true if the set of blocks are all of type air.
 	 * 

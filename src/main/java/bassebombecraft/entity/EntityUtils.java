@@ -12,6 +12,7 @@ import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -65,6 +66,17 @@ public class EntityUtils {
 	}
 
 	/**
+	 * Kill entity and remove it from the game.
+	 * 
+	 * @param entity entity to be killed.
+	 */
+	public static void killEntity(LivingEntity entity) {
+		
+		// kill target
+		entity.onKillCommand();		
+	}
+	
+	/**
 	 * return true if entity is a {@linkplain CreatureEntity}.
 	 * 
 	 * @param entity entity to test.
@@ -106,6 +118,20 @@ public class EntityUtils {
 		return false;
 	}
 
+	/**
+	 * return true if entity is a {@linkplain CreeperEntity}.
+	 * 
+	 * @param entity entity to test.
+	 * 
+	 * @return true if entity is a {@linkplain CreeperEntity}.
+	 */
+	public static boolean isTypeCreeperEntity(Entity entity) {
+		Optional<Entity> oe = Optional.ofNullable(entity);
+		if (oe.isPresent())
+			return oe.get() instanceof CreeperEntity;
+		return false;
+	}
+	
 	/**
 	 * Calculate entity feet position (as a Y coordinate).
 	 * 

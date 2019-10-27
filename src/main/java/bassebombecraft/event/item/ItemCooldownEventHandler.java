@@ -26,7 +26,7 @@ public class ItemCooldownEventHandler {
 	 * @param event the event to handle.
 	 */
 	@SubscribeEvent
-	public static void handleEvent(LivingEquipmentChangeEvent event) {
+	public static void handleLivingEquipmentChangeEvent(LivingEquipmentChangeEvent event) {
 
 		// get item
 		ItemStack itemStack = event.getTo();

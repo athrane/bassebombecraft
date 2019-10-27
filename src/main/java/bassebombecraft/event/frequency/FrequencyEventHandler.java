@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 public class FrequencyEventHandler {
 
 	@SubscribeEvent
-	static public void handleEvent(PlayerTickEvent event) {
+	static public void handlePlayerTickEvent(PlayerTickEvent event) {
 
 		// get repository
 		FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();

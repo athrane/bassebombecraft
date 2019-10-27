@@ -7,7 +7,7 @@ import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
 import java.util.EnumSet;
 
 import bassebombecraft.ModConstants;
-import bassebombecraft.potion.MobEffects;
+import bassebombecraft.event.potion.PotionRegistryEventHandler;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
@@ -97,7 +97,7 @@ public class AiCommandersTargeting extends Goal {
 		entity.setFire(ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE);
 
 		// add aggro effect
-		EffectInstance effect = new EffectInstance(MobEffects.MOBS_AGGRO_POTION,
+		EffectInstance effect = new EffectInstance(PotionRegistryEventHandler.MOB_AGGRO_EFFECT,
 				ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_AGGRO);
 		entity.addPotionEffect(effect);
 	}

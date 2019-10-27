@@ -84,9 +84,6 @@ import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
 import bassebombecraft.item.inventory.ReaperIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import net.minecraft.item.Item;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -139,8 +136,14 @@ public class ItemRegistryEventHandler {
 	/**
 	 * The set of basic items.
 	 */
-	static Item[] basicItems = { new TerminatorEyeItem(), ModConstants.TARGETING_OVERLAY_ITEM };
-
+	static Item[] basicItems = { new TerminatorEyeItem(), ModConstants.TARGETING_OVERLAY_ITEM
+			
+			/**
+			new WobblyAmplifyingDustItem(), new UnexceptionalAmplifyingDustItem(), new SuperiorAmplifyingDustItem(),
+			new AbsurdlyLudicrousAmplifyingDustItem() 
+			**/
+			};
+	
 	/**
 	 * Handle {@linkplain RegistryEvent.Register<Item>} event to register items with
 	 * forge.
@@ -148,27 +151,12 @@ public class ItemRegistryEventHandler {
 	 * @param event to handle.
 	 */
 	@SubscribeEvent
-	public static void handleEvent(RegistryEvent.Register<Item> event) {
+	public static void registerItems(RegistryEvent.Register<Item> event) {
 		IForgeRegistry<Item> registry = event.getRegistry();
 		registry.registerAll(bookItems);
 		registry.registerAll(inventoryItems);
 		registry.registerAll(batonItems);
 		registry.registerAll(basicItems);
-	}
-
-	/**
-	 * Handle {@linkplain ModelRegistryEvent} event to register models for
-	 * rendering.
-	 * 
-	 * @param event to handle.
-	 */
-	@SubscribeEvent
-	@OnlyIn(Dist.CLIENT)
-	public static void handleEvent(ModelRegistryEvent event) {
-		// Stream.of(bookItems).forEach(i -> registerModel(i));
-		// Stream.of(inventoryItems).forEach(i -> registerModel(i));
-		// Stream.of(batonItems).forEach(i -> registerModel(i));
-		// Stream.of(basicItems).forEach(i -> registerModel(i));
 	}
 
 	/**

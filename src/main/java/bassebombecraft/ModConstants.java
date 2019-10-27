@@ -33,7 +33,7 @@ public class ModConstants {
 	/**
 	 * Mod version.
 	 */
-	public static final String VERSION = "1.14.4-1.31-beta";
+	public static final String VERSION = "1.14.4-1.31";
 
 	/**
 	 * In game tab name.
@@ -51,10 +51,20 @@ public class ModConstants {
 	public static final String CONFIG_FILE_POSTFIX = ".conf";
 
 	/**
+	 * TOML Configuration file post fix.
+	 */
+	public static final String CONFIG_FILE_TOML_POSTFIX = ".toml";
+	
+	/**
 	 * Configuration file name.
 	 */
 	public static final String INTERNAL_CONFIG_FILE_NAME = MODID + CONFIG_FILE_POSTFIX;
 
+	/**
+	 * Configuration file name.
+	 */
+	public static final String INTERNAL_TOML_CONFIG_FILE_NAME = MODID + "-common" + CONFIG_FILE_TOML_POSTFIX;
+	
 	/**
 	 * Download URL.
 	 */
@@ -63,7 +73,7 @@ public class ModConstants {
 	/**
 	 * Version check URL.
 	 */
-	public static final String VERSION_URL = "https://raw.githubusercontent.com/athrane/bassebombecraft/master/bassebombecraft-1.8/version.json";
+	public static final String VERSION_URL = "https://raw.githubusercontent.com/athrane/bassebombecraft/master/version.json";
 
 	/**
 	 * Analytics URL.
@@ -295,4 +305,29 @@ public class ModConstants {
 	 */
 	public static final boolean LIGHTNING_BOLT_NOT_EFFECT_ONLY = false;
 
+	/**
+	 * Week amplification potion name.
+	 */
+	public final static String WEAK_AMPLIFICATION_POTION_NAME = "WeakAmplificationPotion";
+	
+	/**
+	 * Amplification potion name.
+	 */
+	public final static String AMPLIFICATION_POTION_NAME = "AmplificationPotion";
+
+	/**
+	 * Superior amplification potion name.
+	 */
+	public final static String SUPERIOR_AMPLIFICATION_POTION_NAME = "SuperiorAmplificationPotion";
+
+	/**
+	 * Mob aggro potion name.
+	 */
+	public final static String MOB_AGGRO_POTION_NAME = "MobAggroPotion";
+
+	/**
+	 * Mob priming potion name.
+	 */
+	public final static String MOB_PRIMING_POTION_NAME = "MobPrimingPotion";
+	
 }
