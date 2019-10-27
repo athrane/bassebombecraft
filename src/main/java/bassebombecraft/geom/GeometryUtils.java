@@ -125,8 +125,7 @@ public class GeometryUtils {
 
 			// add block state to rotated directive
 			BlockState sourceState = sourceDirective.getState();
-			BlockState rotatedState = rotateBlockStateWithFacingProperty(sourceState, angle);
-
+			BlockState rotatedState = rotateBlockStateWithFacingProperty(sourceState, angle);			
 			rotatedDirective.setState(rotatedState);
 			result.add(rotatedDirective);
 		}
