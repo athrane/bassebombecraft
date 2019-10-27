@@ -8,29 +8,36 @@ jobs:
     
     steps:
     - name: Checkout
+      id: checkout_source
       uses: actions/checkout@v1
     
     - name: Setup JDK 1.8
+      id: init_jdk
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
         
     - name: Display the path
+      id: ls_path
       run: ls -la
       shell: bash
 
     - name: Make gradlew executable
+      id: make_gradle_executable
       run: chmod +x ./gradlew
       shell: bash
 
     - name: Delete gradle.properties
+      id: delete_gradle_properties
       run: rm ./gradle.properties
       shell: bash
 
     - name: Build with Gradle
+      id: build_gradle
       run: ./gradlew build
 
     - name: Create Release
+      id: create_release
       uses: actions/create-release@v1.0.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -38,7 +45,18 @@ jobs:
         tag_name: ${{ github.ref }}
         release_name: Release ${{ github.ref }}
         draft: true
-        prerelease: true
+        prerelease: false
+
+    - name: Upload Release Asset
+      id: upload_release_asset    
+      uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ./build/libs/BasseBombeCraft-1.14.4-1.31.jar
+        asset_name: BasseBombeCraft-1.14.4-1.31.jar
+        asset_content_type: application/zip
 
     - name: Publish to GitHub Registry 
       run: ./gradlew publish
