@@ -27,4 +27,11 @@ jobs:
       shell: bash
 
     - name: Build with Gradle
-      run: ./gradlew -p build  
+      run: ./gradlew -p build
+      
+    - name: Deploy to Github Package Registry
+        env:
+          GITHUB_USERNAME: x-access-token
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run:
+          mvn --settings settings.xml deploy        
