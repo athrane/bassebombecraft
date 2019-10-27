@@ -149,7 +149,7 @@ publishing {
     repositories {
         maven {
             name = "Github"
-            url = uri("https://maven.pkg.github.com/trevjonez/github-registry-repro")
+            url = uri("https://maven.pkg.github.com/athrane/bassebombecraft")
             credentials {
                 username = findProperty("GITHUB_USERNAME")
                 password = findProperty("GITHUB_API_TOKEN")
@@ -162,7 +162,7 @@ publishing {
                 from components["java"]
                 artifact(tasks["sourcesJar"])
                 pom {
-                    description.set("repro of issue uploading sources jar to github package registry via gradle")
+                    description.set("Uploading sources jar to github package registry via gradle")
                 }
             }
         }
