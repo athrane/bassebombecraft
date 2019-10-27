@@ -73,7 +73,7 @@ public class ModConstants {
 	/**
 	 * Version check URL.
 	 */
-	public static final String VERSION_URL = "https://raw.githubusercontent.com/athrane/bassebombecraft/master/bassebombecraft-1.8/version.json";
+	public static final String VERSION_URL = "https://raw.githubusercontent.com/athrane/bassebombecraft/master/version.json";
 
 	/**
 	 * Analytics URL.
