@@ -143,4 +143,27 @@ jar {
 
     // Declaration to add dependencies to the JAR, to include the com.typesafe dependency  
     from configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
+    
+publishing {
+    repositories {
+        maven {
+            name = "Github"
+            url = uri("https://maven.pkg.github.com/trevjonez/github-registry-repro")
+            credentials {
+                username = findProperty("GITHUB_USERNAME")
+                password = findProperty("GITHUB_API_TOKEN")
+            }
+        }
+    }
+    afterEvaluate {
+        publications {
+            libJar(MavenPublication) {
+                from components["java"]
+                artifact(tasks["sourcesJar"])
+                pom {
+                    description.set("repro of issue uploading sources jar to github package registry via gradle")
+                }
+            }
+        }
+    }    
 }   
