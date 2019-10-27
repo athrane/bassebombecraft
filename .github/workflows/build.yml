@@ -10,6 +10,10 @@ jobs:
     - name: Checkout
       id: checkout_source
       uses: actions/checkout@v1
+
+    - name: Get mod version 
+      id: get_version
+      run: node ./get-version.js
     
     - name: Setup JDK 1.8
       id: init_jdk
@@ -54,8 +58,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./build/libs/BasseBombeCraft-1.14.4-1.31.jar
-        asset_name: BasseBombeCraft-1.14.4-1.31.jar
+        asset_path: ./build/libs/BasseBombeCraft-${{ steps.get_version.outputs.mcversion }}-${{ steps.get_version.outputs.modversion }}.jar
+        asset_name: BasseBombeCraft-${{ steps.get_version.outputs.mcversion }}-${{ steps.get_version.outputs.modversion }}.jar
         asset_content_type: application/zip
 
     - name: Publish to GitHub Registry 
