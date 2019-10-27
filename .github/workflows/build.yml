@@ -27,7 +27,7 @@ jobs:
       shell: bash
 
     - name: Build with Gradle
-      run: ./gradlew -p build
+      run: ./gradlew build
 
     - name: Publish to GitHub Registry 
-      run: ./gradlew -p publish
+      run: ./gradlew publish
