@@ -145,10 +145,6 @@ jar {
     from configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
 }   
 
-plugins {
-    'maven-publish'
-}
-
 task sourcesJar(type: Jar, group: "build") {
     archiveClassifier.set("sources")
     from(sourceSets.main.allSource)
