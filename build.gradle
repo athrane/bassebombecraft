@@ -146,7 +146,7 @@ jar {
 }   
 
 plugins {
-    `maven-publish`
+    'maven-publish'
 }
 
 task sourcesJar(type: Jar, group: "build") {
