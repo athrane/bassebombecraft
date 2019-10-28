@@ -15,20 +15,24 @@ jobs:
     - name: Install jq
       id: install_jq    
       run: sudo apt-get install jq
-        
+
     - name: Read version.json
       id: read_version_json
+      run: ::set-output name=json::cat ./version.json | jq '.'        
+        
+    - name: Parse version.json
+      id: parse_version_json
       uses: gr2m/get-json-paths-action@v1.x
       with:
-        json: cat ./version.json | jq '.'
+        json: ${{ steps.read_version_json.outputs.json }} 
 
     - name: Echo mod version 
       id: echo_mod_version
-      run: "Mod version is ${{ steps.read_version_json.outputs.minecraftVersion }}"      
+      run: "Mod version is ${{ steps.parse_version_json.outputs.minecraftVersion }}"      
 
     - name: Echo MC version 
       id: echo_mc_version
-      run: "MC version is ${{ steps.read_version_json.outputs.minecraftVersion }}"      
+      run: "MC version is ${{ steps.parse_version_json.outputs.minecraftVersion }}"      
 
     - name: Setup JDK 1.8
       id: init_jdk
