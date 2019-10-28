@@ -5,22 +5,32 @@ name: BasseBombeCraft build pipeline
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout
       id: checkout_source
       uses: actions/checkout@v1
 
-    - name: Get mod version 
-      id: get_version
-      run: node ./get-version.js
-    
+    - name: Read version.json
+      id: read_version_json
+      uses: gr2m/get-json-paths-action@v1.x
+      with:
+        json: ./version.json
+
+    - name: Echo mod version 
+      id: echo_mod_version
+      run: "Mod version is ${{ steps.read_version_json.outputs.minecraftVersion }}"      
+
+    - name: Echo MC version 
+      id: echo_mc_version
+      run: "MC version is ${{ steps.read_version_json.outputs.minecraftVersion }}"      
+
     - name: Setup JDK 1.8
       id: init_jdk
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-        
+
     - name: Display the path
       id: ls_path
       run: ls -la
@@ -58,8 +68,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./build/libs/BasseBombeCraft-${{ steps.get_version.outputs.mcversion }}-${{ steps.get_version.outputs.modversion }}.jar
-        asset_name: BasseBombeCraft-${{ steps.get_version.outputs.mcversion }}-${{ steps.get_version.outputs.modversion }}.jar
+        asset_path: ./build/libs/BasseBombeCraft-${{ steps.read_version_json.outputs.minecraftVersion }}-${{ steps.read_version_json.outputs.minecraftVersion }}.jar
+        asset_name: BasseBombeCraft-${{ steps.read_version_json.outputs.minecraftVersion }}-${{ steps.read_version_json.outputs.minecraftVersion }}.jar
         asset_content_type: application/zip
 
     - name: Publish to GitHub Registry 
