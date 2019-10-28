@@ -16,9 +16,13 @@ jobs:
       id: install_jq    
       run: sudo apt-get install jq
 
+    - name: Echo version.json
+      id: echo_version_json
+      run: cat ./version.json | jq '.'        
+
     - name: Read version.json
       id: read_version_json
-      run: ::set-output name=json::cat ./version.json | jq '.'        
+      run: echo ::set-output name=json::cat ./version.json | jq '.'        
         
     - name: Parse version.json
       id: parse_version_json
