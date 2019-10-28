@@ -6,16 +6,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+
     steps:
     - name: Checkout
       id: checkout_source
       uses: actions/checkout@v1
 
+    - name: Install jq
+      id: install_jq    
+      run: sudo apt-get install jq
+        
     - name: Read version.json
       id: read_version_json
       uses: gr2m/get-json-paths-action@v1.x
       with:
-        json: ./version.json
+        json: cat ./version.json | jq '.'
 
     - name: Echo mod version 
       id: echo_mod_version
