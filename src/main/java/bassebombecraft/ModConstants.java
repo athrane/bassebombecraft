@@ -329,5 +329,20 @@ public class ModConstants {
 	 * Mob priming potion name.
 	 */
 	public final static String MOB_PRIMING_POTION_NAME = "MobPrimingPotion";
+
+	/**
+	 * Basic items config path prefix in TOML configuration file.
+	 */
+	public static final String BASICITEMS_CONFIGPATH = "BasicItems.";
+	
+	/**
+	 * Potions config path prefix in TOML configuration file.
+	 */
+	public static final String POTIONS_CONFIGPATH = "Potions.";
+
+	/**
+	 * Books config path prefix in TOML configuration file.
+	 */
+	public static final String BOOKS_CONFIGPATH = "Books.";
 	
 }
