@@ -28,10 +28,17 @@ jobs:
 
     - name: Read MOD version into output variable
       id: read_mod_version
-      run: echo ::set-output name=json::$(cat ./version.json | jq '.modVersion')
+      run: echo ::set-output name=version::$(cat ./version.json | jq '.modVersion')
+
+    - name: Read MC version into output variable
+      id: read_mc_version
+      run: echo ::set-output name=version::$(cat ./version.json | jq '.minecraftVersion')
 
     - name: Echo test 2
-      run: "cat ${{ steps.read_version_json.outputs.json }} | jq. '.minecraftVersion'"
+      run: echo "${{ steps.read_mc_version.outputs.version }}"
+
+    - name: Echo test 2
+      run: echo ${{ steps.read_mc_version.outputs.version }}
 
     - name: Setup JDK 1.8
       id: init_jdk
@@ -76,8 +83,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./build/libs/BasseBombeCraft-${{ steps.read_version_json.outputs.minecraftVersion }}-${{ steps.read_version_json.outputs.minecraftVersion }}.jar
-        asset_name: BasseBombeCraft-${{ steps.read_version_json.outputs.minecraftVersion }}-${{ steps.read_version_json.outputs.minecraftVersion }}.jar
+        asset_path: ./build/libs/BasseBombeCraft-${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}.jar
+        asset_name: BasseBombeCraft-${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}.jar
         asset_content_type: application/zip
 
     - name: Publish to GitHub Registry 
