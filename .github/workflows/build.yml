@@ -1,6 +1,6 @@
 on: [push]
 
-name: BasseBombeCraft build pipeline
+name: Build and release
 
 jobs:
   build:
@@ -26,9 +26,6 @@ jobs:
     - name: Read MC version into output variable
       id: read_mc_version
       run: echo ::set-output name=version::$(cat ./version.json | jq -r '.minecraftVersion')
-
-    - name: Echo test 2
-      run: echo ${{ steps.read_mc_version.outputs.version }}
 
     - name: Setup JDK 1.8
       id: init_jdk
@@ -62,7 +59,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        release_name: Release ${{ steps.read_mod_version.outputs.version }}
         draft: true
         prerelease: false
 
@@ -76,6 +73,4 @@ jobs:
         asset_path: ./build/libs/BasseBombeCraft-${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}.jar
         asset_name: BasseBombeCraft-${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}.jar
         asset_content_type: application/zip
-
-    - name: Publish to GitHub Registry 
-      run: ./gradlew publish
+      

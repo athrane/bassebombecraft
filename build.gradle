@@ -144,21 +144,3 @@ jar {
     // Declaration to add dependencies to the JAR, to include the com.typesafe dependency  
     from configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
 }   
-
-publishing {
-    repositories {
-        maven {
-            name = "Github"
-            url = uri("https://maven.pkg.github.com/athrane/bassebombecraft")
-            credentials {
-                username = findProperty("GITHUB_USERNAME")
-                password = findProperty("GITHUB_API_TOKEN")
-            }
-        }
-    }
-	publications {
-        gpr(MavenPublication) {
-            from(components.java)
-        }
-    }    
-}
