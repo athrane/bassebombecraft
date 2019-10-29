@@ -17,31 +17,21 @@ jobs:
 
     - name: Echo version.json
       id: echo_version_json
-      run: cat ./version.json | jq '.'        
+      run: cat ./version.json | jq '.'
 
-    - name: Read version.json
+    - name: Read version.json into output variable
       id: read_version_json
       run: echo ::set-output name=json::$(cat ./version.json | jq '.')
 
     - name: Echo test 1
-      run: echo "${{ steps.read_version_json.outputs.json }}"      
+      run: echo "${{ steps.read_version_json.outputs.json }}"
+
+    - name: Read MOD version into output variable
+      id: read_mod_version
+      run: echo ::set-output name=json::$(cat ./version.json | jq '.modVersion')
 
     - name: Echo test 2
-      run: "${{ steps.read_version_json.outputs.json }} | jq. '.minecraftVersion'"       
-
-    - name: Parse version.json
-      id: parse_version_json
-      uses: gr2m/get-json-paths-action@v1.x
-      with:
-        json: ${{ steps.read_version_json.outputs.json }} 
-
-    - name: Echo mod version 
-      id: echo_mod_version
-      run: "Mod version is ${{ steps.parse_version_json.outputs.minecraftVersion }}"      
-
-    - name: Echo MC version 
-      id: echo_mc_version
-      run: "MC version is ${{ steps.parse_version_json.outputs.minecraftVersion }}"      
+      run: "cat ${{ steps.read_version_json.outputs.json }} | jq. '.minecraftVersion'"
 
     - name: Setup JDK 1.8
       id: init_jdk
