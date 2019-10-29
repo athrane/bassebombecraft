@@ -25,10 +25,10 @@ jobs:
 
     - name: Echo test 1
       run: echo "${{ steps.read_version_json.outputs.json }}"      
-	
+
     - name: Echo test 2
       run: "${{ steps.read_version_json.outputs.json }} | jq. '.minecraftVersion'"       
-              
+
     - name: Parse version.json
       id: parse_version_json
       uses: gr2m/get-json-paths-action@v1.x
