@@ -15,27 +15,17 @@ jobs:
       id: install_jq    
       run: sudo apt-get install jq
 
-    - name: Echo version.json
-      id: echo_version_json
-      run: cat ./version.json | jq '.'
-
     - name: Read version.json into output variable
       id: read_version_json
       run: echo ::set-output name=json::$(cat ./version.json | jq '.')
 
-    - name: Echo test 1
-      run: echo "${{ steps.read_version_json.outputs.json }}"
-
     - name: Read MOD version into output variable
       id: read_mod_version
-      run: echo ::set-output name=version::$(cat ./version.json | jq '.modVersion')
+      run: echo ::set-output name=version::$(cat ./version.json | jq -r '.modVersion')
 
     - name: Read MC version into output variable
       id: read_mc_version
-      run: echo ::set-output name=version::$(cat ./version.json | jq '.minecraftVersion')
-
-    - name: Echo test 2
-      run: echo "${{ steps.read_mc_version.outputs.version }}"
+      run: echo ::set-output name=version::$(cat ./version.json | jq -r '.minecraftVersion')
 
     - name: Echo test 2
       run: echo ${{ steps.read_mc_version.outputs.version }}
