@@ -20,6 +20,7 @@ import com.electronwill.nightconfig.core.io.WritingMode;
 
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.basic.TerminatorEyeItem;
+import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.potion.effect.MobAggroEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -41,6 +42,11 @@ public class ModConfiguration {
 	 */
 	static final String CATEGORY_BASIC_ITEMS = "BasicItems";
 
+	/**
+	 * Basic item category.
+	 */
+	static final String CATEGORY_BOOK_ITEMS = "Books";
+	
 	/**
 	 * Potion category.
 	 */
@@ -73,13 +79,17 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.ConfigValue<String> terminatorEyeItemTooltip;
 	public static ForgeConfigSpec.IntValue terminatorEyeItemCooldown;
 
+	// WeakAmplificationPotion
+	public static ForgeConfigSpec.IntValue weakAmplificationPotionAmplifier;
+	public static ForgeConfigSpec.IntValue weakAmplificationPotionDuration;
+	
 	// AmplificationPotion
 	public static ForgeConfigSpec.IntValue amplificationPotionAmplifier;
 	public static ForgeConfigSpec.IntValue amplificationPotionDuration;
-
+	
 	// SuperiorAmplificationPotion
-	public static ForgeConfigSpec.IntValue SuperioramplificationPotionAmplifier;
-	public static ForgeConfigSpec.IntValue SuperioramplificationPotionDuration;
+	public static ForgeConfigSpec.IntValue superiorAmplificationPotionAmplifier;
+	public static ForgeConfigSpec.IntValue superiorAmplificationPotionDuration;
 
 	// MobAggroPotion
 	public static ForgeConfigSpec.IntValue mobAggroPotionAmplifier;
@@ -95,6 +105,10 @@ public class ModConfiguration {
 	// MobPrimingEffect
 	public static ForgeConfigSpec.IntValue mobAggroEffectAreaOfEffect;
 
+	// SmallFireballBook
+	public static ForgeConfigSpec.ConfigValue<String> smallFireballBookTooltip;
+	public static ForgeConfigSpec.IntValue smallFireballBookCooldown;
+	
 	static {
 
 		// build general section
@@ -115,6 +129,11 @@ public class ModConfiguration {
 		setupPotionsConfig();
 		COMMON_BUILDER.pop();
 
+		// build book items
+		COMMON_BUILDER.comment("Book settings").push(CATEGORY_BOOK_ITEMS);
+		setupBooksConfig();
+		COMMON_BUILDER.pop();
+		
 		// do build
 		COMMON_CONFIG = COMMON_BUILDER.build();
 	}
@@ -135,6 +154,7 @@ public class ModConfiguration {
 	 */
 	static void setupBasicItemsConfig() {
 
+		// terminator eye item
 		String terminatorEyeItemName = TerminatorEyeItem.NAME;
 		COMMON_BUILDER.comment(terminatorEyeItemName + " settings").push(terminatorEyeItemName);
 		terminatorEyeItemTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
@@ -143,6 +163,7 @@ public class ModConfiguration {
 				.defineInRange("cooldown", 10, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		// HUD item
 		String hudItemName = HudItem.NAME;
 		COMMON_BUILDER.comment(hudItemName + " settings").push(hudItemName);
 		hudItemTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
@@ -158,15 +179,15 @@ public class ModConfiguration {
 	static void setupPotionEffectsConfig() {
 
 		// mob priming effect
-		String mobPrimingEffectName = MobPrimingEffect.NAME;
-		COMMON_BUILDER.comment(mobPrimingEffectName + " settings").push(mobPrimingEffectName);
+		String name = MobPrimingEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
 		mobPrimingEffectCountdown = COMMON_BUILDER.comment("Countdown of the effect in game ticks.")
 				.defineInRange("countdown", 60, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		// mob aggro effect
-		String mobAggroEffectName = MobAggroEffect.NAME;
-		COMMON_BUILDER.comment(mobAggroEffectName + " settings").push(mobAggroEffectName);
+		name = MobAggroEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
 		mobAggroEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.").defineInRange("areaOfEffect",
 				10, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
@@ -178,17 +199,17 @@ public class ModConfiguration {
 	static void setupPotionsConfig() {
 
 		// weak amplification potion
-		String weakAmplificationPotionName = WEAK_AMPLIFICATION_POTION_NAME;
-		COMMON_BUILDER.comment(weakAmplificationPotionName + " settings").push(weakAmplificationPotionName);
-		amplificationPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion.").defineInRange("amplifier", 16,
+		String name = WEAK_AMPLIFICATION_POTION_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		weakAmplificationPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion.").defineInRange("amplifier", 16,
 				0, Integer.MAX_VALUE);
-		amplificationPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
+		weakAmplificationPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
 				.defineInRange("duration", 600, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		// amplification potion
-		String amplificationPotionName = AMPLIFICATION_POTION_NAME;
-		COMMON_BUILDER.comment(amplificationPotionName + " settings").push(amplificationPotionName);
+		name = AMPLIFICATION_POTION_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
 		amplificationPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion.").defineInRange("amplifier", 64,
 				0, Integer.MAX_VALUE);
 		amplificationPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
@@ -196,17 +217,17 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		// superior amplification potion
-		String superiorAmplificationPotionName = SUPERIOR_AMPLIFICATION_POTION_NAME;
-		COMMON_BUILDER.comment(superiorAmplificationPotionName + " settings").push(superiorAmplificationPotionName);
-		amplificationPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion.").defineInRange("amplifier", 128,
+		name = SUPERIOR_AMPLIFICATION_POTION_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		superiorAmplificationPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion.").defineInRange("amplifier", 128,
 				0, Integer.MAX_VALUE);
-		amplificationPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
+		superiorAmplificationPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
 				.defineInRange("duration", 600, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		// mob aggro potion
-		String mobAggroPotionName = MOB_AGGRO_POTION_NAME;
-		COMMON_BUILDER.comment(mobAggroPotionName + " settings").push(mobAggroPotionName);
+		name = MOB_AGGRO_POTION_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
 		mobAggroPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion. Not used by potion.")
 				.defineInRange("amplifier", 0, 0, Integer.MAX_VALUE);
 		mobAggroPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
@@ -214,8 +235,8 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		// mob priming potion
-		String mobPrimingPotionName = MOB_PRIMING_POTION_NAME;
-		COMMON_BUILDER.comment(mobPrimingPotionName + " settings").push(mobPrimingPotionName);
+		name = MOB_PRIMING_POTION_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
 		mobPrimingPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion, i.e. the resulting explosion.")
 				.defineInRange("amplifier", 10, 0, Integer.MAX_VALUE);
 		mobPrimingPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
@@ -223,6 +244,21 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 	}
 
+	/**
+	 * Define configuration for books.
+	 */
+	static void setupBooksConfig() {
+
+		// SmallFireballBook 
+		String name = SmallFireballBook.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		smallFireballBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
+				"Right-click to shoot a fireball that is hurled at foes.");
+		smallFireballBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.").defineInRange("cooldown", 25, 0,
+				Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();					
+	}
+	
 	/**
 	 * Load configuration using forge.
 	 */
