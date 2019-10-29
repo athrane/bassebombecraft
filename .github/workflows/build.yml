@@ -21,11 +21,11 @@ jobs:
 
     - name: Read version.json
       id: read_version_json
-      run: echo "::set-output name=json::cat ./version.json | jq '.'"        
+      run: echo "::set-output name=json:: ${{ cat ./version.json | jq '.' }}"        
 
     - name: Echo test 1
       run: echo "${{ steps.read_version_json.outputs.json }}"      
-
+	
     - name: Echo test 2
       run: "${{ steps.read_version_json.outputs.json }} | jq. '.minecraftVersion'"       
               
