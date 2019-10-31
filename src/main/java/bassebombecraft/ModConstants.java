@@ -331,6 +331,16 @@ public class ModConstants {
 	public final static String MOB_PRIMING_POTION_NAME = "MobPrimingPotion";
 
 	/**
+	 * Bacon bazooka projectile effect name.
+	 */
+	public final static String BACONBAZOOKA_EFFECT_NAME = "BaconBazookaProjectileEffect";
+
+	/**
+	 * Bear blaster projectile effect name.
+	 */
+	public final static String BEARBLASTER_EFFECT_NAME = "BearBlasterProjectileEffect";
+	
+	/**
 	 * Basic items config path prefix in TOML configuration file.
 	 */
 	public static final String BASICITEMS_CONFIGPATH = "BasicItems.";

@@ -28,7 +28,7 @@ public class MobProjectileEffect extends Effect {
 	 * Effect identifier.
 	 */
 	public final static String NAME = MobProjectileEffect.class.getSimpleName();
-	
+
 	/**
 	 * Explosion will make smoke.
 	 */
@@ -49,12 +49,26 @@ public class MobProjectileEffect extends Effect {
 	 * 
 	 * @param key configuration key.
 	 */
+	@Deprecated
 	public MobProjectileEffect(String key) {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
-		doCommonEffectInitialization(this, NAME);		
+		doCommonEffectInitialization(this, NAME);
 		Config configuration = getBassebombeCraft().getConfiguration();
 		force = configuration.getInt(key + ".Force");
 		explosion = configuration.getInt(key + ".Explosion");
+	}
+
+	/**
+	 * MobProjectilePotion constructor.
+	 * 
+	 * @param force     projectile force.
+	 * @param explosion explosion size.
+	 */
+	public MobProjectileEffect(int force, int explosion) {
+		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
+		doCommonEffectInitialization(this, NAME);
+		this.force = force;
+		this.explosion = explosion;
 	}
 
 	@Override

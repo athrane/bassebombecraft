@@ -14,6 +14,7 @@ import static net.minecraft.item.Items.ENDER_PEARL;
 import static net.minecraft.item.Items.FIRE_CHARGE;
 import static net.minecraft.item.Items.NETHER_STAR;
 
+import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
@@ -50,7 +51,9 @@ public class PotionRegistryEventHandler {
 	/**
 	 * Bear blaster effect, used by {@linkplain ShootBearBlaster}.
 	 */
-	public static final Effect BEAR_BLASTER_EFFECT = new MobProjectileEffect("BearBlasterProjectileEffect");
+	public static final Effect BEAR_BLASTER_EFFECT = new MobProjectileEffect(
+			ModConfiguration.bearBlasterProjectileEffectForce.get(),
+			ModConfiguration.bearBlasterProjectileEffectExplosion.get());
 
 	/**
 	 * Creeper cannon effect, used by {@linkplain ShootCreeperCannon}.
@@ -66,7 +69,9 @@ public class PotionRegistryEventHandler {
 	/**
 	 * Bacon Bazooka effect, used by {@linkplain ShootBaconBazooka}.
 	 */
-	public static final Effect BACON_BAZOOKA_EFFECT = new MobProjectileEffect("BaconBazookaProjectileEffect");
+	public static final Effect BACON_BAZOOKA_EFFECT = new MobProjectileEffect(
+			ModConfiguration.baconBazookaProjectileEffectForce.get(),
+			ModConfiguration.baconBazookaProjectileEffectExplosion.get());
 
 	/**
 	 * Potion amplifier effect.

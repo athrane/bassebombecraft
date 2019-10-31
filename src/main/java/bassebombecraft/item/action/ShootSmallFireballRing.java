@@ -45,7 +45,7 @@ public class ShootSmallFireballRing implements RightClickedItemAction {
 	 * ShootSmallFireballRing constructor
 	 */
 	public ShootSmallFireballRing() {
-		number = ModConfiguration.shootSmallFireballRing.get();
+		number = ModConfiguration.shootSmallFireballRingFireballs.get();
 	}
 
 	@Override
