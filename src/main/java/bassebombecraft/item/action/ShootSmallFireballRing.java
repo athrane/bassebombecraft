@@ -4,8 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import java.util.Random;
 
-import com.typesafe.config.Config;
-
+import bassebombecraft.config.ModConfiguration;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -23,15 +22,18 @@ import net.minecraft.world.World;
 public class ShootSmallFireballRing implements RightClickedItemAction {
 
 	/**
-	 * Configuration key.
+	 * Action identifier.
 	 */
-	final static String CONFIG_KEY = ShootSmallFireballRing.class.getSimpleName();
+	public final static String NAME = ShootSmallFireballRing.class.getSimpleName();
 
 	/**
 	 * Initial vector.
 	 */
 	static final Vec3d INITIAL_VECTOR = new Vec3d(1, 0, 0);
 
+	/**
+	 * Sound.
+	 */
 	static final SoundEvent SOUND = SoundEvents.ENTITY_GHAST_SHOOT;
 
 	/**
@@ -43,8 +45,7 @@ public class ShootSmallFireballRing implements RightClickedItemAction {
 	 * ShootSmallFireballRing constructor
 	 */
 	public ShootSmallFireballRing() {
-		Config configuration = getBassebombeCraft().getConfiguration();
-		number = configuration.getInt(CONFIG_KEY + ".Number");
+		number = ModConfiguration.shootSmallFireballRing.get();
 	}
 
 	@Override

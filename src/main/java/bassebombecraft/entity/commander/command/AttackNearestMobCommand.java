@@ -1,12 +1,9 @@
 package bassebombecraft.entity.commander.command;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-
 import java.util.Collections;
 import java.util.List;
 
-import com.typesafe.config.Config;
-
+import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.entity.EntityDistanceSorter;
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
@@ -22,14 +19,14 @@ import net.minecraft.util.math.AxisAlignedBB;
 public class AttackNearestMobCommand implements MobCommand {
 
 	/**
+	 * Action identifier.
+	 */
+	public final static String NAME = AttackNearestMobCommand.class.getSimpleName();
+
+	/**
 	 * First list index.
 	 */
 	static final int FIRST_INDEX = 0;
-
-	/**
-	 * Configuration key.
-	 */
-	final static String CONFIG_KEY = AttackNearestMobCommand.class.getSimpleName();
 
 	/**
 	 * Target distance.
@@ -50,8 +47,7 @@ public class AttackNearestMobCommand implements MobCommand {
 	 * AttackNearestMobCommand constructor.
 	 */
 	public AttackNearestMobCommand() {
-		Config configuration = getBassebombeCraft().getConfiguration();
-		targetDistance = configuration.getInt(CONFIG_KEY + ".TargetDistance");
+		targetDistance = ModConfiguration.attackNearestMobCommandTargetDistance.get();
 	}
 
 	@Override

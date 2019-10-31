@@ -18,11 +18,28 @@ import org.apache.logging.log4j.Logger;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 
+import bassebombecraft.entity.commander.command.AttackNearestMobCommand;
+import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
+import bassebombecraft.entity.commander.command.DanceCommand;
+import bassebombecraft.item.action.ShootSmallFireballRing;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.basic.TerminatorEyeItem;
+import bassebombecraft.item.baton.MobCommandersBaton;
+import bassebombecraft.item.book.BuildStairsBook;
+import bassebombecraft.item.book.BuildTowerBook;
+import bassebombecraft.item.book.DigMobHoleBook;
+import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
+import bassebombecraft.item.book.SmallFireballRingBook;
+import bassebombecraft.item.book.SpawnCreeperArmyBook;
+import bassebombecraft.item.book.SpawnSkeletonArmyBook;
+import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.potion.effect.MobAggroEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
+import bassebombecraft.projectile.action.DigMobHole;
+import bassebombecraft.projectile.action.SpawnCreeperArmy;
+import bassebombecraft.projectile.action.SpawnSkeletonArmy;
+import bassebombecraft.projectile.action.SpawnStairs;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig.Type;
@@ -58,6 +75,16 @@ public class ModConfiguration {
 	static final String CATEGORY_POTION_EFFECT = "PotionEffects";
 
 	/**
+	 * Action effect category.
+	 */
+	static final String CATEGORY_ACTION = "Actions";
+
+	/**
+	 * Commander commands category.
+	 */
+	static final String CATEGORY_COMMANDS = "CommanderCommands";
+	
+	/**
 	 * Common configuration builder.
 	 */
 	static final ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
@@ -79,6 +106,8 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.ConfigValue<String> terminatorEyeItemTooltip;
 	public static ForgeConfigSpec.IntValue terminatorEyeItemCooldown;
 
+	// Potions..
+	
 	// WeakAmplificationPotion
 	public static ForgeConfigSpec.IntValue weakAmplificationPotionAmplifier;
 	public static ForgeConfigSpec.IntValue weakAmplificationPotionDuration;
@@ -99,15 +128,82 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue mobPrimingPotionAmplifier;
 	public static ForgeConfigSpec.IntValue mobPrimingPotionDuration;
 
+	// Potion effects..
+	
 	// MobPrimingEffect
 	public static ForgeConfigSpec.IntValue mobPrimingEffectCountdown;
 
-	// MobPrimingEffect
+	// MobAggroEffect
 	public static ForgeConfigSpec.IntValue mobAggroEffectAreaOfEffect;
 
+	// Books..
+
+	// MobCommandersBaton
+	public static ForgeConfigSpec.ConfigValue<String> mobCommandersBatonTooltip;
+	public static ForgeConfigSpec.IntValue mobCommandersBatonCooldown;
+	
 	// SmallFireballBook
 	public static ForgeConfigSpec.ConfigValue<String> smallFireballBookTooltip;
 	public static ForgeConfigSpec.IntValue smallFireballBookCooldown;
+	
+	// SmallFireballRingBook   
+	public static ForgeConfigSpec.ConfigValue<String> smallFireballRingBookTooltip;
+	public static ForgeConfigSpec.IntValue smallFireballRingBookCooldown;
+		
+	// TeleportBook
+	public static ForgeConfigSpec.ConfigValue<String> teleportBookTooltip;
+	public static ForgeConfigSpec.IntValue teleportBookCooldown;
+
+	// SetSpawnPointBook
+	public static ForgeConfigSpec.ConfigValue<String> setSpawnPointBookTooltip;
+	public static ForgeConfigSpec.IntValue setSpawnPointBookCooldown;
+
+	// DigMobHoleBook
+	public static ForgeConfigSpec.ConfigValue<String> digMobHoleBookTooltip;
+	public static ForgeConfigSpec.IntValue digMobHoleBookCooldown;
+		
+	// SpawnCreeperArmyBook    
+	public static ForgeConfigSpec.ConfigValue<String> spawnCreeperArmyBookTooltip;
+	public static ForgeConfigSpec.IntValue spawnCreeperArmyBookCooldown;
+
+	// SpawnSkeletonArmyBook    
+	public static ForgeConfigSpec.ConfigValue<String> spawnSkeletonArmyBookTooltip;
+	public static ForgeConfigSpec.IntValue spawnSkeletonArmyBookCooldown;
+	
+	// BuildTowerBook 
+	public static ForgeConfigSpec.ConfigValue<String> buildTowerBookTooltip;
+	public static ForgeConfigSpec.IntValue buildTowerBookCooldown;	
+
+	// BuildStairsBook
+	public static ForgeConfigSpec.ConfigValue<String> buildStairsBookTooltip;
+	public static ForgeConfigSpec.IntValue buildStairsBookCooldown;	
+	
+	// Actions..	
+
+	// ShootFireballRing projectile action
+	public static ForgeConfigSpec.IntValue shootSmallFireballRing;
+
+	// SpawnCreeperArmy projectile action
+	public static ForgeConfigSpec.IntValue spawnCreeperArmyEntities;
+	public static ForgeConfigSpec.IntValue spawnCreeperArmySpawnArea;
+
+	// spawnSkeletonArmy projectile action
+	public static ForgeConfigSpec.IntValue spawnSkeletonArmyEntities;
+	public static ForgeConfigSpec.IntValue spawnSkeletonArmySpawnArea;
+	
+	// DigMobHole projectile action	
+	public static ForgeConfigSpec.IntValue digMobHoleNoHitHoleDepth;
+	public static ForgeConfigSpec.IntValue digMobHoleNoHitHoleHeight;
+	public static ForgeConfigSpec.IntValue digMobHoleNoHitHoleWidth;
+	public static ForgeConfigSpec.IntValue digMobHoleHeightExpansion;
+
+	// SpawnStairs projectile action		
+	public static ForgeConfigSpec.IntValue spawnStairsDuration;			
+
+	// Commander commands..		
+	public static ForgeConfigSpec.DoubleValue danceCommandChance;
+	public static ForgeConfigSpec.IntValue attackNearestMobCommandTargetDistance;			
+	public static ForgeConfigSpec.IntValue attackNearestPlayerCommandTargetDistance;			
 	
 	static {
 
@@ -115,12 +211,15 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment("General settings").push(CATEGORY_GENERAL);
 		COMMON_BUILDER.pop();
 
-		// build basic items
 		COMMON_BUILDER.comment("Basic item settings").push(CATEGORY_BASIC_ITEMS);
 		setupBasicItemsGeneralConfig();
 		setupBasicItemsConfig();
 		COMMON_BUILDER.pop();
 
+		COMMON_BUILDER.comment("Commander commands ").push(CATEGORY_COMMANDS);
+		setupCommandsConfig();
+		COMMON_BUILDER.pop();
+		
 		COMMON_BUILDER.comment("Potion effect settings").push(CATEGORY_POTION_EFFECT);
 		setupPotionEffectsConfig();
 		COMMON_BUILDER.pop();
@@ -129,7 +228,10 @@ public class ModConfiguration {
 		setupPotionsConfig();
 		COMMON_BUILDER.pop();
 
-		// build book items
+		COMMON_BUILDER.comment("Action settings").push(CATEGORY_ACTION);
+		setupActionsConfig();
+		COMMON_BUILDER.pop();
+		
 		COMMON_BUILDER.comment("Book settings").push(CATEGORY_BOOK_ITEMS);
 		setupBooksConfig();
 		COMMON_BUILDER.pop();
@@ -173,6 +275,35 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 	}
 
+	/**
+	 * Define configuration for commander commands.
+	 */
+	static void setupCommandsConfig() {
+
+		// Dance command
+		String name = DanceCommand.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		danceCommandChance = COMMON_BUILDER.comment("Chance for mob to jump during dance.")
+				.defineInRange("jumpChance", 0.75, 0, 1);
+		COMMON_BUILDER.pop();
+		
+		// Attack nearest mob command
+		name = AttackNearestMobCommand.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		attackNearestMobCommandTargetDistance = COMMON_BUILDER.comment("Distance within  the mob will aquire a target.")
+				.defineInRange("targetDistance", 5, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+		
+		// Attack nearest mob command
+		name = AttackNearestPlayerCommand.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		attackNearestPlayerCommandTargetDistance = COMMON_BUILDER.comment("Distance within  the mob will aquire a target.")
+				.defineInRange("targetDistance", 5, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+		
+				
+	}
+	
 	/**
 	 * Define configuration for potion effects.
 	 */
@@ -245,18 +376,150 @@ public class ModConfiguration {
 	}
 
 	/**
+	 * Define configuration for actions.
+	 */
+	static void setupActionsConfig() {
+
+		// ShootSmallFireballRing   
+		String name = ShootSmallFireballRing.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		shootSmallFireballRing = COMMON_BUILDER.comment("Number of fireballs spawned in 360 degrees circle.").defineInRange("number", 16, 0,
+				Integer.MAX_VALUE);				
+		COMMON_BUILDER.pop();								
+		
+		// DigMobHole
+		name = DigMobHole.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		digMobHoleNoHitHoleDepth = COMMON_BUILDER.comment("No-hit, hole depth (Z) in blocks.").defineInRange("noHitHoleDepth", 2, 0,
+				Integer.MAX_VALUE);						
+		digMobHoleNoHitHoleHeight = COMMON_BUILDER.comment("No-hit, hole height (Y) in blocks.").defineInRange("noHitHoleHeight", 2, 0,
+				Integer.MAX_VALUE);						
+		digMobHoleNoHitHoleWidth = COMMON_BUILDER.comment("No-hit, hole width (X) in blocks.").defineInRange("noHitHoleWidth", 2, 0,
+				Integer.MAX_VALUE);						
+		digMobHoleHeightExpansion = COMMON_BUILDER.comment("Hole expansion in addition to entity bounding box.").defineInRange("heightExpansion", 1, 0,
+				Integer.MAX_VALUE);								
+		COMMON_BUILDER.pop();															
+		
+		// SpawnCreeperArmy    
+		name = SpawnCreeperArmy.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnCreeperArmyEntities = COMMON_BUILDER.comment("Number of spawned entities.").defineInRange("number", 5, 0,
+				Integer.MAX_VALUE);				
+		spawnCreeperArmySpawnArea = COMMON_BUILDER.comment("Spawn area in blocks.").defineInRange("number", 5, 0,
+				Integer.MAX_VALUE);				
+		COMMON_BUILDER.pop();												
+
+		// SpawnSkeletonArmy    
+		name = SpawnSkeletonArmy.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnSkeletonArmyEntities= COMMON_BUILDER.comment("Number of spawned entities.").defineInRange("number", 8, 0,
+				Integer.MAX_VALUE);				
+		spawnSkeletonArmySpawnArea= COMMON_BUILDER.comment("Spawn area in blocks.").defineInRange("number", 5, 0,
+				Integer.MAX_VALUE);				
+		COMMON_BUILDER.pop();												
+		
+		// SpawnStairs   
+		name = SpawnStairs.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnStairsDuration = COMMON_BUILDER.comment("Duration of the effect in game ticks.").defineInRange("duration", 600, 0,
+				Integer.MAX_VALUE);						
+		COMMON_BUILDER.pop();													
+	}
+	
+	/**
 	 * Define configuration for books.
 	 */
 	static void setupBooksConfig() {
 
+		// MobCommandersBaton 
+		String name = MobCommandersBaton.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		mobCommandersBatonTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
+				"Right-click to issue commands to charmed and commanded mobs.");
+		mobCommandersBatonCooldown = COMMON_BUILDER.comment("Game ticks between item activation.").defineInRange("cooldown", 25, 0,
+				Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();					
+		
 		// SmallFireballBook 
-		String name = SmallFireballBook.ITEM_NAME;
+		name = SmallFireballBook.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		smallFireballBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
 				"Right-click to shoot a fireball that is hurled at foes.");
 		smallFireballBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.").defineInRange("cooldown", 25, 0,
 				Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();					
+
+		// SmallFireballRingBook   
+		name = SmallFireballRingBook.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		smallFireballRingBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
+				"Right-click to shot a ring of small fireballs outwards.");
+		smallFireballRingBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.").defineInRange("cooldown", 50, 0,
+				Integer.MAX_VALUE);		
+		COMMON_BUILDER.pop();								
+		
+		// TeleportBook  
+		name = TeleportBook.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		teleportBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
+				"Right-click to shoot projectile and teleport to the position where the projectile hits.");
+		teleportBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.").defineInRange("cooldown", 25, 0,
+				Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();					
+	
+		// SetSpawnPointBook  
+		name = SetSpawnPointBook.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		setSpawnPointBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
+				"Right-click to set the player spawn point.");
+		setSpawnPointBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.").defineInRange("cooldown", 25, 0,
+				Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();					
+
+		// DigMobHoleBook    
+		name = DigMobHoleBook.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		digMobHoleBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
+				"Right-click to shoot a projectile. If a creature is hit then an inconvenient hole is digged beneath the hit individual.");
+		digMobHoleBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.").defineInRange("cooldown", 25, 0,
+				Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();													
+				
+		// SpawnCreeperArmyBook    
+		name = SpawnCreeperArmyBook.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnCreeperArmyBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
+				"Right-click to spawn an army of creepers. The creepers can be commanded by Krenko's Command Baton.");
+		spawnCreeperArmyBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.").defineInRange("cooldown", 50, 0,
+				Integer.MAX_VALUE);		
+		COMMON_BUILDER.pop();												
+
+		// SpawnSkeletonArmyBook    
+		name = SpawnSkeletonArmyBook.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnSkeletonArmyBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
+				"Right-click on spawn an army of skeletons. The skeletons can be commanded by Krenko's Command Baton.");
+		spawnSkeletonArmyBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.").defineInRange("cooldown", 50, 0,
+				Integer.MAX_VALUE);		
+		COMMON_BUILDER.pop();												
+		
+		// BuildTowerBook  
+		name = BuildTowerBook.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		buildTowerBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
+				"Right-click on the ground to build a ruined portal tower.");
+		buildTowerBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.").defineInRange("cooldown", 200, 0,
+				Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();								
+
+		// BuildStairsBook   
+		name = BuildStairsBook.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		buildStairsBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
+				"Right-click to shoot a projectile. A magical staircase will be built from the player to where the projectile hit.");
+		buildStairsBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.").defineInRange("cooldown", 50, 0,
+				Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();											
 	}
 	
 	/**

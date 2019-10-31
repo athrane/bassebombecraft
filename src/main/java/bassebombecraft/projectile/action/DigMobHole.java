@@ -14,8 +14,7 @@ import static net.minecraft.block.Blocks.AIR;
 
 import java.util.List;
 
-import com.typesafe.config.Config;
-
+import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.player.PlayerDirection;
@@ -33,14 +32,14 @@ import net.minecraft.world.World;
  * Implementation of the {@linkplain ProjectileAction} which spawns a hole the
  * size of the entity hit box beneath the hit mob.
  * 
- * If a block is hit then a small is created where the projectile hit.
+ * If a block is hit then a small hole is created where the projectile hit.
  */
 public class DigMobHole implements ProjectileAction {
 
 	/**
-	 * Configuration key.
+	 * Action identifier.
 	 */
-	final static String CONFIG_KEY = DigMobHole.class.getSimpleName();
+	public final static String NAME = DigMobHole.class.getSimpleName();
 
 	/**
 	 * Process block directives repository.
@@ -73,12 +72,10 @@ public class DigMobHole implements ProjectileAction {
 	public DigMobHole() {
 		super();
 		repository = getBassebombeCraft().getBlockDirectivesRepository();
-		Config configuration = getBassebombeCraft().getConfiguration();
-
-		noHitHoleDepth = configuration.getInt(CONFIG_KEY + ".NoHitHoleDepth");
-		noHitholeHeight = configuration.getInt(CONFIG_KEY + ".NoHitHoleHeight");
-		noHitholeWidth = configuration.getInt(CONFIG_KEY + ".NoHitHoleWidth");
-		holeHeightExpansion = configuration.getInt(CONFIG_KEY + ".HitHoleHeightExpansion");
+		noHitHoleDepth = ModConfiguration.digMobHoleNoHitHoleDepth.get();
+		noHitholeHeight = ModConfiguration.digMobHoleNoHitHoleHeight.get();
+		noHitholeWidth = ModConfiguration.digMobHoleNoHitHoleWidth.get();
+		holeHeightExpansion = ModConfiguration.digMobHoleHeightExpansion.get();
 	}
 
 	@Override
