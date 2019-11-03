@@ -17,6 +17,8 @@ import static bassebombecraft.ModConstants.WEAK_AMPLIFICATION_POTION_NAME;
 import static net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR;
 
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 
@@ -44,6 +46,7 @@ import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.SmallFireballRingBook;
 import bassebombecraft.item.book.SpawnCreeperArmyBook;
+import bassebombecraft.item.book.SpawnKittenArmyBook;
 import bassebombecraft.item.book.SpawnSkeletonArmyBook;
 import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.potion.effect.AmplifierEffect;
@@ -53,6 +56,7 @@ import bassebombecraft.potion.effect.MobRespawningEffect;
 import bassebombecraft.potion.effect.PlayerAggroEffect;
 import bassebombecraft.projectile.action.DigMobHole;
 import bassebombecraft.projectile.action.SpawnCreeperArmy;
+import bassebombecraft.projectile.action.SpawnKittenArmy;
 import bassebombecraft.projectile.action.SpawnSkeletonArmy;
 import bassebombecraft.projectile.action.SpawnStairs;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -234,6 +238,10 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.ConfigValue<String> spawnSkeletonArmyBookTooltip;
 	public static ForgeConfigSpec.IntValue spawnSkeletonArmyBookCooldown;
 
+	// SpawnKittenArmyBook
+	public static ForgeConfigSpec.ConfigValue<String> spawnKittenArmyBookTooltip;
+	public static ForgeConfigSpec.IntValue spawnKittenArmyBookCooldown;
+
 	// BuildTowerBook
 	public static ForgeConfigSpec.ConfigValue<String> buildTowerBookTooltip;
 	public static ForgeConfigSpec.IntValue buildTowerBookCooldown;
@@ -265,9 +273,15 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue spawnCreeperArmyEntities;
 	public static ForgeConfigSpec.IntValue spawnCreeperArmySpawnArea;
 
-	// spawnSkeletonArmy projectile action
+	// SpawnSkeletonArmy projectile action
 	public static ForgeConfigSpec.IntValue spawnSkeletonArmyEntities;
 	public static ForgeConfigSpec.IntValue spawnSkeletonArmySpawnArea;
+
+	// SpawnKittenArmy projectile action
+	public static ForgeConfigSpec.IntValue spawnKittenArmyEntities;
+	public static ForgeConfigSpec.IntValue spawnKittenArmySpawnArea;
+	public static ForgeConfigSpec.IntValue spawnKittenArmyAge;
+	public static ForgeConfigSpec.ConfigValue<List<? extends String>> spawnKittenArmyNames;
 
 	// DigMobHole projectile action
 	public static ForgeConfigSpec.IntValue digMobHoleNoHitHoleDepth;
@@ -594,7 +608,7 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnCreeperArmyEntities = COMMON_BUILDER.comment("Number of spawned entities.").defineInRange("number", 5, 0,
 				Integer.MAX_VALUE);
-		spawnCreeperArmySpawnArea = COMMON_BUILDER.comment("Spawn area in blocks.").defineInRange("number", 5, 0,
+		spawnCreeperArmySpawnArea = COMMON_BUILDER.comment("Spawn area in blocks.").defineInRange("spawnArea", 5, 0,
 				Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
@@ -603,8 +617,30 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnSkeletonArmyEntities = COMMON_BUILDER.comment("Number of spawned entities.").defineInRange("number", 8, 0,
 				Integer.MAX_VALUE);
-		spawnSkeletonArmySpawnArea = COMMON_BUILDER.comment("Spawn area in blocks.").defineInRange("number", 5, 0,
+		spawnSkeletonArmySpawnArea = COMMON_BUILDER.comment("Spawn area in blocks.").defineInRange("spawnArea", 5, 0,
 				Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// SpawnKittenArmy
+		name = SpawnKittenArmy.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnKittenArmyEntities = COMMON_BUILDER.comment("Number of spawned entities.").defineInRange("number", 8, 0,
+				Integer.MAX_VALUE);
+		spawnKittenArmySpawnArea = COMMON_BUILDER.comment("Spawn area in blocks.").defineInRange("spawnArea", 5, 0,
+				Integer.MAX_VALUE);
+		spawnKittenArmyAge = COMMON_BUILDER.comment("Kitten age.").defineInRange("age", 5, 0, Integer.MAX_VALUE);
+		List<String> asList = Arrays.asList("Gotta Be Kitten Me", "Mittens", "Cloud", "Gotta Be Kitten Me", "Mittens",
+				"Claus the Cat", "Caroline the Cat", "Fish", "Olly", "Patrick", "Yubaba", "Jennifer", "Bobby", "Olaf",
+				"Violet", "Celestia", "Chelsea", "Chompy", "Beep", "Jacob", "Jonas", "Snow", "Sia", "The Bae", "Hugme",
+				"Ghost", "Lady", "Pinky", "Litten", "Boogie", "Chocolate", "Marshmallow", "Caramel", "Kowalski", "Love",
+				"Insert Name", "Meow", "TheCatIsALie", "Glados", "Molly", "Betty", "Jim", "ChangAndEng", "KitTheKitten",
+				"#KittenClub", "MsPiggy", "SpaceHair", "CometKitty", "UniKitty", "Tiger", "Scott", "Buzz", "Mis",
+				"Susanne", "TheTank", "Connie", "Chilli", "Ismael", "Megatron", "Volyova", "Scratches", "Hairball",
+				"Mulle", "Billy", "Lilly", "Lizzy", "Kat", "Penny", "Sussie", "Winston", "Nemesis", "Hunter", "Claw",
+				"Nusser", "Pusser", "Skade", "Darwin", "Basse", "Oginok", "Not A Number", "Star", "Hero", "Tiny",
+				"Pandemonium Warden");
+		spawnKittenArmyNames = COMMON_BUILDER.comment("Kitten names.").defineList("names", asList,
+				e -> e instanceof String);
 		COMMON_BUILDER.pop();
 
 		// SpawnStairs
@@ -724,6 +760,15 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnSkeletonArmyBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
 				"Right-click on spawn an army of skeletons. The skeletons can be commanded by Krenko's Command Baton.");
+		spawnSkeletonArmyBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.")
+				.defineInRange("cooldown", 50, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// SpawnKittenArmyBook
+		name = SpawnKittenArmyBook.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnSkeletonArmyBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
+				"Right-click on spawn an army of kittens. The kittens can be commanded by Krenko's Command Baton.");
 		spawnSkeletonArmyBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.")
 				.defineInRange("cooldown", 50, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
