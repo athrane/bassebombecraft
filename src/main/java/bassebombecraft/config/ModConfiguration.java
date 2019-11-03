@@ -169,9 +169,10 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue playerAggroEffectUpdateFrequency;
 
 	// MobRespawningEffect
-	public static ForgeConfigSpec.IntValue mobRespawningAreaOfEffect;
+	public static ForgeConfigSpec.IntValue mobRespawningEffectAreaOfEffect;
 	public static ForgeConfigSpec.IntValue mobRespawningEffectDuration;
-
+	public static ForgeConfigSpec.IntValue mobRespawningEffectSpawnArea;
+	
 	// BaconBazookaProjectileEffect
 	public static ForgeConfigSpec.IntValue baconBazookaProjectileEffectForce;
 	public static ForgeConfigSpec.IntValue baconBazookaProjectileEffectExplosion;
@@ -427,10 +428,12 @@ public class ModConfiguration {
 		// mob respawning effect
 		name = MobRespawningEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		mobRespawningAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.").defineInRange("areaOfEffect",
+		mobRespawningEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.").defineInRange("areaOfEffect",
 				10, 0, Integer.MAX_VALUE);
 		mobRespawningEffectDuration = COMMON_BUILDER.comment("Duration of effect (on aggro'ed mobs) in game ticks.")
 				.defineInRange("duration", 1200, 0, Integer.MAX_VALUE);
+		mobRespawningEffectSpawnArea = COMMON_BUILDER.comment("Spawn area in blocks.").defineInRange("spawnArea", 5, 0,
+				Integer.MAX_VALUE);		
 		COMMON_BUILDER.pop();
 
 		// player aggro effect
@@ -492,7 +495,7 @@ public class ModConfiguration {
 		String name = WEAK_AMPLIFICATION_POTION_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		weakAmplificationPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion.").defineInRange("amplifier",
-				16, 0, Integer.MAX_VALUE);
+				15, 0, Integer.MAX_VALUE);
 		weakAmplificationPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
 				.defineInRange("duration", 600, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
@@ -500,7 +503,7 @@ public class ModConfiguration {
 		// amplification potion
 		name = AMPLIFICATION_POTION_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		amplificationPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion.").defineInRange("amplifier", 64,
+		amplificationPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion.").defineInRange("amplifier", 63,
 				0, Integer.MAX_VALUE);
 		amplificationPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
 				.defineInRange("duration", 600, 0, Integer.MAX_VALUE);
@@ -510,7 +513,7 @@ public class ModConfiguration {
 		name = SUPERIOR_AMPLIFICATION_POTION_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		superiorAmplificationPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion.")
-				.defineInRange("amplifier", 128, 0, Integer.MAX_VALUE);
+				.defineInRange("amplifier", 127, 0, Integer.MAX_VALUE);
 		superiorAmplificationPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
 				.defineInRange("duration", 600, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();

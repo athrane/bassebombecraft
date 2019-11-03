@@ -6,13 +6,14 @@ import static bassebombecraft.entity.EntityUtils.calculateRandomYaw;
 import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
 import static bassebombecraft.player.PlayerUtils.getPlayer;
 import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
+import static bassebombecraft.potion.PotionUtils.getEffectIfActive;
+import static bassebombecraft.potion.PotionUtils.isAmplifierEffectActive;
 import static java.util.Optional.ofNullable;
 
 import java.util.Optional;
 import java.util.stream.IntStream;
 
 import bassebombecraft.config.ModConfiguration;
-import static bassebombecraft.potion.PotionUtils.*;
 import bassebombecraft.potion.effect.MobRespawningEffect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -60,14 +61,12 @@ public class MobRespawningEffectEventHandler {
 
 		// exit if dead entity is outside of area-of-effect of the player
 		float distance = player.getDistance(deadEntity);
-		if (distance > ModConfiguration.mobRespawningAreaOfEffect.get())
+		if (distance > ModConfiguration.mobRespawningEffectAreaOfEffect.get())
 			return;
 
 		// spawn entities
-		int spawnArea = ModConfiguration.mobRespawningEffectDuration.get();
 		int entities = calculateEntities(player, amplifier);
-
-		IntStream.rangeClosed(0, entities).forEach(n -> spawnEntity(deadEntity, player, spawnArea));
+		IntStream.rangeClosed(1, entities).forEach(n -> spawnEntity(deadEntity));
 	}
 
 	/**
@@ -82,12 +81,11 @@ public class MobRespawningEffectEventHandler {
 
 		// use existing amplifier if amplifier effect isn't active
 		if (!isAmplifierEffectActive(player)) {
-
 			// spawn at least one entity
 			return Math.max(1, amplifier);
 		}
 
-		// if amplifier in active amplifier effect is 16,64,128 then result should be
+		// if amplifier in active amplifier effect is 15,63,127 then result should be
 		// 2+1,8,16
 		int entities = (amplifier / 8) + 1;
 
@@ -99,10 +97,8 @@ public class MobRespawningEffectEventHandler {
 	 * Spawn entity, which aggro's the player.
 	 * 
 	 * @param deadEntity dead entity to spawn from.
-	 * @param player     player to aggro.
-	 * @param spawnArea  spawn areas size.
 	 */
-	static void spawnEntity(Entity deadEntity, PlayerEntity player, int spawnArea) {
+	static void spawnEntity(Entity deadEntity) {
 
 		// get world
 		World world = deadEntity.getEntityWorld();
@@ -112,18 +108,22 @@ public class MobRespawningEffectEventHandler {
 
 		// create new entity
 		Entity spawnedEntity = type.create(world);
+		int spawnArea = ModConfiguration.mobRespawningEffectSpawnArea.get();
+
 		setRandomSpawnPosition(deadEntity.getPosition(), calculateRandomYaw(), spawnArea, spawnedEntity);
 		world.addEntity(spawnedEntity);
 
 		// clone equipment
 
-		// apply player player aggro potion
+		// apply player aggro potion
 		LivingEntity livingEntity = (LivingEntity) spawnedEntity;
 		livingEntity.addPotionEffect(createEffect());
+
+		System.out.println("MobRespawningEffectEventHandler: spawned=" + spawnedEntity);
 	}
 
 	/**
-	 * Create potion effect.
+	 * Create player aggro potion effect.
 	 * 
 	 * @return potion effect
 	 */

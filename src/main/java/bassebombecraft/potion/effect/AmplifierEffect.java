@@ -52,7 +52,7 @@ public class AmplifierEffect extends Effect {
 		// get active effects
 		Collection<EffectInstance> effects = entity.getActivePotionEffects();
 		
-		// identify effects to be amplified 
+		// step 1: identify effects to be amplified 
 		List<EffectInstance> toBeAmplifiedEffects = new ArrayList<EffectInstance>();
 		for (EffectInstance effectInstance : effects) {		
 			
@@ -67,15 +67,15 @@ public class AmplifierEffect extends Effect {
 				toBeAmplifiedEffects.add(effectInstance);
 		}
 
-		// amplify identified effects
-		for(EffectInstance effectInstance : toBeAmplifiedEffects) {
+		// step 2: amplify identified effects
+		for(EffectInstance currentEffect : toBeAmplifiedEffects) {
 			
 			// remove effect
-			entity.removePotionEffect(effectInstance.getPotion());
+			entity.removePotionEffect(currentEffect.getPotion());
 			
 			// create amplified effect 
-			EffectInstance amplifiedEffect = new EffectInstance(effectInstance.getPotion(), effectInstance.getDuration(), amplifier,
-					effectInstance.isAmbient(), effectInstance.doesShowParticles(), effectInstance.isShowIcon());
+			EffectInstance amplifiedEffect = new EffectInstance(currentEffect.getPotion(), currentEffect.getDuration(), amplifier,
+					currentEffect.isAmbient(), currentEffect.doesShowParticles(), currentEffect.isShowIcon());
 
 			// add amplified effect
 			entity.addPotionEffect(amplifiedEffect);
