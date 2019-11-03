@@ -71,11 +71,11 @@ public class EntityUtils {
 	 * @param entity entity to be killed.
 	 */
 	public static void killEntity(LivingEntity entity) {
-		
+
 		// kill target
-		entity.onKillCommand();		
+		entity.onKillCommand();
 	}
-	
+
 	/**
 	 * return true if entity is a {@linkplain CreatureEntity}.
 	 * 
@@ -131,7 +131,7 @@ public class EntityUtils {
 			return oe.get() instanceof CreeperEntity;
 		return false;
 	}
-	
+
 	/**
 	 * Calculate entity feet position (as a Y coordinate).
 	 * 
@@ -212,20 +212,97 @@ public class EntityUtils {
 	}
 
 	/**
+	 * Returns true if entity supports targeting, i.e. a target can be set at
+	 * entity.
+	 * 
+	 * Targeting is supported for {@linkplain CreatureEntity} and
+	 * {@linkplain LivingEntity}.
+	 * 
+	 * @param entity to test.
+	 * 
+	 * @return true if entity supports targeting, i.e. a target can be set at
+	 *         entity.
+	 */
+	public static boolean supportTargeting(Entity entity) {
+		if (isTypeCreatureEntity(entity))
+			return true;
+		if (isTypeLivingEntity(entity))
+			return true;
+		return false;
+	}
+
+	/**
+	 * Set target as either {@linkplain CreatureEntity} or
+	 * {@linkplain LivingEntity}.
+	 * 
+	 * @param entity    entity to set target for.
+	 * @param newTarget target to set.
+	 */
+	public static void setTarget(Entity entity, LivingEntity newTarget) {
+		if (isTypeCreatureEntity(entity)) {
+			CreatureEntity creatureEntity = (CreatureEntity) entity;
+			creatureEntity.setAttackTarget(newTarget);			
+			return;
+		}
+		if (isTypeLivingEntity(entity)) {
+			LivingEntity livingEntity = (LivingEntity) entity;
+			livingEntity.setLastAttackedEntity(newTarget);
+			livingEntity.setRevengeTarget(newTarget);
+		}
+	}
+
+	/**
+	 * Set entity to be aggro'ed.
+	 * Aggro'ing is only supported for {@linkplain MobEntity}.
+	 * 
+	 * @param entity entity to set aggro'ed if it is a {@linkplain MobEntity}.
+	 */
+	public static void setMobEntityAggroed(Entity entity) {
+		// set mob to be aggro'ed
+		if (isTypeMobEntity(entity)) {
+			MobEntity mobEntity = (MobEntity) entity;
+			mobEntity.setAggroed(true);
+		}
+	}
+	
+	/**
+	 * Set a random spawn position for living entity.
+	 * 
+	 * @param pos         block position to spawn from.
+	 * @param rotationYaw rotation yaw to spawn from.
+	 * @param spawnArea   spawn areas in blocks.
+	 * @param entity      entity to set position for.
+	 */
+	public static void setRandomSpawnPosition(BlockPos pos, float rotationYaw, int spawnArea, LivingEntity entity) {
+		setRandomSpawnPosition(pos, rotationYaw, spawnArea, (Entity) entity);
+	}
+
+	/**
 	 * Set a random spawn position for entity.
 	 * 
 	 * @param pos         block position to spawn from.
 	 * @param rotationYaw rotation yaw to spawn from.
-	 * @param spawnSize   spawn areas in blocks.
+	 * @param spawnArea   spawn areas in blocks.
 	 * @param entity      entity to set position for.
 	 */
-	public static void setRandomSpawnPosition(BlockPos pos, float rotationYaw, int spawnSize, LivingEntity entity) {
+	public static void setRandomSpawnPosition(BlockPos pos, float rotationYaw, int spawnArea, Entity entity) {
 		Random random = getBassebombeCraft().getRandom();
-		int randomX = random.nextInt(spawnSize) - (spawnSize / 2);
-		int randomZ = random.nextInt(spawnSize) - (spawnSize / 2);
+		int randomX = random.nextInt(spawnArea) - (spawnArea / 2);
+		int randomZ = random.nextInt(spawnArea) - (spawnArea / 2);
 		double positionX = pos.getX() + randomX;
 		double positionY = pos.getY();
 		double positionZ = pos.getZ() + randomZ;
 		entity.setLocationAndAngles(positionX, positionY, positionZ, rotationYaw, PITCH);
 	}
+
+	/**
+	 * Calculate random YAW (counterclockwise rotation about the z-axis) for entity.
+	 * 
+	 * @return random YAW .
+	 */
+	public static float calculateRandomYaw() {
+		return getBassebombeCraft().getRandom().nextFloat() * 360.0F;
+	}
+
+
 }

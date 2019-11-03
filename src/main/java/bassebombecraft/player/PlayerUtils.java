@@ -110,6 +110,19 @@ public class PlayerUtils {
 	}
 
 	/**
+	 * return true if entity is a {@linkplain PlayerEntity} and it is alive.
+	 * 
+	 * @param entity entity to test.
+	 * 
+	 * @return true if entity is a {@linkplain PlayerEntity} and it is alive.
+	 */
+	public static boolean isPlayerEntityAlive(Entity entity) {
+		if(!isTypePlayerEntity(entity)) return false;
+		PlayerEntity targetAsPlayer = (PlayerEntity) entity;
+		return targetAsPlayer.isAlive();
+	}	
+	
+	/**
 	 * Returns true if item is held in player off hand.
 	 * 
 	 * @param player player to test.

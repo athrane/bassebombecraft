@@ -6,31 +6,29 @@ import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
 import static bassebombecraft.entity.EntityUtils.setMobEntityAggroed;
 import static bassebombecraft.entity.EntityUtils.setTarget;
 import static bassebombecraft.entity.EntityUtils.supportTargeting;
+import static bassebombecraft.player.PlayerUtils.isPlayerEntityAlive;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
+import static java.util.Optional.ofNullable;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Optional;
 
 import bassebombecraft.config.ModConfiguration;
-import bassebombecraft.entity.EntityDistanceSorter;
-import bassebombecraft.predicate.DiscardSelf;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Effect;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.World;
 
 /**
- * Effect which make a mob aggro any entity, e.g. would attack it on sight.
- * 
- * The effect has no effect on the player.
+ * Effect which make a mob aggro's any player, e.g. would attack it on sight.
  */
-public class MobAggroEffect extends Effect {
+public class PlayerAggroEffect extends Effect {
 
 	/**
 	 * Effect identifier.
 	 */
-	public final static String NAME = MobAggroEffect.class.getSimpleName();
+	public final static String NAME = PlayerAggroEffect.class.getSimpleName();
 
 	/**
 	 * Update frequency for effect.
@@ -38,33 +36,18 @@ public class MobAggroEffect extends Effect {
 	int updateFrequency;
 	
 	/**
-	 * First list index.
-	 */
-	final static int FIRST_INDEX = 0;
-
-	/**
 	 * Area of effect.
 	 */
-	final int arreaOfEffect;
+	int arreaOfEffect;
 
 	/**
-	 * Entity distance sorter.
+	 * PlayerAggroEffect constructor.
 	 */
-	EntityDistanceSorter entityDistanceSorter = new EntityDistanceSorter();
-
-	/**
-	 * Discard self filter.
-	 */
-	DiscardSelf discardSelfFilter = new DiscardSelf();
-
-	/**
-	 * MobAggroEffect constructor.
-	 */
-	public MobAggroEffect() {
+	public PlayerAggroEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
 		doCommonEffectInitialization(this, NAME);
-		arreaOfEffect = ModConfiguration.mobAggroEffectAreaOfEffect.get();
-		updateFrequency = ModConfiguration.mobAggroEffectUpdateFrequency.get();
+		arreaOfEffect = ModConfiguration.playerAggroEffectAreaOfEffect.get();
+		updateFrequency  = ModConfiguration.playerAggroEffectUpdateFrequency.get();
 	}
 
 	@Override
@@ -91,31 +74,25 @@ public class MobAggroEffect extends Effect {
 			LivingEntity entityLiving = (LivingEntity) entity;
 			target = entityLiving.getLastAttackedEntity();
 		}
-
-		// exit if target is defined and isn't dead
-		if ((target != null) && (!target.isAlive()))
+		
+		// exit if target is defined, it is a player and it is alive
+		if (isTypePlayerEntity(target) && isPlayerEntityAlive(target))
 			return;
+		
+		// get world
+		World world = entity.getEntityWorld();
 
-		// initialize filter
-		discardSelfFilter.set(entity);
-
-		// get list of mobs
-		AxisAlignedBB aabb = entity.getBoundingBox().expand(arreaOfEffect, arreaOfEffect, arreaOfEffect);
-		List<LivingEntity> targetList = entity.world.getEntitiesWithinAABB(LivingEntity.class, aabb, discardSelfFilter);
+		// get closet player
+		double searchDist = (double) arreaOfEffect;
+		Optional<PlayerEntity> optPlayer = ofNullable(world.getClosestPlayer(entity, searchDist));				
+//				world.getClosestPlayer(entity.posX, entity.posY, entity.posZ, searchDist, false));
 
 		// exit if no targets where found
-		if (targetList.isEmpty())
+		if (!optPlayer.isPresent())
 			return;
-
-		// sort mobs
-		entityDistanceSorter.setEntity(entity);
-		Collections.sort(targetList, entityDistanceSorter);
-
-		// get new target
-		LivingEntity newTarget = targetList.get(FIRST_INDEX);
-
+		
 		// set target
-		setTarget(entity, newTarget);
+		setTarget(entity, optPlayer.get());
 
 		// set mob aggro'ed
 		setMobEntityAggroed(entity);

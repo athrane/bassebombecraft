@@ -6,8 +6,8 @@ import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 
 import com.typesafe.config.Config;
 
+import bassebombecraft.ModConstants;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.event.potion.PotionRegistryEventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
@@ -84,7 +84,7 @@ public class AddMobsPrimingEffect implements InventoryItemActionStrategy {
 	 * @return potion effect
 	 */
 	EffectInstance createEffect() {
-		return new EffectInstance(PotionRegistryEventHandler.MOB_PRIMING_EFFECT, duration);
+		return new EffectInstance(ModConstants.MOB_PRIMING_EFFECT, duration);
 	}
 
 }

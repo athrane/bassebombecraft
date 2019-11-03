@@ -9,6 +9,7 @@ import static bassebombecraft.ModConstants.ITEM_BASICITEM_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.ModConstants.MOB_AGGRO_POTION_NAME;
 import static bassebombecraft.ModConstants.MOB_PRIMING_POTION_NAME;
+import static bassebombecraft.ModConstants.MOB_RESPAWNING_POTION_NAME;
 import static bassebombecraft.ModConstants.SUPERIOR_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.WEAK_AMPLIFICATION_POTION_NAME;
 import static net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR;
@@ -40,8 +41,11 @@ import bassebombecraft.item.book.SmallFireballRingBook;
 import bassebombecraft.item.book.SpawnCreeperArmyBook;
 import bassebombecraft.item.book.SpawnSkeletonArmyBook;
 import bassebombecraft.item.book.TeleportBook;
+import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.MobAggroEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
+import bassebombecraft.potion.effect.MobRespawningEffect;
+import bassebombecraft.potion.effect.PlayerAggroEffect;
 import bassebombecraft.projectile.action.DigMobHole;
 import bassebombecraft.projectile.action.SpawnCreeperArmy;
 import bassebombecraft.projectile.action.SpawnSkeletonArmy;
@@ -134,13 +138,30 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue mobPrimingPotionAmplifier;
 	public static ForgeConfigSpec.IntValue mobPrimingPotionDuration;
 
+	// MobRespawnerPotion
+	public static ForgeConfigSpec.IntValue mobRespawningPotionAmplifier;
+	public static ForgeConfigSpec.IntValue mobRespawningPotionDuration;
+
 	// Potion effects..
 
+	// AmplifierEffect
+	public static ForgeConfigSpec.IntValue amplifierEffectUpdateFrequency;
+	
 	// MobPrimingEffect
 	public static ForgeConfigSpec.IntValue mobPrimingEffectCountdown;
 
 	// MobAggroEffect
 	public static ForgeConfigSpec.IntValue mobAggroEffectAreaOfEffect;
+	public static ForgeConfigSpec.IntValue mobAggroEffectUpdateFrequency;
+
+	// PlayerAggroEffect
+	public static ForgeConfigSpec.IntValue playerAggroEffectAreaOfEffect;
+	public static ForgeConfigSpec.IntValue playerAggroEffectDuration;
+	public static ForgeConfigSpec.IntValue playerAggroEffectUpdateFrequency;
+
+	// MobRespawningEffect
+	public static ForgeConfigSpec.IntValue mobRespawningAreaOfEffect;
+	public static ForgeConfigSpec.IntValue mobRespawningEffectDuration;
 
 	// BaconBazookaProjectileEffect
 	public static ForgeConfigSpec.IntValue baconBazookaProjectileEffectForce;
@@ -341,8 +362,15 @@ public class ModConfiguration {
 	 */
 	static void setupPotionEffectsConfig() {
 
+		// amplifier effect
+		String name = AmplifierEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		amplifierEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
+				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);		
+		COMMON_BUILDER.pop();
+		
 		// mob priming effect
-		String name = MobPrimingEffect.NAME;
+		name = MobPrimingEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		mobPrimingEffectCountdown = COMMON_BUILDER.comment("Countdown of the effect in game ticks.")
 				.defineInRange("countdown", 60, 0, Integer.MAX_VALUE);
@@ -353,6 +381,28 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		mobAggroEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.").defineInRange("areaOfEffect",
 				10, 0, Integer.MAX_VALUE);
+		mobAggroEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
+				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);				
+		COMMON_BUILDER.pop();
+
+		// mob respawning effect
+		name = MobRespawningEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		mobRespawningAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.").defineInRange("areaOfEffect",
+				10, 0, Integer.MAX_VALUE);
+		mobRespawningEffectDuration = COMMON_BUILDER.comment("Duration of effect (on aggro'ed mobs) in game ticks.")
+				.defineInRange("duration", 1200, 0, Integer.MAX_VALUE);		
+		COMMON_BUILDER.pop();
+
+		// player aggro effect
+		name = PlayerAggroEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		playerAggroEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.")
+				.defineInRange("areaOfEffect", 10, 0, Integer.MAX_VALUE);
+		playerAggroEffectDuration = COMMON_BUILDER.comment("Duration of effect (on aggro'ed mobs) in game ticks.")
+				.defineInRange("duration", 1200, 0, Integer.MAX_VALUE);
+		playerAggroEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
+				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);		
 		COMMON_BUILDER.pop();
 
 		// bacon bazooka projectile effect
@@ -422,6 +472,15 @@ public class ModConfiguration {
 		mobPrimingPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion, i.e. the resulting explosion.")
 				.defineInRange("amplifier", 10, 0, Integer.MAX_VALUE);
 		mobPrimingPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
+				.defineInRange("duration", 1200, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// mob respawning potion
+		name = MOB_RESPAWNING_POTION_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		mobRespawningPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion, i.e. the number of spawned mobs.")
+				.defineInRange("amplifier", 2, 0, Integer.MAX_VALUE);
+		mobRespawningPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
 				.defineInRange("duration", 1200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 	}

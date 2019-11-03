@@ -1,9 +1,14 @@
 package bassebombecraft.potion;
 
+import static bassebombecraft.ModConstants.AMPLIFIER_EFFECT;
 import static bassebombecraft.ModConstants.MODID;
+import static java.util.Optional.ofNullable;
 import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
 
+import java.util.Optional;
+
 import bassebombecraft.config.ConfigUtils;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -80,6 +85,45 @@ public class PotionUtils {
 		Ingredient reagantItem = Ingredient.fromStacks(new ItemStack(reagent));
 		ItemStack out = addPotionToItemStack(new ItemStack(Items.POTION), targetPotion);
 		BrewingRecipeRegistry.addRecipe(new BrewingRecipe(baseItem, reagantItem, out));
+	}
+
+	/**
+	 * Returns effect, if potion effect is active on living entity.
+	 * 
+	 * @param entity the entity to test.
+	 * @param effect the effect to test for.
+	 * @return {@linkplain Optional} containing the effect if it is active.
+	 *         Otherwise the optional is empty.
+	 */
+	public static Optional<EffectInstance> getEffectIfActive(LivingEntity entity, Effect effect) {
+		Optional<EffectInstance> optEffect = ofNullable(entity.getActivePotionEffect(effect));
+		return optEffect;
+	}
+
+	/**
+	 * Returns true if effect is active on living entity.
+	 * 
+	 * @param entity the entity to test.
+	 * @param effect the effect to test for.
+	 * 
+	 * @return true if effect is active on living entity.
+	 */
+	public static boolean isEffectActive(LivingEntity entity, Effect effect) {
+		Optional<EffectInstance> optEffect = getEffectIfActive(entity, effect);
+		return optEffect.isPresent();
+	}
+
+	/**
+	 * Returns true if any of amplifier effect is active on living entity.
+	 * 
+	 * @param entity the entity to test.
+	 * @param effect the effect to test for.
+	 * 
+	 * @return true if effect is active on living entity.
+	 */
+	public static boolean isAmplifierEffectActive(LivingEntity entity) {
+		Optional<EffectInstance> optEffect = getEffectIfActive(entity, AMPLIFIER_EFFECT);
+		return optEffect.isPresent();
 	}
 
 }

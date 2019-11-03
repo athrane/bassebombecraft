@@ -1,29 +1,26 @@
 package bassebombecraft.event.potion;
 
 import static bassebombecraft.ModConstants.AMPLIFICATION_POTION_NAME;
+import static bassebombecraft.ModConstants.AMPLIFIER_EFFECT;
+import static bassebombecraft.ModConstants.MOB_AGGRO_EFFECT;
 import static bassebombecraft.ModConstants.MOB_AGGRO_POTION_NAME;
+import static bassebombecraft.ModConstants.MOB_PRIMING_EFFECT;
 import static bassebombecraft.ModConstants.MOB_PRIMING_POTION_NAME;
+import static bassebombecraft.ModConstants.MOB_RESPAWNING_EFFECT;
+import static bassebombecraft.ModConstants.MOB_RESPAWNING_POTION_NAME;
+import static bassebombecraft.ModConstants.PLAYER_AGGRO_EFFECT;
 import static bassebombecraft.ModConstants.POTIONS_CONFIGPATH;
 import static bassebombecraft.ModConstants.SUPERIOR_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.WEAK_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.potion.PotionUtils.getInstance;
 import static bassebombecraft.potion.PotionUtils.registerPotionRecipe;
 import static net.minecraft.item.Items.CHORUS_FRUIT;
+import static net.minecraft.item.Items.CREEPER_SPAWN_EGG;
 import static net.minecraft.item.Items.EMERALD;
 import static net.minecraft.item.Items.ENDER_PEARL;
 import static net.minecraft.item.Items.FIRE_CHARGE;
 import static net.minecraft.item.Items.NETHER_STAR;
 
-import bassebombecraft.config.ModConfiguration;
-import bassebombecraft.item.action.ShootBaconBazooka;
-import bassebombecraft.item.action.ShootBearBlaster;
-import bassebombecraft.item.action.ShootCreeperCannon;
-import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
-import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
-import bassebombecraft.potion.effect.AmplifierEffect;
-import bassebombecraft.potion.effect.MobAggroEffect;
-import bassebombecraft.potion.effect.MobPrimingEffect;
-import bassebombecraft.potion.effect.MobProjectileEffect;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.Potions;
@@ -37,46 +34,6 @@ import net.minecraftforge.registries.IForgeRegistry;
  */
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class PotionRegistryEventHandler {
-
-	/**
-	 * Mobs aggro effect, used by {@linkplain MobsAggroIdolInventoryItem}.
-	 */
-	public static final Effect MOB_AGGRO_EFFECT = new MobAggroEffect();
-
-	/**
-	 * Primed mob effect, used by {@linkplain PrimeMobIdolInventoryItem}.
-	 */
-	public static final Effect MOB_PRIMING_EFFECT = new MobPrimingEffect();
-
-	/**
-	 * Bear blaster effect, used by {@linkplain ShootBearBlaster}.
-	 */
-	public static final Effect BEAR_BLASTER_EFFECT = new MobProjectileEffect(
-			ModConfiguration.bearBlasterProjectileEffectForce.get(),
-			ModConfiguration.bearBlasterProjectileEffectExplosion.get());
-
-	/**
-	 * Creeper cannon effect, used by {@linkplain ShootCreeperCannon}.
-	 */
-	public static final Effect PRIMED_CREEPER_CANNON_EFFECT = new MobProjectileEffect(
-			"PrimedCreeperCannonProjectilePotion");
-
-	/**
-	 * Creeper cannon effect, used by {@linkplain ShootCreeperCannon}.
-	 */
-	public static final Effect CREEPER_CANNON_EFFECT = new MobProjectileEffect("CreeperCannonProjectileEffect");
-
-	/**
-	 * Bacon Bazooka effect, used by {@linkplain ShootBaconBazooka}.
-	 */
-	public static final Effect BACON_BAZOOKA_EFFECT = new MobProjectileEffect(
-			ModConfiguration.baconBazookaProjectileEffectForce.get(),
-			ModConfiguration.baconBazookaProjectileEffectExplosion.get());
-
-	/**
-	 * Potion amplifier effect.
-	 */
-	public static final Effect AMPLIFIER_EFFECT = new AmplifierEffect();
 
 	/**
 	 * Handle {@linkplain RegistryEvent.Register<Potion>} event to register potions
@@ -122,6 +79,13 @@ public class PotionRegistryEventHandler {
 		Potion primedMobPotion = getInstance(name, configPath, MOB_PRIMING_EFFECT);
 		registry.register(primedMobPotion);
 		registerPotionRecipe(Potions.AWKWARD, FIRE_CHARGE, mobAggroPotion);
+
+		// create and register mob respawner potion
+		name = MOB_RESPAWNING_POTION_NAME.toLowerCase();
+		configPath = POTIONS_CONFIGPATH + MOB_RESPAWNING_POTION_NAME;
+		Potion mobRespawnerPotion = getInstance(name, configPath, MOB_RESPAWNING_EFFECT);
+		registry.register(mobRespawnerPotion);
+		registerPotionRecipe(Potions.AWKWARD, CREEPER_SPAWN_EGG, mobRespawnerPotion);
 	}
 
 	/**
@@ -136,6 +100,8 @@ public class PotionRegistryEventHandler {
 		registry.register(AMPLIFIER_EFFECT);
 		registry.register(MOB_AGGRO_EFFECT);
 		registry.register(MOB_PRIMING_EFFECT);
+		registry.register(MOB_RESPAWNING_EFFECT);
+		registry.register(PLAYER_AGGRO_EFFECT);
 		// registry.register(BEAR_BLASTER_EFFECT);
 		// registry.register(PRIMED_CREEPER_CANNON_EFFECT);
 		// registry.register(CREEPER_CANNON_EFFECT);

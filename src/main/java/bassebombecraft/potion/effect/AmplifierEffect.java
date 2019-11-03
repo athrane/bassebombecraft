@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import bassebombecraft.config.ModConfiguration;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
@@ -25,6 +26,11 @@ public class AmplifierEffect extends Effect {
 	/**
 	 * Update frequency for effect.
 	 */
+	int updateFrequency;
+	
+	/**
+	 * Update frequency for effect.
+	 */
 	static final int UPDATE_FREQUENCY = 10;
 
 	/**
@@ -33,7 +39,7 @@ public class AmplifierEffect extends Effect {
 	public AmplifierEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
 		doCommonEffectInitialization(this, NAME);
-		
+		updateFrequency  = ModConfiguration.amplifierEffectUpdateFrequency.get();		
 	}
 
 	@Override
@@ -78,7 +84,7 @@ public class AmplifierEffect extends Effect {
 
 	@Override
 	public boolean isReady(int duration, int amplifier) {
-		int moduloValue = duration % UPDATE_FREQUENCY; 
+		int moduloValue = duration % updateFrequency; 
 		return (moduloValue == 0);
 	}
 
