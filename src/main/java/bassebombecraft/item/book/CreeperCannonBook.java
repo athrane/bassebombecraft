@@ -9,9 +9,8 @@ public class CreeperCannonBook extends GenericRightClickedBook {
 
 	public final static String ITEM_NAME = CreeperCannonBook.class.getSimpleName();
 	final static boolean ISNT_PRIMED = false;
-	final static String CONFIG_KEY = ShootCreeperCannon.class.getSimpleName();
 
 	public CreeperCannonBook() {
-		super(ITEM_NAME, new ShootCreeperCannon(ISNT_PRIMED, CONFIG_KEY));
+		super(ITEM_NAME, new ShootCreeperCannon(ISNT_PRIMED));
 	}
 }

@@ -1,6 +1,5 @@
 package bassebombecraft.potion.effect;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
 import static bassebombecraft.ModConstants.POTION_MOB_DEATH_TIME_TRIGGER;
@@ -8,8 +7,6 @@ import static bassebombecraft.entity.EntityUtils.explode;
 import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 
 import java.util.List;
-
-import com.typesafe.config.Config;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
@@ -43,20 +40,6 @@ public class MobProjectileEffect extends Effect {
 	 * Projectile impact explosion size.
 	 */
 	final int explosion;
-
-	/**
-	 * MobProjectilePotion constructor.
-	 * 
-	 * @param key configuration key.
-	 */
-	@Deprecated
-	public MobProjectileEffect(String key) {
-		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
-		doCommonEffectInitialization(this, NAME);
-		Config configuration = getBassebombeCraft().getConfiguration();
-		force = configuration.getInt(key + ".Force");
-		explosion = configuration.getInt(key + ".Explosion");
-	}
 
 	/**
 	 * MobProjectilePotion constructor.

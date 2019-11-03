@@ -276,7 +276,7 @@ public class CompanionAttack extends Goal {
 		longRangeActions.add(new ShootWitherSkull());
 		longRangeActions.add(new ShootMultipleArrows());
 		longRangeActions.add(new ShootBaconBazooka());
-		longRangeActions.add(new ShootCreeperCannon(ISNT_PRIMED, CREEPER_CANNON_CONFIG_KEY));
+		longRangeActions.add(new ShootCreeperCannon(ISNT_PRIMED));
 		longRangeActions.add(new GenericShootEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));
 		longRangeActions.add(new GenericShootEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION));
 		longRangeActions.add(new GenericShootEggProjectile(LIGHTNING_PROJECTILE_ACTION));

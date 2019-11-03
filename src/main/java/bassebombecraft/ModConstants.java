@@ -375,6 +375,16 @@ public class ModConstants {
 	 * Bear blaster projectile effect name.
 	 */
 	public final static String BEARBLASTER_EFFECT_NAME = "BearBlasterProjectileEffect";
+
+	/**
+	 * Creeper cannon projectile effect name.
+	 */
+	public final static String CREEPERCANNON_EFFECT_NAME = "CreeperCannonProjectileEffect";
+
+	/**
+	 * Primed creeper cannon projectile effect name.
+	 */
+	public final static String PRIMEDCREEPERCANNON_EFFECT_NAME = "PrimedCreeperCannonProjectileEffect";
 	
 	/**
 	 * Mobs aggro effect, used by {@linkplain MobsAggroIdolInventoryItem}.
@@ -397,29 +407,32 @@ public class ModConstants {
 	public static final Effect MOB_RESPAWNING_EFFECT = new MobRespawningEffect();
 
 	/**
-	 * Bear blaster effect, used by {@linkplain ShootBearBlaster}.
-	 */
-	public static final Effect BEAR_BLASTER_EFFECT = new MobProjectileEffect(
-			ModConfiguration.bearBlasterProjectileEffectForce.get(),
-			ModConfiguration.bearBlasterProjectileEffectExplosion.get());
-
-	/**
-	 * Creeper cannon effect, used by {@linkplain ShootCreeperCannon}.
-	 */
-	public static final Effect PRIMED_CREEPER_CANNON_EFFECT = new MobProjectileEffect(
-			"PrimedCreeperCannonProjectilePotion");
-
-	/**
-	 * Creeper cannon effect, used by {@linkplain ShootCreeperCannon}.
-	 */
-	public static final Effect CREEPER_CANNON_EFFECT = new MobProjectileEffect("CreeperCannonProjectileEffect");
-
-	/**
 	 * Bacon Bazooka effect, used by {@linkplain ShootBaconBazooka}.
 	 */
 	public static final Effect BACON_BAZOOKA_EFFECT = new MobProjectileEffect(
 			ModConfiguration.baconBazookaProjectileEffectForce.get(),
 			ModConfiguration.baconBazookaProjectileEffectExplosion.get());
+	
+	/**
+	 * Bear blaster effect, used by {@linkplain ShootBearBlaster}.
+	 */
+	public static final Effect BEAR_BLASTER_EFFECT = new MobProjectileEffect(
+			ModConfiguration.bearBlasterProjectileEffectForce.get(),
+			ModConfiguration.bearBlasterProjectileEffectExplosion.get());
+	
+	/**
+	 * Creeper cannon effect, used by {@linkplain ShootCreeperCannon}.
+	 */
+	public static final Effect CREEPER_CANNON_EFFECT = new MobProjectileEffect(
+			ModConfiguration.creeperCannonProjectileEffectForce.get(),
+			ModConfiguration.creeperCannonProjectileEffectExplosion.get());
+
+	/**
+	 * Creeper cannon effect, used by {@linkplain ShootCreeperCannon}.
+	 */
+	public static final Effect PRIMED_CREEPER_CANNON_EFFECT = new MobProjectileEffect(
+			ModConfiguration.primedCreeperCannonProjectileEffectForce.get(),
+			ModConfiguration.primedCreeperCannonProjectileEffectExplosion.get());	
 
 	/**
 	 * Potion amplifier effect.

@@ -4,12 +4,14 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.BACONBAZOOKA_EFFECT_NAME;
 import static bassebombecraft.ModConstants.BEARBLASTER_EFFECT_NAME;
+import static bassebombecraft.ModConstants.CREEPERCANNON_EFFECT_NAME;
 import static bassebombecraft.ModConstants.INTERNAL_TOML_CONFIG_FILE_NAME;
 import static bassebombecraft.ModConstants.ITEM_BASICITEM_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.ModConstants.MOB_AGGRO_POTION_NAME;
 import static bassebombecraft.ModConstants.MOB_PRIMING_POTION_NAME;
 import static bassebombecraft.ModConstants.MOB_RESPAWNING_POTION_NAME;
+import static bassebombecraft.ModConstants.PRIMEDCREEPERCANNON_EFFECT_NAME;
 import static bassebombecraft.ModConstants.SUPERIOR_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.WEAK_AMPLIFICATION_POTION_NAME;
 import static net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR;
@@ -26,6 +28,7 @@ import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
 import bassebombecraft.entity.commander.command.DanceCommand;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
+import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.ShootSmallFireballRing;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.basic.TerminatorEyeItem;
@@ -34,7 +37,9 @@ import bassebombecraft.item.book.BaconBazookaBook;
 import bassebombecraft.item.book.BearBlasterBook;
 import bassebombecraft.item.book.BuildStairsBook;
 import bassebombecraft.item.book.BuildTowerBook;
+import bassebombecraft.item.book.CreeperCannonBook;
 import bassebombecraft.item.book.DigMobHoleBook;
+import bassebombecraft.item.book.PrimedCreeperCannonBook;
 import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.SmallFireballRingBook;
@@ -146,7 +151,7 @@ public class ModConfiguration {
 
 	// AmplifierEffect
 	public static ForgeConfigSpec.IntValue amplifierEffectUpdateFrequency;
-	
+
 	// MobPrimingEffect
 	public static ForgeConfigSpec.IntValue mobPrimingEffectCountdown;
 
@@ -171,6 +176,14 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue bearBlasterProjectileEffectForce;
 	public static ForgeConfigSpec.IntValue bearBlasterProjectileEffectExplosion;
 
+	// CreeperCannonProjectileEffect
+	public static ForgeConfigSpec.IntValue creeperCannonProjectileEffectForce;
+	public static ForgeConfigSpec.IntValue creeperCannonProjectileEffectExplosion;
+
+	// PrimedCreeperCannonProjectileEffect
+	public static ForgeConfigSpec.IntValue primedCreeperCannonProjectileEffectForce;
+	public static ForgeConfigSpec.IntValue primedCreeperCannonProjectileEffectExplosion;
+
 	// Books..
 
 	// MobCommandersBaton
@@ -192,6 +205,14 @@ public class ModConfiguration {
 	// BearBlasterBook
 	public static ForgeConfigSpec.ConfigValue<String> bearBlasterBookTooltip;
 	public static ForgeConfigSpec.IntValue bearBlasterBookCooldown;
+
+	// CreeperCannonBook
+	public static ForgeConfigSpec.ConfigValue<String> creeperCannonBookTooltip;
+	public static ForgeConfigSpec.IntValue creeperCannonBookCooldown;
+
+	// PrimedCreeperCannonBook
+	public static ForgeConfigSpec.ConfigValue<String> primedCreeperCannonBookTooltip;
+	public static ForgeConfigSpec.IntValue primedCreeperCannonBookCooldown;
 
 	// TeleportBook
 	public static ForgeConfigSpec.ConfigValue<String> teleportBookTooltip;
@@ -235,6 +256,10 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue shootBearBlasterProjectileAge;
 	public static ForgeConfigSpec.IntValue shootBearBlasterDuration;
 	public static ForgeConfigSpec.IntValue shootBearBlasterSpawnDisplacement;
+
+	// ShootCreeperCannon projectile action
+	public static ForgeConfigSpec.IntValue shootCreeperCannonDuration;
+	public static ForgeConfigSpec.IntValue shootCreeperCannonSpawnDisplacement;
 
 	// SpawnCreeperArmy projectile action
 	public static ForgeConfigSpec.IntValue spawnCreeperArmyEntities;
@@ -366,9 +391,9 @@ public class ModConfiguration {
 		String name = AmplifierEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		amplifierEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
-				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);		
+				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
-		
+
 		// mob priming effect
 		name = MobPrimingEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -382,7 +407,7 @@ public class ModConfiguration {
 		mobAggroEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.").defineInRange("areaOfEffect",
 				10, 0, Integer.MAX_VALUE);
 		mobAggroEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
-				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);				
+				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		// mob respawning effect
@@ -391,7 +416,7 @@ public class ModConfiguration {
 		mobRespawningAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.").defineInRange("areaOfEffect",
 				10, 0, Integer.MAX_VALUE);
 		mobRespawningEffectDuration = COMMON_BUILDER.comment("Duration of effect (on aggro'ed mobs) in game ticks.")
-				.defineInRange("duration", 1200, 0, Integer.MAX_VALUE);		
+				.defineInRange("duration", 1200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		// player aggro effect
@@ -402,7 +427,7 @@ public class ModConfiguration {
 		playerAggroEffectDuration = COMMON_BUILDER.comment("Duration of effect (on aggro'ed mobs) in game ticks.")
 				.defineInRange("duration", 1200, 0, Integer.MAX_VALUE);
 		playerAggroEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
-				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);		
+				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		// bacon bazooka projectile effect
@@ -423,6 +448,25 @@ public class ModConfiguration {
 				.defineInRange("explosion", 2, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		// creeper cannon projectile effect
+		name = CREEPERCANNON_EFFECT_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		creeperCannonProjectileEffectForce = COMMON_BUILDER.comment("Projectile force.").defineInRange("force", 2, 0,
+				Integer.MAX_VALUE);
+		creeperCannonProjectileEffectExplosion = COMMON_BUILDER.comment(
+				"Projectile impact explosion size. Please notice: default creeper explosion radius is 3, powered creeper explosion radius is 6.")
+				.defineInRange("explosion", 3, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// primed creeper cannon projectile effect
+		name = PRIMEDCREEPERCANNON_EFFECT_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		primedCreeperCannonProjectileEffectForce = COMMON_BUILDER.comment("Projectile force.").defineInRange("force", 2,
+				0, Integer.MAX_VALUE);
+		primedCreeperCannonProjectileEffectExplosion = COMMON_BUILDER.comment(
+				"Projectile impact explosion size. Please notice: default creeper explosion radius is 3, powered creeper explosion radius is 6.")
+				.defineInRange("explosion", 6, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
 	}
 
 	/**
@@ -503,10 +547,10 @@ public class ModConfiguration {
 		shootBaconBazookaProjectileAge = COMMON_BUILDER.comment("Projectile entity age.").defineInRange("number", -1, 0,
 				Integer.MAX_VALUE);
 		shootBaconBazookaDuration = COMMON_BUILDER.comment("Projectile (which is a potion) duration in game ticks.")
-				.defineInRange("duration", -1, 0, Integer.MAX_VALUE);
+				.defineInRange("duration", 20, 0, Integer.MAX_VALUE);
 		shootBaconBazookaSpawnDisplacement = COMMON_BUILDER
 				.comment("Projectile spawn displacement in blocks in front of the shooter.")
-				.defineInRange("spawnDisplacement", -1, 0, Integer.MAX_VALUE);
+				.defineInRange("spawnDisplacement", 2, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		// ShootBearBlaster
@@ -515,10 +559,21 @@ public class ModConfiguration {
 		shootBearBlasterProjectileAge = COMMON_BUILDER.comment("Projectile entity age.").defineInRange("number", -1, 0,
 				Integer.MAX_VALUE);
 		shootBearBlasterDuration = COMMON_BUILDER.comment("Projectile (which is a potion) duration in game ticks.")
-				.defineInRange("duration", -1, 0, Integer.MAX_VALUE);
+				.defineInRange("duration", 20, 0, Integer.MAX_VALUE);
 		shootBearBlasterSpawnDisplacement = COMMON_BUILDER
 				.comment("Projectile spawn displacement in blocks in front of the shooter.")
-				.defineInRange("spawnDisplacement", -1, 0, Integer.MAX_VALUE);
+				.defineInRange("spawnDisplacement", 2, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// ShootCreeperCannon
+		name = ShootCreeperCannon.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		shootCreeperCannonDuration = COMMON_BUILDER.comment(
+				"Projectile (which is a potion) duration in game ticks. Please notice: the general fuse time for creeper is 30, setting duration < 30, will disable the creeper explosion.")
+				.defineInRange("duration", 20, 0, Integer.MAX_VALUE);
+		shootCreeperCannonSpawnDisplacement = COMMON_BUILDER
+				.comment("Projectile spawn displacement in blocks in front of the shooter.")
+				.defineInRange("spawnDisplacement", 2, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		// DigMobHole
@@ -607,6 +662,24 @@ public class ModConfiguration {
 		bearBlasterBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
 				"Right-click to shoot a polar bear projectile.");
 		bearBlasterBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.")
+				.defineInRange("cooldown", 25, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// CreeperCannonBook
+		name = CreeperCannonBook.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		creeperCannonBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
+				"Right-click to shoot a creeper projectile.");
+		creeperCannonBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.")
+				.defineInRange("cooldown", 25, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// PrimedCreeperCannonBook
+		name = PrimedCreeperCannonBook.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		primedCreeperCannonBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
+				"Right-click to shoot a primed creeper projectile.");
+		primedCreeperCannonBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.")
 				.defineInRange("cooldown", 25, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
