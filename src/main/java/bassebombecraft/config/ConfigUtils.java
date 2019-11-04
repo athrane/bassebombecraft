@@ -19,6 +19,7 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigRenderOptions;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.file.FileUtils;
 import net.minecraft.particles.BasicParticleType;
@@ -45,8 +46,10 @@ public class ConfigUtils {
 	 * configuration.
 	 * 
 	 * @param key configuration key to read configuration from.
+	 * 
 	 * @return array with single {@linkplain ParticleRenderingInfo}.
 	 */
+	@Deprecated
 	public static ParticleRenderingInfo[] createFromConfig(String key) {
 		Config configuration = getBassebombeCraft().getConfiguration();
 		String particleTypeName = configuration.getString(key + ".Particles.Type");
@@ -65,11 +68,36 @@ public class ConfigUtils {
 	}
 
 	/**
+	 * Create array with single {@linkplain ParticleRenderingInfo} from a
+	 * {@linkplain ParticleConfiguration} object.
+	 * 
+	 * @param key configuration key to read configuration from.
+	 * 
+	 * @return array with single {@linkplain ParticleRenderingInfo}.
+	 */
+	public static ParticleRenderingInfo[] createFromConfig(ParticleConfiguration config) {
+		String particleTypeName = config.type.get();
+		ResourceLocation key2 = new ResourceLocation(particleTypeName.toLowerCase());
+		Optional<ParticleType<? extends IParticleData>> particleType = Registry.PARTICLE_TYPE.getValue(key2);
+		BasicParticleType castParticleType = (BasicParticleType) particleType.get(); // type cast
+		int number = config.number.get();
+		int duration = config.duration.get();
+		double colorR = config.r.get();
+		double colorG = config.g.get();
+		double colorB = config.b.get();
+		double speed = config.speed.get();
+		ParticleRenderingInfo mist = getInstance(castParticleType, number, duration, (float) colorR, (float) colorG,
+				(float) colorB, speed);
+		return new ParticleRenderingInfo[] { mist };
+	}
+
+	/**
 	 * Create list of {@linkplain StructureInfo} from configuration file.
 	 * 
 	 * @param key configuration key to read configuration from.
 	 * @return list of {@linkplain StructureInfo} from configuration file.
 	 */
+	@Deprecated
 	public static List<StructureInfo> createStructureInfosFromConfig(String key) {
 		Config configuration = getBassebombeCraft().getConfiguration();
 		List<StructureInfo> infos = new ArrayList<StructureInfo>();

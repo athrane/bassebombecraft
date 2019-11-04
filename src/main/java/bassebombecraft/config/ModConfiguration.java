@@ -15,6 +15,8 @@ import static bassebombecraft.ModConstants.PRIMEDCREEPERCANNON_EFFECT_NAME;
 import static bassebombecraft.ModConstants.SUPERIOR_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.WEAK_AMPLIFICATION_POTION_NAME;
 import static net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR;
+import static bassebombecraft.config.ParticleConfiguration.*;
+
 
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -32,6 +34,7 @@ import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.ShootSmallFireballRing;
+import bassebombecraft.item.action.build.CopyPasteBlocks;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.basic.TerminatorEyeItem;
 import bassebombecraft.item.baton.MobCommandersBaton;
@@ -39,6 +42,7 @@ import bassebombecraft.item.book.BaconBazookaBook;
 import bassebombecraft.item.book.BearBlasterBook;
 import bassebombecraft.item.book.BuildStairsBook;
 import bassebombecraft.item.book.BuildTowerBook;
+import bassebombecraft.item.book.CopyPasteBlocksBook;
 import bassebombecraft.item.book.CreeperCannonBook;
 import bassebombecraft.item.book.DigMobHoleBook;
 import bassebombecraft.item.book.PrimedCreeperCannonBook;
@@ -68,6 +72,8 @@ import net.minecraftforge.fml.config.ModConfig.Type;
  */
 public class ModConfiguration {
 
+	
+	
 	/**
 	 * General category.
 	 */
@@ -172,7 +178,7 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue mobRespawningEffectAreaOfEffect;
 	public static ForgeConfigSpec.IntValue mobRespawningEffectDuration;
 	public static ForgeConfigSpec.IntValue mobRespawningEffectSpawnArea;
-	
+
 	// BaconBazookaProjectileEffect
 	public static ForgeConfigSpec.IntValue baconBazookaProjectileEffectForce;
 	public static ForgeConfigSpec.IntValue baconBazookaProjectileEffectExplosion;
@@ -251,6 +257,10 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.ConfigValue<String> buildStairsBookTooltip;
 	public static ForgeConfigSpec.IntValue buildStairsBookCooldown;
 
+	// CopyPasteBlocksBook
+	public static ForgeConfigSpec.ConfigValue<String> copyPasteBlocksBookTooltip;
+	public static ForgeConfigSpec.IntValue copyPasteBlocksBookCooldown;
+
 	// Actions..
 
 	// ShootFireballRing projectile action
@@ -292,6 +302,10 @@ public class ModConfiguration {
 
 	// SpawnStairs projectile action
 	public static ForgeConfigSpec.IntValue spawnStairsDuration;
+
+	// CopyPasteBlocks action
+	public static ForgeConfigSpec.BooleanValue copyPasteBlocksCaptureOnCopy;
+	public static ParticleConfiguration copyPasteBlocksParticles;
 
 	// Commander commands..
 	public static ForgeConfigSpec.DoubleValue danceCommandChance;
@@ -428,12 +442,12 @@ public class ModConfiguration {
 		// mob respawning effect
 		name = MobRespawningEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		mobRespawningEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.").defineInRange("areaOfEffect",
-				10, 0, Integer.MAX_VALUE);
+		mobRespawningEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.")
+				.defineInRange("areaOfEffect", 10, 0, Integer.MAX_VALUE);
 		mobRespawningEffectDuration = COMMON_BUILDER.comment("Duration of effect (on aggro'ed mobs) in game ticks.")
 				.defineInRange("duration", 1200, 0, Integer.MAX_VALUE);
 		mobRespawningEffectSpawnArea = COMMON_BUILDER.comment("Spawn area in blocks.").defineInRange("spawnArea", 5, 0,
-				Integer.MAX_VALUE);		
+				Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		// player aggro effect
@@ -652,6 +666,15 @@ public class ModConfiguration {
 		spawnStairsDuration = COMMON_BUILDER.comment("Duration of the effect in game ticks.").defineInRange("duration",
 				600, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
+
+		// CopyPasteBlocks
+		name = CopyPasteBlocks.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		copyPasteBlocksCaptureOnCopy = COMMON_BUILDER
+				.comment("Defines whether copied structure should be saved on disk as a template.")
+				.define("captureOnCopy", true);
+		copyPasteBlocksParticles = getInstance(COMMON_BUILDER, "instant_effect", 5, -1, 0.3, 1.0, 1.0, 1.0);
+		COMMON_BUILDER.pop();
 	}
 
 	/**
@@ -793,6 +816,16 @@ public class ModConfiguration {
 		buildStairsBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.")
 				.defineInRange("cooldown", 50, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
+
+		// CopyPasteBlocksBook
+		name = CopyPasteBlocksBook.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		copyPasteBlocksBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
+				"Right-click on two ground blocks to set markers for the area to be copied . After the two markers are defined, right-click on a ground block to paste the area.");
+		copyPasteBlocksBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.")
+				.defineInRange("cooldown", 50, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
 	}
 
 	/**
