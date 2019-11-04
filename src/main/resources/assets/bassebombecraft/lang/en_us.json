@@ -153,8 +153,8 @@
 
 	"_comment": "potion potency",
     "potion.potency.10": "(Somewhat explosive)",	
-    "potion.potency.16": "(Weak)",  
-    "potion.potency.64": "(Normal)",
-    "potion.potency.128": "(Superior)"
+    "potion.potency.15": "(Weak)",  
+    "potion.potency.63": "(Normal)",
+    "potion.potency.127": "(Superior)"
             
 }
