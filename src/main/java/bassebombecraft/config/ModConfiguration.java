@@ -14,13 +14,15 @@ import static bassebombecraft.ModConstants.MOB_RESPAWNING_POTION_NAME;
 import static bassebombecraft.ModConstants.PRIMEDCREEPERCANNON_EFFECT_NAME;
 import static bassebombecraft.ModConstants.SUPERIOR_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.WEAK_AMPLIFICATION_POTION_NAME;
+import static bassebombecraft.config.InventoryItemConfig.getInstance;
+import static bassebombecraft.config.ItemConfig.getInstance;
+import static bassebombecraft.config.ParticlesConfig.getInstance;
 import static net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR;
-import static bassebombecraft.config.ParticleConfiguration.*;
-
 
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.apache.logging.log4j.Logger;
 
@@ -53,6 +55,7 @@ import bassebombecraft.item.book.SpawnCreeperArmyBook;
 import bassebombecraft.item.book.SpawnKittenArmyBook;
 import bassebombecraft.item.book.SpawnSkeletonArmyBook;
 import bassebombecraft.item.book.TeleportBook;
+import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.MobAggroEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
@@ -71,43 +74,6 @@ import net.minecraftforge.fml.config.ModConfig.Type;
  * Configuration class for the mod.
  */
 public class ModConfiguration {
-
-	
-	
-	/**
-	 * General category.
-	 */
-	static final String CATEGORY_GENERAL = "General";
-
-	/**
-	 * Basic item category.
-	 */
-	static final String CATEGORY_BASIC_ITEMS = "BasicItems";
-
-	/**
-	 * Basic item category.
-	 */
-	static final String CATEGORY_BOOK_ITEMS = "Books";
-
-	/**
-	 * Potion category.
-	 */
-	static final String CATEGORY_POTIONS = "Potions";
-
-	/**
-	 * Potion effect category.
-	 */
-	static final String CATEGORY_POTION_EFFECT = "PotionEffects";
-
-	/**
-	 * Action effect category.
-	 */
-	static final String CATEGORY_ACTION = "Actions";
-
-	/**
-	 * Commander commands category.
-	 */
-	static final String CATEGORY_COMMANDS = "CommanderCommands";
 
 	/**
 	 * Common configuration builder.
@@ -210,8 +176,7 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue smallFireballRingBookCooldown;
 
 	// BaconBazookaBook
-	public static ForgeConfigSpec.ConfigValue<String> baconBazookaBookTooltip;
-	public static ForgeConfigSpec.IntValue baconBazookaBookCooldown;
+	public static ItemConfig baconBazookaBook;
 
 	// BearBlasterBook
 	public static ForgeConfigSpec.ConfigValue<String> bearBlasterBookTooltip;
@@ -261,6 +226,11 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.ConfigValue<String> copyPasteBlocksBookTooltip;
 	public static ForgeConfigSpec.IntValue copyPasteBlocksBookCooldown;
 
+	// Inventory items..
+
+	// CharmBeastIdolInventoryItem
+	public static InventoryItemConfig charmBeastIdolInventoryItem;
+
 	// Actions..
 
 	// ShootFireballRing projectile action
@@ -305,7 +275,7 @@ public class ModConfiguration {
 
 	// CopyPasteBlocks action
 	public static ForgeConfigSpec.BooleanValue copyPasteBlocksCaptureOnCopy;
-	public static ParticleConfiguration copyPasteBlocksParticles;
+	public static ParticlesConfig copyPasteBlocksParticleInfo;
 
 	// Commander commands..
 	public static ForgeConfigSpec.DoubleValue danceCommandChance;
@@ -315,32 +285,36 @@ public class ModConfiguration {
 	static {
 
 		// build general section
-		COMMON_BUILDER.comment("General settings").push(CATEGORY_GENERAL);
+		COMMON_BUILDER.comment("General settings").push("General");
 		COMMON_BUILDER.pop();
 
-		COMMON_BUILDER.comment("Basic item settings").push(CATEGORY_BASIC_ITEMS);
+		COMMON_BUILDER.comment("Basic item settings").push("BasicItems");
 		setupBasicItemsGeneralConfig();
 		setupBasicItemsConfig();
 		COMMON_BUILDER.pop();
 
-		COMMON_BUILDER.comment("Commander commands ").push(CATEGORY_COMMANDS);
+		COMMON_BUILDER.comment("Commander commands ").push("CommanderCommands");
 		setupCommandsConfig();
 		COMMON_BUILDER.pop();
 
-		COMMON_BUILDER.comment("Potion effect settings").push(CATEGORY_POTION_EFFECT);
+		COMMON_BUILDER.comment("Potion effect settings").push("PotionEffecs");
 		setupPotionEffectsConfig();
 		COMMON_BUILDER.pop();
 
-		COMMON_BUILDER.comment("Potion settings").push(CATEGORY_POTIONS);
+		COMMON_BUILDER.comment("Potion settings").push("Potions");
 		setupPotionsConfig();
 		COMMON_BUILDER.pop();
 
-		COMMON_BUILDER.comment("Action settings").push(CATEGORY_ACTION);
+		COMMON_BUILDER.comment("Action settings").push("Actions");
 		setupActionsConfig();
 		COMMON_BUILDER.pop();
 
-		COMMON_BUILDER.comment("Book settings").push(CATEGORY_BOOK_ITEMS);
+		COMMON_BUILDER.comment("Book settings").push("Books");
 		setupBooksConfig();
+		COMMON_BUILDER.pop();
+
+		COMMON_BUILDER.comment("Inventory item settings").push("InventoryItems");
+		setupInventoryItemsConfig();
 		COMMON_BUILDER.pop();
 
 		// do build
@@ -673,7 +647,7 @@ public class ModConfiguration {
 		copyPasteBlocksCaptureOnCopy = COMMON_BUILDER
 				.comment("Defines whether copied structure should be saved on disk as a template.")
 				.define("captureOnCopy", true);
-		copyPasteBlocksParticles = getInstance(COMMON_BUILDER, "instant_effect", 5, -1, 0.3, 1.0, 1.0, 1.0);
+		copyPasteBlocksParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 5, -1, 0.3, 1.0, 1.0, 1.0);
 		COMMON_BUILDER.pop();
 	}
 
@@ -711,12 +685,7 @@ public class ModConfiguration {
 
 		// BaconBazookaBook
 		name = BaconBazookaBook.ITEM_NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		baconBazookaBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
-				"Right-click to shoot a pig projectile.");
-		baconBazookaBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.")
-				.defineInRange("cooldown", 25, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
+		baconBazookaBook = getInstance(COMMON_BUILDER, name, "Right-click to shoot a pig projectile.", 25);
 
 		// BearBlasterBook
 		name = BearBlasterBook.ITEM_NAME;
@@ -826,6 +795,19 @@ public class ModConfiguration {
 				.defineInRange("cooldown", 50, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+	}
+
+	/**
+	 * Define configuration for inventory items.
+	 */
+	static void setupInventoryItemsConfig() {
+
+		// MobCharmBeastIdolInventoryItem
+		String name = CharmBeastIdolInventoryItem.ITEM_NAME;
+		Supplier<ParticlesConfig> particleConfigSupplier = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1, 0.0, 0.0, 1.0);
+		charmBeastIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will charm nearby mobs. The charmed creatures can be commanded by Krenko's Command Baton.",
+				100, 5, particleConfigSupplier);
 	}
 
 	/**

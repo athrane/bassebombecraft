@@ -19,6 +19,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import bassebombecraft.config.InventoryItemConfig;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
@@ -76,16 +77,30 @@ public class GenericInventoryItem extends Item {
 	 * GenericInventoryItem constructor.
 	 * 
 	 * @param name     item name.
+	 * @param config   inventory item configuration.
 	 * @param strategy inventory item strategy.
 	 */
+	public GenericInventoryItem(String name, InventoryItemConfig config, InventoryItemActionStrategy strategy) {
+		super(ITEM_PROPERTIES);
+		doCommonItemInitialization(this, name);
+		this.strategy = strategy;
+		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
+		coolDown = config.cooldown.get();
+		tooltip = config.tooltip.get();		
+	}
+
+	/**
+	 * GenericInventoryItem constructor.
+	 * 
+	 * @param name     item name.
+	 * @param strategy inventory item strategy.
+	 */
+	@Deprecated
 	public GenericInventoryItem(String name, InventoryItemActionStrategy strategy) {
 		super(ITEM_PROPERTIES);
 		doCommonItemInitialization(this, name);
-
 		this.strategy = strategy;
 		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
-
-		// get cooldown or default value
 		coolDown = resolveCoolDown(name, ITEM_IDOL_DEFAULT_COOLDOWN);
 		tooltip = resolveTooltip(name, ITEM_DEFAULT_TOOLTIP);
 	}

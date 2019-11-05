@@ -146,7 +146,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * CopyPasteBlocks constructor.
 	 */
 	public CopyPasteBlocks() {
-		infos = createFromConfig(ModConfiguration.copyPasteBlocksParticles);
+		infos = createFromConfig(ModConfiguration.copyPasteBlocksParticleInfo);
 		captureOnCopy = ModConfiguration.copyPasteBlocksCaptureOnCopy.get();
 		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
 		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();

@@ -118,8 +118,6 @@ public class MobRespawningEffectEventHandler {
 		// apply player aggro potion
 		LivingEntity livingEntity = (LivingEntity) spawnedEntity;
 		livingEntity.addPotionEffect(createEffect());
-
-		System.out.println("MobRespawningEffectEventHandler: spawned=" + spawnedEntity);
 	}
 
 	/**

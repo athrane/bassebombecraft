@@ -6,7 +6,7 @@ import net.minecraftforge.common.ForgeConfigSpec.Builder;;
 /**
  * Class for defining particle rendering information in configuration files.
  */
-public class ParticleConfiguration {
+public class ParticlesConfig {
 
 	public ForgeConfigSpec.ConfigValue<String> type;
 	public ForgeConfigSpec.IntValue number;
@@ -17,7 +17,9 @@ public class ParticleConfiguration {
 	public ForgeConfigSpec.DoubleValue b;
 
 	/**
-	 * ParticleConfiguration constructor.
+	 * ParticleConfig constructor.
+	 * 
+	 * Adds a subsection named ".ParticleInfo".
 	 * 
 	 * @param builder  configuration spec builder.
 	 * @param type     particle type.
@@ -28,9 +30,9 @@ public class ParticleConfiguration {
 	 * @param g        g-color component.
 	 * @param b        b-color component.
 	 */
-	public ParticleConfiguration(Builder builder, String type, int number, int duration, double speed, double r,
+	public ParticlesConfig(Builder builder, String type, int number, int duration, double speed, double r,
 			double g, double b) {
-		builder.comment("Particle settings").push("Particles");
+		builder.comment("Particles settings").push("Particles");
 		this.type = builder.comment(
 				"Particle type. Legal particle type names can be seen in the net.minecraft.particles.ParticleTypes class.")
 				.define("type", type);
@@ -49,7 +51,7 @@ public class ParticleConfiguration {
 	}
 
 	/**
-	 * ParticleConfiguration factory method.
+	 * ParticlesConfig factory method.
 	 * 
 	 * @param builder  configuration spec builder.
 	 * @param type     particle type.
@@ -60,11 +62,11 @@ public class ParticleConfiguration {
 	 * @param g        g-color component.
 	 * @param b        b-color component.
 	 * 
-	 * @return particle configuration.
+	 * @return Particles configuration.
 	 */
-	public static ParticleConfiguration getInstance(Builder builder, String type, int number, int duration,
+	public static ParticlesConfig getInstance(Builder builder, String type, int number, int duration,
 			double speed, double r, double g, double b) {
-		return new ParticleConfiguration(builder, type, number, duration, speed, r, g, b);
+		return new ParticlesConfig(builder, type, number, duration, speed, r, g, b);
 	}
 
 }

@@ -19,7 +19,6 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.ConfigRenderOptions;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.file.FileUtils;
 import net.minecraft.particles.BasicParticleType;
@@ -69,13 +68,13 @@ public class ConfigUtils {
 
 	/**
 	 * Create array with single {@linkplain ParticleRenderingInfo} from a
-	 * {@linkplain ParticleConfiguration} object.
+	 * {@linkplain ParticlesConfig} object.
 	 * 
 	 * @param key configuration key to read configuration from.
 	 * 
 	 * @return array with single {@linkplain ParticleRenderingInfo}.
 	 */
-	public static ParticleRenderingInfo[] createFromConfig(ParticleConfiguration config) {
+	public static ParticleRenderingInfo[] createFromConfig(ParticlesConfig config) {
 		String particleTypeName = config.type.get();
 		ResourceLocation key2 = new ResourceLocation(particleTypeName.toLowerCase());
 		Optional<ParticleType<? extends IParticleData>> particleType = Registry.PARTICLE_TYPE.getValue(key2);

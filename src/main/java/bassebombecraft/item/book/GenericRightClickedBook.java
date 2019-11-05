@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import bassebombecraft.config.ItemConfig;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -63,8 +64,27 @@ public class GenericRightClickedBook extends Item {
 	 * Generic book constructor.
 	 * 
 	 * @param name   item name.
+	 * @param config item configuration.
 	 * @param action item action object which is invoked when item is right clicked.
 	 */
+	public GenericRightClickedBook(String name, ItemConfig config, RightClickedItemAction action) {
+		super(ITEM_PROPERTIES);
+		doCommonItemInitialization(this, name);
+
+		this.action = action;
+
+		// get cooldown and tooltip
+		coolDown = config.cooldown.get();
+		tooltip = config.tooltip.get();
+	}
+
+	/**
+	 * Generic book constructor.
+	 * 
+	 * @param name   item name.
+	 * @param action item action object which is invoked when item is right clicked.
+	 */
+	@Deprecated
 	public GenericRightClickedBook(String name, RightClickedItemAction action) {
 		super(ITEM_PROPERTIES);
 		doCommonItemInitialization(this, name);
@@ -114,5 +134,5 @@ public class GenericRightClickedBook extends Item {
 		ITextComponent text = new TranslationTextComponent(TextFormatting.GREEN + this.tooltip);
 		tooltip.add(text);
 	}
-	
+
 }

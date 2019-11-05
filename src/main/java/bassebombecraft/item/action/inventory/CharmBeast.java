@@ -4,8 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;
 
-import com.typesafe.config.Config;
-
+import bassebombecraft.config.InventoryItemConfig;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -31,12 +30,11 @@ public class CharmBeast implements InventoryItemActionStrategy {
 	/**
 	 * CharmBeast constructor
 	 * 
-	 * @param key configuration key to initialize particle rendering info from.
+	 * @param config inventory item configuration.
 	 */
-	public CharmBeast(String key) {
-		infos = createFromConfig(key);
-		Config configuration = getBassebombeCraft().getConfiguration();
-		range = configuration.getInt(key + ".Range");
+	public CharmBeast(InventoryItemConfig config) {
+		infos = createFromConfig(config.particles);
+		range = config.range.get();
 	}
 
 	@Override
@@ -57,8 +55,8 @@ public class CharmBeast implements InventoryItemActionStrategy {
 		// skip if entity can't be charmed, i.e. is a mob entity
 		if (!isTypeMobEntity(target))
 			return;
-		
-		// type cast		
+
+		// type cast
 		MobEntity mobEntity = (MobEntity) target;
 
 		// register mob as charmed
