@@ -1,16 +1,16 @@
 package bassebombecraft.item.action.inventory;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
+import static net.minecraft.potion.Effects.LEVITATION;
 
-import com.typesafe.config.Config;
+import java.util.function.Supplier;
 
+import bassebombecraft.config.InventoryItemConfig;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
 import net.minecraft.world.World;
 
 /**
@@ -36,22 +36,23 @@ public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 	int range;
 
 	/**
-	 * Effect amplification.
-	 */	
-	int amplification;
-	
-	
-	/**
-	 * AddMobsLevitationEffect constructor.
-	 * 
-	 * @param key configuration key to initialize particle rendering info from.
+	 * Effect amplifier.
 	 */
-	public AddMobsLevitationEffect(String key) {
-		infos = createFromConfig(key);
-		Config configuration = getBassebombeCraft().getConfiguration();
-		duration = configuration.getInt(key + ".Duration");
-		range = configuration.getInt(key + ".Range");
-		amplification = configuration.getInt(key + ".Amplification");		
+	int amplification;
+
+	/**
+	 * AddMobsLevitationEffect constructor
+	 * 
+	 * @param config       inventory item configuration.
+	 * @param splDuration  duration as a potion effect.
+	 * @param splAmplifier amplifier as a potion effect.
+	 */
+	public AddMobsLevitationEffect(InventoryItemConfig config, Supplier<Integer> splDuration,
+			Supplier<Integer> splAmplifier) {
+		infos = createFromConfig(config.particles);
+		duration = splDuration.get();
+		amplification = splAmplifier.get();
+		range = config.range.get();
 	}
 
 	@Override
@@ -90,7 +91,7 @@ public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 	 * @return potion effect
 	 */
 	EffectInstance createEffect() {
-		return new EffectInstance(Effects.LEVITATION, duration, amplification);
+		return new EffectInstance(LEVITATION, duration, amplification);
 	}
 
 }

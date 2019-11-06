@@ -15,6 +15,7 @@ import static bassebombecraft.ModConstants.PRIMEDCREEPERCANNON_EFFECT_NAME;
 import static bassebombecraft.ModConstants.SUPERIOR_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.WEAK_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.config.InventoryItemConfig.getInstance;
+import static bassebombecraft.config.InventoryItemConfig.getInstanceWithNoRange;
 import static bassebombecraft.config.ItemConfig.getInstance;
 import static bassebombecraft.config.ParticlesConfig.getInstance;
 import static net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR;
@@ -37,6 +38,7 @@ import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.ShootSmallFireballRing;
 import bassebombecraft.item.action.build.CopyPasteBlocks;
+import bassebombecraft.item.action.inventory.AddLevitationEffect;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.basic.TerminatorEyeItem;
 import bassebombecraft.item.baton.MobCommandersBaton;
@@ -56,6 +58,8 @@ import bassebombecraft.item.book.SpawnKittenArmyBook;
 import bassebombecraft.item.book.SpawnSkeletonArmyBook;
 import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
+import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
+import bassebombecraft.item.inventory.MobsLevitationIdolInventoryItem;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.MobAggroEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
@@ -90,12 +94,10 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.ConfigValue<String> basicItemDefaultTooltip;
 
 	// HudItem properties
-	public static ForgeConfigSpec.ConfigValue<String> hudItemTooltip;
-	public static ForgeConfigSpec.IntValue hudItemCooldown;
+	public static ItemConfig hudItem;
 
 	// TerminatorEyeItem
-	public static ForgeConfigSpec.ConfigValue<String> terminatorEyeItemTooltip;
-	public static ForgeConfigSpec.IntValue terminatorEyeItemCooldown;
+	public static ItemConfig terminatorEyeItem;
 
 	// Potions..
 
@@ -231,6 +233,12 @@ public class ModConfiguration {
 	// CharmBeastIdolInventoryItem
 	public static InventoryItemConfig charmBeastIdolInventoryItem;
 
+	// LevitationIdolInventoryItem
+	public static InventoryItemConfig levitationIdolInventoryItem;
+
+	// MobsLevitationIdolInventoryItem
+	public static InventoryItemConfig mobsLevitationIdolInventoryItem;
+
 	// Actions..
 
 	// ShootFireballRing projectile action
@@ -276,6 +284,14 @@ public class ModConfiguration {
 	// CopyPasteBlocks action
 	public static ForgeConfigSpec.BooleanValue copyPasteBlocksCaptureOnCopy;
 	public static ParticlesConfig copyPasteBlocksParticleInfo;
+
+	// AddLevitationEffect action
+	public static ForgeConfigSpec.IntValue addLevitationEffectDuration;
+	public static ForgeConfigSpec.IntValue addLevitationEffectAmplifier;
+
+	// AddMobsLevitationEffect action
+	public static ForgeConfigSpec.IntValue addMobsLevitationEffectDuration;
+	public static ForgeConfigSpec.IntValue addMobsLevitationEffectAmplifier;
 
 	// Commander commands..
 	public static ForgeConfigSpec.DoubleValue danceCommandChance;
@@ -338,22 +354,13 @@ public class ModConfiguration {
 	static void setupBasicItemsConfig() {
 
 		// terminator eye item
-		String terminatorEyeItemName = TerminatorEyeItem.NAME;
-		COMMON_BUILDER.comment(terminatorEyeItemName + " settings").push(terminatorEyeItemName);
-		terminatorEyeItemTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
-				"An eye ripped from a T-500. Occasionally it tries to focus to acquire a target. Do not eat.");
-		terminatorEyeItemCooldown = COMMON_BUILDER.comment("Game ticks between item activation.")
-				.defineInRange("cooldown", 10, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
+		String name = TerminatorEyeItem.NAME;
+		terminatorEyeItem = getInstance(COMMON_BUILDER, name,
+				"An eye ripped from a T-500. Occasionally it tries to focus to acquire a target. Do not eat.", 10);
 
 		// HUD item
-		String hudItemName = HudItem.NAME;
-		COMMON_BUILDER.comment(hudItemName + " settings").push(hudItemName);
-		hudItemTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
-				"BasseBombeCraft tactical HUD. Add to hotbar to activate.");
-		hudItemCooldown = COMMON_BUILDER.comment("Game ticks between item activation.").defineInRange("cooldown", 10, 0,
-				Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
+		name = HudItem.NAME;
+		hudItem = getInstance(COMMON_BUILDER, name, "BasseBombeCraft tactical HUD. Add to hotbar to activate.", 10);
 	}
 
 	/**
@@ -649,6 +656,16 @@ public class ModConfiguration {
 				.define("captureOnCopy", true);
 		copyPasteBlocksParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 5, -1, 0.3, 1.0, 1.0, 1.0);
 		COMMON_BUILDER.pop();
+
+		// AddLevitationEffect
+		name = AddLevitationEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		addLevitationEffectAmplifier = COMMON_BUILDER
+				.comment("Potency of the effect (as a potion effect), i.e. the resulting levitation.")
+				.defineInRange("amplifier", 1, 0, Integer.MAX_VALUE);
+		addLevitationEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 40, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
 	}
 
 	/**
@@ -804,10 +821,22 @@ public class ModConfiguration {
 
 		// MobCharmBeastIdolInventoryItem
 		String name = CharmBeastIdolInventoryItem.ITEM_NAME;
-		Supplier<ParticlesConfig> particleConfigSupplier = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1, 0.0, 0.0, 1.0);
+		Supplier<ParticlesConfig> supplier = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1, 0.0, 0.0, 1.0);
 		charmBeastIdolInventoryItem = getInstance(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will charm nearby mobs. The charmed creatures can be commanded by Krenko's Command Baton.",
-				100, 5, particleConfigSupplier);
+				100, 5, supplier);
+
+		// LevitationIdolInventoryItem
+		name = LevitationIdolInventoryItem.ITEM_NAME;
+		supplier = () -> getInstance(COMMON_BUILDER, "cloud", 5, 20, 0.3, 0.0, 0.0, 1.0);
+		levitationIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will levitate the player.", 4, supplier);
+
+		// MobsLevitationIdolInventoryItem
+		name = MobsLevitationIdolInventoryItem.ITEM_NAME;
+		supplier = () -> getInstance(COMMON_BUILDER, "cloud", 5, 20, 0.3, 0.0, 0.0, 1.0);
+		mobsLevitationIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will levitate nearby creatures.", 5, supplier);
 	}
 
 	/**

@@ -13,6 +13,7 @@ import bassebombecraft.event.potion.MobRespawningEffectEventHandler;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
+import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
@@ -438,5 +439,10 @@ public class ModConstants {
 	 * Potion amplifier effect.
 	 */
 	public static final Effect AMPLIFIER_EFFECT = new AmplifierEffect();
+
+	/**
+	 * Range value for non-AOE effect in {@linkplain InventoryItemActionStrategy} implmentation.
+	 */
+	public static final int NOT_AN_AOE_EFFECT = 1;
 	
 }
