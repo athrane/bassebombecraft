@@ -39,6 +39,8 @@ import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.ShootSmallFireballRing;
 import bassebombecraft.item.action.build.CopyPasteBlocks;
 import bassebombecraft.item.action.inventory.AddLevitationEffect;
+import bassebombecraft.item.action.inventory.AddMobsLevitationEffect;
+import bassebombecraft.item.action.inventory.Pinkynize;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.basic.TerminatorEyeItem;
 import bassebombecraft.item.baton.MobCommandersBaton;
@@ -60,6 +62,7 @@ import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.MobsLevitationIdolInventoryItem;
+import bassebombecraft.item.inventory.PinkynizeIdolInventoryItem;
 import bassebombecraft.item.inventory.RainIdolInventoryItem;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.MobAggroEffect;
@@ -243,6 +246,9 @@ public class ModConfiguration {
 	// RainIdolInventoryItem
 	public static InventoryItemConfig rainIdolInventoryItem;
 	
+	// pinkynizeIdolInventoryItem 
+	public static InventoryItemConfig pinkynizeIdolInventoryItem;
+		
 	// Actions..
 
 	// ShootFireballRing projectile action
@@ -297,6 +303,9 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue addMobsLevitationEffectDuration;
 	public static ForgeConfigSpec.IntValue addMobsLevitationEffectAmplifier;
 
+	// Pinkynize action
+	public static ForgeConfigSpec.IntValue pinkynizeSpiralSize;
+	
 	// Commander commands..
 	public static ForgeConfigSpec.DoubleValue danceCommandChance;
 	public static ForgeConfigSpec.IntValue attackNearestMobCommandTargetDistance;
@@ -670,6 +679,25 @@ public class ModConfiguration {
 		addLevitationEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
 				.defineInRange("duration", 40, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
+
+		// AddMobsLevitationEffect
+		name = AddMobsLevitationEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		addMobsLevitationEffectAmplifier = COMMON_BUILDER
+				.comment("Potency of the effect (as a potion effect), i.e. the resulting levitation.")
+				.defineInRange("amplifier", 1, 0, Integer.MAX_VALUE);
+		addMobsLevitationEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+		
+		// Pinkynize
+		name = Pinkynize.NAME;		
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		pinkynizeSpiralSize = COMMON_BUILDER
+				.comment("Spiral size.")
+				.defineInRange("spiralSize", 5, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+		
 	}
 
 	/**
@@ -839,14 +867,21 @@ public class ModConfiguration {
 		// MobsLevitationIdolInventoryItem
 		name = MobsLevitationIdolInventoryItem.ITEM_NAME;
 		supplier = () -> getInstance(COMMON_BUILDER, "cloud", 5, 20, 0.3, 0.0, 0.0, 1.0);
-		mobsLevitationIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol will levitate nearby creatures.", 5, supplier);
+		mobsLevitationIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will levitate nearby creatures.", 5, 5, supplier);
 		
 		// RainIdolInventoryItem 
 		name = RainIdolInventoryItem.ITEM_NAME;
 		supplier = () -> getInstance(COMMON_BUILDER, "rain", 5, 20, 0.75, 0.0, 0.75, 0.0);
 		rainIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will make it rain.", 200, supplier);
+		
+		// PinkynizeIdolInventoryItem
+		name = PinkynizeIdolInventoryItem.ITEM_NAME;
+		supplier = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1.0, 1.0, 0.4, 0.7);
+		pinkynizeIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol create a pink spiral of wool outwards from the player.", 5, supplier);
+		
 		
 	}
 

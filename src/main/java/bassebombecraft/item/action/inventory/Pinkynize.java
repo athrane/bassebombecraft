@@ -2,20 +2,21 @@ package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
+import static bassebombecraft.ModConstants.NOT_AN_AOE_EFFECT;
 import static bassebombecraft.block.BlockUtils.selectPinkColoredWool;
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
+import static bassebombecraft.geom.GeometryUtils.calculateSpiral;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
 import java.util.Random;
+import java.util.function.Supplier;
 
-import com.typesafe.config.Config;
-
+import bassebombecraft.config.InventoryItemConfig;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
-import bassebombecraft.geom.GeometryUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -30,12 +31,17 @@ import net.minecraft.world.World;
 public class Pinkynize implements InventoryItemActionStrategy {
 
 	/**
+	 * Action identifier.
+	 */
+	public final static String NAME = Pinkynize.class.getSimpleName();
+
+	/**
 	 * Particle rendering info
 	 */
 	ParticleRenderingInfo[] infos;
 
 	/**
-	 * Spiral size.
+	 * Spiral size, measured in rotations around the centre.
 	 */
 	final int spiralSize;
 
@@ -72,18 +78,18 @@ public class Pinkynize implements InventoryItemActionStrategy {
 	/**
 	 * Pinkynize constructor
 	 * 
-	 * @param key
-	 *            configuration key to initialize particle rendering info from.
+	 * @param config        inventory item configuration.
+	 * @param splSpiralSize Spiral size, measured in rotations around the centre.
 	 */
-	public Pinkynize(String key) {
-		infos = createFromConfig(key);
-		Config configuration = getBassebombeCraft().getConfiguration();
-		spiralSize = configuration.getInt(key+".SpiralSize");
+	public Pinkynize(InventoryItemConfig config, Supplier<Integer> splSpiralSize) {
+		infos = createFromConfig(config.particles);
+		spiralSize = splSpiralSize.get();
 
+		// get directives reposiory
 		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 
 		// calculate spiral
-		spiralCoordinates = GeometryUtils.calculateSpiral(spiralSize, spiralSize);
+		spiralCoordinates = calculateSpiral(spiralSize, spiralSize);
 	}
 
 	@Override
@@ -107,7 +113,7 @@ public class Pinkynize implements InventoryItemActionStrategy {
 		BlockPos groundPosition = locateGroundBlockPos(targetPosition, ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK, world);
 
 		// create wool block
-		BlockState woolBlock = selectPinkColoredWool(colorCounter);		
+		BlockState woolBlock = selectPinkColoredWool(colorCounter);
 		BlockDirective directive = new BlockDirective(groundPosition, woolBlock.getBlock(), DONT_HARVEST);
 		directive.setState(selectPinkColoredWool(colorCounter));
 
@@ -118,7 +124,7 @@ public class Pinkynize implements InventoryItemActionStrategy {
 
 	@Override
 	public int getEffectRange() {
-		return 1; // Not a AOE effect
+		return NOT_AN_AOE_EFFECT;
 	}
 
 	@Override
@@ -129,8 +135,7 @@ public class Pinkynize implements InventoryItemActionStrategy {
 	/**
 	 * Calculate target position in spiral.
 	 * 
-	 * @param target
-	 *            target to calculate position for.
+	 * @param target target to calculate position for.
 	 * 
 	 * @return target position in spiral
 	 */
@@ -164,8 +169,7 @@ public class Pinkynize implements InventoryItemActionStrategy {
 	/**
 	 * Initialize spiral
 	 * 
-	 * @param target
-	 *            target to initialize spiral from from.
+	 * @param target target to initialize spiral from from.
 	 */
 	void initializeSpiral(Entity target) {
 		spiralCounter = 0;

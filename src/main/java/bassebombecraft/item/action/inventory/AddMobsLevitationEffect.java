@@ -21,6 +21,11 @@ import net.minecraft.world.World;
 public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 
 	/**
+	 * Action identifier.
+	 */
+	public final static String NAME = AddMobsLevitationEffect.class.getSimpleName();
+	
+	/**
 	 * Particle rendering info
 	 */
 	ParticleRenderingInfo[] infos;
