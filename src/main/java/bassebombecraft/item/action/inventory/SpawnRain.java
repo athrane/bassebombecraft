@@ -1,7 +1,9 @@
 package bassebombecraft.item.action.inventory;
 
+import static bassebombecraft.ModConstants.NOT_AN_AOE_EFFECT;
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
 
+import bassebombecraft.config.InventoryItemConfig;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -19,13 +21,12 @@ public class SpawnRain implements InventoryItemActionStrategy {
 	ParticleRenderingInfo[] infos;
 
 	/**
-	 * SpawnRain constructor
+	 * SpawnRain constructor.
 	 * 
-	 * @param key
-	 *            configuration key to initialize particle rendering info from.
+	 * @param config inventory item configuration.
 	 */
-	public SpawnRain(String key) {
-		infos = createFromConfig(key);
+	public SpawnRain(InventoryItemConfig config) {
+		infos = createFromConfig(config.particles);
 	}
 
 	@Override
@@ -45,7 +46,7 @@ public class SpawnRain implements InventoryItemActionStrategy {
 
 	@Override
 	public int getEffectRange() {
-		return 1; // Not a AOE effect
+		return NOT_AN_AOE_EFFECT;
 	}
 
 	@Override

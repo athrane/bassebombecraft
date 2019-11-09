@@ -60,6 +60,7 @@ import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.MobsLevitationIdolInventoryItem;
+import bassebombecraft.item.inventory.RainIdolInventoryItem;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.MobAggroEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
@@ -239,6 +240,9 @@ public class ModConfiguration {
 	// MobsLevitationIdolInventoryItem
 	public static InventoryItemConfig mobsLevitationIdolInventoryItem;
 
+	// RainIdolInventoryItem
+	public static InventoryItemConfig rainIdolInventoryItem;
+	
 	// Actions..
 
 	// ShootFireballRing projectile action
@@ -837,6 +841,13 @@ public class ModConfiguration {
 		supplier = () -> getInstance(COMMON_BUILDER, "cloud", 5, 20, 0.3, 0.0, 0.0, 1.0);
 		mobsLevitationIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will levitate nearby creatures.", 5, supplier);
+		
+		// RainIdolInventoryItem 
+		name = RainIdolInventoryItem.ITEM_NAME;
+		supplier = () -> getInstance(COMMON_BUILDER, "rain", 5, 20, 0.75, 0.0, 0.75, 0.0);
+		rainIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will make it rain.", 200, supplier);
+		
 	}
 
 	/**
