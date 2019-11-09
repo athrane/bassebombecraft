@@ -1,9 +1,7 @@
 package bassebombecraft.item.action.inventory;
 
-import static bassebombecraft.ModConstants.NOT_AN_AOE_EFFECT;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import javax.naming.OperationNotSupportedException;
 
-import bassebombecraft.config.InventoryItemConfig;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -14,20 +12,6 @@ import net.minecraft.world.World;
  * of inventory item actions. This class makes it rain.
  */
 public class SpawnRain implements InventoryItemActionStrategy {
-
-	/**
-	 * Particle rendering info
-	 */
-	ParticleRenderingInfo[] infos;
-
-	/**
-	 * SpawnRain constructor.
-	 * 
-	 * @param config inventory item configuration.
-	 */
-	public SpawnRain(InventoryItemConfig config) {
-		infos = createFromConfig(config.particles);
-	}
 
 	@Override
 	public boolean applyOnlyIfSelected() {
@@ -45,13 +29,13 @@ public class SpawnRain implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public int getEffectRange() {
-		return NOT_AN_AOE_EFFECT;
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

@@ -1,13 +1,12 @@
 package bassebombecraft.item.action.inventory;
 
-import static bassebombecraft.ModConstants.NOT_AN_AOE_EFFECT;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static net.minecraft.potion.Effects.LEVITATION;
 
 import java.util.function.Supplier;
 
-import bassebombecraft.config.InventoryItemConfig;
+import javax.naming.OperationNotSupportedException;
+
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -27,11 +26,6 @@ public class AddLevitationEffect implements InventoryItemActionStrategy {
 	public final static String NAME = AddLevitationEffect.class.getSimpleName();
 
 	/**
-	 * Particle rendering info
-	 */
-	ParticleRenderingInfo[] infos;
-
-	/**
 	 * Effect duration.
 	 */
 	int duration;
@@ -44,13 +38,10 @@ public class AddLevitationEffect implements InventoryItemActionStrategy {
 	/**
 	 * AddLevitationEffect constructor
 	 * 
-	 * @param config       inventory item configuration.
 	 * @param splDuration  duration as a potion effect.
 	 * @param splAmplifier amplifier as a potion effect.
 	 */
-	public AddLevitationEffect(InventoryItemConfig config, Supplier<Integer> splDuration,
-			Supplier<Integer> splAmplifier) {
-		infos = createFromConfig(config.particles);
+	public AddLevitationEffect(Supplier<Integer> splDuration, Supplier<Integer> splAmplifier) {
 		duration = splDuration.get();
 		amplifier = splAmplifier.get();
 	}
@@ -74,13 +65,13 @@ public class AddLevitationEffect implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public int getEffectRange() {
-		return NOT_AN_AOE_EFFECT;
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 	/**

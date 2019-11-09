@@ -1,12 +1,12 @@
 package bassebombecraft.item.action.inventory;
 
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static net.minecraft.potion.Effects.LEVITATION;
 
 import java.util.function.Supplier;
 
-import bassebombecraft.config.InventoryItemConfig;
+import javax.naming.OperationNotSupportedException;
+
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
  * of inventory item actions. This class makes adds a levitation effect to
- * nearby entities..
+ * nearby entities.
  */
 public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 
@@ -24,21 +24,11 @@ public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 	 * Action identifier.
 	 */
 	public final static String NAME = AddMobsLevitationEffect.class.getSimpleName();
-	
-	/**
-	 * Particle rendering info
-	 */
-	ParticleRenderingInfo[] infos;
 
 	/**
 	 * Effect duration.
 	 */
 	int duration;
-
-	/**
-	 * Effect range.
-	 */
-	int range;
 
 	/**
 	 * Effect amplifier.
@@ -48,16 +38,12 @@ public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 	/**
 	 * AddMobsLevitationEffect constructor
 	 * 
-	 * @param config       inventory item configuration.
 	 * @param splDuration  duration as a potion effect.
 	 * @param splAmplifier amplifier as a potion effect.
 	 */
-	public AddMobsLevitationEffect(InventoryItemConfig config, Supplier<Integer> splDuration,
-			Supplier<Integer> splAmplifier) {
-		infos = createFromConfig(config.particles);
+	public AddMobsLevitationEffect(Supplier<Integer> splDuration, Supplier<Integer> splAmplifier) {
 		duration = splDuration.get();
 		amplification = splAmplifier.get();
-		range = config.range.get();
 	}
 
 	@Override
@@ -81,13 +67,13 @@ public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public int getEffectRange() {
-		return range;
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 	/**

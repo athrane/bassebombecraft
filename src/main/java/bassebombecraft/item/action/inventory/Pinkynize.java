@@ -2,18 +2,16 @@ package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
-import static bassebombecraft.ModConstants.NOT_AN_AOE_EFFECT;
 import static bassebombecraft.block.BlockUtils.selectPinkColoredWool;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.calculateSpiral;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
-import java.util.Random;
 import java.util.function.Supplier;
 
-import bassebombecraft.config.InventoryItemConfig;
+import javax.naming.OperationNotSupportedException;
+
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
@@ -36,19 +34,9 @@ public class Pinkynize implements InventoryItemActionStrategy {
 	public final static String NAME = Pinkynize.class.getSimpleName();
 
 	/**
-	 * Particle rendering info
-	 */
-	ParticleRenderingInfo[] infos;
-
-	/**
 	 * Spiral size, measured in rotations around the centre.
 	 */
 	final int spiralSize;
-
-	/**
-	 * Random generator
-	 */
-	Random random = new Random();
 
 	/**
 	 * Block directives repository
@@ -78,11 +66,9 @@ public class Pinkynize implements InventoryItemActionStrategy {
 	/**
 	 * Pinkynize constructor
 	 * 
-	 * @param config        inventory item configuration.
 	 * @param splSpiralSize Spiral size, measured in rotations around the centre.
 	 */
-	public Pinkynize(InventoryItemConfig config, Supplier<Integer> splSpiralSize) {
-		infos = createFromConfig(config.particles);
+	public Pinkynize(Supplier<Integer> splSpiralSize) {
 		spiralSize = splSpiralSize.get();
 
 		// get directives reposiory
@@ -123,13 +109,13 @@ public class Pinkynize implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public int getEffectRange() {
-		return NOT_AN_AOE_EFFECT;
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 	/**

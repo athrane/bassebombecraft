@@ -20,7 +20,7 @@ public class MobsLevitationIdolInventoryItem extends GenericInventoryItem {
 
 	public MobsLevitationIdolInventoryItem() {
 		super(ITEM_NAME, mobsLevitationIdolInventoryItem,
-				new AddMobsLevitationEffect(mobsLevitationIdolInventoryItem, splDuration, splAmplification));
+				new AddMobsLevitationEffect(splDuration, splAmplification));
 	}
 
 }

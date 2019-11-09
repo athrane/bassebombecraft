@@ -1,10 +1,10 @@
 package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;
 
-import bassebombecraft.config.InventoryItemConfig;
+import javax.naming.OperationNotSupportedException;
+
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -16,26 +16,6 @@ import net.minecraft.world.World;
  * of inventory item actions. This class charms a beast.
  */
 public class CharmBeast implements InventoryItemActionStrategy {
-
-	/**
-	 * Particle rendering info
-	 */
-	ParticleRenderingInfo[] infos;
-
-	/**
-	 * Effect range.
-	 */
-	int range;
-
-	/**
-	 * CharmBeast constructor
-	 * 
-	 * @param config inventory item configuration.
-	 */
-	public CharmBeast(InventoryItemConfig config) {
-		infos = createFromConfig(config.particles);
-		range = config.range.get();
-	}
 
 	@Override
 	public boolean applyOnlyIfSelected() {
@@ -64,13 +44,13 @@ public class CharmBeast implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public int getEffectRange() {
-		return range;
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

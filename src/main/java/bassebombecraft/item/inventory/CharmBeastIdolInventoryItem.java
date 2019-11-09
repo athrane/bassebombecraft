@@ -12,6 +12,6 @@ public class CharmBeastIdolInventoryItem extends GenericInventoryItem {
 	public final static String ITEM_NAME = CharmBeastIdolInventoryItem.class.getSimpleName();
 
 	public CharmBeastIdolInventoryItem() {
-		super(ITEM_NAME, charmBeastIdolInventoryItem, new CharmBeast(charmBeastIdolInventoryItem));
+		super(ITEM_NAME, charmBeastIdolInventoryItem, new CharmBeast());
 	}
 }

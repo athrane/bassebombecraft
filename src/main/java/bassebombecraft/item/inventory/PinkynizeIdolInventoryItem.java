@@ -17,6 +17,6 @@ public class PinkynizeIdolInventoryItem extends GenericInventoryItem {
 	static Supplier<Integer> splSpiralSize = () -> pinkynizeSpiralSize.get();
 
 	public PinkynizeIdolInventoryItem() {
-		super(ITEM_NAME, pinkynizeIdolInventoryItem, new Pinkynize(pinkynizeIdolInventoryItem, splSpiralSize));
+		super(ITEM_NAME, pinkynizeIdolInventoryItem, new Pinkynize(splSpiralSize));
 	}
 }
