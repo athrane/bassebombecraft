@@ -1,11 +1,10 @@
 package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
 
 import java.util.Random;
 
-import com.typesafe.config.Config;
+import javax.naming.OperationNotSupportedException;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
@@ -23,48 +22,17 @@ import net.minecraft.world.World;
  */
 public class ShootEgg implements InventoryItemActionStrategy {
 
+	/**
+	 * Action identifier.
+	 */
+	public final static String NAME = ShootEgg.class.getSimpleName();
+
 	static final float PITCH_OFFSET = 0.0F;
+
+	/**
+	 * Projectile spawn sound.
+	 */
 	static final SoundEvent SOUND = SoundEvents.ENTITY_CHICKEN_EGG;
-	static Random random = new Random();
-
-	/**
-	 * Particle rendering info
-	 */
-	ParticleRenderingInfo[] infos;
-
-	/**
-	 * Effect duration.
-	 */
-	int duration;
-
-	/**
-	 * Effect range.
-	 */
-	int range;
-
-	/**
-	 * Projectile velocity.
-	 */
-	int velocity;
-
-	/**
-	 * Projectile inaccuracy.
-	 */
-	int inaccuracy;
-
-	/**
-	 * AddLevitationEffect constructor
-	 * 
-	 * @param key configuration key to initialize particle rendering info from.
-	 */
-	public ShootEgg(String key) {
-		infos = createFromConfig(key);
-		Config configuration = getBassebombeCraft().getConfiguration();
-		range = configuration.getInt(key + ".Range");
-		velocity = configuration.getInt(key + ".Velocity");
-		inaccuracy = configuration.getInt(key + ".Inaccuracy");
-
-	}
 
 	@Override
 	public boolean applyOnlyIfSelected() {
@@ -80,6 +48,7 @@ public class ShootEgg implements InventoryItemActionStrategy {
 
 	@Override
 	public void applyEffect(Entity target, World world, LivingEntity invoker) {
+		Random random = getBassebombeCraft().getRandom();
 		EggEntity projectile = EntityType.EGG.create(world);
 
 		// from EntityLlama.spit()
@@ -95,13 +64,13 @@ public class ShootEgg implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public int getEffectRange() {
-		return range;
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

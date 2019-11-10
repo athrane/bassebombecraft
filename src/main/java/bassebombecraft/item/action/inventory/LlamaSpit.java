@@ -1,11 +1,10 @@
 package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
 
 import java.util.Random;
 
-import com.typesafe.config.Config;
+import javax.naming.OperationNotSupportedException;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
@@ -24,45 +23,15 @@ import net.minecraft.world.World;
  */
 public class LlamaSpit implements InventoryItemActionStrategy {
 
+	/**
+	 * Action identifier.
+	 */
+	public final static String NAME = LlamaSpit.class.getSimpleName();
+
+	/**
+	 * Spit spawn sound.
+	 */
 	static final SoundEvent SOUND = SoundEvents.ENTITY_LLAMA_SPIT;
-
-	/**
-	 * Particle rendering info
-	 */
-	ParticleRenderingInfo[] infos;
-
-	/**
-	 * Effect duration.
-	 */
-	int duration;
-
-	/**
-	 * Effect range.
-	 */
-	int range;
-
-	/**
-	 * Projectile velocity.
-	 */
-	int velocity;
-
-	/**
-	 * Projectile inaccuracy.
-	 */
-	int inaccuracy;
-
-	/**
-	 * AddLevitationEffect constructor
-	 * 
-	 * @param key configuration key to initialize particle rendering info from.
-	 */
-	public LlamaSpit(String key) {
-		infos = createFromConfig(key);
-		Config configuration = getBassebombeCraft().getConfiguration();
-		range = configuration.getInt(key + ".Range");
-		velocity = configuration.getInt(key + ".Velocity");
-		inaccuracy = configuration.getInt(key + ".Inaccuracy");
-	}
 
 	@Override
 	public boolean applyOnlyIfSelected() {
@@ -79,10 +48,7 @@ public class LlamaSpit implements InventoryItemActionStrategy {
 	@Override
 	public void applyEffect(Entity target, World world, LivingEntity invoker) {
 		Random random = getBassebombeCraft().getRandom();
-
 		LlamaSpitEntity entity = EntityType.LLAMA_SPIT.create(world);
-		// EntityLlamaSpit projectile = new EntityLlamaSpit(world, invoker.posX,
-		// invoker.posY + invoker.getEyeHeight(), invoker.posZ, v3.x, v3.y, v3.z);
 
 		// from EntityLlama.spit()
 		double d0 = target.posX - invoker.posX;
@@ -96,13 +62,13 @@ public class LlamaSpit implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public int getEffectRange() {
-		return range;
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

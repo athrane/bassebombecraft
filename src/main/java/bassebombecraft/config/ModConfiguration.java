@@ -38,6 +38,7 @@ import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.ShootSmallFireballRing;
 import bassebombecraft.item.action.build.CopyPasteBlocks;
+import bassebombecraft.item.action.inventory.AddFlameEffect;
 import bassebombecraft.item.action.inventory.AddLevitationEffect;
 import bassebombecraft.item.action.inventory.AddMobsLevitationEffect;
 import bassebombecraft.item.action.inventory.AddMobsPrimingEffect;
@@ -61,7 +62,10 @@ import bassebombecraft.item.book.SpawnKittenArmyBook;
 import bassebombecraft.item.book.SpawnSkeletonArmyBook;
 import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
+import bassebombecraft.item.inventory.EggProjectileIdolInventoryItem;
+import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
+import bassebombecraft.item.inventory.LlamaSpitIdolInventoryItem;
 import bassebombecraft.item.inventory.MobsLevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.PinkynizeIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
@@ -254,6 +258,15 @@ public class ModConfiguration {
 	// PrimeMobIdolInventoryItem
 	public static InventoryItemConfig primeMobIdolInventoryItem;
 
+	// FlameBlastIdolInventoryItem
+	public static InventoryItemConfig flameBlastIdolInventoryItem;
+
+	// LlamaSpitIdolInventoryItem
+	public static InventoryItemConfig llamaSpitIdolInventoryItem;
+
+	// EggProjectileIdolInventoryItem
+	public static InventoryItemConfig eggProjectileIdolInventoryItem;
+	
 	// Actions..
 
 	// ShootFireballRing projectile action
@@ -313,6 +326,9 @@ public class ModConfiguration {
 
 	// AddMobsPrimingEffect action
 	public static ForgeConfigSpec.IntValue addMobsPrimingEffectDuration;
+
+	// AddFlameEffect
+	public static ForgeConfigSpec.IntValue addFlameEffectDuration;
 
 	// Commander commands..
 	public static ForgeConfigSpec.DoubleValue danceCommandChance;
@@ -702,14 +718,21 @@ public class ModConfiguration {
 		// Pinkynize
 		name = Pinkynize.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		pinkynizeSpiralSize = COMMON_BUILDER.comment("Spiral size.").defineInRange("spiralSize", 5, 0,
-				Integer.MAX_VALUE);
+		pinkynizeSpiralSize = COMMON_BUILDER.comment("Spiral size, measured in rotations around the centre.")
+				.defineInRange("spiralSize", 5, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		// AddMobsPrimingEffect
 		name = AddMobsPrimingEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		addMobsPrimingEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// AddFlameEffect
+		name = AddFlameEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		addFlameEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
 				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
@@ -905,6 +928,26 @@ public class ModConfiguration {
 				"Equip in either hand to activate. The idol create a pink spiral of wool outwards from the player.", 5,
 				5, splParticles);
 
+		// FlameBlastIdolInventoryItem
+		name = FlameBlastIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "flame", 5, 20, 0.3, 0.75, 0.25, 0.25);
+		flameBlastIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will engulf nearby creatures in flames.", 100, 5,
+				splParticles);
+
+		// LlamaSpitIdolInventoryItem
+		name = LlamaSpitIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "spit", 5, 20, 0.1, 0.75, 0.75, 0.75);
+		llamaSpitIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The llama spirit embedded in the idol will spit on nearby creatures.", 25, 5,
+				splParticles);
+		
+		// EggProjectileIdolInventoryItem
+		name = EggProjectileIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "effect", 5, 20, 0.2, 0.75, 0.75, 0.75);
+		llamaSpitIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will target nearby creatures and attack with eggs.", 20, 5,
+				splParticles);		
 	}
 
 	/**
