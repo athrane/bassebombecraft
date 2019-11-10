@@ -24,11 +24,6 @@ import net.minecraft.world.World;
 public class LlamaSpit implements InventoryItemActionStrategy {
 
 	/**
-	 * Action identifier.
-	 */
-	public final static String NAME = LlamaSpit.class.getSimpleName();
-
-	/**
 	 * Spit spawn sound.
 	 */
 	static final SoundEvent SOUND = SoundEvents.ENTITY_LLAMA_SPIT;

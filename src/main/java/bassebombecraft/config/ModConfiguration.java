@@ -66,6 +66,7 @@ import bassebombecraft.item.inventory.EggProjectileIdolInventoryItem;
 import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.LlamaSpitIdolInventoryItem;
+import bassebombecraft.item.inventory.MeteorIdolInventoryItem;
 import bassebombecraft.item.inventory.MobsLevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.PinkynizeIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
@@ -266,6 +267,9 @@ public class ModConfiguration {
 
 	// EggProjectileIdolInventoryItem
 	public static InventoryItemConfig eggProjectileIdolInventoryItem;
+	
+	// MeteorIdolInventoryItem
+	public static InventoryItemConfig meteorIdolInventoryItem;
 	
 	// Actions..
 
@@ -945,9 +949,16 @@ public class ModConfiguration {
 		// EggProjectileIdolInventoryItem
 		name = EggProjectileIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "effect", 5, 20, 0.2, 0.75, 0.75, 0.75);
-		llamaSpitIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+		eggProjectileIdolInventoryItem = getInstance(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will target nearby creatures and attack with eggs.", 20, 5,
 				splParticles);		
+		
+		// MeteorIdolInventoryItem
+		name = MeteorIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "flame", 5, 20, 0.2, 0.75, 0.75, 0.75);
+		meteorIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will rain meteors from the sky onto nearby creatures.", 50, 5,
+				splParticles);				
 	}
 
 	/**

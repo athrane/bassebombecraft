@@ -22,11 +22,6 @@ import net.minecraft.world.World;
  */
 public class ShootEgg implements InventoryItemActionStrategy {
 
-	/**
-	 * Action identifier.
-	 */
-	public final static String NAME = ShootEgg.class.getSimpleName();
-
 	static final float PITCH_OFFSET = 0.0F;
 
 	/**
