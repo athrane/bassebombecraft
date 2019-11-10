@@ -1,7 +1,5 @@
 package bassebombecraft.config;
 
-import com.typesafe.config.Config;
-
 /**
  * Structure info object read from Configuration API.
  */
@@ -30,12 +28,13 @@ public class StructureInfo {
 	/*
 	 * StructureInfo constructor.
 	 */
-	public StructureInfo(final Config params) {
+	public StructureInfo() {
+		// final Config params
 		super();
-		name = params.getString("name");
-		spawnRate = params.getDouble("spawnRate");
-		biome = params.getString("biome");
-		singleton = params.getBoolean("singleton");
+		// name = params.getString("name");
+		// spawnRate = params.getDouble("spawnRate");
+		// biome = params.getString("biome");
+		// singleton = params.getBoolean("singleton");
 	}
 
 	public String getName() {
