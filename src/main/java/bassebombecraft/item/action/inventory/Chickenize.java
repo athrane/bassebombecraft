@@ -1,18 +1,16 @@
 package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
-import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import java.util.Random;
+
+import javax.naming.OperationNotSupportedException;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -23,18 +21,16 @@ import net.minecraft.world.World;
  * of inventory item actions. This class transform an entity to a chicken.
  */
 public class Chickenize implements InventoryItemActionStrategy {
+
+	/**
+	 * Entity initial age.
+	 */
 	static final int CHILD_AGE = 0;
+
+	/**
+	 * Entity spawn sound.
+	 */
 	SoundEvent SOUND = SoundEvents.ENTITY_CHICKEN_HURT;
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.ENTITY_EFFECT;
-	static final int PARTICLE_NUMBER = 5;
-	static final int PARTICLE_DURATION = 20;
-	static final float R = 0.0F;
-	static final float B = 0.75F;
-	static final float G = 0.0F;
-	static final double PARTICLE_SPEED = 0.075;
-	static final ParticleRenderingInfo MIST = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R, G, B,
-			PARTICLE_SPEED);
-	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
 
 	@Override
 	public boolean applyOnlyIfSelected() {
@@ -73,13 +69,13 @@ public class Chickenize implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public int getEffectRange() {
-		return 5;
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return INFOS;
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

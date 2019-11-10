@@ -71,7 +71,7 @@ public class Pinkynize implements InventoryItemActionStrategy {
 	public Pinkynize(Supplier<Integer> splSpiralSize) {
 		spiralSize = splSpiralSize.get();
 
-		// get directives reposiory
+		// get directives repository
 		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 
 		// calculate spiral
@@ -106,16 +106,6 @@ public class Pinkynize implements InventoryItemActionStrategy {
 		// create block
 		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 		directivesRepository.add(directive);
-	}
-
-	@Override
-	public int getEffectRange() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 	/**
@@ -162,4 +152,14 @@ public class Pinkynize implements InventoryItemActionStrategy {
 		spiralCenter = new BlockPos(target);
 	}
 
+	@Override
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
+	}
+
+	@Override
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
+	}
+	
 }

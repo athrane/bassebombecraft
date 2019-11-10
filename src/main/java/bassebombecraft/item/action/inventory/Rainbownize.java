@@ -3,12 +3,14 @@ package bassebombecraft.item.action.inventory;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.block.BlockUtils.selectRainbowColoredWool;
-import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
 import java.util.Random;
+import java.util.function.Supplier;
+
+import javax.naming.OperationNotSupportedException;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
@@ -17,8 +19,6 @@ import bassebombecraft.geom.GeometryUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -29,21 +29,15 @@ import net.minecraft.world.World;
  */
 public class Rainbownize implements InventoryItemActionStrategy {
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
-	static final int PARTICLE_NUMBER = 5;
-	static final int PARTICLE_DURATION = 20;
-	static final float R = 0.0F;
-	static final float B = 0.0F;
-	static final float G = 0.75F;
-	static final double PARTICLE_SPEED = 0.075;
-	static final ParticleRenderingInfo MIST = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R, G, B,
-			PARTICLE_SPEED);
-	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
+	/**
+	 * Action identifier.
+	 */
+	public final static String NAME = Rainbownize.class.getSimpleName();
 
 	/**
-	 * Spiral size.
+	 * Spiral size, measured in rotations around the centre.
 	 */
-	static final int SPIRAL_SIZE = 20;
+	final int spiralSize;
 
 	/**
 	 * Random generator
@@ -77,14 +71,17 @@ public class Rainbownize implements InventoryItemActionStrategy {
 
 	/**
 	 * Rainbownize constructor.
+	 * 
+	 * @param splSpiralSize Spiral size, measured in rotations around the centre.
 	 */
-	public Rainbownize() {
-		super();
+	public Rainbownize(Supplier<Integer> splSpiralSize) {
+		spiralSize = splSpiralSize.get();
 
+		// get directives repository
 		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 
 		// calculate spiral
-		spiralCoordinates = GeometryUtils.calculateSpiral(SPIRAL_SIZE, SPIRAL_SIZE);
+		spiralCoordinates = GeometryUtils.calculateSpiral(spiralSize, spiralSize);
 	}
 
 	@Override
@@ -115,16 +112,6 @@ public class Rainbownize implements InventoryItemActionStrategy {
 		// create block
 		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 		directivesRepository.add(directive);
-	}
-
-	@Override
-	public int getEffectRange() {
-		return 1; // Not a AOE effect
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return INFOS;
 	}
 
 	/**
@@ -169,6 +156,16 @@ public class Rainbownize implements InventoryItemActionStrategy {
 	void initializeSpiral(Entity target) {
 		spiralCounter = 0;
 		spiralCenter = new BlockPos(target);
+	}
+
+	@Override
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
+	}
+
+	@Override
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

@@ -16,9 +16,9 @@ public class LevitationIdolInventoryItem extends GenericInventoryItem {
 	public final static String ITEM_NAME = LevitationIdolInventoryItem.class.getSimpleName();
 
 	static Supplier<Integer> splDuration = () -> addLevitationEffectDuration.get();
-	static Supplier<Integer> splAmplification = () -> addLevitationEffectAmplifier.get();
+	static Supplier<Integer> splAmplifier = () -> addLevitationEffectAmplifier.get();
 
 	public LevitationIdolInventoryItem() {
-		super(ITEM_NAME, levitationIdolInventoryItem, new AddLevitationEffect(splDuration, splAmplification));
+		super(ITEM_NAME, levitationIdolInventoryItem, new AddLevitationEffect(splDuration, splAmplifier));
 	}
 }

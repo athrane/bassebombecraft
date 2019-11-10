@@ -33,7 +33,7 @@ public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 	/**
 	 * Effect amplifier.
 	 */
-	int amplification;
+	int amplifier;
 
 	/**
 	 * AddMobsLevitationEffect constructor
@@ -43,7 +43,7 @@ public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 	 */
 	public AddMobsLevitationEffect(Supplier<Integer> splDuration, Supplier<Integer> splAmplifier) {
 		duration = splDuration.get();
-		amplification = splAmplifier.get();
+		amplifier = splAmplifier.get();
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 	 * @return potion effect
 	 */
 	EffectInstance createEffect() {
-		return new EffectInstance(LEVITATION, duration, amplification);
+		return new EffectInstance(LEVITATION, duration, amplifier);
 	}
 
 }

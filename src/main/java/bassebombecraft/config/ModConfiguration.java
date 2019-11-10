@@ -38,11 +38,15 @@ import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.ShootSmallFireballRing;
 import bassebombecraft.item.action.build.CopyPasteBlocks;
+import bassebombecraft.item.action.inventory.AddBlindingEffect;
 import bassebombecraft.item.action.inventory.AddFlameEffect;
+import bassebombecraft.item.action.inventory.AddHealingEffect;
 import bassebombecraft.item.action.inventory.AddLevitationEffect;
 import bassebombecraft.item.action.inventory.AddMobsLevitationEffect;
 import bassebombecraft.item.action.inventory.AddMobsPrimingEffect;
+import bassebombecraft.item.action.inventory.Naturalize;
 import bassebombecraft.item.action.inventory.Pinkynize;
+import bassebombecraft.item.action.inventory.Rainbownize;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.basic.TerminatorEyeItem;
 import bassebombecraft.item.baton.MobCommandersBaton;
@@ -61,16 +65,22 @@ import bassebombecraft.item.book.SpawnCreeperArmyBook;
 import bassebombecraft.item.book.SpawnKittenArmyBook;
 import bassebombecraft.item.book.SpawnSkeletonArmyBook;
 import bassebombecraft.item.book.TeleportBook;
+import bassebombecraft.item.inventory.AngelIdolInventoryItem;
+import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
 import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
+import bassebombecraft.item.inventory.ChickenizeIdolInventoryItem;
 import bassebombecraft.item.inventory.EggProjectileIdolInventoryItem;
 import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
+import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
+import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
 import bassebombecraft.item.inventory.LlamaSpitIdolInventoryItem;
 import bassebombecraft.item.inventory.MeteorIdolInventoryItem;
 import bassebombecraft.item.inventory.MobsLevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.PinkynizeIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
 import bassebombecraft.item.inventory.RainIdolInventoryItem;
+import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.MobAggroEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
@@ -240,36 +250,22 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue copyPasteBlocksBookCooldown;
 
 	// Inventory items..
-
-	// CharmBeastIdolInventoryItem
 	public static InventoryItemConfig charmBeastIdolInventoryItem;
-
-	// LevitationIdolInventoryItem
 	public static InventoryItemConfig levitationIdolInventoryItem;
-
-	// MobsLevitationIdolInventoryItem
 	public static InventoryItemConfig mobsLevitationIdolInventoryItem;
-
-	// RainIdolInventoryItem
 	public static InventoryItemConfig rainIdolInventoryItem;
-
-	// pinkynizeIdolInventoryItem
 	public static InventoryItemConfig pinkynizeIdolInventoryItem;
-
-	// PrimeMobIdolInventoryItem
 	public static InventoryItemConfig primeMobIdolInventoryItem;
-
-	// FlameBlastIdolInventoryItem
 	public static InventoryItemConfig flameBlastIdolInventoryItem;
-
-	// LlamaSpitIdolInventoryItem
 	public static InventoryItemConfig llamaSpitIdolInventoryItem;
-
-	// EggProjectileIdolInventoryItem
 	public static InventoryItemConfig eggProjectileIdolInventoryItem;
-	
-	// MeteorIdolInventoryItem
 	public static InventoryItemConfig meteorIdolInventoryItem;
+	public static InventoryItemConfig blindnessIdolInventoryItem;
+	public static InventoryItemConfig angelIdolInventoryItem;
+	public static InventoryItemConfig chickenizeIdolInventoryItem;
+	public static InventoryItemConfig lightningBoltIdolInventoryItem;
+	public static InventoryItemConfig flowerIdolInventoryItem;
+	public static InventoryItemConfig rainbownizeIdolInventoryItem;
 	
 	// Actions..
 
@@ -334,6 +330,20 @@ public class ModConfiguration {
 	// AddFlameEffect
 	public static ForgeConfigSpec.IntValue addFlameEffectDuration;
 
+	// AddBlindingEffect action
+	public static ForgeConfigSpec.IntValue addBlindingEffectDuration;
+	public static ForgeConfigSpec.IntValue addBlindingEffectAmplifier;
+
+	// AddHealingEffect action
+	public static ForgeConfigSpec.IntValue addHealingEffectDuration;
+	public static ForgeConfigSpec.IntValue addHealingEffectAmplifier;
+
+	// Naturalize action
+	public static ForgeConfigSpec.IntValue naturalizeSpiralSize;
+
+	// Naturalize action
+	public static ForgeConfigSpec.IntValue rainbownizeSpiralSize;
+	
 	// Commander commands..
 	public static ForgeConfigSpec.DoubleValue danceCommandChance;
 	public static ForgeConfigSpec.IntValue attackNearestMobCommandTargetDistance;
@@ -740,6 +750,40 @@ public class ModConfiguration {
 				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		// AddBlindingEffect
+		name = AddBlindingEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		addBlindingEffectAmplifier = COMMON_BUILDER
+				.comment("Potency of the effect (as a potion effect), i.e. the resulting blindness.")
+				.defineInRange("amplifier", 1, 0, Integer.MAX_VALUE);
+		addBlindingEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// AddHealingEffect
+		name = AddHealingEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		addHealingEffectAmplifier = COMMON_BUILDER
+				.comment("Potency of the effect (as a potion effect), i.e. the resulting blindness.")
+				.defineInRange("amplifier", 1, 0, Integer.MAX_VALUE);
+		addHealingEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// Naturalize
+		name = Naturalize.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		naturalizeSpiralSize = COMMON_BUILDER.comment("Spiral size, measured in rotations around the centre.")
+				.defineInRange("spiralSize", 20, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// Rainbownize
+		name = Rainbownize.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		rainbownizeSpiralSize = COMMON_BUILDER.comment("Spiral size, measured in rotations around the centre.")
+				.defineInRange("spiralSize", 20, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+		
 	}
 
 	/**
@@ -943,22 +987,59 @@ public class ModConfiguration {
 		name = LlamaSpitIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "spit", 5, 20, 0.1, 0.75, 0.75, 0.75);
 		llamaSpitIdolInventoryItem = getInstance(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The llama spirit embedded in the idol will spit on nearby creatures.", 25, 5,
-				splParticles);
-		
+				"Equip in either hand to activate. The llama spirit embedded in the idol will spit on nearby creatures.",
+				25, 5, splParticles);
+
 		// EggProjectileIdolInventoryItem
 		name = EggProjectileIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "effect", 5, 20, 0.2, 0.75, 0.75, 0.75);
 		eggProjectileIdolInventoryItem = getInstance(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will target nearby creatures and attack with eggs.", 20, 5,
-				splParticles);		
-		
+				splParticles);
+
 		// MeteorIdolInventoryItem
 		name = MeteorIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "flame", 5, 20, 0.2, 0.75, 0.75, 0.75);
 		meteorIdolInventoryItem = getInstance(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol will rain meteors from the sky onto nearby creatures.", 50, 5,
-				splParticles);				
+				"Equip in either hand to activate. The idol will rain meteors from the sky onto nearby creatures.", 50,
+				5, splParticles);
+
+		// BlindnessIdolInventoryItem
+		name = BlindnessIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "ambient_entity_effect", 5, 20, 0.7, 0.75, 0.25, 0.25);
+		blindnessIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will blind nearby creatures.", 50, 5, splParticles);
+
+		// AngelIdolInventoryItem
+		name = AngelIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "effect", 5, 20, 0.3, 0.75, 0.0, 0.0);
+		angelIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol heals the player.", 50, splParticles);
+		
+		// ChickenizeIdolInventoryItem
+		name = ChickenizeIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "effect", 5, 20, 0.75, 0.0, 0.75, 0.0);
+		chickenizeIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol transforms nearby creatures to chickens.", 50, 5, splParticles);
+		
+		// LightningBoltIdolInventoryItem
+		name = LightningBoltIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "effect", 5, 20, 0.3, 0.75, 0.75, 0.75);
+		lightningBoltIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol shoot lightning bolts on nearby creatures.", 50, 5, splParticles);
+
+		// FlowerIdolInventoryItem
+		name = FlowerIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "effect", 5, 20, 0.075, 0.0, 0.0, 0.75);
+		flowerIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol create a spiral of flowers outwards from the player.", 5, splParticles);		
+		
+		// RainbownizeIdolInventoryItem
+		name = RainbownizeIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "effect", 5, 20, 0.075, 0.0, 0.0, 0.75);
+		rainbownizeIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol create a rainbow coloured spiral outwards from the player.", 5, splParticles);		
+		
 	}
 
 	/**

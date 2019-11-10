@@ -16,11 +16,11 @@ public class MobsLevitationIdolInventoryItem extends GenericInventoryItem {
 	public final static String ITEM_NAME = MobsLevitationIdolInventoryItem.class.getSimpleName();
 
 	static Supplier<Integer> splDuration = () -> addMobsLevitationEffectDuration.get();
-	static Supplier<Integer> splAmplification = () -> addMobsLevitationEffectAmplifier.get();
+	static Supplier<Integer> splAmplifier = () -> addMobsLevitationEffectAmplifier.get();
 
 	public MobsLevitationIdolInventoryItem() {
 		super(ITEM_NAME, mobsLevitationIdolInventoryItem,
-				new AddMobsLevitationEffect(splDuration, splAmplification));
+				new AddMobsLevitationEffect(splDuration, splAmplifier));
 	}
 
 }

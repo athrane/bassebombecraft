@@ -1,5 +1,7 @@
 package bassebombecraft.item.inventory;
 
+import static bassebombecraft.config.ModConfiguration.chickenizeIdolInventoryItem;
+
 import bassebombecraft.item.action.inventory.Chickenize;
 
 /**
@@ -10,6 +12,6 @@ public class ChickenizeIdolInventoryItem extends GenericInventoryItem {
 	public final static String ITEM_NAME = ChickenizeIdolInventoryItem.class.getSimpleName();
 
 	public ChickenizeIdolInventoryItem() {
-		super(ITEM_NAME, new Chickenize());
+		super(ITEM_NAME, chickenizeIdolInventoryItem, new Chickenize());
 	}
 }
