@@ -2,14 +2,14 @@ package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.ModConstants.PLAYER_AGGRO_EFFECT;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
-import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
-import bassebombecraft.config.ModConfiguration;
+import java.util.function.Supplier;
+
+import javax.naming.OperationNotSupportedException;
+
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.world.World;
 
@@ -20,16 +20,10 @@ import net.minecraft.world.World;
  */
 public class AddPlayerAggroEffect implements InventoryItemActionStrategy {
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.AMBIENT_ENTITY_EFFECT;
-	static final int PARTICLE_NUMBER = 5;
-	static final int PARTICLE_DURATION = 20;
-	static final float R = 0.75F;
-	static final float G = 0.25F;
-	static final float B = 0.25F;
-	static final double PARTICLE_SPEED = 0.7;
-	static final ParticleRenderingInfo MIST = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R, G, B,
-			PARTICLE_SPEED);
-	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
+	/**
+	 * Action identifier.
+	 */
+	public final static String NAME = AddPlayerAggroEffect.class.getSimpleName();
 
 	/**
 	 * Effect duration.
@@ -37,18 +31,19 @@ public class AddPlayerAggroEffect implements InventoryItemActionStrategy {
 	int duration;
 
 	/**
-	 * Area of effect.
+	 * Effect amplifier.
 	 */
-	int arreaOfEffect;
+	int amplifier;
 
 	/**
 	 * AddPlayerAggroEffect constructor
 	 * 
-	 * @param key configuration key to initialize particle rendering info from.
+	 * @param splDuration  duration as a potion effect.
+	 * @param splAmplifier amplifier as a potion effect.
 	 */
-	public AddPlayerAggroEffect(String key) {
-		duration = ModConfiguration.playerAggroEffectDuration.get();
-		arreaOfEffect = ModConfiguration.playerAggroEffectAreaOfEffect.get();
+	public AddPlayerAggroEffect(Supplier<Integer> splDuration, Supplier<Integer> splAmplifier) {
+		duration = splDuration.get();
+		amplifier = splAmplifier.get();
 	}
 
 	@Override
@@ -71,23 +66,23 @@ public class AddPlayerAggroEffect implements InventoryItemActionStrategy {
 		}
 	}
 
-	@Override
-	public int getEffectRange() {
-		return arreaOfEffect;
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return INFOS;
-	}
-
 	/**
 	 * Create potion effect.
 	 * 
 	 * @return potion effect
 	 */
 	EffectInstance createEffect() {
-		return new EffectInstance(PLAYER_AGGRO_EFFECT, duration);
+		return new EffectInstance(PLAYER_AGGRO_EFFECT, duration, amplifier);
+	}
+
+	@Override
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
+	}
+
+	@Override
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

@@ -42,8 +42,11 @@ import bassebombecraft.item.action.inventory.AddBlindingEffect;
 import bassebombecraft.item.action.inventory.AddFlameEffect;
 import bassebombecraft.item.action.inventory.AddHealingEffect;
 import bassebombecraft.item.action.inventory.AddLevitationEffect;
+import bassebombecraft.item.action.inventory.AddMobsAggroEffect;
 import bassebombecraft.item.action.inventory.AddMobsLevitationEffect;
 import bassebombecraft.item.action.inventory.AddMobsPrimingEffect;
+import bassebombecraft.item.action.inventory.AddPlayerAggroEffect;
+import bassebombecraft.item.action.inventory.AddSaturationEffect;
 import bassebombecraft.item.action.inventory.Naturalize;
 import bassebombecraft.item.action.inventory.Pinkynize;
 import bassebombecraft.item.action.inventory.Rainbownize;
@@ -75,12 +78,17 @@ import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
 import bassebombecraft.item.inventory.LlamaSpitIdolInventoryItem;
+import bassebombecraft.item.inventory.MassExtinctionEventIdolInventoryItem;
 import bassebombecraft.item.inventory.MeteorIdolInventoryItem;
+import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.MobsLevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.PinkynizeIdolInventoryItem;
+import bassebombecraft.item.inventory.PlayerAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
 import bassebombecraft.item.inventory.RainIdolInventoryItem;
 import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
+import bassebombecraft.item.inventory.ReaperIdolInventoryItem;
+import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.MobAggroEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
@@ -160,7 +168,6 @@ public class ModConfiguration {
 
 	// PlayerAggroEffect
 	public static ForgeConfigSpec.IntValue playerAggroEffectAreaOfEffect;
-	public static ForgeConfigSpec.IntValue playerAggroEffectDuration;
 	public static ForgeConfigSpec.IntValue playerAggroEffectUpdateFrequency;
 
 	// MobRespawningEffect
@@ -266,7 +273,12 @@ public class ModConfiguration {
 	public static InventoryItemConfig lightningBoltIdolInventoryItem;
 	public static InventoryItemConfig flowerIdolInventoryItem;
 	public static InventoryItemConfig rainbownizeIdolInventoryItem;
-	
+	public static InventoryItemConfig saturationIdolInventoryItem;
+	public static InventoryItemConfig mobsAggroIdolInventoryItem;
+	public static InventoryItemConfig playerAggroIdolInventoryItem;
+	public static InventoryItemConfig reaperIdolInventoryItem;
+	public static InventoryItemConfig massExtinctionEventIdolInventoryItem;
+
 	// Actions..
 
 	// ShootFireballRing projectile action
@@ -343,11 +355,22 @@ public class ModConfiguration {
 
 	// Naturalize action
 	public static ForgeConfigSpec.IntValue rainbownizeSpiralSize;
-	
+
+	// AddSaturationEffect
+	public static ForgeConfigSpec.IntValue addSaturationEffectDuration;
+
 	// Commander commands..
 	public static ForgeConfigSpec.DoubleValue danceCommandChance;
 	public static ForgeConfigSpec.IntValue attackNearestMobCommandTargetDistance;
 	public static ForgeConfigSpec.IntValue attackNearestPlayerCommandTargetDistance;
+
+	// AddMobsAggroEffect action
+	public static ForgeConfigSpec.IntValue addMobsAggroEffectDuration;
+	public static ForgeConfigSpec.IntValue addMobsAggroEffectAmplifier;
+
+	// AddPlayerAggroEffect action
+	public static ForgeConfigSpec.IntValue addPlayerAggroEffectDuration;
+	public static ForgeConfigSpec.IntValue addPlayerAggroEffectAmplifier;
 
 	static {
 
@@ -487,8 +510,6 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		playerAggroEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.")
 				.defineInRange("areaOfEffect", 10, 0, Integer.MAX_VALUE);
-		playerAggroEffectDuration = COMMON_BUILDER.comment("Duration of effect (on aggro'ed mobs) in game ticks.")
-				.defineInRange("duration", 1200, 0, Integer.MAX_VALUE);
 		playerAggroEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
 				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
@@ -783,7 +804,34 @@ public class ModConfiguration {
 		rainbownizeSpiralSize = COMMON_BUILDER.comment("Spiral size, measured in rotations around the centre.")
 				.defineInRange("spiralSize", 20, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
-		
+
+		// AddSaturationEffect
+		name = AddSaturationEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		addSaturationEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// AddMobsAggroEffect
+		name = AddMobsAggroEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		addMobsAggroEffectAmplifier = COMMON_BUILDER
+				.comment("Potency of the effect (as a potion effect), i.e. the resulting mob aggro.")
+				.defineInRange("amplifier", 1, 0, Integer.MAX_VALUE);
+		addMobsAggroEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 400, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// AddPlayerAggroEffect
+		name = AddPlayerAggroEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		addPlayerAggroEffectAmplifier = COMMON_BUILDER
+				.comment("Potency of the effect (as a potion effect), i.e. the resulting mob aggro toward the player.")
+				.defineInRange("amplifier", 1, 0, Integer.MAX_VALUE);
+		addPlayerAggroEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 400, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
 	}
 
 	/**
@@ -1015,31 +1063,68 @@ public class ModConfiguration {
 		splParticles = () -> getInstance(COMMON_BUILDER, "effect", 5, 20, 0.3, 0.75, 0.0, 0.0);
 		angelIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol heals the player.", 50, splParticles);
-		
+
 		// ChickenizeIdolInventoryItem
 		name = ChickenizeIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "effect", 5, 20, 0.75, 0.0, 0.75, 0.0);
 		chickenizeIdolInventoryItem = getInstance(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol transforms nearby creatures to chickens.", 50, 5, splParticles);
-		
+				"Equip in either hand to activate. The idol transforms nearby creatures to chickens.", 50, 5,
+				splParticles);
+
 		// LightningBoltIdolInventoryItem
 		name = LightningBoltIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "effect", 5, 20, 0.3, 0.75, 0.75, 0.75);
 		lightningBoltIdolInventoryItem = getInstance(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol shoot lightning bolts on nearby creatures.", 50, 5, splParticles);
+				"Equip in either hand to activate. The idol shoot lightning bolts on nearby creatures.", 50, 5,
+				splParticles);
 
 		// FlowerIdolInventoryItem
 		name = FlowerIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "effect", 5, 20, 0.075, 0.0, 0.0, 0.75);
 		flowerIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol create a spiral of flowers outwards from the player.", 5, splParticles);		
-		
+				"Equip in either hand to activate. The idol create a spiral of flowers outwards from the player.", 5,
+				splParticles);
+
 		// RainbownizeIdolInventoryItem
 		name = RainbownizeIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "effect", 5, 20, 0.075, 0.0, 0.0, 0.75);
 		rainbownizeIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol create a rainbow coloured spiral outwards from the player.", 5, splParticles);		
-		
+				"Equip in either hand to activate. The idol create a rainbow coloured spiral outwards from the player.",
+				5, splParticles);
+
+		// SaturationIdolInventoryItem
+		name = SaturationIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "happy_villager", 5, 20, 0.3, 0.8, 0.0, 0.0);
+		saturationIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will fill up your belly.", 100, splParticles);
+
+		// MobsAggroIdolInventoryItem
+		name = MobsAggroIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "damage_indicator", 5, 20, 0.3, 0.9, 0.9, 0.9);
+		mobsAggroIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will aggro all creatures in the vicinity toward other mobs. This includes team members and charmed mobs.",
+				100, 5, splParticles);
+
+		// PlayerAggroIdolInventoryItem
+		name = PlayerAggroIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "damage_indicator", 5, 20, 0.3, 0.9, 0.9, 0.9);
+		playerAggroIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will aggro all creatures in the vicinity towards the player. This includes team members and charmed mobs.",
+				100, 5, splParticles);
+
+		// ReaperIdolInventoryItem
+		name = ReaperIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "crit", 5, 20, 0.075, 0.0, 0.0, 0.0);
+		reaperIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will kill the user and destroy itself.", 200, splParticles);
+
+		// MassExtinctionEventIdolInventoryItem
+		name = MassExtinctionEventIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "crit", 5, 20, 0.075, 0.25, 0.75, 0.25);
+		massExtinctionEventIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will cause a widespread and rapid decrease in the biodiversity within the game comparable to a mass extinction event. Mass extinction events happens every 26 to 30 million years, so expect a long cooldown.",
+				1000000000, 200, splParticles);
+
 	}
 
 	/**

@@ -85,7 +85,6 @@ public class PlayerAggroEffect extends Effect {
 		// get closet player
 		double searchDist = (double) arreaOfEffect;
 		Optional<PlayerEntity> optPlayer = ofNullable(world.getClosestPlayer(entity, searchDist));				
-//				world.getClosestPlayer(entity.posX, entity.posY, entity.posZ, searchDist, false));
 
 		// exit if no targets where found
 		if (!optPlayer.isPresent())

@@ -66,16 +66,6 @@ public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 		}
 	}
 
-	@Override
-	public int getEffectRange() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
-	}
-
 	/**
 	 * Create potion effect.
 	 * 
@@ -85,4 +75,14 @@ public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 		return new EffectInstance(LEVITATION, duration, amplifier);
 	}
 
+	@Override
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
+	}
+
+	@Override
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
+	}
+	
 }

@@ -1,11 +1,11 @@
 package bassebombecraft.item.action.inventory;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.MOB_AGGRO_EFFECT;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 
-import com.typesafe.config.Config;
+import java.util.function.Supplier;
+
+import javax.naming.OperationNotSupportedException;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
@@ -21,9 +21,9 @@ import net.minecraft.world.World;
 public class AddMobsAggroEffect implements InventoryItemActionStrategy {
 
 	/**
-	 * Particle rendering info
+	 * Action identifier.
 	 */
-	ParticleRenderingInfo[] infos;
+	public final static String NAME = AddMobsAggroEffect.class.getSimpleName();
 
 	/**
 	 * Effect duration.
@@ -31,20 +31,19 @@ public class AddMobsAggroEffect implements InventoryItemActionStrategy {
 	int duration;
 
 	/**
-	 * Effect range.
+	 * Effect amplifier.
 	 */
-	int range;
+	int amplifier;
 
 	/**
 	 * AddMobsAggroEffect constructor
 	 * 
-	 * @param key configuration key to initialize particle rendering info from.
+	 * @param splDuration  duration as a potion effect.
+	 * @param splAmplifier amplifier as a potion effect.
 	 */
-	public AddMobsAggroEffect(String key) {
-		infos = createFromConfig(key);
-		Config configuration = getBassebombeCraft().getConfiguration();
-		duration = configuration.getInt(key + ".Duration");
-		range = configuration.getInt(key + ".Range");
+	public AddMobsAggroEffect(Supplier<Integer> splDuration, Supplier<Integer> splAmplifier) {
+		duration = splDuration.get();
+		amplifier = splAmplifier.get();
 	}
 
 	@Override
@@ -67,23 +66,23 @@ public class AddMobsAggroEffect implements InventoryItemActionStrategy {
 		}
 	}
 
-	@Override
-	public int getEffectRange() {
-		return range;
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
-	}
-
 	/**
 	 * Create potion effect.
 	 * 
 	 * @return potion effect
 	 */
 	EffectInstance createEffect() {
-		return new EffectInstance(MOB_AGGRO_EFFECT, duration);
+		return new EffectInstance(MOB_AGGRO_EFFECT, duration, amplifier);
+	}
+
+	@Override
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
+	}
+
+	@Override
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }
