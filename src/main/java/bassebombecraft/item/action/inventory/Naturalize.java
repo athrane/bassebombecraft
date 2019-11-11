@@ -1,13 +1,15 @@
 package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.createFlowerDirective;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
 import java.util.Random;
+import java.util.function.Supplier;
+
+import javax.naming.OperationNotSupportedException;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
@@ -15,8 +17,6 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.GeometryUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -27,28 +27,17 @@ import net.minecraft.world.World;
  */
 public class Naturalize implements InventoryItemActionStrategy {
 
+	/**
+	 * Action identifier.
+	 */
+	public final static String NAME = Naturalize.class.getSimpleName();
+
 	static final boolean DONT_HARVEST = false;
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
-	static final int PARTICLE_NUMBER = 5;
-	static final int PARTICLE_DURATION = 20;
-	static final float R = 0.0F;
-	static final float B = 0.0F;
-	static final float G = 0.75F;
-	static final double PARTICLE_SPEED = 0.075;
-	static final ParticleRenderingInfo MIST = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R, G, B,
-			PARTICLE_SPEED);
-	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
-
 	/**
-	 * Spiral size.
+	 * Spiral size, measured in rotations around the centre.
 	 */
-	static final int SPIRAL_SIZE = 20;
-
-	/**
-	 * Random generator
-	 */
-	Random random = new Random();
+	final int spiralSize;
 
 	/**
 	 * Block directives repository
@@ -73,15 +62,16 @@ public class Naturalize implements InventoryItemActionStrategy {
 	/**
 	 * Naturalize constructor.
 	 * 
-	 * /** Naturalize constructor.
+	 * @param splSpiralSize Spiral size, measured in rotations around the centre.
 	 */
-	public Naturalize() {
-		super();
+	public Naturalize(Supplier<Integer> splSpiralSize) {
+		spiralSize = splSpiralSize.get();
 
+		// get directives repository
 		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 
 		// calculate spiral
-		spiralCoordinates = GeometryUtils.calculateSpiral(SPIRAL_SIZE, SPIRAL_SIZE);
+		spiralCoordinates = GeometryUtils.calculateSpiral(spiralSize, spiralSize);
 	}
 
 	@Override
@@ -96,6 +86,7 @@ public class Naturalize implements InventoryItemActionStrategy {
 
 	@Override
 	public void applyEffect(Entity target, World world, LivingEntity invoker) {
+		Random random = getBassebombeCraft().getRandom();
 
 		// calculate position
 		BlockPos targetPosition = calculatePostion(target);
@@ -109,16 +100,6 @@ public class Naturalize implements InventoryItemActionStrategy {
 
 		// create block
 		directivesRepository.add(directive);
-	}
-
-	@Override
-	public int getEffectRange() {
-		return 1; // Not a AOE effect
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return INFOS;
 	}
 
 	/**
@@ -163,6 +144,16 @@ public class Naturalize implements InventoryItemActionStrategy {
 	void initializeSpiral(Entity target) {
 		spiralCounter = 0;
 		spiralCenter = new BlockPos(target);
+	}
+
+	@Override
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
+	}
+
+	@Override
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

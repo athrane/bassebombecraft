@@ -2,6 +2,7 @@ package bassebombecraft.item.basic;
 
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ModConstants.BASICITEMS_CONFIGPATH;
 import static bassebombecraft.ModConstants.ITEM_BASICITEM_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
@@ -71,8 +72,9 @@ public class GenericNullItem extends Item {
 		this.action = action;
 
 		// get cooldown or default value
-		coolDown = resolveCoolDown(name, ITEM_BASICITEM_DEFAULT_COOLDOWN);
-		tooltip = resolveTooltip(name, ITEM_DEFAULT_TOOLTIP);
+		String configPath = BASICITEMS_CONFIGPATH + name;		
+		coolDown = resolveCoolDown(configPath, ITEM_BASICITEM_DEFAULT_COOLDOWN);
+		tooltip = resolveTooltip(configPath, ITEM_DEFAULT_TOOLTIP);
 	}
 
 	@Override

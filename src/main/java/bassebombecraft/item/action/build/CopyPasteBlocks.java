@@ -14,8 +14,7 @@ import static bassebombecraft.player.PlayerUtils.sendChatMessageToPlayer;
 
 import java.util.List;
 
-import com.typesafe.config.Config;
-
+import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.DefaultParticleRendering;
 import bassebombecraft.event.particle.ParticleRendering;
@@ -44,6 +43,11 @@ import net.minecraft.world.World;
  * replication of block structures.
  */
 public class CopyPasteBlocks implements BlockClickedItemAction {
+
+	/**
+	 * Action identifier.
+	 */
+	public final static String NAME = CopyPasteBlocks.class.getSimpleName();
 
 	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
 	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;
@@ -142,9 +146,8 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * CopyPasteBlocks constructor.
 	 */
 	public CopyPasteBlocks() {
-		infos = createFromConfig(CONFIG_KEY);
-		Config configuration = getBassebombeCraft().getConfiguration();
-		captureOnCopy = configuration.getBoolean(CONFIG_KEY + ".CaptureOnCopy");
+		infos = createFromConfig(ModConfiguration.copyPasteBlocksParticleInfo);
+		captureOnCopy = ModConfiguration.copyPasteBlocksCaptureOnCopy.get();
 		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
 		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 	}

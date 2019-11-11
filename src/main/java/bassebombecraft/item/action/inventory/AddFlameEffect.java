@@ -1,9 +1,8 @@
 package bassebombecraft.item.action.inventory;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import java.util.function.Supplier;
 
-import com.typesafe.config.Config;
+import javax.naming.OperationNotSupportedException;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
@@ -17,9 +16,9 @@ import net.minecraft.world.World;
 public class AddFlameEffect implements InventoryItemActionStrategy {
 
 	/**
-	 * Particle rendering info
+	 * Action identifier.
 	 */
-	ParticleRenderingInfo[] infos;
+	public final static String NAME = AddFlameEffect.class.getSimpleName();
 
 	/**
 	 * Effect duration.
@@ -27,20 +26,12 @@ public class AddFlameEffect implements InventoryItemActionStrategy {
 	int duration;
 
 	/**
-	 * Effect range.
-	 */
-	int range;
-
-	/**
 	 * AddFlameEffect constructor
 	 * 
-	 * @param key configuration key to initialize particle rendering info from.
+	 * @param splDuration duration as a potion effect.
 	 */
-	public AddFlameEffect(String key) {
-		infos = createFromConfig(key);
-		Config configuration = getBassebombeCraft().getConfiguration();
-		duration = configuration.getInt(key + ".Duration");
-		range = configuration.getInt(key + ".Range");
+	public AddFlameEffect(Supplier<Integer> splDuration) {
+		duration = splDuration.get();
 	}
 
 	@Override
@@ -61,13 +52,13 @@ public class AddFlameEffect implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public int getEffectRange() {
-		return range;
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

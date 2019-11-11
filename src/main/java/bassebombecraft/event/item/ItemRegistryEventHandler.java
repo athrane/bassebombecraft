@@ -78,6 +78,7 @@ import bassebombecraft.item.inventory.MeteorIdolInventoryItem;
 import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.MobsLevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.PinkynizeIdolInventoryItem;
+import bassebombecraft.item.inventory.PlayerAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
 import bassebombecraft.item.inventory.RainIdolInventoryItem;
 import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
@@ -126,7 +127,7 @@ public class ItemRegistryEventHandler {
 			new PrimeMobIdolInventoryItem(), new LlamaSpitIdolInventoryItem(), new EggProjectileIdolInventoryItem(),
 			new MeteorIdolInventoryItem(), new SaturationIdolInventoryItem(), new MobsAggroIdolInventoryItem(),
 			new ReaperIdolInventoryItem(), new MassExtinctionEventIdolInventoryItem(),
-			new MobsLevitationIdolInventoryItem() };
+			new MobsLevitationIdolInventoryItem(), new PlayerAggroIdolInventoryItem() };
 
 	/**
 	 * The set of baton items.

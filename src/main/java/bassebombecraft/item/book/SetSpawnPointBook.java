@@ -16,4 +16,5 @@ public class SetSpawnPointBook extends GenericRightClickedBook {
 		super(ITEM_NAME, new GenericShootEggProjectile(PROJECTILE_ACTION));
 	}
 
+	
 }

@@ -1,29 +1,29 @@
 package bassebombecraft.item.action.inventory;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
+import static net.minecraft.potion.Effects.LEVITATION;
 
-import com.typesafe.config.Config;
+import java.util.function.Supplier;
+
+import javax.naming.OperationNotSupportedException;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
 import net.minecraft.world.World;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
  * of inventory item actions. This class makes adds a levitation effect to
- * nearby entities..
+ * nearby entities.
  */
 public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 
 	/**
-	 * Particle rendering info
+	 * Action identifier.
 	 */
-	ParticleRenderingInfo[] infos;
+	public final static String NAME = AddMobsLevitationEffect.class.getSimpleName();
 
 	/**
 	 * Effect duration.
@@ -31,27 +31,19 @@ public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 	int duration;
 
 	/**
-	 * Effect range.
+	 * Effect amplifier.
 	 */
-	int range;
+	int amplifier;
 
 	/**
-	 * Effect amplification.
-	 */	
-	int amplification;
-	
-	
-	/**
-	 * AddMobsLevitationEffect constructor.
+	 * AddMobsLevitationEffect constructor
 	 * 
-	 * @param key configuration key to initialize particle rendering info from.
+	 * @param splDuration  duration as a potion effect.
+	 * @param splAmplifier amplifier as a potion effect.
 	 */
-	public AddMobsLevitationEffect(String key) {
-		infos = createFromConfig(key);
-		Config configuration = getBassebombeCraft().getConfiguration();
-		duration = configuration.getInt(key + ".Duration");
-		range = configuration.getInt(key + ".Range");
-		amplification = configuration.getInt(key + ".Amplification");		
+	public AddMobsLevitationEffect(Supplier<Integer> splDuration, Supplier<Integer> splAmplifier) {
+		duration = splDuration.get();
+		amplifier = splAmplifier.get();
 	}
 
 	@Override
@@ -74,23 +66,23 @@ public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 		}
 	}
 
-	@Override
-	public int getEffectRange() {
-		return range;
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
-	}
-
 	/**
 	 * Create potion effect.
 	 * 
 	 * @return potion effect
 	 */
 	EffectInstance createEffect() {
-		return new EffectInstance(Effects.LEVITATION, duration, amplification);
+		return new EffectInstance(LEVITATION, duration, amplifier);
 	}
 
+	@Override
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
+	}
+
+	@Override
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
+	}
+	
 }

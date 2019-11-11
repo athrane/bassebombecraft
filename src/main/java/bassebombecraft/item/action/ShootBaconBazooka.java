@@ -5,9 +5,8 @@ import static bassebombecraft.entity.EntityUtils.setProjectileEntityPosition;
 
 import java.util.Random;
 
-import com.typesafe.config.Config;
-
-import static bassebombecraft.event.potion.PotionRegistryEventHandler.*;
+import bassebombecraft.ModConstants;
+import bassebombecraft.config.ModConfiguration;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -24,12 +23,15 @@ import net.minecraft.world.World;
  */
 public class ShootBaconBazooka implements RightClickedItemAction {
 
-	static final SoundEvent SOUND = SoundEvents.ENTITY_EVOKER_CAST_SPELL;
+	/**
+	 * Action identifier.
+	 */
+	public final static String NAME = ShootBaconBazooka.class.getSimpleName();
 
 	/**
-	 * Configuration key.
+	 * Spawn sound.
 	 */
-	final static String CONFIG_KEY = ShootBaconBazooka.class.getSimpleName();
+	static final SoundEvent SOUND = SoundEvents.ENTITY_EVOKER_CAST_SPELL;
 
 	/**
 	 * Pig age.
@@ -51,10 +53,9 @@ public class ShootBaconBazooka implements RightClickedItemAction {
 	 */
 	public ShootBaconBazooka() {
 		super();
-		Config configuration = getBassebombeCraft().getConfiguration();
-		age = configuration.getInt(CONFIG_KEY + ".Age");
-		duration = configuration.getInt(CONFIG_KEY + ".Duration");
-		spawnDisplacement = configuration.getInt(CONFIG_KEY + ".SpawnDisplacement");
+		age = ModConfiguration.shootBaconBazookaProjectileAge.get();
+		duration = ModConfiguration.shootBaconBazookaDuration.get();
+		spawnDisplacement = ModConfiguration.shootBaconBazookaSpawnDisplacement.get();
 	}
 
 	@Override
@@ -69,7 +70,7 @@ public class ShootBaconBazooka implements RightClickedItemAction {
 		setProjectileEntityPosition(entity, projectileEntity, spawnDisplacement);
 
 		// add potion effect
-		EffectInstance effect = new EffectInstance(BACON_BAZOOKA_EFFECT, duration);
+		EffectInstance effect = new EffectInstance(ModConstants.BACON_BAZOOKA_EFFECT, duration);
 		projectileEntity.addPotionEffect(effect);
 
 		// set no health to trigger death (in max 20 ticks)

@@ -3,7 +3,9 @@ package bassebombecraft.potion.effect;
 import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
 import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
-import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
+import static bassebombecraft.entity.EntityUtils.setMobEntityAggroed;
+import static bassebombecraft.entity.EntityUtils.setTarget;
+import static bassebombecraft.entity.EntityUtils.supportTargeting;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 
@@ -31,6 +33,11 @@ public class MobAggroEffect extends Effect {
 	public final static String NAME = MobAggroEffect.class.getSimpleName();
 
 	/**
+	 * Update frequency for effect.
+	 */
+	int updateFrequency;
+	
+	/**
 	 * First list index.
 	 */
 	final static int FIRST_INDEX = 0;
@@ -57,6 +64,7 @@ public class MobAggroEffect extends Effect {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
 		doCommonEffectInitialization(this, NAME);
 		arreaOfEffect = ModConfiguration.mobAggroEffectAreaOfEffect.get();
+		updateFrequency = ModConfiguration.mobAggroEffectUpdateFrequency.get();
 	}
 
 	@Override
@@ -106,27 +114,17 @@ public class MobAggroEffect extends Effect {
 		// get new target
 		LivingEntity newTarget = targetList.get(FIRST_INDEX);
 
-		// update target (either as creature or living entity)
-		if (isTypeCreatureEntity(entity)) {
-			CreatureEntity entityCreature = (CreatureEntity) entity;
-			entityCreature.setAttackTarget(newTarget);
-		} else {
-			entity.setLastAttackedEntity(newTarget);
-			entity.setRevengeTarget(newTarget);
-		}
-	}
+		// set target
+		setTarget(entity, newTarget);
 
-	boolean supportTargeting(LivingEntity entity) {
-		if (isTypeCreatureEntity(entity))
-			return true;
-		if (isTypeLivingEntity(entity))
-			return true;
-		return false;
+		// set mob aggro'ed
+		setMobEntityAggroed(entity);
 	}
 
 	@Override
 	public boolean isReady(int duration, int amplifier) {
-		return true;
+		int moduloValue = duration % updateFrequency; 
+		return (moduloValue == 0);
 	}
 
 }

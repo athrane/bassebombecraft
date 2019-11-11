@@ -1,5 +1,10 @@
 package bassebombecraft.item.inventory;
 
+import static bassebombecraft.config.ModConfiguration.addFlameEffectDuration;
+import static bassebombecraft.config.ModConfiguration.flameBlastIdolInventoryItem;
+
+import java.util.function.Supplier;
+
 import bassebombecraft.item.action.inventory.AddFlameEffect;
 
 /**
@@ -9,7 +14,9 @@ public class FlameBlastIdolInventoryItem extends GenericInventoryItem {
 
 	public final static String ITEM_NAME = FlameBlastIdolInventoryItem.class.getSimpleName();
 
+	static Supplier<Integer> splDuration = () -> addFlameEffectDuration.get();
+
 	public FlameBlastIdolInventoryItem() {
-		super(ITEM_NAME, new AddFlameEffect(ITEM_NAME));
+		super(ITEM_NAME, flameBlastIdolInventoryItem, new AddFlameEffect(splDuration));
 	}
 }

@@ -5,8 +5,7 @@ import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
 import static bassebombecraft.entity.ai.AiUtils.buildCreeperArmyAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 
-import com.typesafe.config.Config;
-
+import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -22,43 +21,42 @@ import net.minecraft.world.World;
 public class SpawnCreeperArmy implements ProjectileAction {
 
 	/**
-	 * Configuration key.
+	 * Action identifier.
 	 */
-	final static String CONFIG_KEY = SpawnCreeperArmy.class.getSimpleName();
-
+	public final static String NAME = SpawnCreeperArmy.class.getSimpleName();
+	
 	/**
 	 * Skeleton pitch.
 	 */
 	final static float PITCH = 0.0F;
 
 	/**
-	 * Creepers.
+	 * Number of entities.
 	 */
-	final int creepers;
+	final int entities;
 
 	/**
-	 * Spawn size in blocks.
+	 * Spawn area in blocks.
 	 */
-	final int spawnSize;
+	final int spawnArea;
 
 	/**
-	 * SpawnSkeletonArmy constructor
+	 * SpawnCreeperArmy constructor.
 	 */
 	public SpawnCreeperArmy() {
-		Config configuration = getBassebombeCraft().getConfiguration();
-		creepers = configuration.getInt(CONFIG_KEY + ".Creepers");
-		spawnSize = configuration.getInt(CONFIG_KEY + ".SpawnSize");
+		entities = ModConfiguration.spawnCreeperArmyEntities.get();
+		spawnArea = ModConfiguration.spawnCreeperArmySpawnArea.get();
 	}
 
 	@Override
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
-		for (int i = 0; i < creepers; i++) {
+		for (int i = 0; i < entities; i++) {
 
 			// create creeper
 			CreeperEntity entity = EntityType.CREEPER.create(world);
 
 			// calculate random spawn position
-			setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnSize, entity);
+			setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnArea, entity);
 
 			// get owner
 			LivingEntity thrower = projectile.getThrower();

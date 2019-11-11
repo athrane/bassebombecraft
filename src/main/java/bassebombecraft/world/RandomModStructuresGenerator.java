@@ -1,14 +1,10 @@
 package bassebombecraft.world;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.MODID;
 
 import java.util.List;
 import java.util.Random;
 
-import com.typesafe.config.Config;
-
-import bassebombecraft.config.ConfigUtils;
 import bassebombecraft.config.StructureInfo;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -45,9 +41,10 @@ public class RandomModStructuresGenerator implements IWorldGenerator {
 	 * RandomModStructuresGenerator constructor.
 	 */
 	public RandomModStructuresGenerator() {
-		Config configuration = getBassebombeCraft().getConfiguration();
-		enabled = configuration.getBoolean(CONFIG_KEY + ".enabled");
-		infos = ConfigUtils.createStructureInfosFromConfig(CONFIG_KEY + ".structures");
+		// Config configuration = getBassebombeCraft().getConfiguration();
+		// enabled = configuration.getBoolean(CONFIG_KEY + ".enabled");
+		// infos = ConfigUtils.createStructureInfosFromConfig(CONFIG_KEY +
+		// ".structures");
 	}
 
 	@Override

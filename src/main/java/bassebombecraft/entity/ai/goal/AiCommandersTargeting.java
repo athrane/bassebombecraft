@@ -1,13 +1,14 @@
 package bassebombecraft.entity.ai.goal;
 
+import static bassebombecraft.ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_AGGRO;
+import static bassebombecraft.ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE;
+import static bassebombecraft.ModConstants.MOB_AGGRO_EFFECT;
 import static bassebombecraft.entity.EntityUtils.getAliveTarget;
 import static bassebombecraft.entity.EntityUtils.hasAliveTarget;
 import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
 
 import java.util.EnumSet;
 
-import bassebombecraft.ModConstants;
-import bassebombecraft.event.potion.PotionRegistryEventHandler;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
@@ -94,11 +95,10 @@ public class AiCommandersTargeting extends Goal {
 	 * Self-destruct entity by settings on fire and apply aggro effect.
 	 */
 	void selfDestruct() {
-		entity.setFire(ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE);
+		entity.setFire(AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE);
 
 		// add aggro effect
-		EffectInstance effect = new EffectInstance(PotionRegistryEventHandler.MOB_AGGRO_EFFECT,
-				ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_AGGRO);
+		EffectInstance effect = new EffectInstance(MOB_AGGRO_EFFECT, AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_AGGRO);
 		entity.addPotionEffect(effect);
 	}
 

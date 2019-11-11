@@ -5,8 +5,7 @@ import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
 import static bassebombecraft.entity.ai.AiUtils.buildSkeletonArmyAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 
-import com.typesafe.config.Config;
-
+import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -25,9 +24,9 @@ import net.minecraft.world.World;
 public class SpawnSkeletonArmy implements ProjectileAction {
 
 	/**
-	 * Configuration key.
+	 * Action identifier.
 	 */
-	final static String CONFIG_KEY = SpawnSkeletonArmy.class.getSimpleName();
+	public final static String NAME = SpawnSkeletonArmy.class.getSimpleName();
 
 	/**
 	 * Skeleton pitch.
@@ -35,33 +34,32 @@ public class SpawnSkeletonArmy implements ProjectileAction {
 	final static float PITCH = 0.0F;
 
 	/**
-	 * Skeletons.
+	 * Number of entities.
 	 */
-	final int skeletons;
+	final int entities;
 
 	/**
 	 * Spawn size in blocks.
 	 */
-	final int spawnSize;
+	final int spawnArea;
 
 	/**
 	 * SpawnSkeletonArmy constructor
 	 */
 	public SpawnSkeletonArmy() {
-		Config configuration = getBassebombeCraft().getConfiguration();
-		skeletons = configuration.getInt(CONFIG_KEY + ".Skeletons");
-		spawnSize = configuration.getInt(CONFIG_KEY + ".SpawnSize");
+		entities = ModConfiguration.spawnSkeletonArmyEntities.get();
+		spawnArea = ModConfiguration.spawnSkeletonArmySpawnArea.get();
 	}
 
 	@Override
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
-		for (int i = 0; i < skeletons; i++) {
+		for (int i = 0; i < entities; i++) {
 
 			// create skeleton
 			SkeletonEntity entity = EntityType.SKELETON.create(world);
 
 			// calculate random spawn position
-			setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnSize, entity);
+			setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnArea, entity);
 
 			// add bow
 			entity.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.BOW));

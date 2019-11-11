@@ -13,7 +13,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = "1.14.4-1.31"
+version = "1.14.4-1.32"
 group= "bassebombecraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "BasseBombeCraft"
 
@@ -109,8 +109,6 @@ dependencies {
 
 	// https://mvnrepository.com/artifact/com.typesafe/config
 	// https://github.com/MinecraftForge/ForgeGradle/wiki/Dependencies
-	// Addition of dependency to com.typesafe for loading mod configuration files
-	embed group: 'com.typesafe', name: 'config', version: '1.3.4'
 
     // Real examples
     // compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env

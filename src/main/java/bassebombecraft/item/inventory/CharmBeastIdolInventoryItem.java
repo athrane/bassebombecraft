@@ -1,5 +1,7 @@
 package bassebombecraft.item.inventory;
 
+import static bassebombecraft.config.ModConfiguration.charmBeastIdolInventoryItem;
+
 import bassebombecraft.item.action.inventory.CharmBeast;
 
 /**
@@ -10,6 +12,6 @@ public class CharmBeastIdolInventoryItem extends GenericInventoryItem {
 	public final static String ITEM_NAME = CharmBeastIdolInventoryItem.class.getSimpleName();
 
 	public CharmBeastIdolInventoryItem() {
-		super(ITEM_NAME, new CharmBeast(ITEM_NAME));
+		super(ITEM_NAME, charmBeastIdolInventoryItem, new CharmBeast());
 	}
 }

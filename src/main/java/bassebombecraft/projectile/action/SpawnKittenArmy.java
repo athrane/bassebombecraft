@@ -1,16 +1,15 @@
 package bassebombecraft.projectile.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
 import static bassebombecraft.entity.ai.AiUtils.buildKittenArmyAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
-import static bassebombecraft.entity.EntityUtils.*;
 
 import java.util.List;
 import java.util.Random;
 
-import com.typesafe.config.Config;
-
+import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -29,9 +28,9 @@ import net.minecraft.world.World;
 public class SpawnKittenArmy implements ProjectileAction {
 
 	/**
-	 * Configuration key.
+	 * Action identifier.
 	 */
-	final static String CONFIG_KEY = SpawnKittenArmy.class.getSimpleName();
+	public final static String NAME = SpawnKittenArmy.class.getSimpleName();
 
 	static final int CAT_TYPE = 3;
 	static final float PITCH = 0.0F;
@@ -52,25 +51,18 @@ public class SpawnKittenArmy implements ProjectileAction {
 	final int spawnSize;
 
 	/**
-	 * Generate and render custom kitten name.
-	 */
-	final boolean renderCustomName;
-
-	/**
 	 * Custom kitten names.
 	 */
-	final List<String> names;
+	final List<? extends String> names;
 
 	/**
 	 * SpawnKittenArmy constructor
 	 */
 	public SpawnKittenArmy() {
-		Config configuration = getBassebombeCraft().getConfiguration();
-		age = configuration.getInt(CONFIG_KEY + ".Age");
-		kittens = configuration.getInt(CONFIG_KEY + ".Kittens");
-		spawnSize = configuration.getInt(CONFIG_KEY + ".SpawnSize");
-		renderCustomName = configuration.getBoolean(CONFIG_KEY + ".RenderCustomName");
-		names = configuration.getStringList(CONFIG_KEY + ".Names");
+		age = ModConfiguration.spawnKittenArmyAge.get();
+		kittens = ModConfiguration.spawnKittenArmyEntities.get();
+		spawnSize = ModConfiguration.spawnKittenArmySpawnArea.get();
+		names = ModConfiguration.spawnKittenArmyNames.get();
 	}
 
 	@Override
@@ -89,7 +81,7 @@ public class SpawnKittenArmy implements ProjectileAction {
 			// set owner
 			LivingEntity owner = projectile.getThrower();
 
-			// set tamed by player 
+			// set tamed by player
 			if (isTypePlayerEntity(owner)) {
 				PlayerEntity player = (PlayerEntity) owner;
 				entity.setTamedBy(player);
@@ -107,12 +99,10 @@ public class SpawnKittenArmy implements ProjectileAction {
 			buildKittenArmyAi(entity, owner);
 
 			// set name
-			if (renderCustomName) {
-				Random random = getBassebombeCraft().getRandom();
-				ITextComponent name = new StringTextComponent(getKittenName(random, i));
-				entity.setCustomName(name);
-				entity.setCustomNameVisible(true);
-			}
+			Random random = getBassebombeCraft().getRandom();
+			ITextComponent name = new StringTextComponent(getKittenName(random, i));
+			entity.setCustomName(name);
+			entity.setCustomNameVisible(true);
 
 			// spawn
 			world.addEntity(entity);
@@ -124,8 +114,8 @@ public class SpawnKittenArmy implements ProjectileAction {
 	 * 
 	 * @param random random object.
 	 * @param index  kitten index.
-	 * @return random kitten name from list. If kitten index is 0 then "Cloud" is
-	 *         returned".
+	 * 
+	 * @return random kitten name from list.
 	 */
 	String getKittenName(Random random, int index) {
 		if (index == 0) {

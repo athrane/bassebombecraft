@@ -1,14 +1,13 @@
 package bassebombecraft.item.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.CREEPER_CANNON_EFFECT;
+import static bassebombecraft.ModConstants.PRIMED_CREEPER_CANNON_EFFECT;
 import static bassebombecraft.entity.EntityUtils.setProjectileEntityPosition;
-import static bassebombecraft.event.potion.PotionRegistryEventHandler.CREEPER_CANNON_EFFECT;
-import static bassebombecraft.event.potion.PotionRegistryEventHandler.PRIMED_CREEPER_CANNON_EFFECT;
 
 import java.util.Random;
 
-import com.typesafe.config.Config;
-
+import bassebombecraft.config.ModConfiguration;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -26,10 +25,18 @@ import net.minecraft.world.World;
  */
 public class ShootCreeperCannon implements RightClickedItemAction {
 
+	/**
+	 * Action identifier.
+	 */
+	public final static String NAME = ShootCreeperCannon.class.getSimpleName();
+
+	/**
+	 * Spawn sound.
+	 */
 	static final SoundEvent SOUND = SoundEvents.ENTITY_EVOKER_CAST_SPELL;
 
 	/**
-	 * DEfines whether creeper is primed.
+	 * Defines whether creeper is primed.
 	 */
 	boolean isPrimed;
 
@@ -47,14 +54,11 @@ public class ShootCreeperCannon implements RightClickedItemAction {
 	 * ShootCreeperCannon constructor.
 	 * 
 	 * @param isPrimed defines whether creeper is primed.
-	 * @param key      configuration key.
-	 * 
 	 */
-	public ShootCreeperCannon(boolean isPrimed, String key) {
+	public ShootCreeperCannon(boolean isPrimed) {
 		this.isPrimed = isPrimed;
-		Config configuration = getBassebombeCraft().getConfiguration();
-		duration = configuration.getInt(key + ".Duration");
-		spawnDisplacement = configuration.getInt(key + ".SpawnDisplacement");
+		duration = ModConfiguration.shootCreeperCannonDuration.get();
+		spawnDisplacement = ModConfiguration.shootCreeperCannonSpawnDisplacement.get();
 	}
 
 	@Override

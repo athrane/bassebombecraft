@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import bassebombecraft.config.ModConfiguration;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
@@ -25,6 +26,11 @@ public class AmplifierEffect extends Effect {
 	/**
 	 * Update frequency for effect.
 	 */
+	int updateFrequency;
+	
+	/**
+	 * Update frequency for effect.
+	 */
 	static final int UPDATE_FREQUENCY = 10;
 
 	/**
@@ -33,7 +39,7 @@ public class AmplifierEffect extends Effect {
 	public AmplifierEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
 		doCommonEffectInitialization(this, NAME);
-		
+		updateFrequency  = ModConfiguration.amplifierEffectUpdateFrequency.get();		
 	}
 
 	@Override
@@ -46,7 +52,7 @@ public class AmplifierEffect extends Effect {
 		// get active effects
 		Collection<EffectInstance> effects = entity.getActivePotionEffects();
 		
-		// identify effects to be amplified 
+		// step 1: identify effects to be amplified 
 		List<EffectInstance> toBeAmplifiedEffects = new ArrayList<EffectInstance>();
 		for (EffectInstance effectInstance : effects) {		
 			
@@ -61,15 +67,15 @@ public class AmplifierEffect extends Effect {
 				toBeAmplifiedEffects.add(effectInstance);
 		}
 
-		// amplify identified effects
-		for(EffectInstance effectInstance : toBeAmplifiedEffects) {
+		// step 2: amplify identified effects
+		for(EffectInstance currentEffect : toBeAmplifiedEffects) {
 			
 			// remove effect
-			entity.removePotionEffect(effectInstance.getPotion());
+			entity.removePotionEffect(currentEffect.getPotion());
 			
 			// create amplified effect 
-			EffectInstance amplifiedEffect = new EffectInstance(effectInstance.getPotion(), effectInstance.getDuration(), amplifier,
-					effectInstance.isAmbient(), effectInstance.doesShowParticles(), effectInstance.isShowIcon());
+			EffectInstance amplifiedEffect = new EffectInstance(currentEffect.getPotion(), currentEffect.getDuration(), amplifier,
+					currentEffect.isAmbient(), currentEffect.doesShowParticles(), currentEffect.isShowIcon());
 
 			// add amplified effect
 			entity.addPotionEffect(amplifiedEffect);
@@ -78,7 +84,7 @@ public class AmplifierEffect extends Effect {
 
 	@Override
 	public boolean isReady(int duration, int amplifier) {
-		int moduloValue = duration % UPDATE_FREQUENCY; 
+		int moduloValue = duration % updateFrequency; 
 		return (moduloValue == 0);
 	}
 

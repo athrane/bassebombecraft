@@ -1,13 +1,13 @@
 package bassebombecraft.item.action.inventory;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 
-import com.typesafe.config.Config;
+import java.util.function.Supplier;
 
+import javax.naming.OperationNotSupportedException;
+
+import bassebombecraft.ModConstants;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.event.potion.PotionRegistryEventHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
@@ -21,9 +21,9 @@ import net.minecraft.world.World;
 public class AddMobsPrimingEffect implements InventoryItemActionStrategy {
 
 	/**
-	 * Particle rendering info
+	 * Action identifier.
 	 */
-	ParticleRenderingInfo[] infos;
+	public final static String NAME = AddMobsPrimingEffect.class.getSimpleName();
 
 	/**
 	 * Effect duration.
@@ -31,21 +31,12 @@ public class AddMobsPrimingEffect implements InventoryItemActionStrategy {
 	int duration;
 
 	/**
-	 * Effect range.
-	 */
-	int range;
-
-	/**
-	 * AddLevitationEffect constructor
+	 * AddMobsPrimingEffect constructor
 	 * 
-	 * @param key configuration key to initialize particle rendering info from.
+	 * @param splDuration duration as a potion effect.
 	 */
-	public AddMobsPrimingEffect(String key) {
-		infos = createFromConfig(key);
-		Config configuration = getBassebombeCraft().getConfiguration();
-		duration = configuration.getInt(key + ".Duration");
-		range = configuration.getInt(key + ".Range");
-
+	public AddMobsPrimingEffect(Supplier<Integer> splDuration) {
+		duration = splDuration.get();
 	}
 
 	@Override
@@ -69,13 +60,13 @@ public class AddMobsPrimingEffect implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public int getEffectRange() {
-		return range;
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 	/**
@@ -84,7 +75,7 @@ public class AddMobsPrimingEffect implements InventoryItemActionStrategy {
 	 * @return potion effect
 	 */
 	EffectInstance createEffect() {
-		return new EffectInstance(PotionRegistryEventHandler.MOB_PRIMING_EFFECT, duration);
+		return new EffectInstance(ModConstants.MOB_PRIMING_EFFECT, duration);
 	}
 
 }

@@ -5,6 +5,7 @@ import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.ModConstants.ITEM_IDOL_DEFAULT_COOLDOWN;
+import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 import static bassebombecraft.config.ConfigUtils.resolveTooltip;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
@@ -18,7 +19,9 @@ import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 import java.util.List;
 
 import javax.annotation.Nullable;
+import javax.naming.OperationNotSupportedException;
 
+import bassebombecraft.config.InventoryItemConfig;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
@@ -73,21 +76,49 @@ public class GenericInventoryItem extends Item {
 	String tooltip;
 
 	/**
+	 * Rendering infos.
+	 */
+	ParticleRenderingInfo[] infos;
+
+	/**
+	 * Effect range.
+	 */
+	int range;
+	
+	/**
+	 * GenericInventoryItem constructor.
+	 * 
+	 * @param name     item name.
+	 * @param config   inventory item configuration.
+	 * @param strategy inventory item strategy.
+	 */
+	public GenericInventoryItem(String name, InventoryItemConfig config, InventoryItemActionStrategy strategy) {
+		super(ITEM_PROPERTIES);
+		doCommonItemInitialization(this, name);
+		this.strategy = strategy;
+		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
+		infos = createFromConfig(config.particles);
+		coolDown = config.cooldown.get();
+		tooltip = config.tooltip.get();
+		range = config.range.get();
+	}
+
+	/**
 	 * GenericInventoryItem constructor.
 	 * 
 	 * @param name     item name.
 	 * @param strategy inventory item strategy.
 	 */
+	@Deprecated
 	public GenericInventoryItem(String name, InventoryItemActionStrategy strategy) {
 		super(ITEM_PROPERTIES);
 		doCommonItemInitialization(this, name);
-
 		this.strategy = strategy;
 		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
-
-		// get cooldown or default value
 		coolDown = resolveCoolDown(name, ITEM_IDOL_DEFAULT_COOLDOWN);
 		tooltip = resolveTooltip(name, ITEM_DEFAULT_TOOLTIP);
+		infos = null;
+		range = Integer.MIN_VALUE;
 	}
 
 	@Override
@@ -170,7 +201,7 @@ public class GenericInventoryItem extends Item {
 	 * @param invokingEntity entity object
 	 */
 	void applyEffect(World world, LivingEntity invokingEntity) {
-		int aoeRange = strategy.getEffectRange();
+		int aoeRange = getRange();
 
 		// get entities within AABB
 		AxisAlignedBB aabb = new AxisAlignedBB(invokingEntity.posX - aoeRange, invokingEntity.posY - aoeRange,
@@ -204,12 +235,48 @@ public class GenericInventoryItem extends Item {
 		BlockPos pos = new BlockPos(position);
 
 		// iterate over rendering info's
-		for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
+		for (ParticleRenderingInfo info : getRenderingInfos()) {
 			ParticleRendering particle = getInstance(pos, info);
 			particleRepository.add(particle);
 		}
 	}
 
+	/**
+	 * Get rendering infos.
+	 * 
+	 * if rendering field is defined then use field. 
+	 * Otherwise use infos from strategy, which is deprecated.
+	 * 
+	 * @return rendering infos.
+	 */
+	ParticleRenderingInfo[] getRenderingInfos() {
+		if(infos != null) return infos;
+		try {
+			return strategy.getRenderingInfos();
+		} catch (OperationNotSupportedException e) {
+			getBassebombeCraft().reportAndLogException(e);
+			return null;
+		}
+	}
+
+	/**
+	 * Return range.
+	 * 
+	 * if range field is defined then use field. 
+	 * Otherwise use range from strategy, which is deprecated.
+	 * 
+	 * @return effect range.
+	 */
+	int getRange() {
+		if(range != Integer.MIN_VALUE) return range;				
+		try {
+			return strategy.getEffectRange();
+		} catch (OperationNotSupportedException e) {
+			getBassebombeCraft().reportAndLogException(e);
+			return Integer.MIN_VALUE;
+		}
+	}
+	
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,

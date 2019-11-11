@@ -8,9 +8,7 @@ import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 
 import java.lang.reflect.Field;
 import java.util.Set;
-import java.util.stream.Stream;
 
-import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -108,9 +106,9 @@ public class AiUtils {
 	static void removeGoals(GoalSelector selector) {
 		try {
 			Field field = selector.getClass().getDeclaredField("goals");
-			Set<PrioritizedGoal> goals = (Set<PrioritizedGoal>) readField(field, selector, FORCE_ACCESS);			
+			Set<PrioritizedGoal> goals = (Set<PrioritizedGoal>) readField(field, selector, FORCE_ACCESS);
 			goals.forEach(g -> selector.removeGoal(g));
-			
+
 		} catch (Exception e) {
 			logger.error("Failed to remove goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);

@@ -2,12 +2,11 @@ package bassebombecraft.item.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.EntityUtils.setProjectileEntityPosition;
-import static bassebombecraft.event.potion.PotionRegistryEventHandler.BEAR_BLASTER_EFFECT;
 
 import java.util.Random;
 
-import com.typesafe.config.Config;
-
+import bassebombecraft.ModConstants;
+import bassebombecraft.config.ModConfiguration;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -24,12 +23,15 @@ import net.minecraft.world.World;
  */
 public class ShootBearBlaster implements RightClickedItemAction {
 
-	static final SoundEvent SOUND = SoundEvents.ENTITY_EVOKER_CAST_SPELL;
+	/**
+	 * Action identifier.
+	 */
+	public final static String NAME = ShootBearBlaster.class.getSimpleName();
 
 	/**
-	 * Configuration key.
+	 * Spawn sound.
 	 */
-	final static String CONFIG_KEY = ShootBearBlaster.class.getSimpleName();
+	static final SoundEvent SOUND = SoundEvents.ENTITY_EVOKER_CAST_SPELL;
 
 	/**
 	 * Pig age.
@@ -56,11 +58,10 @@ public class ShootBearBlaster implements RightClickedItemAction {
 	 */
 	public ShootBearBlaster() {
 		super();
-		Config configuration = getBassebombeCraft().getConfiguration();
-		age = configuration.getInt(CONFIG_KEY + ".Age");
-		duration = configuration.getInt(CONFIG_KEY + ".Duration");
-		spawnDisplacement = configuration.getInt(CONFIG_KEY + ".SpawnDisplacement");
-		isDead = configuration.getBoolean(CONFIG_KEY + ".IsDead");
+		age = ModConfiguration.shootBearBlasterProjectileAge.get();
+		duration = ModConfiguration.shootBearBlasterDuration.get();
+		spawnDisplacement = ModConfiguration.shootBearBlasterSpawnDisplacement.get();
+		isDead = true;
 	}
 
 	@Override
@@ -75,7 +76,7 @@ public class ShootBearBlaster implements RightClickedItemAction {
 		setProjectileEntityPosition(entity, projectileEntity, spawnDisplacement);
 
 		// add potion effect
-		EffectInstance effect = new EffectInstance(BEAR_BLASTER_EFFECT, duration);
+		EffectInstance effect = new EffectInstance(ModConstants.BEAR_BLASTER_EFFECT, duration);
 		projectileEntity.addPotionEffect(effect);
 
 		// set no health to trigger death (in max 20 ticks)

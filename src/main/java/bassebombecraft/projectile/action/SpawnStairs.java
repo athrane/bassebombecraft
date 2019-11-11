@@ -1,6 +1,5 @@
 package bassebombecraft.projectile.action;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 import static bassebombecraft.entity.EntityUtils.calculateEntityFeetPosititionAsInt;
 import static bassebombecraft.entity.EntityUtils.getPlayerDirection;
@@ -15,9 +14,8 @@ import static net.minecraft.util.Direction.SOUTH;
 
 import java.util.List;
 
-import com.typesafe.config.Config;
-
 import bassebombecraft.block.BlockUtils;
+import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.item.action.build.tower.StairsMaterial;
 import bassebombecraft.player.PlayerDirection;
@@ -40,10 +38,10 @@ import net.minecraft.world.World;
 public class SpawnStairs implements ProjectileAction {
 
 	/**
-	 * Configuration key.
+	 * Action identifier.
 	 */
-	final static String CONFIG_KEY = SpawnStairs.class.getSimpleName();
-
+	public final static String NAME = SpawnStairs.class.getSimpleName();
+	
 	/**
 	 * duration of stairs.
 	 */
@@ -53,8 +51,7 @@ public class SpawnStairs implements ProjectileAction {
 	 * SpawnIceStairs constructor.
 	 */
 	public SpawnStairs() {
-		Config configuration = getBassebombeCraft().getConfiguration();
-		duration = configuration.getInt(CONFIG_KEY + ".Duration");
+		duration = ModConfiguration.spawnStairsDuration.get();
 	}
 
 	@Override

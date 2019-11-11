@@ -2,6 +2,7 @@ package bassebombecraft.item.book;
 
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ModConstants.BOOKS_CONFIGPATH;
 import static bassebombecraft.ModConstants.ITEM_BOOK_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import bassebombecraft.config.ItemConfig;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -62,8 +64,27 @@ public class GenericRightClickedBook extends Item {
 	 * Generic book constructor.
 	 * 
 	 * @param name   item name.
+	 * @param config item configuration.
 	 * @param action item action object which is invoked when item is right clicked.
 	 */
+	public GenericRightClickedBook(String name, ItemConfig config, RightClickedItemAction action) {
+		super(ITEM_PROPERTIES);
+		doCommonItemInitialization(this, name);
+
+		this.action = action;
+
+		// get cooldown and tooltip
+		coolDown = config.cooldown.get();
+		tooltip = config.tooltip.get();
+	}
+
+	/**
+	 * Generic book constructor.
+	 * 
+	 * @param name   item name.
+	 * @param action item action object which is invoked when item is right clicked.
+	 */
+	@Deprecated
 	public GenericRightClickedBook(String name, RightClickedItemAction action) {
 		super(ITEM_PROPERTIES);
 		doCommonItemInitialization(this, name);
@@ -71,8 +92,9 @@ public class GenericRightClickedBook extends Item {
 		this.action = action;
 
 		// get cooldown or default value
-		coolDown = resolveCoolDown(name, ITEM_BOOK_DEFAULT_COOLDOWN);
-		tooltip = resolveTooltip(name, ITEM_DEFAULT_TOOLTIP);
+		String configPath = BOOKS_CONFIGPATH + name;
+		coolDown = resolveCoolDown(configPath, ITEM_BOOK_DEFAULT_COOLDOWN);
+		tooltip = resolveTooltip(configPath, ITEM_DEFAULT_TOOLTIP);
 	}
 
 	@Override

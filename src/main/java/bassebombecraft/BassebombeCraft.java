@@ -6,7 +6,6 @@ import static bassebombecraft.config.ModConfiguration.loadConfig;
 import static bassebombecraft.config.VersionUtils.validateVersion;
 import static bassebombecraft.tab.ItemGroupFactory.createItemGroup;
 
-import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
@@ -18,9 +17,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
-import com.typesafe.config.Config;
 
-import bassebombecraft.config.ConfigUtils;
 import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;
@@ -55,7 +52,6 @@ import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.loading.FMLPaths;
 
 @Mod(MODID)
 public class BassebombeCraft {
@@ -121,11 +117,6 @@ public class BassebombeCraft {
 	FrequencyRepository frequencyRepository;
 
 	/**
-	 * Mod configuration.
-	 */
-	Config config;
-
-	/**
 	 * Minecraft server.
 	 */
 	MinecraftServer server;
@@ -145,10 +136,6 @@ public class BassebombeCraft {
 
 		// Register ourselves for forge events
 		MinecraftForge.EVENT_BUS.register(this);
-
-		// load configuration file
-		File configDirectory = FMLPaths.CONFIGDIR.get().toFile();
-		config = ConfigUtils.loadConfig(configDirectory);
 
 		try {
 
@@ -303,16 +290,6 @@ public class BassebombeCraft {
 	public FrequencyRepository getFrequencyRepository() {
 		return frequencyRepository;
 	}
-	
-	/**
-	 * Get mod configuration.
-	 * 
-	 * @return mod configuration.
-	 */
-	@Deprecated
-	public Config getConfiguration() {
-		return config;
-	}
 
 	/**
 	 * Get mod configuration from TOML file.
@@ -320,9 +297,9 @@ public class BassebombeCraft {
 	 * @return mod configuration from TOML file.
 	 */
 	public UnmodifiableConfig getTomlConfiguration() {
-		return ModConfiguration.COMMON_CONFIG.getValues();						
+		return ModConfiguration.COMMON_CONFIG.getValues();
 	}
-	
+
 	/**
 	 * Get array of inventory items.
 	 * 
@@ -399,7 +376,7 @@ public class BassebombeCraft {
 	public static Minecraft getMincraft() {
 		return Minecraft.getInstance();
 	}
-	
+
 	/**
 	 * Exception reporting facility.
 	 * 

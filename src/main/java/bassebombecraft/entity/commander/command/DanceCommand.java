@@ -4,8 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import java.util.Random;
 
-import com.typesafe.config.Config;
-
+import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
 import net.minecraft.entity.CreatureEntity;
@@ -18,9 +17,9 @@ import net.minecraft.util.math.Vec3d;
 public class DanceCommand implements MobCommand {
 
 	/**
-	 * Configuration key.
+	 * Action identifier.
 	 */
-	final static String CONFIG_KEY = DanceCommand.class.getSimpleName();
+	public final static String NAME = DanceCommand.class.getSimpleName();
 
 	/**
 	 * Chance of jumping.
@@ -42,8 +41,7 @@ public class DanceCommand implements MobCommand {
 	 */
 	public DanceCommand() {
 		super();
-		Config configuration = getBassebombeCraft().getConfiguration();
-		jumpChance = configuration.getDouble(CONFIG_KEY + ".JumpChance");
+		jumpChance = ModConfiguration.danceCommandChance.get();
 	}
 
 	@Override

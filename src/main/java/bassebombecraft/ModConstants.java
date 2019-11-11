@@ -4,13 +4,28 @@ import static bassebombecraft.BassebombeCraft.getItemGroup;
 
 import javax.vecmath.Vector4f;
 
+import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.entity.ai.goal.AiCommandersTargeting;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
 import bassebombecraft.event.particle.ParticleRenderingEventHandler;
+import bassebombecraft.event.potion.MobRespawningEffectEventHandler;
+import bassebombecraft.item.action.ShootBaconBazooka;
+import bassebombecraft.item.action.ShootBearBlaster;
+import bassebombecraft.item.action.ShootCreeperCannon;
+import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import bassebombecraft.item.basic.HudItem;
+import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
+import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
+import bassebombecraft.potion.effect.AmplifierEffect;
+import bassebombecraft.potion.effect.MobAggroEffect;
+import bassebombecraft.potion.effect.MobPrimingEffect;
+import bassebombecraft.potion.effect.MobProjectileEffect;
+import bassebombecraft.potion.effect.MobRespawningEffect;
+import bassebombecraft.potion.effect.PlayerAggroEffect;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
+import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -33,7 +48,7 @@ public class ModConstants {
 	/**
 	 * Mod version.
 	 */
-	public static final String VERSION = "1.14.4-1.31";
+	public static final String VERSION = "1.14.4-1.32";
 
 	/**
 	 * In game tab name.
@@ -46,20 +61,10 @@ public class ModConstants {
 	public static final String MINECRAFT_DOMAIN = "minecraft";
 
 	/**
-	 * Configuration file post fix.
-	 */
-	public static final String CONFIG_FILE_POSTFIX = ".conf";
-
-	/**
 	 * TOML Configuration file post fix.
 	 */
 	public static final String CONFIG_FILE_TOML_POSTFIX = ".toml";
 	
-	/**
-	 * Configuration file name.
-	 */
-	public static final String INTERNAL_CONFIG_FILE_NAME = MODID + CONFIG_FILE_POSTFIX;
-
 	/**
 	 * Configuration file name.
 	 */
@@ -306,6 +311,21 @@ public class ModConstants {
 	public static final boolean LIGHTNING_BOLT_NOT_EFFECT_ONLY = false;
 
 	/**
+	 * Basic items config path prefix in TOML configuration file.
+	 */
+	public static final String BASICITEMS_CONFIGPATH = "BasicItems.";
+	
+	/**
+	 * Potions config path prefix in TOML configuration file.
+	 */
+	public static final String POTIONS_CONFIGPATH = "Potions.";
+
+	/**
+	 * Books config path prefix in TOML configuration file.
+	 */
+	public static final String BOOKS_CONFIGPATH = "Books.";
+	
+	/**
 	 * Week amplification potion name.
 	 */
 	public final static String WEAK_AMPLIFICATION_POTION_NAME = "WeakAmplificationPotion";
@@ -329,5 +349,88 @@ public class ModConstants {
 	 * Mob priming potion name.
 	 */
 	public final static String MOB_PRIMING_POTION_NAME = "MobPrimingPotion";
+
+	/**
+	 * Mob respawning potion name.
+	 */
+	public final static String MOB_RESPAWNING_POTION_NAME = "MobRespawningPotion";
+	
+	/**
+	 * Bacon bazooka projectile effect name.
+	 */
+	public final static String BACONBAZOOKA_EFFECT_NAME = "BaconBazookaProjectileEffect";
+
+	/**
+	 * Bear blaster projectile effect name.
+	 */
+	public final static String BEARBLASTER_EFFECT_NAME = "BearBlasterProjectileEffect";
+
+	/**
+	 * Creeper cannon projectile effect name.
+	 */
+	public final static String CREEPERCANNON_EFFECT_NAME = "CreeperCannonProjectileEffect";
+
+	/**
+	 * Primed creeper cannon projectile effect name.
+	 */
+	public final static String PRIMEDCREEPERCANNON_EFFECT_NAME = "PrimedCreeperCannonProjectileEffect";
+	
+	/**
+	 * Mobs aggro effect, used by {@linkplain MobsAggroIdolInventoryItem}.
+	 */
+	public static final Effect MOB_AGGRO_EFFECT = new MobAggroEffect();
+
+	/**
+	 * Player aggro effect, used by {@linkplain MobRespawningEffectEventHandler}.
+	 */
+	public static final Effect PLAYER_AGGRO_EFFECT = new PlayerAggroEffect();
+
+	/**
+	 * Primed mob effect, used by {@linkplain PrimeMobIdolInventoryItem}.
+	 */
+	public static final Effect MOB_PRIMING_EFFECT = new MobPrimingEffect();
+
+	/**
+	 * Mobs respawn effect.
+	 */
+	public static final Effect MOB_RESPAWNING_EFFECT = new MobRespawningEffect();
+
+	/**
+	 * Bacon Bazooka effect, used by {@linkplain ShootBaconBazooka}.
+	 */
+	public static final Effect BACON_BAZOOKA_EFFECT = new MobProjectileEffect(
+			ModConfiguration.baconBazookaProjectileEffectForce.get(),
+			ModConfiguration.baconBazookaProjectileEffectExplosion.get());
+	
+	/**
+	 * Bear blaster effect, used by {@linkplain ShootBearBlaster}.
+	 */
+	public static final Effect BEAR_BLASTER_EFFECT = new MobProjectileEffect(
+			ModConfiguration.bearBlasterProjectileEffectForce.get(),
+			ModConfiguration.bearBlasterProjectileEffectExplosion.get());
+	
+	/**
+	 * Creeper cannon effect, used by {@linkplain ShootCreeperCannon}.
+	 */
+	public static final Effect CREEPER_CANNON_EFFECT = new MobProjectileEffect(
+			ModConfiguration.creeperCannonProjectileEffectForce.get(),
+			ModConfiguration.creeperCannonProjectileEffectExplosion.get());
+
+	/**
+	 * Creeper cannon effect, used by {@linkplain ShootCreeperCannon}.
+	 */
+	public static final Effect PRIMED_CREEPER_CANNON_EFFECT = new MobProjectileEffect(
+			ModConfiguration.primedCreeperCannonProjectileEffectForce.get(),
+			ModConfiguration.primedCreeperCannonProjectileEffectExplosion.get());	
+
+	/**
+	 * Potion amplifier effect.
+	 */
+	public static final Effect AMPLIFIER_EFFECT = new AmplifierEffect();
+
+	/**
+	 * Range value for non-AOE effect in {@linkplain InventoryItemActionStrategy} implmentation.
+	 */
+	public static final int NOT_AN_AOE_EFFECT = 1;
 	
 }
