@@ -61,22 +61,10 @@ public class ModConstants {
 	public static final String MINECRAFT_DOMAIN = "minecraft";
 
 	/**
-	 * Configuration file post fix.
-	 */
-	@Deprecated
-	public static final String CONFIG_FILE_POSTFIX = ".conf";
-
-	/**
 	 * TOML Configuration file post fix.
 	 */
 	public static final String CONFIG_FILE_TOML_POSTFIX = ".toml";
 	
-	/**
-	 * Configuration file name.
-	 */
-	@Deprecated
-	public static final String INTERNAL_CONFIG_FILE_NAME = MODID + CONFIG_FILE_POSTFIX;
-
 	/**
 	 * Configuration file name.
 	 */
@@ -105,12 +93,12 @@ public class ModConstants {
 	/**
 	 * GA development Property.
 	 */
-	public static final String GA_PROPERTY = "UA-91107600-1";
+	//public static final String GA_PROPERTY = "UA-91107600-1";
 
 	/**
 	 * GA Property.
 	 */
-	//public static final String GA_PROPERTY = "UA-91418540-1";
+	public static final String GA_PROPERTY = "UA-91418540-1";
 
 	/**
 	 * GA data source.
