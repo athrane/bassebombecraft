@@ -48,7 +48,7 @@ public class ModConstants {
 	/**
 	 * Mod version.
 	 */
-	public static final String VERSION = "1.14.4-1.32";
+	public static final String VERSION = "1.14.4-1.33";
 
 	/**
 	 * In game tab name.
@@ -93,12 +93,12 @@ public class ModConstants {
 	/**
 	 * GA development Property.
 	 */
-	//public static final String GA_PROPERTY = "UA-91107600-1";
+	public static final String GA_PROPERTY = "UA-91107600-1";
 
 	/**
 	 * GA Property.
 	 */
-	public static final String GA_PROPERTY = "UA-91418540-1";
+	//public static final String GA_PROPERTY = "UA-91418540-1";
 
 	/**
 	 * GA data source.
