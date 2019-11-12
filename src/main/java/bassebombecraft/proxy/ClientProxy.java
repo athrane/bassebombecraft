@@ -47,7 +47,7 @@ public class ClientProxy implements Proxy {
 	@Override
 	public void postItemUsage(String itemName, String user) {
 		try {
-			postItemUsageEvent(itemName, user);
+			postItemUsageEvent(user, itemName);
 
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();

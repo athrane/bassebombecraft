@@ -93,12 +93,12 @@ public class ModConstants {
 	/**
 	 * GA development Property.
 	 */
-	public static final String GA_PROPERTY = "UA-91107600-1";
+	//public static final String GA_PROPERTY = "UA-91107600-1";
 
 	/**
 	 * GA Property.
 	 */
-	//public static final String GA_PROPERTY = "UA-91418540-1";
+	public static final String GA_PROPERTY = "UA-91418540-1";
 
 	/**
 	 * GA data source.
@@ -115,6 +115,11 @@ public class ModConstants {
 	 */
 	public static final String GA_HITTYPE_EVENT = "event";
 
+	/**
+	 * GA exception hit type.
+	 */
+	public static final String GA_HITTYPE_EXCEPTION = "exception";
+	
 	/**
 	 * GA session start.
 	 */
