@@ -38,9 +38,12 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.ModConstants;
 import bassebombecraft.config.http.HttpCallback;
 import bassebombecraft.config.http.HttpRequestHandler;
+import net.minecraftforge.versions.forge.ForgeVersion;
+import net.minecraftforge.versions.mcp.MCPVersion;
 
 /**
  * Helper class for handling versions
@@ -223,7 +226,7 @@ public class VersionUtils {
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
 		String description = sw.toString();
-
+				
 		List<NameValuePair> postParameters = createExceptionParameters(uid, category, description);
 		URIBuilder uriBuilder = new URIBuilder(ANALYTICS_URL);
 		uriBuilder.addParameters(postParameters);
@@ -298,9 +301,22 @@ public class VersionUtils {
 	 */
 	static List<NameValuePair> createSystemInfoParameters(String uid, String category, String action) {
 
-		String userInfo = new StringBuilder().append(System.getProperty("user.name")).append(";")
-				.append(System.getProperty("os.name")).append(",").append(System.getProperty("os.version")).append(",")
-				.append(System.getProperty("os.arch")).append(";").append(System.getProperty("java.version"))
+		// get Minecraft version
+		String mcVersion = getBassebombeCraft().getServer().getMinecraftVersion();		
+
+		// get Forge version
+		String forgeVersion = ForgeVersion.getVersion();
+
+		// get MCP version
+		String mcpVersion = MCPVersion.getMCPVersion();
+		
+		String userInfo = new StringBuilder()
+				.append(System.getProperty("user.name")).append(";")
+				.append(System.getProperty("os.name")).append(",").append(System.getProperty("os.version")).append(",").append(System.getProperty("os.arch")).append(";")
+				.append(System.getProperty("java.version")).append(";")
+				.append(mcVersion).append(";")
+				.append(forgeVersion).append(";")
+				.append(mcpVersion).append(";")								
 				.toString();
 
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
