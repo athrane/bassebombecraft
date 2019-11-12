@@ -6,6 +6,7 @@ import static bassebombecraft.ModConstants.DOWNLOAD_URL;
 import static bassebombecraft.ModConstants.GA_API_VERSION;
 import static bassebombecraft.ModConstants.GA_APP_ID;
 import static bassebombecraft.ModConstants.GA_HITTYPE_EVENT;
+import static bassebombecraft.ModConstants.GA_HITTYPE_EXCEPTION;
 import static bassebombecraft.ModConstants.GA_PROPERTY;
 import static bassebombecraft.ModConstants.GA_SESSION_END;
 import static bassebombecraft.ModConstants.GA_SESSION_START;
@@ -41,6 +42,8 @@ import com.google.gson.Gson;
 import bassebombecraft.ModConstants;
 import bassebombecraft.config.http.HttpCallback;
 import bassebombecraft.config.http.HttpRequestHandler;
+import net.minecraftforge.versions.forge.ForgeVersion;
+import net.minecraftforge.versions.mcp.MCPVersion;
 
 /**
  * Helper class for handling versions
@@ -146,7 +149,10 @@ public class VersionUtils {
 	 * @throws Exception
 	 */
 	public static void postItemUsageEvent(String uid, String itemName) throws Exception {
+		getBassebombeCraft().getLogger().debug("post: uid="+uid);
+		getBassebombeCraft().getLogger().debug("post: item="+itemName);			
 
+		
 		// Build the server URI together with the parameters
 		String category = NAME + "-" + VERSION;
 		String action = itemName;
@@ -156,6 +162,8 @@ public class VersionUtils {
 
 		// build request
 		URI uri = uriBuilder.build();
+		getBassebombeCraft().getLogger().debug("post: uri="+uri.toString());			
+		
 		HttpPost request = new HttpPost(uri);
 
 		// post
@@ -224,13 +232,24 @@ public class VersionUtils {
 		e.printStackTrace(new PrintWriter(sw));
 		String description = sw.toString();
 
-		List<NameValuePair> postParameters = createExceptionParameters(uid, category, description);
+		List<NameValuePair> postParameters = createExceptionEventParameters(uid, category, description);
 		URIBuilder uriBuilder = new URIBuilder(ANALYTICS_URL);
 		uriBuilder.addParameters(postParameters);
 
 		// build request
 		URI uri = uriBuilder.build();
 		HttpPost request = new HttpPost(uri);
+
+		// post
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+
+		postParameters = createExceptionParameters(uid, category, description);
+		uriBuilder = new URIBuilder(ANALYTICS_URL);
+		uriBuilder.addParameters(postParameters);
+
+		// build request
+		uri = uriBuilder.build();
+		request = new HttpPost(uri);
 
 		// post
 		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
@@ -298,10 +317,20 @@ public class VersionUtils {
 	 */
 	static List<NameValuePair> createSystemInfoParameters(String uid, String category, String action) {
 
+		// get Minecraft version
+		String mcVersion = getBassebombeCraft().getServer().getMinecraftVersion();
+
+		// get Forge version
+		String forgeVersion = ForgeVersion.getVersion();
+
+		// get MCP version
+		String mcpVersion = MCPVersion.getMCPVersion();
+
 		String userInfo = new StringBuilder().append(System.getProperty("user.name")).append(";")
 				.append(System.getProperty("os.name")).append(",").append(System.getProperty("os.version")).append(",")
 				.append(System.getProperty("os.arch")).append(";").append(System.getProperty("java.version"))
-				.toString();
+				.append(";").append(mcVersion).append(";").append(forgeVersion).append(";").append(mcpVersion)
+				.append(";").toString();
 
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("v", GA_API_VERSION));
@@ -374,13 +403,13 @@ public class VersionUtils {
 	}
 
 	/**
-	 * Create parameters for exception.
+	 * Create parameters for exception embedded in event.
 	 * 
 	 * @param uid         user ID.
 	 * @param category    event category.
 	 * @param description exception description.
 	 */
-	static List<NameValuePair> createExceptionParameters(String uid, String category, String description) {
+	static List<NameValuePair> createExceptionEventParameters(String uid, String category, String description) {
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("v", GA_API_VERSION));
 		parameters.add(new BasicNameValuePair("t", GA_HITTYPE_EVENT));
@@ -396,6 +425,31 @@ public class VersionUtils {
 		parameters.add(new BasicNameValuePair("el", description));
 		return parameters;
 	}
+
+	/**
+	 * Create parameters for exception hit type.
+	 * 
+	 * @param uid         user ID.
+	 * @param category    event category.
+	 * @param description exception description.
+	 */
+	static List<NameValuePair> createExceptionParameters(String uid, String category, String description) {
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		parameters.add(new BasicNameValuePair("v", GA_API_VERSION));
+		parameters.add(new BasicNameValuePair("t", GA_HITTYPE_EXCEPTION));
+		parameters.add(new BasicNameValuePair("tid", GA_PROPERTY));
+		parameters.add(new BasicNameValuePair("ds", GA_SOURCE));
+		parameters.add(new BasicNameValuePair("an", NAME));
+		parameters.add(new BasicNameValuePair("aid", GA_APP_ID));
+		parameters.add(new BasicNameValuePair("av", VERSION));
+		parameters.add(new BasicNameValuePair("cid", uid));
+		parameters.add(new BasicNameValuePair("uid", uid));
+		parameters.add(new BasicNameValuePair("exe", description));
+		parameters.add(new BasicNameValuePair("exf", "0"));
+		return parameters;
+	}
+
+// v=1&t=exception&tid=UA-91107600-1&cid=555&exd=IOException&exf=1	
 
 	/**
 	 * Create parameters for event for AI.

@@ -48,7 +48,7 @@ public class ModConstants {
 	/**
 	 * Mod version.
 	 */
-	public static final String VERSION = "1.14.4-1.32";
+	public static final String VERSION = "1.14.4-1.33";
 
 	/**
 	 * In game tab name.
@@ -115,6 +115,11 @@ public class ModConstants {
 	 */
 	public static final String GA_HITTYPE_EVENT = "event";
 
+	/**
+	 * GA exception hit type.
+	 */
+	public static final String GA_HITTYPE_EXCEPTION = "exception";
+	
 	/**
 	 * GA session start.
 	 */
