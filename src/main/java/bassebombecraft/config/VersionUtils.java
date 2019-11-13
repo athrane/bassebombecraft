@@ -149,10 +149,9 @@ public class VersionUtils {
 	 * @throws Exception
 	 */
 	public static void postItemUsageEvent(String uid, String itemName) throws Exception {
-		getBassebombeCraft().getLogger().debug("post: uid="+uid);
-		getBassebombeCraft().getLogger().debug("post: item="+itemName);			
+		getBassebombeCraft().getLogger().debug("post: uid=" + uid);
+		getBassebombeCraft().getLogger().debug("post: item=" + itemName);
 
-		
 		// Build the server URI together with the parameters
 		String category = NAME + "-" + VERSION;
 		String action = itemName;
@@ -162,8 +161,8 @@ public class VersionUtils {
 
 		// build request
 		URI uri = uriBuilder.build();
-		getBassebombeCraft().getLogger().debug("post: uri="+uri.toString());			
-		
+		getBassebombeCraft().getLogger().debug("post: uri=" + uri.toString());
+
 		HttpPost request = new HttpPost(uri);
 
 		// post
@@ -230,7 +229,11 @@ public class VersionUtils {
 		// get stack trace as string
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
-		String description = sw.toString();
+		String description = new StringBuilder()
+				.append(sw.toString())
+				.append(System.getProperty("line.separator"))
+				.append(createUserInfo(uid))
+				.toString();
 
 		List<NameValuePair> postParameters = createExceptionEventParameters(uid, category, description);
 		URIBuilder uriBuilder = new URIBuilder(ANALYTICS_URL);
@@ -317,20 +320,7 @@ public class VersionUtils {
 	 */
 	static List<NameValuePair> createSystemInfoParameters(String uid, String category, String action) {
 
-		// get Minecraft version
-		String mcVersion = getBassebombeCraft().getServer().getMinecraftVersion();
-
-		// get Forge version
-		String forgeVersion = ForgeVersion.getVersion();
-
-		// get MCP version
-		String mcpVersion = MCPVersion.getMCPVersion();
-
-		String userInfo = new StringBuilder().append(System.getProperty("user.name")).append(";")
-				.append(System.getProperty("os.name")).append(",").append(System.getProperty("os.version")).append(",")
-				.append(System.getProperty("os.arch")).append(";").append(System.getProperty("java.version"))
-				.append(";").append(mcVersion).append(";").append(forgeVersion).append(";").append(mcpVersion)
-				.append(";").toString();
+		String userInfo = createUserInfo(uid);
 
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
 		parameters.add(new BasicNameValuePair("v", GA_API_VERSION));
@@ -444,12 +434,10 @@ public class VersionUtils {
 		parameters.add(new BasicNameValuePair("av", VERSION));
 		parameters.add(new BasicNameValuePair("cid", uid));
 		parameters.add(new BasicNameValuePair("uid", uid));
-		parameters.add(new BasicNameValuePair("exe", description));
+		parameters.add(new BasicNameValuePair("exd", description));
 		parameters.add(new BasicNameValuePair("exf", "0"));
 		return parameters;
 	}
-
-// v=1&t=exception&tid=UA-91107600-1&cid=555&exd=IOException&exf=1	
 
 	/**
 	 * Create parameters for event for AI.
@@ -475,6 +463,31 @@ public class VersionUtils {
 		parameters.add(new BasicNameValuePair("ea", "AI Observe"));
 		parameters.add(new BasicNameValuePair("el", observation));
 		return parameters;
+	}
+
+	/**
+	 * Create user info string.
+	 * 
+	 * @param uid Minecraft user.
+	 * 
+	 * @return user info string
+	 */
+	static String createUserInfo(String uid) {
+		// get Minecraft version
+		String mcVersion = getBassebombeCraft().getServer().getMinecraftVersion();
+
+		// get Forge version
+		String forgeVersion = ForgeVersion.getVersion();
+
+		// get MCP version
+		String mcpVersion = MCPVersion.getMCPVersion();
+
+		String userInfo = new StringBuilder().append(System.getProperty(uid)).append(";")
+				.append(System.getProperty("os.name")).append(",").append(System.getProperty("os.version")).append(",")
+				.append(System.getProperty("os.arch")).append(";").append(System.getProperty("java.version"))
+				.append(";").append(mcVersion).append(";").append(forgeVersion).append(";").append(mcpVersion)
+				.append(";").toString();
+		return userInfo;
 	}
 
 	/**
