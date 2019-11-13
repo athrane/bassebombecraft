@@ -149,8 +149,6 @@ public class VersionUtils {
 	 * @throws Exception
 	 */
 	public static void postItemUsageEvent(String uid, String itemName) throws Exception {
-		getBassebombeCraft().getLogger().debug("post: uid=" + uid);
-		getBassebombeCraft().getLogger().debug("post: item=" + itemName);
 
 		// Build the server URI together with the parameters
 		String category = NAME + "-" + VERSION;
