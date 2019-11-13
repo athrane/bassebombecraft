@@ -18,7 +18,7 @@ issueTrackerURL="https://github.com/athrane/bassebombecraft/issues" #optional
 	modId="bassebombecraft" #mandatory
 	
 	# The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-	version="1.14.4-1.33" #mandatory
+	version="1.14.4-1.34" #mandatory
 	
 	# A display name for the mod
 	displayName="BasseBombeCraft Mod" #mandatory
