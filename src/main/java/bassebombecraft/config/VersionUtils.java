@@ -233,24 +233,14 @@ public class VersionUtils {
 				.append(createUserInfo(uid))
 				.toString();
 
-		List<NameValuePair> postParameters = createExceptionEventParameters(uid, category, description);
+
+		List<NameValuePair> postParameters = createExceptionParameters(uid, category, description);
 		URIBuilder uriBuilder = new URIBuilder(ANALYTICS_URL);
 		uriBuilder.addParameters(postParameters);
 
 		// build request
 		URI uri = uriBuilder.build();
 		HttpPost request = new HttpPost(uri);
-
-		// post
-		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
-
-		postParameters = createExceptionParameters(uid, category, description);
-		uriBuilder = new URIBuilder(ANALYTICS_URL);
-		uriBuilder.addParameters(postParameters);
-
-		// build request
-		uri = uriBuilder.build();
-		request = new HttpPost(uri);
 
 		// post
 		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
