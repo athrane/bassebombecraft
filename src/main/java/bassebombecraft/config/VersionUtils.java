@@ -149,8 +149,6 @@ public class VersionUtils {
 	 * @throws Exception
 	 */
 	public static void postItemUsageEvent(String uid, String itemName) throws Exception {
-		getBassebombeCraft().getLogger().debug("post: uid=" + uid);
-		getBassebombeCraft().getLogger().debug("post: item=" + itemName);
 
 		// Build the server URI together with the parameters
 		String category = NAME + "-" + VERSION;
@@ -161,8 +159,6 @@ public class VersionUtils {
 
 		// build request
 		URI uri = uriBuilder.build();
-		getBassebombeCraft().getLogger().debug("post: uri=" + uri.toString());
-
 		HttpPost request = new HttpPost(uri);
 
 		// post
@@ -235,24 +231,14 @@ public class VersionUtils {
 				.append(createUserInfo(uid))
 				.toString();
 
-		List<NameValuePair> postParameters = createExceptionEventParameters(uid, category, description);
+
+		List<NameValuePair> postParameters = createExceptionParameters(uid, category, description);
 		URIBuilder uriBuilder = new URIBuilder(ANALYTICS_URL);
 		uriBuilder.addParameters(postParameters);
 
 		// build request
 		URI uri = uriBuilder.build();
 		HttpPost request = new HttpPost(uri);
-
-		// post
-		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
-
-		postParameters = createExceptionParameters(uid, category, description);
-		uriBuilder = new URIBuilder(ANALYTICS_URL);
-		uriBuilder.addParameters(postParameters);
-
-		// build request
-		uri = uriBuilder.build();
-		request = new HttpPost(uri);
 
 		// post
 		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
@@ -482,7 +468,7 @@ public class VersionUtils {
 		// get MCP version
 		String mcpVersion = MCPVersion.getMCPVersion();
 
-		String userInfo = new StringBuilder().append(System.getProperty(uid)).append(";")
+		String userInfo = new StringBuilder().append(uid).append(";")
 				.append(System.getProperty("os.name")).append(",").append(System.getProperty("os.version")).append(",")
 				.append(System.getProperty("os.arch")).append(";").append(System.getProperty("java.version"))
 				.append(";").append(mcVersion).append(";").append(forgeVersion).append(";").append(mcpVersion)
