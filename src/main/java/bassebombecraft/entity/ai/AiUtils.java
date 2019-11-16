@@ -3,10 +3,7 @@ package bassebombecraft.entity.ai;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
-import static org.apache.commons.lang3.reflect.FieldUtils.readField;
-import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 
-import java.lang.reflect.Field;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -66,18 +63,16 @@ public class AiUtils {
 	/**
 	 * Capture goals from {@linkplain GoalSelector}.
 	 * 
-	 * Goals are accessed using reflection to access private goals field in the goal
-	 * selector.
+	 * Goals are accessed using the private "goals" field in the goal selector. The
+	 * visibility of the field is modified using the Forge accesstransformer.cfg.
 	 * 
 	 * @param selector goal selector to get goals from.
 	 * 
 	 * @return set of goals from goals selector.
 	 */
-	@SuppressWarnings("unchecked")
 	public static Set<PrioritizedGoal> captureGoals(GoalSelector selector) {
 		try {
-			Field field = selector.getClass().getDeclaredField("goals");
-			return (Set<PrioritizedGoal>) readField(field, selector, FORCE_ACCESS);
+			return selector.goals;
 		} catch (Exception e) {
 			logger.error("Failed to capture goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);
@@ -98,17 +93,17 @@ public class AiUtils {
 	}
 
 	/**
-	 * Remove goals in a concurrently safe way
+	 * Remove goals in a concurrently safe way.
+	 * 
+	 * Goals are accessed using the private "goals" field in the goal selector. The
+	 * visibility of the field is modified using the Forge accesstransformer.cfg.
 	 * 
 	 * @param selector AI goal selector.
 	 */
-	@SuppressWarnings("unchecked")
 	static void removeGoals(GoalSelector selector) {
 		try {
-			Field field = selector.getClass().getDeclaredField("goals");
-			Set<PrioritizedGoal> goals = (Set<PrioritizedGoal>) readField(field, selector, FORCE_ACCESS);
+			Set<PrioritizedGoal> goals = selector.goals;
 			goals.forEach(g -> selector.removeGoal(g));
-
 		} catch (Exception e) {
 			logger.error("Failed to remove goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);
@@ -118,8 +113,8 @@ public class AiUtils {
 	/**
 	 * Assign passive AI goals.
 	 * 
-	 * Goals are accessed using reflection to access private goals field in the goal
-	 * selector.
+	 * Goals are accessed using the private "goals" field in the goal selector. The
+	 * visibility of the field is modified using the Forge accesstransformer.cfg.
 	 * 
 	 * @param entity entity to assign goals to.
 	 * @param goals  set of goals.
@@ -127,8 +122,7 @@ public class AiUtils {
 	public static void assignAiGoals(MobEntity entity, Set<PrioritizedGoal> goals) {
 		try {
 			GoalSelector selector = entity.goalSelector;
-			Field field = selector.getClass().getDeclaredField("goals");
-			writeField(field, selector, goals, FORCE_ACCESS);
+			selector.goals.addAll(goals);
 		} catch (Exception e) {
 			logger.error("Failed to assign goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);
@@ -139,8 +133,8 @@ public class AiUtils {
 	/**
 	 * Assign target AI goals.
 	 * 
-	 * Goals are accessed using reflection to access private goals field in the goal
-	 * selector.
+	 * Goals are accessed using the private "goals" field in the goal selector. The
+	 * visibility of the field is modified using the Forge accesstransformer.cfg.
 	 * 
 	 * @param entity entity to assign goals to.
 	 * @param goals  set of goals.
@@ -148,8 +142,7 @@ public class AiUtils {
 	public static void assignAiTargetGoals(MobEntity entity, Set<PrioritizedGoal> goals) {
 		try {
 			GoalSelector selector = entity.targetSelector;
-			Field field = selector.getClass().getDeclaredField("goals");
-			writeField(field, selector, goals, FORCE_ACCESS);
+			selector.goals.addAll(goals);
 		} catch (Exception e) {
 			logger.error("Failed to assign goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);

@@ -159,8 +159,6 @@ public class VersionUtils {
 
 		// build request
 		URI uri = uriBuilder.build();
-		getBassebombeCraft().getLogger().debug("post: uri=" + uri.toString());
-
 		HttpPost request = new HttpPost(uri);
 
 		// post
@@ -470,7 +468,7 @@ public class VersionUtils {
 		// get MCP version
 		String mcpVersion = MCPVersion.getMCPVersion();
 
-		String userInfo = new StringBuilder().append(System.getProperty(uid)).append(";")
+		String userInfo = new StringBuilder().append(uid).append(";")
 				.append(System.getProperty("os.name")).append(",").append(System.getProperty("os.version")).append(",")
 				.append(System.getProperty("os.arch")).append(";").append(System.getProperty("java.version"))
 				.append(";").append(mcVersion).append(";").append(forgeVersion).append(";").append(mcpVersion)
