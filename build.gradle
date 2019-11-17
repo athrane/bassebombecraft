@@ -13,7 +13,11 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = "1.14.4-1.35"
+ext {
+    modVersion = "1.35"
+    mcVersion = "1.14.4"
+}
+version = project.mcVersion + "-" + project.modVersion  
 group= "bassebombecraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "BasseBombeCraft"
 
@@ -85,17 +89,6 @@ minecraft {
             }
         }
     }
-}
-
-// Definition to embed external depedencies, to include the com.typesafe dependency
-configurations {
-    embed
-    compile.extendsFrom(embed)
-}
-
-// Declaration of external repository to support resolution of the com.typesafe dependency
-repositories {
-    mavenCentral()
 }
 
 dependencies {
