@@ -1,0 +1,26 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:book"
+		},
+		{
+			"item": "minecraft:water_bucket",
+		    "data": 0			
+		},
+		{
+			"item": "minecraft:water_bucket",
+		    "data": 0			
+		},		
+		{
+			"item": "minecraft:dragon_breath"
+		},
+		{
+			"item": "minecraft:shulker_shell",
+		    "data": 0		
+		}			
+	],
+	"result": {
+		"item": "bassebombecraft:movingwatermultimistbook"
+	}
+}

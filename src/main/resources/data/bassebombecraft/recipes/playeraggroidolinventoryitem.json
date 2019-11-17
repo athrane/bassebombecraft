@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "bassebombecraft:mobsaggroidolinventoryitem"
+		},
+		{
+			"item": "minecraft:emerald"
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:playeraggroidolinventoryitem"
+	}
+}

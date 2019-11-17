@@ -1,0 +1,39 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:enchanted_book"
+		},
+		{
+			"item": "minecraft:dye",
+			"data": 1
+		},
+		{
+			"item": "minecraft:dye",
+			"data": 14
+		},
+		{
+			"item": "minecraft:dye",
+			"data": 11
+		},
+		{
+			"item": "minecraft:dye",
+			"data": 10
+		},
+		{
+			"item": "minecraft:dye",
+			"data": 4
+		},
+		{
+			"item": "minecraft:dye",
+			"data": 5
+		},
+		{
+			"item": "minecraft:dye",
+			"data": 13
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:rainbownizebook"
+	}
+}

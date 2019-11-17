@@ -1,0 +1,39 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:book"
+		},
+		{
+			"item": "minecraft:stained_glass",
+			"data": 14
+		},
+		{
+			"item": "minecraft:stained_glass",
+			"data": 1
+		},
+		{
+			"item": "minecraft:stained_glass",
+			"data": 4
+		},
+		{
+			"item": "minecraft:stained_glass",
+			"data": 13
+		},
+		{
+			"item": "minecraft:stained_glass",
+			"data": 11
+		},
+		{
+			"item": "minecraft:stained_glass",
+			"data": 10
+		},
+		{
+			"item": "minecraft:stained_glass",
+			"data": 2
+		}	
+	],
+	"result": {
+		"item": "bassebombecraft:movingrainbowmistbook"
+	}
+}
