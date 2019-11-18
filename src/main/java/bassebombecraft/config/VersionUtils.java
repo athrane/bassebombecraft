@@ -514,10 +514,11 @@ public class VersionUtils {
 			logger.info("Failed to validate version due to exception:" + e.getMessage());
 			getBassebombeCraft().reportException(e);
 		} finally {
-			if (is == null)
-				return;
+			
+			// NO-OP
+			
 			try {
-				is.close();
+				if (is != null) is.close();
 			} catch (IOException e) {
 				logger.info("Failed to close connection for version validation due to exception:" + e.getMessage());
 				getBassebombeCraft().reportException(e);
