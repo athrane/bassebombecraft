@@ -5,32 +5,25 @@
 			"item": "minecraft:clay_ball"
 		},
 		{
-			"item": "minecraft:dye",
-			"data": 1
+			"item": "minecraft:red_wool"
 		},
 		{
-			"item": "minecraft:dye",
-			"data": 14
+			"item": "minecraft:orange_wool"
 		},
 		{
-			"item": "minecraft:dye",
-			"data": 11
+			"item": "minecraft:yellow_wool"
 		},
 		{
-			"item": "minecraft:dye",
-			"data": 10
+			"item": "minecraft:green_wool"
 		},
 		{
-			"item": "minecraft:dye",
-			"data": 4
+			"item": "minecraft:blue_wool"
 		},
 		{
-			"item": "minecraft:dye",
-			"data": 5
+			"item": "minecraft:purple_wool"
 		},
 		{
-			"item": "minecraft:dye",
-			"data": 13
+			"item": "minecraft:magneta_wool"
 		}
 	],
 	"result": {

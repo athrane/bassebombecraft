@@ -5,15 +5,13 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:skull",
-		    "data": 1			
+			"item": "minecraft:wither_skeleton_skull"
 		},
 		{
 			"item": "minecraft:dragon_breath"
 		},
 		{
-			"item": "minecraft:shulker_shell",
-		    "data": 0		
+			"item": "minecraft:shulker_shell"
 		}			
 	],
 	"result": {

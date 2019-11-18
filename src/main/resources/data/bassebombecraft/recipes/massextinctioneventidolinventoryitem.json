@@ -20,15 +20,13 @@
 			"item": "minecraft:piston"
 		},		
 		{
-			"item": "minecraft:fish",
-			"data": 1
+			"item": "minecraft:salmon"
 		},
 		{
 			"item": "minecraft:nether_star"
 		},		
 		{
-			"item": "minecraft:stone",
-			"data": 0			
+			"item": "minecraft:bone_block"
 		}				
 	],
 	"result": {

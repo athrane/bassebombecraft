@@ -7,8 +7,7 @@
 	],
 	"key": {
 		"x": {
-			"item": "minecraft:skull",
-			"data": 4
+			"item": "minecraft:creeper_head"
 		},
 		"y": {
 			"item": "minecraft:blaze_rod"

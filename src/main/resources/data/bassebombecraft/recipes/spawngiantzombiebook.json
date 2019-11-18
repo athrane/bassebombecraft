@@ -5,8 +5,7 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:skull",
-			"data": 4
+			"item": "minecraft:zombie_head"
 		},
 		{
 			"item": "minecraft:rotten_flesh"

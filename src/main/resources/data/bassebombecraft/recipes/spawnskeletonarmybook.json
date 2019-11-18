@@ -5,12 +5,10 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:skull",
-			"data": 0
+			"item": "minecraft:skeleton_skull"
 		},
 		{
-			"item": "minecraft:skull",
-			"data": 0			
+			"item": "minecraft:skeleton_skull"
 		}
 	],
 	"result": {
