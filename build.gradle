@@ -9,6 +9,7 @@ buildscript {
     }
 }
 
+// Activation of SonarQube 
 plugins {
   id "org.sonarqube" version "2.8"
 }
@@ -18,6 +19,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
+// definition of properties
 ext {
     modVersion = "1.35"
     mcVersion = "1.14.4"
@@ -26,6 +28,7 @@ version = project.mcVersion + "-" + project.modVersion
 group= "bassebombecraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "BasseBombeCraft"
 
+// set source and target compatibility
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
@@ -101,17 +104,6 @@ dependencies {
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
     minecraft 'net.minecraftforge:forge:1.14.4-28.1.90'
-}
-
-// SonarQube properties
-// See: https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-gradle/
-sonarqube {
-  properties {
-    property "sonar.projectKey", "athrane_bassebombecraft"
-    property "sonar.organization", "athrane"
-    property "sonar.host.url", "https://sonarcloud.io"
-    property "sonar.login", "bfd41d769ada4a0a2ff40426dca8887a6d2150c6"
-  }
 }
 
 jar {
