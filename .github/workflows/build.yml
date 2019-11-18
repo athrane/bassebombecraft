@@ -55,6 +55,8 @@ jobs:
     - name: Do SonarQube analysis
       id: sonar_analysis
       run: ./gradlew sonarqube
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Create Release
       id: create_release
