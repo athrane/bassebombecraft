@@ -28,6 +28,16 @@ version = project.mcVersion + "-" + project.modVersion
 group= "bassebombecraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "BasseBombeCraft"
 
+// SonarQube properties
+// See: https://docs.sonarqube.org/latest/analysis/scan/sonarscanner-for-gradle/
+sonarqube {
+  properties {
+    property "sonar.projectKey", "athrane_bassebombecraft"
+    property "sonar.organization", "athrane"
+    property "sonar.host.url", "https://sonarcloud.io"
+  }
+}
+
 // set source and target compatibility
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 

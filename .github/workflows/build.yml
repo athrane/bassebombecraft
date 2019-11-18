@@ -54,7 +54,7 @@ jobs:
 
     - name: Do SonarQube analysis
       id: sonar_analysis
-      uses: sonarsource/sonarcloud-github-action@master
+      run: ./gradlew sonarqube
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}        
