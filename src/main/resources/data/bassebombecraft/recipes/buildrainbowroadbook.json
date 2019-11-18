@@ -1,0 +1,39 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:enchanted_book"
+		},
+		{
+			"item": "minecraft:wool",
+			"data": 14
+		},
+		{
+			"item": "minecraft:wool",
+			"data": 1
+		},
+		{
+			"item": "minecraft:wool",
+			"data": 4
+		},
+		{
+			"item": "minecraft:wool",
+			"data": 13
+		},
+		{
+			"item": "minecraft:wool",
+			"data": 11
+		},
+		{
+			"item": "minecraft:wool",
+			"data": 10
+		},
+		{
+			"item": "minecraft:wool",
+			"data": 2
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:buildrainbowroadbook"
+	}
+}

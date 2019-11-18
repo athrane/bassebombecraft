@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:enchanted_book"
+		},
+		{
+			"item": "minecraft:flower_pot"
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:naturalizebook"
+	}
+}

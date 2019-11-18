@@ -1,0 +1,16 @@
+
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:clay_ball"
+		},
+		{
+			"item": "minecraft:iron_hoe",
+			"data": 1
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:reaperidolinventoryitem"
+	}
+}

@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:book"
+		},
+		{
+			"item": "minecraft:dragon_breath",
+		    "data": 0			
+		},
+		{
+			"item": "minecraft:skull",
+			"data": 1 
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:withermistbook"
+	}
+}

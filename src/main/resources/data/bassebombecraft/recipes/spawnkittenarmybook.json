@@ -1,0 +1,19 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:book"
+		},
+		{
+			"item": "minecraft:fish",
+			"data": 0
+		},
+		{
+			"item": "minecraft:fish",
+			"data": 0			
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:spawnkittenarmybook"
+	}
+}

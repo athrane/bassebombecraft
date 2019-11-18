@@ -1,0 +1,21 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:book"
+		},
+		{
+			"item": "minecraft:tnt"
+		},
+		{
+			"item": "minecraft:dragon_breath"
+		},
+		{
+			"item": "minecraft:shulker_shell",
+		    "data": 0		
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:movingtntmistbook"
+	}
+}

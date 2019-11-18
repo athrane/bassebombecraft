@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:book"
+		},
+		{
+			"item": "minecraft:skull",
+			"data": 4
+		},
+		{
+			"item": "minecraft:gunpowder"
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:creepercannonbook"
+	}
+}

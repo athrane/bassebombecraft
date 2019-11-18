@@ -52,6 +52,13 @@ jobs:
       id: build_gradle
       run: ./gradlew build
 
+    - name: Do SonarQube analysis
+      id: sonar_analysis
+      run: ./gradlew sonarqube
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}        
+
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1.0.0
@@ -73,4 +80,5 @@ jobs:
         asset_path: ./build/libs/BasseBombeCraft-${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}.jar
         asset_name: BasseBombeCraft-${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}.jar
         asset_content_type: application/zip
-      
+
+ 
