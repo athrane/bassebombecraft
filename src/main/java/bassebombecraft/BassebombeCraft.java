@@ -64,7 +64,7 @@ public class BassebombeCraft {
 	/**
 	 * Mod instance.
 	 */
-	public static BassebombeCraft instance;
+	static BassebombeCraft instance;
 
 	/**
 	 * Distributed executor for execution of client and server side code.
