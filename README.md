@@ -11,6 +11,7 @@ Bassebombecraft Minecraft Mod
 
 # Introduction
 BasseBombeCraft is Minecraft mod focusing om magical books, idols and potions.
+More gameplay information can be found on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/bassebombecraft).
 
 # Repo branches
 The repository has several branches:
@@ -18,3 +19,4 @@ The repository has several branches:
 [dev-1.31](https://github.com/athrane/bassebombecraft/tree/dev-1.31),
 [dev-1.32](https://github.com/athrane/bassebombecraft/tree/dev-1.32), etc.
 - Master branch: [master](https://github.com/athrane/bassebombecraft/tree/master)
+
