@@ -61,12 +61,15 @@ public class AiCommandersTargeting extends Goal {
 		}
 
 		// stop goal execution if no target is defined for commander
-		if (!hasTarget(commander)) {
+		if (!hasTarget(commander)) 
 			return false;
-		}
 
 		// get target
 		Optional<LivingEntity> optTarget = getNullableTarget(entity);
+
+		// exit if target isn't defined (anymore)
+		if (!optTarget.isPresent())
+			return false;
 
 		// continue goal execution if target is alive
 		return (optTarget.get().isAlive());

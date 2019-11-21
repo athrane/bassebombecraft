@@ -155,6 +155,10 @@ public class CompanionAttack extends Goal {
 		// target is defined, observe situation
 		observeAndupdateFacts(optTarget.get());
 
+		// exit if target isn't defined (anymore)
+		if (!optTarget.isPresent())
+			return false;
+
 		// continue goal execution if target is alive
 		return (optTarget.get().isAlive());
 	}
