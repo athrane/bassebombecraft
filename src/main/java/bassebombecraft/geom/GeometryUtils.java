@@ -526,9 +526,9 @@ public class GeometryUtils {
 	 * @return the squared distance between two block positions
 	 */
 	public static double calculateDistanceSq(BlockPos pos1, BlockPos pos2) {
-		double d0 = pos1.getX() - pos2.getX();
-		double d1 = pos1.getY() - pos2.getY();
-		double d2 = pos1.getZ() - pos2.getZ();
+		double d0 = pos1.getX() - (double) pos2.getX();
+		double d1 = pos1.getY() - (double) pos2.getY();
+		double d2 = pos1.getZ() - (double) pos2.getZ();
 		return d0 * d0 + d1 * d1 + d2 * d2;
 	}
 
