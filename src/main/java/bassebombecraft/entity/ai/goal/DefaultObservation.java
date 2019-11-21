@@ -57,7 +57,7 @@ public class DefaultObservation implements Observation {
 	public String getObservationAsString() {
 
 		// build observation string
-		String str = new StringBuilder()
+		return new StringBuilder()
 
 				// add source info
 				.append("sn=").append(entityName).append(",sh=").append(entityHealth).append("/")
@@ -68,8 +68,6 @@ public class DefaultObservation implements Observation {
 				.append(targetMaxHealth).append(",tp=").append(targetPosition).append(";")
 
 				.toString();
-
-		return str;
 	}
 
 	/**
@@ -80,7 +78,7 @@ public class DefaultObservation implements Observation {
 	 * 
 	 * @return repository.
 	 */
-	static public Observation getInstance(LivingEntity entity, LivingEntity target) {
+	public static Observation getInstance(LivingEntity entity, LivingEntity target) {
 		return new DefaultObservation(entity, target);
 	}
 }

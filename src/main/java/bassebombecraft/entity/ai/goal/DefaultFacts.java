@@ -84,12 +84,11 @@ public class DefaultFacts implements SituationalFacts {
 
 	@Override
 	public String getFactsAsString() {
-		String str = new StringBuilder().append(this.hashCode()).append(";")
+		return new StringBuilder().append(this.hashCode()).append(";")
 
 				// add observations
 				.append("tc=").append(isTargetClose()).append(",thd=").append(isTargetHealthDecreased()).append(";")
 				.toString();
-		return str;
 	}
 
 	@Override
