@@ -270,6 +270,11 @@ public class ModConstants {
 	public static final int AI_COMPANION_ATTACK_UPDATE_FREQUENCY = 10;
 
 	/**
+	 * Update frequency for {@linkplain FollowClosestPlayer}. Measured in ticks.
+	 */
+	public static final int AI_FOLLOW_CLOEST_PLAYER_UPDATE_FREQUENCY = 10;
+	
+	/**
 	 * Minimum range for close quarters attacks in {@linkplain CompanionAttack}.
 	 * Measured in blocks.
 	 */
