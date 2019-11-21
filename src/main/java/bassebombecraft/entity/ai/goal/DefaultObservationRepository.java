@@ -21,7 +21,7 @@ public class DefaultObservationRepository implements ObservationRepository {
 	 */
 	LivingEntity entity;
 
-	Queue<Observation> observations = new ArrayBlockingQueue<Observation>(LIMIT);
+	Queue<Observation> observations = new ArrayBlockingQueue<>(LIMIT);
 	
 	/**
 	 * DefaultObservationRepository constructor.
@@ -67,7 +67,7 @@ public class DefaultObservationRepository implements ObservationRepository {
 	 * 
 	 * @return repository.
 	 */
-	static public ObservationRepository getInstance(LivingEntity entity) {
+	public static ObservationRepository getInstance(LivingEntity entity) {
 		return new DefaultObservationRepository(entity);
 	}
 }
