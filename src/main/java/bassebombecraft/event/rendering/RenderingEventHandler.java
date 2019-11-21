@@ -5,7 +5,7 @@ import static bassebombecraft.ModConstants.TARGETING_OVERLAY_ITEM;
 import static bassebombecraft.ModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.VERSION;
-import static bassebombecraft.entity.EntityUtils.getAliveTarget;
+import static bassebombecraft.entity.EntityUtils.getTarget;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 import static bassebombecraft.player.PlayerUtils.getPlayer;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
@@ -254,7 +254,7 @@ public class RenderingEventHandler {
 				return;
 
 			int disp = 2 + counter;
-			Optional<LivingEntity> optTarget = Optional.ofNullable(getAliveTarget(m));
+			Optional<LivingEntity> optTarget = Optional.ofNullable(getTarget(m));
 			String memberName = m.getName().getUnformattedComponentText();
 			String targetName = optTarget.map(t -> t.getName().getUnformattedComponentText()).orElse("N/A");
 			String text = "Member: " + memberName + ", Target: " + targetName;
@@ -299,7 +299,7 @@ public class RenderingEventHandler {
 		Vec3d entityPos = entity.getBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);
 		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
-
+		
 		// render target
 		renderTarget(entity, playerPos);
 	}
@@ -307,7 +307,7 @@ public class RenderingEventHandler {
 	static void renderTarget(LivingEntity entity, Vec3d playerPos) {
 		if (!EntityUtils.hasAliveTarget(entity))
 			return;
-		LivingEntity target = getAliveTarget(entity);
+		LivingEntity target = getTarget(entity);
 		renderTargetedEntity(entity, target, playerPos);
 	}
 

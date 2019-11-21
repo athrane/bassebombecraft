@@ -36,6 +36,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -125,7 +126,7 @@ public class GeometryUtils {
 
 			// add block state to rotated directive
 			BlockState sourceState = sourceDirective.getState();
-			BlockState rotatedState = rotateBlockStateWithFacingProperty(sourceState, angle);			
+			BlockState rotatedState = rotateBlockStateWithFacingProperty(sourceState, angle);
 			rotatedDirective.setState(rotatedState);
 			result.add(rotatedDirective);
 		}
@@ -514,6 +515,33 @@ public class GeometryUtils {
 		default:
 			return RED_TULIP;
 		}
+	}
+
+	/**
+	 * Calculate the squared distance between two block positions.
+	 * 
+	 * @param pos1 first position
+	 * @param pos2 second position.
+	 * 
+	 * @return the squared distance between two block positions
+	 */
+	public static double calculateDistanceSq(BlockPos pos1, BlockPos pos2) {
+		double d0 = pos1.getX() - pos2.getX();
+		double d1 = pos1.getY() - pos2.getY();
+		double d2 = pos1.getZ() - pos2.getZ();
+		return d0 * d0 + d1 * d1 + d2 * d2;
+	}
+
+	/**
+	 * Calculate the distance between two block positions.
+	 * 
+	 * @param pos1 first position
+	 * @param pos2 second position.
+	 * 
+	 * @return the distance between two block positions
+	 */
+	public static double calculateDistance(BlockPos pos1, BlockPos pos2) {
+		return MathHelper.sqrt(calculateDistanceSq(pos1, pos2));
 	}
 
 }

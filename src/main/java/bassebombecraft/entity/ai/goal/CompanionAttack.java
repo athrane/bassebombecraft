@@ -2,14 +2,19 @@ package bassebombecraft.entity.ai.goal;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.AI_COMPANION_ATTACK_UPDATE_FREQUENCY;
-import static bassebombecraft.entity.EntityUtils.getAliveTarget;
-import static bassebombecraft.entity.EntityUtils.hasAliveTarget;
+import static bassebombecraft.entity.EntityUtils.getNullableTarget;
+import static bassebombecraft.entity.EntityUtils.getTarget;
+import static bassebombecraft.entity.EntityUtils.hasTarget;
+import static bassebombecraft.entity.ai.goal.DefaultObservationRepository.getInstance;
+import static java.util.Optional.ofNullable;
 import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Stream;
 
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.item.action.GenericShootEggProjectile;
@@ -49,6 +54,9 @@ import net.minecraft.pathfinding.PathNavigator;
  * 
  * The goal will attack the targeted mob using the abilities implemented in the
  * BassBombeCraft mod.
+ * 
+ * This goal isn't a targeting goal, it is an attack goal (if a target is
+ * defined).
  */
 public class CompanionAttack extends Goal {
 
@@ -72,19 +80,9 @@ public class CompanionAttack extends Goal {
 	final static boolean ISNT_PRIMED = false;
 
 	/**
-	 * Attack target.
-	 */
-	LivingEntity attackTarget;
-
-	/**
 	 * Entity movement speed.
 	 */
 	double entityMoveSpeed = 1.0D;
-
-	/**
-	 * Distance to target.
-	 */
-	double targetDistance;
 
 	/**
 	 * List of long range actions.
@@ -107,9 +105,14 @@ public class CompanionAttack extends Goal {
 	MobEntity entity;
 
 	/**
-	 * Target facts.
+	 * Facts about a combat situation.
 	 */
-	TargetFacts targetFacts;
+	SituationalFacts targetFacts = DefaultFacts.getInstance();
+
+	/**
+	 * Observation repository for observing combat.
+	 */
+	ObservationRepository observationRepository;
 
 	/**
 	 * CompanionAttack constructor.
@@ -119,8 +122,12 @@ public class CompanionAttack extends Goal {
 	public CompanionAttack(MobEntity entity) {
 		this.entity = entity;
 
-		// "interactive" AI
+		// set "interactive" AI
 		setMutexFlags(EnumSet.of(LOOK));
+
+		// create observation repository
+		observationRepository = getInstance(entity);
+
 	}
 
 	/**
@@ -130,40 +137,30 @@ public class CompanionAttack extends Goal {
 	 * @param commander entity which commands entity.
 	 */
 	public CompanionAttack(MobEntity entity, PlayerEntity commander) {
+		this(entity);
 		this.commander = commander;
-		this.entity = entity;
 	}
 
 	@Override
 	public boolean shouldExecute() {
 
-		// exit if no living target is defined
-		if (!hasAliveTarget(entity)) {
+		// stop goal execution if no target is defined
+		if (!hasTarget(entity)) {
 			return false;
 		}
 
-		// get candidate
-		LivingEntity targetCandidate = getAliveTarget(entity);
+		// get target
+		Optional<LivingEntity> optTarget = getNullableTarget(entity);
 
-		// set target
-		attackTarget = targetCandidate;
+		// target is defined, observe situation
+		observeAndupdateFacts(optTarget.get());
 
-		return true;
-	}
-
-	@Override
-	public void startExecuting() {
-
-		// create target facts object
-		targetFacts = new TargetFacts(entity, attackTarget);
+		// continue goal execution if target is alive
+		return (optTarget.get().isAlive());
 	}
 
 	@Override
 	public void tick() {
-		
-		// declare AI action 
-		String action = "";
-
 		try {
 
 			// exit if frequency isn't active
@@ -171,28 +168,29 @@ public class CompanionAttack extends Goal {
 			if (!repository.isActive(AI_COMPANION_ATTACK_UPDATE_FREQUENCY))
 				return;
 
-			lookAtTarget();
+			// get target
+			Optional<LivingEntity> optTarget = ofNullable(getTarget(entity));
 
-			// observe target
-			targetFacts.observe();
+			// exit if target isn't defined (anymore)
+			if (!optTarget.isPresent())
+				return;
+
+			// look at target
+			lookAtTarget(optTarget.get());
 
 			// navigate to target if entity isn't at minimum range
 			PathNavigator navigator = entity.getNavigator();
 			if (targetFacts.isTargetClose()) {
 				navigator.clearPath();
 			} else {
-				entity.getNavigator().tryMoveToEntityLiving(attackTarget, entityMoveSpeed);
+				entity.getNavigator().tryMoveToEntityLiving(optTarget.get(), entityMoveSpeed);
 			}
-
-			doAiObservation("Before-attack");
 
 			// select behaviour type based on distance
 			if (targetFacts.isTargetClose())
-				action = selectAction(closeRangeActions);
+				selectAction(closeRangeActions);
 			else
-				action = selectAction(longRangeActions);
-
-			doAiObservation("After-attack, ac="+action);
+				selectAction(longRangeActions);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -200,23 +198,33 @@ public class CompanionAttack extends Goal {
 	}
 
 	@Override
-	public boolean shouldContinueExecuting() {
-		return shouldExecute() || !entity.getNavigator().noPath();
-	}
-
-	@Override
 	public void resetTask() {
-		attackTarget = null;
-		targetFacts = null;
+		observationRepository.clear();
 	}
 
 	/**
+	 * Process the situation.
 	 * 
-	 * @param observation
+	 * @param livingEntity target to observe.
 	 */
-	void doAiObservation(String observation) {
-		String id = targetFacts.getCurrentObservationAsString(observation);
-		getBassebombeCraft().getLogger().debug(id);
+	void observeAndupdateFacts(LivingEntity target) {
+
+		// observe
+		Observation observation = observationRepository.observe(target);
+		// getBassebombeCraft().getLogger().debug(observation.getObservationAsString());
+
+		// exit if not enough observations are registered
+		if (observationRepository.isTooFewObservationsRegistered())
+			return;
+
+		// get observations
+		Stream<Observation> observations = observationRepository.get();
+
+		// create facts
+		targetFacts.update(observations);
+
+		// log
+		// getBassebombeCraft().getLogger().debug(targetFacts.getFactsAsString());
 		// getProxy().postAiObservation("Attack", observation);
 	}
 
@@ -266,11 +274,12 @@ public class CompanionAttack extends Goal {
 
 	/**
 	 * Look at target.
+	 * 
+	 * @param target target to look at.
 	 */
-	void lookAtTarget() {
-		// look at target
+	void lookAtTarget(LivingEntity target) {
 		LookController lookController = entity.getLookController();
-		lookController.setLookPositionWithEntity(attackTarget, 10.0F, (float) entity.getVerticalFaceSpeed());
+		lookController.setLookPositionWithEntity(target, 10.0F, (float) entity.getVerticalFaceSpeed());
 	}
 
 	/**
