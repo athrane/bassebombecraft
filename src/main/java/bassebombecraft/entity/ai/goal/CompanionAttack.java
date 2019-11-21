@@ -152,12 +152,12 @@ public class CompanionAttack extends Goal {
 		// get target
 		Optional<LivingEntity> optTarget = getNullableTarget(entity);
 
-		// target is defined, observe situation
-		observeAndupdateFacts(optTarget.get());
-
 		// exit if target isn't defined (anymore)
 		if (!optTarget.isPresent())
 			return false;
+		
+		// target is defined, observe situation
+		observeAndupdateFacts(optTarget.get());
 
 		// continue goal execution if target is alive
 		return (optTarget.get().isAlive());
