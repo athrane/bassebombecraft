@@ -10,9 +10,8 @@ import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 import static bassebombecraft.player.PlayerUtils.getPlayer;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
+import static bassebombecraft.rendering.DefaultRenderingInfo.getInstance;
 import static bassebombecraft.rendering.RenderingUtils.renderHudTextBillboard;
-import static bassebombecraft.rendering.RenderingUtils.renderLineBillboard;
-import static bassebombecraft.rendering.RenderingUtils.renderRectangleBillboard;
 import static bassebombecraft.rendering.RenderingUtils.renderTextBillboard;
 import static bassebombecraft.rendering.RenderingUtils.renderTextBillboardV2;
 import static bassebombecraft.rendering.RenderingUtils.renderTriangleBillboard;
@@ -24,13 +23,17 @@ import java.util.stream.Stream;
 
 import javax.vecmath.Vector4f;
 
-import bassebombecraft.entity.EntityUtils;
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.charm.CharmedMob;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
+import bassebombecraft.rendering.DefaultTargetsRenderer;
+import bassebombecraft.rendering.DefaultTeamRenderer;
+import bassebombecraft.rendering.EntityRenderer;
+import bassebombecraft.rendering.Renderer;
+import bassebombecraft.rendering.RenderingInfo;
 import bassebombecraft.rendering.RenderingUtils;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
@@ -85,11 +88,6 @@ public class RenderingEventHandler {
 	static final String TEAM_LABEL = "Team";
 
 	/**
-	 * Team target label.
-	 */
-	static final String TARGET_LABEL = "Target";
-
-	/**
 	 * Angle for rotation of billboard for triangle for rendering team members and
 	 * charmed entities.
 	 */
@@ -101,6 +99,22 @@ public class RenderingEventHandler {
 	 */
 	static final Vector4f TEAM_N_CHARMED_BILLBOARD_ROTATION = new Vector4f(0.0F, 0.0F, 1.0F,
 			TEAM_N_CHARMED_BILLBOARD_ANGLE);
+
+	/**
+	 * Renderer for rendering targets in the HUD Item.
+	 */
+	final static Renderer targetsRenderer = new DefaultTargetsRenderer();
+
+	/**
+	 * Renderer for rendering team in the HUD Item.
+	 */
+	final static EntityRenderer teamRenderer = new DefaultTeamRenderer();
+
+	/**
+	 * Renderer for rendering bounding box of a player in the HUD Item.
+	 */
+	// final static EntityRenderer playerBoundingBoxRenderer = new
+	// DefaultPlayerBoundingBoxEntityRenderer();
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
@@ -157,11 +171,13 @@ public class RenderingEventHandler {
 		final Entity rve = mc.getRenderViewEntity();
 		Vec3d rve2 = new Vec3d(rve.rotationPitch, rve.rotationYaw, 0);
 		fontRenderer.drawString("Render view entity: " + rve2, x, y + 60, TEXT_COLOR);
+
+		fontRenderer.drawString("Partial ticks: " + event.getPartialTicks(), x, y + 70, TEXT_COLOR);
 	}
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
-	public static void handleRenderWolrdLastEvent(RenderWorldLastEvent event) {
+	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
 
 		// exit if player is undefined
 		if (!isPlayerDefined())
@@ -178,10 +194,16 @@ public class RenderingEventHandler {
 		Vec3d playerPos = CalculatePlayerPosition(player, event.getPartialTicks());
 
 		try {
+			// create rendering info
+			RenderingInfo info = getInstance(event.getPartialTicks());
+
 			// render
-			renderCharmedEntities(player, playerPos);
-			renderTeamEntities(player, playerPos);
-			renderTargetedEntities(player, playerPos);
+			// boundingBoxRenderer.render(player, info);
+
+			// renderCharmedEntities(player, playerPos);
+			teamRenderer.render(player, info);
+
+			// targetsRenderer.render(player, playerPos);
 			Vec3d renderPos = RenderingUtils.getRenderPos();
 			Vec3d translation = playerPos.subtract(renderPos);
 			renderCompass(translation);
@@ -199,7 +221,7 @@ public class RenderingEventHandler {
 		TargetedEntitiesRepository targetRepository = getBassebombeCraft().getTargetedEntitiesRepository();
 		Stream<LivingEntity> targets = targetRepository.get(player);
 
-		Vec3d textTranslation = new Vec3d(-8, 4, 4);
+		Vec3d textTranslation = new Vec3d(-4, 4, 4);
 		renderHudTextBillboard(translation, textTranslation, "TARGETS");
 
 		// create counter to use inside loop
@@ -222,7 +244,7 @@ public class RenderingEventHandler {
 
 	static void renderCharmedInfo(Vec3d translation) {
 		// Render HUD charmed info
-		Vec3d textTranslation = new Vec3d(8, 0, 4);
+		Vec3d textTranslation = new Vec3d(4, 0, 4);
 		renderHudTextBillboard(translation, textTranslation, "CHARMED");
 		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 1, 0), "Numbers: ");
 		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 2, 0), "Timeout #1: ");
@@ -236,7 +258,7 @@ public class RenderingEventHandler {
 		MobCommanderRepository commanderRepository = getBassebombeCraft().getMobCommanderRepository();
 		MobCommand command = commanderRepository.getCommand(player);
 
-		Vec3d textTranslation = new Vec3d(8, 4, 4);
+		Vec3d textTranslation = new Vec3d(4, 4, 4);
 		renderHudTextBillboard(translation, textTranslation, "TEAM");
 		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 1, 0),
 				"Command: " + command.getTitle());
@@ -281,56 +303,12 @@ public class RenderingEventHandler {
 		Vec3d entityPos = entity.getBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);
 		renderTextBillboard(playerPos, entityPos, CHARMED_LABEL, TEXT_BILLBOARD_ROTATION);
-
-		// render target
-		renderTarget(entity, playerPos);
-	}
-
-	static void renderTeamEntities(PlayerEntity player, Vec3d playerPos) {
-		TeamRepository repository = getBassebombeCraft().getTeamRepository();
-		Collection<LivingEntity> entities = repository.get(player);
-		synchronized (entities) {
-			for (LivingEntity entity : entities)
-				renderTeamEntity(player, entity, playerPos);
-		}
 	}
 
 	static void renderTeamEntity(PlayerEntity player, LivingEntity entity, Vec3d playerPos) {
 		Vec3d entityPos = entity.getBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);
 		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
-		
-		// render target
-		renderTarget(entity, playerPos);
-	}
-
-	static void renderTarget(LivingEntity entity, Vec3d playerPos) {
-		if (!EntityUtils.hasAliveTarget(entity))
-			return;
-		LivingEntity target = getTarget(entity);
-		renderTargetedEntity(entity, target, playerPos);
-	}
-
-	static void renderTargetedEntities(PlayerEntity player, Vec3d playerPos) {
-		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
-
-		// get entities
-		Stream<LivingEntity> members = repository.get(player);
-		members.forEach(e -> renderTargetedEntity(e, playerPos));
-	}
-
-	static void renderTargetedEntity(LivingEntity target, Vec3d playerPos) {
-		Vec3d targetPos = target.getBoundingBox().getCenter();
-		renderRectangleBillboard(playerPos, targetPos);
-		renderTextBillboard(playerPos, targetPos, TARGET_LABEL, TEXT_BILLBOARD_ROTATION);
-	}
-
-	static void renderTargetedEntity(LivingEntity entity, LivingEntity target, Vec3d playerPos) {
-		Vec3d entityPos = entity.getBoundingBox().getCenter();
-		Vec3d targetPos = target.getBoundingBox().getCenter();
-		renderRectangleBillboard(playerPos, targetPos);
-		renderTextBillboard(playerPos, targetPos, TARGET_LABEL, TEXT_BILLBOARD_ROTATION);
-		renderLineBillboard(playerPos, entityPos, targetPos);
 	}
 
 	/**
