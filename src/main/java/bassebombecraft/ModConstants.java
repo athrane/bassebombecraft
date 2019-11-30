@@ -298,7 +298,7 @@ public class ModConstants {
 	/**
 	 * Rendering: Text scale
 	 */
-	public static final float TEXT_SCALE = 0.03F;
+	public static final float TEXT_SCALE = 0.02F;
 
 	/**
 	 * Rendering: Text color.
@@ -442,5 +442,10 @@ public class ModConstants {
 	 * Range value for non-AOE effect in {@linkplain InventoryItemActionStrategy} implmentation.
 	 */
 	public static final int NOT_AN_AOE_EFFECT = 1;
+
+	/**
+	 * Team target label.
+	 */
+	public static final String TARGET_LABEL = "Target";
 	
 }
