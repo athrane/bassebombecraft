@@ -12,9 +12,7 @@ import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
 import static bassebombecraft.rendering.DefaultRenderingInfo.getInstance;
 import static bassebombecraft.rendering.RenderingUtils.renderHudTextBillboard;
-import static bassebombecraft.rendering.RenderingUtils.renderTextBillboard;
 import static bassebombecraft.rendering.RenderingUtils.renderTextBillboardV2;
-import static bassebombecraft.rendering.RenderingUtils.renderTriangleBillboard;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -25,10 +23,9 @@ import javax.vecmath.Vector4f;
 
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository;
-import bassebombecraft.event.charm.CharmedMob;
-import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
+import bassebombecraft.rendering.DefaultCharmedRenderer;
 import bassebombecraft.rendering.DefaultTargetsRenderer;
 import bassebombecraft.rendering.DefaultTeamRenderer;
 import bassebombecraft.rendering.EntityRenderer;
@@ -111,10 +108,9 @@ public class RenderingEventHandler {
 	final static EntityRenderer teamRenderer = new DefaultTeamRenderer();
 
 	/**
-	 * Renderer for rendering bounding box of a player in the HUD Item.
+	 * Renderer for rendering charmed mobs in the HUD Item.
 	 */
-	// final static EntityRenderer playerBoundingBoxRenderer = new
-	// DefaultPlayerBoundingBoxEntityRenderer();
+	final static EntityRenderer charmedRenderer = new DefaultCharmedRenderer();
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
@@ -198,10 +194,8 @@ public class RenderingEventHandler {
 			RenderingInfo info = getInstance(event.getPartialTicks());
 
 			// render
-			// boundingBoxRenderer.render(player, info);
-
-			// renderCharmedEntities(player, playerPos);
 			teamRenderer.render(player, info);
+			charmedRenderer.render(player, info);
 
 			// targetsRenderer.render(player, playerPos);
 			Vec3d renderPos = RenderingUtils.getRenderPos();
@@ -288,27 +282,6 @@ public class RenderingEventHandler {
 	static void renderHudVersionInfo(Vec3d translation) {
 		renderTextBillboardV2(translation.add(5, 5, 0), "HUD // BasseBombeCraft, version " + VERSION,
 				TEXT_BILLBOARD_ROTATION);
-	}
-
-	static void renderCharmedEntities(PlayerEntity player, Vec3d playerPos) {
-		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
-		Collection<CharmedMob> entities = repository.get();
-		synchronized (entities) {
-			for (CharmedMob entity : entities)
-				renderTeamEntity(player, entity.getEntity(), playerPos);
-		}
-	}
-
-	static void renderCharmedEntity(LivingEntity entity, Vec3d playerPos) {
-		Vec3d entityPos = entity.getBoundingBox().getCenter();
-		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);
-		renderTextBillboard(playerPos, entityPos, CHARMED_LABEL, TEXT_BILLBOARD_ROTATION);
-	}
-
-	static void renderTeamEntity(PlayerEntity player, LivingEntity entity, Vec3d playerPos) {
-		Vec3d entityPos = entity.getBoundingBox().getCenter();
-		renderTriangleBillboard(playerPos, entityPos, TEAM_N_CHARMED_BILLBOARD_ROTATION);
-		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
 	}
 
 	/**

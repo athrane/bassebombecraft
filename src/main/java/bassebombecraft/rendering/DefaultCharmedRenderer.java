@@ -10,7 +10,8 @@ import java.util.Collection;
 
 import javax.vecmath.Vector4f;
 
-import bassebombecraft.event.entity.team.TeamRepository;
+import bassebombecraft.event.charm.CharmedMob;
+import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.player.PlayerUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,22 +21,22 @@ import net.minecraft.util.math.Vec3d;
  * Implementation of the {@linkplain Renderer} for rendering targeted entities
  * in the HUD item.
  */
-public class DefaultTeamRenderer implements EntityRenderer {
+public class DefaultCharmedRenderer implements EntityRenderer {
 
 	/**
-	 * Angle for rotation of billboard for triangle for rendering team members.
+	 * Angle for rotation of billboard for triangle for rendering charmed entities.
 	 */
 	static final int BILLBOARD_ANGLE = 0;
 
 	/**
-	 * Rotation of billboard for triangle for rendering team members.
+	 * Rotation of billboard for triangle for rendering charmed entities.
 	 */
 	static final Vector4f BILLBOARD_ROTATION = new Vector4f(0.0F, 0.0F, 1.0F, BILLBOARD_ANGLE);
 
 	/**
-	 * Team label.
+	 * Charmed label.
 	 */
-	static final String TEAM_LABEL = "Team";
+	static final String CHARMED_LABEL = "Charmed";
 
 	/**
 	 * Renderer for rendering bounding box of an entity in the HUD Item.
@@ -60,28 +61,29 @@ public class DefaultTeamRenderer implements EntityRenderer {
 		// get player position
 		Vec3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
 
-		// get team members
-		TeamRepository repository = getBassebombeCraft().getTeamRepository();
-		Collection<LivingEntity> entities = repository.get(player);
+		// get charmed entities
+		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
+		Collection<CharmedMob> entities = repository.get();
 
-		// loop over team members
+		// loop over charmed mob
 		synchronized (entities) {
-			for (LivingEntity teamEntity : entities)
-				renderTeamEntity(teamEntity, playerPos, info);
+			for (CharmedMob charmedMob : entities)
+				renderTeamEntity(charmedMob, playerPos, info);
 		}
 	}
 
 	/**
-	 * Render team member.
+	 * Render charmed mob.
 	 * 
-	 * @param entity    team member entity
+	 * @param entity    charmed mob.
 	 * @param playerPos player position
 	 * @param info      rendering info.
 	 */
-	void renderTeamEntity(LivingEntity entity, Vec3d playerPos, RenderingInfo info) {
+	void renderTeamEntity(CharmedMob charmedMob, Vec3d playerPos, RenderingInfo info) {
+		LivingEntity entity = charmedMob.getEntity();
 		Vec3d entityPos = entity.getBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, BILLBOARD_ROTATION);
-		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
+		renderTextBillboard(playerPos, entityPos, CHARMED_LABEL, TEXT_BILLBOARD_ROTATION);
 		boundingBoxRenderer.render(entity, info);
 		targetRenderer.render(entity, info);
 	}
