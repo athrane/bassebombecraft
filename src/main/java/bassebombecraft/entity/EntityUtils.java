@@ -5,8 +5,6 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import java.util.Optional;
 import java.util.Random;
 
-import bassebombecraft.entity.ai.goal.CompanionAttack;
-import bassebombecraft.event.rendering.RenderingEventHandler;
 import bassebombecraft.player.PlayerDirection;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
@@ -210,9 +208,7 @@ public class EntityUtils {
 	}
 
 	/**
-	 * Return a (hopefully) live target. Use for targeting by the AI task
-	 * {@linkplain CompanionAttack} and the target rendering in
-	 * {@linkplain RenderingEventHandler}.
+	 * Return a (hopefully) live target.
 	 * 
 	 * @param entity to get live target from.
 	 * 

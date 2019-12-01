@@ -41,7 +41,7 @@ public class DefaultTargetEntityRenderer implements EntityRenderer {
 		LivingEntity target = getTarget(entity);
 
 		// render bounding box
-		//boundingBoxRenderer.render(target, info);
+		// boundingBoxRenderer.render(target, info);
 
 		// get player
 		PlayerEntity player = getPlayer();

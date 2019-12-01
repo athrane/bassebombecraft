@@ -447,5 +447,15 @@ public class ModConstants {
 	 * Team target label.
 	 */
 	public static final String TARGET_LABEL = "Target";
+
+	/**
+	 * HUD displacement of text.
+	 */
+	public static final double HUD_TEXT_DISP = 0.3;
+
+	/**
+	 * Number of targets to render in HUD Item.
+	 */
+	public static final int TEAM_MEMBERS_TO_RENDER = 7;
 	
 }

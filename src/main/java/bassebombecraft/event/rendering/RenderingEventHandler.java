@@ -5,7 +5,6 @@ import static bassebombecraft.ModConstants.TARGETING_OVERLAY_ITEM;
 import static bassebombecraft.ModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.VERSION;
-import static bassebombecraft.entity.EntityUtils.getTarget;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 import static bassebombecraft.player.PlayerUtils.getPlayer;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
@@ -14,19 +13,16 @@ import static bassebombecraft.rendering.DefaultRenderingInfo.getInstance;
 import static bassebombecraft.rendering.RenderingUtils.renderHudTextBillboard;
 import static bassebombecraft.rendering.RenderingUtils.renderTextBillboardV2;
 
-import java.util.Collection;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 import javax.vecmath.Vector4f;
 
-import bassebombecraft.entity.commander.MobCommand;
-import bassebombecraft.entity.commander.MobCommanderRepository;
+import bassebombecraft.ModConstants;
 import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
-import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.rendering.DefaultCharmedRenderer;
 import bassebombecraft.rendering.DefaultTargetsRenderer;
+import bassebombecraft.rendering.DefaultTeamInfoRenderer;
 import bassebombecraft.rendering.DefaultTeamRenderer;
 import bassebombecraft.rendering.EntityRenderer;
 import bassebombecraft.rendering.Renderer;
@@ -60,42 +56,9 @@ public class RenderingEventHandler {
 	static final int TARGETS_TO_RENDER = 7;
 
 	/**
-	 * Number of targets to render.
-	 */
-	static final int TEAM_MEMBERS_TO_RENDER = 7;
-
-	/**
-	 * HUD displacement of text.
-	 */
-	static final double HUD_TEXT_DISP = 0.3;
-
-	/**
 	 * Random constant to put text above the hotbar.
 	 */
 	static final int TEXT_RANDOM_Y_OFFSET = 31 + 4 + 12;
-
-	/**
-	 * Charmed label.
-	 */
-	static final String CHARMED_LABEL = "Charmed";
-
-	/**
-	 * Team label.
-	 */
-	static final String TEAM_LABEL = "Team";
-
-	/**
-	 * Angle for rotation of billboard for triangle for rendering team members and
-	 * charmed entities.
-	 */
-	static final int TEAM_N_CHARMED_BILLBOARD_ANGLE = 0;
-
-	/**
-	 * Rotation of billboard for triangle for rendering team members and charmed
-	 * entities.
-	 */
-	static final Vector4f TEAM_N_CHARMED_BILLBOARD_ROTATION = new Vector4f(0.0F, 0.0F, 1.0F,
-			TEAM_N_CHARMED_BILLBOARD_ANGLE);
 
 	/**
 	 * Renderer for rendering targets in the HUD Item.
@@ -106,6 +69,11 @@ public class RenderingEventHandler {
 	 * Renderer for rendering team in the HUD Item.
 	 */
 	final static EntityRenderer teamRenderer = new DefaultTeamRenderer();
+
+	/**
+	 * Renderer for rendering team info in the HUD Item.
+	 */
+	final static EntityRenderer teamInfoRenderer = new DefaultTeamInfoRenderer();
 
 	/**
 	 * Renderer for rendering charmed mobs in the HUD Item.
@@ -195,6 +163,7 @@ public class RenderingEventHandler {
 
 			// render
 			teamRenderer.render(player, info);
+			teamInfoRenderer.render(player, info);
 			charmedRenderer.render(player, info);
 
 			// targetsRenderer.render(player, playerPos);
@@ -202,7 +171,6 @@ public class RenderingEventHandler {
 			Vec3d translation = playerPos.subtract(renderPos);
 			renderCompass(translation);
 			renderHudVersionInfo(translation);
-			renderTeamInfo(player, translation);
 			renderTargetsInfo(player, translation);
 			renderCharmedInfo(translation);
 
@@ -232,7 +200,7 @@ public class RenderingEventHandler {
 			int disp = 0 + counter;
 			String targetName = m.getName().getUnformattedComponentText();
 			String text = "Target: " + targetName;
-			renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * disp, 0), text);
+			renderHudTextBillboard(translation, textTranslation.add(0, -ModConstants.HUD_TEXT_DISP * disp, 0), text);
 		});
 	}
 
@@ -240,43 +208,9 @@ public class RenderingEventHandler {
 		// Render HUD charmed info
 		Vec3d textTranslation = new Vec3d(4, 0, 4);
 		renderHudTextBillboard(translation, textTranslation, "CHARMED");
-		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 1, 0), "Numbers: ");
-		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 2, 0), "Timeout #1: ");
-		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 3, 0), "Timeout #2: ");
-	}
-
-	static void renderTeamInfo(PlayerEntity player, Vec3d translation) {
-		TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
-		Collection<LivingEntity> team = teamRepository.get(player);
-		int teamSize = teamRepository.size(player);
-		MobCommanderRepository commanderRepository = getBassebombeCraft().getMobCommanderRepository();
-		MobCommand command = commanderRepository.getCommand(player);
-
-		Vec3d textTranslation = new Vec3d(4, 4, 4);
-		renderHudTextBillboard(translation, textTranslation, "TEAM");
-		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 1, 0),
-				"Command: " + command.getTitle());
-		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 2, 0), "Size: " + teamSize);
-
-		// create counter to use inside loop
-		final AtomicInteger count = new AtomicInteger();
-
-		// render members
-		team.forEach(m -> {
-			int counter = count.incrementAndGet();
-
-			// exit if enough members has been rendered
-			if (counter > TEAM_MEMBERS_TO_RENDER)
-				return;
-
-			int disp = 2 + counter;
-			Optional<LivingEntity> optTarget = Optional.ofNullable(getTarget(m));
-			String memberName = m.getName().getUnformattedComponentText();
-			String targetName = optTarget.map(t -> t.getName().getUnformattedComponentText()).orElse("N/A");
-			String text = "Member: " + memberName + ", Target: " + targetName;
-			renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * disp, 0), text);
-		});
-
+		renderHudTextBillboard(translation, textTranslation.add(0, -ModConstants.HUD_TEXT_DISP * 1, 0), "Numbers: ");
+		renderHudTextBillboard(translation, textTranslation.add(0, -ModConstants.HUD_TEXT_DISP * 2, 0), "Timeout #1: ");
+		renderHudTextBillboard(translation, textTranslation.add(0, -ModConstants.HUD_TEXT_DISP * 3, 0), "Timeout #2: ");
 	}
 
 	static void renderHudVersionInfo(Vec3d translation) {

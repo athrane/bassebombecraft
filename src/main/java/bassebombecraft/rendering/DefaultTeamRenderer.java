@@ -17,8 +17,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
 /**
- * Implementation of the {@linkplain Renderer} for rendering targeted entities
- * in the HUD item.
+ * Implementation of the {@linkplain Renderer} for rendering team entities in
+ * the HUD item.
  */
 public class DefaultTeamRenderer implements EntityRenderer {
 
