@@ -26,8 +26,8 @@ public class NullCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean continueExecuting(LivingEntity commander, CreatureEntity entity) {
-		return true;
+	public void tick(LivingEntity commander, CreatureEntity entity) {
+		// NO-OP 
 	}
 
 }

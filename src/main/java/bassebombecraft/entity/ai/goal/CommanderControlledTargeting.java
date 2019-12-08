@@ -56,25 +56,16 @@ public class CommanderControlledTargeting extends Goal {
 		return command.shouldExecute(commander, entity);
 	}
 
+	
 	@Override
-	public boolean shouldContinueExecuting() {
+	public void tick() {
 
 		// register player and get command
 		MobCommanderRepository repository = getBassebombeCraft().getMobCommanderRepository();
 		MobCommand command = repository.getCommand(commander);
 
-		// execute command
-		return command.continueExecuting(commander, entity);
-	}
-
-	@Override
-	public void startExecuting() {
-		// NO-OP
-	}
-
-	@Override
-	public void resetTask() {
-		// NO-OP
+		// execute
+		command.tick(commander, entity);
 	}
 
 }

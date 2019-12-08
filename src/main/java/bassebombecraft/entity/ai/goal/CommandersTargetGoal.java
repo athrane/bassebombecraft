@@ -20,7 +20,7 @@ import net.minecraft.potion.EffectInstance;
  * 
  * Entity self-destructs if commander has died and aggros everything.
  */
-public class AiCommandersTargeting extends Goal {
+public class CommandersTargetGoal extends Goal {
 
 	/**
 	 * Null/No target value to use when clearing the target.
@@ -43,7 +43,7 @@ public class AiCommandersTargeting extends Goal {
 	 * @param entity    commanded entity.
 	 * @param commander entity which commands entity.
 	 */
-	public AiCommandersTargeting(CreatureEntity entity, LivingEntity commander) {
+	public CommandersTargetGoal(CreatureEntity entity, LivingEntity commander) {
 		this.entity = entity;
 		this.commander = commander;
 

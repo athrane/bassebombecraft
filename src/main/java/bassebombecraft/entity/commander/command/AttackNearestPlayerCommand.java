@@ -82,18 +82,6 @@ public class AttackNearestPlayerCommand implements MobCommand {
 		// get target
 		PlayerEntity target = targetList.get(FIRST_INDEX);
 
-		// update target
-		entity.setAttackTarget(target);
-
-		return true;
-	}
-
-	@Override
-	public boolean continueExecuting(LivingEntity commander, CreatureEntity entity) {
-
-		// get target
-		LivingEntity target = entity.getAttackTarget();
-
 		// exit if target is undefined
 		if (target == null)
 			return false;
@@ -101,8 +89,16 @@ public class AttackNearestPlayerCommand implements MobCommand {
 		// exit if target is dead
 		if (!target.isAlive())
 			return false;
-
+		
+		// update target
+		entity.setAttackTarget(target);
+		
 		return true;
+	}
+
+	@Override
+	public void tick(LivingEntity commander, CreatureEntity entity) {
+		// NO-OP
 	}
 
 }

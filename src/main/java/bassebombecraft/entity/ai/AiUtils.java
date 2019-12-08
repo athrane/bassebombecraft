@@ -15,6 +15,7 @@ import com.google.common.collect.Sets;
 
 import bassebombecraft.BassebombeCraft;
 import bassebombecraft.entity.EntityUtils;
+import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CommanderControlledTargeting;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.entity.ai.goal.FollowEntity;
@@ -282,7 +283,8 @@ public class AiUtils {
 		// set AI commander targeting if commander is a living entity
 		GoalSelector selector = entity.targetSelector;
 		selector.addGoal(0, new CommanderControlledTargeting(entity, commander));
-		selector.addGoal(1, new HurtByTargetGoal(entity));
+		selector.addGoal(1, new CommandersTargetGoal(entity, commander));		
+		selector.addGoal(2, new HurtByTargetGoal(entity));
 		return;
 	}
 

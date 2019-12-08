@@ -5,7 +5,7 @@ import static bassebombecraft.BassebombeCraft.getItemGroup;
 import javax.vecmath.Vector4f;
 
 import bassebombecraft.config.ModConfiguration;
-import bassebombecraft.entity.ai.goal.AiCommandersTargeting;
+import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
 import bassebombecraft.event.particle.ParticleRenderingEventHandler;
@@ -254,13 +254,13 @@ public class ModConstants {
 
 	/**
 	 * Aggro duration for AI Commanded team members during self destruct in
-	 * {@linkplain AiCommandersTargeting}.
+	 * {@linkplain CommandersTargetGoal}.
 	 */
 	public static final int AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_AGGRO = 1000;
 
 	/**
 	 * Fire duration for AI Commanded team members during self destruct in
-	 * {@linkplain AiCommandersTargeting}.
+	 * {@linkplain CommandersTargetGoal}.
 	 */
 	public static final int AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE = 1000;
 
