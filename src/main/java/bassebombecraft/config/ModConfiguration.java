@@ -65,6 +65,7 @@ import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.SmallFireballRingBook;
 import bassebombecraft.item.book.SpawnCreeperArmyBook;
+import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnKittenArmyBook;
 import bassebombecraft.item.book.SpawnSkeletonArmyBook;
 import bassebombecraft.item.book.TeleportBook;
@@ -244,6 +245,9 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.ConfigValue<String> spawnKittenArmyBookTooltip;
 	public static ForgeConfigSpec.IntValue spawnKittenArmyBookCooldown;
 
+	// SpawnGuardianBook	
+	public static ItemConfig spawnGuardianBook;
+	
 	// BuildTowerBook
 	public static ForgeConfigSpec.ConfigValue<String> buildTowerBookTooltip;
 	public static ForgeConfigSpec.IntValue buildTowerBookCooldown;
@@ -951,6 +955,10 @@ public class ModConfiguration {
 				.defineInRange("cooldown", 50, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		// SpawnGuardianBook
+		name = SpawnGuardianBook.ITEM_NAME;
+		spawnGuardianBook = getInstance(COMMON_BUILDER, name, "Right-click to spawns a friendly golem. The golem will follow and protect its creator, i.e. the player or whoever spawned him. The golem will use the magic from BasseBombeCraft for its protection duties. The guardian can be commanded by Krenko's Command Baton", 25);
+		
 		// BuildTowerBook
 		name = BuildTowerBook.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
