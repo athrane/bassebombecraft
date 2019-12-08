@@ -7,7 +7,6 @@ import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
 import java.util.List;
 import java.util.Random;
 
-import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
@@ -36,8 +35,8 @@ public class GenericEntityMist implements RightClickedItemAction {
 	static final int RENDERING_FREQUENCY = 5;
 
 	/**
-	 * Effect frequency when targeted mob are affect by most. Frequency is
-	 * measured in ticks.
+	 * Effect frequency when targeted mob are affect by most. Frequency is measured
+	 * in ticks.
 	 */
 	static final int EFFECT_UPDATE_FREQUENCY = 10; // Measured in ticks
 
@@ -50,7 +49,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 	 * Spiral size.
 	 */
 	static final int SPIRAL_SIZE = 20;
-	
+
 	/**
 	 * Random generator.
 	 */
@@ -65,7 +64,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 	 * Spiral coordinates.
 	 */
 	List<BlockPos> spiralCoordinates;
-	
+
 	/**
 	 * Mist position.
 	 */
@@ -94,14 +93,13 @@ public class GenericEntityMist implements RightClickedItemAction {
 	/**
 	 * GenericEntityMist constructor.
 	 * 
-	 * @param strategy
-	 *            mist strategy.
+	 * @param strategy mist strategy.
 	 */
 	public GenericEntityMist(EntityMistActionStrategy strategy) {
 		this.strategy = strategy;
-		
+
 		// calculate spiral
-		spiralCoordinates = GeometryUtils.calculateSpiral(SPIRAL_SIZE, SPIRAL_SIZE);		
+		spiralCoordinates = GeometryUtils.calculateSpiral(SPIRAL_SIZE, SPIRAL_SIZE);
 	}
 
 	@Override
@@ -115,18 +113,15 @@ public class GenericEntityMist implements RightClickedItemAction {
 	/**
 	 * Apply effect to creatures within range.
 	 * 
-	 * @param world
-	 *            world object
-	 * @param invokingEntity
-	 *            entity object
+	 * @param world          world object
+	 * @param invokingEntity entity object
 	 */
 	void applyEffect(World world, LivingEntity invokingEntity) {
 		int aoeRange = strategy.getEffectRange();
 
 		// get entities within AABB
-		AxisAlignedBB aabb = new AxisAlignedBB(mistPos.x - aoeRange, mistPos.y - aoeRange,
-				mistPos.z - aoeRange, mistPos.x + aoeRange, mistPos.y + aoeRange,
-				mistPos.z + aoeRange);
+		AxisAlignedBB aabb = new AxisAlignedBB(mistPos.x - aoeRange, mistPos.y - aoeRange, mistPos.z - aoeRange,
+				mistPos.x + aoeRange, mistPos.y + aoeRange, mistPos.z + aoeRange);
 		List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class, aabb);
 
 		for (LivingEntity foundEntity : entities) {
@@ -139,10 +134,6 @@ public class GenericEntityMist implements RightClickedItemAction {
 
 			// apply effect
 			strategy.applyEffectToEntity(foundEntity, mistPos, invokingEntity);
-			
-			// add entity as a targeted entity
-			TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
-			repository.add(foundEntity);			
 
 			// exit if strategy is one shot effect
 			if (strategy.isOneShootEffect()) {
@@ -193,10 +184,8 @@ public class GenericEntityMist implements RightClickedItemAction {
 	 * 
 	 * Mist is spawned 4 blocks away from the entity at eye height.
 	 * 
-	 * @param world
-	 *            world object.
-	 * @param entity
-	 *            entity object
+	 * @param world  world object.
+	 * @param entity entity object
 	 */
 
 	void calculateMistPostition(World world, LivingEntity entity) {
@@ -213,8 +202,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 	/**
 	 * Render mist in world.
 	 * 
-	 * @param world
-	 *            world object.
+	 * @param world world object.
 	 */
 	void render(World world) {
 
@@ -234,10 +222,10 @@ public class GenericEntityMist implements RightClickedItemAction {
 			ParticleRendering particle = getInstance(pos, info);
 			particleRepository.add(particle);
 		}
-		
+
 		// calculate spiral index
-		int spiralCounter = ( ticksCounter / RENDERING_FREQUENCY ) % SPIRAL_SIZE;
-		
+		int spiralCounter = (ticksCounter / RENDERING_FREQUENCY) % SPIRAL_SIZE;
+
 		// get next spiral coordinate
 		BlockPos spiralCoord = spiralCoordinates.get(spiralCounter);
 
@@ -249,7 +237,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 			ParticleRendering particle = getInstance(pos2, info);
 			particleRepository.add(particle);
 		}
-		
+
 	}
 
 	@Override

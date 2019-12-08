@@ -3,32 +3,28 @@ package bassebombecraft.rendering;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.HUD_TEXT_DISP;
 import static bassebombecraft.ModConstants.TEAM_MEMBERS_TO_RENDER;
-import static bassebombecraft.entity.EntityUtils.getTarget;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 import static bassebombecraft.rendering.RenderingUtils.renderHudTextBillboard;
 
-import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
-import bassebombecraft.entity.EntityUtils;
-import bassebombecraft.entity.commander.MobCommand;
-import bassebombecraft.entity.commander.MobCommanderRepository;
-import bassebombecraft.event.entity.team.TeamRepository;
+import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.player.PlayerUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 
 /**
- * Implementation of the {@linkplain Renderer} for rendering team information in
- * the HUD item.
+ * Implementation of the {@linkplain Renderer} for rendering target information
+ * in the HUD item.
  */
-public class DefaultTeamInfoRenderer implements EntityRenderer {
+public class DefaultTargetsInfoRenderer implements EntityRenderer {
 
 	/**
-	 * Team label.
+	 * Targets label.
 	 */
-	static final String TEAM_LABEL = "TEAM";
+	static final String TARGETS_LABEL = "TARGETS";
 
 	@Override
 	public void render(LivingEntity entity, RenderingInfo info) {
@@ -47,27 +43,27 @@ public class DefaultTeamInfoRenderer implements EntityRenderer {
 		Vec3d renderPos = RenderingUtils.getRenderPos();
 		Vec3d translation = playerPos.subtract(renderPos);
 
-		// get team
-		TeamRepository repository = getBassebombeCraft().getTeamRepository();
-		Collection<LivingEntity> team = repository.get(player);
-		int teamSize = repository.size(player);
+		// get targets
+		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
+		Stream<LivingEntity> targets = repository.get(player);
+		int targetsSize = repository.size(player);
 
-		// get current commander command
-		MobCommanderRepository commanderRepository = getBassebombeCraft().getMobCommanderRepository();
-		MobCommand command = commanderRepository.getCommand(player);
+		// get current commander target
+		String commanderTargetName = getCommanderTargetName(player);
 
 		// render basic info
-		Vec3d textTranslation = new Vec3d(5, 4, 4);
-		renderHudTextBillboard(translation, textTranslation, TEAM_LABEL );
+		Vec3d textTranslation = new Vec3d(-3, 4, 4);
+		renderHudTextBillboard(translation, textTranslation, TARGETS_LABEL);
 		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 1, 0),
-				"Commander command: " + command.getTitle());
-		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 2, 0), "Team size: " + teamSize);
+				"Commander target: " + commanderTargetName);
+		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 2, 0),
+				"Number targets: " + targetsSize);
 
 		// create counter to use inside loop
 		final AtomicInteger count = new AtomicInteger();
 
 		// render members
-		team.forEach(m -> {
+		targets.forEach(m -> {
 			int counter = count.incrementAndGet();
 
 			// exit if enough members has been rendered
@@ -75,29 +71,30 @@ public class DefaultTeamInfoRenderer implements EntityRenderer {
 				return;
 
 			int disp = 2 + counter;
-			String memberName = m.getName().getUnformattedComponentText();
-			String targetName = getTargetName(m);
-			String text = "Member: " + memberName + ", Target: " + targetName;
+			String targetName = m.getName().getUnformattedComponentText();
+			String text = "Target: " + targetName;
 			renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * disp, 0), text);
 		});
 
 	}
 
 	/**
-	 * Get target name.
+	 * Get commander target name.
 	 * 
-	 * @param entity entity to resolved target name from.
+	 * @param entity commander to resolved target name from.
 	 * 
-	 * @return target name.
+	 * @return commander target name.
 	 */
-	String getTargetName(LivingEntity entity) {
+	String getCommanderTargetName(PlayerEntity entity) {
+
+		// get commander target
+		LivingEntity target = entity.getLastAttackedEntity();
 
 		// exit if entity has no target
-		if (!EntityUtils.hasAliveTarget(entity))
+		if (target == null)
 			return "N/A";
 
 		// get live target info
-		LivingEntity target = getTarget(entity);
 		return target.getName().getUnformattedComponentText();
 	}
 

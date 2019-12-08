@@ -14,7 +14,7 @@ More gameplay information can be found on [CurseForge](https://www.curseforge.co
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=athrane_bassebombecraft&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=athrane_bassebombecraft)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=athrane_bassebombecraft&metric=ncloc)](https://sonarcloud.io/dashboard?id=athrane_bassebombecraft)
 
-# REview
+# Reviews
 
 # Repo branches
 The repository has several branches:

@@ -27,8 +27,19 @@ public interface TargetedEntitiesRepository {
 	/**
 	 * Get stream of targeted entities.
 	 * 
+	 * @param commander commander to get targeted entities for.
+	 * 
 	 * @return stream of targeted entities.
 	 */
 	public Stream<LivingEntity> get(PlayerEntity commander);
+
+	/**
+	 * Get number of targeted entities by commander.
+	 * 
+	 * @param commander commander to get number of targets for.
+	 * 
+	 * @return number of targeted entities by commander.
+	 */
+	public int size(PlayerEntity commander);
 
 }

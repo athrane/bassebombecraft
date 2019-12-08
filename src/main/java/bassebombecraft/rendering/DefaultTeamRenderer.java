@@ -1,7 +1,10 @@
 package bassebombecraft.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.HUD_TEXT_DISP;
 import static bassebombecraft.ModConstants.TEXT_BILLBOARD_ROTATION;
+import static bassebombecraft.entity.ai.AiUtils.getFirstRunningAiGoalName;
+import static bassebombecraft.entity.ai.AiUtils.getFirstRunningAiTargetGoalName;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 import static bassebombecraft.rendering.RenderingUtils.renderTextBillboard;
 import static bassebombecraft.rendering.RenderingUtils.renderTriangleBillboard;
@@ -38,14 +41,9 @@ public class DefaultTeamRenderer implements EntityRenderer {
 	static final String TEAM_LABEL = "Team";
 
 	/**
-	 * Renderer for rendering bounding box of an entity in the HUD Item.
-	 */
-	final static EntityRenderer boundingBoxRenderer = new DefaultBoundingBoxEntityRenderer();
-
-	/**
 	 * Renderer for rendering target of an entity in the HUD Item.
 	 */
-	final static EntityRenderer targetRenderer = new DefaultTargetEntityRenderer();
+	static final EntityRenderer targetRenderer = new DefaultTargetEntityRenderer();
 
 	@Override
 	public void render(LivingEntity entity, RenderingInfo info) {
@@ -79,10 +77,14 @@ public class DefaultTeamRenderer implements EntityRenderer {
 	 * @param info      rendering info.
 	 */
 	void renderTeamEntity(LivingEntity entity, Vec3d playerPos, RenderingInfo info) {
+
 		Vec3d entityPos = entity.getBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, BILLBOARD_ROTATION);
 		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
-		boundingBoxRenderer.render(entity, info);
+		entityPos = entityPos.add(0, -HUD_TEXT_DISP, 0);
+		renderTextBillboard(playerPos, entityPos, getFirstRunningAiGoalName(entity), TEXT_BILLBOARD_ROTATION);
+		entityPos = entityPos.add(0, -HUD_TEXT_DISP, 0);
+		renderTextBillboard(playerPos, entityPos, getFirstRunningAiTargetGoalName(entity), TEXT_BILLBOARD_ROTATION);
 		targetRenderer.render(entity, info);
 	}
 

@@ -10,29 +10,22 @@ import static bassebombecraft.player.PlayerUtils.getPlayer;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
 import static bassebombecraft.rendering.DefaultRenderingInfo.getInstance;
-import static bassebombecraft.rendering.RenderingUtils.renderHudTextBillboard;
 import static bassebombecraft.rendering.RenderingUtils.renderTextBillboardV2;
-
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Stream;
 
 import javax.vecmath.Vector4f;
 
-import bassebombecraft.ModConstants;
-import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
+import bassebombecraft.rendering.DefaultCharmedInfoRenderer;
 import bassebombecraft.rendering.DefaultCharmedRenderer;
-import bassebombecraft.rendering.DefaultTargetsRenderer;
+import bassebombecraft.rendering.DefaultTargetsInfoRenderer;
 import bassebombecraft.rendering.DefaultTeamInfoRenderer;
 import bassebombecraft.rendering.DefaultTeamRenderer;
 import bassebombecraft.rendering.EntityRenderer;
-import bassebombecraft.rendering.Renderer;
 import bassebombecraft.rendering.RenderingInfo;
 import bassebombecraft.rendering.RenderingUtils;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;
@@ -51,34 +44,34 @@ import net.minecraftforge.fml.common.Mod;
 public class RenderingEventHandler {
 
 	/**
-	 * Number of targets to render.
-	 */
-	static final int TARGETS_TO_RENDER = 7;
-
-	/**
 	 * Random constant to put text above the hotbar.
 	 */
 	static final int TEXT_RANDOM_Y_OFFSET = 31 + 4 + 12;
 
 	/**
-	 * Renderer for rendering targets in the HUD Item.
-	 */
-	final static Renderer targetsRenderer = new DefaultTargetsRenderer();
-
-	/**
 	 * Renderer for rendering team in the HUD Item.
 	 */
-	final static EntityRenderer teamRenderer = new DefaultTeamRenderer();
+	static final EntityRenderer teamRenderer = new DefaultTeamRenderer();
 
 	/**
 	 * Renderer for rendering team info in the HUD Item.
 	 */
-	final static EntityRenderer teamInfoRenderer = new DefaultTeamInfoRenderer();
+	static final EntityRenderer teamInfoRenderer = new DefaultTeamInfoRenderer();
 
 	/**
 	 * Renderer for rendering charmed mobs in the HUD Item.
 	 */
-	final static EntityRenderer charmedRenderer = new DefaultCharmedRenderer();
+	static final EntityRenderer charmedRenderer = new DefaultCharmedRenderer();
+
+	/**
+	 * Renderer for rendering charmed mobs information in the HUD Item.
+	 */
+	static final EntityRenderer charmedInfoRenderer = new DefaultCharmedInfoRenderer();
+
+	/**
+	 * Renderer for rendering targets information in the HUD Item.
+	 */
+	static final EntityRenderer targetsInfoRenderer = new DefaultTargetsInfoRenderer();
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
@@ -115,28 +108,20 @@ public class RenderingEventHandler {
 		Minecraft mc = Minecraft.getInstance();
 		FontRenderer fontRenderer = mc.fontRenderer;
 
-		String text = "Hello technical info!";
+		String text = "Player view info:";
 		MainWindow window = event.getWindow();
 		int x = (window.getScaledWidth() - fontRenderer.getStringWidth(text)) / 2;
-		int y = window.getScaledHeight() - TEXT_RANDOM_Y_OFFSET - 70;
+		int y = window.getScaledHeight() - TEXT_RANDOM_Y_OFFSET - 50;
 		fontRenderer.drawString(text, x, y, TEXT_COLOR);
-		fontRenderer.drawString("Position(PP): " + playerPos, x, y + 10, TEXT_COLOR);
+		fontRenderer.drawString("Position: " + playerPos, x, y + 10, TEXT_COLOR);
 		fontRenderer.drawString("Look: " + player.getLookVec(), x, y + 20, TEXT_COLOR);
 
 		Vec3d renderPos = RenderingUtils.getRenderPos();
-		fontRenderer.drawString("Render position(RP): " + renderPos, x, y + 30, TEXT_COLOR);
-
-		Vec3d translation = playerPos.subtract(renderPos);
-		fontRenderer.drawString("PP-RP: " + translation, x, y + 40, TEXT_COLOR);
-
-		Vec3d playerView = new Vec3d(mc.getRenderManager().playerViewX, mc.getRenderManager().playerViewY, 0);
-		fontRenderer.drawString("Plaver view: " + playerView, x, y + 50, TEXT_COLOR);
+		fontRenderer.drawString("Render position: " + renderPos, x, y + 30, TEXT_COLOR);
 
 		final Entity rve = mc.getRenderViewEntity();
 		Vec3d rve2 = new Vec3d(rve.rotationPitch, rve.rotationYaw, 0);
-		fontRenderer.drawString("Render view entity: " + rve2, x, y + 60, TEXT_COLOR);
-
-		fontRenderer.drawString("Partial ticks: " + event.getPartialTicks(), x, y + 70, TEXT_COLOR);
+		fontRenderer.drawString("Render view entity: " + rve2, x, y + 40, TEXT_COLOR);
 	}
 
 	@SubscribeEvent
@@ -165,52 +150,18 @@ public class RenderingEventHandler {
 			teamRenderer.render(player, info);
 			teamInfoRenderer.render(player, info);
 			charmedRenderer.render(player, info);
+			charmedInfoRenderer.render(player, info);
+			targetsInfoRenderer.render(player, info);
 
 			// targetsRenderer.render(player, playerPos);
 			Vec3d renderPos = RenderingUtils.getRenderPos();
 			Vec3d translation = playerPos.subtract(renderPos);
 			renderCompass(translation);
 			renderHudVersionInfo(translation);
-			renderTargetsInfo(player, translation);
-			renderCharmedInfo(translation);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
-	}
-
-	static void renderTargetsInfo(PlayerEntity player, Vec3d translation) {
-		TargetedEntitiesRepository targetRepository = getBassebombeCraft().getTargetedEntitiesRepository();
-		Stream<LivingEntity> targets = targetRepository.get(player);
-
-		Vec3d textTranslation = new Vec3d(-4, 4, 4);
-		renderHudTextBillboard(translation, textTranslation, "TARGETS");
-
-		// create counter to use inside loop
-		final AtomicInteger count = new AtomicInteger();
-
-		// render members
-		targets.forEach(m -> {
-			int counter = count.incrementAndGet();
-
-			// exit if enough members has been rendered
-			if (counter > TARGETS_TO_RENDER)
-				return;
-
-			int disp = 0 + counter;
-			String targetName = m.getName().getUnformattedComponentText();
-			String text = "Target: " + targetName;
-			renderHudTextBillboard(translation, textTranslation.add(0, -ModConstants.HUD_TEXT_DISP * disp, 0), text);
-		});
-	}
-
-	static void renderCharmedInfo(Vec3d translation) {
-		// Render HUD charmed info
-		Vec3d textTranslation = new Vec3d(4, 0, 4);
-		renderHudTextBillboard(translation, textTranslation, "CHARMED");
-		renderHudTextBillboard(translation, textTranslation.add(0, -ModConstants.HUD_TEXT_DISP * 1, 0), "Numbers: ");
-		renderHudTextBillboard(translation, textTranslation.add(0, -ModConstants.HUD_TEXT_DISP * 2, 0), "Timeout #1: ");
-		renderHudTextBillboard(translation, textTranslation.add(0, -ModConstants.HUD_TEXT_DISP * 3, 0), "Timeout #2: ");
 	}
 
 	static void renderHudVersionInfo(Vec3d translation) {

@@ -4,7 +4,9 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.collect.Sets;
 
 import bassebombecraft.BassebombeCraft;
+import bassebombecraft.entity.EntityUtils;
 import bassebombecraft.entity.ai.goal.CommanderControlledTargeting;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.entity.ai.goal.FollowEntity;
@@ -20,6 +23,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.CreeperSwellGoal;
 import net.minecraft.entity.ai.goal.FleeSunGoal;
+import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.GoalSelector;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.LeapAtTargetGoal;
@@ -282,4 +286,72 @@ public class AiUtils {
 		return;
 	}
 
+	/**
+	 * Get name of first running AI target goal.
+	 * 
+	 * @param entity to get target goal name from.
+	 * 
+	 * @return name of first target goal if entity is a {@linkplain MobEntity}.
+	 *         Otherwise "N/A" is returned as name.
+	 */
+	public static String getFirstRunningAiTargetGoalName(LivingEntity entity) {
+
+		// exit if entity isn't a mob entity
+		if (!EntityUtils.isTypeMobEntity(entity))
+			return "AI Target Goal: N/A";
+
+		// type cast
+		MobEntity mobEntity = (MobEntity) entity;
+
+		// get first target goal
+		Stream<PrioritizedGoal> targetGoals = mobEntity.targetSelector.getRunningGoals();
+		Optional<PrioritizedGoal> optFirstGoal = targetGoals.findFirst();
+
+		// return name if goal is defined
+		if (optFirstGoal.isPresent()) {
+			PrioritizedGoal goal = optFirstGoal.get();
+
+			// get embedded goal
+			Goal embbedGoal = goal.getGoal();
+
+			return "AI Target Goal: " + embbedGoal.getClass().getSimpleName();
+		}
+
+		return "AI Target Goal: N/A";
+	}
+
+	/**
+	 * Get name of running AI goal.
+	 * 
+	 * @param entity to get goal name from.
+	 * 
+	 * @return name of first goal if entity is a {@linkplain MobEntity}. Otherwise
+	 *         "N/A" is returned as name.
+	 */
+	public static String getFirstRunningAiGoalName(LivingEntity entity) {
+
+		// exit if entity isn't a mob entity
+		if (!EntityUtils.isTypeMobEntity(entity))
+			return "AI Goal: N/A";
+
+		// type cast
+		MobEntity mobEntity = (MobEntity) entity;
+
+		// get first target goal
+		Stream<PrioritizedGoal> targetGoals = mobEntity.goalSelector.getRunningGoals();
+		Optional<PrioritizedGoal> optFirstGoal = targetGoals.findFirst();
+
+		// return name if goal is defined
+		if (optFirstGoal.isPresent()) {
+			PrioritizedGoal goal = optFirstGoal.get();
+
+			// get embedded goal
+			Goal embbedGoal = goal.getGoal();
+
+			return "AI Goal: " + embbedGoal.getClass().getSimpleName();
+		}
+
+		return "AI Goal: N/A";
+	}
+	
 }

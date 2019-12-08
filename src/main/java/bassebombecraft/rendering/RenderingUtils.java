@@ -376,7 +376,7 @@ public class RenderingUtils {
 	 * 
 	 * This method supports rotation of the text relative to the player view
 	 * direction and independent of the camera (or) player orientation and
-	 * placement. *
+	 * placement. 
 	 * 
 	 * @param cameraTranslation camera translation vector.
 	 * @param text              text to render

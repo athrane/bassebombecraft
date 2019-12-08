@@ -316,6 +316,21 @@ public class ModConstants {
 	public static final Vector4f TEXT_BILLBOARD_ROTATION = new Vector4f(0.0F, 0.0F, 1.0F, TEXT_BILLBOARD_ANGLE);
 
 	/**
+	 * HUD item: Team target label.
+	 */
+	public static final String TARGET_LABEL = "Target";
+
+	/**
+	 * HUD item: displacement of text.
+	 */
+	public static final double HUD_TEXT_DISP = 0.25;
+
+	/**
+	 * HUD Item: Number of targets to render.
+	 */
+	public static final int TEAM_MEMBERS_TO_RENDER = 7;
+	
+	/**
 	 * Defines should be effect only.
 	 */
 	public static final boolean LIGHTNING_BOLT_NOT_EFFECT_ONLY = false;
@@ -442,20 +457,5 @@ public class ModConstants {
 	 * Range value for non-AOE effect in {@linkplain InventoryItemActionStrategy} implmentation.
 	 */
 	public static final int NOT_AN_AOE_EFFECT = 1;
-
-	/**
-	 * Team target label.
-	 */
-	public static final String TARGET_LABEL = "Target";
-
-	/**
-	 * HUD displacement of text.
-	 */
-	public static final double HUD_TEXT_DISP = 0.3;
-
-	/**
-	 * Number of targets to render in HUD Item.
-	 */
-	public static final int TEAM_MEMBERS_TO_RENDER = 7;
 	
 }

@@ -30,7 +30,7 @@ public class DefaultTargetEntityRenderer implements EntityRenderer {
 	/**
 	 * Renderer for rendering bounding box of an entity in the HUD Item.
 	 */
-	final static EntityRenderer boundingBoxRenderer = new DefaultBoundingBoxEntityRenderer();
+	static final EntityRenderer boundingBoxRenderer = new DefaultBoundingBoxEntityRenderer();
 
 	@Override
 	public void render(LivingEntity entity, RenderingInfo info) {
@@ -41,7 +41,7 @@ public class DefaultTargetEntityRenderer implements EntityRenderer {
 		LivingEntity target = getTarget(entity);
 
 		// render bounding box
-		// boundingBoxRenderer.render(target, info);
+		boundingBoxRenderer.render(target, info);
 
 		// get player
 		PlayerEntity player = getPlayer();

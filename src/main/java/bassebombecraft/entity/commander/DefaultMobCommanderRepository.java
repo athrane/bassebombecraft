@@ -26,7 +26,7 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 	 * Attack nearest player command.
 	 */
 	static final AttackNearestPlayerCommand ATTACK_NEAREST_PLAYER_COMMAND = new AttackNearestPlayerCommand();
-	
+
 	/**
 	 * Stop command.
 	 */
@@ -36,7 +36,7 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 	 * Attack commanders target command.
 	 */
 	static final AttackCommandersTargetCommand ATTACK_COMMANDERS_TARGET_COMMAND = new AttackCommandersTargetCommand();
-	
+
 	/**
 	 * Null mob command.
 	 */
@@ -55,8 +55,7 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 		/**
 		 * MobCommanderState constructor.
 		 * 
-		 * @param command
-		 *            initial command.
+		 * @param command initial command.
 		 */
 		public MobCommanderState(MobCommand command) {
 			this.command = command;
@@ -139,54 +138,54 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 		MobCommand command = state.getCommand();
 
 		internalCycleCommand(state, command);
-		
+
 		// update GUI
-		command = state.getCommand();		
-		
+		command = state.getCommand();
+
 		// if commander is player entity then send chat message
-		if(PlayerUtils.isTypePlayerEntity(entity)) {
-			
+		if (PlayerUtils.isTypePlayerEntity(entity)) {
+
 			// type cast
 			PlayerEntity player = (PlayerEntity) entity;
-						
+
 			// send message
-			sendChatMessageToPlayer(player, "Krenko commands: " + command.getTitle());			
+			sendChatMessageToPlayer(player, "Krenko commands: " + command.getTitle());
 		}
-		
+
 	}
 
 	void internalCycleCommand(MobCommanderState state, MobCommand command) {
 		switch (command.getType()) {
 
-			case NULL: {
-				state.setCommand(STOP_COMMAND);
-				return;
-			}
+		case NULL: {
+			state.setCommand(STOP_COMMAND);
+			return;
+		}
 
-			case STOP: {
-				state.setCommand(ATTACK_COMMANDERS_TARGET_COMMAND);
-				return;
-			}
-			
-			case COMMANDERS_TARGET: {
-				state.setCommand(ATTACK_NEAREST_MOB_COMMAND);
-				return;
-			}
+		case STOP: {
+			state.setCommand(ATTACK_COMMANDERS_TARGET_COMMAND);
+			return;
+		}
 
-			case NEAREST_MOB: {
-				state.setCommand(ATTACK_NEAREST_PLAYER_COMMAND);
-				return;
-			}
-	
-			case NEAREST_PLAYER: {
-				state.setCommand(NULL_COMMAND);
-				return;
-			}
-						
-			default: {
-				state.setCommand(NULL_COMMAND);
-				return;				
-			}
+		case COMMANDERS_TARGET: {
+			state.setCommand(ATTACK_NEAREST_MOB_COMMAND);
+			return;
+		}
+
+		case NEAREST_MOB: {
+			state.setCommand(ATTACK_NEAREST_PLAYER_COMMAND);
+			return;
+		}
+
+		case NEAREST_PLAYER: {
+			state.setCommand(NULL_COMMAND);
+			return;
+		}
+
+		default: {
+			state.setCommand(NULL_COMMAND);
+			return;
+		}
 		}
 	}
 

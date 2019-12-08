@@ -69,6 +69,10 @@ public class CharmedMob {
 		return (duration == 0);
 	}
 
+	public int getDuration( ) {
+		return duration;
+	}
+	
 	/**
 	 * CharmedMob factory method.
 	 * 
