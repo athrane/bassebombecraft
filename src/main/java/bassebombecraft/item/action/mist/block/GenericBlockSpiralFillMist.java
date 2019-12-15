@@ -7,6 +7,7 @@ import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
 
+import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
@@ -34,8 +35,8 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	static final int RENDERING_FREQUENCY = 5;
 
 	/**
-	 * Effect frequency when targeted mob are affect by most. Frequency is
-	 * measured in ticks.
+	 * Effect frequency when targeted mob are affect by most. Frequency is measured
+	 * in ticks.
 	 */
 	static final int EFFECT_UPDATE_FREQUENCY = 5;
 
@@ -102,8 +103,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	/**
 	 * GenericBlockMist constructor.
 	 * 
-	 * @param strategy
-	 *            mist strategy.
+	 * @param strategy mist strategy.
 	 */
 	public GenericBlockSpiralFillMist(BlockMistActionStrategy strategy) {
 		this.strategy = strategy;
@@ -128,15 +128,14 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 		if (!isActive())
 			return;
 
-		// render mist
-		if (ticksCounter % RENDERING_FREQUENCY == 0) {
+		// render mist if frequency is active
+		FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
+		if (repository.isActive(RENDERING_FREQUENCY))
 			render(worldIn);
-		}
 
-		// update game effect
-		if (ticksCounter % EFFECT_UPDATE_FREQUENCY == 0) {
+		// update effect if frequency is active
+		if (repository.isActive(EFFECT_UPDATE_FREQUENCY))
 			applyEffect(worldIn);
-		}
 
 		// disable if duration is completed
 		if (ticksCounter > strategy.getEffectDuration()) {
@@ -162,10 +161,8 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	 * 
 	 * Mist is calculated as a spiral.
 	 * 
-	 * @param world
-	 *            world object.
-	 * @param entity
-	 *            entity object
+	 * @param world  world object.
+	 * @param entity entity object
 	 */
 	void initializeMistPostition(World world, LivingEntity entity) {
 		spiralCounter = strategy.getSpiralOffset();
@@ -175,8 +172,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	/**
 	 * Apply effect to block.
 	 * 
-	 * @param world
-	 *            world object
+	 * @param world world object
 	 */
 	void applyEffect(World world) {
 		strategy.applyEffectToBlock(mistPosition, world);
@@ -185,8 +181,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	/**
 	 * Render mist in world.
 	 * 
-	 * @param world
-	 *            world object.
+	 * @param world world object.
 	 */
 	void render(World world) {
 		updateMistPosition(world);
@@ -202,8 +197,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	/**
 	 * Update mist positions.
 	 * 
-	 * @param world
-	 *            world object.
+	 * @param world world object.
 	 */
 	void updateMistPosition(World world) {
 

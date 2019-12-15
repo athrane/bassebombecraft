@@ -27,6 +27,8 @@ import bassebombecraft.event.block.temporary.DefaultTemporaryBlockRepository;
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.charm.DefaultCharmedMobsRepository;
+import bassebombecraft.event.duration.DefaultDurationRepository;
+import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.entity.target.DefaultTargetedEntitiesRepository;
 import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.event.entity.team.DefaultTeamRepository;
@@ -117,6 +119,11 @@ public class BassebombeCraft {
 	FrequencyRepository frequencyRepository;
 
 	/**
+	 * Duration repository.
+	 */
+	DurationRepository durationRepository;
+	
+	/**
 	 * Minecraft server.
 	 */
 	MinecraftServer server;
@@ -145,6 +152,9 @@ public class BassebombeCraft {
 			// initialise frequency repository
 			frequencyRepository = DefaultFrequencyRepository.getInstance();
 
+			// initialise duration repository
+			durationRepository = DefaultDurationRepository.getInstance();
+			
 			// Initialise charmed mobs repository
 			charmedMobsRepository = DefaultCharmedMobsRepository.getInstance();
 
@@ -291,6 +301,15 @@ public class BassebombeCraft {
 		return frequencyRepository;
 	}
 
+	/**
+	 * Get duration repository.
+	 * 
+	 * @return duration repository
+	 */	
+	public DurationRepository getDurationRepository() {
+		return durationRepository; 
+	}
+	
 	/**
 	 * Get mod configuration from TOML file.
 	 * 

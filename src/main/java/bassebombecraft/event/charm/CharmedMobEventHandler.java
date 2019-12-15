@@ -38,6 +38,8 @@ public class CharmedMobEventHandler {
 
 	@SubscribeEvent
 	static public void handleLivingUpdateEvent(LivingUpdateEvent event) {
+		
+		// type cast
 		if (!isTypeMobEntity(event.getEntityLiving()))
 			return;
 		MobEntity entity = (MobEntity) event.getEntityLiving();
@@ -68,6 +70,8 @@ public class CharmedMobEventHandler {
 
 	@SubscribeEvent
 	public static void handleEvent(LivingDeathEvent event) {
+		
+		// type cast		
 		if (!isTypeMobEntity(event.getEntityLiving()))
 			return;
 		MobEntity entity = (MobEntity) event.getEntityLiving();
