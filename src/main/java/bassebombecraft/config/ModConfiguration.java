@@ -50,6 +50,7 @@ import bassebombecraft.item.action.inventory.AddSaturationEffect;
 import bassebombecraft.item.action.inventory.Naturalize;
 import bassebombecraft.item.action.inventory.Pinkynize;
 import bassebombecraft.item.action.inventory.Rainbownize;
+import bassebombecraft.item.action.mist.block.LavaSpiralMist;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.basic.TerminatorEyeItem;
 import bassebombecraft.item.baton.MobCommandersBaton;
@@ -60,6 +61,7 @@ import bassebombecraft.item.book.BuildTowerBook;
 import bassebombecraft.item.book.CopyPasteBlocksBook;
 import bassebombecraft.item.book.CreeperCannonBook;
 import bassebombecraft.item.book.DigMobHoleBook;
+import bassebombecraft.item.book.LavaSpiralMistBook;
 import bassebombecraft.item.book.PrimedCreeperCannonBook;
 import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
@@ -233,6 +235,9 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.ConfigValue<String> digMobHoleBookTooltip;
 	public static ForgeConfigSpec.IntValue digMobHoleBookCooldown;
 
+	// LavaSpiralMistBook
+	public static ItemConfig lavaSpiralMistBook;
+	
 	// SpawnCreeperArmyBook
 	public static ForgeConfigSpec.ConfigValue<String> spawnCreeperArmyBookTooltip;
 	public static ForgeConfigSpec.IntValue spawnCreeperArmyBookCooldown;
@@ -247,7 +252,7 @@ public class ModConfiguration {
 
 	// SpawnGuardianBook	
 	public static ItemConfig spawnGuardianBook;
-	
+		
 	// BuildTowerBook
 	public static ForgeConfigSpec.ConfigValue<String> buildTowerBookTooltip;
 	public static ForgeConfigSpec.IntValue buildTowerBookCooldown;
@@ -322,6 +327,10 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue digMobHoleNoHitHoleWidth;
 	public static ForgeConfigSpec.IntValue digMobHoleHeightExpansion;
 
+	// LavaSpiralMist action
+	public static ForgeConfigSpec.IntValue lavaSpiralMistEffectDuration;
+	public static ParticlesConfig lavaSpiralMistParticleInfo;
+	
 	// SpawnStairs projectile action
 	public static ForgeConfigSpec.IntValue spawnStairsDuration;
 
@@ -677,6 +686,15 @@ public class ModConfiguration {
 				.defineInRange("heightExpansion", 1, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+
+		// LavaSpiralMist
+		name = LavaSpiralMist.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		lavaSpiralMistEffectDuration = COMMON_BUILDER.comment("Duration in game ticks.")
+				.defineInRange("duration", 100, 0, Integer.MAX_VALUE);
+		lavaSpiralMistParticleInfo = getInstance(COMMON_BUILDER, "flame", 10, 0, 0.1, 0.0, 0.0, 0.0);
+		COMMON_BUILDER.pop();
+		
 		// SpawnCreeperArmy
 		name = SpawnCreeperArmy.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -928,6 +946,10 @@ public class ModConfiguration {
 				25, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		// LavaSpiralMistBook
+		name = LavaSpiralMistBook.ITEM_NAME;
+		lavaSpiralMistBook = getInstance(COMMON_BUILDER, name, "Creates an expanding spiral of temporary lava blocks centered on where the caster is placed.", 10);
+		
 		// SpawnCreeperArmyBook
 		name = SpawnCreeperArmyBook.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -958,7 +980,7 @@ public class ModConfiguration {
 		// SpawnGuardianBook
 		name = SpawnGuardianBook.ITEM_NAME;
 		spawnGuardianBook = getInstance(COMMON_BUILDER, name, "Right-click to spawns a friendly golem. The golem will follow and protect its creator, i.e. the player or whoever spawned him. The golem will use the magic from BasseBombeCraft for its protection duties. The guardian can be commanded by Krenko's Command Baton", 25);
-		
+				
 		// BuildTowerBook
 		name = BuildTowerBook.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);

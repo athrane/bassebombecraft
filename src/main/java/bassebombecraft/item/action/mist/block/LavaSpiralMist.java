@@ -1,12 +1,13 @@
 package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
-import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.config.ConfigUtils.createFromConfig;
 
+import java.util.function.Supplier;
+
+import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.block.Blocks;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -19,28 +20,41 @@ import net.minecraft.world.World;
  */
 public class LavaSpiralMist implements BlockMistActionStrategy {
 
-	static final boolean DONT_HARVEST = false;
-	static final int EFFECT_DURATION = 200; // Measured in ticks
+	/**
+	 * Action identifier.
+	 */
+	public final static String NAME = LavaSpiralMist.class.getSimpleName();
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.FLAME;
-	static final int PARTICLE_NUMBER = 5;
-	static final int PARTICLE_DURATION = 20;
-	static final float R = 0.0F;
-	static final float B = 0.0F;
-	static final float G = 0.0F;
-	static final double PARTICLE_SPEED = 0.075;
-	static final ParticleRenderingInfo MIST = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R, G, B,
-			PARTICLE_SPEED);
-	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
+	static final boolean DONT_HARVEST = false;
+
+	/**
+	 * Particle rendering info
+	 */
+	ParticleRenderingInfo[] infos;
+
+	/**
+	 * Effect duration.
+	 */
+	int duration;
+
+	/**
+	 * LavaSpiralMist constructor.
+	 *
+	 * @param splDuration effect duration.
+	 */
+	public LavaSpiralMist(Supplier<Integer> splDuration) {
+		infos = createFromConfig(ModConfiguration.lavaSpiralMistParticleInfo);
+		duration = splDuration.get();
+	}
 
 	@Override
 	public void applyEffectToBlock(BlockPos target, World world) {
-		setTemporaryBlock(world, target, Blocks.LAVA, EFFECT_DURATION);
+		setTemporaryBlock(world, target, Blocks.LAVA, duration);
 	}
 
 	@Override
 	public int getEffectDuration() {
-		return EFFECT_DURATION;
+		return duration;
 	}
 
 	@Override
@@ -60,12 +74,12 @@ public class LavaSpiralMist implements BlockMistActionStrategy {
 
 	@Override
 	public ParticleRenderingInfo[] getRenderingInfos() {
-		return INFOS;
+		return infos;
 	}
 
 	@Override
 	public int getSpiralOffset() {
 		return 1;
 	}
-	
+
 }
