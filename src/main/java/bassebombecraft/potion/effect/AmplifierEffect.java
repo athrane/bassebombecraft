@@ -29,11 +29,6 @@ public class AmplifierEffect extends Effect {
 	int updateFrequency;
 	
 	/**
-	 * Update frequency for effect.
-	 */
-	static final int UPDATE_FREQUENCY = 10;
-
-	/**
 	 * AmplifierEffect constructor.
 	 */
 	public AmplifierEffect() {
