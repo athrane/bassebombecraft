@@ -2,6 +2,7 @@ package bassebombecraft.item.action;
 
 import java.util.Random;
 
+import static bassebombecraft.BassebombeCraft.*;
 import bassebombecraft.projectile.GenericEggProjectile;
 import bassebombecraft.projectile.action.ProjectileAction;
 import net.minecraft.entity.Entity;
@@ -21,7 +22,6 @@ public class GenericShootEggProjectile implements RightClickedItemAction {
 	static final float VELOCITY = 3.0F;
 	static final float INACCURANCY = 1.0F;
 	static final SoundEvent SOUND = SoundEvents.ENTITY_EVOKER_CAST_SPELL;
-	static Random random = new Random();
 	ProjectileAction action;
 
 	/**
@@ -35,6 +35,7 @@ public class GenericShootEggProjectile implements RightClickedItemAction {
 
 	@Override
 	public void onRightClick(World world, LivingEntity entity) {
+		Random random = getBassebombeCraft().getRandom();
 
 		GenericEggProjectile projectile = new GenericEggProjectile(world, entity, action);
 		projectile.shoot(entity, entity.rotationPitch, entity.rotationYaw, PITCH_OFFSET, VELOCITY, INACCURANCY);
