@@ -3,11 +3,7 @@ package bassebombecraft.item.inventory;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
-import static bassebombecraft.ModConstants.ITEM_IDOL_DEFAULT_COOLDOWN;
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
-import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
-import static bassebombecraft.config.ConfigUtils.resolveTooltip;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
@@ -84,7 +80,7 @@ public class GenericInventoryItem extends Item {
 	 * Effect range.
 	 */
 	int range;
-	
+
 	/**
 	 * GenericInventoryItem constructor.
 	 * 
@@ -101,24 +97,6 @@ public class GenericInventoryItem extends Item {
 		coolDown = config.cooldown.get();
 		tooltip = config.tooltip.get();
 		range = config.range.get();
-	}
-
-	/**
-	 * GenericInventoryItem constructor.
-	 * 
-	 * @param name     item name.
-	 * @param strategy inventory item strategy.
-	 */
-	@Deprecated
-	public GenericInventoryItem(String name, InventoryItemActionStrategy strategy) {
-		super(ITEM_PROPERTIES);
-		doCommonItemInitialization(this, name);
-		this.strategy = strategy;
-		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
-		coolDown = resolveCoolDown(name, ITEM_IDOL_DEFAULT_COOLDOWN);
-		tooltip = resolveTooltip(name, ITEM_DEFAULT_TOOLTIP);
-		infos = null;
-		range = Integer.MIN_VALUE;
 	}
 
 	@Override
@@ -244,13 +222,14 @@ public class GenericInventoryItem extends Item {
 	/**
 	 * Get rendering infos.
 	 * 
-	 * if rendering field is defined then use field. 
-	 * Otherwise use infos from strategy, which is deprecated.
+	 * if rendering field is defined then use field. Otherwise use infos from
+	 * strategy, which is deprecated.
 	 * 
 	 * @return rendering infos.
 	 */
 	ParticleRenderingInfo[] getRenderingInfos() {
-		if(infos != null) return infos;
+		if (infos != null)
+			return infos;
 		try {
 			return strategy.getRenderingInfos();
 		} catch (OperationNotSupportedException e) {
@@ -262,13 +241,14 @@ public class GenericInventoryItem extends Item {
 	/**
 	 * Return range.
 	 * 
-	 * if range field is defined then use field. 
-	 * Otherwise use range from strategy, which is deprecated.
+	 * if range field is defined then use field. Otherwise use range from strategy,
+	 * which is deprecated.
 	 * 
 	 * @return effect range.
 	 */
 	int getRange() {
-		if(range != Integer.MIN_VALUE) return range;				
+		if (range != Integer.MIN_VALUE)
+			return range;
 		try {
 			return strategy.getEffectRange();
 		} catch (OperationNotSupportedException e) {
@@ -276,7 +256,7 @@ public class GenericInventoryItem extends Item {
 			return Integer.MIN_VALUE;
 		}
 	}
-	
+
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
