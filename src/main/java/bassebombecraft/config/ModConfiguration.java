@@ -50,6 +50,7 @@ import bassebombecraft.item.action.inventory.AddSaturationEffect;
 import bassebombecraft.item.action.inventory.Naturalize;
 import bassebombecraft.item.action.inventory.Pinkynize;
 import bassebombecraft.item.action.inventory.Rainbownize;
+import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.block.LavaSpiralMist;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.basic.TerminatorEyeItem;
@@ -327,6 +328,9 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue digMobHoleNoHitHoleWidth;
 	public static ForgeConfigSpec.IntValue digMobHoleHeightExpansion;
 
+	// GenericBlockSpiralFillMist action
+	public static ForgeConfigSpec.IntValue genericBlockSpiralFillMistSpiralSize;	
+	
 	// LavaSpiralMist action
 	public static ForgeConfigSpec.IntValue lavaSpiralMistEffectDuration;
 	public static ParticlesConfig lavaSpiralMistParticleInfo;
@@ -686,6 +690,12 @@ public class ModConfiguration {
 				.defineInRange("heightExpansion", 1, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		// GenericBlockSpiralFillMist
+		name = GenericBlockSpiralFillMist.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		genericBlockSpiralFillMistSpiralSize = COMMON_BUILDER.comment("Spiral szie in blocks for ALL spiral effects.")
+				.defineInRange("spiralSize", 20, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
 
 		// LavaSpiralMist
 		name = LavaSpiralMist.NAME;

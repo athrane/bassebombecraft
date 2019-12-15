@@ -25,6 +25,9 @@ public class LavaSpiralMist implements BlockMistActionStrategy {
 	 */
 	public final static String NAME = LavaSpiralMist.class.getSimpleName();
 
+	/**
+	 * Don't harvest processed blocks.
+	 */
 	static final boolean DONT_HARVEST = false;
 
 	/**

@@ -7,6 +7,7 @@ import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
 
+import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
@@ -30,25 +31,20 @@ import net.minecraft.world.World;
 public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 
 	/**
+	 * Action identifier.
+	 */
+	public final static String NAME = GenericBlockSpiralFillMist.class.getSimpleName();
+
+	/**
 	 * Rendering frequency in ticks.
 	 */
-	static final int RENDERING_FREQUENCY = 5;
+	static final int RENDERING_FREQUENCY = 3;
 
 	/**
 	 * Effect frequency when targeted mob are affect by most. Frequency is measured
 	 * in ticks.
 	 */
-	static final int EFFECT_UPDATE_FREQUENCY = 5;
-
-	/**
-	 * Spawn distance of mist from invoker. Distance is measured in blocks.
-	 */
-	static final float INVOCATION_DIST = 4;
-
-	/**
-	 * Spiral size.
-	 */
-	static final int SPIRAL_SIZE = 20;
+	static final int EFFECT_UPDATE_FREQUENCY = 3;
 
 	/**
 	 * Ticks counter.
@@ -76,11 +72,6 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	BlockMistActionStrategy strategy;
 
 	/**
-	 * Particle repository
-	 */
-	ParticleRenderingRepository particleRepository;
-
-	/**
 	 * Spiral coordinates.
 	 */
 	List<BlockPos> spiralCoordinates;
@@ -101,16 +92,21 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	BlockPos mistPosition;
 
 	/**
+	 * Spiral size.
+	 */
+	int spiralSize;
+
+	/**
 	 * GenericBlockMist constructor.
 	 * 
 	 * @param strategy mist strategy.
 	 */
 	public GenericBlockSpiralFillMist(BlockMistActionStrategy strategy) {
 		this.strategy = strategy;
-		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
+		spiralSize = ModConfiguration.genericBlockSpiralFillMistSpiralSize.get();
 
 		// calculate spiral
-		spiralCoordinates = GeometryUtils.calculateSpiral(SPIRAL_SIZE, SPIRAL_SIZE);
+		spiralCoordinates = GeometryUtils.calculateSpiral(spiralSize, spiralSize);
 	}
 
 	@Override
@@ -187,10 +183,12 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 		updateMistPosition(world);
 
 		// render mists
+		ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
+
 		// iterate over rendering info's
 		for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
 			ParticleRendering particle = getInstance(mistPosition, info);
-			particleRepository.add(particle);
+			repository.add(particle);
 		}
 	}
 
