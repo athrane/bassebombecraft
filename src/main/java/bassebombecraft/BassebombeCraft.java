@@ -3,7 +3,7 @@ package bassebombecraft;
 import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.ModConstants.TAB_NAME;
 import static bassebombecraft.config.ModConfiguration.loadConfig;
-import static bassebombecraft.config.VersionUtils.validateVersion;
+import static bassebombecraft.config.VersionUtils.*;
 import static bassebombecraft.tab.ItemGroupFactory.createItemGroup;
 
 import java.io.PrintWriter;
@@ -42,10 +42,12 @@ import bassebombecraft.proxy.ClientProxy;
 import bassebombecraft.proxy.Proxy;
 import bassebombecraft.proxy.ServerProxy;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -190,7 +192,6 @@ public class BassebombeCraft {
 
 	@SubscribeEvent
 	void setup(FMLCommonSetupEvent event) {
-		validateVersion();
 		// initializeWorldGenerators();
 	}
 
@@ -210,6 +211,12 @@ public class BassebombeCraft {
 		server = null;
 	}
 
+	@SubscribeEvent
+	void playerLoggedIn(PlayerLoggedInEvent event) {
+		PlayerEntity player = event.getPlayer();
+		validateVersion(player);
+	}
+	
 	/**
 	 * Initialize world generators.
 	 */
