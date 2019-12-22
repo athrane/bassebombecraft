@@ -1,12 +1,14 @@
 package bassebombecraft.item.action.mist.entity;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.BLOCK_EFFECT_FREQUENCY;
+import static bassebombecraft.ModConstants.PARTICLE_RENDERING_FREQUENCY;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
 
 import java.util.List;
-import java.util.Random;
 
+import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
@@ -30,17 +32,6 @@ import net.minecraft.world.World;
 public class GenericEntityMist implements RightClickedItemAction {
 
 	/**
-	 * Rendering frequency in ticks.
-	 */
-	static final int RENDERING_FREQUENCY = 5;
-
-	/**
-	 * Effect frequency when targeted mob are affect by most. Frequency is measured
-	 * in ticks.
-	 */
-	static final int EFFECT_UPDATE_FREQUENCY = 10; // Measured in ticks
-
-	/**
 	 * Spawn distance of mist from invoker. Distance is measured in blocks.
 	 */
 	static final int INVOCATION_DIST = 4;
@@ -49,11 +40,6 @@ public class GenericEntityMist implements RightClickedItemAction {
 	 * Spiral size.
 	 */
 	static final int SPIRAL_SIZE = 20;
-
-	/**
-	 * Random generator.
-	 */
-	static Random random = new Random();
 
 	/**
 	 * Ticks counter.
@@ -150,15 +136,14 @@ public class GenericEntityMist implements RightClickedItemAction {
 		if (!isActive())
 			return;
 
-		// render mist
-		if (ticksCounter % RENDERING_FREQUENCY == 0) {
+		// render mist if frequency is active
+		FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
+		if (repository.isActive(PARTICLE_RENDERING_FREQUENCY))
 			render(worldIn);
-		}
 
-		// update game effect
-		if (ticksCounter % EFFECT_UPDATE_FREQUENCY == 0) {
+		// update effect if frequency is active
+		if (repository.isActive(BLOCK_EFFECT_FREQUENCY))
 			applyEffect(worldIn, entity);
-		}
 
 		// disable if duration is completed
 		if (ticksCounter > strategy.getEffectDuration()) {
@@ -224,7 +209,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 		}
 
 		// calculate spiral index
-		int spiralCounter = (ticksCounter / RENDERING_FREQUENCY) % SPIRAL_SIZE;
+		int spiralCounter = (ticksCounter / PARTICLE_RENDERING_FREQUENCY) % SPIRAL_SIZE;
 
 		// get next spiral coordinate
 		BlockPos spiralCoord = spiralCoordinates.get(spiralCounter);

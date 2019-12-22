@@ -236,16 +236,31 @@ public class ModConstants {
 	public static final HudItem TARGETING_OVERLAY_ITEM = new HudItem();
 
 	/**
-	 * Rendering frequency for particles. Measured in world ticks.
-	 */
-	public static final int RENDERING_FREQUENCY = 10;
-
-	/**
-	 * Particle spawn frequency in {@linkplain ParticleRenderingEventHandler}.
+	 * Particle spawn frequency in {@linkplain ParticleRenderingEventHandler},
+	 * {@linkplain GenericBlockSpiralFillMist} and {@linkplain GenericEntityMist}.
 	 * Measured in world ticks.
 	 */
-	public static final int SPAWN_PARTICLES_FREQUENCY = 40;
+	public static final int PARTICLE_RENDERING_FREQUENCY = 3;
+		
+	/**
+	 * Particle spawn frequency in {@linkplain CharmedMobEventHandler}.
+	 * Measured in world ticks.
+	 */
+	public static final int CHARM_PARTICLE_RENDERING_FREQUENCY = 20;
 
+	/**
+	 * Effect update frequency in {@linkplain GenericBlockSpiralFillMist}.
+	 * Measured in world ticks.
+	 */
+	public static final int BLOCK_EFFECT_FREQUENCY = 3;
+
+	/**
+	 * Effect update frequency in {@linkplain GenericEntityMist}.
+	 * Measured in world ticks.
+	 */
+	public static final int MIST_EFFECT_FREQUENCY = 5;
+	
+	
 	/**
 	 * Number of processed blocks per game tick in
 	 * {@linkplain ProcessBlockDirectivesEventHandler}.

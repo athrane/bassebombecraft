@@ -52,6 +52,7 @@ import bassebombecraft.item.action.inventory.Pinkynize;
 import bassebombecraft.item.action.inventory.Rainbownize;
 import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.block.LavaSpiralMist;
+import bassebombecraft.item.action.mist.entity.VacuumMist;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.basic.TerminatorEyeItem;
 import bassebombecraft.item.baton.MobCommandersBaton;
@@ -72,6 +73,7 @@ import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnKittenArmyBook;
 import bassebombecraft.item.book.SpawnSkeletonArmyBook;
 import bassebombecraft.item.book.TeleportBook;
+import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
 import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
@@ -238,6 +240,9 @@ public class ModConfiguration {
 
 	// LavaSpiralMistBook
 	public static ItemConfig lavaSpiralMistBook;
+
+	// VacuumMistBook
+	public static ItemConfig vacuumMistBook;
 	
 	// SpawnCreeperArmyBook
 	public static ForgeConfigSpec.ConfigValue<String> spawnCreeperArmyBookTooltip;
@@ -332,8 +337,13 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue genericBlockSpiralFillMistSpiralSize;	
 	
 	// LavaSpiralMist action
-	public static ForgeConfigSpec.IntValue lavaSpiralMistEffectDuration;
+	public static ForgeConfigSpec.IntValue lavaSpiralMistDuration;
 	public static ParticlesConfig lavaSpiralMistParticleInfo;
+
+	// VacuumMist action
+	public static ForgeConfigSpec.IntValue vacuumMistDuration;
+	public static ForgeConfigSpec.IntValue vacuumMistForce;	
+	public static ParticlesConfig vacuumMistParticleInfo;
 	
 	// SpawnStairs projectile action
 	public static ForgeConfigSpec.IntValue spawnStairsDuration;
@@ -700,9 +710,19 @@ public class ModConfiguration {
 		// LavaSpiralMist
 		name = LavaSpiralMist.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		lavaSpiralMistEffectDuration = COMMON_BUILDER.comment("Duration in game ticks.")
+		lavaSpiralMistDuration = COMMON_BUILDER.comment("Duration in game ticks.")
 				.defineInRange("duration", 100, 0, Integer.MAX_VALUE);
-		lavaSpiralMistParticleInfo = getInstance(COMMON_BUILDER, "flame", 10, 0, 0.1, 0.0, 0.0, 0.0);
+		lavaSpiralMistParticleInfo = getInstance(COMMON_BUILDER, "flame", 10, 10, 0.1, 0.0, 0.0, 0.0);
+		COMMON_BUILDER.pop();
+
+		// VacuumMist
+		name = VacuumMist.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		vacuumMistDuration = COMMON_BUILDER.comment("Duration in game ticks.")
+				.defineInRange("duration", 500, 0, Integer.MAX_VALUE);
+		vacuumMistForce = COMMON_BUILDER.comment("Effect pull force in blocks.")
+				.defineInRange("force", 5, 0, Integer.MAX_VALUE);		
+		vacuumMistParticleInfo = getInstance(COMMON_BUILDER, "effect", 10, 20, 0.3, 0.75, 0.75, 0.75);
 		COMMON_BUILDER.pop();
 		
 		// SpawnCreeperArmy
@@ -960,6 +980,10 @@ public class ModConfiguration {
 		name = LavaSpiralMistBook.ITEM_NAME;
 		lavaSpiralMistBook = getInstance(COMMON_BUILDER, name, "Creates an expanding spiral of temporary lava blocks centered on where the caster is placed.", 10);
 		
+		// VacuumMistBook
+		name = VacuumMistBook.ITEM_NAME;
+		vacuumMistBook = getInstance(COMMON_BUILDER, name, "Creates a cloud of vacuum which pull mobs into it.", 100);
+				
 		// SpawnCreeperArmyBook
 		name = SpawnCreeperArmyBook.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);

@@ -1,6 +1,7 @@
 package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.*;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
@@ -34,17 +35,6 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	 * Action identifier.
 	 */
 	public final static String NAME = GenericBlockSpiralFillMist.class.getSimpleName();
-
-	/**
-	 * Rendering frequency in ticks.
-	 */
-	static final int RENDERING_FREQUENCY = 3;
-
-	/**
-	 * Effect frequency when targeted mob are affect by most. Frequency is measured
-	 * in ticks.
-	 */
-	static final int EFFECT_UPDATE_FREQUENCY = 3;
 
 	/**
 	 * Ticks counter.
@@ -126,11 +116,11 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 
 		// render mist if frequency is active
 		FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
-		if (repository.isActive(RENDERING_FREQUENCY))
+		if (repository.isActive(PARTICLE_RENDERING_FREQUENCY))
 			render(worldIn);
 
 		// update effect if frequency is active
-		if (repository.isActive(EFFECT_UPDATE_FREQUENCY))
+		if (repository.isActive(BLOCK_EFFECT_FREQUENCY))
 			applyEffect(worldIn);
 
 		// disable if duration is completed

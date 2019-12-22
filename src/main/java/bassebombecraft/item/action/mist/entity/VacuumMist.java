@@ -1,34 +1,53 @@
 package bassebombecraft.item.action.mist.entity;
 
-import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ModConfiguration.vacuumMistParticleInfo;
+
+import java.util.function.Supplier;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.Vec3d;
 
 /**
- * Implementation of {@linkplain EntityMistActionStrategy} for construction of mist
- * action. This class builds a mist with vacuum effect that forcefully pulls
- * mobs.
+ * Implementation of {@linkplain EntityMistActionStrategy} for construction of
+ * mist action. This class builds a mist with vacuum effect that forcefully
+ * pulls mobs.
  */
 public class VacuumMist implements EntityMistActionStrategy {
 
-	static final int EFFECT_DURATION = 500; // Measured in ticks
-	static final int FORCE = 5; // pull force in blocks
+	/**
+	 * Action identifier.
+	 */
+	public final static String NAME = VacuumMist.class.getSimpleName();
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
-	static final int PARTICLE_NUMBER = 5;
-	static final int PARTICLE_DURATION = 20;
-	static final float R = 0.75F;
-	static final float B = 0.75F;
-	static final float G = 0.75F;
-	static final double PARTICLE_SPEED = 0.3;
-	static final ParticleRenderingInfo MIST = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R, G, B,
-			PARTICLE_SPEED);
-	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
+	/**
+	 * Particle rendering info
+	 */
+	ParticleRenderingInfo[] infos;
+
+	/**
+	 * Effect pull force in blocks.
+	 */
+	int force;
+
+	/**
+	 * Effect duration.
+	 */
+	int duration;
+
+	/**
+	 * VacuumMist constructor.
+	 *
+	 * @param splDuration effect duration.
+	 * @param splForce    effect pull force in blocks.
+	 */
+	public VacuumMist(Supplier<Integer> splDuration, Supplier<Integer> splForce) {
+		infos = createFromConfig(vacuumMistParticleInfo);
+		duration = splDuration.get();
+		force = splForce.get();
+	}
 
 	@Override
 	public void applyEffectToEntity(LivingEntity target, Vec3d mistPos, LivingEntity invoker) {
@@ -39,16 +58,16 @@ public class VacuumMist implements EntityMistActionStrategy {
 		pullVec = pullVec.normalize();
 
 		// pull mob
-		double x = pullVec.x * FORCE;
-		double y = pullVec.y * FORCE;
-		double z = pullVec.z * FORCE;
+		double x = pullVec.x * force;
+		double y = pullVec.y * force;
+		double z = pullVec.z * force;
 		Vec3d motionVecForced = new Vec3d(x, y, z);
 		target.move(MoverType.SELF, motionVecForced);
 	}
 
 	@Override
 	public int getEffectDuration() {
-		return EFFECT_DURATION;
+		return duration;
 	}
 
 	@Override
@@ -73,7 +92,7 @@ public class VacuumMist implements EntityMistActionStrategy {
 
 	@Override
 	public ParticleRenderingInfo[] getRenderingInfos() {
-		return INFOS;
+		return infos;
 	}
 
 }

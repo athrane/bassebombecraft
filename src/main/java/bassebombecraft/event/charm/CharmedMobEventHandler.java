@@ -1,7 +1,7 @@
 package bassebombecraft.event.charm;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.ModConstants.SPAWN_PARTICLES_FREQUENCY;
+import static bassebombecraft.ModConstants.CHARM_PARTICLE_RENDERING_FREQUENCY;
 import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
@@ -56,7 +56,7 @@ public class CharmedMobEventHandler {
 		repository.update(entity);
 
 		// exit if frequency isn't active
-		if (!frequencyRepository.isActive(SPAWN_PARTICLES_FREQUENCY))
+		if (!frequencyRepository.isActive(CHARM_PARTICLE_RENDERING_FREQUENCY))
 			return;
 
 		// get repository
