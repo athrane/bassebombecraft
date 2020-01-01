@@ -15,6 +15,7 @@ import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import bassebombecraft.item.basic.HudItem;
+import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
 import bassebombecraft.potion.effect.AmplifierEffect;
@@ -235,6 +236,11 @@ public class ModConstants {
 	 */
 	public static final HudItem TARGETING_OVERLAY_ITEM = new HudItem();
 
+	/**
+	 * Build mine book.
+	 */	
+	public static final BuildMineBook BUILD_MINE_BOOK = new BuildMineBook();
+		
 	/**
 	 * Particle spawn frequency in {@linkplain ParticleRenderingEventHandler},
 	 * {@linkplain GenericBlockSpiralFillMist} and {@linkplain GenericEntityMist}.

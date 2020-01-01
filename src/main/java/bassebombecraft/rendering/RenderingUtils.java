@@ -73,7 +73,7 @@ public class RenderingUtils {
 		GlStateManager.enableLighting();
 		GlStateManager.popMatrix();
 	}
-	
+
 	/**
 	 * Setup billboard rotation to face camera.
 	 */
@@ -119,8 +119,6 @@ public class RenderingUtils {
 		GlStateManager.disableLighting();
 		GlStateManager.disableTexture();
 		GlStateManager.disableDepthTest();
-
-		// GlStateManager.pushMatrix();
 	}
 
 	/**
@@ -258,6 +256,96 @@ public class RenderingUtils {
 	}
 
 	/**
+	 * Render a unit coordinate system centered at origin.
+	 * 
+	 * @param playerPos player position
+	 * @param entityPos entity position
+	 */	
+	public static void renderDebugBillboard(Vec3d playerPos, Vec3d entityPos) {
+		setupBillboardRendering();
+
+		// X/R
+
+		// set line width & color
+		GlStateManager.lineWidth(2);
+		GlStateManager.color3f(1.0F, 0.0F, 0.0F);
+
+		// translate and rotate billboard
+		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
+		setupBillboardRotation();
+
+		// create tessellator & bufferbuilder
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferBuilder = tessellator.getBuffer();
+
+		// build buffer
+		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
+
+		// AB
+		bufferBuilder.pos(0, 0, 0).endVertex();
+		bufferBuilder.pos(1.0F, 0, 0).endVertex();
+
+		tessellator.draw();
+
+		resetBillboardRendering();
+
+		// Y/G
+
+		setupBillboardRendering();
+
+		// set line width & color
+		GlStateManager.lineWidth(2);
+		GlStateManager.color3f(0.0F, 1.0F, 0.0F);
+
+		// translate and rotate billboard
+		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
+		setupBillboardRotation();
+
+		// create tessellator & bufferbuilder
+		tessellator = Tessellator.getInstance();
+		bufferBuilder = tessellator.getBuffer();
+
+		// build buffer
+		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
+
+		// AB
+		bufferBuilder.pos(0, 0, 0).endVertex();
+		bufferBuilder.pos(0, 1.0F, 0).endVertex();
+
+		tessellator.draw();
+
+		resetBillboardRendering();
+
+		// Z/B
+
+		setupBillboardRendering();
+
+		// set line width & color
+		GlStateManager.lineWidth(2);
+		GlStateManager.color3f(0.0F, 0.0F, 1.0F);
+
+		// translate and rotate billboard
+		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
+		setupBillboardRotation();
+
+		// create tessellator & bufferbuilder
+		tessellator = Tessellator.getInstance();
+		bufferBuilder = tessellator.getBuffer();
+
+		// build buffer
+		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
+
+		// AB
+		bufferBuilder.pos(0, 0, 0).endVertex();
+		bufferBuilder.pos(0, 0, 1.0F).endVertex();
+
+		tessellator.draw();
+
+		resetBillboardRendering();
+
+	}
+	
+	/**
 	 * Render text at origin.
 	 * 
 	 * @param playerPos player position
@@ -376,7 +464,7 @@ public class RenderingUtils {
 	 * 
 	 * This method supports rotation of the text relative to the player view
 	 * direction and independent of the camera (or) player orientation and
-	 * placement. 
+	 * placement.
 	 * 
 	 * @param cameraTranslation camera translation vector.
 	 * @param text              text to render
@@ -481,5 +569,6 @@ public class RenderingUtils {
 		bufferBuilder.pos(end.x, end.y, end.z).endVertex();
 		tessellator.draw();
 	}
+
 
 }

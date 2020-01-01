@@ -1,6 +1,7 @@
 package bassebombecraft.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.BUILD_MINE_BOOK;
 import static bassebombecraft.ModConstants.TARGETING_OVERLAY_ITEM;
 import static bassebombecraft.ModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.TEXT_COLOR;
@@ -14,8 +15,11 @@ import static bassebombecraft.rendering.RenderingUtils.renderTextBillboardV2;
 
 import javax.vecmath.Vector4f;
 
+import bassebombecraft.player.PlayerUtils;
+import bassebombecraft.rendering.DefaultBuildMineRenderer;
 import bassebombecraft.rendering.DefaultCharmedInfoRenderer;
 import bassebombecraft.rendering.DefaultCharmedRenderer;
+import bassebombecraft.rendering.DefaultLookAtBlockRenderer;
 import bassebombecraft.rendering.DefaultTargetsInfoRenderer;
 import bassebombecraft.rendering.DefaultTeamInfoRenderer;
 import bassebombecraft.rendering.DefaultTeamRenderer;
@@ -25,7 +29,6 @@ import bassebombecraft.rendering.RenderingUtils;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;
@@ -46,7 +49,7 @@ public class RenderingEventHandler {
 	/**
 	 * Random constant to put text above the hotbar.
 	 */
-	static final int TEXT_RANDOM_Y_OFFSET = 31 + 4 + 12;
+	static final int TEXT_RANDOM_Y_OFFSET = 11 + 4 + 12;
 
 	/**
 	 * Renderer for rendering team in the HUD Item.
@@ -72,6 +75,16 @@ public class RenderingEventHandler {
 	 * Renderer for rendering targets information in the HUD Item.
 	 */
 	static final EntityRenderer targetsInfoRenderer = new DefaultTargetsInfoRenderer();
+
+	/**
+	 * Renderer for rendering the block looked at by the player.
+	 */
+	static final EntityRenderer lookedAtBlockRenderer = new DefaultLookAtBlockRenderer();
+
+	/**
+	 * Renderer for rendering construction of the mine in the build mine book.
+	 */
+	static final EntityRenderer buildMineRenderer = new DefaultBuildMineRenderer();
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
@@ -116,12 +129,14 @@ public class RenderingEventHandler {
 		fontRenderer.drawString("Position: " + playerPos, x, y + 10, TEXT_COLOR);
 		fontRenderer.drawString("Look: " + player.getLookVec(), x, y + 20, TEXT_COLOR);
 
-		Vec3d renderPos = RenderingUtils.getRenderPos();
-		fontRenderer.drawString("Render position: " + renderPos, x, y + 30, TEXT_COLOR);
+		// Vec3d renderPos = RenderingUtils.getRenderPos();
+		// fontRenderer.drawString("Render position: " + renderPos, x, y + 30,
+		// TEXT_COLOR);
 
-		final Entity rve = mc.getRenderViewEntity();
-		Vec3d rve2 = new Vec3d(rve.rotationPitch, rve.rotationYaw, 0);
-		fontRenderer.drawString("Render view entity: " + rve2, x, y + 40, TEXT_COLOR);
+		// final Entity rve = mc.getRenderViewEntity();
+		// Vec3d rve2 = new Vec3d(rve.rotationPitch, rve.rotationYaw, 0);
+		// fontRenderer.drawString("Render view entity: " + rve2, x, y + 40,
+		// TEXT_COLOR);
 	}
 
 	@SubscribeEvent
@@ -135,9 +150,38 @@ public class RenderingEventHandler {
 		// get player
 		PlayerEntity player = getPlayer();
 
-		// exit if targeting overlay isn't in hotbar
-		if (!isItemInHotbar(player, TARGETING_OVERLAY_ITEM))
-			return;
+		// render if targeting overlay is in hotbar
+		if (isItemInHotbar(player, TARGETING_OVERLAY_ITEM))
+			renderHudItem(event, player);
+
+		// render if build mine book is in hand
+		if (PlayerUtils.isItemHeldInEitherHands(player, BUILD_MINE_BOOK))
+			renderBuildMineBook(event, player);
+
+	}
+
+	static void renderBuildMineBook(RenderWorldLastEvent event, PlayerEntity player) {
+
+		try {
+			// create rendering info
+			RenderingInfo info = getInstance(event.getPartialTicks());
+
+			// render
+			buildMineRenderer.render(player, info);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
+
+	}
+
+	/**
+	 * Render HUB item.
+	 * 
+	 * @param event  rendering event.
+	 * @param player player object.
+	 */
+	static void renderHudItem(RenderWorldLastEvent event, PlayerEntity player) {
 
 		// get player position
 		Vec3d playerPos = CalculatePlayerPosition(player, event.getPartialTicks());
@@ -152,8 +196,8 @@ public class RenderingEventHandler {
 			charmedRenderer.render(player, info);
 			charmedInfoRenderer.render(player, info);
 			targetsInfoRenderer.render(player, info);
+			lookedAtBlockRenderer.render(player, info);
 
-			// targetsRenderer.render(player, playerPos);
 			Vec3d renderPos = RenderingUtils.getRenderPos();
 			Vec3d translation = playerPos.subtract(renderPos);
 			renderCompass(translation);
@@ -164,6 +208,11 @@ public class RenderingEventHandler {
 		}
 	}
 
+	/**
+	 * Render HUB item version info.
+	 * 
+	 * @param translation
+	 */
 	static void renderHudVersionInfo(Vec3d translation) {
 		renderTextBillboardV2(translation.add(5, 5, 0), "HUD // BasseBombeCraft, version " + VERSION,
 				TEXT_BILLBOARD_ROTATION);

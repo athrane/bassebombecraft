@@ -1,6 +1,8 @@
 package bassebombecraft.event.item;
 
-import bassebombecraft.ModConstants;
+import static bassebombecraft.ModConstants.BUILD_MINE_BOOK;
+import static bassebombecraft.ModConstants.TARGETING_OVERLAY_ITEM;
+
 import bassebombecraft.item.basic.TerminatorEyeItem;
 import bassebombecraft.item.baton.MobCommandersBaton;
 import bassebombecraft.item.book.BaconBazookaBook;
@@ -8,7 +10,6 @@ import bassebombecraft.item.book.BearBlasterBook;
 import bassebombecraft.item.book.BeastmasterBook;
 import bassebombecraft.item.book.BeastmasterMistBook;
 import bassebombecraft.item.book.BuildAbyssBook;
-import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.item.book.BuildRainbowRoadBook;
 import bassebombecraft.item.book.BuildRoadBook;
 import bassebombecraft.item.book.BuildSmallHoleBook;
@@ -114,7 +115,7 @@ public class ItemRegistryEventHandler {
 			new LightningBoltMistBook(), new FallingAnvilBook(), new EmitHorizontalForceBook(),
 			new EmitVerticalForceBook(), new EmitVerticalForceMistBook(), new BuildStairsBook(), new VacuumMistBook(),
 			new CopyPasteBlocksBook(), new DuplicateBlockBook(), new BuildRoadBook(), new BuildRainbowRoadBook(),
-			new BuildMineBook(), new BuildAbyssBook(), new BuildSmallHoleBook(), new NaturalizeBook(),
+			BUILD_MINE_BOOK, new BuildAbyssBook(), new BuildSmallHoleBook(), new NaturalizeBook(),
 			new RainbownizeBook(), new BuildTowerBook() };
 
 	/**
@@ -137,14 +138,8 @@ public class ItemRegistryEventHandler {
 	/**
 	 * The set of basic items.
 	 */
-	static Item[] basicItems = { new TerminatorEyeItem(), ModConstants.TARGETING_OVERLAY_ITEM
-			
-			/**
-			new WobblyAmplifyingDustItem(), new UnexceptionalAmplifyingDustItem(), new SuperiorAmplifyingDustItem(),
-			new AbsurdlyLudicrousAmplifyingDustItem() 
-			**/
-			};
-	
+	static Item[] basicItems = { new TerminatorEyeItem(), TARGETING_OVERLAY_ITEM };
+
 	/**
 	 * Handle {@linkplain RegistryEvent.Register<Item>} event to register items with
 	 * forge.
