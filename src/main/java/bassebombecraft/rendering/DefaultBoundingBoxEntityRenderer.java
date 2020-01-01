@@ -1,11 +1,5 @@
 package bassebombecraft.rendering;
 
-import static bassebombecraft.rendering.RenderingUtils.completeSimpleRendering;
-import static bassebombecraft.rendering.RenderingUtils.prepareSimpleRendering;
-import static bassebombecraft.rendering.RenderingUtils.renderWireframeBox;
-
-import com.mojang.blaze3d.platform.GlStateManager;
-
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 
@@ -18,17 +12,15 @@ import net.minecraft.util.math.AxisAlignedBB;
  */
 public class DefaultBoundingBoxEntityRenderer implements EntityRenderer {
 
+	/**
+	 * Renderer for rendering a bounding box with a wire frame.
+	 */
+	static final BoundingBoxRenderer aabbWireframeRenderer = new WireframeBoundingBoxRenderer();
+
 	@Override
 	public void render(LivingEntity entity, RenderingInfo info) {
 		AxisAlignedBB aabb = entity.getBoundingBox();
-		double x = info.getRveTranslatedViewX();
-		double y = info.getRveTranslatedViewYOffsetWithPlayerEyeHeight();
-		double z = info.getRveTranslatedViewZ();
-
-		prepareSimpleRendering(x, y, z);
-		GlStateManager.color4f(1F, 1F, 1F, 1F);
-		renderWireframeBox(aabb);
-		completeSimpleRendering();
+		aabbWireframeRenderer.render(aabb, info);
 	}
 
 }

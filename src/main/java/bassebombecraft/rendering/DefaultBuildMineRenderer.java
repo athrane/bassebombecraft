@@ -17,6 +17,8 @@ public class DefaultBuildMineRenderer implements EntityRenderer {
 		if (!PlayerUtils.isTypePlayerEntity(entity))
 			return;
 
+		
+		
 	}
 
 }

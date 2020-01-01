@@ -7,7 +7,7 @@ import static bassebombecraft.ModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.VERSION;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
-import static bassebombecraft.player.PlayerUtils.getPlayer;
+import static bassebombecraft.player.PlayerUtils.*;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
 import static bassebombecraft.rendering.DefaultRenderingInfo.getInstance;
@@ -155,9 +155,8 @@ public class RenderingEventHandler {
 			renderHudItem(event, player);
 
 		// render if build mine book is in hand
-		if (PlayerUtils.isItemHeldInEitherHands(player, BUILD_MINE_BOOK))
+		if (isItemHeldInEitherHands(player, BUILD_MINE_BOOK))
 			renderBuildMineBook(event, player);
-
 	}
 
 	static void renderBuildMineBook(RenderWorldLastEvent event, PlayerEntity player) {

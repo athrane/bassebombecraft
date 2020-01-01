@@ -41,9 +41,9 @@ public class DefaultLookAtBlockRenderer implements EntityRenderer {
 	public static final BlockMode TRACE_OUTLINE = RayTraceContext.BlockMode.OUTLINE;
 
 	/**
-	 * Renderer for rendering a bounding box.
+	 * Renderer for rendering a bounding box with a wire frame.
 	 */
-	static final BoundingBoxRenderer aabbRenderer = new DefaultBoundingBoxRenderer();
+	static final BoundingBoxRenderer aabbWireframeRenderer = new WireframeBoundingBoxRenderer();
 
 	@Override
 	public void render(LivingEntity entity, RenderingInfo info) {
@@ -66,13 +66,13 @@ public class DefaultLookAtBlockRenderer implements EntityRenderer {
 		RayTraceContext context = new RayTraceContext(startPos, endPos, TRACE_OUTLINE, TRACE_FLUIDS, player);
 		BlockRayTraceResult result = world.rayTraceBlocks(context);
 
-		// get player position
-		Vec3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
-
-		// exif if player isn't looking at a block
+		// exit if player isn't looking at a block
 		if (result.getType() != Type.BLOCK)
 			return;
 
+		// get player position
+		Vec3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
+		
 		// create aabb for block
 		BlockPos blockPos = result.getPos();
 		AxisAlignedBB aabb = new AxisAlignedBB(blockPos);
@@ -82,7 +82,7 @@ public class DefaultLookAtBlockRenderer implements EntityRenderer {
 		String message = blockstate.getBlock().getNameTextComponent().getUnformattedComponentText();
 
 		// render bounding box for block
-		aabbRenderer.render(aabb, info);
+		aabbWireframeRenderer.render(aabb, info);
 
 		// render billboard
 		Vec3d aabbCenter = aabb.getCenter();
