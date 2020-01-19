@@ -1,5 +1,7 @@
 package bassebombecraft.rendering;
 
+import net.minecraft.util.math.RayTraceResult;
+
 /**
  * Interface for rendering info needed to render the HUD item.
  */
@@ -47,4 +49,11 @@ public interface RenderingInfo {
 	 */
 	float getPartialTicks();
 
+	/**
+	 * Get ray trace result.
+	 * 
+	 * @return ray trace result
+	 */
+	RayTraceResult getResult();
+	
 }

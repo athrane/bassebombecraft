@@ -2,12 +2,13 @@ package bassebombecraft.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.BUILD_MINE_BOOK;
-import static bassebombecraft.ModConstants.TARGETING_OVERLAY_ITEM;
+import static bassebombecraft.ModConstants.HUD_ITEM;
 import static bassebombecraft.ModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.VERSION;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
-import static bassebombecraft.player.PlayerUtils.*;
+import static bassebombecraft.player.PlayerUtils.getPlayer;
+import static bassebombecraft.player.PlayerUtils.isItemHeldInEitherHands;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
 import static bassebombecraft.rendering.DefaultRenderingInfo.getInstance;
@@ -15,7 +16,6 @@ import static bassebombecraft.rendering.RenderingUtils.renderTextBillboardV2;
 
 import javax.vecmath.Vector4f;
 
-import bassebombecraft.player.PlayerUtils;
 import bassebombecraft.rendering.DefaultBuildMineRenderer;
 import bassebombecraft.rendering.DefaultCharmedInfoRenderer;
 import bassebombecraft.rendering.DefaultCharmedRenderer;
@@ -33,6 +33,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -49,7 +50,7 @@ public class RenderingEventHandler {
 	/**
 	 * Random constant to put text above the hotbar.
 	 */
-	static final int TEXT_RANDOM_Y_OFFSET = 11 + 4 + 12;
+	static final int TEXT_RANDOM_Y_OFFSET = 27;
 
 	/**
 	 * Renderer for rendering team in the HUD Item.
@@ -111,7 +112,7 @@ public class RenderingEventHandler {
 		PlayerEntity player = getPlayer();
 
 		// exit if targeting overlay isn't in hotbar
-		if (!isItemInHotbar(player, TARGETING_OVERLAY_ITEM))
+		if (!isItemInHotbar(player, HUD_ITEM))
 			return;
 
 		// get player position
@@ -125,18 +126,10 @@ public class RenderingEventHandler {
 		MainWindow window = event.getWindow();
 		int x = (window.getScaledWidth() - fontRenderer.getStringWidth(text)) / 2;
 		int y = window.getScaledHeight() - TEXT_RANDOM_Y_OFFSET - 50;
+
 		fontRenderer.drawString(text, x, y, TEXT_COLOR);
 		fontRenderer.drawString("Position: " + playerPos, x, y + 10, TEXT_COLOR);
 		fontRenderer.drawString("Look: " + player.getLookVec(), x, y + 20, TEXT_COLOR);
-
-		// Vec3d renderPos = RenderingUtils.getRenderPos();
-		// fontRenderer.drawString("Render position: " + renderPos, x, y + 30,
-		// TEXT_COLOR);
-
-		// final Entity rve = mc.getRenderViewEntity();
-		// Vec3d rve2 = new Vec3d(rve.rotationPitch, rve.rotationYaw, 0);
-		// fontRenderer.drawString("Render view entity: " + rve2, x, y + 40,
-		// TEXT_COLOR);
 	}
 
 	@SubscribeEvent
@@ -150,28 +143,41 @@ public class RenderingEventHandler {
 		// get player
 		PlayerEntity player = getPlayer();
 
-		// render if targeting overlay is in hotbar
-		if (isItemInHotbar(player, TARGETING_OVERLAY_ITEM))
+		// render if HUD item is in hotbar
+		if (isItemInHotbar(player, HUD_ITEM))
 			renderHudItem(event, player);
 
-		// render if build mine book is in hand
-		if (isItemHeldInEitherHands(player, BUILD_MINE_BOOK))
-			renderBuildMineBook(event, player);
 	}
 
-	static void renderBuildMineBook(RenderWorldLastEvent event, PlayerEntity player) {
+	@SubscribeEvent
+	@OnlyIn(Dist.CLIENT)
+	public static void handleDrawBlockHighlightEvent(DrawBlockHighlightEvent event) {
+
+		// exit if player is undefined
+		if (!isPlayerDefined())
+			return;
+
+		// get player
+		PlayerEntity player = getPlayer();
 
 		try {
-			// create rendering info
-			RenderingInfo info = getInstance(event.getPartialTicks());
 
-			// render
-			buildMineRenderer.render(player, info);
+			// create rendering info
+			RenderingInfo info = getInstance(event.getPartialTicks(), event.getTarget());
+
+			// render if HUD item is in hotbar
+			if (isItemInHotbar(player, HUD_ITEM)) {
+				lookedAtBlockRenderer.render(player, info);
+			}
+
+			// render if build mine book is in hand
+			if (isItemHeldInEitherHands(player, BUILD_MINE_BOOK)) {
+				buildMineRenderer.render(player, info);
+			}
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
-
 	}
 
 	/**
@@ -195,7 +201,6 @@ public class RenderingEventHandler {
 			charmedRenderer.render(player, info);
 			charmedInfoRenderer.render(player, info);
 			targetsInfoRenderer.render(player, info);
-			lookedAtBlockRenderer.render(player, info);
 
 			Vec3d renderPos = RenderingUtils.getRenderPos();
 			Vec3d translation = playerPos.subtract(renderPos);

@@ -556,6 +556,57 @@ public class RenderingUtils {
 	}
 
 	/**
+	 * Render solid box.
+	 * 
+	 * @param aabb AABB to render.
+	 */
+	public static void renderSolidBox(AxisAlignedBB aabb) {
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferBuilder = tessellator.getBuffer();
+		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+
+		// ABCD - bottom
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
+		
+		
+		// ADHE - back
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
+		
+		// EFGH - top 
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
+				
+		// BCGF - front
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
+
+		
+		// ABFE 
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
+
+		// CDHG
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
+		
+		tessellator.draw();
+	}
+	
+	/**
 	 * Render line.
 	 * 
 	 * @param start start position.

@@ -1,7 +1,7 @@
 package bassebombecraft.event.item;
 
 import static bassebombecraft.ModConstants.BUILD_MINE_BOOK;
-import static bassebombecraft.ModConstants.TARGETING_OVERLAY_ITEM;
+import static bassebombecraft.ModConstants.HUD_ITEM;
 
 import bassebombecraft.item.basic.TerminatorEyeItem;
 import bassebombecraft.item.baton.MobCommandersBaton;
@@ -138,7 +138,7 @@ public class ItemRegistryEventHandler {
 	/**
 	 * The set of basic items.
 	 */
-	static Item[] basicItems = { new TerminatorEyeItem(), TARGETING_OVERLAY_ITEM };
+	static Item[] basicItems = { new TerminatorEyeItem(), HUD_ITEM };
 
 	/**
 	 * Handle {@linkplain RegistryEvent.Register<Item>} event to register items with

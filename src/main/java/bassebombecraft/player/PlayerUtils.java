@@ -169,7 +169,7 @@ public class PlayerUtils {
 		// exit if item is held in off hand
 		if(item.equals(itemOffhand)) return true;
 		
-		ItemStack itemStack = player.getHeldItemOffhand();		
+		ItemStack itemStack = player.getHeldItemMainhand();
 		if (itemStack == null)
 			return false;
 
