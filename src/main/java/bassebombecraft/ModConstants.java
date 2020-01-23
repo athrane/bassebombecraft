@@ -327,7 +327,6 @@ public class ModConstants {
 	/**
 	 * Rendering: Text color.
 	 */
-	//public static final int TEXT_COLOR = 0xFFFFFF;
 	public static final int TEXT_COLOR = 0x00C000;
 
 	/**

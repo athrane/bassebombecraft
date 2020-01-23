@@ -76,7 +76,7 @@ public class DefaultBuildMineRenderer implements EntityRenderer {
 
 		switch (direction) {
 		case UP: {
-			String message = "> Click on a GROUND block to create ENTRACE";
+			String message = "> Click on a GROUND block to excavate ENTRACE";
 			renderTextBillboard(playerPos, aabb2, message, TEXT_BILLBOARD_ROTATION, BUILDMINEBOOK__TEXT_COLOR);
 			break;
 		}
@@ -88,7 +88,7 @@ public class DefaultBuildMineRenderer implements EntityRenderer {
 		case NORTH:
 		case SOUTH:
 		case WEST: {
-			String message = "> Click on a WALL block to create ROOM";
+			String message = "> Click on a WALL block to excavate ROOM";
 			renderTextBillboard(playerPos, aabb2, message, TEXT_BILLBOARD_ROTATION, BUILDMINEBOOK__TEXT_COLOR);
 			break;
 		}

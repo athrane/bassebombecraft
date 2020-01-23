@@ -58,6 +58,7 @@ import bassebombecraft.item.basic.TerminatorEyeItem;
 import bassebombecraft.item.baton.MobCommandersBaton;
 import bassebombecraft.item.book.BaconBazookaBook;
 import bassebombecraft.item.book.BearBlasterBook;
+import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.item.book.BuildStairsBook;
 import bassebombecraft.item.book.BuildTowerBook;
 import bassebombecraft.item.book.CopyPasteBlocksBook;
@@ -271,6 +272,9 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.ConfigValue<String> copyPasteBlocksBookTooltip;
 	public static ForgeConfigSpec.IntValue copyPasteBlocksBookCooldown;
 
+	// BuildMineBook
+	public static ItemConfig buildMineBook;
+		
 	// Inventory items..
 	public static InventoryItemConfig charmBeastIdolInventoryItem;
 	public static InventoryItemConfig levitationIdolInventoryItem;
@@ -1042,6 +1046,10 @@ public class ModConfiguration {
 				.defineInRange("cooldown", 50, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		// BuildMineBook
+		name = BuildMineBook.ITEM_NAME;
+		buildMineBook = getInstance(COMMON_BUILDER, name, "Click on a ground block to excavate an entrance entrance to a lower level mine. A ground block is a block at the same level as the block that the payer is standing on. Click on a block in front of the player to excavate a mine corridor, room or hall.", 25);
+		
 	}
 
 	/**

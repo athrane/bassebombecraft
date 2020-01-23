@@ -15,6 +15,7 @@ import static bassebombecraft.structure.ChildStructure.createWoodStructure;
 import java.util.List;
 import java.util.Random;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.item.action.BlockClickedItemAction;
@@ -36,6 +37,12 @@ import net.minecraft.world.World;
  */
 public class BuildMine implements BlockClickedItemAction {
 
+	/**
+	 * Action identifier.
+	 */
+	public final static String NAME = BuildMine.class.getSimpleName();
+	
+	
 	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
 	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;
 
@@ -51,7 +58,7 @@ public class BuildMine implements BlockClickedItemAction {
 	/**
 	 * Random generator.
 	 */
-	Random random = new Random();
+	Random random;
 
 	/**
 	 * Ticks exists since first marker was set.
@@ -69,6 +76,7 @@ public class BuildMine implements BlockClickedItemAction {
 	public BuildMine() {
 		super();
 		repository = getBassebombeCraft().getBlockDirectivesRepository();
+		random = BassebombeCraft.getBassebombeCraft().getRandom();		
 	}
 
 	
