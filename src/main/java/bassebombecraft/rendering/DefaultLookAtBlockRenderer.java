@@ -40,8 +40,8 @@ public class DefaultLookAtBlockRenderer implements EntityRenderer {
 		// get ray trace result
 		RayTraceResult result = info.getResult();
 
-		// exit if ray trace result is defined
-		if (info.getResult() == null)
+		// exit if ray trace result isn't defined
+		if (!info.isRayTraceResultDefined())
 			return;
 
 		// exit if player isn't looking at a block

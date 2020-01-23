@@ -81,6 +81,11 @@ public class DefaultRenderingInfo implements RenderingInfo {
 		return result;
 	}
 
+	@Override
+	public boolean isRayTraceResultDefined() {
+		return (result != null);
+	}
+
 	/**
 	 * Factory method.
 	 * 

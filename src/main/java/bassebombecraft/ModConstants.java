@@ -331,6 +331,11 @@ public class ModConstants {
 	public static final int TEXT_COLOR = 0x00C000;
 
 	/**
+	 * Rendering: Text color for {@linkplain BuildMineBook} in {@linkplain DefaultBuildMineRenderer}.
+	 */
+	public static final int BUILDMINEBOOK__TEXT_COLOR = 0xC0C000;
+
+	/**
 	 * Rendering: Angle for rotation of text billboard.
 	 */
 	public static final int TEXT_BILLBOARD_ANGLE = 180;

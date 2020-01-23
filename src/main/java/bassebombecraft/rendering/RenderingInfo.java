@@ -55,5 +55,12 @@ public interface RenderingInfo {
 	 * @return ray trace result
 	 */
 	RayTraceResult getResult();
-	
+
+	/**
+	 * Returns true if ray trace result is defined.
+	 * 
+	 * @return true if ray trace result is defined
+	 */
+	boolean isRayTraceResultDefined();
+
 }
