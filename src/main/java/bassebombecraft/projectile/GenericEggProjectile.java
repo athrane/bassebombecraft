@@ -114,6 +114,21 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 		}
 	}
 
+	public void tick() {
+		super.tick();
+		
+		try {
+			// add particle for rendering
+			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
+			ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
+			repository.add(particle);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}		
+	}
+	
+	
 	@Override
 	protected Item func_213885_i() {
 		return Items.EGG;

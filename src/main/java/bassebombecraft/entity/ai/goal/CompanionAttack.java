@@ -1,16 +1,23 @@
 package bassebombecraft.entity.ai.goal;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.ModConstants.AI_COMPANION_ATTACK_MINIMUM_RANGE;
 import static bassebombecraft.ModConstants.AI_COMPANION_ATTACK_UPDATE_FREQUENCY;
-import static bassebombecraft.entity.EntityUtils.getAliveTarget;
-import static bassebombecraft.entity.EntityUtils.hasAliveTarget;
+import static bassebombecraft.config.ModConfiguration.vacuumMistDuration;
+import static bassebombecraft.config.ModConfiguration.vacuumMistForce;
+import static bassebombecraft.entity.EntityUtils.getNullableTarget;
+import static bassebombecraft.entity.EntityUtils.getTarget;
+import static bassebombecraft.entity.EntityUtils.hasTarget;
+import static bassebombecraft.entity.ai.goal.DefaultObservationRepository.getInstance;
+import static java.util.Optional.ofNullable;
 import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.item.action.GenericShootEggProjectile;
@@ -38,7 +45,6 @@ import bassebombecraft.projectile.action.SpawnKittenArmy;
 import bassebombecraft.projectile.action.SpawnLavaBlock;
 import bassebombecraft.projectile.action.SpawnLightningBolt;
 import bassebombecraft.projectile.action.SpawnSquid;
-import bassebombecraft.proxy.Proxy;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.controller.LookController;
@@ -51,6 +57,9 @@ import net.minecraft.pathfinding.PathNavigator;
  * 
  * The goal will attack the targeted mob using the abilities implemented in the
  * BassBombeCraft mod.
+ * 
+ * This goal isn't a targeting goal, it is an attack goal (if a target is
+ * defined).
  */
 public class CompanionAttack extends Goal {
 
@@ -66,7 +75,10 @@ public class CompanionAttack extends Goal {
 	static final ProjectileAction KITTEN_ARMY_PROJECTILE_ACTION = new SpawnKittenArmy();
 	static final ProjectileAction FLAMING_CHICKEN_PROJECTILE_ACTION = new SpawnFlamingChicken();
 
-	static final EntityMistActionStrategy SPAWN_VACUUM_MIST_PROJECTILE_ACTION = new VacuumMist();
+	static Supplier<Integer> splDuration = () -> vacuumMistDuration.get();
+	static Supplier<Integer> splForce = () -> vacuumMistForce.get();	
+	static final EntityMistActionStrategy SPAWN_VACUUM_MIST_PROJECTILE_ACTION = new VacuumMist(splDuration, splForce);
+	
 	static final EntityMistActionStrategy TOXIC_MIST_STRATEGY = new ToxicMist();
 	static final EntityMistActionStrategy LIGHTNING_MIST_STRATEGY = new LightningBoltMist();
 
@@ -74,34 +86,19 @@ public class CompanionAttack extends Goal {
 	final static boolean ISNT_PRIMED = false;
 
 	/**
-	 * Attack target.
-	 */
-	LivingEntity attackTarget;
-
-	/**
 	 * Entity movement speed.
 	 */
 	double entityMoveSpeed = 1.0D;
 
 	/**
-	 * Distance to target.
-	 */
-	double targetDistance;
-
-	/**
-	 * Observation counter..
-	 */
-	int observationCounter = 0;
-
-	/**
 	 * List of long range actions.
 	 */
-	static ArrayList<RightClickedItemAction> longRangeActions;
+	static List<RightClickedItemAction> longRangeActions = initializeLongRangeActions();
 
 	/**
 	 * List of close range actions.
 	 */
-	static ArrayList<RightClickedItemAction> closeRangeActions;
+	static List<RightClickedItemAction> closeRangeActions = initializeCloseRangeActions();
 
 	/**
 	 * Mob commander.
@@ -114,6 +111,16 @@ public class CompanionAttack extends Goal {
 	MobEntity entity;
 
 	/**
+	 * Facts about a combat situation.
+	 */
+	SituationalFacts targetFacts = DefaultFacts.getInstance();
+
+	/**
+	 * Observation repository for observing combat.
+	 */
+	ObservationRepository observationRepository;
+
+	/**
 	 * CompanionAttack constructor.
 	 * 
 	 * @param entity entity that the tasks is applied to.
@@ -121,10 +128,12 @@ public class CompanionAttack extends Goal {
 	public CompanionAttack(MobEntity entity) {
 		this.entity = entity;
 
-		// "interactive" AI
+		// set "interactive" AI
 		setMutexFlags(EnumSet.of(LOOK));
 
-		getCloseRangeActions();
+		// create observation repository
+		observationRepository = getInstance(entity);
+
 	}
 
 	/**
@@ -134,86 +143,153 @@ public class CompanionAttack extends Goal {
 	 * @param commander entity which commands entity.
 	 */
 	public CompanionAttack(MobEntity entity, PlayerEntity commander) {
+		this(entity);
 		this.commander = commander;
-		this.entity = entity;
 	}
 
 	@Override
 	public boolean shouldExecute() {
 
-		// exit if no living target is defined
-		if (!hasAliveTarget(entity))
+		// stop goal execution if no target is defined
+		if (!hasTarget(entity)) {
 			return false;
+		}
 
-		// get candidate
-		LivingEntity targetCandidate = getAliveTarget(entity);
+		// get target
+		Optional<LivingEntity> optTarget = getNullableTarget(entity);
 
-		// set target
-		attackTarget = targetCandidate;
-		return true;
-	}
+		// exit if target isn't defined (anymore)
+		if (!optTarget.isPresent())
+			return false;
+		
+		// target is defined, observe situation
+		observeAndupdateFacts(optTarget.get());
 
-	@Override
-	public void startExecuting() {
-		// NO-OP
+		// continue goal execution if target is alive
+		return (optTarget.get().isAlive());
 	}
 
 	@Override
 	public void tick() {
-		String action = "";
-
 		try {
 
-			// get repository
-			FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
-
 			// exit if frequency isn't active
+			FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
 			if (!repository.isActive(AI_COMPANION_ATTACK_UPDATE_FREQUENCY))
 				return;
 
-			// look at target
-			LookController lookController = entity.getLookController();
-			lookController.setLookPositionWithEntity(attackTarget, 10.0F, (float) entity.getVerticalFaceSpeed());
+			// get target
+			Optional<LivingEntity> optTarget = ofNullable(getTarget(entity));
 
-			// calculate distance to target
-			boolean isTargetClose = isTargetClose();
+			// exit if target isn't defined (anymore)
+			if (!optTarget.isPresent())
+				return;
+
+			// look at target
+			lookAtTarget(optTarget.get());
 
 			// navigate to target if entity isn't at minimum range
 			PathNavigator navigator = entity.getNavigator();
-			if (isTargetClose) {
+			if (targetFacts.isTargetClose()) {
 				navigator.clearPath();
 			} else {
-				entity.getNavigator().tryMoveToEntityLiving(attackTarget, entityMoveSpeed);
+				entity.getNavigator().tryMoveToEntityLiving(optTarget.get(), entityMoveSpeed);
 			}
 
-			// add AI observation event
-			// type, position, health
-			// doAiObservation("Before-attack");
-
 			// select behaviour type based on distance
-			if (isTargetClose)
-				action = selectAction(getCloseRangeActions());
+			if (targetFacts.isTargetClose())
+				selectAction(closeRangeActions);
 			else
-				action = selectAction(getLongRangeActions());
-
-			// increase observation counter
-			observationCounter++;
-			// doAiObservation("After-attack");
+				selectAction(longRangeActions);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
 	}
 
+	@Override
+	public void resetTask() {
+		observationRepository.clear();
+	}
+
 	/**
-	 * Return whether target is close, i.e. within the minimum attack range.
+	 * Process the situation.
 	 * 
-	 * @return true if target is close.
+	 * @param livingEntity target to observe.
 	 */
-	boolean isTargetClose() {
-		double distance = entity.getDistanceSq(attackTarget.posX, attackTarget.getBoundingBox().minY,
-				attackTarget.posZ);
-		return (distance < AI_COMPANION_ATTACK_MINIMUM_RANGE);
+	void observeAndupdateFacts(LivingEntity target) {
+
+		// observe
+		Observation observation = observationRepository.observe(target);
+		// getBassebombeCraft().getLogger().debug(observation.getObservationAsString());
+
+		// exit if not enough observations are registered
+		if (observationRepository.isTooFewObservationsRegistered())
+			return;
+
+		// get observations
+		Stream<Observation> observations = observationRepository.get();
+
+		// create facts
+		targetFacts.update(observations);
+
+		// log
+		// getBassebombeCraft().getLogger().debug(targetFacts.getFactsAsString());
+		// getProxy().postAiObservation("Attack", observation);
+	}
+
+	/**
+	 * Initialise list of long range actions.
+	 * 
+	 * @return list of long range actions.
+	 */
+	static List<RightClickedItemAction> initializeLongRangeActions() {
+		List<RightClickedItemAction> actions = new ArrayList<RightClickedItemAction>();
+		actions.add(new ShootSmallFireball());
+		actions.add(new ShootLargeFireball());
+		actions.add(new ShootWitherSkull());
+		actions.add(new ShootMultipleArrows());
+		actions.add(new ShootBaconBazooka());
+		actions.add(new ShootCreeperCannon(ISNT_PRIMED));
+		actions.add(new GenericShootEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));
+		actions.add(new GenericShootEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION));
+		actions.add(new GenericShootEggProjectile(LIGHTNING_PROJECTILE_ACTION));
+		actions.add(new GenericShootEggProjectile(MOB_HOLE_PROJECTILE_ACTION));
+		actions.add(new GenericShootEggProjectile(KITTEN_ARMY_PROJECTILE_ACTION));
+		actions.add(new GenericShootEggProjectile(FLAMING_CHICKEN_PROJECTILE_ACTION));
+		return actions;
+	}
+
+	/**
+	 * Initialise list of close range actions.
+	 * 
+	 * @return list of close range actions.
+	 */
+	static List<RightClickedItemAction> initializeCloseRangeActions() {
+		List<RightClickedItemAction> actions = new ArrayList<RightClickedItemAction>();
+		actions.add(new GenericEntityMist(TOXIC_MIST_STRATEGY));
+		actions.add(new GenericShootEggProjectile(COWEB_PROJECTILE_ACTION));
+		actions.add(new GenericShootEggProjectile(EMIT_FORCE_PROJECTILE_ACTION));
+		actions.add(new GenericShootEggProjectile(EMIT_VERTICAL_FORCE_PROJECTILE_ACTION));
+		actions.add(new GenericShootEggProjectile(ICEBLOCK_PROJECTILE_ACTION));
+		actions.add(new GenericShootEggProjectile(LAVABLOCK_PROJECTILE_ACTION));
+		actions.add(new GenericShootEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));
+		actions.add(new GenericShootEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION));
+		actions.add(new GenericEntityMist(SPAWN_VACUUM_MIST_PROJECTILE_ACTION));
+		actions.add(new GenericShootEggProjectile(LIGHTNING_PROJECTILE_ACTION));
+		actions.add(new GenericEntityMist(LIGHTNING_MIST_STRATEGY));
+		actions.add(new GenericShootEggProjectile(MOB_HOLE_PROJECTILE_ACTION));
+		return actions;
+	}
+
+	/**
+	 * Look at target.
+	 * 
+	 * @param target target to look at.
+	 */
+	void lookAtTarget(LivingEntity target) {
+		LookController lookController = entity.getLookController();
+		lookController.setLookPositionWithEntity(target, 10.0F, (float) entity.getVerticalFaceSpeed());
 	}
 
 	/**
@@ -221,95 +297,17 @@ public class CompanionAttack extends Goal {
 	 * 
 	 * Mists are not used due to update problems.
 	 * 
-	 * @param actions list af candidate actions
+	 * @param actions list of candidate actions
 	 * 
 	 * @return chosen action.
 	 */
-	String selectAction(ArrayList<RightClickedItemAction> actions) {
+	String selectAction(List<RightClickedItemAction> actions) {
 		Random random = getBassebombeCraft().getRandom();
 		int numberActions = actions.size();
 		int choice = random.nextInt(numberActions);
 		RightClickedItemAction action = actions.get(choice);
 		action.onRightClick(entity.getEntityWorld(), entity);
 		return action.getClass().getSimpleName();
-	}
-
-	@Override
-	public boolean shouldContinueExecuting() {
-		return shouldExecute() || !entity.getNavigator().noPath();
-	}
-
-	@Override
-	public void resetTask() {
-		attackTarget = null;
-	}
-
-	void doAiObservation(String observation) {
-		String id = new StringBuilder().append(this.hashCode()).append("-").append(observationCounter).append("-")
-				.append(observation).toString();
-
-		System.out.println("observation-id=" + id);
-		System.out.println("source.name=" + entity.getName());
-		System.out.println("source.health=" + entity.getHealth());
-		System.out.println("source.position=" + entity.getPosition().toLong());
-		System.out.println("target.name=" + attackTarget.getName());
-		System.out.println("target.health=" + attackTarget.getHealth());
-		System.out.println("target.position=" + attackTarget.getPosition().toLong());
-
-		Proxy proxy = getBassebombeCraft().getProxy();
-		proxy.postAiObservation("Attack", observation);
-	}
-
-	/**
-	 * Get instance of list of long range actions.
-	 * 
-	 * @return list of long range actions.
-	 */
-	static ArrayList<RightClickedItemAction> getLongRangeActions() {
-		Optional<ArrayList<RightClickedItemAction>> optActions = Optional.ofNullable(longRangeActions);
-		if (optActions.isPresent())
-			return longRangeActions;
-
-		longRangeActions = new ArrayList<RightClickedItemAction>();
-		longRangeActions.add(new ShootSmallFireball());
-		longRangeActions.add(new ShootLargeFireball());
-		longRangeActions.add(new ShootWitherSkull());
-		longRangeActions.add(new ShootMultipleArrows());
-		longRangeActions.add(new ShootBaconBazooka());
-		longRangeActions.add(new ShootCreeperCannon(ISNT_PRIMED));
-		longRangeActions.add(new GenericShootEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));
-		longRangeActions.add(new GenericShootEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION));
-		longRangeActions.add(new GenericShootEggProjectile(LIGHTNING_PROJECTILE_ACTION));
-		longRangeActions.add(new GenericShootEggProjectile(MOB_HOLE_PROJECTILE_ACTION));
-		longRangeActions.add(new GenericShootEggProjectile(KITTEN_ARMY_PROJECTILE_ACTION));
-		longRangeActions.add(new GenericShootEggProjectile(FLAMING_CHICKEN_PROJECTILE_ACTION));
-		return longRangeActions;
-	}
-
-	/**
-	 * Get instance of list of close range actions.
-	 * 
-	 * @return list of close range actions.
-	 */
-	static ArrayList<RightClickedItemAction> getCloseRangeActions() {
-		Optional<ArrayList<RightClickedItemAction>> optActions = Optional.ofNullable(closeRangeActions);
-		if (optActions.isPresent())
-			return closeRangeActions;
-
-		closeRangeActions = new ArrayList<RightClickedItemAction>();
-		closeRangeActions.add(new GenericEntityMist(TOXIC_MIST_STRATEGY));
-		closeRangeActions.add(new GenericShootEggProjectile(COWEB_PROJECTILE_ACTION));
-		closeRangeActions.add(new GenericShootEggProjectile(EMIT_FORCE_PROJECTILE_ACTION));
-		closeRangeActions.add(new GenericShootEggProjectile(EMIT_VERTICAL_FORCE_PROJECTILE_ACTION));
-		closeRangeActions.add(new GenericShootEggProjectile(ICEBLOCK_PROJECTILE_ACTION));
-		closeRangeActions.add(new GenericShootEggProjectile(LAVABLOCK_PROJECTILE_ACTION));
-		closeRangeActions.add(new GenericShootEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));
-		closeRangeActions.add(new GenericShootEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION));
-		closeRangeActions.add(new GenericEntityMist(SPAWN_VACUUM_MIST_PROJECTILE_ACTION));
-		closeRangeActions.add(new GenericShootEggProjectile(LIGHTNING_PROJECTILE_ACTION));
-		closeRangeActions.add(new GenericEntityMist(LIGHTNING_MIST_STRATEGY));
-		closeRangeActions.add(new GenericShootEggProjectile(MOB_HOLE_PROJECTILE_ACTION));
-		return closeRangeActions;
 	}
 
 }

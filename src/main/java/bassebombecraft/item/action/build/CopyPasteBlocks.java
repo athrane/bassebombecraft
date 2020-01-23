@@ -59,11 +59,6 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	static final String MSG_REGISTERED_M2 = "Registered #2 marker and captured blocks. Click on a ground block to paste. Click on a non-ground block to reset.";
 
 	/**
-	 * Configuration key.
-	 */
-	final static String CONFIG_KEY = CopyPasteBlocks.class.getSimpleName();
-
-	/**
 	 * Particle rendering info
 	 */
 	ParticleRenderingInfo[] infos;

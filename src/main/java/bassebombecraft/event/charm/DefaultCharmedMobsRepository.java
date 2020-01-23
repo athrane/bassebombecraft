@@ -64,9 +64,8 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 		if (!contains(entity))
 			return;
 
-		// update
+		// get charmed mob
 		CharmedMob charmedMob = charmedMobs.get(entity);
-		charmedMob.update();
 
 		// remove if charm is expired
 		if (charmedMob.isCharmExpired())

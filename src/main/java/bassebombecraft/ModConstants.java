@@ -5,7 +5,7 @@ import static bassebombecraft.BassebombeCraft.getItemGroup;
 import javax.vecmath.Vector4f;
 
 import bassebombecraft.config.ModConfiguration;
-import bassebombecraft.entity.ai.goal.AiCommandersTargeting;
+import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
 import bassebombecraft.event.particle.ParticleRenderingEventHandler;
@@ -15,6 +15,7 @@ import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import bassebombecraft.item.basic.HudItem;
+import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
 import bassebombecraft.potion.effect.AmplifierEffect;
@@ -29,6 +30,9 @@ import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceContext;
+import net.minecraft.util.math.RayTraceContext.BlockMode;
+import net.minecraft.util.math.RayTraceContext.FluidMode;
 
 /**
  * Mod constants.
@@ -48,7 +52,7 @@ public class ModConstants {
 	/**
 	 * Mod version.
 	 */
-	public static final String VERSION = "1.14.4-1.36";
+	public static final String VERSION = "1.14.4-1.37";
 
 	/**
 	 * In game tab name.
@@ -233,19 +237,39 @@ public class ModConstants {
 	/**
 	 * HUD Item.
 	 */
-	public static final HudItem TARGETING_OVERLAY_ITEM = new HudItem();
+	public static final HudItem HUD_ITEM = new HudItem();
 
 	/**
-	 * Rendering frequency for particles. Measured in world ticks.
-	 */
-	public static final int RENDERING_FREQUENCY = 10;
-
+	 * Build mine book.
+	 */	
+	public static final BuildMineBook BUILD_MINE_BOOK = new BuildMineBook();
+		
 	/**
-	 * Particle spawn frequency in {@linkplain ParticleRenderingEventHandler}.
+	 * Particle spawn frequency in {@linkplain ParticleRenderingEventHandler},
+	 * {@linkplain GenericBlockSpiralFillMist} and {@linkplain GenericEntityMist}.
 	 * Measured in world ticks.
 	 */
-	public static final int SPAWN_PARTICLES_FREQUENCY = 40;
+	public static final int PARTICLE_RENDERING_FREQUENCY = 3;
+		
+	/**
+	 * Particle spawn frequency in {@linkplain CharmedMobEventHandler}.
+	 * Measured in world ticks.
+	 */
+	public static final int CHARM_PARTICLE_RENDERING_FREQUENCY = 20;
 
+	/**
+	 * Effect update frequency in {@linkplain GenericBlockSpiralFillMist}.
+	 * Measured in world ticks.
+	 */
+	public static final int BLOCK_EFFECT_FREQUENCY = 3;
+
+	/**
+	 * Effect update frequency in {@linkplain GenericEntityMist}.
+	 * Measured in world ticks.
+	 */
+	public static final int MIST_EFFECT_FREQUENCY = 5;
+	
+	
 	/**
 	 * Number of processed blocks per game tick in
 	 * {@linkplain ProcessBlockDirectivesEventHandler}.
@@ -254,13 +278,13 @@ public class ModConstants {
 
 	/**
 	 * Aggro duration for AI Commanded team members during self destruct in
-	 * {@linkplain AiCommandersTargeting}.
+	 * {@linkplain CommandersTargetGoal}.
 	 */
 	public static final int AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_AGGRO = 1000;
 
 	/**
 	 * Fire duration for AI Commanded team members during self destruct in
-	 * {@linkplain AiCommandersTargeting}.
+	 * {@linkplain CommandersTargetGoal}.
 	 */
 	public static final int AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE = 1000;
 
@@ -269,6 +293,11 @@ public class ModConstants {
 	 */
 	public static final int AI_COMPANION_ATTACK_UPDATE_FREQUENCY = 10;
 
+	/**
+	 * Update frequency for {@linkplain FollowClosestPlayer}. Measured in ticks.
+	 */
+	public static final int AI_FOLLOW_CLOEST_PLAYER_UPDATE_FREQUENCY = 10;
+	
 	/**
 	 * Minimum range for close quarters attacks in {@linkplain CompanionAttack}.
 	 * Measured in blocks.
@@ -293,12 +322,17 @@ public class ModConstants {
 	/**
 	 * Rendering: Text scale
 	 */
-	public static final float TEXT_SCALE = 0.03F;
+	public static final float TEXT_SCALE = 0.02F;
 
 	/**
 	 * Rendering: Text color.
 	 */
-	public static final int TEXT_COLOR = 0xFFFFFF;
+	public static final int TEXT_COLOR = 0x00C000;
+
+	/**
+	 * Rendering: Text color for {@linkplain BuildMineBook} in {@linkplain DefaultBuildMineRenderer}.
+	 */
+	public static final int BUILDMINEBOOK__TEXT_COLOR = 0xC0C000;
 
 	/**
 	 * Rendering: Angle for rotation of text billboard.
@@ -310,6 +344,36 @@ public class ModConstants {
 	 */
 	public static final Vector4f TEXT_BILLBOARD_ROTATION = new Vector4f(0.0F, 0.0F, 1.0F, TEXT_BILLBOARD_ANGLE);
 
+	/**
+	 * HUD item: Team target label.
+	 */
+	public static final String TARGET_LABEL = "Target";
+
+	/**
+	 * HUD item: displacement of text.
+	 */
+	public static final double HUD_TEXT_DISP = 0.25;
+
+	/**
+	 * HUD Item: Number of targets to render.
+	 */
+	public static final int TEAM_MEMBERS_TO_RENDER = 7;
+
+	/**
+	 * HUD Item: Ray trace range in blocks.
+	 */
+	public static final double RAYTRACE_RANGE = 20;
+	
+	/**
+	 * HUD Item: Ray trace mode for fluids.
+	 */
+	public static final FluidMode RAYTRACE_FLUIDS = RayTraceContext.FluidMode.ANY;
+
+	/**
+	 * HUD Item: Ray trace mode for blocks.
+	 */
+	public static final BlockMode RAYTRACE_OUTLINE = RayTraceContext.BlockMode.OUTLINE;
+	
 	/**
 	 * Defines should be effect only.
 	 */

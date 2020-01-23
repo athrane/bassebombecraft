@@ -25,16 +25,7 @@ public class AttackCommandersTargetCommand implements MobCommand {
 
 		// get target
 		LivingEntity target = commander.getLastAttackedEntity();
-		// start execution if target is defined
-		return (target != null);
-	}
-
-	@Override
-	public boolean continueExecuting(LivingEntity commander, CreatureEntity entity) {
-
-		// get target
-		LivingEntity target = commander.getLastAttackedEntity();
-
+		
 		// exit if target is undefined
 		if (target == null)
 			return false;
@@ -47,6 +38,11 @@ public class AttackCommandersTargetCommand implements MobCommand {
 		entity.setAttackTarget(target);
 
 		return true;
+	}
+
+	@Override
+	public void tick(LivingEntity commander, CreatureEntity entity) {
+		// NO-OP
 	}
 
 }

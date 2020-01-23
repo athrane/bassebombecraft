@@ -3,11 +3,12 @@ package bassebombecraft.entity.ai.goal;
 import static bassebombecraft.ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_AGGRO;
 import static bassebombecraft.ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE;
 import static bassebombecraft.ModConstants.MOB_AGGRO_EFFECT;
-import static bassebombecraft.entity.EntityUtils.getAliveTarget;
-import static bassebombecraft.entity.EntityUtils.hasAliveTarget;
+import static bassebombecraft.entity.EntityUtils.getNullableTarget;
+import static bassebombecraft.entity.EntityUtils.hasTarget;
 import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
 
 import java.util.EnumSet;
+import java.util.Optional;
 
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
@@ -19,7 +20,7 @@ import net.minecraft.potion.EffectInstance;
  * 
  * Entity self-destructs if commander has died and aggros everything.
  */
-public class AiCommandersTargeting extends Goal {
+public class CommandersTargetGoal extends Goal {
 
 	/**
 	 * Null/No target value to use when clearing the target.
@@ -42,7 +43,7 @@ public class AiCommandersTargeting extends Goal {
 	 * @param entity    commanded entity.
 	 * @param commander entity which commands entity.
 	 */
-	public AiCommandersTargeting(CreatureEntity entity, LivingEntity commander) {
+	public CommandersTargetGoal(CreatureEntity entity, LivingEntity commander) {
 		this.entity = entity;
 		this.commander = commander;
 
@@ -54,35 +55,38 @@ public class AiCommandersTargeting extends Goal {
 	public boolean shouldExecute() {
 
 		// exit if commander is dead
-		if (!commander.isAlive())
+		if (!commander.isAlive()) {
 			selfDestruct();
-
-		// exit if commander doesn't has a target
-		if (!hasAliveTarget(commander))
 			return false;
+		}
 
-		// otherwise attack
-		return true;
-	}
-
-	@Override
-	public boolean shouldContinueExecuting() {
-
-		// exit if commander doesn't has a target
-		if (!hasAliveTarget(commander))
+		// stop goal execution if no target is defined for commander
+		if (!hasTarget(commander)) 
 			return false;
 
 		// get target
-		LivingEntity target = getAliveTarget(commander);
+		Optional<LivingEntity> optTarget = getNullableTarget(entity);
 
-		// update target
-		entity.setAttackTarget(target);
-		return true;
+		// exit if target isn't defined (anymore)
+		if (!optTarget.isPresent())
+			return false;
+
+		// continue goal execution if target is alive
+		return (optTarget.get().isAlive());
 	}
 
 	@Override
-	public void startExecuting() {
-		// NO-OP
+	public void tick() {
+
+		// get target
+		Optional<LivingEntity> optTarget = getNullableTarget(entity);
+
+		// exit if target isn't defined (anymore)
+		if (!optTarget.isPresent())
+			return;
+
+		// update target
+		entity.setAttackTarget(optTarget.get());
 	}
 
 	@Override

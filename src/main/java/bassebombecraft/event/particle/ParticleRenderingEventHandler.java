@@ -2,7 +2,7 @@ package bassebombecraft.event.particle;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getMincraft;
-import static bassebombecraft.ModConstants.RENDERING_FREQUENCY;
+import static bassebombecraft.ModConstants.PARTICLE_RENDERING_FREQUENCY;
 import static bassebombecraft.world.WorldUtils.isWorldAtServerSide;
 
 import java.util.Random;
@@ -54,7 +54,7 @@ public class ParticleRenderingEventHandler {
 
 		// exit if particles should be rendered in this tick
 		// exit if frequency isn't active
-		if (!frequencyRepository.isActive(RENDERING_FREQUENCY))
+		if (!frequencyRepository.isActive(PARTICLE_RENDERING_FREQUENCY))
 			return;
 
 		// render particles

@@ -7,6 +7,8 @@ import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEXT_SCALE;
 import static net.minecraftforge.fml.common.ObfuscationReflectionHelper.getPrivateValue;
 
+import java.time.Instant;
+
 import javax.vecmath.Vector4f;
 
 import org.lwjgl.opengl.GL11;
@@ -19,6 +21,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 
 /**
@@ -45,6 +48,32 @@ public class RenderingUtils {
 		Vec3d renderPos = new Vec3d(renderPosX, renderPosY, renderPosZ);
 
 		return renderPos;
+	}
+
+	/**
+	 * Prepare GL for rendering of simple lines.
+	 * 
+	 * @param x x-coordinate for translation.
+	 * @param y y-coordinate for translation.
+	 * @param z z-coordinate for translation.
+	 */
+	public static void prepareSimpleRendering(double x, double y, double z) {
+		GlStateManager.pushMatrix();
+		GlStateManager.translated(x, y, z);
+		GlStateManager.disableLighting();
+		GlStateManager.enableBlend();
+		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GlStateManager.disableTexture();
+	}
+
+	/**
+	 * Complete rendering of simple lines.
+	 */
+	public static void completeSimpleRendering() {
+		GlStateManager.enableTexture();
+		GlStateManager.disableBlend();
+		GlStateManager.enableLighting();
+		GlStateManager.popMatrix();
 	}
 
 	/**
@@ -92,8 +121,6 @@ public class RenderingUtils {
 		GlStateManager.disableLighting();
 		GlStateManager.disableTexture();
 		GlStateManager.disableDepthTest();
-
-		// GlStateManager.pushMatrix();
 	}
 
 	/**
@@ -231,6 +258,96 @@ public class RenderingUtils {
 	}
 
 	/**
+	 * Render a unit coordinate system centered at origin.
+	 * 
+	 * @param playerPos player position
+	 * @param entityPos entity position
+	 */	
+	public static void renderDebugBillboard(Vec3d playerPos, Vec3d entityPos) {
+		setupBillboardRendering();
+
+		// X/R
+
+		// set line width & color
+		GlStateManager.lineWidth(2);
+		GlStateManager.color3f(1.0F, 0.0F, 0.0F);
+
+		// translate and rotate billboard
+		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
+		setupBillboardRotation();
+
+		// create tessellator & bufferbuilder
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferBuilder = tessellator.getBuffer();
+
+		// build buffer
+		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
+
+		// AB
+		bufferBuilder.pos(0, 0, 0).endVertex();
+		bufferBuilder.pos(1.0F, 0, 0).endVertex();
+
+		tessellator.draw();
+
+		resetBillboardRendering();
+
+		// Y/G
+
+		setupBillboardRendering();
+
+		// set line width & color
+		GlStateManager.lineWidth(2);
+		GlStateManager.color3f(0.0F, 1.0F, 0.0F);
+
+		// translate and rotate billboard
+		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
+		setupBillboardRotation();
+
+		// create tessellator & bufferbuilder
+		tessellator = Tessellator.getInstance();
+		bufferBuilder = tessellator.getBuffer();
+
+		// build buffer
+		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
+
+		// AB
+		bufferBuilder.pos(0, 0, 0).endVertex();
+		bufferBuilder.pos(0, 1.0F, 0).endVertex();
+
+		tessellator.draw();
+
+		resetBillboardRendering();
+
+		// Z/B
+
+		setupBillboardRendering();
+
+		// set line width & color
+		GlStateManager.lineWidth(2);
+		GlStateManager.color3f(0.0F, 0.0F, 1.0F);
+
+		// translate and rotate billboard
+		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
+		setupBillboardRotation();
+
+		// create tessellator & bufferbuilder
+		tessellator = Tessellator.getInstance();
+		bufferBuilder = tessellator.getBuffer();
+
+		// build buffer
+		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
+
+		// AB
+		bufferBuilder.pos(0, 0, 0).endVertex();
+		bufferBuilder.pos(0, 0, 1.0F).endVertex();
+
+		tessellator.draw();
+
+		resetBillboardRendering();
+
+	}
+	
+	/**
 	 * Render text at origin.
 	 * 
 	 * @param playerPos player position
@@ -239,6 +356,19 @@ public class RenderingUtils {
 	 * @param rotation  rotation
 	 */
 	public static void renderTextBillboard(Vec3d playerPos, Vec3d entityPos, String text, Vector4f rotation) {
+		renderTextBillboard(playerPos, entityPos, text, rotation, TEXT_COLOR);
+	}
+	
+	/**
+	 * Render text at origin.
+	 * 
+	 * @param playerPos player position
+	 * @param entityPos entity position
+	 * @param text      text to render
+	 * @param rotation  rotation
+	 * @param textColor text color
+	 */
+	public static void renderTextBillboard(Vec3d playerPos, Vec3d entityPos, String text, Vector4f rotation, int textColor ) {
 		setupBillboardRendering();
 
 		// get minecraft
@@ -260,11 +390,11 @@ public class RenderingUtils {
 		GlStateManager.rotatef(rotation.w, rotation.x, rotation.y, rotation.z);
 
 		// draw
-		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
+		mc.fontRenderer.drawString(text, 0, 0, textColor);
 
 		resetBillboardRendering();
 	}
-
+	
 	/**
 	 * Render text at origin.
 	 * 
@@ -349,7 +479,7 @@ public class RenderingUtils {
 	 * 
 	 * This method supports rotation of the text relative to the player view
 	 * direction and independent of the camera (or) player orientation and
-	 * placement. *
+	 * placement.
 	 * 
 	 * @param cameraTranslation camera translation vector.
 	 * @param text              text to render
@@ -391,53 +521,257 @@ public class RenderingUtils {
 	}
 
 	/**
-	 * Render a box.
+	 * Render wireframe box.
+	 * 
+	 * @param aabb AABB to render.
 	 */
-	public static void renderBox(Vec3d translation, double dx, double dy, double dz, Vec3d pos) {
+	public static void renderWireframeBox(AxisAlignedBB aabb) {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuffer();
-		bufferBuilder.setTranslation(translation.getX(), translation.getY(), translation.getZ());
 		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
 
 		// AB
-		bufferBuilder.pos(pos.x, pos.y, pos.z).endVertex();
-		bufferBuilder.pos(pos.x, pos.y, pos.z + dz).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
 		// BC
-		bufferBuilder.pos(pos.x, pos.y, pos.z + dz).endVertex();
-		bufferBuilder.pos(pos.x + dx, pos.y, pos.z + dz).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
 		// CD
-		bufferBuilder.pos(pos.x + dx, pos.y, pos.z + dz).endVertex();
-		bufferBuilder.pos(pos.x + dx, pos.y, pos.z).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
 		// DA
-		bufferBuilder.pos(pos.x + dx, pos.y, pos.z).endVertex();
-		bufferBuilder.pos(pos.x, pos.y, pos.z).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
 		// EF
-		bufferBuilder.pos(pos.x, pos.y + dy, pos.z).endVertex();
-		bufferBuilder.pos(pos.x, pos.y + dy, pos.z + dz).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
 		// FG
-		bufferBuilder.pos(pos.x, pos.y + dy, pos.z + dz).endVertex();
-		bufferBuilder.pos(pos.x + dx, pos.y + dy, pos.z + dz).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
 		// GH
-		bufferBuilder.pos(pos.x + dx, pos.y + dy, pos.z + dz).endVertex();
-		bufferBuilder.pos(pos.x + dx, pos.y + dy, pos.z).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
 		// HE
-		bufferBuilder.pos(pos.x + dx, pos.y + dy, pos.z).endVertex();
-		bufferBuilder.pos(pos.x, pos.y + dy, pos.z).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
 		// AE
-		bufferBuilder.pos(pos.x, pos.y, pos.z).endVertex();
-		bufferBuilder.pos(pos.x, pos.y + dy, pos.z).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
 		// BF
-		bufferBuilder.pos(pos.x, pos.y, pos.z + dz).endVertex();
-		bufferBuilder.pos(pos.x, pos.y + dy, pos.z + dz).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
 		// CG
-		bufferBuilder.pos(pos.x + dx, pos.y, pos.z + dz).endVertex();
-		bufferBuilder.pos(pos.x + dx, pos.y + dy, pos.z + dz).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
 		// DH
-		bufferBuilder.pos(pos.x + dx, pos.y, pos.z).endVertex();
-		bufferBuilder.pos(pos.x + dx, pos.y + dy, pos.z).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
 
 		tessellator.draw();
-		bufferBuilder.setTranslation(0, 0, 0);
+	}
+
+	/**
+	 * Render solid box.
+	 * 
+	 * @param aabb AABB to render.
+	 */
+	public static void renderSolidBox(AxisAlignedBB aabb) {
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferBuilder = tessellator.getBuffer();
+		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+
+		// ABCD - bottom (clockwise)
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
+				
+		// ADHE - back (clockwise)
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
+		
+		// EFGH - top 
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
+				
+		// BCGF - front
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
+		
+		// ABFE 
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
+
+		// CDHG
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
+		
+		tessellator.draw();
+	}
+
+	/**
+	 * Render top of solid box.
+	 * 
+	 * @param aabb AABB to render.
+	 */
+	public static void renderSolidBoxTop(AxisAlignedBB aabb) {
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferBuilder = tessellator.getBuffer();
+		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+				
+		// EFGH - top (anti-clockwise)
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
+						
+		tessellator.draw();
+	}
+
+	/**
+	 * Render bottom of solid box.
+	 * 
+	 * @param aabb AABB to render.
+	 */
+	public static void renderSolidBoxBottom(AxisAlignedBB aabb) {
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferBuilder = tessellator.getBuffer();
+		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+		
+		// ABCD - bottom (clockwise)
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
+						
+		tessellator.draw();
+	}
+	
+	/**
+	 * Render north side of solid box.
+	 * 
+	 * @param aabb AABB to render.
+	 */
+	public static void renderSolidBoxNorth(AxisAlignedBB aabb) {
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferBuilder = tessellator.getBuffer();
+		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+		
+		// ADHE - back (clockwise)
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
+						
+		tessellator.draw();
+	}
+
+	/**
+	 * Render south side of solid box.
+	 * 
+	 * @param aabb AABB to render.
+	 */
+	public static void renderSolidBoxSouth(AxisAlignedBB aabb) {
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferBuilder = tessellator.getBuffer();
+		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+
+		// BCGF - front (anti-clockwise)
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
+		
+		tessellator.draw();
+	}
+
+	/**
+	 * Render east side of solid box.
+	 * 
+	 * @param aabb AABB to render.
+	 */
+	public static void renderSolidBoxEast(AxisAlignedBB aabb) {
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferBuilder = tessellator.getBuffer();
+		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+
+		// CDHG (anti-clockwise)
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
+		
+		tessellator.draw();
+	}
+
+	/**
+	 * Render west side of solid box.
+	 * 
+	 * @param aabb AABB to render.
+	 */
+	public static void renderSolidBoxWest(AxisAlignedBB aabb) {
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferBuilder = tessellator.getBuffer();
+		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
+
+		// BAEF (clockwise)
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
+		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
+		
+		tessellator.draw();
+	}
+	
+	/**
+	 * Render line.
+	 * 
+	 * @param start start position.
+	 * @param end   end position.
+	 */
+	public static void renderLine(Vec3d start, Vec3d end) {
+		Tessellator tessellator = Tessellator.getInstance();
+		BufferBuilder bufferBuilder = tessellator.getBuffer();
+		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
+		bufferBuilder.pos(start.x, start.y, start.z).endVertex();
+		bufferBuilder.pos(end.x, end.y, end.z).endVertex();
+		tessellator.draw();
+	}
+
+	/**
+	 * Oscillate value. 
+	 * 
+	 * @param min
+	 * @param max
+	 * 
+	 * @return oscillated value between min and max.
+	 */
+	public static double oscillate(double min, double max) {
+		long time = Instant.now().toEpochMilli() / 10;
+		return min + (Math.sin(Math.toRadians(time)) + 1) / 2 * (max - min);
+	}
+
+	/**
+	 * Oscillate value. 
+	 * 
+	 * @param time
+	 * @param min
+	 * @param max
+	 * 
+	 * @return oscillated value between min and max.
+	 */
+	public static double oscillate(double time, double min, double max) {
+		return min + (Math.sin(Math.toRadians(time)) + 1) / 2 * (max - min);
 	}
 
 }

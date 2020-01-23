@@ -29,6 +29,12 @@ public class DefaultTargetedEntitiesRepository implements TargetedEntitiesReposi
 		return targets.stream();
 	}
 
+	
+	@Override
+	public int size(PlayerEntity commander) {
+		return targets.size();
+	}
+
 	/**
 	 * Factory method.
 	 * 

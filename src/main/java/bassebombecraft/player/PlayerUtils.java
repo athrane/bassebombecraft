@@ -145,6 +145,43 @@ public class PlayerUtils {
 	}
 
 	/**
+	 * Returns true if item is held in either player hands.
+	 * 
+	 * @param player player to test.
+	 * @param item   item to test whether it is held by player.
+	 * 
+	 * @return true if item is held by player in either hand.
+	 */
+	public static boolean isItemHeldInEitherHands(PlayerEntity player, Item item) {
+		if (player == null)
+			return false;
+		if (item == null)
+			return false;
+
+		ItemStack itemStackOffhand = player.getHeldItemOffhand();		
+		if (itemStackOffhand == null)
+			return false;
+
+		Item itemOffhand = itemStackOffhand.getItem();
+		if (itemOffhand == null)
+			return false;
+		
+		// exit if item is held in off hand
+		if(item.equals(itemOffhand)) return true;
+		
+		ItemStack itemStack = player.getHeldItemMainhand();
+		if (itemStack == null)
+			return false;
+
+		Item itemMainhand = itemStack.getItem();
+		if (itemMainhand == null)
+			return false;
+		
+		// exit if item is held in main hand
+		return (item.equals(itemMainhand));		
+	}
+	
+	/**
 	 * Returns true if item is held in hotbar.
 	 * 
 	 * @param player player to test.

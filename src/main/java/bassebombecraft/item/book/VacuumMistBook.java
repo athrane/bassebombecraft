@@ -1,18 +1,23 @@
 package bassebombecraft.item.book;
 
-import bassebombecraft.item.action.mist.entity.EntityMistActionStrategy;
+import static bassebombecraft.config.ModConfiguration.vacuumMistBook;
+import static bassebombecraft.config.ModConfiguration.*;
+
+import java.util.function.Supplier;
+
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.action.mist.entity.VacuumMist;
 
 /**
- * Book of mob vacuum mist implementation.
+ * Book of vacuum mist implementation.
  */
 public class VacuumMistBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "VacuumMistBook";
-	static final EntityMistActionStrategy STRATEGY = new VacuumMist();		
-	
+	public final static String ITEM_NAME = VacuumMistBook.class.getSimpleName();
+	static Supplier<Integer> splDuration = () -> vacuumMistDuration.get();
+	static Supplier<Integer> splForce = () -> vacuumMistForce.get();
+
 	public VacuumMistBook() {
-		super(ITEM_NAME, new GenericEntityMist(STRATEGY));
+		super(ITEM_NAME, vacuumMistBook, new GenericEntityMist(new VacuumMist(splDuration, splForce)));
 	}
 }

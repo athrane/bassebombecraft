@@ -5,8 +5,6 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import java.util.Optional;
 import java.util.Random;
 
-import bassebombecraft.entity.ai.goal.CompanionAttack;
-import bassebombecraft.event.rendering.RenderingEventHandler;
 import bassebombecraft.player.PlayerDirection;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
@@ -176,31 +174,47 @@ public class EntityUtils {
 	 * @return if entity has a attacking target defined which is alive.
 	 */
 	public static boolean hasAliveTarget(LivingEntity entity) {
-		Optional<LivingEntity> target = null;
-
-		// get attack target if type is creature entity
-		if (EntityUtils.isTypeCreatureEntity(entity)) {
-			CreatureEntity creatureEntity = (CreatureEntity) entity;
-			target = Optional.ofNullable(creatureEntity.getAttackTarget());
-		} else {
-			target = Optional.ofNullable(entity.getLastAttackedEntity());
-		}
-
+		Optional<LivingEntity> target = getNullableTarget(entity);
 		if (target.isPresent())
 			return target.get().isAlive();
 		return false;
 	}
 
 	/**
-	 * Return a (hopefully) live target. Use for targeting by the AI task
-	 * {@linkplain CompanionAttack} and the target rendering in
-	 * {@linkplain RenderingEventHandler}.
+	 * Returns true if entity has a attacking target defined .
+	 * 
+	 * @param entity entity to query.
+	 * 
+	 * @return if entity has a attacking target defined.
+	 */
+	public static boolean hasTarget(LivingEntity entity) {
+		Optional<LivingEntity> target = getNullableTarget(entity);
+		return (target.isPresent());
+	}
+
+	/**
+	 * Return a target.
+	 * 
+	 * @param entity to get target from.
+	 * 
+	 * @return target from entity.
+	 */
+	public static Optional<LivingEntity> getNullableTarget(LivingEntity entity) {
+		if (EntityUtils.isTypeCreatureEntity(entity)) {
+			CreatureEntity creatureEntity = (CreatureEntity) entity;
+			return Optional.ofNullable(creatureEntity.getAttackTarget());
+		}
+		return Optional.ofNullable(entity.getLastAttackedEntity());
+	}
+
+	/**
+	 * Return a (hopefully) live target.
 	 * 
 	 * @param entity to get live target from.
 	 * 
 	 * @return live target from entity.
 	 */
-	public static LivingEntity getAliveTarget(LivingEntity entity) {
+	public static LivingEntity getTarget(LivingEntity entity) {
 
 		// get attack target if type is creature entity
 		if (EntityUtils.isTypeCreatureEntity(entity)) {
@@ -241,7 +255,7 @@ public class EntityUtils {
 	public static void setTarget(Entity entity, LivingEntity newTarget) {
 		if (isTypeCreatureEntity(entity)) {
 			CreatureEntity creatureEntity = (CreatureEntity) entity;
-			creatureEntity.setAttackTarget(newTarget);			
+			creatureEntity.setAttackTarget(newTarget);
 			return;
 		}
 		if (isTypeLivingEntity(entity)) {
@@ -252,8 +266,8 @@ public class EntityUtils {
 	}
 
 	/**
-	 * Set entity to be aggro'ed.
-	 * Aggro'ing is only supported for {@linkplain MobEntity}.
+	 * Set entity to be aggro'ed. Aggro'ing is only supported for
+	 * {@linkplain MobEntity}.
 	 * 
 	 * @param entity entity to set aggro'ed if it is a {@linkplain MobEntity}.
 	 */
@@ -264,7 +278,7 @@ public class EntityUtils {
 			mobEntity.setAggroed(true);
 		}
 	}
-	
+
 	/**
 	 * Set a random spawn position for living entity.
 	 * 
@@ -303,6 +317,5 @@ public class EntityUtils {
 	public static float calculateRandomYaw() {
 		return getBassebombeCraft().getRandom().nextFloat() * 360.0F;
 	}
-
 
 }

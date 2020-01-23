@@ -84,15 +84,6 @@ public class AttackNearestMobCommand implements MobCommand {
 		// update target
 		entity.setAttackTarget(target);
 
-		return true;
-	}
-
-	@Override
-	public boolean continueExecuting(LivingEntity commander, CreatureEntity entity) {
-
-		// get target
-		LivingEntity target = entity.getAttackTarget();
-
 		// exit if target is undefined
 		if (target == null)
 			return false;
@@ -102,6 +93,11 @@ public class AttackNearestMobCommand implements MobCommand {
 			return false;
 
 		return true;
+	}
+
+	@Override
+	public void tick(LivingEntity commander, CreatureEntity entity) {
+		// NO-OP
 	}
 
 }

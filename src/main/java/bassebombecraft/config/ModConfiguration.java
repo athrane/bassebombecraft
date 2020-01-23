@@ -50,24 +50,31 @@ import bassebombecraft.item.action.inventory.AddSaturationEffect;
 import bassebombecraft.item.action.inventory.Naturalize;
 import bassebombecraft.item.action.inventory.Pinkynize;
 import bassebombecraft.item.action.inventory.Rainbownize;
+import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
+import bassebombecraft.item.action.mist.block.LavaSpiralMist;
+import bassebombecraft.item.action.mist.entity.VacuumMist;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.basic.TerminatorEyeItem;
 import bassebombecraft.item.baton.MobCommandersBaton;
 import bassebombecraft.item.book.BaconBazookaBook;
 import bassebombecraft.item.book.BearBlasterBook;
+import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.item.book.BuildStairsBook;
 import bassebombecraft.item.book.BuildTowerBook;
 import bassebombecraft.item.book.CopyPasteBlocksBook;
 import bassebombecraft.item.book.CreeperCannonBook;
 import bassebombecraft.item.book.DigMobHoleBook;
+import bassebombecraft.item.book.LavaSpiralMistBook;
 import bassebombecraft.item.book.PrimedCreeperCannonBook;
 import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.SmallFireballRingBook;
 import bassebombecraft.item.book.SpawnCreeperArmyBook;
+import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnKittenArmyBook;
 import bassebombecraft.item.book.SpawnSkeletonArmyBook;
 import bassebombecraft.item.book.TeleportBook;
+import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
 import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
@@ -232,6 +239,12 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.ConfigValue<String> digMobHoleBookTooltip;
 	public static ForgeConfigSpec.IntValue digMobHoleBookCooldown;
 
+	// LavaSpiralMistBook
+	public static ItemConfig lavaSpiralMistBook;
+
+	// VacuumMistBook
+	public static ItemConfig vacuumMistBook;
+	
 	// SpawnCreeperArmyBook
 	public static ForgeConfigSpec.ConfigValue<String> spawnCreeperArmyBookTooltip;
 	public static ForgeConfigSpec.IntValue spawnCreeperArmyBookCooldown;
@@ -244,6 +257,9 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.ConfigValue<String> spawnKittenArmyBookTooltip;
 	public static ForgeConfigSpec.IntValue spawnKittenArmyBookCooldown;
 
+	// SpawnGuardianBook	
+	public static ItemConfig spawnGuardianBook;
+		
 	// BuildTowerBook
 	public static ForgeConfigSpec.ConfigValue<String> buildTowerBookTooltip;
 	public static ForgeConfigSpec.IntValue buildTowerBookCooldown;
@@ -256,6 +272,9 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.ConfigValue<String> copyPasteBlocksBookTooltip;
 	public static ForgeConfigSpec.IntValue copyPasteBlocksBookCooldown;
 
+	// BuildMineBook
+	public static ItemConfig buildMineBook;
+		
 	// Inventory items..
 	public static InventoryItemConfig charmBeastIdolInventoryItem;
 	public static InventoryItemConfig levitationIdolInventoryItem;
@@ -318,6 +337,18 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue digMobHoleNoHitHoleWidth;
 	public static ForgeConfigSpec.IntValue digMobHoleHeightExpansion;
 
+	// GenericBlockSpiralFillMist action
+	public static ForgeConfigSpec.IntValue genericBlockSpiralFillMistSpiralSize;	
+	
+	// LavaSpiralMist action
+	public static ForgeConfigSpec.IntValue lavaSpiralMistDuration;
+	public static ParticlesConfig lavaSpiralMistParticleInfo;
+
+	// VacuumMist action
+	public static ForgeConfigSpec.IntValue vacuumMistDuration;
+	public static ForgeConfigSpec.IntValue vacuumMistForce;	
+	public static ParticlesConfig vacuumMistParticleInfo;
+	
 	// SpawnStairs projectile action
 	public static ForgeConfigSpec.IntValue spawnStairsDuration;
 
@@ -673,6 +704,31 @@ public class ModConfiguration {
 				.defineInRange("heightExpansion", 1, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		// GenericBlockSpiralFillMist
+		name = GenericBlockSpiralFillMist.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		genericBlockSpiralFillMistSpiralSize = COMMON_BUILDER.comment("Spiral szie in blocks for ALL spiral effects.")
+				.defineInRange("spiralSize", 20, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// LavaSpiralMist
+		name = LavaSpiralMist.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		lavaSpiralMistDuration = COMMON_BUILDER.comment("Duration in game ticks.")
+				.defineInRange("duration", 100, 0, Integer.MAX_VALUE);
+		lavaSpiralMistParticleInfo = getInstance(COMMON_BUILDER, "flame", 10, 10, 0.1, 0.0, 0.0, 0.0);
+		COMMON_BUILDER.pop();
+
+		// VacuumMist
+		name = VacuumMist.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		vacuumMistDuration = COMMON_BUILDER.comment("Duration in game ticks.")
+				.defineInRange("duration", 500, 0, Integer.MAX_VALUE);
+		vacuumMistForce = COMMON_BUILDER.comment("Effect pull force in blocks.")
+				.defineInRange("force", 5, 0, Integer.MAX_VALUE);		
+		vacuumMistParticleInfo = getInstance(COMMON_BUILDER, "effect", 10, 20, 0.3, 0.75, 0.75, 0.75);
+		COMMON_BUILDER.pop();
+		
 		// SpawnCreeperArmy
 		name = SpawnCreeperArmy.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -924,6 +980,14 @@ public class ModConfiguration {
 				25, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		// LavaSpiralMistBook
+		name = LavaSpiralMistBook.ITEM_NAME;
+		lavaSpiralMistBook = getInstance(COMMON_BUILDER, name, "Creates an expanding spiral of temporary lava blocks centered on where the caster is placed.", 10);
+		
+		// VacuumMistBook
+		name = VacuumMistBook.ITEM_NAME;
+		vacuumMistBook = getInstance(COMMON_BUILDER, name, "Creates a cloud of vacuum which pull mobs into it.", 100);
+				
 		// SpawnCreeperArmyBook
 		name = SpawnCreeperArmyBook.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -951,6 +1015,10 @@ public class ModConfiguration {
 				.defineInRange("cooldown", 50, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		// SpawnGuardianBook
+		name = SpawnGuardianBook.ITEM_NAME;
+		spawnGuardianBook = getInstance(COMMON_BUILDER, name, "Right-click to spawns a friendly golem. The golem will follow and protect its creator, i.e. the player or whoever spawned him. The golem will use the magic from BasseBombeCraft for its protection duties. The guardian can be commanded by Krenko's Command Baton", 25);
+				
 		// BuildTowerBook
 		name = BuildTowerBook.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -978,6 +1046,10 @@ public class ModConfiguration {
 				.defineInRange("cooldown", 50, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		// BuildMineBook
+		name = BuildMineBook.ITEM_NAME;
+		buildMineBook = getInstance(COMMON_BUILDER, name, "Click on a ground block to excavate an entrance entrance to a lower level mine. A ground block is a block at the same level as the block that the payer is standing on. Click on a block in front of the player to excavate a mine corridor, room or hall.", 25);
+		
 	}
 
 	/**

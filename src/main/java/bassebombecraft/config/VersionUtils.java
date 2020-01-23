@@ -42,6 +42,8 @@ import com.google.gson.Gson;
 import bassebombecraft.ModConstants;
 import bassebombecraft.config.http.HttpCallback;
 import bassebombecraft.config.http.HttpRequestHandler;
+import bassebombecraft.player.PlayerUtils;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.versions.forge.ForgeVersion;
 import net.minecraftforge.versions.mcp.MCPVersion;
 
@@ -225,12 +227,8 @@ public class VersionUtils {
 		// get stack trace as string
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
-		String description = new StringBuilder()
-				.append(sw.toString())
-				.append(System.getProperty("line.separator"))
-				.append(createUserInfo(uid))
-				.toString();
-
+		String description = new StringBuilder().append(sw.toString()).append(System.getProperty("line.separator"))
+				.append(createUserInfo(uid)).toString();
 
 		List<NameValuePair> postParameters = createExceptionParameters(uid, category, description);
 		URIBuilder uriBuilder = new URIBuilder(ANALYTICS_URL);
@@ -468,18 +466,20 @@ public class VersionUtils {
 		// get MCP version
 		String mcpVersion = MCPVersion.getMCPVersion();
 
-		String userInfo = new StringBuilder().append(uid).append(";")
-				.append(System.getProperty("os.name")).append(",").append(System.getProperty("os.version")).append(",")
-				.append(System.getProperty("os.arch")).append(";").append(System.getProperty("java.version"))
-				.append(";").append(mcVersion).append(";").append(forgeVersion).append(";").append(mcpVersion)
-				.append(";").toString();
+		String userInfo = new StringBuilder().append(uid).append(";").append(System.getProperty("os.name")).append(",")
+				.append(System.getProperty("os.version")).append(",").append(System.getProperty("os.arch")).append(";")
+				.append(System.getProperty("java.version")).append(";").append(mcVersion).append(";")
+				.append(forgeVersion).append(";").append(mcpVersion).append(";").toString();
 		return userInfo;
 	}
 
 	/**
 	 * Validate version.
+	 * 
+	 * @param player player to send version info to.
+	 * 
 	 */
-	public static void validateVersion() {
+	public static void validateVersion(PlayerEntity player) {
 		Logger logger = getBassebombeCraft().getLogger();
 		Gson gson = new Gson();
 
@@ -497,27 +497,40 @@ public class VersionUtils {
 			// calculate version
 			VersionInfo info = gson.fromJson(json, VersionInfo.class);
 			String version = info.minecraftVersion + "-" + info.modVersion;
-
 			logger.info("Starting version check at: " + VERSION_URL);
 
 			// validate version info
 			if (!VERSION.equalsIgnoreCase(version)) {
-				logger.info("A newer version of BasseBombeCraft is available.");
-				logger.info("The newest version is: " + version);
-				logger.info("The new version can be downloaded from: " + DOWNLOAD_URL);
+
+				String message = "A newer version of BasseBombeCraft is available.";
+				logger.info(message);
+				PlayerUtils.sendChatMessageToPlayer(player, message);
+
+				message = "The newest version is: " + version;
+				logger.info(message);
+				PlayerUtils.sendChatMessageToPlayer(player, message);
+
+				message = "The new version can be downloaded from: " + DOWNLOAD_URL;
+				logger.info(message);
+				PlayerUtils.sendChatMessageToPlayer(player, message);
+
 				return;
 			}
 
-			logger.info("The most current version of BasseBombeCraft is used: " + version);
+			String message = "The most current version of BasseBombeCraft is used: " + version;
+			logger.info(message);
+			PlayerUtils.sendChatMessageToPlayer(player, message);
 
 		} catch (Exception e) {
 			logger.info("Failed to validate version due to exception:" + e.getMessage());
 			getBassebombeCraft().reportException(e);
 		} finally {
-			if (is == null)
-				return;
+
+			// NO-OP
+
 			try {
-				is.close();
+				if (is != null)
+					is.close();
 			} catch (IOException e) {
 				logger.info("Failed to close connection for version validation due to exception:" + e.getMessage());
 				getBassebombeCraft().reportException(e);

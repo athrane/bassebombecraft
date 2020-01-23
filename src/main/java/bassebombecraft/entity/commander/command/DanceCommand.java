@@ -50,7 +50,7 @@ public class DanceCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean continueExecuting(LivingEntity commander, CreatureEntity entity) {
+	public void tick(LivingEntity commander, CreatureEntity entity) {
 
 		// clear target
 		entity.setAttackTarget(null);
@@ -67,7 +67,6 @@ public class DanceCommand implements MobCommand {
 			entity.travel(danceVec);
 		}
 
-		return true;
 	}
 
 	/**

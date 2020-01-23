@@ -5,32 +5,25 @@
 			"item": "minecraft:enchanted_book"
 		},
 		{
-			"item": "minecraft:wool",
-			"data": 14
+			"item": "minecraft:red_wool"
 		},
 		{
-			"item": "minecraft:wool",
-			"data": 1
+			"item": "minecraft:orange_wool"
 		},
 		{
-			"item": "minecraft:wool",
-			"data": 4
+			"item": "minecraft:yellow_wool"
 		},
 		{
-			"item": "minecraft:wool",
-			"data": 13
+			"item": "minecraft:green_wool"
 		},
 		{
-			"item": "minecraft:wool",
-			"data": 11
+			"item": "minecraft:blue_wool"
 		},
 		{
-			"item": "minecraft:wool",
-			"data": 10
+			"item": "minecraft:purple_wool"
 		},
 		{
-			"item": "minecraft:wool",
-			"data": 2
+			"item": "minecraft:magenta_wool"
 		}
 	],
 	"result": {

@@ -5,8 +5,7 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:skull",
-			"data": 4
+			"item": "minecraft:creeper_head"
 		},
 		{
 			"item": "minecraft:gunpowder"

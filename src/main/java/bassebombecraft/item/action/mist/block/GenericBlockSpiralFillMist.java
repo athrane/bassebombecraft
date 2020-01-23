@@ -1,12 +1,15 @@
 package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.*;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
 
+import bassebombecraft.config.ModConfiguration;
+import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
@@ -29,25 +32,9 @@ import net.minecraft.world.World;
 public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 
 	/**
-	 * Rendering frequency in ticks.
+	 * Action identifier.
 	 */
-	static final int RENDERING_FREQUENCY = 5;
-
-	/**
-	 * Effect frequency when targeted mob are affect by most. Frequency is
-	 * measured in ticks.
-	 */
-	static final int EFFECT_UPDATE_FREQUENCY = 5;
-
-	/**
-	 * Spawn distance of mist from invoker. Distance is measured in blocks.
-	 */
-	static final float INVOCATION_DIST = 4;
-
-	/**
-	 * Spiral size.
-	 */
-	static final int SPIRAL_SIZE = 20;
+	public final static String NAME = GenericBlockSpiralFillMist.class.getSimpleName();
 
 	/**
 	 * Ticks counter.
@@ -75,11 +62,6 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	BlockMistActionStrategy strategy;
 
 	/**
-	 * Particle repository
-	 */
-	ParticleRenderingRepository particleRepository;
-
-	/**
 	 * Spiral coordinates.
 	 */
 	List<BlockPos> spiralCoordinates;
@@ -100,17 +82,21 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	BlockPos mistPosition;
 
 	/**
+	 * Spiral size.
+	 */
+	int spiralSize;
+
+	/**
 	 * GenericBlockMist constructor.
 	 * 
-	 * @param strategy
-	 *            mist strategy.
+	 * @param strategy mist strategy.
 	 */
 	public GenericBlockSpiralFillMist(BlockMistActionStrategy strategy) {
 		this.strategy = strategy;
-		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
+		spiralSize = ModConfiguration.genericBlockSpiralFillMistSpiralSize.get();
 
 		// calculate spiral
-		spiralCoordinates = GeometryUtils.calculateSpiral(SPIRAL_SIZE, SPIRAL_SIZE);
+		spiralCoordinates = GeometryUtils.calculateSpiral(spiralSize, spiralSize);
 	}
 
 	@Override
@@ -128,15 +114,14 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 		if (!isActive())
 			return;
 
-		// render mist
-		if (ticksCounter % RENDERING_FREQUENCY == 0) {
+		// render mist if frequency is active
+		FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
+		if (repository.isActive(PARTICLE_RENDERING_FREQUENCY))
 			render(worldIn);
-		}
 
-		// update game effect
-		if (ticksCounter % EFFECT_UPDATE_FREQUENCY == 0) {
+		// update effect if frequency is active
+		if (repository.isActive(BLOCK_EFFECT_FREQUENCY))
 			applyEffect(worldIn);
-		}
 
 		// disable if duration is completed
 		if (ticksCounter > strategy.getEffectDuration()) {
@@ -162,10 +147,8 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	 * 
 	 * Mist is calculated as a spiral.
 	 * 
-	 * @param world
-	 *            world object.
-	 * @param entity
-	 *            entity object
+	 * @param world  world object.
+	 * @param entity entity object
 	 */
 	void initializeMistPostition(World world, LivingEntity entity) {
 		spiralCounter = strategy.getSpiralOffset();
@@ -175,8 +158,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	/**
 	 * Apply effect to block.
 	 * 
-	 * @param world
-	 *            world object
+	 * @param world world object
 	 */
 	void applyEffect(World world) {
 		strategy.applyEffectToBlock(mistPosition, world);
@@ -185,25 +167,25 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	/**
 	 * Render mist in world.
 	 * 
-	 * @param world
-	 *            world object.
+	 * @param world world object.
 	 */
 	void render(World world) {
 		updateMistPosition(world);
 
 		// render mists
+		ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
+
 		// iterate over rendering info's
 		for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
 			ParticleRendering particle = getInstance(mistPosition, info);
-			particleRepository.add(particle);
+			repository.add(particle);
 		}
 	}
 
 	/**
 	 * Update mist positions.
 	 * 
-	 * @param world
-	 *            world object.
+	 * @param world world object.
 	 */
 	void updateMistPosition(World world) {
 

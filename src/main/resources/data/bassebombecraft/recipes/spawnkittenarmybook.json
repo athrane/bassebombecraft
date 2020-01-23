@@ -5,12 +5,10 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:fish",
-			"data": 0
+			"item": "minecraft:salmon"
 		},
 		{
-			"item": "minecraft:fish",
-			"data": 0			
+			"item": "minecraft:tropical_fish"
 		}
 	],
 	"result": {

@@ -41,7 +41,7 @@ public interface TeamRepository {
 	 * @return size of commanders team.
 	 */
 	public int size(PlayerEntity commander);
-	
+
 	/**
 	 * Add team member.
 	 * 
@@ -86,5 +86,5 @@ public interface TeamRepository {
 	 * @return collection of team members.
 	 */
 	public Collection<LivingEntity> get(PlayerEntity commander);
-	
+
 }

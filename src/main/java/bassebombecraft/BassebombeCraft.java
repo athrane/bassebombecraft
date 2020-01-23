@@ -3,7 +3,7 @@ package bassebombecraft;
 import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.ModConstants.TAB_NAME;
 import static bassebombecraft.config.ModConfiguration.loadConfig;
-import static bassebombecraft.config.VersionUtils.validateVersion;
+import static bassebombecraft.config.VersionUtils.*;
 import static bassebombecraft.tab.ItemGroupFactory.createItemGroup;
 
 import java.io.PrintWriter;
@@ -27,6 +27,8 @@ import bassebombecraft.event.block.temporary.DefaultTemporaryBlockRepository;
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.charm.DefaultCharmedMobsRepository;
+import bassebombecraft.event.duration.DefaultDurationRepository;
+import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.entity.target.DefaultTargetedEntitiesRepository;
 import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.event.entity.team.DefaultTeamRepository;
@@ -40,10 +42,12 @@ import bassebombecraft.proxy.ClientProxy;
 import bassebombecraft.proxy.Proxy;
 import bassebombecraft.proxy.ServerProxy;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -64,7 +68,7 @@ public class BassebombeCraft {
 	/**
 	 * Mod instance.
 	 */
-	public static BassebombeCraft instance;
+	static BassebombeCraft instance;
 
 	/**
 	 * Distributed executor for execution of client and server side code.
@@ -117,6 +121,11 @@ public class BassebombeCraft {
 	FrequencyRepository frequencyRepository;
 
 	/**
+	 * Duration repository.
+	 */
+	DurationRepository durationRepository;
+	
+	/**
 	 * Minecraft server.
 	 */
 	MinecraftServer server;
@@ -145,6 +154,9 @@ public class BassebombeCraft {
 			// initialise frequency repository
 			frequencyRepository = DefaultFrequencyRepository.getInstance();
 
+			// initialise duration repository
+			durationRepository = DefaultDurationRepository.getInstance();
+			
 			// Initialise charmed mobs repository
 			charmedMobsRepository = DefaultCharmedMobsRepository.getInstance();
 
@@ -180,7 +192,6 @@ public class BassebombeCraft {
 
 	@SubscribeEvent
 	void setup(FMLCommonSetupEvent event) {
-		validateVersion();
 		// initializeWorldGenerators();
 	}
 
@@ -200,6 +211,12 @@ public class BassebombeCraft {
 		server = null;
 	}
 
+	@SubscribeEvent
+	void playerLoggedIn(PlayerLoggedInEvent event) {
+		PlayerEntity player = event.getPlayer();
+		validateVersion(player);
+	}
+	
 	/**
 	 * Initialize world generators.
 	 */
@@ -291,6 +308,15 @@ public class BassebombeCraft {
 		return frequencyRepository;
 	}
 
+	/**
+	 * Get duration repository.
+	 * 
+	 * @return duration repository
+	 */	
+	public DurationRepository getDurationRepository() {
+		return durationRepository; 
+	}
+	
 	/**
 	 * Get mod configuration from TOML file.
 	 * 

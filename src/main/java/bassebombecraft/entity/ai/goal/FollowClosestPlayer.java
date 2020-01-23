@@ -1,10 +1,13 @@
 package bassebombecraft.entity.ai.goal;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.AI_FOLLOW_CLOEST_PLAYER_UPDATE_FREQUENCY;
 import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
 import static net.minecraft.entity.ai.goal.Goal.Flag.MOVE;
 
 import java.util.EnumSet;
 
+import bassebombecraft.event.frequency.FrequencyRepository;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,8 +20,10 @@ import net.minecraft.pathfinding.PathNavigator;
  */
 public class FollowClosestPlayer extends Goal {
 
-	static final int UPDATE_DELAY = 10;
-	static final float WATCH_DIST = 8.0F;
+	/**
+	 * Watch distance.
+	 */
+	static final float WATCH_DIST = 10.0F;
 
 	/**
 	 * Goal owner.
@@ -30,8 +35,14 @@ public class FollowClosestPlayer extends Goal {
 	 */
 	PlayerEntity closestPlayer;
 
-	int updateDelayCounter = 0;
-	float minDistanceSqr; // minimum distance to player (squared)
+	/**
+	 * Minimum distance to player (squared).
+	 */
+	float minDistanceSqr;
+
+	/**
+	 * Movement speed.
+	 */
 	double movementSpeed;
 
 	/**
@@ -52,33 +63,28 @@ public class FollowClosestPlayer extends Goal {
 
 	@Override
 	public boolean shouldExecute() {
+
+		// get closest player
 		closestPlayer = this.entity.getEntityWorld().getClosestPlayer(entity, WATCH_DIST);
-		return (closestPlayer != null);
-	}
 
-	@Override
-	public boolean shouldContinueExecuting() {
-		// if player isn't alive then determine if a new player can be found
+		// exit if no player could be founds
+		if (closestPlayer == null)
+			return false;
+
+		// exit if player isn't alive
 		if (!closestPlayer.isAlive())
-			return shouldExecute();
-		return isMinimumDistanceReached();
-	}
+			return false;
 
-	@Override
-	public void startExecuting() {
-		updateDelayCounter = 0;
+		return isMinimumDistanceReached();
 	}
 
 	@Override
 	public void tick() {
 
-		// add pause between attacks
-		updateDelayCounter = updateDelayCounter + 1;
-
-		// reset count if threshold is reached
-		if (updateDelayCounter < UPDATE_DELAY)
+		// exit if frequency isn't active
+		FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
+		if (!repository.isActive(AI_FOLLOW_CLOEST_PLAYER_UPDATE_FREQUENCY))
 			return;
-		updateDelayCounter = 0;
 
 		// move towards
 		PathNavigator navigator = entity.getNavigator();

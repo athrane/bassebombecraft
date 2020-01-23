@@ -1,6 +1,10 @@
 package bassebombecraft.item.book;
 
-import bassebombecraft.item.action.mist.block.BlockMistActionStrategy;
+import static bassebombecraft.config.ModConfiguration.lavaSpiralMistDuration;
+import static bassebombecraft.config.ModConfiguration.lavaSpiralMistBook;
+
+import java.util.function.Supplier;
+
 import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.block.LavaSpiralMist;
 
@@ -9,10 +13,10 @@ import bassebombecraft.item.action.mist.block.LavaSpiralMist;
  */
 public class LavaSpiralMistBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "LavaSpiralMistBook";
-	static final BlockMistActionStrategy STRATEGY = new LavaSpiralMist();
+	public final static String ITEM_NAME = LavaSpiralMistBook.class.getSimpleName();
+	static Supplier<Integer> splDuration = () -> lavaSpiralMistDuration.get();
 
 	public LavaSpiralMistBook() {
-		super(ITEM_NAME, new GenericBlockSpiralFillMist(STRATEGY));
+		super(ITEM_NAME, lavaSpiralMistBook, new GenericBlockSpiralFillMist(new LavaSpiralMist(splDuration)));
 	}
 }

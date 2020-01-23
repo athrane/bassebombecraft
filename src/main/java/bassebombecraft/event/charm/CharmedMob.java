@@ -1,9 +1,11 @@
 package bassebombecraft.event.charm;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.ai.AiUtils.captureGoals;
 
 import java.util.Set;
 
+import bassebombecraft.event.duration.DurationRepository;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
@@ -13,6 +15,11 @@ import net.minecraft.entity.ai.goal.PrioritizedGoal;
  */
 public class CharmedMob {
 
+	/**
+	 * Id used for registration of duration.
+	 */
+	String id;
+	
 	/**
 	 * Captured AI goals.
 	 */
@@ -29,11 +36,6 @@ public class CharmedMob {
 	final MobEntity entity;
 
 	/**
-	 * Charm duration in ticks
-	 */
-	int duration;
-
-	/**
 	 * CharmedMob constructor.
 	 * 
 	 * @param entity   charmed mob.
@@ -44,7 +46,11 @@ public class CharmedMob {
 		this.entity = entity;
 		goals = captureGoals(entity.goalSelector);
 		targetGoals = captureGoals(entity.targetSelector);
-		this.duration = duration;
+
+		// register charmed mob 
+		DurationRepository repository = getBassebombeCraft().getDurationRepository();
+		id = entity.getName().getUnformattedComponentText();
+		repository.add(id, duration);		
 	}
 
 	public Set<PrioritizedGoal> getGoals() {
@@ -59,14 +65,18 @@ public class CharmedMob {
 		return entity;
 	}
 
-	public void update() {
-		if (duration == 0)
-			return;
-		duration = duration - 1;
+	public boolean isCharmExpired() {
+		DurationRepository repository = getBassebombeCraft().getDurationRepository();
+		return repository.isExpired(id);
 	}
 
-	public boolean isCharmExpired() {
-		return (duration == 0);
+	public int getDuration() {
+		DurationRepository repository = getBassebombeCraft().getDurationRepository();
+		
+		// return zero if expired
+		if(repository.isExpired(id)) return 0;
+				
+		return repository.get(id);
 	}
 
 	/**
