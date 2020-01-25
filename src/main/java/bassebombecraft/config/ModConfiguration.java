@@ -52,6 +52,7 @@ import bassebombecraft.item.action.inventory.Pinkynize;
 import bassebombecraft.item.action.inventory.Rainbownize;
 import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.block.LavaSpiralMist;
+import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.action.mist.entity.VacuumMist;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.basic.TerminatorEyeItem;
@@ -339,6 +340,9 @@ public class ModConfiguration {
 
 	// GenericBlockSpiralFillMist action
 	public static ForgeConfigSpec.IntValue genericBlockSpiralFillMistSpiralSize;	
+
+	// GenericEntityMist action
+	public static ForgeConfigSpec.IntValue genericEntityMistSpiralSize;	
 	
 	// LavaSpiralMist action
 	public static ForgeConfigSpec.IntValue lavaSpiralMistDuration;
@@ -707,10 +711,17 @@ public class ModConfiguration {
 		// GenericBlockSpiralFillMist
 		name = GenericBlockSpiralFillMist.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		genericBlockSpiralFillMistSpiralSize = COMMON_BUILDER.comment("Spiral szie in blocks for ALL spiral effects.")
+		genericBlockSpiralFillMistSpiralSize = COMMON_BUILDER.comment("Spiral szie in blocks for ALL block spiral effects.")
 				.defineInRange("spiralSize", 20, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		// GenericEntityMist
+		name = GenericEntityMist.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		genericEntityMistSpiralSize = COMMON_BUILDER.comment("Spiral szie in blocks for ALL entity spiral effects.")
+				.defineInRange("spiralSize", 20, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+		
 		// LavaSpiralMist
 		name = LavaSpiralMist.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
