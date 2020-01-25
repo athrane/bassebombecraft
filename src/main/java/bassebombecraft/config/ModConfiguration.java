@@ -712,14 +712,14 @@ public class ModConfiguration {
 		name = GenericBlockSpiralFillMist.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		genericBlockSpiralFillMistSpiralSize = COMMON_BUILDER.comment("Spiral szie in blocks for ALL block spiral effects.")
-				.defineInRange("spiralSize", 20, 0, Integer.MAX_VALUE);
+				.defineInRange("spiralSize", 9, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		// GenericEntityMist
 		name = GenericEntityMist.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		genericEntityMistSpiralSize = COMMON_BUILDER.comment("Spiral szie in blocks for ALL entity spiral effects.")
-				.defineInRange("spiralSize", 20, 0, Integer.MAX_VALUE);
+				.defineInRange("spiralSize", 9, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 		
 		// LavaSpiralMist
