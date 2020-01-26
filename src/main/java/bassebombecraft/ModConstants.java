@@ -294,9 +294,9 @@ public class ModConstants {
 	public static final int AI_COMPANION_ATTACK_UPDATE_FREQUENCY = 10;
 
 	/**
-	 * Update frequency for {@linkplain FollowClosestPlayer}. Measured in ticks.
+	 * Update frequency for path recalculation in AI goals. Measured in ticks.
 	 */
-	public static final int AI_FOLLOW_CLOEST_PLAYER_UPDATE_FREQUENCY = 10;
+	public static final int AI_PATH_RECALC_UPDATE_FREQUENCY = 10;
 	
 	/**
 	 * Minimum range for close quarters attacks in {@linkplain CompanionAttack}.
@@ -304,6 +304,11 @@ public class ModConstants {
 	 */
 	public static final int AI_COMPANION_ATTACK_MINIMUM_RANGE = 5;
 
+	/**
+	 * AI watch distance (in blocks) for entity to look at a target in AI goals. 
+	 * 	 */
+	public static final int AI_TARGET_WATCH_DIST = 10;
+	
 	/**
 	 * Item properties which places item in tab.
 	 */
