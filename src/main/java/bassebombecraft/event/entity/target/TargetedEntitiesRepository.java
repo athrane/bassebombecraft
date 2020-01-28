@@ -71,6 +71,13 @@ public interface TargetedEntitiesRepository {
 	 * @param commander commander to get target for.
 	 */
 	public Optional<LivingEntity> getFirst(PlayerEntity commander);
+
+	/**
+	 * Get the commanders first prioritised target.
+	 * 
+	 * @param commander commander to get target for.
+	 */
+	public Optional<LivingEntity> getFirst(LivingEntity commander);
 	
 	/**
 	 * Get number of targeted entities by commander.

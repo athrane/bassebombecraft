@@ -2,6 +2,7 @@ package bassebombecraft.event.entity.target;
 
 import static bassebombecraft.entity.EntityUtils.getNullableTarget;
 import static bassebombecraft.entity.EntityUtils.hasAliveTarget;
+import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
 
@@ -190,6 +191,19 @@ public class DefaultTargetedEntitiesRepository implements TargetedEntitiesReposi
 		// return first result
 		LivingEntity target = commandersTargets.targets.iterator().next();
 		return ofNullable(target);
+	}
+
+	@Override
+	public Optional<LivingEntity> getFirst(LivingEntity commander) {
+
+		// exit if commander isn't a player
+		if (!isTypePlayerEntity(commander))
+			return empty();
+
+		// type cast
+		PlayerEntity commanderAsPlayer = (PlayerEntity) commander;
+
+		return getFirst(commanderAsPlayer);
 	}
 
 	@Override

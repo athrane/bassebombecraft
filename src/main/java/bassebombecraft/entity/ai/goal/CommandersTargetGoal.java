@@ -1,15 +1,16 @@
 package bassebombecraft.entity.ai.goal;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_AGGRO;
 import static bassebombecraft.ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE;
 import static bassebombecraft.ModConstants.MOB_AGGRO_EFFECT;
-import static bassebombecraft.entity.EntityUtils.getNullableTarget;
 import static bassebombecraft.entity.EntityUtils.hasTarget;
 import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
 
 import java.util.EnumSet;
 import java.util.Optional;
 
+import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
@@ -61,11 +62,12 @@ public class CommandersTargetGoal extends Goal {
 		}
 
 		// stop goal execution if no target is defined for commander
-		if (!hasTarget(commander)) 
+		if (!hasTarget(commander))
 			return false;
 
 		// get target
-		Optional<LivingEntity> optTarget = getNullableTarget(entity);
+		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
+		Optional<LivingEntity> optTarget = repository.getFirst(commander);
 
 		// exit if target isn't defined (anymore)
 		if (!optTarget.isPresent())
@@ -79,7 +81,8 @@ public class CommandersTargetGoal extends Goal {
 	public void tick() {
 
 		// get target
-		Optional<LivingEntity> optTarget = getNullableTarget(entity);
+		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
+		Optional<LivingEntity> optTarget = repository.getFirst(commander);
 
 		// exit if target isn't defined (anymore)
 		if (!optTarget.isPresent())
