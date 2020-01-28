@@ -1,7 +1,12 @@
 package bassebombecraft.entity.commander.command;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+
+import java.util.Optional;
+
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
+import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 
@@ -24,18 +29,19 @@ public class AttackCommandersTargetCommand implements MobCommand {
 	public boolean shouldExecute(LivingEntity commander, CreatureEntity entity) {
 
 		// get target
-		LivingEntity target = commander.getLastAttackedEntity();
+		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
+		Optional<LivingEntity> optTarget = repository.getFirst(commander);
 		
 		// exit if target is undefined
-		if (target == null)
+		if (!optTarget.isPresent())
 			return false;
 
 		// exit if target is dead
-		if (!target.isAlive())
+		if (!optTarget.get().isAlive())
 			return false;
 
 		// update target
-		entity.setAttackTarget(target);
+		entity.setAttackTarget(optTarget.get());
 
 		return true;
 	}
