@@ -37,7 +37,6 @@ public class TeamMembershipEventHandler {
 			
 			// disband team
 			repository.deleteTeam(player);
-			return;
 		}
 		
 	}
