@@ -6,6 +6,7 @@ import static bassebombecraft.ModConstants.TEAM_MEMBERS_TO_RENDER;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 import static bassebombecraft.rendering.RenderingUtils.renderHudTextBillboard;
 
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
@@ -81,20 +82,22 @@ public class DefaultTargetsInfoRenderer implements EntityRenderer {
 	/**
 	 * Get commander target name.
 	 * 
-	 * @param entity commander to resolved target name from.
+	 * @param player commander to resolved target name from.
 	 * 
 	 * @return commander target name.
 	 */
-	String getCommanderTargetName(PlayerEntity entity) {
+	String getCommanderTargetName(PlayerEntity player) {
 
 		// get commander target
-		LivingEntity target = entity.getLastAttackedEntity();
+		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
+		Optional<LivingEntity> optTarget = repository.getFirst(player);
 
 		// exit if entity has no target
-		if (target == null)
+		if (!optTarget.isPresent())
 			return "N/A";
 
 		// get live target info
+		LivingEntity target = optTarget.get();
 		return target.getName().getUnformattedComponentText();
 	}
 
