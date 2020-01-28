@@ -1,9 +1,9 @@
 package bassebombecraft.event.entity.target;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
-import bassebombecraft.entity.EntityUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,18 +27,19 @@ public class TargetedEntitiesEventHandler {
 		// remove entity from team upon death
 		LivingEntity entity = event.getEntityLiving();
 		repository.remove(entity);
-		
+
 		// delete commanders targets if dead entity is commander
 		if (isTypePlayerEntity(event.getEntityLiving())) {
-			PlayerEntity player = (PlayerEntity) event.getEntityLiving();			
-			
+			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+
 			// exit if player isn't a commander
-			if(!repository.isCommander(player)) return;
-			
+			if (!repository.isCommander(player))
+				return;
+
 			// clear all targets
 			repository.clear(player);
 		}
-		
+
 	}
 
 	@SubscribeEvent
@@ -47,16 +48,17 @@ public class TargetedEntitiesEventHandler {
 		// get player and target
 		PlayerEntity player = event.getPlayer();
 		Entity target = event.getTarget();
-			
+
 		// exit if target isn't a living entity
-		if(!EntityUtils.isTypeLivingEntity(target)) return;
-		
+		if (!isTypeLivingEntity(target))
+			return;
+
 		// type cast
 		LivingEntity targetAsLivingEntity = (LivingEntity) target;
-		
+
 		// add target for commander
 		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
-		repository.add(player, targetAsLivingEntity);		
+		repository.add(player, targetAsLivingEntity);
 	}
 
 	@SubscribeEvent
