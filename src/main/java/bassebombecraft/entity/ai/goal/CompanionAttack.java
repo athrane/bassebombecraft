@@ -41,7 +41,6 @@ import bassebombecraft.projectile.action.SpawnAnvil;
 import bassebombecraft.projectile.action.SpawnCobweb;
 import bassebombecraft.projectile.action.SpawnFlamingChicken;
 import bassebombecraft.projectile.action.SpawnIceBlock;
-import bassebombecraft.projectile.action.SpawnKittenArmy;
 import bassebombecraft.projectile.action.SpawnLavaBlock;
 import bassebombecraft.projectile.action.SpawnLightningBolt;
 import bassebombecraft.projectile.action.SpawnSquid;
@@ -72,13 +71,12 @@ public class CompanionAttack extends Goal {
 	static final ProjectileAction SPAWN_SQUID_PROJECTILE_ACTION = new SpawnSquid();
 	static final ProjectileAction FALLING_ANVIL_PROJECTILE_ACTION = new SpawnAnvil();
 	static final ProjectileAction MOB_HOLE_PROJECTILE_ACTION = new DigMobHole();
-	static final ProjectileAction KITTEN_ARMY_PROJECTILE_ACTION = new SpawnKittenArmy();
 	static final ProjectileAction FLAMING_CHICKEN_PROJECTILE_ACTION = new SpawnFlamingChicken();
 
 	static Supplier<Integer> splDuration = () -> vacuumMistDuration.get();
-	static Supplier<Integer> splForce = () -> vacuumMistForce.get();	
+	static Supplier<Integer> splForce = () -> vacuumMistForce.get();
 	static final EntityMistActionStrategy SPAWN_VACUUM_MIST_PROJECTILE_ACTION = new VacuumMist(splDuration, splForce);
-	
+
 	static final EntityMistActionStrategy TOXIC_MIST_STRATEGY = new ToxicMist();
 	static final EntityMistActionStrategy LIGHTNING_MIST_STRATEGY = new LightningBoltMist();
 
@@ -161,7 +159,7 @@ public class CompanionAttack extends Goal {
 		// exit if target isn't defined (anymore)
 		if (!optTarget.isPresent())
 			return false;
-		
+
 		// target is defined, observe situation
 		observeAndupdateFacts(optTarget.get());
 
@@ -255,7 +253,6 @@ public class CompanionAttack extends Goal {
 		actions.add(new GenericShootEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION));
 		actions.add(new GenericShootEggProjectile(LIGHTNING_PROJECTILE_ACTION));
 		actions.add(new GenericShootEggProjectile(MOB_HOLE_PROJECTILE_ACTION));
-		actions.add(new GenericShootEggProjectile(KITTEN_ARMY_PROJECTILE_ACTION));
 		actions.add(new GenericShootEggProjectile(FLAMING_CHICKEN_PROJECTILE_ACTION));
 		return actions;
 	}
