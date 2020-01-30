@@ -19,9 +19,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.pathfinding.PathNavigator;
 
 /**
- * AI goal for companion, e.g. charmed mob or guardian.
+ * AI goal for entity, e.g. spawned mob, charmed mob or guardian.
  * 
- * The goal will follow the designated entity.
+ * The goal will follow the designated leader.
  */
 public class FollowEntityGoal extends Goal {
 
@@ -38,7 +38,6 @@ public class FollowEntityGoal extends Goal {
 	double followSpeed;
 	float minDistance;
 	float maxDistance;
-	float oldWaterCost;
 	float minDistanceSqr; // minimum distance to player (squared)
 
 	/**
@@ -46,16 +45,16 @@ public class FollowEntityGoal extends Goal {
 	 * 
 	 * @param entity        entity to which the task is applied.
 	 * @param leader        entity to be followed.
-	 * @param followSpeedIn following speed.
-	 * @param minDistIn     minimum distance.
-	 * @param maxDistIn     maximum distance.
+	 * @param followSpeed following speed.
+	 * @param minDist     minimum distance.
+	 * @param maxDist     maximum distance.
 	 */
-	public FollowEntityGoal(MobEntity entity, LivingEntity leader, double followSpeedIn, float minDistIn, float maxDistIn) {
+	public FollowEntityGoal(MobEntity entity, LivingEntity leader, double followSpeed, float minDist, float maxDist) {
 		this.entity = entity;
 		this.leaderEntity = leader;
-		this.followSpeed = followSpeedIn;
-		this.minDistance = minDistIn;
-		this.maxDistance = maxDistIn;
+		this.followSpeed = followSpeed;
+		this.minDistance = minDist;
+		this.maxDistance = maxDist;
 		minDistanceSqr = minDistance * minDistance;
 
 		// "movement" AI
@@ -86,7 +85,6 @@ public class FollowEntityGoal extends Goal {
 
 	@Override
 	public void startExecuting() {
-		oldWaterCost = entity.getPathPriority(WATER);
 		entity.setPathPriority(WATER, 0.0F);
 	}
 
