@@ -50,6 +50,7 @@ import bassebombecraft.item.action.inventory.AddSaturationEffect;
 import bassebombecraft.item.action.inventory.Naturalize;
 import bassebombecraft.item.action.inventory.Pinkynize;
 import bassebombecraft.item.action.inventory.Rainbownize;
+import bassebombecraft.item.action.inventory.SpawnAngryParrots;
 import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.block.LavaSpiralMist;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
@@ -83,6 +84,7 @@ import bassebombecraft.item.inventory.ChickenizeIdolInventoryItem;
 import bassebombecraft.item.inventory.EggProjectileIdolInventoryItem;
 import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
+import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
 import bassebombecraft.item.inventory.LlamaSpitIdolInventoryItem;
@@ -298,6 +300,7 @@ public class ModConfiguration {
 	public static InventoryItemConfig playerAggroIdolInventoryItem;
 	public static InventoryItemConfig reaperIdolInventoryItem;
 	public static InventoryItemConfig massExtinctionEventIdolInventoryItem;
+	public static InventoryItemConfig angryParrotsIdolInventoryItem;
 
 	// Actions..
 
@@ -388,7 +391,7 @@ public class ModConfiguration {
 	// Naturalize action
 	public static ForgeConfigSpec.IntValue naturalizeSpiralSize;
 
-	// Naturalize action
+	// Rainbownize action
 	public static ForgeConfigSpec.IntValue rainbownizeSpiralSize;
 
 	// AddSaturationEffect
@@ -407,6 +410,10 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue addPlayerAggroEffectDuration;
 	public static ForgeConfigSpec.IntValue addPlayerAggroEffectAmplifier;
 
+	// Spawn angry parrots action
+	public static ForgeConfigSpec.IntValue spawnAngryParrotsDamage;
+	public static ForgeConfigSpec.DoubleValue spawnAngryParrotsMovementSpeed;
+	
 	static {
 
 		// build general section
@@ -899,6 +906,15 @@ public class ModConfiguration {
 				.defineInRange("duration", 400, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		// SpawnAngryParrots
+		name = SpawnAngryParrots.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnAngryParrotsDamage = COMMON_BUILDER.comment("Parrot damage.")
+				.defineInRange("damage", 2, 0, Integer.MAX_VALUE);
+		spawnAngryParrotsMovementSpeed = COMMON_BUILDER.comment("Parrot movement speed.").defineInRange("movementSpeed",
+						1.0D, 0, 5.0D);				
+		COMMON_BUILDER.pop();
+		
 	}
 
 	/**
@@ -1205,9 +1221,14 @@ public class ModConfiguration {
 		name = MassExtinctionEventIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "crit", 5, 20, 0.075, 0.25, 0.75, 0.25);
 		massExtinctionEventIdolInventoryItem = getInstance(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol will cause a widespread and rapid decrease in the biodiversity within the game comparable to a mass extinction event. Mass extinction events happens every 26 to 30 million years, so expect a long cooldown.",
+				"Equip in either hand to activate. The idol will cause a widespread and rapid decrease in the biodiversity within the game comparable to a mass extinction event. Mass extinction events happen every 26 to 30 million years, so expect a long cooldown.",
 				1000000000, 200, splParticles);
 
+		// AngryParrotsIdolInventoryItem
+		name = AngryParrotsIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "falling_water", 5, 20, 0.5, 0.0, 0.0, 0.9);
+		angryParrotsIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will spawn angry sea parrots who will attack the player's target or some random mobs.", 25, 5, splParticles);		
 	}
 
 	/**

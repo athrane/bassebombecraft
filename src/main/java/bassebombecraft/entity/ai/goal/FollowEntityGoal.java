@@ -10,6 +10,7 @@ import static net.minecraft.pathfinding.PathNodeType.WATER;
 
 import java.util.EnumSet;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -35,10 +36,25 @@ public class FollowEntityGoal extends Goal {
 	 */
 	LivingEntity leaderEntity;
 
+	/**
+	 * Follow speed..
+	 */	
 	double followSpeed;
+	
+	/**
+	 * Minimum distance to target.
+	 */
 	float minDistance;
+	
+	/**
+	 * Maximum distance to target.
+	 */	
 	float maxDistance;
-	float minDistanceSqr; // minimum distance to player (squared)
+	
+	/**
+	 * Minimum distance to target (squared).
+	 */	
+	float minDistanceSqr;
 
 	/**
 	 * FollowEntity AI goal.
@@ -101,7 +117,7 @@ public class FollowEntityGoal extends Goal {
 		if (!repository.isActive(AI_PATH_RECALC_UPDATE_FREQUENCY))
 			return;
 
-		// calculate path
+		// move toward target
 		PathNavigator navigator = entity.getNavigator();
 		navigator.tryMoveToEntityLiving(leaderEntity, followSpeed);
 	}
@@ -119,7 +135,8 @@ public class FollowEntityGoal extends Goal {
 	 */
 	boolean isMinimumDistanceReached() {
 		double distSqr = entity.getDistanceSq(leaderEntity);
-
+		BassebombeCraft.getBassebombeCraft().getLogger().debug("FollowEntityGoal distSqr="+distSqr+" this="+entity);		
+		
 		// exit if minimum distance reached
 		boolean result = (distSqr >= minDistanceSqr);
 		return result;
