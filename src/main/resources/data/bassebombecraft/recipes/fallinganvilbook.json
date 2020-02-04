@@ -5,8 +5,7 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:anvil",
-			"data" : 0
+			"item": "minecraft:anvil"
 		}
 	],
 	"result": {

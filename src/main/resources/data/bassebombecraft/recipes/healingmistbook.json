@@ -5,8 +5,7 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:golden_apple",
-			"data": 0
+			"item": "minecraft:enchanted_golden_apple"
 		},
 		{
 			"item": "minecraft:dragon_breath"

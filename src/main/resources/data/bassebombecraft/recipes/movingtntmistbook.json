@@ -11,8 +11,7 @@
 			"item": "minecraft:dragon_breath"
 		},
 		{
-			"item": "minecraft:shulker_shell",
-		    "data": 0		
+			"item": "minecraft:shulker_shell"
 		}
 	],
 	"result": {

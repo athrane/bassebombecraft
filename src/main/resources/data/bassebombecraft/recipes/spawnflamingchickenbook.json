@@ -5,8 +5,7 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:cooked_chicken",
-			"data": 0
+			"item": "minecraft:cooked_chicken"
 		}
 	],
 	"result": {

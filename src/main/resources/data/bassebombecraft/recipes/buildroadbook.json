@@ -5,8 +5,7 @@
 			"item": "minecraft:enchanted_book"
 		},
 		{
-			"item": "minecraft:stone_slab",
-			"data": 3
+			"item": "minecraft:stone_slab"
 		}
 	],
 	"result": {
