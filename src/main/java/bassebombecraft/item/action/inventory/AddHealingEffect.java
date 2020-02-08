@@ -59,19 +59,9 @@ public class AddHealingEffect implements InventoryItemActionStrategy {
 	@Override
 	public void applyEffect(Entity target, World world, LivingEntity invoker) {
 		if (isTypeLivingEntity(target)) {
-			LivingEntity entityLivingBase = (LivingEntity) target;
-			entityLivingBase.addPotionEffect(createEffect());
+			LivingEntity entityLiving = (LivingEntity) target;
+			entityLiving.addPotionEffect(createEffect());
 		}
-	}
-
-	@Override
-	public int getEffectRange() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 	/**
@@ -83,4 +73,14 @@ public class AddHealingEffect implements InventoryItemActionStrategy {
 		return new EffectInstance(Effects.REGENERATION, duration, amplifier);
 	}
 
+	@Override
+	public int getEffectRange() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
+	}
+
+	@Override
+	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException(); // to signal that this method should not be used.
+	}
+	
 }
