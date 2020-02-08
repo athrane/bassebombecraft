@@ -6,6 +6,7 @@ import static bassebombecraft.ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT
 import java.util.Optional;
 import java.util.Random;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.player.PlayerDirection;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
@@ -356,6 +357,20 @@ public class EntityUtils {
 	public static void selfDestruct(MobEntity entity) {
 		entity.setFire(AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE);
 		entity.setHealth(0);
+	}
+
+	/**
+	 * Returns true if minimum distance is reached between two entities.
+	 *
+	 * @param entity entity #1
+	 * @param entity2 entity #2
+	 * @param minDistanceSqr the minimum distance squared.
+	 * 
+	 * @return true if minimum distance is reached.
+	 */
+	public static boolean isMinimumDistanceReached(Entity entity, Entity entity2, double minDistanceSqr) {
+		double distSqr = entity.getDistanceSq(entity2);
+		return (minDistanceSqr > distSqr);
 	}
 	
 }

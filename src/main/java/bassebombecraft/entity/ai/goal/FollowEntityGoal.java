@@ -3,6 +3,7 @@ package bassebombecraft.entity.ai.goal;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.AI_PATH_RECALC_UPDATE_FREQUENCY;
 import static bassebombecraft.ModConstants.AI_TARGET_WATCH_DIST;
+import static bassebombecraft.entity.EntityUtils.isMinimumDistanceReached;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
 import static net.minecraft.entity.ai.goal.Goal.Flag.MOVE;
@@ -90,13 +91,10 @@ public class FollowEntityGoal extends Goal {
 			return false;
 		}
 
-		// exit if player spectator
-		if (isTypePlayerEntity(leaderEntity)) {
-			if (((PlayerEntity) leaderEntity).isSpectator())
-				return false;
-		}
-
-		return isMinimumDistanceReached();
+		// execute if minimum distance hasn't been reached yet
+		boolean isMinDistReached = isMinimumDistanceReached(entity, leaderEntity, minDistanceSqr);
+		return (!isMinDistReached);
+		
 	}
 
 	@Override
@@ -126,20 +124,6 @@ public class FollowEntityGoal extends Goal {
 	public void resetTask() {
 		PathNavigator navigator = entity.getNavigator();
 		navigator.clearPath();
-	}
-
-	/**
-	 * Returns true if minimum distance is reached.
-	 *
-	 * @return true if minimum distance is reached.
-	 */
-	boolean isMinimumDistanceReached() {
-		double distSqr = entity.getDistanceSq(leaderEntity);
-		BassebombeCraft.getBassebombeCraft().getLogger().debug("FollowEntityGoal distSqr="+distSqr+" this="+entity);		
-		
-		// exit if minimum distance reached
-		boolean result = (distSqr >= minDistanceSqr);
-		return result;
 	}
 
 }

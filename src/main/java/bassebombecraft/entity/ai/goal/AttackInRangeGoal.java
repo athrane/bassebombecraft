@@ -1,5 +1,6 @@
 package bassebombecraft.entity.ai.goal;
 
+import static bassebombecraft.entity.EntityUtils.isMinimumDistanceReached;
 import static bassebombecraft.entity.ai.AiUtils.setMutexFlagsforAttackGoal;
 
 import net.minecraft.entity.LivingEntity;
@@ -72,7 +73,7 @@ public class AttackInRangeGoal extends Goal {
 			return true;
 
 		// attack if minimum range has been reached
-		return isMinimumDistanceReached();
+		return isMinimumDistanceReached(entity, target, minDistanceSqr);
 	}
 
 	@Override
@@ -96,16 +97,6 @@ public class AttackInRangeGoal extends Goal {
 		// reset
 		entity.setAttackTarget(NO_TARGET);
 		target = NO_TARGET;
-	}
-
-	/**
-	 * Returns true if minimum distance is reached.
-	 *
-	 * @return true if minimum distance is reached.
-	 */
-	boolean isMinimumDistanceReached() {
-		double distSqr = entity.getDistanceSq(target);
-		return (distSqr < minDistanceSqr);
 	}
 
 }

@@ -3,6 +3,7 @@ package bassebombecraft.entity.ai.goal;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.AI_PATH_RECALC_UPDATE_FREQUENCY;
 import static bassebombecraft.ModConstants.AI_TARGET_WATCH_DIST;
+import static bassebombecraft.entity.EntityUtils.isMinimumDistanceReached;
 import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
 import static net.minecraft.entity.ai.goal.Goal.Flag.MOVE;
 
@@ -18,7 +19,10 @@ import net.minecraft.pathfinding.PathNavigator;
  * AI goal for companion, e.g. charmed mob or guardian.
  * 
  * The goal will follow the closest player.
+ * 
+ * Deprecated since it isn't used.
  */
+@Deprecated
 public class FollowClosestPlayerGoal extends Goal {
 
 	/**
@@ -71,7 +75,9 @@ public class FollowClosestPlayerGoal extends Goal {
 		if (!closestPlayer.isAlive())
 			return false;
 
-		return isMinimumDistanceReached();
+		// execute if minimum distance hasn't been reached yet
+		boolean isMinDistReached = isMinimumDistanceReached(entity, closestPlayer, minDistanceSqr);
+		return (!isMinDistReached);
 	}
 
 	@Override
@@ -94,16 +100,4 @@ public class FollowClosestPlayerGoal extends Goal {
 		navigator.clearPath();
 	}
 
-	/**
-	 * Returns true if minimum distance is reached.
-	 *
-	 * @return true if minimum distance is reached.
-	 */
-	boolean isMinimumDistanceReached() {
-		double distSqr = entity.getDistanceSq(closestPlayer);
-
-		// exit if minimum distance reached
-		boolean result = (distSqr >= minDistanceSqr);
-		return result;
-	}
 }

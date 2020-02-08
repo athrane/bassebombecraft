@@ -1,5 +1,6 @@
 package bassebombecraft.entity.ai.goal;
 
+import static bassebombecraft.entity.EntityUtils.isMinimumDistanceReached;
 import static bassebombecraft.entity.ai.AiUtils.setMutexFlagsforMovementGoal;
 
 import net.minecraft.entity.LivingEntity;
@@ -13,11 +14,11 @@ import net.minecraft.util.math.Vec3d;
 public class ChargeTowardsGoal extends Goal {
 
 	/**
-	 * Speed modifier for movement controller.
-	 * Should be 1, actual speed is read form entity attributes.
+	 * Speed modifier for movement controller. Should be 1, actual speed is read
+	 * form entity attributes.
 	 */
-	final static double SPEED_MODIFIER = 1.0D; 
-	
+	final static double SPEED_MODIFIER = 1.0D;
+
 	/**
 	 * Null/No target value to use when clearing the target.
 	 */
@@ -48,7 +49,7 @@ public class ChargeTowardsGoal extends Goal {
 	public ChargeTowardsGoal(MobEntity entity, LivingEntity target, int minDistance) {
 		this.entity = entity;
 		this.target = target;
-		this.minDistanceSqr = minDistance * minDistance;		
+		this.minDistanceSqr = minDistance * minDistance;
 		setMutexFlagsforMovementGoal(this);
 	}
 
@@ -68,7 +69,8 @@ public class ChargeTowardsGoal extends Goal {
 			return false;
 
 		// charge if minimum range hasn't been reached yet
-		return (!isMinimumDistanceReached());
+		boolean isMinDistReached = isMinimumDistanceReached(entity, target, minDistanceSqr);
+		return (!isMinDistReached);
 	}
 
 	@Override
@@ -95,16 +97,6 @@ public class ChargeTowardsGoal extends Goal {
 
 		// reset
 		target = NO_TARGET;
-	}
-
-	/**
-	 * Returns true if minimum distance is reached.
-	 *
-	 * @return true if minimum distance is reached.
-	 */
-	boolean isMinimumDistanceReached() {
-		double distSqr = entity.getDistanceSq(target);
-		return (distSqr < minDistanceSqr);
 	}
 
 }
