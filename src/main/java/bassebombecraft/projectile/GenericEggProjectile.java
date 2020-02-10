@@ -130,7 +130,8 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 	
 	
 	@Override
-	protected Item func_213885_i() {
+	protected Item getDefaultItem() {
 		return Items.EGG;
 	}
+
 }
