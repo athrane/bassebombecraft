@@ -32,7 +32,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import net.minecraftforge.client.event.DrawHighlightEvent.HighlightBlock;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -150,7 +150,7 @@ public class RenderingEventHandler {
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
-	public static void handleDrawBlockHighlightEvent(DrawBlockHighlightEvent event) {
+	public static void handleHighlightBlock(HighlightBlock event) {
 
 		// exit if player is undefined
 		if (!isPlayerDefined())
