@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "bassebombecraft:playeraggroidolinventoryitem"
+		},
+		{
+			"item": "minecraft:shield"
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:reflectidolinventoryitem"
+	}
+}

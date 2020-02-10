@@ -8,12 +8,15 @@ import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
+import bassebombecraft.event.charm.CharmedMobEventHandler;
 import bassebombecraft.event.particle.ParticleRenderingEventHandler;
 import bassebombecraft.event.potion.MobRespawningEffectEventHandler;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
+import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
+import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
@@ -24,6 +27,8 @@ import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.MobProjectileEffect;
 import bassebombecraft.potion.effect.MobRespawningEffect;
 import bassebombecraft.potion.effect.PlayerAggroEffect;
+import bassebombecraft.potion.effect.ReflectEffect;
+import bassebombecraft.rendering.DefaultBuildMineRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
 import net.minecraft.potion.Effect;
@@ -68,12 +73,12 @@ public class ModConstants {
 	 * TOML Configuration file post fix.
 	 */
 	public static final String CONFIG_FILE_TOML_POSTFIX = ".toml";
-	
+
 	/**
 	 * Configuration file name.
 	 */
 	public static final String INTERNAL_TOML_CONFIG_FILE_NAME = MODID + "-common" + CONFIG_FILE_TOML_POSTFIX;
-	
+
 	/**
 	 * Download URL.
 	 */
@@ -97,7 +102,7 @@ public class ModConstants {
 	/**
 	 * GA development Property.
 	 */
-	//public static final String GA_PROPERTY = "UA-91107600-1";
+	// public static final String GA_PROPERTY = "UA-91107600-1";
 
 	/**
 	 * GA Property.
@@ -123,7 +128,7 @@ public class ModConstants {
 	 * GA exception hit type.
 	 */
 	public static final String GA_HITTYPE_EXCEPTION = "exception";
-	
+
 	/**
 	 * GA session start.
 	 */
@@ -241,35 +246,34 @@ public class ModConstants {
 
 	/**
 	 * Build mine book.
-	 */	
+	 */
 	public static final BuildMineBook BUILD_MINE_BOOK = new BuildMineBook();
-		
+
 	/**
 	 * Particle spawn frequency in {@linkplain ParticleRenderingEventHandler},
 	 * {@linkplain GenericBlockSpiralFillMist} and {@linkplain GenericEntityMist}.
 	 * Measured in world ticks.
 	 */
 	public static final int PARTICLE_RENDERING_FREQUENCY = 3;
-		
+
 	/**
-	 * Particle spawn frequency in {@linkplain CharmedMobEventHandler}.
-	 * Measured in world ticks.
+	 * Particle spawn frequency in {@linkplain CharmedMobEventHandler}. Measured in
+	 * world ticks.
 	 */
 	public static final int CHARM_PARTICLE_RENDERING_FREQUENCY = 20;
 
 	/**
-	 * Effect update frequency in {@linkplain GenericBlockSpiralFillMist}.
-	 * Measured in world ticks.
+	 * Effect update frequency in {@linkplain GenericBlockSpiralFillMist}. Measured
+	 * in world ticks.
 	 */
 	public static final int BLOCK_EFFECT_FREQUENCY = 3;
 
 	/**
-	 * Effect update frequency in {@linkplain GenericEntityMist}.
-	 * Measured in world ticks.
+	 * Effect update frequency in {@linkplain GenericEntityMist}. Measured in world
+	 * ticks.
 	 */
 	public static final int MIST_EFFECT_FREQUENCY = 5;
-	
-	
+
 	/**
 	 * Number of processed blocks per game tick in
 	 * {@linkplain ProcessBlockDirectivesEventHandler}.
@@ -297,7 +301,7 @@ public class ModConstants {
 	 * Update frequency for path recalculation in AI goals. Measured in ticks.
 	 */
 	public static final int AI_PATH_RECALC_UPDATE_FREQUENCY = 10;
-	
+
 	/**
 	 * Minimum range for close quarters attacks in {@linkplain CompanionAttack}.
 	 * Measured in blocks.
@@ -305,10 +309,10 @@ public class ModConstants {
 	public static final int AI_COMPANION_ATTACK_MINIMUM_RANGE = 5;
 
 	/**
-	 * AI watch distance (in blocks) for entity to look at a target in AI goals. 
-	 * 	 */
+	 * AI watch distance (in blocks) for entity to look at a target in AI goals.
+	 */
 	public static final int AI_TARGET_WATCH_DIST = 10;
-	
+
 	/**
 	 * Item properties which places item in tab.
 	 */
@@ -335,7 +339,8 @@ public class ModConstants {
 	public static final int TEXT_COLOR = 0x00C000;
 
 	/**
-	 * Rendering: Text color for {@linkplain BuildMineBook} in {@linkplain DefaultBuildMineRenderer}.
+	 * Rendering: Text color for {@linkplain BuildMineBook} in
+	 * {@linkplain DefaultBuildMineRenderer}.
 	 */
 	public static final int BUILDMINEBOOK__TEXT_COLOR = 0xC0C000;
 
@@ -368,7 +373,7 @@ public class ModConstants {
 	 * HUD Item: Ray trace range in blocks.
 	 */
 	public static final double RAYTRACE_RANGE = 20;
-	
+
 	/**
 	 * HUD Item: Ray trace mode for fluids.
 	 */
@@ -378,7 +383,7 @@ public class ModConstants {
 	 * HUD Item: Ray trace mode for blocks.
 	 */
 	public static final BlockMode RAYTRACE_OUTLINE = RayTraceContext.BlockMode.OUTLINE;
-	
+
 	/**
 	 * Defines should be effect only.
 	 */
@@ -388,7 +393,7 @@ public class ModConstants {
 	 * Basic items config path prefix in TOML configuration file.
 	 */
 	public static final String BASICITEMS_CONFIGPATH = "BasicItems.";
-	
+
 	/**
 	 * Potions config path prefix in TOML configuration file.
 	 */
@@ -398,12 +403,12 @@ public class ModConstants {
 	 * Books config path prefix in TOML configuration file.
 	 */
 	public static final String BOOKS_CONFIGPATH = "Books.";
-	
+
 	/**
 	 * Week amplification potion name.
 	 */
 	public final static String WEAK_AMPLIFICATION_POTION_NAME = "WeakAmplificationPotion";
-	
+
 	/**
 	 * Amplification potion name.
 	 */
@@ -428,7 +433,7 @@ public class ModConstants {
 	 * Mob respawning potion name.
 	 */
 	public final static String MOB_RESPAWNING_POTION_NAME = "MobRespawningPotion";
-	
+
 	/**
 	 * Bacon bazooka projectile effect name.
 	 */
@@ -448,7 +453,7 @@ public class ModConstants {
 	 * Primed creeper cannon projectile effect name.
 	 */
 	public final static String PRIMEDCREEPERCANNON_EFFECT_NAME = "PrimedCreeperCannonProjectileEffect";
-	
+
 	/**
 	 * Mobs aggro effect, used by {@linkplain MobsAggroIdolInventoryItem}.
 	 */
@@ -475,14 +480,14 @@ public class ModConstants {
 	public static final Effect BACON_BAZOOKA_EFFECT = new MobProjectileEffect(
 			ModConfiguration.baconBazookaProjectileEffectForce.get(),
 			ModConfiguration.baconBazookaProjectileEffectExplosion.get());
-	
+
 	/**
 	 * Bear blaster effect, used by {@linkplain ShootBearBlaster}.
 	 */
 	public static final Effect BEAR_BLASTER_EFFECT = new MobProjectileEffect(
 			ModConfiguration.bearBlasterProjectileEffectForce.get(),
 			ModConfiguration.bearBlasterProjectileEffectExplosion.get());
-	
+
 	/**
 	 * Creeper cannon effect, used by {@linkplain ShootCreeperCannon}.
 	 */
@@ -495,7 +500,7 @@ public class ModConstants {
 	 */
 	public static final Effect PRIMED_CREEPER_CANNON_EFFECT = new MobProjectileEffect(
 			ModConfiguration.primedCreeperCannonProjectileEffectForce.get(),
-			ModConfiguration.primedCreeperCannonProjectileEffectExplosion.get());	
+			ModConfiguration.primedCreeperCannonProjectileEffectExplosion.get());
 
 	/**
 	 * Potion amplifier effect.
@@ -503,8 +508,15 @@ public class ModConstants {
 	public static final Effect AMPLIFIER_EFFECT = new AmplifierEffect();
 
 	/**
-	 * Range value for non-AOE effect in {@linkplain InventoryItemActionStrategy} implmentation.
+	 * Reflect effect.
+	 */
+	public static final Effect REFLECT_EFFECT = new ReflectEffect();
+
+	
+	/**
+	 * Range value for non-AOE effect in {@linkplain InventoryItemActionStrategy}
+	 * implmentation.
 	 */
 	public static final int NOT_AN_AOE_EFFECT = 1;
-	
+
 }

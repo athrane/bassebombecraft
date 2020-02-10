@@ -98,6 +98,7 @@ import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
 import bassebombecraft.item.inventory.RainIdolInventoryItem;
 import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
 import bassebombecraft.item.inventory.ReaperIdolInventoryItem;
+import bassebombecraft.item.inventory.ReflectIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.MobAggroEffect;
@@ -301,6 +302,7 @@ public class ModConfiguration {
 	public static InventoryItemConfig reaperIdolInventoryItem;
 	public static InventoryItemConfig massExtinctionEventIdolInventoryItem;
 	public static InventoryItemConfig angryParrotsIdolInventoryItem;
+	public static InventoryItemConfig reflectIdolInventoryItem;
 
 	// Actions..
 
@@ -1226,9 +1228,15 @@ public class ModConfiguration {
 
 		// AngryParrotsIdolInventoryItem
 		name = AngryParrotsIdolInventoryItem.ITEM_NAME;
-		splParticles = () -> getInstance(COMMON_BUILDER, "falling_water", 5, 20, 0.5, 0.0, 0.0, 0.9);
+		splParticles = () -> getInstance(COMMON_BUILDER, "crit", 5, 20, 0.25, 0.0, 0.0, 0.9);
 		angryParrotsIdolInventoryItem = getInstance(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will spawn angry sea parrots who will attack the player's target or some random mobs.", 25, 5, splParticles);		
+
+		// ReflectIdolInventoryItem
+		name = ReflectIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "crit", 5, 20, 0.3, 0.75, 0.0, 0.0);
+		reflectIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will protect the player by reflecting mob damage back to the assailant.", 50, splParticles);	
 	}
 
 	/**
