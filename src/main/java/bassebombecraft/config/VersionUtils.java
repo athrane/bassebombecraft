@@ -2,7 +2,6 @@ package bassebombecraft.config;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.ANALYTICS_URL;
-import static bassebombecraft.ModConstants.DOWNLOAD_URL;
 import static bassebombecraft.ModConstants.GA_API_VERSION;
 import static bassebombecraft.ModConstants.GA_APP_ID;
 import static bassebombecraft.ModConstants.GA_HITTYPE_EVENT;
@@ -507,10 +506,6 @@ public class VersionUtils {
 				PlayerUtils.sendChatMessageToPlayer(player, message);
 
 				message = "The newest version is: " + version;
-				logger.info(message);
-				PlayerUtils.sendChatMessageToPlayer(player, message);
-
-				message = "The new version can be downloaded from: " + DOWNLOAD_URL;
 				logger.info(message);
 				PlayerUtils.sendChatMessageToPlayer(player, message);
 

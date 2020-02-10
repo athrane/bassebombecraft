@@ -80,11 +80,6 @@ public class ModConstants {
 	public static final String INTERNAL_TOML_CONFIG_FILE_NAME = MODID + "-common" + CONFIG_FILE_TOML_POSTFIX;
 
 	/**
-	 * Download URL.
-	 */
-	public static final String DOWNLOAD_URL = "http://minecraft.curseforge.com/projects/bassebombecraft";
-
-	/**
 	 * Version check URL.
 	 */
 	public static final String VERSION_URL = "https://raw.githubusercontent.com/athrane/bassebombecraft/master/version.json";
