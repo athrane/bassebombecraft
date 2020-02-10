@@ -24,9 +24,14 @@ import net.minecraft.world.World;
 public class SetSpawnPoint implements ProjectileAction {
 
 	/**
-	 * SEt forced spawn point.
+	 * Set forced spawn point.
 	 */
 	static final boolean FORCED = true;
+	
+	/**
+	 * Don't check for bed.
+	 */
+	static final boolean NO_BED = false;
 
 	@Override
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
@@ -75,7 +80,7 @@ public class SetSpawnPoint implements ProjectileAction {
 		PlayerEntity player = (PlayerEntity) thrower;
 
 		// set spawn point
-		player.setSpawnPoint(spawnPosition, FORCED, world.getDimension().getType());		
+		player.setSpawnPoint(spawnPosition, FORCED, NO_BED,world.getDimension().getType());		
 	}
 
 }
