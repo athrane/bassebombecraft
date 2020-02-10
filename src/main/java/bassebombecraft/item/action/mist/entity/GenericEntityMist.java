@@ -8,6 +8,7 @@ import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
 
 import java.util.List;
 
+import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
@@ -32,18 +33,19 @@ import net.minecraft.world.World;
 public class GenericEntityMist implements RightClickedItemAction {
 
 	/**
+	 * Action identifier.
+	 */
+	public final static String NAME = GenericEntityMist.class.getSimpleName();
+
+	/**
 	 * Spawn distance of mist from invoker. Distance is measured in blocks.
 	 */
 	static final int INVOCATION_DIST = 4;
 
 	/**
-	 * Spiral size.
-	 */
-	static final int SPIRAL_SIZE = 20;
-
-	/**
 	 * Ticks counter.
 	 */
+	@Deprecated
 	int ticksCounter = 0;
 
 	/**
@@ -77,15 +79,21 @@ public class GenericEntityMist implements RightClickedItemAction {
 	EntityMistActionStrategy strategy;
 
 	/**
+	 * Spiral size.
+	 */
+	int spiralSize;
+
+	/**
 	 * GenericEntityMist constructor.
 	 * 
 	 * @param strategy mist strategy.
 	 */
 	public GenericEntityMist(EntityMistActionStrategy strategy) {
 		this.strategy = strategy;
+		spiralSize = ModConfiguration.genericEntityMistSpiralSize.get();
 
 		// calculate spiral
-		spiralCoordinates = GeometryUtils.calculateSpiral(SPIRAL_SIZE, SPIRAL_SIZE);
+		spiralCoordinates = GeometryUtils.calculateSpiral(spiralSize, spiralSize);
 	}
 
 	@Override
@@ -209,7 +217,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 		}
 
 		// calculate spiral index
-		int spiralCounter = (ticksCounter / PARTICLE_RENDERING_FREQUENCY) % SPIRAL_SIZE;
+		int spiralCounter = (ticksCounter / PARTICLE_RENDERING_FREQUENCY) % spiralSize;
 
 		// get next spiral coordinate
 		BlockPos spiralCoord = spiralCoordinates.get(spiralCounter);

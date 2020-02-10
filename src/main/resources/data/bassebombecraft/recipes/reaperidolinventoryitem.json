@@ -6,8 +6,7 @@
 			"item": "minecraft:clay_ball"
 		},
 		{
-			"item": "minecraft:iron_hoe",
-			"data": 1
+			"item": "minecraft:iron_hoe"
 		}
 	],
 	"result": {

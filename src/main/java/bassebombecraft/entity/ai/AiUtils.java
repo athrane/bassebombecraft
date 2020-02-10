@@ -3,7 +3,11 @@ package bassebombecraft.entity.ai;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
+import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
+import static net.minecraft.entity.ai.goal.Goal.Flag.MOVE;
+import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
 
+import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -15,10 +19,13 @@ import com.google.common.collect.Sets;
 
 import bassebombecraft.BassebombeCraft;
 import bassebombecraft.entity.EntityUtils;
-import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
+import bassebombecraft.entity.ai.goal.AttackInRangeGoal;
+import bassebombecraft.entity.ai.goal.SingleTargetGoal;
+import bassebombecraft.entity.ai.goal.ChargeTowardsGoal;
 import bassebombecraft.entity.ai.goal.CommanderControlledTargeting;
+import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
-import bassebombecraft.entity.ai.goal.FollowEntity;
+import bassebombecraft.entity.ai.goal.FollowEntityGoal;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -47,19 +54,31 @@ import net.minecraft.entity.player.PlayerEntity;
 public class AiUtils {
 
 	/**
-	 * Force access to private fields when using reflection.
-	 */
-	static final boolean FORCE_ACCESS = true;
-
-	/**
 	 * Initial goal priority.
 	 */
 	static final int INITIAL_GOAL_PRIORITY = 0;
 
-	static final double MOVEMENT_SPEED = 1.5D; // movement speed towards player
-	static final float MINIMUM_DIST = 6.0F; // Entity minimum distance to player
-	static final float MAXIMUM_DIST = 50.0F; // Entity maximum distance to player
+	/**
+	 * movement speed towards player.
+	 */
+	static final double AI_MOVE_SPEED = 1.5D;
+	
+	/**
+	 * Entity minimum distance to player.
+	 */
+	static final float AI_MIN_DIST = 6.0F; 
+	
+	/**
+	 * Entity maximum distance to player.
+	 */
+	static final float AI_MAX_DIST = 50.0F;
 
+	/**
+	 * Minimum charge distance for parrots.
+	 */	
+	static final int AI_MIN_CHARGE_DISTANCE = 1;
+	
+	
 	/**
 	 * Logger.
 	 */
@@ -177,7 +196,7 @@ public class AiUtils {
 			selector.addGoal(2, new CompanionAttack(entity));
 
 		// setup remaining tasks
-		selector.addGoal(3, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
+		selector.addGoal(3, new FollowEntityGoal(entity, commander, AI_MOVE_SPEED, AI_MIN_DIST, AI_MAX_DIST));
 		selector.addGoal(5, new LookRandomlyGoal(entity));
 
 		// exit setting target tasks if entity isn't a creature
@@ -191,7 +210,7 @@ public class AiUtils {
 	}
 
 	/**
-	 * s Build AI for kitten army.
+	 * Build AI for kitten army.
 	 * 
 	 * @param entity    entity which will configured with kitten army AI.
 	 * @param commander entity which commands skeleton.
@@ -203,7 +222,7 @@ public class AiUtils {
 		selector.addGoal(1, new SwimGoal(entity));
 		selector.addGoal(2, new LeapAtTargetGoal(entity, 0.3F));
 		selector.addGoal(3, new OcelotAttackGoal(entity));
-		selector.addGoal(4, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
+		selector.addGoal(4, new FollowEntityGoal(entity, commander, AI_MOVE_SPEED, AI_MIN_DIST, AI_MAX_DIST));
 		selector.addGoal(5, new SitGoal(entity));
 		selector.addGoal(6, new LookRandomlyGoal(entity));
 
@@ -215,7 +234,7 @@ public class AiUtils {
 	/**
 	 * Build AI for skeleton army.
 	 * 
-	 * @param entity    entity which will configured with kitten army AI.
+	 * @param entity    entity which will configured with skeleton army AI.
 	 * @param commander entity which commands skeleton.
 	 * 
 	 */
@@ -226,13 +245,33 @@ public class AiUtils {
 		selector.addGoal(1, new SwimGoal(entity));
 		selector.addGoal(2, new FleeSunGoal(entity, 1.0D));
 		selector.addGoal(3, new RangedBowAttackGoal<>(entity, 1.0D, 20, 15.0F));
-		selector.addGoal(4, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
+		selector.addGoal(4, new FollowEntityGoal(entity, commander, AI_MOVE_SPEED, AI_MIN_DIST, AI_MAX_DIST));
 		selector.addGoal(5, new LookAtGoal(entity, PlayerEntity.class, 8.0F));
 		selector.addGoal(6, new LookRandomlyGoal(entity));
 
 		// set targeting goals
 		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);
 		setupTargetingTasks(entityCreature, commander);
+	}
+
+	/**
+	 * Build AI for parrots.
+	 * 
+	 * @param entity entity which will configured with bat AI.
+	 * @param target entity that parrot will attack.
+	 * @param parrot damage.
+	 */
+	public static void buildParrotAi(MobEntity entity, LivingEntity target, float damage ) {
+
+		// set goals
+		MobEntity mobEntity = (MobEntity) entity;		
+		GoalSelector selector = entity.goalSelector;
+		selector.addGoal(1, new ChargeTowardsGoal(mobEntity, target, AI_MIN_CHARGE_DISTANCE));
+		selector.addGoal(2, new AttackInRangeGoal(mobEntity, target, AI_MIN_CHARGE_DISTANCE, damage));
+
+		// set targeting goals
+		GoalSelector targetSelector = entity.targetSelector;
+		targetSelector.addGoal(1, new SingleTargetGoal(entity, target));
 	}
 
 	/**
@@ -249,7 +288,7 @@ public class AiUtils {
 		selector.addGoal(1, new SwimGoal(entity));
 		selector.addGoal(2, new CreeperSwellGoal(entity));
 		selector.addGoal(3, new MeleeAttackGoal(entity, 1.0D, false));
-		selector.addGoal(4, new FollowEntity(entity, commander, MOVEMENT_SPEED, MINIMUM_DIST, MAXIMUM_DIST));
+		selector.addGoal(4, new FollowEntityGoal(entity, commander, AI_MOVE_SPEED, AI_MIN_DIST, AI_MAX_DIST));
 		selector.addGoal(5, new LookAtGoal(entity, PlayerEntity.class, 8.0F));
 		selector.addGoal(6, new LookRandomlyGoal(entity));
 
@@ -283,7 +322,7 @@ public class AiUtils {
 		// set AI commander targeting if commander is a living entity
 		GoalSelector selector = entity.targetSelector;
 		selector.addGoal(0, new CommanderControlledTargeting(entity, commander));
-		selector.addGoal(1, new CommandersTargetGoal(entity, commander));		
+		selector.addGoal(1, new CommandersTargetGoal(entity, commander));
 		selector.addGoal(2, new HurtByTargetGoal(entity));
 		return;
 	}
@@ -354,6 +393,33 @@ public class AiUtils {
 		}
 
 		return "AI Goal: N/A";
+	}
+
+	/**
+	 * Set mutex flags for targeting goal.
+	 * 
+	 * @param goal AI goal to set flags for.
+	 */
+	public static void setMutexFlagsforTargetingGoal(Goal goal) {
+		goal.setMutexFlags(EnumSet.of(TARGET));
+	}
+
+	/**
+	 * Set mutex flags for attack goal.
+	 * 
+	 * @param goal AI goal to set flags for.
+	 */
+	public static void setMutexFlagsforAttackGoal(Goal goal) {
+		goal.setMutexFlags(EnumSet.of(MOVE, LOOK));
+	}
+
+	/**
+	 * Set mutex flags for movement goal.
+	 * 
+	 * @param goal AI goal to set flags for.
+	 */
+	public static void setMutexFlagsforMovementGoal(Goal goal) {
+		goal.setMutexFlags(EnumSet.of(MOVE, LOOK));
 	}
 	
 }

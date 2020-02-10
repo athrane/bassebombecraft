@@ -2,7 +2,7 @@ package bassebombecraft.potion;
 
 import static bassebombecraft.ModConstants.AMPLIFIER_EFFECT;
 import static bassebombecraft.ModConstants.MODID;
-import static java.util.Optional.ofNullable;
+import static java.util.Optional.*;
 import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
 
 import java.util.Optional;
@@ -96,6 +96,7 @@ public class PotionUtils {
 	 *         Otherwise the optional is empty.
 	 */
 	public static Optional<EffectInstance> getEffectIfActive(LivingEntity entity, Effect effect) {
+		if(entity == null) return empty();
 		Optional<EffectInstance> optEffect = ofNullable(entity.getActivePotionEffect(effect));
 		return optEffect;
 	}

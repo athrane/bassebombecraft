@@ -1,7 +1,9 @@
 package bassebombecraft.entity.ai.goal;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.ModConstants.AI_FOLLOW_CLOEST_PLAYER_UPDATE_FREQUENCY;
+import static bassebombecraft.ModConstants.AI_PATH_RECALC_UPDATE_FREQUENCY;
+import static bassebombecraft.ModConstants.AI_TARGET_WATCH_DIST;
+import static bassebombecraft.entity.EntityUtils.isMinimumDistanceReached;
 import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
 import static net.minecraft.entity.ai.goal.Goal.Flag.MOVE;
 
@@ -17,13 +19,11 @@ import net.minecraft.pathfinding.PathNavigator;
  * AI goal for companion, e.g. charmed mob or guardian.
  * 
  * The goal will follow the closest player.
+ * 
+ * Deprecated since it isn't used.
  */
-public class FollowClosestPlayer extends Goal {
-
-	/**
-	 * Watch distance.
-	 */
-	static final float WATCH_DIST = 10.0F;
+@Deprecated
+public class FollowClosestPlayerGoal extends Goal {
 
 	/**
 	 * Goal owner.
@@ -52,7 +52,7 @@ public class FollowClosestPlayer extends Goal {
 	 * @param minDistance   minimum distance to keep to the nearest player.
 	 * @param movementSpeed movement speed.
 	 */
-	public FollowClosestPlayer(CreatureEntity entity, float minDistance, double movementSpeed) {
+	public FollowClosestPlayerGoal(CreatureEntity entity, float minDistance, double movementSpeed) {
 		this.entity = entity;
 		this.minDistanceSqr = minDistance * minDistance;
 		this.movementSpeed = movementSpeed;
@@ -65,7 +65,7 @@ public class FollowClosestPlayer extends Goal {
 	public boolean shouldExecute() {
 
 		// get closest player
-		closestPlayer = this.entity.getEntityWorld().getClosestPlayer(entity, WATCH_DIST);
+		closestPlayer = this.entity.getEntityWorld().getClosestPlayer(entity, AI_TARGET_WATCH_DIST);
 
 		// exit if no player could be founds
 		if (closestPlayer == null)
@@ -75,7 +75,9 @@ public class FollowClosestPlayer extends Goal {
 		if (!closestPlayer.isAlive())
 			return false;
 
-		return isMinimumDistanceReached();
+		// execute if minimum distance hasn't been reached yet
+		boolean isMinDistReached = isMinimumDistanceReached(entity, closestPlayer, minDistanceSqr);
+		return (!isMinDistReached);
 	}
 
 	@Override
@@ -83,7 +85,7 @@ public class FollowClosestPlayer extends Goal {
 
 		// exit if frequency isn't active
 		FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
-		if (!repository.isActive(AI_FOLLOW_CLOEST_PLAYER_UPDATE_FREQUENCY))
+		if (!repository.isActive(AI_PATH_RECALC_UPDATE_FREQUENCY))
 			return;
 
 		// move towards
@@ -98,16 +100,4 @@ public class FollowClosestPlayer extends Goal {
 		navigator.clearPath();
 	}
 
-	/**
-	 * Returns true if minimum distance is reached.
-	 *
-	 * @return true if minimum distance is reached.
-	 */
-	boolean isMinimumDistanceReached() {
-		double distSqr = entity.getDistanceSq(closestPlayer);
-
-		// exit if minimum distance reached
-		boolean result = (distSqr >= minDistanceSqr);
-		return result;
-	}
 }

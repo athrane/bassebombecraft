@@ -1,16 +1,20 @@
 package bassebombecraft.entity;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE;
 
 import java.util.Optional;
 import java.util.Random;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.player.PlayerDirection;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.monster.CreeperEntity;
+import net.minecraft.entity.passive.BatEntity;
+import net.minecraft.entity.passive.ParrotEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -131,6 +135,34 @@ public class EntityUtils {
 	}
 
 	/**
+	 * return true if entity is a {@linkplain ParrotEntity}.
+	 * 
+	 * @param entity entity to test.
+	 * 
+	 * @return true if entity is a {@linkplain ParrotEntity}.
+	 */
+	public static boolean isTypeParrotEntity(Entity entity) {
+		Optional<Entity> oe = Optional.ofNullable(entity);
+		if (oe.isPresent())
+			return oe.get() instanceof ParrotEntity;
+		return false;
+	}
+
+	/**
+	 * return true if entity is a {@linkplain BatEntity}.
+	 * 
+	 * @param entity entity to test.
+	 * 
+	 * @return true if entity is a {@linkplain BatEntity}.
+	 */
+	public static boolean isTypeBatEntity(Entity entity) {
+		Optional<Entity> oe = Optional.ofNullable(entity);
+		if (oe.isPresent())
+			return oe.get() instanceof BatEntity;
+		return false;
+	}
+	
+	/**
 	 * Calculate entity feet position (as a Y coordinate).
 	 * 
 	 * @param entity player object.
@@ -200,7 +232,7 @@ public class EntityUtils {
 	 * @return target from entity.
 	 */
 	public static Optional<LivingEntity> getNullableTarget(LivingEntity entity) {
-		if (EntityUtils.isTypeCreatureEntity(entity)) {
+		if (isTypeCreatureEntity(entity)) {
 			CreatureEntity creatureEntity = (CreatureEntity) entity;
 			return Optional.ofNullable(creatureEntity.getAttackTarget());
 		}
@@ -272,7 +304,6 @@ public class EntityUtils {
 	 * @param entity entity to set aggro'ed if it is a {@linkplain MobEntity}.
 	 */
 	public static void setMobEntityAggroed(Entity entity) {
-		// set mob to be aggro'ed
 		if (isTypeMobEntity(entity)) {
 			MobEntity mobEntity = (MobEntity) entity;
 			mobEntity.setAggroed(true);
@@ -318,4 +349,28 @@ public class EntityUtils {
 		return getBassebombeCraft().getRandom().nextFloat() * 360.0F;
 	}
 
+	/**
+	 * Self-destruct entity.
+	 * 
+	 * @param entity entity to self-destruct.
+	 */
+	public static void selfDestruct(MobEntity entity) {
+		entity.setFire(AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE);
+		entity.setHealth(0);
+	}
+
+	/**
+	 * Returns true if minimum distance is reached between two entities.
+	 *
+	 * @param entity entity #1
+	 * @param entity2 entity #2
+	 * @param minDistanceSqr the minimum distance squared.
+	 * 
+	 * @return true if minimum distance is reached.
+	 */
+	public static boolean isMinimumDistanceReached(Entity entity, Entity entity2, double minDistanceSqr) {
+		double distSqr = entity.getDistanceSq(entity2);
+		return (minDistanceSqr > distSqr);
+	}
+	
 }

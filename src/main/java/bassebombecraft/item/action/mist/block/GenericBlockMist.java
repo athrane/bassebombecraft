@@ -1,10 +1,11 @@
 package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.BLOCK_EFFECT_FREQUENCY;
+import static bassebombecraft.ModConstants.PARTICLE_RENDERING_FREQUENCY;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 
-import java.util.Random;
-
+import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
@@ -27,25 +28,9 @@ import net.minecraft.world.World;
 public class GenericBlockMist implements RightClickedItemAction {
 
 	/**
-	 * Rendering frequency in ticks.
-	 */
-	static final int RENDERING_FREQUENCY = 5;
-
-	/**
-	 * Effect frequency when targeted mob are affect by most. Frequency is
-	 * measured in ticks.
-	 */
-	static final int EFFECT_UPDATE_FREQUENCY = 5; // Measured in ticks
-
-	/**
 	 * Spawn distance of mist from invoker. Distance is measured in blocks.
 	 */
 	static final float INVOCATION_DIST = 4;
-
-	/**
-	 * Random generator.
-	 */
-	static Random random = new Random();
 
 	/**
 	 * Ticks counter.
@@ -90,8 +75,7 @@ public class GenericBlockMist implements RightClickedItemAction {
 	/**
 	 * GenericBlockMist constructor.
 	 * 
-	 * @param strategy
-	 *            mist strategy.
+	 * @param strategy mist strategy.
 	 */
 	public GenericBlockMist(BlockMistActionStrategy strategy) {
 		this.strategy = strategy;
@@ -113,15 +97,14 @@ public class GenericBlockMist implements RightClickedItemAction {
 		if (!isActive())
 			return;
 
-		// render mist
-		if (ticksCounter % RENDERING_FREQUENCY == 0) {
+		// render mist if frequency is active
+		FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
+		if (repository.isActive(PARTICLE_RENDERING_FREQUENCY))
 			render(worldIn);
-		}
 
-		// update game effect
-		if (ticksCounter % EFFECT_UPDATE_FREQUENCY == 0) {
+		// update effect if frequency is active
+		if (repository.isActive(BLOCK_EFFECT_FREQUENCY))
 			applyEffect(worldIn);
-		}
 
 		// disable if duration is completed
 		if (ticksCounter > strategy.getEffectDuration()) {
@@ -147,10 +130,8 @@ public class GenericBlockMist implements RightClickedItemAction {
 	 * 
 	 * Mist is spawned 2 blocks away from the entity at eye height.
 	 * 
-	 * @param world
-	 *            world object.
-	 * @param entity
-	 *            entity object
+	 * @param world  world object.
+	 * @param entity entity object
 	 */
 	void initializeMistPostition(World world, LivingEntity entity) {
 
@@ -163,7 +144,7 @@ public class GenericBlockMist implements RightClickedItemAction {
 		Vec3d entityPos = new Vec3d(entity.posX, entity.posY, entity.posZ);
 
 		// setup offset angle
-		double offsetAngle = (strategy.getNumberMists()-1) * strategy.getMistAngle() * -0.5F;
+		double offsetAngle = (strategy.getNumberMists() - 1) * strategy.getMistAngle() * -0.5F;
 
 		// setup mists
 		for (int index = 0; index < strategy.getNumberMists(); index++) {
@@ -174,8 +155,8 @@ public class GenericBlockMist implements RightClickedItemAction {
 			mistDirections[index] = rotatedLookVector;
 
 			// calculate spawn vector
-			Vec3d entityLookXn = new Vec3d(rotatedLookVector.x * INVOCATION_DIST,
-					rotatedLookVector.y * INVOCATION_DIST, rotatedLookVector.z * INVOCATION_DIST);
+			Vec3d entityLookXn = new Vec3d(rotatedLookVector.x * INVOCATION_DIST, rotatedLookVector.y * INVOCATION_DIST,
+					rotatedLookVector.z * INVOCATION_DIST);
 
 			double x = entityLookXn.x;
 			float y = entity.getEyeHeight();
@@ -188,8 +169,7 @@ public class GenericBlockMist implements RightClickedItemAction {
 	/**
 	 * Apply effect to block.
 	 * 
-	 * @param world
-	 *            world object
+	 * @param world world object
 	 */
 	void applyEffect(World world) {
 		for (Vec3d mistPosition : mistPositions) {
@@ -197,12 +177,11 @@ public class GenericBlockMist implements RightClickedItemAction {
 			strategy.applyEffectToBlock(target, world);
 		}
 	}
-	
+
 	/**
 	 * Render mist in world.
 	 * 
-	 * @param world
-	 *            world object.
+	 * @param world world object.
 	 */
 	void render(World world) {
 

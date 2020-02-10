@@ -1,19 +1,17 @@
 package bassebombecraft.entity.ai.goal;
 
-import static bassebombecraft.ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_AGGRO;
-import static bassebombecraft.ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE;
-import static bassebombecraft.ModConstants.MOB_AGGRO_EFFECT;
-import static bassebombecraft.entity.EntityUtils.getNullableTarget;
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.EntityUtils.hasTarget;
+import static bassebombecraft.entity.EntityUtils.selfDestruct;
 import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
 
 import java.util.EnumSet;
 import java.util.Optional;
 
+import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.potion.EffectInstance;
 
 /**
  * AI target acquisition goal which attacks commanders target.
@@ -56,16 +54,17 @@ public class CommandersTargetGoal extends Goal {
 
 		// exit if commander is dead
 		if (!commander.isAlive()) {
-			selfDestruct();
+			selfDestruct(entity);
 			return false;
 		}
 
 		// stop goal execution if no target is defined for commander
-		if (!hasTarget(commander)) 
+		if (!hasTarget(commander))
 			return false;
 
 		// get target
-		Optional<LivingEntity> optTarget = getNullableTarget(entity);
+		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
+		Optional<LivingEntity> optTarget = repository.getFirst(commander);
 
 		// exit if target isn't defined (anymore)
 		if (!optTarget.isPresent())
@@ -79,7 +78,8 @@ public class CommandersTargetGoal extends Goal {
 	public void tick() {
 
 		// get target
-		Optional<LivingEntity> optTarget = getNullableTarget(entity);
+		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
+		Optional<LivingEntity> optTarget = repository.getFirst(commander);
 
 		// exit if target isn't defined (anymore)
 		if (!optTarget.isPresent())
@@ -93,17 +93,6 @@ public class CommandersTargetGoal extends Goal {
 	public void resetTask() {
 		// clear target
 		entity.setAttackTarget(NO_TARGET);
-	}
-
-	/**
-	 * Self-destruct entity by settings on fire and apply aggro effect.
-	 */
-	void selfDestruct() {
-		entity.setFire(AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE);
-
-		// add aggro effect
-		EffectInstance effect = new EffectInstance(MOB_AGGRO_EFFECT, AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_AGGRO);
-		entity.addPotionEffect(effect);
 	}
 
 }

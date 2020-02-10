@@ -111,11 +111,13 @@
     "item.bassebombecraft.reaperidolinventoryitem": "Reaper Idol",
     "item.bassebombecraft.massextinctioneventidolinventoryitem": "Mass Extinction Event Idol",
     "item.bassebombecraft.playeraggroidolinventoryitem": "Player Rage Idol",
+    "item.bassebombecraft.angryparrotsidolinventoryitem": "Ancient Mariner Idol",
+    "item.bassebombecraft.reflectidolinventoryitem": "Shieldmaiden Idol",
 
     "_comment": "blocks",
     "block.bassebombecraft.randombookblock": "Block of Random Books",
 
-    "_comment": "basic blocks",
+    "_comment": "basic items",
     "item.bassebombecraft.terminatoreyeitem": "Terminator Eye",
     "item.bassebombecraft.huditem": "BasseBombeCraft tactical heads up display (HUD)",
     
@@ -125,6 +127,7 @@
     "effect.bassebombecraft.mobprimingeffect": "Prime mobs",
     "effect.bassebombecraft.mobrespawningeffect": "Respawn mobs",
     "effect.bassebombecraft.playerggroeffect": "Aggro mobs towards player",
+    "effect.bassebombecraft.reflecteffect": "Reflect damage",
 
 	"_comment": "potions",
     "item.minecraft.potion.effect.weakamplificationpotion": "Potion of Weak Amplification",

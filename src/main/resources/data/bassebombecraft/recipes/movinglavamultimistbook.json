@@ -5,19 +5,16 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:lava_bucket",
-		    "data": 0			
+			"item": "minecraft:lava_bucket"
 		},
 		{
-			"item": "minecraft:lava_bucket",
-		    "data": 0			
+			"item": "minecraft:lava_bucket"
 		},		
 		{
 			"item": "minecraft:dragon_breath"
 		},
 		{
-			"item": "minecraft:shulker_shell",
-		    "data": 0		
+			"item": "minecraft:shulker_shell"
 		}			
 	],
 	"result": {

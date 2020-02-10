@@ -1,5 +1,9 @@
 package bassebombecraft.entity.ai.goal;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.AI_PATH_RECALC_UPDATE_FREQUENCY;
+import static bassebombecraft.ModConstants.AI_TARGET_WATCH_DIST;
+import static bassebombecraft.entity.EntityUtils.isMinimumDistanceReached;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
 import static net.minecraft.entity.ai.goal.Goal.Flag.MOVE;
@@ -7,6 +11,8 @@ import static net.minecraft.pathfinding.PathNodeType.WATER;
 
 import java.util.EnumSet;
 
+import bassebombecraft.BassebombeCraft;
+import bassebombecraft.event.frequency.FrequencyRepository;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.controller.LookController;
@@ -15,42 +21,57 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.pathfinding.PathNavigator;
 
 /**
- * AI goal for companion, e.g. charmed mob or guardian.
+ * AI goal for entity, e.g. spawned mob, charmed mob or guardian.
  * 
- * The goal will follow the designated entity.
+ * The goal will follow the designated leader.
  */
-public class FollowEntity extends Goal {
-
-	static final int UPDATE_DELAY = 10;
+public class FollowEntityGoal extends Goal {
 
 	/**
 	 * Goal owner.
 	 */
 	final MobEntity entity;
 
-	int timeToRecalcPath;
+	/**
+	 * Entity to follow.
+	 */
 	LivingEntity leaderEntity;
+
+	/**
+	 * Follow speed..
+	 */	
 	double followSpeed;
+	
+	/**
+	 * Minimum distance to target.
+	 */
 	float minDistance;
+	
+	/**
+	 * Maximum distance to target.
+	 */	
 	float maxDistance;
-	float oldWaterCost;
-	float minDistanceSqr; // minimum distance to player (squared)
+	
+	/**
+	 * Minimum distance to target (squared).
+	 */	
+	float minDistanceSqr;
 
 	/**
 	 * FollowEntity AI goal.
 	 * 
 	 * @param entity        entity to which the task is applied.
 	 * @param leader        entity to be followed.
-	 * @param followSpeedIn following speed.
-	 * @param minDistIn     minimum distance.
-	 * @param maxDistIn     maximum distance.
+	 * @param followSpeed following speed.
+	 * @param minDist     minimum distance.
+	 * @param maxDist     maximum distance.
 	 */
-	public FollowEntity(MobEntity entity, LivingEntity leader, double followSpeedIn, float minDistIn, float maxDistIn) {
+	public FollowEntityGoal(MobEntity entity, LivingEntity leader, double followSpeed, float minDist, float maxDist) {
 		this.entity = entity;
 		this.leaderEntity = leader;
-		this.followSpeed = followSpeedIn;
-		this.minDistance = minDistIn;
-		this.maxDistance = maxDistIn;
+		this.followSpeed = followSpeed;
+		this.minDistance = minDist;
+		this.maxDistance = maxDist;
 		minDistanceSqr = minDistance * minDistance;
 
 		// "movement" AI
@@ -70,33 +91,14 @@ public class FollowEntity extends Goal {
 			return false;
 		}
 
-		// exit if player spectator
-		if (isTypePlayerEntity(leaderEntity)) {
-			if (((PlayerEntity) leaderEntity).isSpectator())
-				return false;
-		}
-
-		return isMinimumDistanceReached();
-	}
-
-	@Override
-	public boolean shouldContinueExecuting() {
-
-		// exit if leader is undefined
-		if (leaderEntity == null)
-			return false;
-
-		// if player isn't alive
-		if (!leaderEntity.isAlive())
-			return false;
-
-		return isMinimumDistanceReached();
+		// execute if minimum distance hasn't been reached yet
+		boolean isMinDistReached = isMinimumDistanceReached(entity, leaderEntity, minDistanceSqr);
+		return (!isMinDistReached);
+		
 	}
 
 	@Override
 	public void startExecuting() {
-		timeToRecalcPath = 0;
-		oldWaterCost = entity.getPathPriority(WATER);
 		entity.setPathPriority(WATER, 0.0F);
 	}
 
@@ -105,19 +107,15 @@ public class FollowEntity extends Goal {
 
 		// look at
 		LookController lookController = entity.getLookController();
-		lookController.setLookPositionWithEntity(leaderEntity, 10.0F, (float) entity.getVerticalFaceSpeed());
+		lookController.setLookPositionWithEntity(leaderEntity, AI_TARGET_WATCH_DIST,
+				(float) entity.getVerticalFaceSpeed());
 
-		// update counter
-		timeToRecalcPath--;
-
-		// exit if threshold isn't reached
-		if (timeToRecalcPath > 0)
+		// exit if frequency isn't active
+		FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
+		if (!repository.isActive(AI_PATH_RECALC_UPDATE_FREQUENCY))
 			return;
 
-		// reset counter
-		timeToRecalcPath = UPDATE_DELAY;
-
-		// calculate path
+		// move toward target
 		PathNavigator navigator = entity.getNavigator();
 		navigator.tryMoveToEntityLiving(leaderEntity, followSpeed);
 	}
@@ -126,19 +124,6 @@ public class FollowEntity extends Goal {
 	public void resetTask() {
 		PathNavigator navigator = entity.getNavigator();
 		navigator.clearPath();
-	}
-
-	/**
-	 * Returns true if minimum distance is reached.
-	 *
-	 * @return true if minimum distance is reached.
-	 */
-	boolean isMinimumDistanceReached() {
-		double distSqr = entity.getDistanceSq(leaderEntity);
-
-		// exit if minimum distance reached
-		boolean result = (distSqr >= minDistanceSqr);
-		return result;
 	}
 
 }

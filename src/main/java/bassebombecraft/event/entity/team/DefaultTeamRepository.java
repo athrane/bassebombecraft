@@ -86,17 +86,22 @@ public class DefaultTeamRepository implements TeamRepository {
 		if (!isCommander(commander))
 			return;
 
+		// clear commanders members from mapping
+		Team team = teams.get(commander);
+		Set<LivingEntity> members = team.members;
+		members.forEach(t -> teamMembership.remove(t));
+
+		// remove team
 		teams.remove(commander);
 	}
 
-	
 	@Override
 	public int size(PlayerEntity commander) {
 		if (commander == null)
 			return 0;
 		if (!isCommander(commander))
-			return 0;		
-		
+			return 0;
+
 		// get team
 		Team team = teams.get(commander);
 
@@ -215,6 +220,8 @@ public class DefaultTeamRepository implements TeamRepository {
 
 	@Override
 	public Collection<LivingEntity> get(PlayerEntity commander) {
+		if (commander == null)
+			return nullMembersSet;		
 		if (!isCommander(commander))
 			return nullMembersSet;
 

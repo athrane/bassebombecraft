@@ -39,6 +39,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	/**
 	 * Ticks counter.
 	 */
+	@Deprecated
 	int ticksCounter = 0;
 
 	/**

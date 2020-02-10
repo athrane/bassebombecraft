@@ -12,7 +12,7 @@ public interface MobCommanderRepository {
 	}
 
 	/**
-	 * Returns true if player is registered as mob commander.
+	 * Returns true if entity is registered as mob commander.
 	 * 
 	 * @param entity entity to test registration for.
 	 * 

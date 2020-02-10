@@ -5,19 +5,16 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:packed_ice",
-		    "data": 0			
+			"item": "minecraft:packed_ice"
 		},
 		{
-			"item": "minecraft:packed_ice",
-		    "data": 0			
+			"item": "minecraft:packed_ice"
 		},		
 		{
 			"item": "minecraft:dragon_breath"
 		},
 		{
-			"item": "minecraft:shulker_shell",
-		    "data": 0		
+			"item": "minecraft:shulker_shell"
 		}			
 	],
 	"result": {

@@ -6,12 +6,10 @@
 		},
 		{
 		
-			"item": "minecraft:dragon_breath",
-		    "data": 0			
+			"item": "minecraft:dragon_breath"
 		},
 		{
-			"item": "minecraft:spider_eye",
-		    "data": 0			
+			"item": "minecraft:spider_eye"
 		}
 	],
 	"result": {

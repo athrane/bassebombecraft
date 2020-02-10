@@ -5,8 +5,7 @@
 			"item": "minecraft:clay_ball"
 		},
 		{
-			"item": "minecraft:feather",
-			"data": 1
+			"item": "minecraft:feather"
 		}
 	],
 	"result": {
