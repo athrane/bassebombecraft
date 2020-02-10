@@ -4,20 +4,17 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.AI_PATH_RECALC_UPDATE_FREQUENCY;
 import static bassebombecraft.ModConstants.AI_TARGET_WATCH_DIST;
 import static bassebombecraft.entity.EntityUtils.isMinimumDistanceReached;
-import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
 import static net.minecraft.entity.ai.goal.Goal.Flag.MOVE;
 import static net.minecraft.pathfinding.PathNodeType.WATER;
 
 import java.util.EnumSet;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.pathfinding.PathNavigator;
 
 /**
@@ -39,29 +36,29 @@ public class FollowEntityGoal extends Goal {
 
 	/**
 	 * Follow speed..
-	 */	
+	 */
 	double followSpeed;
-	
+
 	/**
 	 * Minimum distance to target.
 	 */
 	float minDistance;
-	
+
 	/**
 	 * Maximum distance to target.
-	 */	
+	 */
 	float maxDistance;
-	
+
 	/**
 	 * Minimum distance to target (squared).
-	 */	
+	 */
 	float minDistanceSqr;
 
 	/**
 	 * FollowEntity AI goal.
 	 * 
-	 * @param entity        entity to which the task is applied.
-	 * @param leader        entity to be followed.
+	 * @param entity      entity to which the task is applied.
+	 * @param leader      entity to be followed.
 	 * @param followSpeed following speed.
 	 * @param minDist     minimum distance.
 	 * @param maxDist     maximum distance.
@@ -94,7 +91,7 @@ public class FollowEntityGoal extends Goal {
 		// execute if minimum distance hasn't been reached yet
 		boolean isMinDistReached = isMinimumDistanceReached(entity, leaderEntity, minDistanceSqr);
 		return (!isMinDistReached);
-		
+
 	}
 
 	@Override
