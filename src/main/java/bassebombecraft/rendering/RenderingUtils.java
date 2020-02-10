@@ -136,7 +136,7 @@ public class RenderingUtils {
 
 		// set line width & color
 		GlStateManager.lineWidth(BILLBOARD_LINE_WIDTH);
-		GlStateManager.color3f(1.0F, 1.0F, 1.0F);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		// translate to camera position
 		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
@@ -173,7 +173,7 @@ public class RenderingUtils {
 
 		// set line width & color
 		GlStateManager.lineWidth(1);
-		GlStateManager.color3f(1.0F, 1.0F, 1.0F);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		// translate and rotate billboard
 		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
@@ -221,7 +221,7 @@ public class RenderingUtils {
 
 		// set line width & color
 		GlStateManager.lineWidth(BILLBOARD_LINE_WIDTH);
-		GlStateManager.color3f(1.0F, 1.0F, 1.0F);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		// translate to camera position
 		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
@@ -269,7 +269,7 @@ public class RenderingUtils {
 
 		// set line width & color
 		GlStateManager.lineWidth(2);
-		GlStateManager.color3f(1.0F, 0.0F, 0.0F);
+		GlStateManager.color4f(1.0F, 0.0F, 0.0F, 1.0F);
 
 		// translate and rotate billboard
 		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
@@ -296,7 +296,7 @@ public class RenderingUtils {
 
 		// set line width & color
 		GlStateManager.lineWidth(2);
-		GlStateManager.color3f(0.0F, 1.0F, 0.0F);
+		GlStateManager.color4f(0.0F, 1.0F, 0.0F, 1.0F);
 
 		// translate and rotate billboard
 		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
@@ -323,7 +323,7 @@ public class RenderingUtils {
 
 		// set line width & color
 		GlStateManager.lineWidth(2);
-		GlStateManager.color3f(0.0F, 0.0F, 1.0F);
+		GlStateManager.color4f(0.0F, 0.0F, 1.0F, 1.0F);
 
 		// translate and rotate billboard
 		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
