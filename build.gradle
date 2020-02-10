@@ -22,10 +22,10 @@ apply plugin: 'maven-publish'
 // definition of properties
 ext {
     modVersion = "1.39"
-    mcVersion = "1.14.4"
+    mcVersion = "1.15.2"
 }
 version = project.mcVersion + "-" + project.modVersion  
-group= "bassebombecraft" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "bassebombecraft" 
 archivesBaseName = "BasseBombeCraft"
 
 // SonarQube properties
@@ -39,7 +39,7 @@ sonarqube {
 }
 
 // set source and target compatibility
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
 	// Mappings can be found at: http://mcp.thiakil.com/
@@ -48,7 +48,7 @@ minecraft {
     // stable_#            Stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'snapshot', version: '20190920-1.14.3'
+    mappings channel: 'snapshot', version: '20200210-1.15.1'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     
     // activate access forge tranformer to access private methods and fields.
@@ -113,7 +113,7 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.14.4-28.1.90'
+    minecraft 'net.minecraftforge:forge:1.15.2-31.1.0'
 }
 
 jar {
