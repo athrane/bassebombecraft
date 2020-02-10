@@ -40,9 +40,9 @@ public class DefaultRenderingInfo implements RenderingInfo {
 	public DefaultRenderingInfo(float partialTicks) {
 		this.partialTicks = partialTicks;
 		Entity rve = BassebombeCraft.getMincraft().getRenderViewEntity();
-		rveModifiedX = rve.lastTickPosX + ((rve.posX - rve.lastTickPosX) * partialTicks);
-		rveModifiedY = rve.lastTickPosY + ((rve.posY - rve.lastTickPosY) * partialTicks);
-		rveModifiedZ = rve.lastTickPosZ + ((rve.posZ - rve.lastTickPosZ) * partialTicks);
+		rveModifiedX = rve.lastTickPosX + ((rve.getPosX() - rve.lastTickPosX) * partialTicks);
+		rveModifiedY = rve.lastTickPosY + ((rve.getPosY() - rve.lastTickPosY) * partialTicks);
+		rveModifiedZ = rve.lastTickPosZ + ((rve.getPosZ() - rve.lastTickPosZ) * partialTicks);
 	}
 
 	public DefaultRenderingInfo(float partialTicks, RayTraceResult result) {

@@ -182,9 +182,9 @@ public class GenericInventoryItem extends Item {
 		int aoeRange = getRange();
 
 		// get entities within AABB
-		AxisAlignedBB aabb = new AxisAlignedBB(invokingEntity.posX - aoeRange, invokingEntity.posY - aoeRange,
-				invokingEntity.posZ - aoeRange, invokingEntity.posX + aoeRange, invokingEntity.posY + aoeRange,
-				invokingEntity.posZ + aoeRange);
+		AxisAlignedBB aabb = new AxisAlignedBB(invokingEntity.getPosX() - aoeRange, invokingEntity.getPosY() - aoeRange,
+				invokingEntity.getPosZ() - aoeRange, invokingEntity.getPosX() + aoeRange, invokingEntity.getPosY() + aoeRange,
+				invokingEntity.getPosZ() + aoeRange);
 		List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class, aabb);
 
 		for (LivingEntity foundEntity : entities) {

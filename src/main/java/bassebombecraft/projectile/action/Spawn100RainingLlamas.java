@@ -34,9 +34,9 @@ public class Spawn100RainingLlamas implements ProjectileAction {
 			int randomY = random.nextInt(Y_SPAWN_SIZE) + (Y_SPAWN_OFFSET);
 			int randomZ = random.nextInt(SPAWN_SIZE) - (SPAWN_SIZE / 2);
 
-			double positionX = projectile.posX + randomX;
-			double positionY = projectile.posY + randomY;
-			double positionZ = projectile.posZ + randomZ;
+			double positionX = projectile.getPosX() + randomX;
+			double positionY = projectile.getPosY() + randomY;
+			double positionZ = projectile.getPosZ() + randomZ;
 
 			entity.setLocationAndAngles(positionX, positionY, positionZ, projectile.rotationYaw, PITCH);
 

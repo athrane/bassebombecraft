@@ -26,7 +26,7 @@ public class ShootLargeFireball implements RightClickedItemAction {
 	public void onRightClick(World world, LivingEntity entity) {
 		Vec3d v3 = entity.getLook(1);
 		FireballEntity projectile = EntityType.FIREBALL.create(world);
-		projectile.setPosition(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
+		projectile.setPosition(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
 		projectile.setMotion(v3);
 
 		// add spawn sound

@@ -27,7 +27,7 @@ public class PlayerUtils {
 	 * @return player feet position (as a Y coordinate).
 	 */
 	public static double calculatePlayerFeetPositition(PlayerEntity player) {
-		double playerFeetPosY = player.posY - player.getYOffset();
+		double playerFeetPosY = player.getPosY() - player.getYOffset();
 		return playerFeetPosY;
 	}
 
@@ -224,9 +224,9 @@ public class PlayerUtils {
 	 * @return player position.
 	 */
 	public static Vec3d CalculatePlayerPosition(PlayerEntity player, float partialTicks) {
-		double doubleX = player.lastTickPosX + (player.posX - player.lastTickPosX) * partialTicks;
-		double doubleY = player.lastTickPosY + (player.posY - player.lastTickPosY) * partialTicks;
-		double doubleZ = player.lastTickPosZ + (player.posZ - player.lastTickPosZ) * partialTicks;
+		double doubleX = player.lastTickPosX + (player.getPosX() - player.lastTickPosX) * partialTicks;
+		double doubleY = player.lastTickPosY + (player.getPosY() - player.lastTickPosY) * partialTicks;
+		double doubleZ = player.lastTickPosZ + (player.getPosZ() - player.lastTickPosZ) * partialTicks;
 		return new Vec3d(doubleX, doubleY, doubleZ);
 	}
 

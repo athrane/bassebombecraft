@@ -23,9 +23,8 @@ public class SpawnGuardian implements ProjectileAction {
 
 		LivingEntity owner = projectile.getThrower();
 		IronGolemEntity entity = EntityType.IRON_GOLEM.create(world);
-		entity.setLocationAndAngles(projectile.posX, projectile.posY, projectile.posZ, projectile.rotationYaw,
+		entity.setLocationAndAngles(projectile.getPosX(), projectile.getPosY(), projectile.getPosZ(), projectile.rotationYaw,
 				projectile.rotationPitch);
-		world.addEntity(entity);
 
 		// add entity to team
 		TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
@@ -34,6 +33,8 @@ public class SpawnGuardian implements ProjectileAction {
 		// set AI
 		clearAllAiGoals(entity);
 		buildCharmedMobAi(entity, owner);
+		
+		world.addEntity(entity);		
 	}
 
 }

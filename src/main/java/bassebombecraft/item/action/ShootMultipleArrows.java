@@ -64,7 +64,7 @@ public class ShootMultipleArrows implements RightClickedItemAction {
 		Random random = getBassebombeCraft().getRandom();
 		
 		ArrowEntity projectile = EntityType.ARROW.create(world);
-		projectile.setPosition(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);		
+		projectile.setPosition(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());		
 		float velocity = ARROW_FORCE * FORCE_MODIFIER;
 		projectile.shoot(orientation.x, orientation.y, orientation.z, velocity, INACCURACY);
 		entity.playSound(SOUND, 1.0F, 1.0F / random.nextFloat() * 0.4F + 0.8F);

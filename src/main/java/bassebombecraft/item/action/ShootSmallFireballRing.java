@@ -58,7 +58,7 @@ public class ShootSmallFireballRing implements RightClickedItemAction {
 			Vec3d rotatedVec = INITIAL_VECTOR.rotateYaw((float) yaw);
 
 			SmallFireballEntity projectile = EntityType.SMALL_FIREBALL.create(world);
-			projectile.setPosition(entity.posX, entity.posY + entity.getEyeHeight(), entity.posZ);
+			projectile.setPosition(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
 			projectile.setMotion(rotatedVec);
 
 			// add spawn sound

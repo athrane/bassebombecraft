@@ -6,7 +6,6 @@ import static bassebombecraft.ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT
 import java.util.Optional;
 import java.util.Random;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.player.PlayerDirection;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
@@ -43,14 +42,12 @@ public class EntityUtils {
 		Vec3d lookVec = entity.getLookVec();
 
 		// calculate spawn projectile spawn position
-		double x = entity.posX + (lookVec.x * spawnDisplacement);
-		double y = entity.posY + entity.getEyeHeight();
-		double z = entity.posZ + (lookVec.z * spawnDisplacement);
+		double x = entity.getPosX() + (lookVec.x * spawnDisplacement);
+		double y = entity.getPosY() + entity.getEyeHeight();
+		double z = entity.getPosZ() + (lookVec.z * spawnDisplacement);
 
 		// set spawn position
-		projectileEntity.posX = x;
-		projectileEntity.posY = y;
-		projectileEntity.posZ = z;
+		projectileEntity.setPosition(x, y, z);
 		projectileEntity.prevRotationYaw = projectileEntity.rotationYaw = projectileEntity.rotationYawHead = entity.rotationYaw;
 		projectileEntity.prevRotationPitch = projectileEntity.rotationPitch = entity.rotationPitch;
 	}
@@ -161,7 +158,7 @@ public class EntityUtils {
 			return oe.get() instanceof BatEntity;
 		return false;
 	}
-	
+
 	/**
 	 * Calculate entity feet position (as a Y coordinate).
 	 * 
@@ -170,7 +167,7 @@ public class EntityUtils {
 	 * @return player feet position (as a Y coordinate).
 	 */
 	public static double calculateEntityFeetPositition(LivingEntity entity) {
-		double feetPosY = entity.posY - entity.getYOffset();
+		double feetPosY = entity.getPosY() - entity.getYOffset();
 		return feetPosY;
 	}
 
@@ -362,8 +359,8 @@ public class EntityUtils {
 	/**
 	 * Returns true if minimum distance is reached between two entities.
 	 *
-	 * @param entity entity #1
-	 * @param entity2 entity #2
+	 * @param entity         entity #1
+	 * @param entity2        entity #2
 	 * @param minDistanceSqr the minimum distance squared.
 	 * 
 	 * @return true if minimum distance is reached.
@@ -372,5 +369,5 @@ public class EntityUtils {
 		double distSqr = entity.getDistanceSq(entity2);
 		return (minDistanceSqr > distSqr);
 	}
-	
+
 }
