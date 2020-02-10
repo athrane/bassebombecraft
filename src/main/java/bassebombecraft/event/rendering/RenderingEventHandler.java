@@ -14,8 +14,6 @@ import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
 import static bassebombecraft.rendering.DefaultRenderingInfo.getInstance;
 import static bassebombecraft.rendering.RenderingUtils.renderTextBillboardV2;
 
-import javax.vecmath.Vector4f;
-
 import bassebombecraft.rendering.DefaultBuildMineRenderer;
 import bassebombecraft.rendering.DefaultCharmedInfoRenderer;
 import bassebombecraft.rendering.DefaultCharmedRenderer;
@@ -29,6 +27,7 @@ import bassebombecraft.rendering.RenderingUtils;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;

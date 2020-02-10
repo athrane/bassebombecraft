@@ -9,8 +9,6 @@ import static net.minecraftforge.fml.common.ObfuscationReflectionHelper.getPriva
 
 import java.time.Instant;
 
-import javax.vecmath.Vector4f;
-
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -18,6 +16,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
@@ -231,7 +230,7 @@ public class RenderingUtils {
 		setupBillboardRotation();
 
 		// add addition rotation
-		GlStateManager.rotatef(rotation.w, rotation.x, rotation.y, rotation.z);
+		GlStateManager.rotatef(rotation.getW(), rotation.getX(), rotation.getY(), rotation.getZ());
 
 		// create tessellator & bufferbuilder
 		Tessellator tessellator = Tessellator.getInstance();
@@ -387,7 +386,7 @@ public class RenderingUtils {
 		GlStateManager.scalef(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 
 		// add addition rotation
-		GlStateManager.rotatef(rotation.w, rotation.x, rotation.y, rotation.z);
+		GlStateManager.rotatef(rotation.getW(), rotation.getX(), rotation.getY(), rotation.getZ());
 
 		// draw
 		mc.fontRenderer.drawString(text, 0, 0, textColor);
@@ -421,7 +420,7 @@ public class RenderingUtils {
 		GlStateManager.scalef(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 
 		// add addition rotation
-		GlStateManager.rotatef(rotation.w, rotation.x, rotation.y, rotation.z);
+		GlStateManager.rotatef(rotation.getW(), rotation.getX(), rotation.getY(), rotation.getZ());
 
 		// draw
 		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
@@ -465,8 +464,8 @@ public class RenderingUtils {
 		GlStateManager.scalef(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 
 		// add billboard rotation for text readability
-		GlStateManager.rotatef(TEXT_BILLBOARD_ROTATION.w, TEXT_BILLBOARD_ROTATION.x, TEXT_BILLBOARD_ROTATION.y,
-				TEXT_BILLBOARD_ROTATION.z);
+		GlStateManager.rotatef(TEXT_BILLBOARD_ROTATION.getW(), TEXT_BILLBOARD_ROTATION.getX(), TEXT_BILLBOARD_ROTATION.getY(),
+				TEXT_BILLBOARD_ROTATION.getZ());
 
 		// draw
 		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
@@ -496,13 +495,13 @@ public class RenderingUtils {
 		GlStateManager.enableTexture();
 
 		// add addition rotation
-		GlStateManager.rotatef(rotation.w, rotation.x, rotation.y, rotation.z);
+		GlStateManager.rotatef(rotation.getW(), rotation.getX(), rotation.getY(), rotation.getZ());
 
 		// translate to camera position
 		GlStateManager.translated(cameraTranslation.x, cameraTranslation.y, cameraTranslation.z);
 
 		// add addition rotation
-		GlStateManager.rotatef(rotation.w, -rotation.x, -rotation.y, -rotation.z);
+		GlStateManager.rotatef(rotation.getW(), -rotation.getX(), -rotation.getY(), -rotation.getZ());
 
 		// set up billboard rotation
 		setupBillboardRotation();
@@ -511,8 +510,8 @@ public class RenderingUtils {
 		GlStateManager.scalef(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 
 		// add billboard rotation for text readability
-		GlStateManager.rotatef(TEXT_BILLBOARD_ROTATION.w, TEXT_BILLBOARD_ROTATION.x, TEXT_BILLBOARD_ROTATION.y,
-				TEXT_BILLBOARD_ROTATION.z);
+		GlStateManager.rotatef(TEXT_BILLBOARD_ROTATION.getW(), TEXT_BILLBOARD_ROTATION.getX(), TEXT_BILLBOARD_ROTATION.getY(),
+				TEXT_BILLBOARD_ROTATION.getZ());
 
 		// draw
 		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);

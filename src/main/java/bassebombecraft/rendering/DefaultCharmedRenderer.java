@@ -8,11 +8,10 @@ import static bassebombecraft.rendering.RenderingUtils.renderTriangleBillboard;
 
 import java.util.Collection;
 
-import javax.vecmath.Vector4f;
-
 import bassebombecraft.event.charm.CharmedMob;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.player.PlayerUtils;
+import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;

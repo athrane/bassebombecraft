@@ -2,8 +2,6 @@ package bassebombecraft;
 
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 
-import javax.vecmath.Vector4f;
-
 import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
@@ -29,6 +27,7 @@ import bassebombecraft.potion.effect.MobRespawningEffect;
 import bassebombecraft.potion.effect.PlayerAggroEffect;
 import bassebombecraft.potion.effect.ReflectEffect;
 import bassebombecraft.rendering.DefaultBuildMineRenderer;
+import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
 import net.minecraft.potion.Effect;
@@ -57,7 +56,7 @@ public class ModConstants {
 	/**
 	 * Mod version.
 	 */
-	public static final String VERSION = "1.14.4-1.39";
+	public static final String VERSION = "1.15.2-1.39";
 
 	/**
 	 * In game tab name.
