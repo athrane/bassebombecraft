@@ -1236,7 +1236,7 @@ public class ModConfiguration {
 		name = ReflectIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "crit", 5, 20, 0.3, 0.75, 0.0, 0.0);
 		reflectIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol will protect the player by reflecting mob damage back to the assailant.", 50, splParticles);	
+				"Equip in either hand to activate. The idol will reflect mob damage back to the assailant.", 50, splParticles);	
 	}
 
 	/**
