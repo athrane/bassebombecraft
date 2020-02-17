@@ -112,7 +112,8 @@
     "item.bassebombecraft.massextinctioneventidolinventoryitem": "Mass Extinction Event Idol",
     "item.bassebombecraft.playeraggroidolinventoryitem": "Player Rage Idol",
     "item.bassebombecraft.angryparrotsidolinventoryitem": "Ancient Mariner Idol",
-    "item.bassebombecraft.reflectidolinventoryitem": "Shieldmaiden Idol",
+    "item.bassebombecraft.reflectidolinventoryitem": "Shield-maiden Idol",
+    "item.bassebombecraft.killerbeesidolinventoryitem": "Attack of the Killer B's Idol",
 
     "_comment": "blocks",
     "block.bassebombecraft.randombookblock": "Block of Random Books",

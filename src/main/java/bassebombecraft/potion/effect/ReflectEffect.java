@@ -24,7 +24,7 @@ public class ReflectEffect extends Effect {
 	public final static String NAME = ReflectEffect.class.getSimpleName();
 
 	/**
-	 * RevengeEffect constructor.
+	 * ReflectEffect constructor.
 	 */
 	public ReflectEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);

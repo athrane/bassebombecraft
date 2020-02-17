@@ -255,13 +255,13 @@ public class AiUtils {
 	}
 
 	/**
-	 * Build AI for parrots.
+	 * Build AI for parrots and bees.
 	 * 
 	 * @param entity entity which will configured with bat AI.
-	 * @param target entity that parrot will attack.
+	 * @param target entity that entity will attack.
 	 * @param parrot damage.
 	 */
-	public static void buildParrotAi(MobEntity entity, LivingEntity target, float damage ) {
+	public static void buildFlyingAi(MobEntity entity, LivingEntity target, float damage ) {
 
 		// set goals
 		MobEntity mobEntity = (MobEntity) entity;		

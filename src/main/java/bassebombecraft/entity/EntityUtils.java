@@ -2,18 +2,21 @@ package bassebombecraft.entity;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE;
+import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
 import java.util.Optional;
 import java.util.Random;
 
+import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.player.PlayerDirection;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.monster.CreeperEntity;
-import net.minecraft.entity.passive.BatEntity;
+import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.passive.ParrotEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -73,6 +76,21 @@ public class EntityUtils {
 
 		// kill target
 		entity.onKillCommand();
+	}
+
+	/**
+	 * Return true if entity is an expected type.
+	 * 
+	 * @param entity entity to test.
+	 * @param type   type to test for.
+	 * 
+	 * @return true if entity is the expected type.
+	 */
+	public static boolean isType(Entity entity, Class<?> type) {
+		Optional<Entity> oe = Optional.ofNullable(entity);
+		if (oe.isPresent())
+			return type.isInstance(oe.get());
+		return false;
 	}
 
 	/**
@@ -146,16 +164,16 @@ public class EntityUtils {
 	}
 
 	/**
-	 * return true if entity is a {@linkplain BatEntity}.
+	 * return true if entity is a {@linkplain BeeEntity}.
 	 * 
 	 * @param entity entity to test.
 	 * 
-	 * @return true if entity is a {@linkplain BatEntity}.
+	 * @return true if entity is a {@linkplain BeeEntity}.
 	 */
-	public static boolean isTypeBatEntity(Entity entity) {
+	public static boolean isTypeBeeEntity(Entity entity) {
 		Optional<Entity> oe = Optional.ofNullable(entity);
 		if (oe.isPresent())
-			return oe.get() instanceof BatEntity;
+			return oe.get() instanceof BeeEntity;
 		return false;
 	}
 
@@ -292,6 +310,44 @@ public class EntityUtils {
 			livingEntity.setLastAttackedEntity(newTarget);
 			livingEntity.setRevengeTarget(newTarget);
 		}
+	}
+
+	/**
+	 * Resolve the entity target.
+	 * 
+	 * @param target    some nearby mob.
+	 * @param entity    entity
+	 * @param commander invoker of the effect.
+	 * 
+	 * @return resolved target.
+	 */
+	public static LivingEntity resolveTarget(Entity target, MobEntity entity, LivingEntity invoker) {
+
+		// if invoker is a player then get the player target.
+		if (isTypePlayerEntity(invoker)) {
+
+			// type cast
+			PlayerEntity player = (PlayerEntity) invoker;
+
+			// get player target
+			TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
+			Optional<LivingEntity> optTarget = repository.getFirst(player);
+
+			// return player target if defined
+			if (optTarget.isPresent())
+				return optTarget.get();
+		}
+
+		// if target is living entity then cast cast and return it
+		if (isTypeLivingEntity(target)) {
+
+			// type cast
+			LivingEntity livingEntity = (LivingEntity) target;
+
+			return livingEntity;
+		}
+
+		return null;
 	}
 
 	/**

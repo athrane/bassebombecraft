@@ -8,8 +8,9 @@ import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.Goal;
 
 /**
- * AI target acquisition goal which targets the same static target. If the
- * target died the the targeting entity self-destruct.
+ * AI target acquisition goal which targets the same static target.
+ * 
+ * If the target died the the targeting entity self-destruct.
  */
 public class SingleTargetGoal extends Goal {
 
@@ -64,9 +65,12 @@ public class SingleTargetGoal extends Goal {
 	@Override
 	public void resetTask() {
 
-		// don't reset if target is undefined
-		if (target == null)
+		// self-destruct if target is undefined
+		if (target == null) {
+			entity.setAttackTarget(NO_TARGET);
+			selfDestruct(entity);			
 			return;
+		}
 
 		// don't reset if target is alive
 		if (target.isAlive())

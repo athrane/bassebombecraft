@@ -2,10 +2,14 @@ package bassebombecraft.operator;
 
 import java.util.function.Supplier;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
+/**
+ * Class for execution of operator.
+ */
 public class Operators {
 
 	/**
@@ -19,10 +23,15 @@ public class Operators {
 	EffectInstance effectInstance;
 
 	/**
-	 * Entity instance.
+	 * Living entity instance.
 	 */
 	LivingEntity livingEntity;
 
+	/**
+	 * Target entity instance.
+	 */
+	Entity targetEntity;
+	
 	/**
 	 * {@linkplain LivingDamageEvent} supplier.
 	 */
@@ -38,6 +47,11 @@ public class Operators {
 	 */
 	Supplier<LivingEntity> splEntity = () -> livingEntity;
 
+	/**
+	 * {@linkplain Entity} supplier.
+	 */
+	Supplier<Entity> splTargetEntity= () -> targetEntity;
+	
 	/**
 	 * Operator to execute
 	 */
@@ -70,6 +84,15 @@ public class Operators {
 		return splEntity;
 	}
 
+	/**
+	 * Get {@linkplain Entity} supplier.
+	 * 
+	 * @return target entity supplier.
+	 */
+	public Supplier<Entity> getSplTargetEntity() {
+		return splTargetEntity;
+	}
+	
 	public void setOperator(Operator operator) {
 		this.operator = operator;
 	}
@@ -81,21 +104,35 @@ public class Operators {
 		livingDamageEvent = null;
 		livingEntity = null;
 		effectInstance = null;
+		targetEntity = null;
 	}
 
 	/**
-	 * Run operator.
+	 * Execute operator.
 	 * 
 	 * @param event  input event.
 	 * @param entity input entity.
 	 * @param effect input effect.
 	 */
 	public void run(LivingDamageEvent event, LivingEntity entity, EffectInstance effect) {
-		livingDamageEvent = event;
-		livingEntity = entity;
-		effectInstance = effect;
+		this.livingDamageEvent = event;
+		this.livingEntity = entity;
+		this.effectInstance = effect;
 		operator.run();
 		reset();
+	}
+
+	/**
+	 * Execute operator.
+	 * 
+	 * @param entity input entity
+	 * @param target input target entity.
+	 */
+	public void run(LivingEntity entity, Entity target) {
+		this.livingEntity = entity;
+		this.targetEntity = target;
+		operator.run();
+		reset();		
 	}
 
 }
