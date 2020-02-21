@@ -27,7 +27,7 @@ public class SpawnWarPig implements Operator {
 	/**
 	 * Operator identifier.
 	 */
-	public final static String NAME = SpawnWarPig.class.getSimpleName();
+	public static final String NAME = SpawnWarPig.class.getSimpleName();
 
 	/**
 	 * Spawn sound.

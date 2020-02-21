@@ -18,7 +18,7 @@ import net.minecraft.entity.passive.BeeEntity;
  */
 public class KillerBeesIdolInventoryItem extends GenericInventoryItem {
 
-	public final static String ITEM_NAME = KillerBeesIdolInventoryItem.class.getSimpleName();
+	public static final String ITEM_NAME = KillerBeesIdolInventoryItem.class.getSimpleName();
 
 	static Supplier<Integer> splDamage = () -> spawnKillerBeeDamage.get();
 	static Supplier<Double> splMovementSpeed = () -> spawnKillerBeeMovementSpeed.get();

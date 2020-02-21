@@ -9,7 +9,7 @@ import bassebombecraft.projectile.action.SpawnIceBlock;
  */
 public class IceBlockBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "IceBlockBook";
+	public static final String ITEM_NAME = "IceBlockBook";
 	static final ProjectileAction PROJECTILE_ACTION = new SpawnIceBlock();
 
 	public IceBlockBook() {

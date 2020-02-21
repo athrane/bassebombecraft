@@ -15,7 +15,7 @@ public class AddFlameEffect implements InventoryItemActionStrategy {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = AddFlameEffect.class.getSimpleName();
+	public static final String NAME = AddFlameEffect.class.getSimpleName();
 
 	/**
 	 * Effect duration.

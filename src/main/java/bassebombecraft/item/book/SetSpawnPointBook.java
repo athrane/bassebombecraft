@@ -9,7 +9,7 @@ import bassebombecraft.projectile.action.SetSpawnPoint;
  */
 public class SetSpawnPointBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = SetSpawnPointBook.class.getSimpleName();
+	public static final String ITEM_NAME = SetSpawnPointBook.class.getSimpleName();
 	static final ProjectileAction PROJECTILE_ACTION = new SetSpawnPoint();
 
 	public SetSpawnPointBook() {

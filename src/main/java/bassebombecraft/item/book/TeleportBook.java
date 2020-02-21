@@ -9,7 +9,7 @@ import bassebombecraft.projectile.action.TeleportEntity;
  */
 public class TeleportBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = TeleportBook.class.getSimpleName();
+	public static final String ITEM_NAME = TeleportBook.class.getSimpleName();
 	static final ProjectileAction PROJECTILE_ACTION = new TeleportEntity();
 
 	public TeleportBook() {

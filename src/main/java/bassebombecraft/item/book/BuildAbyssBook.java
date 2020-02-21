@@ -7,7 +7,7 @@ import bassebombecraft.item.action.build.BuildAbyss;
  */
 public class BuildAbyssBook extends GenericBlockClickedBook {
 
-	public final static String ITEM_NAME = "BuildAbyssBook";
+	public static final String ITEM_NAME = "BuildAbyssBook";
 
 	public BuildAbyssBook() {
 		super(ITEM_NAME, new BuildAbyss());

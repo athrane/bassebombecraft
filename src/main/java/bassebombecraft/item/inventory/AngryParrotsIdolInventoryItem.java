@@ -12,7 +12,7 @@ import bassebombecraft.item.action.inventory.SpawnAngryParrots;
  */
 public class AngryParrotsIdolInventoryItem extends GenericInventoryItem {
 
-	public final static String ITEM_NAME = AngryParrotsIdolInventoryItem.class.getSimpleName();
+	public static final String ITEM_NAME = AngryParrotsIdolInventoryItem.class.getSimpleName();
 
 	static Supplier<Integer> splDamage = () -> spawnAngryParrotsDamage.get();
 	static Supplier<Double> splMovementSpeed = () -> spawnAngryParrotsMovementSpeed.get();

@@ -40,12 +40,12 @@ public class DefaultCharmedRenderer implements EntityRenderer {
 	/**
 	 * Renderer for rendering bounding box of an entity in the HUD Item.
 	 */
-	final static EntityRenderer boundingBoxRenderer = new DefaultBoundingBoxEntityRenderer();
+	static final EntityRenderer boundingBoxRenderer = new DefaultBoundingBoxEntityRenderer();
 
 	/**
 	 * Renderer for rendering target of an entity in the HUD Item.
 	 */
-	final static EntityRenderer targetRenderer = new DefaultTargetEntityRenderer();
+	static final EntityRenderer targetRenderer = new DefaultTargetEntityRenderer();
 
 	@Override
 	public void render(LivingEntity entity, RenderingInfo info) {

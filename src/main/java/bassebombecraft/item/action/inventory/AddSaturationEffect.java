@@ -20,7 +20,7 @@ public class AddSaturationEffect implements InventoryItemActionStrategy {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = AddSaturationEffect.class.getSimpleName();
+	public static final String NAME = AddSaturationEffect.class.getSimpleName();
 
 	/**
 	 * Effect duration.

@@ -13,7 +13,7 @@ import bassebombecraft.item.action.inventory.AddBlindingEffect;
  */
 public class BlindnessIdolInventoryItem extends GenericInventoryItem {
 
-	public final static String ITEM_NAME = BlindnessIdolInventoryItem.class.getSimpleName();
+	public static final String ITEM_NAME = BlindnessIdolInventoryItem.class.getSimpleName();
 
 	static Supplier<Integer> splDuration = () -> addBlindingEffectDuration.get();
 	static Supplier<Integer> splAmplifier = () -> addBlindingEffectAmplifier.get();

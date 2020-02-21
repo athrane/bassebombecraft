@@ -9,7 +9,7 @@ import bassebombecraft.item.action.inventory.MassExtinctionEvent;
  */
 public class MassExtinctionEventIdolInventoryItem extends GenericInventoryItem {
 
-	public final static String ITEM_NAME = MassExtinctionEventIdolInventoryItem.class.getSimpleName();
+	public static final String ITEM_NAME = MassExtinctionEventIdolInventoryItem.class.getSimpleName();
 
 	public MassExtinctionEventIdolInventoryItem() {
 		super(ITEM_NAME, massExtinctionEventIdolInventoryItem, new MassExtinctionEvent());

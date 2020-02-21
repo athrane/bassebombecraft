@@ -20,7 +20,7 @@ public class AddReflectEffect implements InventoryItemActionStrategy {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = AddReflectEffect.class.getSimpleName();
+	public static final String NAME = AddReflectEffect.class.getSimpleName();
 
 	/**
 	 * Effect duration.

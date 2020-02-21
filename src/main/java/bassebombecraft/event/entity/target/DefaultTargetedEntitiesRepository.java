@@ -59,7 +59,7 @@ public class DefaultTargetedEntitiesRepository implements TargetedEntitiesReposi
 	/**
 	 * Null targets stream.
 	 */
-	final static Set<LivingEntity> nullTargetsSet = new HashSet<LivingEntity>();
+	static final Set<LivingEntity> nullTargetsSet = new HashSet<LivingEntity>();
 
 	/**
 	 * Set of commanders targets.

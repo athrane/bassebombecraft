@@ -20,7 +20,7 @@ public class AddPlayerAggroEffect implements InventoryItemActionStrategy {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = AddPlayerAggroEffect.class.getSimpleName();
+	public static final String NAME = AddPlayerAggroEffect.class.getSimpleName();
 
 	/**
 	 * Effect duration.

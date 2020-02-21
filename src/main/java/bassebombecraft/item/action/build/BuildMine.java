@@ -40,7 +40,7 @@ public class BuildMine implements BlockClickedItemAction {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = BuildMine.class.getSimpleName();
+	public static final String NAME = BuildMine.class.getSimpleName();
 	
 	
 	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;

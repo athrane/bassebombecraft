@@ -34,7 +34,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = GenericBlockSpiralFillMist.class.getSimpleName();
+	public static final String NAME = GenericBlockSpiralFillMist.class.getSimpleName();
 
 	/**
 	 * Ticks counter.

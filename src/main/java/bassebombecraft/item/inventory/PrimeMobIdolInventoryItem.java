@@ -12,7 +12,7 @@ import bassebombecraft.item.action.inventory.AddMobsPrimingEffect;
  */
 public class PrimeMobIdolInventoryItem extends GenericInventoryItem {
 
-	public final static String ITEM_NAME = PrimeMobIdolInventoryItem.class.getSimpleName();
+	public static final String ITEM_NAME = PrimeMobIdolInventoryItem.class.getSimpleName();
 
 	static Supplier<Integer> splDuration = () -> addMobsPrimingEffectDuration.get();
 

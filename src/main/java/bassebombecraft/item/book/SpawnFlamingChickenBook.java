@@ -11,7 +11,7 @@ import bassebombecraft.projectile.action.SpawnFlamingChicken;
  */
 public class SpawnFlamingChickenBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = SpawnFlamingChickenBook.class.getSimpleName();
+	public static final String ITEM_NAME = SpawnFlamingChickenBook.class.getSimpleName();
 	static final ProjectileAction PROJECTILE_ACTION = new SpawnFlamingChicken();
 
 	public SpawnFlamingChickenBook() {

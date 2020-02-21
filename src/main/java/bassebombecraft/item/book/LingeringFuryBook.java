@@ -9,7 +9,7 @@ import bassebombecraft.item.action.mist.entity.LingeringFlameMist;
  */
 public class LingeringFuryBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "LingeringFuryBook";
+	public static final String ITEM_NAME = "LingeringFuryBook";
 	static final int EXPLOSION_RADIUS = 5;	
 	static final EntityMistActionStrategy STRATEGY = new LingeringFlameMist(EXPLOSION_RADIUS);
 	

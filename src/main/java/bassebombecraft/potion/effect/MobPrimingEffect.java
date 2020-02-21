@@ -29,7 +29,7 @@ public class MobPrimingEffect extends Effect {
 	/**
 	 * Effect identifier.
 	 */
-	public final static String NAME = MobPrimingEffect.class.getSimpleName();
+	public static final String NAME = MobPrimingEffect.class.getSimpleName();
 
 	/**
 	 * Explosion will make smoke.

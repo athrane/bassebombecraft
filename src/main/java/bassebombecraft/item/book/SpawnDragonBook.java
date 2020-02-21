@@ -9,7 +9,7 @@ import bassebombecraft.projectile.action.SpawnDragon;
  */
 public class SpawnDragonBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = SpawnDragonBook.class.getSimpleName();
+	public static final String ITEM_NAME = SpawnDragonBook.class.getSimpleName();
 	static final ProjectileAction PROJECTILE_ACTION = new SpawnDragon();
 
 	public SpawnDragonBook() {

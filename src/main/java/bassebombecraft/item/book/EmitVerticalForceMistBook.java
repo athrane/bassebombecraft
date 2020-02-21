@@ -9,7 +9,7 @@ import bassebombecraft.item.action.mist.entity.GenericEntityMist;
  */
 public class EmitVerticalForceMistBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "EmitVerticalForceMistBook";
+	public static final String ITEM_NAME = "EmitVerticalForceMistBook";
 	static final EntityMistActionStrategy STRATEGY = new EmitVerticalForceMist();
 
 	public EmitVerticalForceMistBook() {

@@ -12,7 +12,7 @@ import bassebombecraft.item.action.inventory.Pinkynize;
  */
 public class PinkynizeIdolInventoryItem extends GenericInventoryItem {
 
-	public final static String ITEM_NAME = PinkynizeIdolInventoryItem.class.getSimpleName();
+	public static final String ITEM_NAME = PinkynizeIdolInventoryItem.class.getSimpleName();
 
 	static Supplier<Integer> splSpiralSize = () -> pinkynizeSpiralSize.get();
 

@@ -9,7 +9,7 @@ import bassebombecraft.projectile.action.SpawnSquid;
  */
 public class SpawnSquidBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "SpawnSquidBook";
+	public static final String ITEM_NAME = "SpawnSquidBook";
 	static final ProjectileAction PROJECTILE_ACTION = new SpawnSquid();
 
 	public SpawnSquidBook() {

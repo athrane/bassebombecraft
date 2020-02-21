@@ -13,7 +13,7 @@ import bassebombecraft.item.action.mist.block.LavaSpiralMist;
  */
 public class LavaSpiralMistBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = LavaSpiralMistBook.class.getSimpleName();
+	public static final String ITEM_NAME = LavaSpiralMistBook.class.getSimpleName();
 	static Supplier<Integer> splDuration = () -> lavaSpiralMistDuration.get();
 
 	public LavaSpiralMistBook() {

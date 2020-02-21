@@ -20,7 +20,7 @@ public class AddLevitationEffect implements InventoryItemActionStrategy {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = AddLevitationEffect.class.getSimpleName();
+	public static final String NAME = AddLevitationEffect.class.getSimpleName();
 
 	/**
 	 * Effect duration.

@@ -9,7 +9,7 @@ import bassebombecraft.item.action.mist.entity.WitherMist;
  */
 public class WitherMistBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "WitherMistBook";
+	public static final String ITEM_NAME = "WitherMistBook";
 	static final EntityMistActionStrategy STRATEGY = new WitherMist();	
 	
 	public WitherMistBook() {

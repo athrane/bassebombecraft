@@ -36,22 +36,22 @@ public class BuildSmallHole implements BlockClickedItemAction {
 	/**
 	 * Offset for horizontal hole.
 	 */
-	final static BlockPos HORIZONTAL_OFFSET = new BlockPos(-1, -1, -1);
+	static final BlockPos HORIZONTAL_OFFSET = new BlockPos(-1, -1, -1);
 
 	/**
 	 * Size for horizontal hole.
 	 */
-	final static BlockPos HORIZONTAL_SIZE = new BlockPos(3, 1, 3);
+	static final BlockPos HORIZONTAL_SIZE = new BlockPos(3, 1, 3);
 
 	/**
 	 * Offset for vertical hole.
 	 */
-	final static BlockPos VERTICAL_OFFSET = new BlockPos(-1, 0, 0);
+	static final BlockPos VERTICAL_OFFSET = new BlockPos(-1, 0, 0);
 
 	/**
 	 * Size for vertical hole.
 	 */
-	final static BlockPos VERTICAL_SIZE = new BlockPos(3, 3, 1);
+	static final BlockPos VERTICAL_SIZE = new BlockPos(3, 3, 1);
 
 	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
 

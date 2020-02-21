@@ -9,7 +9,7 @@ import bassebombecraft.projectile.action.ProjectileAction;
  */
 public class CreeperApocalypseBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = CreeperApocalypseBook.class.getSimpleName();
+	public static final String ITEM_NAME = CreeperApocalypseBook.class.getSimpleName();
 	static final ProjectileAction PROJECTILE_ACTION = new CreeperApocalypse();
 
 	public CreeperApocalypseBook() {

@@ -16,7 +16,7 @@ public class ExecuteOperator implements InventoryItemActionStrategy {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = ExecuteOperator.class.getSimpleName();
+	public static final String NAME = ExecuteOperator.class.getSimpleName();
 
 	/**
 	 * Operator execution.

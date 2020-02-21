@@ -7,7 +7,7 @@ import bassebombecraft.item.action.build.BuildTower;
  */
 public class BuildTowerBook extends GenericBlockClickedBook {
 
-	public final static String ITEM_NAME = BuildTowerBook.class.getSimpleName();
+	public static final String ITEM_NAME = BuildTowerBook.class.getSimpleName();
 
 	public BuildTowerBook() {
 		super(ITEM_NAME, new BuildTower());

@@ -20,7 +20,7 @@ public class AddHealingEffect implements InventoryItemActionStrategy {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = AddHealingEffect.class.getSimpleName();
+	public static final String NAME = AddHealingEffect.class.getSimpleName();
 
 	/**
 	 * Effect duration.

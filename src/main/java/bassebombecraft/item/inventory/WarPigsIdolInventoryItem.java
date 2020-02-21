@@ -18,7 +18,7 @@ import net.minecraft.entity.passive.PigEntity;
  */
 public class WarPigsIdolInventoryItem extends GenericInventoryItem {
 
-	public final static String ITEM_NAME = WarPigsIdolInventoryItem.class.getSimpleName();
+	public static final String ITEM_NAME = WarPigsIdolInventoryItem.class.getSimpleName();
 
 	static Supplier<Integer> splDamage = () -> spawnWarPigDamage.get();
 	static Supplier<Double> splMovementSpeed = () -> spawnWarPigMovementSpeed.get();

@@ -9,7 +9,7 @@ import bassebombecraft.projectile.action.SpawnAnvil;
  */
 public class FallingAnvilBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = FallingAnvilBook.class.getSimpleName();
+	public static final String ITEM_NAME = FallingAnvilBook.class.getSimpleName();
 	static final ProjectileAction PROJECTILE_ACTION = new SpawnAnvil();
 
 	public FallingAnvilBook() {

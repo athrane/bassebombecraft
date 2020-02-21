@@ -21,7 +21,7 @@ public class ReflectEffect extends Effect {
 	/**
 	 * Effect identifier.
 	 */
-	public final static String NAME = ReflectEffect.class.getSimpleName();
+	public static final String NAME = ReflectEffect.class.getSimpleName();
 
 	/**
 	 * ReflectEffect constructor.

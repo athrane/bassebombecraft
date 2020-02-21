@@ -29,7 +29,7 @@ public class Rainbownize implements InventoryItemActionStrategy {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = Rainbownize.class.getSimpleName();
+	public static final String NAME = Rainbownize.class.getSimpleName();
 
 	/**
 	 * Spiral size, measured in rotations around the centre.

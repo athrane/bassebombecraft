@@ -7,8 +7,8 @@ import bassebombecraft.item.action.ShootCreeperCannon;
  */
 public class CreeperCannonBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = CreeperCannonBook.class.getSimpleName();
-	final static boolean ISNT_PRIMED = false;
+	public static final String ITEM_NAME = CreeperCannonBook.class.getSimpleName();
+	static final boolean ISNT_PRIMED = false;
 
 	public CreeperCannonBook() {
 		super(ITEM_NAME, new ShootCreeperCannon(ISNT_PRIMED));

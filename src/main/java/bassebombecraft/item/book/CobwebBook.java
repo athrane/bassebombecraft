@@ -9,7 +9,7 @@ import bassebombecraft.projectile.action.SpawnCobweb;
  */
 public class CobwebBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "CobwebBook";
+	public static final String ITEM_NAME = "CobwebBook";
 	static final ProjectileAction PROJECTILE_ACTION = new SpawnCobweb();
 
 	public CobwebBook() {

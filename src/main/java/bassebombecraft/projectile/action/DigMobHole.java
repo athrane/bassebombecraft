@@ -39,7 +39,7 @@ public class DigMobHole implements ProjectileAction {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = DigMobHole.class.getSimpleName();
+	public static final String NAME = DigMobHole.class.getSimpleName();
 
 	/**
 	 * Process block directives repository.

@@ -10,7 +10,7 @@ public class TerminatorEyeItem extends GenericNullItem {
 	/**
 	 * Item identifier.
 	 */
-	public final static String NAME = TerminatorEyeItem.class.getSimpleName();
+	public static final String NAME = TerminatorEyeItem.class.getSimpleName();
 
 	/**
 	 * TerminatorEyeItem no-arg constructor,

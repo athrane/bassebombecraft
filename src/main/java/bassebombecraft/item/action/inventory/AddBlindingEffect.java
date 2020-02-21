@@ -19,7 +19,7 @@ public class AddBlindingEffect implements InventoryItemActionStrategy {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = AddBlindingEffect.class.getSimpleName();
+	public static final String NAME = AddBlindingEffect.class.getSimpleName();
 
 	/**
 	 * Effect duration.

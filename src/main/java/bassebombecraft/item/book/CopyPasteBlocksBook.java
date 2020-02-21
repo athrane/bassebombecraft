@@ -7,7 +7,7 @@ import bassebombecraft.item.action.build.CopyPasteBlocks;
  */
 public class CopyPasteBlocksBook extends GenericBlockClickedBook {
 
-	public final static String ITEM_NAME = CopyPasteBlocksBook.class.getSimpleName();;
+	public static final String ITEM_NAME = CopyPasteBlocksBook.class.getSimpleName();;
 	
 	public CopyPasteBlocksBook() {
 		super(ITEM_NAME, new CopyPasteBlocks());

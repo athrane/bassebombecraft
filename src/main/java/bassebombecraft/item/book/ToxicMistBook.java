@@ -9,7 +9,7 @@ import bassebombecraft.item.action.mist.entity.ToxicMist;
  */
 public class ToxicMistBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "ToxicMistBook";
+	public static final String ITEM_NAME = "ToxicMistBook";
 	static final EntityMistActionStrategy STRATEGY = new ToxicMist();		
 	
 	public ToxicMistBook() {

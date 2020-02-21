@@ -20,7 +20,7 @@ public class AddMobsPrimingEffect implements InventoryItemActionStrategy {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = AddMobsPrimingEffect.class.getSimpleName();
+	public static final String NAME = AddMobsPrimingEffect.class.getSimpleName();
 
 	/**
 	 * Effect duration.

@@ -9,7 +9,7 @@ import bassebombecraft.item.action.mist.entity.HealingMist;
  */
 public class HealingMistBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "HealingMistBook";
+	public static final String ITEM_NAME = "HealingMistBook";
 	static final EntityMistActionStrategy STRATEGY = new HealingMist();	
 	
 	public HealingMistBook() {

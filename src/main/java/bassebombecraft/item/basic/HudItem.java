@@ -10,7 +10,7 @@ public class HudItem extends GenericNullItem {
 	/**
 	 * Item identifier.
 	 */	
-	public final static String NAME = HudItem.class.getSimpleName();
+	public static final String NAME = HudItem.class.getSimpleName();
 
 	/**
 	 * HudItem no-arg constructor,

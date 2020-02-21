@@ -9,7 +9,7 @@ import bassebombecraft.projectile.action.ProjectileAction;
  */
 public class EmitHorizontalForceBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "EmitHorizontalForceBook";
+	public static final String ITEM_NAME = "EmitHorizontalForceBook";
 	static final ProjectileAction PROJECTILE_ACTION = new EmitHorizontalForce();
 
 	public EmitHorizontalForceBook() {

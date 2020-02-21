@@ -11,7 +11,7 @@ import bassebombecraft.item.action.inventory.AddSaturationEffect;
  */
 public class SaturationIdolInventoryItem extends GenericInventoryItem {
 
-	public final static String ITEM_NAME = SaturationIdolInventoryItem.class.getSimpleName();
+	public static final String ITEM_NAME = SaturationIdolInventoryItem.class.getSimpleName();
 
 	static Supplier<Integer> splDuration = () -> addSaturationEffectDuration.get();
 	

@@ -21,7 +21,7 @@ public class AttackNearestPlayerCommand implements MobCommand {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = AttackNearestPlayerCommand.class.getSimpleName();
+	public static final String NAME = AttackNearestPlayerCommand.class.getSimpleName();
 
 	/**
 	 * First list index.

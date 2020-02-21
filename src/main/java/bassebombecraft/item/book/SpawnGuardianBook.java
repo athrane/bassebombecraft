@@ -11,7 +11,7 @@ import bassebombecraft.projectile.action.SpawnGuardian;
  */
 public class SpawnGuardianBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = SpawnGuardianBook.class.getSimpleName();
+	public static final String ITEM_NAME = SpawnGuardianBook.class.getSimpleName();
 	static final ProjectileAction PROJECTILE_ACTION = new SpawnGuardian();
 
 	public SpawnGuardianBook() {

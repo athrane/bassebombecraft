@@ -9,7 +9,7 @@ import bassebombecraft.item.action.mist.block.MovingLavaMist;
  */
 public class MovingLavaMistBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "MovingLavaMistBook";
+	public static final String ITEM_NAME = "MovingLavaMistBook";
 	static final BlockMistActionStrategy STRATEGY = new MovingLavaMist();
 
 	public MovingLavaMistBook() {

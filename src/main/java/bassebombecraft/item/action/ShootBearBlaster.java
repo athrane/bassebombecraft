@@ -26,7 +26,7 @@ public class ShootBearBlaster implements RightClickedItemAction {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = ShootBearBlaster.class.getSimpleName();
+	public static final String NAME = ShootBearBlaster.class.getSimpleName();
 
 	/**
 	 * Spawn sound.

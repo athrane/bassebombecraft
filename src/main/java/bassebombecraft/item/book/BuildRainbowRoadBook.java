@@ -7,7 +7,7 @@ import bassebombecraft.item.action.build.BuildRainbowRoad;
  */
 public class BuildRainbowRoadBook extends GenericBlockClickedBook {
 
-	public final static String ITEM_NAME = "BuildRainbowRoadBook";
+	public static final String ITEM_NAME = "BuildRainbowRoadBook";
 
 	public BuildRainbowRoadBook() {
 		super(ITEM_NAME, new BuildRainbowRoad());

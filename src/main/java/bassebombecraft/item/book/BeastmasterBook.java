@@ -9,7 +9,7 @@ import bassebombecraft.projectile.action.ProjectileAction;
  */
 public class BeastmasterBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "BeastmasterBook";
+	public static final String ITEM_NAME = "BeastmasterBook";
 	static final ProjectileAction PROJECTILE_ACTION = new CharmEntity();
 	
 	public BeastmasterBook() {

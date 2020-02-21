@@ -28,7 +28,7 @@ public class ShootCreeperCannon implements RightClickedItemAction {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = ShootCreeperCannon.class.getSimpleName();
+	public static final String NAME = ShootCreeperCannon.class.getSimpleName();
 
 	/**
 	 * Spawn sound.

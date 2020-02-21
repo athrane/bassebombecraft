@@ -37,7 +37,7 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 	static final ParticleRenderingInfo PARTICLE_INFO = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R,
 			G, B, PARTICLE_SPEED);
 
-	public final static String PROJECTILE_NAME = GenericEggProjectile.class.getSimpleName();
+	public static final String PROJECTILE_NAME = GenericEggProjectile.class.getSimpleName();
 
 	/**
 	 * Behaviour, initial null.

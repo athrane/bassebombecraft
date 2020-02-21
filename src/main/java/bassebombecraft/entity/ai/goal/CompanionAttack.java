@@ -80,8 +80,8 @@ public class CompanionAttack extends Goal {
 	static final EntityMistActionStrategy TOXIC_MIST_STRATEGY = new ToxicMist();
 	static final EntityMistActionStrategy LIGHTNING_MIST_STRATEGY = new LightningBoltMist();
 
-	final static String CREEPER_CANNON_CONFIG_KEY = ShootCreeperCannon.class.getSimpleName();
-	final static boolean ISNT_PRIMED = false;
+	static final String CREEPER_CANNON_CONFIG_KEY = ShootCreeperCannon.class.getSimpleName();
+	static final boolean ISNT_PRIMED = false;
 
 	/**
 	 * Entity movement speed.

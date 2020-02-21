@@ -13,7 +13,7 @@ import bassebombecraft.item.action.inventory.AddLevitationEffect;
  */
 public class LevitationIdolInventoryItem extends GenericInventoryItem {
 
-	public final static String ITEM_NAME = LevitationIdolInventoryItem.class.getSimpleName();
+	public static final String ITEM_NAME = LevitationIdolInventoryItem.class.getSimpleName();
 
 	static Supplier<Integer> splDuration = () -> addLevitationEffectDuration.get();
 	static Supplier<Integer> splAmplifier = () -> addLevitationEffectAmplifier.get();

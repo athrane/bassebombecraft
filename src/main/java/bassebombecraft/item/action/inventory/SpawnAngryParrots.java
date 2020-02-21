@@ -26,7 +26,7 @@ public class SpawnAngryParrots implements InventoryItemActionStrategy {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = SpawnAngryParrots.class.getSimpleName();
+	public static final String NAME = SpawnAngryParrots.class.getSimpleName();
 
 	/**
 	 * Spawn sound.

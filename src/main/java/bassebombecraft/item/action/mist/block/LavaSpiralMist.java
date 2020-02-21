@@ -23,7 +23,7 @@ public class LavaSpiralMist implements BlockMistActionStrategy {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = LavaSpiralMist.class.getSimpleName();
+	public static final String NAME = LavaSpiralMist.class.getSimpleName();
 
 	/**
 	 * Don't harvest processed blocks.

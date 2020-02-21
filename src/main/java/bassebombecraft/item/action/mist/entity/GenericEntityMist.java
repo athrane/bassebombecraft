@@ -35,7 +35,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = GenericEntityMist.class.getSimpleName();
+	public static final String NAME = GenericEntityMist.class.getSimpleName();
 
 	/**
 	 * Spawn distance of mist from invoker. Distance is measured in blocks.

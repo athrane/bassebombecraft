@@ -27,7 +27,7 @@ public class SpawnKillerBee implements Operator {
 	/**
 	 * Operator identifier.
 	 */
-	public final static String NAME = SpawnKillerBee.class.getSimpleName();
+	public static final String NAME = SpawnKillerBee.class.getSimpleName();
 
 	/**
 	 * Spawn sound.

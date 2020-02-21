@@ -13,7 +13,7 @@ import bassebombecraft.item.action.mist.entity.VacuumMist;
  */
 public class VacuumMistBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = VacuumMistBook.class.getSimpleName();
+	public static final String ITEM_NAME = VacuumMistBook.class.getSimpleName();
 	static Supplier<Integer> splDuration = () -> vacuumMistDuration.get();
 	static Supplier<Integer> splForce = () -> vacuumMistForce.get();
 

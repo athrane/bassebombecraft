@@ -24,7 +24,7 @@ public class ShootSmallFireballRing implements RightClickedItemAction {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = ShootSmallFireballRing.class.getSimpleName();
+	public static final String NAME = ShootSmallFireballRing.class.getSimpleName();
 
 	/**
 	 * Initial vector.

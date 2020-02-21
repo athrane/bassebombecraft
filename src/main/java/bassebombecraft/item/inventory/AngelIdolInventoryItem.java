@@ -13,7 +13,7 @@ import bassebombecraft.item.action.inventory.AddHealingEffect;
  */
 public class AngelIdolInventoryItem extends GenericInventoryItem {
 
-	public final static String ITEM_NAME = AngelIdolInventoryItem.class.getSimpleName();
+	public static final String ITEM_NAME = AngelIdolInventoryItem.class.getSimpleName();
 
 	static Supplier<Integer> splDuration = () -> addHealingEffectDuration.get();
 	static Supplier<Integer> splAmplifier = () -> addHealingEffectAmplifier.get();

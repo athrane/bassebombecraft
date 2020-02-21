@@ -28,7 +28,7 @@ public class Pinkynize implements InventoryItemActionStrategy {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = Pinkynize.class.getSimpleName();
+	public static final String NAME = Pinkynize.class.getSimpleName();
 
 	/**
 	 * Spiral size, measured in rotations around the centre.

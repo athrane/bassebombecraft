@@ -9,7 +9,7 @@ import bassebombecraft.projectile.action.Spawn100Chickens;
  */
 public class Spawn100ChickensBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "Spawn100ChickensBook";
+	public static final String ITEM_NAME = "Spawn100ChickensBook";
 	static final ProjectileAction PROJECTILE_ACTION = new Spawn100Chickens();
 
 	public Spawn100ChickensBook() {

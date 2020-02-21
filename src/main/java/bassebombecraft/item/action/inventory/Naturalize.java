@@ -27,7 +27,7 @@ public class Naturalize implements InventoryItemActionStrategy {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = Naturalize.class.getSimpleName();
+	public static final String NAME = Naturalize.class.getSimpleName();
 
 	/**
 	 * Defines if processed blocks should be harvested.

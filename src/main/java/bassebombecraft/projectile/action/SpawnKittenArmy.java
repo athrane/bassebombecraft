@@ -30,7 +30,7 @@ public class SpawnKittenArmy implements ProjectileAction {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = SpawnKittenArmy.class.getSimpleName();
+	public static final String NAME = SpawnKittenArmy.class.getSimpleName();
 
 	static final int CAT_TYPE = 3;
 	static final float PITCH = 0.0F;

@@ -16,7 +16,7 @@ public class SelfdestructWhenTargetDiesGoal extends Goal {
 	/**
 	 * Null/No target value to use when clearing the target.
 	 */
-	final static LivingEntity NO_TARGET = null;
+	static final LivingEntity NO_TARGET = null;
 
 	/**
 	 * Goal owner.
