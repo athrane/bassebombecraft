@@ -2,7 +2,7 @@ package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.entity.EntityUtils.isTypeParrotEntity;
 import static bassebombecraft.entity.EntityUtils.resolveTarget;
-import static bassebombecraft.entity.ai.AiUtils.buildFlyingAi;
+import static bassebombecraft.entity.ai.AiUtils.buildChargingAi;
 
 import java.util.Random;
 import java.util.function.Supplier;
@@ -87,7 +87,7 @@ public class SpawnAngryParrots implements InventoryItemActionStrategy {
 
 		// set AI
 		LivingEntity entityTarget = resolveTarget(target, entity, invoker);
-		buildFlyingAi(entity, entityTarget, damage);
+		buildChargingAi(entity, entityTarget, damage);
 
 		// add spawn sound
 		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);

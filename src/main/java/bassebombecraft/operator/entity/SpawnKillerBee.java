@@ -1,7 +1,7 @@
 package bassebombecraft.operator.entity;
 
 import static bassebombecraft.entity.EntityUtils.resolveTarget;
-import static bassebombecraft.entity.ai.AiUtils.buildFlyingAi;
+import static bassebombecraft.entity.ai.AiUtils.buildChargingAi;
 
 import java.util.Random;
 import java.util.function.Supplier;
@@ -95,7 +95,7 @@ public class SpawnKillerBee implements Operator {
 
 		// set AI
 		LivingEntity entityTarget = resolveTarget(target, entity, livingEntity);
-		buildFlyingAi(entity, entityTarget, (float) splDamage.get());
+		buildChargingAi(entity, entityTarget, (float) splDamage.get());
 
 		// add spawn sound
 		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
