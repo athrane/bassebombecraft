@@ -339,11 +339,7 @@ public class EntityUtils {
 
 		// if target is living entity then cast cast and return it
 		if (isTypeLivingEntity(target)) {
-
-			// type cast
-			LivingEntity livingEntity = (LivingEntity) target;
-
-			return livingEntity;
+			return (LivingEntity) target;
 		}
 
 		return null;
