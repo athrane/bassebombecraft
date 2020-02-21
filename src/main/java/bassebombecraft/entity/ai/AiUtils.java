@@ -264,10 +264,9 @@ public class AiUtils {
 	public static void buildFlyingAi(MobEntity entity, LivingEntity target, float damage ) {
 
 		// set goals
-		MobEntity mobEntity = (MobEntity) entity;		
 		GoalSelector selector = entity.goalSelector;
-		selector.addGoal(1, new ChargeTowardsGoal(mobEntity, target, AI_MIN_CHARGE_DISTANCE));
-		selector.addGoal(2, new AttackInRangeGoal(mobEntity, target, AI_MIN_CHARGE_DISTANCE, damage));
+		selector.addGoal(1, new ChargeTowardsGoal(entity, target, AI_MIN_CHARGE_DISTANCE));
+		selector.addGoal(2, new AttackInRangeGoal(entity, target, AI_MIN_CHARGE_DISTANCE, damage));
 
 		// set targeting goals
 		GoalSelector targetSelector = entity.targetSelector;
@@ -284,10 +283,9 @@ public class AiUtils {
 	public static void buildWarPigAi(MobEntity entity, LivingEntity target, float damage ) {
 
 		// set goals
-		MobEntity mobEntity = (MobEntity) entity;		
 		GoalSelector selector = entity.goalSelector;
-		selector.addGoal(1, new ChargeTowardsGoal(mobEntity, target, AI_MIN_CHARGE_DISTANCE));
-		selector.addGoal(2, new AttackInRangeGoal(mobEntity, target, AI_MIN_CHARGE_DISTANCE, damage));
+		selector.addGoal(1, new ChargeTowardsGoal(entity, target, AI_MIN_CHARGE_DISTANCE));
+		selector.addGoal(2, new AttackInRangeGoal(entity, target, AI_MIN_CHARGE_DISTANCE, damage));
 
 		// set targeting goals
 		GoalSelector targetSelector = entity.targetSelector;
