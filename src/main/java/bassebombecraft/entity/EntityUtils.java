@@ -7,7 +7,6 @@ import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import java.util.Optional;
 import java.util.Random;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.player.PlayerDirection;
 import net.minecraft.entity.CreatureEntity;
