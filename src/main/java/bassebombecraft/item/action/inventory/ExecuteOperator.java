@@ -39,9 +39,7 @@ public class ExecuteOperator implements InventoryItemActionStrategy {
 
 	@Override
 	public boolean shouldApplyEffect(Entity target, boolean targetIsInvoker) {
-		if (targetIsInvoker)
-			return false;
-		return true;
+		return (!targetIsInvoker);
 	}
 
 	@Override
