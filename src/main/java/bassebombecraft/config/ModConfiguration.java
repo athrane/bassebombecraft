@@ -72,6 +72,7 @@ import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.SmallFireballRingBook;
 import bassebombecraft.item.book.SpawnCreeperArmyBook;
+import bassebombecraft.item.book.SpawnFlamingChickenBook;
 import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnKittenArmyBook;
 import bassebombecraft.item.book.SpawnSkeletonArmyBook;
@@ -268,6 +269,9 @@ public class ModConfiguration {
 	// SpawnGuardianBook
 	public static ItemConfig spawnGuardianBook;
 
+	// SpawnFlamingChickenBook
+	public static ItemConfig spawnFlamingChickenBook;
+
 	// BuildTowerBook
 	public static ForgeConfigSpec.ConfigValue<String> buildTowerBookTooltip;
 	public static ForgeConfigSpec.IntValue buildTowerBookCooldown;
@@ -309,7 +313,7 @@ public class ModConfiguration {
 	public static InventoryItemConfig reflectIdolInventoryItem;
 	public static InventoryItemConfig killerBeesIdolInventoryItem;
 	public static InventoryItemConfig warPigsIdolInventoryItem;
-	
+
 	// Actions..
 
 	// ShootFireballRing projectile action
@@ -421,9 +425,9 @@ public class ModConfiguration {
 	// Spawn angry parrots action
 	public static ForgeConfigSpec.IntValue spawnAngryParrotsDamage;
 	public static ForgeConfigSpec.DoubleValue spawnAngryParrotsMovementSpeed;
-	
+
 	// Operators..
-	
+
 	// Spawn killer bee operator
 	public static ForgeConfigSpec.IntValue spawnKillerBeeDamage;
 	public static ForgeConfigSpec.DoubleValue spawnKillerBeeMovementSpeed;
@@ -431,7 +435,7 @@ public class ModConfiguration {
 	// Spawn war pig operator
 	public static ForgeConfigSpec.IntValue spawnWarPigDamage;
 	public static ForgeConfigSpec.DoubleValue spawnWarPigMovementSpeed;
-	
+
 	static {
 
 		// build general section
@@ -459,10 +463,10 @@ public class ModConfiguration {
 		setupActionsConfig();
 		COMMON_BUILDER.pop();
 
-		COMMON_BUILDER.comment("Operator settings").push("Operators");		
-		setupOperatorConfig();		
+		COMMON_BUILDER.comment("Operator settings").push("Operators");
+		setupOperatorConfig();
 		COMMON_BUILDER.pop();
-		
+
 		COMMON_BUILDER.comment("Book settings").push("Books");
 		setupBooksConfig();
 		COMMON_BUILDER.pop();
@@ -943,25 +947,25 @@ public class ModConfiguration {
 	 * Define configuration for operators.
 	 */
 	static void setupOperatorConfig() {
-		
+
 		// SpawnKillerBee
 		String name = SpawnKillerBee.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnKillerBeeDamage = COMMON_BUILDER.comment("Bee damage.").defineInRange("damage", 2, 0, Integer.MAX_VALUE);
-		spawnKillerBeeMovementSpeed = COMMON_BUILDER.comment("Bee movement speed.").defineInRange("movementSpeed",
-				1.0D, 0, 5.0D);
+		spawnKillerBeeMovementSpeed = COMMON_BUILDER.comment("Bee movement speed.").defineInRange("movementSpeed", 1.0D,
+				0, 5.0D);
 		COMMON_BUILDER.pop();
 
 		// SpawnWarPig
 		name = SpawnWarPig.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnWarPigDamage = COMMON_BUILDER.comment("Pig damage.").defineInRange("damage", 2, 0, Integer.MAX_VALUE);
-		spawnWarPigMovementSpeed = COMMON_BUILDER.comment("Pig movement speed.").defineInRange("movementSpeed",
-				0.75D, 0, 5.0D);
+		spawnWarPigMovementSpeed = COMMON_BUILDER.comment("Pig movement speed.").defineInRange("movementSpeed", 0.75D,
+				0, 5.0D);
 		COMMON_BUILDER.pop();
-		
+
 	}
-	
+
 	/**
 	 * Define configuration for books.
 	 */
@@ -1093,6 +1097,11 @@ public class ModConfiguration {
 		spawnGuardianBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to spawns a friendly golem. The golem will follow and protect its creator, i.e. the player or whoever spawned him. The golem will use the magic from BasseBombeCraft for its protection duties. The guardian can be commanded by Krenko's Command Baton",
 				25);
+
+		// SpawnFlamingChickenBook
+		name = SpawnFlamingChickenBook.ITEM_NAME;
+		spawnFlamingChickenBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to spawns a failed phoenix. The phoenix will panic due to it being on fire.", 25);
 
 		// BuildTowerBook
 		name = BuildTowerBook.ITEM_NAME;
@@ -1294,13 +1303,13 @@ public class ModConfiguration {
 		killerBeesIdolInventoryItem = getInstance(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will spawn killer bees who will attack the player's target or some random mobs.",
 				25, 5, splParticles);
-		
+
 		// WarPigsIdolInventoryItem
 		name = WarPigsIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "crit", 5, 20, 0.3, 0.0, 0.0, 0.0);
 		warPigsIdolInventoryItem = getInstance(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will spawn psycho war pigs who will attack the player's target or some random mobs.",
-				25, 5, splParticles);		
+				25, 5, splParticles);
 	}
 
 	/**
