@@ -21,7 +21,7 @@ public class ExecuteOperator implements InventoryItemActionStrategy {
 	/**
 	 * Operator execution.
 	 */
-	Operators operators = new Operators();
+	Operators operators;
 
 	/**
 	 * ExecuteOperator constructor.
