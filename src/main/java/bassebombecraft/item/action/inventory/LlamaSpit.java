@@ -4,9 +4,6 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import java.util.Random;
 
-import javax.naming.OperationNotSupportedException;
-
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -54,16 +51,6 @@ public class LlamaSpit implements InventoryItemActionStrategy {
 		world.playSound((PlayerEntity) null, invoker.getPosX(), invoker.getPosY(), invoker.getPosZ(), SoundEvents.ENTITY_LLAMA_SPIT,
 				invoker.getSoundCategory(), 1.0F, 1.0F + (random.nextFloat() - random.nextFloat()) * 0.2F);
 		world.addEntity(entity);
-	}
-
-	@Override
-	public int getEffectRange() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

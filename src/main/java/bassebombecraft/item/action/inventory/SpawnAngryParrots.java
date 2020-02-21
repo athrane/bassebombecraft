@@ -7,10 +7,7 @@ import static bassebombecraft.entity.ai.AiUtils.buildFlyingAi;
 import java.util.Random;
 import java.util.function.Supplier;
 
-import javax.naming.OperationNotSupportedException;
-
 import bassebombecraft.BassebombeCraft;
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -97,16 +94,6 @@ public class SpawnAngryParrots implements InventoryItemActionStrategy {
 
 		// spawn
 		world.addEntity(entity);
-	}
-
-	@Override
-	public int getEffectRange() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

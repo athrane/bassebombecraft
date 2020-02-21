@@ -1,8 +1,5 @@
 package bassebombecraft.item.action.inventory;
 
-import javax.naming.OperationNotSupportedException;
-
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.operator.Operators;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -50,16 +47,6 @@ public class ExecuteOperator implements InventoryItemActionStrategy {
 	@Override
 	public void applyEffect(Entity target, World world, LivingEntity invoker) {
 		operators.run(invoker, target);
-	}
-
-	@Override
-	public int getEffectRange() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

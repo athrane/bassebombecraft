@@ -4,9 +4,6 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import java.util.Random;
 
-import javax.naming.OperationNotSupportedException;
-
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.FireballEntity;
@@ -55,16 +52,6 @@ public class ShootMeteor implements InventoryItemActionStrategy {
 
 		invoker.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
 		world.addEntity(projectile);
-	}
-
-	@Override
-	public int getEffectRange() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

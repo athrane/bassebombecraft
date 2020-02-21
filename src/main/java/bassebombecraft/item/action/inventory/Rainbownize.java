@@ -10,10 +10,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Supplier;
 
-import javax.naming.OperationNotSupportedException;
-
 import bassebombecraft.event.block.BlockDirectivesRepository;
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.GeometryUtils;
 import net.minecraft.block.BlockState;
@@ -156,16 +153,6 @@ public class Rainbownize implements InventoryItemActionStrategy {
 	void initializeSpiral(Entity target) {
 		spiralCounter = 0;
 		spiralCenter = new BlockPos(target);
-	}
-
-	@Override
-	public int getEffectRange() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

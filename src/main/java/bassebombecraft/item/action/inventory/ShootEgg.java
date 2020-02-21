@@ -4,9 +4,6 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import java.util.Random;
 
-import javax.naming.OperationNotSupportedException;
-
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -56,16 +53,6 @@ public class ShootEgg implements InventoryItemActionStrategy {
 
 		// spawn
 		world.addEntity(projectile);
-	}
-
-	@Override
-	public int getEffectRange() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

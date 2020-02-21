@@ -1,8 +1,5 @@
 package bassebombecraft.item.action.inventory;
 
-import javax.naming.OperationNotSupportedException;
-
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
@@ -39,29 +36,5 @@ public interface InventoryItemActionStrategy {
 	 * @param invoker invoker entity.
 	 */
 	void applyEffect(Entity target, World world, LivingEntity invoker);
-
-	/**
-	 * Get the area-of-effect range in blocks where the effect is triggered if an
-	 * entity enters.
-	 * 
-	 * @return area-of-effect range in blocks where the effect is triggered if an
-	 *         entity enters.
-	 * 
-	 * @throws OperationNotSupportedException migrated methods should throw this to
-	 *                                        signal an error.
-	 */
-	@Deprecated
-	int getEffectRange() throws OperationNotSupportedException;
-
-	/**
-	 * Get array of rendering info's used to render mist.
-	 * 
-	 * @return array of rendering info's used to render mist.
-	 * 
-	 * @throws OperationNotSupportedException migrated methods should throw this to
-	 *                                        signal an error.
-	 */
-	@Deprecated
-	ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException;
 
 }

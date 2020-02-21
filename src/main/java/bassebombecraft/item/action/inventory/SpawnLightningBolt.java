@@ -2,9 +2,6 @@ package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.world.WorldUtils.addLightningAtBlockPos;
 
-import javax.naming.OperationNotSupportedException;
-
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -36,16 +33,6 @@ public class SpawnLightningBolt implements InventoryItemActionStrategy {
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
 		BlockPos.getAllInBox(min, max).forEach(pos -> addLightningAtBlockPos(world, pos));
-	}
-
-	@Override
-	public int getEffectRange() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }
