@@ -93,7 +93,7 @@ public class SpawnWarPig implements Operator {
 		attributes.registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(splDamage.get());
 
 		// set AI
-		LivingEntity entityTarget = resolveTarget(target, entity, livingEntity);
+		LivingEntity entityTarget = resolveTarget(target, livingEntity);
 		buildChargingAi(entity, entityTarget, (float) splDamage.get());
 
 		// add spawn sound

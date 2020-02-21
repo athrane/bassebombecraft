@@ -316,12 +316,11 @@ public class EntityUtils {
 	 * Resolve the entity target.
 	 * 
 	 * @param target    some nearby mob.
-	 * @param entity    entity
 	 * @param commander invoker of the effect.
 	 * 
 	 * @return resolved target.
 	 */
-	public static LivingEntity resolveTarget(Entity target, MobEntity entity, LivingEntity invoker) {
+	public static LivingEntity resolveTarget(Entity target, LivingEntity invoker) {
 
 		// if invoker is a player then get the player target.
 		if (isTypePlayerEntity(invoker)) {

@@ -86,7 +86,7 @@ public class SpawnAngryParrots implements InventoryItemActionStrategy {
 		entity.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(damage);
 
 		// set AI
-		LivingEntity entityTarget = resolveTarget(target, entity, invoker);
+		LivingEntity entityTarget = resolveTarget(target, invoker);
 		buildChargingAi(entity, entityTarget, damage);
 
 		// add spawn sound
