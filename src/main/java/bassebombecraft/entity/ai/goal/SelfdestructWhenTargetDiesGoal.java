@@ -3,7 +3,6 @@ package bassebombecraft.entity.ai.goal;
 import static bassebombecraft.entity.EntityUtils.selfDestruct;
 import static bassebombecraft.entity.ai.AiUtils.setMutexFlagsforTargetingGoal;
 
-import bassebombecraft.BassebombeCraft;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.Goal;
@@ -58,12 +57,12 @@ public class SelfdestructWhenTargetDiesGoal extends Goal {
 	@Override
 	public void tick() {
 		entity.setAttackTarget(NO_TARGET);
-		target = NO_TARGET;		
+		target = NO_TARGET;
 		selfDestruct(entity);
 	}
 
 	@Override
-	public void resetTask() {		
+	public void resetTask() {
 		// NO-OP
 	}
 
