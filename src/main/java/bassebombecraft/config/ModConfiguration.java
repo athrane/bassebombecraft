@@ -101,7 +101,9 @@ import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
 import bassebombecraft.item.inventory.ReaperIdolInventoryItem;
 import bassebombecraft.item.inventory.ReflectIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
+import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
 import bassebombecraft.operator.entity.SpawnKillerBee;
+import bassebombecraft.operator.entity.SpawnWarPig;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.MobAggroEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
@@ -306,7 +308,8 @@ public class ModConfiguration {
 	public static InventoryItemConfig angryParrotsIdolInventoryItem;
 	public static InventoryItemConfig reflectIdolInventoryItem;
 	public static InventoryItemConfig killerBeesIdolInventoryItem;
-
+	public static InventoryItemConfig warPigsIdolInventoryItem;
+	
 	// Actions..
 
 	// ShootFireballRing projectile action
@@ -422,9 +425,13 @@ public class ModConfiguration {
 	// Operators..
 	
 	// Spawn killer bee operator
-	public static ForgeConfigSpec.IntValue spawnKillerBeesDamage;
-	public static ForgeConfigSpec.DoubleValue spawnKillerBeesMovementSpeed;
+	public static ForgeConfigSpec.IntValue spawnKillerBeeDamage;
+	public static ForgeConfigSpec.DoubleValue spawnKillerBeeMovementSpeed;
 
+	// Spawn war pig operator
+	public static ForgeConfigSpec.IntValue spawnWarPigDamage;
+	public static ForgeConfigSpec.DoubleValue spawnWarPigMovementSpeed;
+	
 	static {
 
 		// build general section
@@ -513,7 +520,7 @@ public class ModConfiguration {
 				.defineInRange("targetDistance", 5, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// Attack nearest mob command
+		// Attack nearest player command
 		name = AttackNearestPlayerCommand.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		attackNearestPlayerCommandTargetDistance = COMMON_BUILDER
@@ -940,9 +947,17 @@ public class ModConfiguration {
 		// SpawnKillerBee
 		String name = SpawnKillerBee.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		spawnKillerBeesDamage = COMMON_BUILDER.comment("Bee damage.").defineInRange("damage", 2, 0, Integer.MAX_VALUE);
-		spawnKillerBeesMovementSpeed = COMMON_BUILDER.comment("Bee movement speed.").defineInRange("movementSpeed",
+		spawnKillerBeeDamage = COMMON_BUILDER.comment("Bee damage.").defineInRange("damage", 2, 0, Integer.MAX_VALUE);
+		spawnKillerBeeMovementSpeed = COMMON_BUILDER.comment("Bee movement speed.").defineInRange("movementSpeed",
 				1.0D, 0, 5.0D);
+		COMMON_BUILDER.pop();
+
+		// SpawnWarPig
+		name = SpawnWarPig.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnWarPigDamage = COMMON_BUILDER.comment("Pig damage.").defineInRange("damage", 2, 0, Integer.MAX_VALUE);
+		spawnWarPigMovementSpeed = COMMON_BUILDER.comment("Pig movement speed.").defineInRange("movementSpeed",
+				0.75D, 0, 5.0D);
 		COMMON_BUILDER.pop();
 		
 	}
@@ -1279,6 +1294,13 @@ public class ModConfiguration {
 		killerBeesIdolInventoryItem = getInstance(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will spawn killer bees who will attack the player's target or some random mobs.",
 				25, 5, splParticles);
+		
+		// WarPigsIdolInventoryItem
+		name = WarPigsIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "crit", 5, 20, 0.3, 0.0, 0.0, 0.0);
+		warPigsIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will spawn psycho war pigs who will attack the player's target or some random mobs.",
+				25, 5, splParticles);		
 	}
 
 	/**

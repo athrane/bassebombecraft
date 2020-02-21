@@ -1,7 +1,7 @@
 package bassebombecraft.operator.entity;
 
 import static bassebombecraft.entity.EntityUtils.resolveTarget;
-import static bassebombecraft.entity.ai.AiUtils.buildFlyingAi;
+import static bassebombecraft.entity.ai.AiUtils.buildWarPigAi;
 
 import java.util.Random;
 import java.util.function.Supplier;
@@ -13,26 +13,26 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
-import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain Operator} interface which spawn a killer
- * bee. The bee is spawned at the invoked (e.g. the player).
+ * Implementation of the {@linkplain Operator} interface which spawn a war pig.
+ * The pig is spawned at the invoked (e.g. the player).
  */
-public class SpawnKillerBee implements Operator {
+public class SpawnWarPig implements Operator {
 
 	/**
 	 * Operator identifier.
 	 */
-	public final static String NAME = SpawnKillerBee.class.getSimpleName();
+	public final static String NAME = SpawnWarPig.class.getSimpleName();
 
 	/**
 	 * Spawn sound.
 	 */
-	static final SoundEvent SOUND = SoundEvents.ENTITY_PARROT_FLY;
+	static final SoundEvent SOUND = SoundEvents.ENTITY_PIG_HURT;
 
 	/**
 	 * Entity supplier.
@@ -62,7 +62,7 @@ public class SpawnKillerBee implements Operator {
 	 * @param splMovementSpeed movement speed supplier.
 	 * @param splDamage        attack damage supplier.
 	 */
-	public SpawnKillerBee(Supplier<LivingEntity> splEntity, Supplier<Entity> splTarget, Supplier<Integer> splDamage,
+	public SpawnWarPig(Supplier<LivingEntity> splEntity, Supplier<Entity> splTarget, Supplier<Integer> splDamage,
 			Supplier<Double> splMovementSpeed) {
 		this.splEntity = splEntity;
 		this.splTarget = splTarget;
@@ -84,18 +84,17 @@ public class SpawnKillerBee implements Operator {
 
 		// create entity
 		Random random = BassebombeCraft.getBassebombeCraft().getRandom();
-		BeeEntity entity = EntityType.BEE.create(world);
+		PigEntity entity = EntityType.PIG.create(world);
 		entity.copyLocationAndAnglesFrom(livingEntity);
 
 		// set entity attributes
 		AbstractAttributeMap attributes = entity.getAttributes();
-		attributes.getAttributeInstance(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(splMovementSpeed.get());
 		attributes.getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(splMovementSpeed.get());
-		attributes.getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(splDamage.get());
+		attributes.registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(splDamage.get());
 
 		// set AI
 		LivingEntity entityTarget = resolveTarget(target, entity, livingEntity);
-		buildFlyingAi(entity, entityTarget, (float) splDamage.get());
+		buildWarPigAi(entity, entityTarget, (float) splDamage.get());
 
 		// add spawn sound
 		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);

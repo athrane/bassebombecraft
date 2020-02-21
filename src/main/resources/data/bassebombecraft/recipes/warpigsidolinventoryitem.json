@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:clay_ball"
+		},
+		{
+			"item": "cooked_porkchop"
+		}		
+	],
+	"result": {
+		"item": "bassebombecraft:warpigsidolinventoryitem"
+	}
+}

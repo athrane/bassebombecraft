@@ -1,8 +1,8 @@
 package bassebombecraft.item.inventory;
 
 import static bassebombecraft.config.ModConfiguration.killerBeesIdolInventoryItem;
-import static bassebombecraft.config.ModConfiguration.spawnKillerBeesDamage;
-import static bassebombecraft.config.ModConfiguration.spawnKillerBeesMovementSpeed;
+import static bassebombecraft.config.ModConfiguration.spawnKillerBeeDamage;
+import static bassebombecraft.config.ModConfiguration.spawnKillerBeeMovementSpeed;
 
 import java.util.function.Supplier;
 
@@ -20,16 +20,17 @@ public class KillerBeesIdolInventoryItem extends GenericInventoryItem {
 
 	public final static String ITEM_NAME = KillerBeesIdolInventoryItem.class.getSimpleName();
 
-	static Supplier<Integer> splDamage = () -> spawnKillerBeesDamage.get();
-	static Supplier<Double> splMovementSpeed = () -> spawnKillerBeesMovementSpeed.get();
+	static Supplier<Integer> splDamage = () -> spawnKillerBeeDamage.get();
+	static Supplier<Double> splMovementSpeed = () -> spawnKillerBeeMovementSpeed.get();
 	static Supplier<Operators> splOp = () -> {
-		Operators operators = new Operators();
-		SpawnKillerBee spawnOp = new SpawnKillerBee(operators.getSplLivingEntity(), operators.getSplTargetEntity(), splDamage, splMovementSpeed);
-		Operator ifOp = new IfEntityIsntType(operators.getSplTargetEntity(), spawnOp, BeeEntity.class);
-		operators.setOperator(ifOp);
-		return operators;		
+		Operators ops = new Operators();
+		SpawnKillerBee spawnOp = new SpawnKillerBee(ops.getSplLivingEntity(), ops.getSplTargetEntity(), splDamage,
+				splMovementSpeed);
+		Operator ifOp = new IfEntityIsntType(ops.getSplTargetEntity(), spawnOp, BeeEntity.class);
+		ops.setOperator(ifOp);
+		return ops;
 	};
-		
+
 	public KillerBeesIdolInventoryItem() {
 		super(ITEM_NAME, killerBeesIdolInventoryItem, new ExecuteOperator(splOp.get()));
 	}

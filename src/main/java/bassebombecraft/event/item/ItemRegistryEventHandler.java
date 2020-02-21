@@ -65,6 +65,7 @@ import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.book.WitherMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
+import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
 import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
 import bassebombecraft.item.inventory.ChickenizeIdolInventoryItem;
@@ -72,7 +73,6 @@ import bassebombecraft.item.inventory.EggProjectileIdolInventoryItem;
 import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
 import bassebombecraft.item.inventory.KillerBeesIdolInventoryItem;
-import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
 import bassebombecraft.item.inventory.LlamaSpitIdolInventoryItem;
@@ -88,6 +88,7 @@ import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
 import bassebombecraft.item.inventory.ReaperIdolInventoryItem;
 import bassebombecraft.item.inventory.ReflectIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
+import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -132,7 +133,8 @@ public class ItemRegistryEventHandler {
 			new MeteorIdolInventoryItem(), new SaturationIdolInventoryItem(), new MobsAggroIdolInventoryItem(),
 			new ReaperIdolInventoryItem(), new MassExtinctionEventIdolInventoryItem(),
 			new MobsLevitationIdolInventoryItem(), new PlayerAggroIdolInventoryItem(),
-			new AngryParrotsIdolInventoryItem(), new ReflectIdolInventoryItem(), new KillerBeesIdolInventoryItem() };
+			new AngryParrotsIdolInventoryItem(), new ReflectIdolInventoryItem(), new KillerBeesIdolInventoryItem(),
+			new WarPigsIdolInventoryItem() };
 
 	/**
 	 * The set of baton items.

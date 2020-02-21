@@ -3,16 +3,16 @@ package bassebombecraft.entity.ai.goal;
 import static bassebombecraft.entity.EntityUtils.selfDestruct;
 import static bassebombecraft.entity.ai.AiUtils.setMutexFlagsforTargetingGoal;
 
+import bassebombecraft.BassebombeCraft;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.Goal;
 
 /**
- * AI target acquisition goal which targets the same static target.
- * 
- * If the target died the the targeting entity self-destruct.
+ * AI target acquisition goal which self-destructs the entity if / when the
+ * target has died.
  */
-public class SingleTargetGoal extends Goal {
+public class SelfdestructWhenTargetDiesGoal extends Goal {
 
 	/**
 	 * Null/No target value to use when clearing the target.
@@ -30,12 +30,12 @@ public class SingleTargetGoal extends Goal {
 	LivingEntity target;
 
 	/**
-	 * SingleTargetGoal constructor.
+	 * SelfdestructWhenTargetDiesGoal constructor.
 	 * 
 	 * @param entity entity.
 	 * @param target target entity.
 	 */
-	public SingleTargetGoal(MobEntity entity, LivingEntity target) {
+	public SelfdestructWhenTargetDiesGoal(MobEntity entity, LivingEntity target) {
 		this.entity = entity;
 		this.target = target;
 		setMutexFlagsforTargetingGoal(this);
@@ -44,42 +44,27 @@ public class SingleTargetGoal extends Goal {
 	@Override
 	public boolean shouldExecute() {
 
-		// exit if target is undefined
+		// if target is undefined then self-destruct
 		if (target == null)
-			return false;
-
-		// execute if target is alive
-		if (target.isAlive())
 			return true;
 
-		return false;
+		// if target isn't alive then self-destruct
+		if (target.isAlive())
+			return false;
+
+		return true;
 	}
 
 	@Override
 	public void tick() {
-
-		// update target
-		entity.setAttackTarget(target);
+		entity.setAttackTarget(NO_TARGET);
+		target = NO_TARGET;		
+		selfDestruct(entity);
 	}
 
 	@Override
-	public void resetTask() {
-
-		// self-destruct if target is undefined
-		if (target == null) {
-			entity.setAttackTarget(NO_TARGET);
-			selfDestruct(entity);			
-			return;
-		}
-
-		// don't reset if target is alive
-		if (target.isAlive())
-			return;
-
-		// reset
-		entity.setAttackTarget(NO_TARGET);
-		target = NO_TARGET;
-		selfDestruct(entity);
+	public void resetTask() {		
+		// NO-OP
 	}
 
 }
