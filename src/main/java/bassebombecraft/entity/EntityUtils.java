@@ -185,8 +185,7 @@ public class EntityUtils {
 	 * @return player feet position (as a Y coordinate).
 	 */
 	public static double calculateEntityFeetPositition(LivingEntity entity) {
-		double feetPosY = entity.getPosY() - entity.getYOffset();
-		return feetPosY;
+		return entity.getPosY() - entity.getYOffset();
 	}
 
 	/**
