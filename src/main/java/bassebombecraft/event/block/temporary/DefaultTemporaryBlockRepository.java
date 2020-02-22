@@ -14,7 +14,7 @@ import bassebombecraft.geom.BlockDirective;
  */
 public class DefaultTemporaryBlockRepository implements TemporaryBlockRepository {
 
-	final static List<BlockDirective> EMPTY_LIST = new ArrayList<BlockDirective> ();
+	static final List<BlockDirective> EMPTY_LIST = new ArrayList<BlockDirective> ();
 	
 	/**
 	 * Block container.

@@ -35,7 +35,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = GenericEntityMist.class.getSimpleName();
+	public static final String NAME = GenericEntityMist.class.getSimpleName();
 
 	/**
 	 * Spawn distance of mist from invoker. Distance is measured in blocks.
@@ -185,7 +185,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 		entityLook = entity.getLook(1);
 		Vec3d entityLookX4 = new Vec3d(entityLook.x * INVOCATION_DIST, entityLook.y * INVOCATION_DIST,
 				entityLook.z * INVOCATION_DIST);
-		Vec3d entityPos = new Vec3d(entity.posX, entity.posY, entity.posZ);
+		Vec3d entityPos = new Vec3d(entity.getPosX(), entity.getPosY(), entity.getPosZ());
 		double x = entityLookX4.x;
 		float y = entity.getEyeHeight();
 		double z = entityLookX4.z;

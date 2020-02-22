@@ -12,7 +12,7 @@ import net.minecraft.util.math.BlockPos;
  */
 public class ChildStructure implements Structure {
 
-	final static Structure[] EMPTY_CHILDREN = new Structure[] {};
+	static final Structure[] EMPTY_CHILDREN = new Structure[] {};
 	BlockPos offset;
 	BlockPos size;
 	Block block;

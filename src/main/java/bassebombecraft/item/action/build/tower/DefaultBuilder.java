@@ -31,7 +31,7 @@ public class DefaultBuilder implements Builder {
 	/**
 	 * Stairs material.
 	 */
-	final static BlockState STAIRS_STATE = STONE_BRICK_STAIRS.getDefaultState().with(FACING, SOUTH);
+	static final BlockState STAIRS_STATE = STONE_BRICK_STAIRS.getDefaultState().with(FACING, SOUTH);
 
 	/**
 	 * Stairs material.

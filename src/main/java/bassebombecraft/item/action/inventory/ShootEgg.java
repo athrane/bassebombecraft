@@ -4,9 +4,6 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import java.util.Random;
 
-import javax.naming.OperationNotSupportedException;
-
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -47,25 +44,15 @@ public class ShootEgg implements InventoryItemActionStrategy {
 		EggEntity projectile = EntityType.EGG.create(world);
 
 		// from EntityLlama.spit()
-		double d0 = target.posX - invoker.posX;
-		double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 3.0F) - invoker.posY;
-		double d2 = target.posZ - invoker.posZ;
+		double d0 = target.getPosX() - invoker.getPosX();
+		double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 3.0F) - invoker.getPosY();
+		double d2 = target.getPosZ() - invoker.getPosZ();
 		float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
 		projectile.shoot(d0, d1 + (double) f, d2, 1.5F, 10.0F);
 		invoker.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
 
 		// spawn
 		world.addEntity(projectile);
-	}
-
-	@Override
-	public int getEffectRange() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

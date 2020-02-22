@@ -28,7 +28,7 @@ public class PlayerAggroEffect extends Effect {
 	/**
 	 * Effect identifier.
 	 */
-	public final static String NAME = PlayerAggroEffect.class.getSimpleName();
+	public static final String NAME = PlayerAggroEffect.class.getSimpleName();
 
 	/**
 	 * Update frequency for effect.

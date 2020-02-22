@@ -9,7 +9,7 @@ import bassebombecraft.item.action.mist.block.MovingTntMist;
  */
 public class MovingTntMistBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = MovingTntMistBook.class.getSimpleName();
+	public static final String ITEM_NAME = MovingTntMistBook.class.getSimpleName();
 	static final BlockMistActionStrategy STRATEGY = new MovingTntMist();
 
 	public MovingTntMistBook() {

@@ -12,7 +12,7 @@ import bassebombecraft.item.action.inventory.AddFlameEffect;
  */
 public class FlameBlastIdolInventoryItem extends GenericInventoryItem {
 
-	public final static String ITEM_NAME = FlameBlastIdolInventoryItem.class.getSimpleName();
+	public static final String ITEM_NAME = FlameBlastIdolInventoryItem.class.getSimpleName();
 
 	static Supplier<Integer> splDuration = () -> addFlameEffectDuration.get();
 

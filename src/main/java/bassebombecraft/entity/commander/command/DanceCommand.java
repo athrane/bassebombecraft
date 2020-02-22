@@ -19,7 +19,7 @@ public class DanceCommand implements MobCommand {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = DanceCommand.class.getSimpleName();
+	public static final String NAME = DanceCommand.class.getSimpleName();
 
 	/**
 	 * Chance of jumping.

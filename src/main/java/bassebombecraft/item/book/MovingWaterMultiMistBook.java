@@ -9,7 +9,7 @@ import bassebombecraft.item.action.mist.block.MovingWaterMultiMist;
  */
 public class MovingWaterMultiMistBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "MovingWaterMultiMistBook";
+	public static final String ITEM_NAME = "MovingWaterMultiMistBook";
 	static final BlockMistActionStrategy STRATEGY = new MovingWaterMultiMist();
 
 	public MovingWaterMultiMistBook() {

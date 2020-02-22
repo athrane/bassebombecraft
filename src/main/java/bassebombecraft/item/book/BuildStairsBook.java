@@ -8,7 +8,7 @@ import bassebombecraft.projectile.action.SpawnStairs;
  */
 public class BuildStairsBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = BuildStairsBook.class.getSimpleName();
+	public static final String ITEM_NAME = BuildStairsBook.class.getSimpleName();
 
 	public BuildStairsBook() {
 		super(ITEM_NAME, new GenericShootEggProjectile(new SpawnStairs()));

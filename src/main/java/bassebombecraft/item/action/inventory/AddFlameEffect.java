@@ -2,9 +2,6 @@ package bassebombecraft.item.action.inventory;
 
 import java.util.function.Supplier;
 
-import javax.naming.OperationNotSupportedException;
-
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
@@ -18,7 +15,7 @@ public class AddFlameEffect implements InventoryItemActionStrategy {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = AddFlameEffect.class.getSimpleName();
+	public static final String NAME = AddFlameEffect.class.getSimpleName();
 
 	/**
 	 * Effect duration.
@@ -49,16 +46,6 @@ public class AddFlameEffect implements InventoryItemActionStrategy {
 	@Override
 	public void applyEffect(Entity target, World world, LivingEntity sinvoker) {
 		target.setFire(duration);
-	}
-
-	@Override
-	public int getEffectRange() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

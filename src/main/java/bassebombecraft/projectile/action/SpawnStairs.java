@@ -40,7 +40,7 @@ public class SpawnStairs implements ProjectileAction {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = SpawnStairs.class.getSimpleName();
+	public static final String NAME = SpawnStairs.class.getSimpleName();
 	
 	/**
 	 * duration of stairs.

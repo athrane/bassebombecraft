@@ -40,7 +40,7 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 	/**
 	 * Null mob command.
 	 */
-	public final static MobCommand NULL_COMMAND = new NullCommand();
+	public static final MobCommand NULL_COMMAND = new NullCommand();
 
 	/**
 	 * Mob commander state

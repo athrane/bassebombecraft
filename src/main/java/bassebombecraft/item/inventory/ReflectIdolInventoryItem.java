@@ -13,7 +13,7 @@ import bassebombecraft.item.action.inventory.AddReflectEffect;
  */
 public class ReflectIdolInventoryItem extends GenericInventoryItem {
 
-	public final static String ITEM_NAME = ReflectIdolInventoryItem.class.getSimpleName();
+	public static final String ITEM_NAME = ReflectIdolInventoryItem.class.getSimpleName();
 
 	static Supplier<Integer> splDuration = () -> addHealingEffectDuration.get();
 	static Supplier<Integer> splAmplifier = () -> addHealingEffectAmplifier.get();

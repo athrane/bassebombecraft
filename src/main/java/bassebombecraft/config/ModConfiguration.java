@@ -72,19 +72,21 @@ import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.SmallFireballRingBook;
 import bassebombecraft.item.book.SpawnCreeperArmyBook;
+import bassebombecraft.item.book.SpawnFlamingChickenBook;
 import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnKittenArmyBook;
 import bassebombecraft.item.book.SpawnSkeletonArmyBook;
 import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
+import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
 import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
 import bassebombecraft.item.inventory.ChickenizeIdolInventoryItem;
 import bassebombecraft.item.inventory.EggProjectileIdolInventoryItem;
 import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
-import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
+import bassebombecraft.item.inventory.KillerBeesIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
 import bassebombecraft.item.inventory.LlamaSpitIdolInventoryItem;
@@ -100,6 +102,9 @@ import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
 import bassebombecraft.item.inventory.ReaperIdolInventoryItem;
 import bassebombecraft.item.inventory.ReflectIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
+import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
+import bassebombecraft.operator.entity.SpawnKillerBee;
+import bassebombecraft.operator.entity.SpawnWarPig;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.MobAggroEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
@@ -248,7 +253,7 @@ public class ModConfiguration {
 
 	// VacuumMistBook
 	public static ItemConfig vacuumMistBook;
-	
+
 	// SpawnCreeperArmyBook
 	public static ForgeConfigSpec.ConfigValue<String> spawnCreeperArmyBookTooltip;
 	public static ForgeConfigSpec.IntValue spawnCreeperArmyBookCooldown;
@@ -261,9 +266,12 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.ConfigValue<String> spawnKittenArmyBookTooltip;
 	public static ForgeConfigSpec.IntValue spawnKittenArmyBookCooldown;
 
-	// SpawnGuardianBook	
+	// SpawnGuardianBook
 	public static ItemConfig spawnGuardianBook;
-		
+
+	// SpawnFlamingChickenBook
+	public static ItemConfig spawnFlamingChickenBook;
+
 	// BuildTowerBook
 	public static ForgeConfigSpec.ConfigValue<String> buildTowerBookTooltip;
 	public static ForgeConfigSpec.IntValue buildTowerBookCooldown;
@@ -278,7 +286,7 @@ public class ModConfiguration {
 
 	// BuildMineBook
 	public static ItemConfig buildMineBook;
-		
+
 	// Inventory items..
 	public static InventoryItemConfig charmBeastIdolInventoryItem;
 	public static InventoryItemConfig levitationIdolInventoryItem;
@@ -303,6 +311,8 @@ public class ModConfiguration {
 	public static InventoryItemConfig massExtinctionEventIdolInventoryItem;
 	public static InventoryItemConfig angryParrotsIdolInventoryItem;
 	public static InventoryItemConfig reflectIdolInventoryItem;
+	public static InventoryItemConfig killerBeesIdolInventoryItem;
+	public static InventoryItemConfig warPigsIdolInventoryItem;
 
 	// Actions..
 
@@ -344,20 +354,20 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue digMobHoleHeightExpansion;
 
 	// GenericBlockSpiralFillMist action
-	public static ForgeConfigSpec.IntValue genericBlockSpiralFillMistSpiralSize;	
+	public static ForgeConfigSpec.IntValue genericBlockSpiralFillMistSpiralSize;
 
 	// GenericEntityMist action
-	public static ForgeConfigSpec.IntValue genericEntityMistSpiralSize;	
-	
+	public static ForgeConfigSpec.IntValue genericEntityMistSpiralSize;
+
 	// LavaSpiralMist action
 	public static ForgeConfigSpec.IntValue lavaSpiralMistDuration;
 	public static ParticlesConfig lavaSpiralMistParticleInfo;
 
 	// VacuumMist action
 	public static ForgeConfigSpec.IntValue vacuumMistDuration;
-	public static ForgeConfigSpec.IntValue vacuumMistForce;	
+	public static ForgeConfigSpec.IntValue vacuumMistForce;
 	public static ParticlesConfig vacuumMistParticleInfo;
-	
+
 	// SpawnStairs projectile action
 	public static ForgeConfigSpec.IntValue spawnStairsDuration;
 
@@ -415,7 +425,17 @@ public class ModConfiguration {
 	// Spawn angry parrots action
 	public static ForgeConfigSpec.IntValue spawnAngryParrotsDamage;
 	public static ForgeConfigSpec.DoubleValue spawnAngryParrotsMovementSpeed;
-	
+
+	// Operators..
+
+	// Spawn killer bee operator
+	public static ForgeConfigSpec.IntValue spawnKillerBeeDamage;
+	public static ForgeConfigSpec.DoubleValue spawnKillerBeeMovementSpeed;
+
+	// Spawn war pig operator
+	public static ForgeConfigSpec.IntValue spawnWarPigDamage;
+	public static ForgeConfigSpec.DoubleValue spawnWarPigMovementSpeed;
+
 	static {
 
 		// build general section
@@ -441,6 +461,10 @@ public class ModConfiguration {
 
 		COMMON_BUILDER.comment("Action settings").push("Actions");
 		setupActionsConfig();
+		COMMON_BUILDER.pop();
+
+		COMMON_BUILDER.comment("Operator settings").push("Operators");
+		setupOperatorConfig();
 		COMMON_BUILDER.pop();
 
 		COMMON_BUILDER.comment("Book settings").push("Books");
@@ -500,7 +524,7 @@ public class ModConfiguration {
 				.defineInRange("targetDistance", 5, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// Attack nearest mob command
+		// Attack nearest player command
 		name = AttackNearestPlayerCommand.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		attackNearestPlayerCommandTargetDistance = COMMON_BUILDER
@@ -720,7 +744,8 @@ public class ModConfiguration {
 		// GenericBlockSpiralFillMist
 		name = GenericBlockSpiralFillMist.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		genericBlockSpiralFillMistSpiralSize = COMMON_BUILDER.comment("Spiral szie in blocks for ALL block spiral effects.")
+		genericBlockSpiralFillMistSpiralSize = COMMON_BUILDER
+				.comment("Spiral szie in blocks for ALL block spiral effects.")
 				.defineInRange("spiralSize", 9, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
@@ -730,25 +755,25 @@ public class ModConfiguration {
 		genericEntityMistSpiralSize = COMMON_BUILDER.comment("Spiral szie in blocks for ALL entity spiral effects.")
 				.defineInRange("spiralSize", 9, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
-		
+
 		// LavaSpiralMist
 		name = LavaSpiralMist.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		lavaSpiralMistDuration = COMMON_BUILDER.comment("Duration in game ticks.")
-				.defineInRange("duration", 100, 0, Integer.MAX_VALUE);
+		lavaSpiralMistDuration = COMMON_BUILDER.comment("Duration in game ticks.").defineInRange("duration", 100, 0,
+				Integer.MAX_VALUE);
 		lavaSpiralMistParticleInfo = getInstance(COMMON_BUILDER, "flame", 10, 10, 0.1, 0.0, 0.0, 0.0);
 		COMMON_BUILDER.pop();
 
 		// VacuumMist
 		name = VacuumMist.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		vacuumMistDuration = COMMON_BUILDER.comment("Duration in game ticks.")
-				.defineInRange("duration", 500, 0, Integer.MAX_VALUE);
-		vacuumMistForce = COMMON_BUILDER.comment("Effect pull force in blocks.")
-				.defineInRange("force", 5, 0, Integer.MAX_VALUE);		
+		vacuumMistDuration = COMMON_BUILDER.comment("Duration in game ticks.").defineInRange("duration", 500, 0,
+				Integer.MAX_VALUE);
+		vacuumMistForce = COMMON_BUILDER.comment("Effect pull force in blocks.").defineInRange("force", 5, 0,
+				Integer.MAX_VALUE);
 		vacuumMistParticleInfo = getInstance(COMMON_BUILDER, "effect", 10, 20, 0.3, 0.75, 0.75, 0.75);
 		COMMON_BUILDER.pop();
-		
+
 		// SpawnCreeperArmy
 		name = SpawnCreeperArmy.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -911,12 +936,34 @@ public class ModConfiguration {
 		// SpawnAngryParrots
 		name = SpawnAngryParrots.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		spawnAngryParrotsDamage = COMMON_BUILDER.comment("Parrot damage.")
-				.defineInRange("damage", 2, 0, Integer.MAX_VALUE);
+		spawnAngryParrotsDamage = COMMON_BUILDER.comment("Parrot damage.").defineInRange("damage", 2, 0,
+				Integer.MAX_VALUE);
 		spawnAngryParrotsMovementSpeed = COMMON_BUILDER.comment("Parrot movement speed.").defineInRange("movementSpeed",
-						1.0D, 0, 5.0D);				
+				1.0D, 0, 5.0D);
 		COMMON_BUILDER.pop();
-		
+	}
+
+	/**
+	 * Define configuration for operators.
+	 */
+	static void setupOperatorConfig() {
+
+		// SpawnKillerBee
+		String name = SpawnKillerBee.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnKillerBeeDamage = COMMON_BUILDER.comment("Bee damage.").defineInRange("damage", 2, 0, Integer.MAX_VALUE);
+		spawnKillerBeeMovementSpeed = COMMON_BUILDER.comment("Bee movement speed.").defineInRange("movementSpeed", 1.0D,
+				0, 5.0D);
+		COMMON_BUILDER.pop();
+
+		// SpawnWarPig
+		name = SpawnWarPig.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnWarPigDamage = COMMON_BUILDER.comment("Pig damage.").defineInRange("damage", 2, 0, Integer.MAX_VALUE);
+		spawnWarPigMovementSpeed = COMMON_BUILDER.comment("Pig movement speed.").defineInRange("movementSpeed", 0.75D,
+				0, 5.0D);
+		COMMON_BUILDER.pop();
+
 	}
 
 	/**
@@ -1011,12 +1058,13 @@ public class ModConfiguration {
 
 		// LavaSpiralMistBook
 		name = LavaSpiralMistBook.ITEM_NAME;
-		lavaSpiralMistBook = getInstance(COMMON_BUILDER, name, "Creates an expanding spiral of temporary lava blocks centered on where the caster is placed.", 10);
-		
+		lavaSpiralMistBook = getInstance(COMMON_BUILDER, name,
+				"Creates an expanding spiral of temporary lava blocks centered on where the caster is placed.", 10);
+
 		// VacuumMistBook
 		name = VacuumMistBook.ITEM_NAME;
 		vacuumMistBook = getInstance(COMMON_BUILDER, name, "Creates a cloud of vacuum which pull mobs into it.", 100);
-				
+
 		// SpawnCreeperArmyBook
 		name = SpawnCreeperArmyBook.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1046,8 +1094,15 @@ public class ModConfiguration {
 
 		// SpawnGuardianBook
 		name = SpawnGuardianBook.ITEM_NAME;
-		spawnGuardianBook = getInstance(COMMON_BUILDER, name, "Right-click to spawns a friendly golem. The golem will follow and protect its creator, i.e. the player or whoever spawned him. The golem will use the magic from BasseBombeCraft for its protection duties. The guardian can be commanded by Krenko's Command Baton", 25);
-				
+		spawnGuardianBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to spawns a friendly golem. The golem will follow and protect its creator, i.e. the player or whoever spawned him. The golem will use the magic from BasseBombeCraft for its protection duties. The guardian can be commanded by Krenko's Command Baton",
+				25);
+
+		// SpawnFlamingChickenBook
+		name = SpawnFlamingChickenBook.ITEM_NAME;
+		spawnFlamingChickenBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to spawns a failed phoenix. The phoenix will panic due to it being on fire.", 25);
+
 		// BuildTowerBook
 		name = BuildTowerBook.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1077,8 +1132,10 @@ public class ModConfiguration {
 
 		// BuildMineBook
 		name = BuildMineBook.ITEM_NAME;
-		buildMineBook = getInstance(COMMON_BUILDER, name, "Click on a ground block to excavate an entrance entrance to a lower level mine. A ground block is a block at the same level as the block that the payer is standing on. Click on a block in front of the player to excavate a mine corridor, room or hall.", 25);
-		
+		buildMineBook = getInstance(COMMON_BUILDER, name,
+				"Click on a ground block to excavate an entrance entrance to a lower level mine. A ground block is a block at the same level as the block that the payer is standing on. Click on a block in front of the player to excavate a mine corridor, room or hall.",
+				25);
+
 	}
 
 	/**
@@ -1230,13 +1287,29 @@ public class ModConfiguration {
 		name = AngryParrotsIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "crit", 5, 20, 0.25, 0.0, 0.0, 0.9);
 		angryParrotsIdolInventoryItem = getInstance(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol will spawn angry sea parrots who will attack the player's target or some random mobs.", 25, 5, splParticles);		
+				"Equip in either hand to activate. The idol will spawn angry sea parrots who will attack the player's target or some random mobs.",
+				25, 5, splParticles);
 
 		// ReflectIdolInventoryItem
 		name = ReflectIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "crit", 5, 20, 0.3, 0.75, 0.0, 0.0);
 		reflectIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol will protect the player by reflecting mob damage back to the assailant.", 50, splParticles);	
+				"Equip in either hand to activate. The idol will reflect mob damage back to the assailant.", 50,
+				splParticles);
+
+		// KillerBeesIdolInventoryItem
+		name = KillerBeesIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "dripping_honey", 5, 20, 0.001, 0.0, 0.0, 0.0);
+		killerBeesIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will spawn killer bees who will attack the player's target or some random mobs.",
+				25, 5, splParticles);
+
+		// WarPigsIdolInventoryItem
+		name = WarPigsIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "crit", 5, 20, 0.3, 0.0, 0.0, 0.0);
+		warPigsIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will spawn psycho war pigs who will attack the player's target or some random mobs.",
+				25, 5, splParticles);
 	}
 
 	/**

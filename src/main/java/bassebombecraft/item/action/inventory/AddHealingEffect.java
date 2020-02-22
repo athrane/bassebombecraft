@@ -4,9 +4,6 @@ import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 
 import java.util.function.Supplier;
 
-import javax.naming.OperationNotSupportedException;
-
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
@@ -23,7 +20,7 @@ public class AddHealingEffect implements InventoryItemActionStrategy {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = AddHealingEffect.class.getSimpleName();
+	public static final String NAME = AddHealingEffect.class.getSimpleName();
 
 	/**
 	 * Effect duration.
@@ -71,16 +68,6 @@ public class AddHealingEffect implements InventoryItemActionStrategy {
 	 */
 	EffectInstance createEffect() {
 		return new EffectInstance(Effects.REGENERATION, duration, amplifier);
-	}
-
-	@Override
-	public int getEffectRange() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 	
 }

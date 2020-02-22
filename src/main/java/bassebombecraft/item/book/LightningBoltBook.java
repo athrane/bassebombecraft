@@ -9,7 +9,7 @@ import bassebombecraft.projectile.action.SpawnLightningBolt;
  */
 public class LightningBoltBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = LightningBoltBook.class.getSimpleName();
+	public static final String ITEM_NAME = LightningBoltBook.class.getSimpleName();
 	static final ProjectileAction PROJECTILE_ACTION = new SpawnLightningBolt();
 
 	public LightningBoltBook() {

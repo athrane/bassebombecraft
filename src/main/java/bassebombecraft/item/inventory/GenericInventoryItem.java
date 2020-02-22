@@ -15,7 +15,6 @@ import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 import java.util.List;
 
 import javax.annotation.Nullable;
-import javax.naming.OperationNotSupportedException;
 
 import bassebombecraft.config.InventoryItemConfig;
 import bassebombecraft.event.particle.ParticleRendering;
@@ -182,9 +181,9 @@ public class GenericInventoryItem extends Item {
 		int aoeRange = getRange();
 
 		// get entities within AABB
-		AxisAlignedBB aabb = new AxisAlignedBB(invokingEntity.posX - aoeRange, invokingEntity.posY - aoeRange,
-				invokingEntity.posZ - aoeRange, invokingEntity.posX + aoeRange, invokingEntity.posY + aoeRange,
-				invokingEntity.posZ + aoeRange);
+		AxisAlignedBB aabb = new AxisAlignedBB(invokingEntity.getPosX() - aoeRange, invokingEntity.getPosY() - aoeRange,
+				invokingEntity.getPosZ() - aoeRange, invokingEntity.getPosX() + aoeRange,
+				invokingEntity.getPosY() + aoeRange, invokingEntity.getPosZ() + aoeRange);
 		List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class, aabb);
 
 		for (LivingEntity foundEntity : entities) {
@@ -230,12 +229,7 @@ public class GenericInventoryItem extends Item {
 	ParticleRenderingInfo[] getRenderingInfos() {
 		if (infos != null)
 			return infos;
-		try {
-			return strategy.getRenderingInfos();
-		} catch (OperationNotSupportedException e) {
-			getBassebombeCraft().reportAndLogException(e);
-			return null;
-		}
+		return null;
 	}
 
 	/**
@@ -249,12 +243,7 @@ public class GenericInventoryItem extends Item {
 	int getRange() {
 		if (range != Integer.MIN_VALUE)
 			return range;
-		try {
-			return strategy.getEffectRange();
-		} catch (OperationNotSupportedException e) {
-			getBassebombeCraft().reportAndLogException(e);
-			return Integer.MIN_VALUE;
-		}
+		return Integer.MIN_VALUE;
 	}
 
 	@OnlyIn(Dist.CLIENT)

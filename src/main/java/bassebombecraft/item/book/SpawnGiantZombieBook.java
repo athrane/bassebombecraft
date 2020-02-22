@@ -9,7 +9,7 @@ import bassebombecraft.projectile.action.SpawnGiantZombie;
  */
 public class SpawnGiantZombieBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = SpawnGiantZombieBook.class.getSimpleName();
+	public static final String ITEM_NAME = SpawnGiantZombieBook.class.getSimpleName();
 	static final ProjectileAction PROJECTILE_ACTION = new SpawnGiantZombie();
 
 	public SpawnGiantZombieBook() {

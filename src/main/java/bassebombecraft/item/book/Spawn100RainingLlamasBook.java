@@ -9,7 +9,7 @@ import bassebombecraft.projectile.action.Spawn100RainingLlamas;
  */
 public class Spawn100RainingLlamasBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = Spawn100RainingLlamasBook.class.getSimpleName();
+	public static final String ITEM_NAME = Spawn100RainingLlamasBook.class.getSimpleName();
 	static final ProjectileAction PROJECTILE_ACTION = new Spawn100RainingLlamas();
 
 	public Spawn100RainingLlamasBook() {

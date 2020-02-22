@@ -8,7 +8,7 @@ import bassebombecraft.projectile.action.SpawnSkeletonArmy;
  */
 public class SpawnSkeletonArmyBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = SpawnSkeletonArmyBook.class.getSimpleName();
+	public static final String ITEM_NAME = SpawnSkeletonArmyBook.class.getSimpleName();
 
 	public SpawnSkeletonArmyBook() {
 		super(ITEM_NAME, new GenericShootEggProjectile(new SpawnSkeletonArmy()));

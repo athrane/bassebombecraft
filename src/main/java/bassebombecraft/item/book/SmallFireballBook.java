@@ -7,7 +7,7 @@ import bassebombecraft.item.action.ShootSmallFireball;
  */
 public class SmallFireballBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "SmallFireballBook";
+	public static final String ITEM_NAME = "SmallFireballBook";
 	
 	public SmallFireballBook() {
 		super(ITEM_NAME, new ShootSmallFireball());

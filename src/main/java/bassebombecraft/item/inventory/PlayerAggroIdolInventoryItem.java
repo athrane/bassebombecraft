@@ -13,7 +13,7 @@ import bassebombecraft.item.action.inventory.AddPlayerAggroEffect;
  */
 public class PlayerAggroIdolInventoryItem extends GenericInventoryItem {
 
-	public final static String ITEM_NAME = PlayerAggroIdolInventoryItem.class.getSimpleName();
+	public static final String ITEM_NAME = PlayerAggroIdolInventoryItem.class.getSimpleName();
 
 	static Supplier<Integer> splDuration = () -> addPlayerAggroEffectDuration.get();
 	static Supplier<Integer> splAmplifier = () -> addPlayerAggroEffectAmplifier.get();

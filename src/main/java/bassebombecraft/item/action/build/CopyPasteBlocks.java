@@ -47,7 +47,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = CopyPasteBlocks.class.getSimpleName();
+	public static final String NAME = CopyPasteBlocks.class.getSimpleName();
 
 	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
 	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;

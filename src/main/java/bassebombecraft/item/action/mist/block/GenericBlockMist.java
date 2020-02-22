@@ -141,7 +141,7 @@ public class GenericBlockMist implements RightClickedItemAction {
 
 		// setup entity position and direction
 		Vec3d entityLook = entity.getLook(1);
-		Vec3d entityPos = new Vec3d(entity.posX, entity.posY, entity.posZ);
+		Vec3d entityPos = new Vec3d(entity.getPosX(), entity.getPosY(), entity.getPosZ());
 
 		// setup offset angle
 		double offsetAngle = (strategy.getNumberMists() - 1) * strategy.getMistAngle() * -0.5F;

@@ -17,12 +17,12 @@ public class ChargeTowardsGoal extends Goal {
 	 * Speed modifier for movement controller. Should be 1, actual speed is read
 	 * form entity attributes.
 	 */
-	final static double SPEED_MODIFIER = 1.0D;
+	static final double SPEED_MODIFIER = 1.0D;
 
 	/**
 	 * Null/No target value to use when clearing the target.
 	 */
-	final static LivingEntity NO_TARGET = null;
+	static final LivingEntity NO_TARGET = null;
 
 	/**
 	 * Goal owner.

@@ -7,7 +7,7 @@ import bassebombecraft.item.action.build.DuplicateBlock;
  */
 public class DuplicateBlockBook extends GenericBlockClickedBook {
 
-	public final static String ITEM_NAME = "DuplicateBlockBook";
+	public static final String ITEM_NAME = "DuplicateBlockBook";
 
 	public DuplicateBlockBook() {
 		super(ITEM_NAME, new DuplicateBlock());

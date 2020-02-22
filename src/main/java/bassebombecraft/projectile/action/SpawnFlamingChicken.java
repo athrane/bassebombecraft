@@ -23,7 +23,7 @@ public class SpawnFlamingChicken implements ProjectileAction {
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
 		ChickenEntity entity = EntityType.CHICKEN.create(world);
 		entity.setGrowingAge(CHILD_AGE);
-		entity.setLocationAndAngles(projectile.posX, projectile.posY, projectile.posZ, projectile.rotationYaw, PITCH);
+		entity.setLocationAndAngles(projectile.getPosX(), projectile.getPosY(), projectile.getPosZ(), projectile.rotationYaw, PITCH);
 		entity.setFire(3);
 
 		// get owner

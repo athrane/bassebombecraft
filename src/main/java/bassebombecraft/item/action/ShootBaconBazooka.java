@@ -26,7 +26,7 @@ public class ShootBaconBazooka implements RightClickedItemAction {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = ShootBaconBazooka.class.getSimpleName();
+	public static final String NAME = ShootBaconBazooka.class.getSimpleName();
 
 	/**
 	 * Spawn sound.

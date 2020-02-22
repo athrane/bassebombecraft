@@ -24,7 +24,7 @@ public class MobProjectileEffect extends Effect {
 	/**
 	 * Effect identifier.
 	 */
-	public final static String NAME = MobProjectileEffect.class.getSimpleName();
+	public static final String NAME = MobProjectileEffect.class.getSimpleName();
 
 	/**
 	 * Explosion will make smoke.

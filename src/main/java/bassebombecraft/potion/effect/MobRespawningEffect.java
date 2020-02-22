@@ -22,7 +22,7 @@ public class MobRespawningEffect extends Effect {
 	/**
 	 * Effect identifier.
 	 */
-	public final static String NAME = MobRespawningEffect.class.getSimpleName();
+	public static final String NAME = MobRespawningEffect.class.getSimpleName();
 
 	/**
 	 * MobAggroEffect constructor.

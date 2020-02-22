@@ -17,7 +17,7 @@ public class SpawnDragon implements ProjectileAction {
 	@Override
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
 		EnderDragonEntity entity = EntityType.ENDER_DRAGON.create(world);
-		entity.setLocationAndAngles(projectile.posX, projectile.posY, projectile.posZ, projectile.rotationYaw,
+		entity.setLocationAndAngles(projectile.getPosX(), projectile.getPosY(), projectile.getPosZ(), projectile.rotationYaw,
 				projectile.rotationPitch);
 
 		// get owner

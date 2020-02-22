@@ -8,7 +8,7 @@ import bassebombecraft.projectile.action.SpawnCreeperArmy;
  */
 public class SpawnCreeperArmyBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = SpawnCreeperArmyBook.class.getSimpleName();
+	public static final String ITEM_NAME = SpawnCreeperArmyBook.class.getSimpleName();
 
 	public SpawnCreeperArmyBook() {
 		super(ITEM_NAME, new GenericShootEggProjectile(new SpawnCreeperArmy()));

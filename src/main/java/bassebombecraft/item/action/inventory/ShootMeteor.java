@@ -4,9 +4,6 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import java.util.Random;
 
-import javax.naming.OperationNotSupportedException;
-
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.FireballEntity;
@@ -43,28 +40,18 @@ public class ShootMeteor implements InventoryItemActionStrategy {
 	public void applyEffect(Entity target, World world, LivingEntity invoker) {
 		Random random = getBassebombeCraft().getRandom();
 
-		double posX = target.posX + (random.nextInt(10) - 5);
-		double posY = invoker.posY + 20 + (random.nextInt(10) - 5);
-		double posZ = target.posZ + (random.nextInt(10) - 5);
+		double posX = target.getPosX() + (random.nextInt(10) - 5);
+		double posY = invoker.getPosY() + 20 + (random.nextInt(10) - 5);
+		double posZ = target.getPosZ() + (random.nextInt(10) - 5);
 
-		double d0 = target.posX - posX;
+		double d0 = target.getPosX() - posX;
 		double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 3.0F) - posY;
-		double d2 = target.posZ - posZ;
+		double d2 = target.getPosZ() - posZ;
 
 		FireballEntity projectile = new FireballEntity(world, posX, posY, posZ, d0, d1, d2);
 
 		invoker.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
 		world.addEntity(projectile);
-	}
-
-	@Override
-	public int getEffectRange() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

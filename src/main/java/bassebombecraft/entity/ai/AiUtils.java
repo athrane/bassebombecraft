@@ -20,7 +20,7 @@ import com.google.common.collect.Sets;
 import bassebombecraft.BassebombeCraft;
 import bassebombecraft.entity.EntityUtils;
 import bassebombecraft.entity.ai.goal.AttackInRangeGoal;
-import bassebombecraft.entity.ai.goal.SingleTargetGoal;
+import bassebombecraft.entity.ai.goal.SelfdestructWhenTargetDiesGoal;
 import bassebombecraft.entity.ai.goal.ChargeTowardsGoal;
 import bassebombecraft.entity.ai.goal.CommanderControlledTargeting;
 import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
@@ -255,25 +255,24 @@ public class AiUtils {
 	}
 
 	/**
-	 * Build AI for parrots.
+	 * Build AI for charging entites, i.e. parrots, bees and war pigs.
 	 * 
-	 * @param entity entity which will configured with bat AI.
-	 * @param target entity that parrot will attack.
-	 * @param parrot damage.
+	 * @param entity entity which will configured with flying AI.
+	 * @param target entity that entity will attack.
+	 * @param entity damage.
 	 */
-	public static void buildParrotAi(MobEntity entity, LivingEntity target, float damage ) {
+	public static void buildChargingAi(MobEntity entity, LivingEntity target, float damage ) {
 
 		// set goals
-		MobEntity mobEntity = (MobEntity) entity;		
 		GoalSelector selector = entity.goalSelector;
-		selector.addGoal(1, new ChargeTowardsGoal(mobEntity, target, AI_MIN_CHARGE_DISTANCE));
-		selector.addGoal(2, new AttackInRangeGoal(mobEntity, target, AI_MIN_CHARGE_DISTANCE, damage));
+		selector.addGoal(1, new ChargeTowardsGoal(entity, target, AI_MIN_CHARGE_DISTANCE));
+		selector.addGoal(2, new AttackInRangeGoal(entity, target, AI_MIN_CHARGE_DISTANCE, damage));
 
 		// set targeting goals
 		GoalSelector targetSelector = entity.targetSelector;
-		targetSelector.addGoal(1, new SingleTargetGoal(entity, target));
+		targetSelector.addGoal(1, new SelfdestructWhenTargetDiesGoal(entity, target));
 	}
-
+	
 	/**
 	 * Build AI for Creeper army.
 	 * 

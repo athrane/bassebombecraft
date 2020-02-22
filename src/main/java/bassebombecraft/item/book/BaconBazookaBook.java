@@ -9,7 +9,7 @@ import bassebombecraft.item.action.ShootBaconBazooka;
  */
 public class BaconBazookaBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = BaconBazookaBook.class.getSimpleName();
+	public static final String ITEM_NAME = BaconBazookaBook.class.getSimpleName();
 
 	public BaconBazookaBook() {
 		super(ITEM_NAME, baconBazookaBook, new ShootBaconBazooka());

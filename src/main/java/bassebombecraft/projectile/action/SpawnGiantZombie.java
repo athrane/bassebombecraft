@@ -22,7 +22,7 @@ public class SpawnGiantZombie implements ProjectileAction {
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
 		LivingEntity owner = projectile.getThrower();
 		GiantEntity entity = EntityType.GIANT.create(world);
-		entity.setLocationAndAngles(projectile.posX, projectile.posY, projectile.posZ, projectile.rotationYaw,
+		entity.setLocationAndAngles(projectile.getPosX(), projectile.getPosY(), projectile.getPosZ(), projectile.rotationYaw,
 				projectile.rotationPitch);
 
 		// add entity to team

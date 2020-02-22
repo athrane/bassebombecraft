@@ -30,7 +30,7 @@ public class MobAggroEffect extends Effect {
 	/**
 	 * Effect identifier.
 	 */
-	public final static String NAME = MobAggroEffect.class.getSimpleName();
+	public static final String NAME = MobAggroEffect.class.getSimpleName();
 
 	/**
 	 * Update frequency for effect.
@@ -40,7 +40,7 @@ public class MobAggroEffect extends Effect {
 	/**
 	 * First list index.
 	 */
-	final static int FIRST_INDEX = 0;
+	static final int FIRST_INDEX = 0;
 
 	/**
 	 * Area of effect.

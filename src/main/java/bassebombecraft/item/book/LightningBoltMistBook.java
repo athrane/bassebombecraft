@@ -9,7 +9,7 @@ import bassebombecraft.item.action.mist.entity.LightningBoltMist;
  */
 public class LightningBoltMistBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = LightningBoltMistBook.class.getSimpleName();
+	public static final String ITEM_NAME = LightningBoltMistBook.class.getSimpleName();
 	static final EntityMistActionStrategy STRATEGY = new LightningBoltMist();		
 	
 	public LightningBoltMistBook() {

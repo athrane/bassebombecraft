@@ -8,11 +8,10 @@ import static bassebombecraft.rendering.RenderingUtils.renderTriangleBillboard;
 
 import java.util.Collection;
 
-import javax.vecmath.Vector4f;
-
 import bassebombecraft.event.charm.CharmedMob;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.player.PlayerUtils;
+import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
@@ -41,12 +40,12 @@ public class DefaultCharmedRenderer implements EntityRenderer {
 	/**
 	 * Renderer for rendering bounding box of an entity in the HUD Item.
 	 */
-	final static EntityRenderer boundingBoxRenderer = new DefaultBoundingBoxEntityRenderer();
+	static final EntityRenderer boundingBoxRenderer = new DefaultBoundingBoxEntityRenderer();
 
 	/**
 	 * Renderer for rendering target of an entity in the HUD Item.
 	 */
-	final static EntityRenderer targetRenderer = new DefaultTargetEntityRenderer();
+	static final EntityRenderer targetRenderer = new DefaultTargetEntityRenderer();
 
 	@Override
 	public void render(LivingEntity entity, RenderingInfo info) {

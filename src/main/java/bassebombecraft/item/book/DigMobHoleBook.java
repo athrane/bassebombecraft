@@ -8,7 +8,7 @@ import bassebombecraft.projectile.action.DigMobHole;
  */
 public class DigMobHoleBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = DigMobHoleBook.class.getSimpleName();
+	public static final String ITEM_NAME = DigMobHoleBook.class.getSimpleName();
 
 	public DigMobHoleBook() {
 		super(ITEM_NAME, new GenericShootEggProjectile(new DigMobHole()));

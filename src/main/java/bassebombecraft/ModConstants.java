@@ -2,8 +2,6 @@ package bassebombecraft;
 
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 
-import javax.vecmath.Vector4f;
-
 import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
@@ -29,6 +27,7 @@ import bassebombecraft.potion.effect.MobRespawningEffect;
 import bassebombecraft.potion.effect.PlayerAggroEffect;
 import bassebombecraft.potion.effect.ReflectEffect;
 import bassebombecraft.rendering.DefaultBuildMineRenderer;
+import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
 import net.minecraft.potion.Effect;
@@ -57,7 +56,7 @@ public class ModConstants {
 	/**
 	 * Mod version.
 	 */
-	public static final String VERSION = "1.14.4-1.38";
+	public static final String VERSION = "1.15.2-1.39";
 
 	/**
 	 * In game tab name.
@@ -402,52 +401,52 @@ public class ModConstants {
 	/**
 	 * Week amplification potion name.
 	 */
-	public final static String WEAK_AMPLIFICATION_POTION_NAME = "WeakAmplificationPotion";
+	public static final String WEAK_AMPLIFICATION_POTION_NAME = "WeakAmplificationPotion";
 
 	/**
 	 * Amplification potion name.
 	 */
-	public final static String AMPLIFICATION_POTION_NAME = "AmplificationPotion";
+	public static final String AMPLIFICATION_POTION_NAME = "AmplificationPotion";
 
 	/**
 	 * Superior amplification potion name.
 	 */
-	public final static String SUPERIOR_AMPLIFICATION_POTION_NAME = "SuperiorAmplificationPotion";
+	public static final String SUPERIOR_AMPLIFICATION_POTION_NAME = "SuperiorAmplificationPotion";
 
 	/**
 	 * Mob aggro potion name.
 	 */
-	public final static String MOB_AGGRO_POTION_NAME = "MobAggroPotion";
+	public static final String MOB_AGGRO_POTION_NAME = "MobAggroPotion";
 
 	/**
 	 * Mob priming potion name.
 	 */
-	public final static String MOB_PRIMING_POTION_NAME = "MobPrimingPotion";
+	public static final String MOB_PRIMING_POTION_NAME = "MobPrimingPotion";
 
 	/**
 	 * Mob respawning potion name.
 	 */
-	public final static String MOB_RESPAWNING_POTION_NAME = "MobRespawningPotion";
+	public static final String MOB_RESPAWNING_POTION_NAME = "MobRespawningPotion";
 
 	/**
 	 * Bacon bazooka projectile effect name.
 	 */
-	public final static String BACONBAZOOKA_EFFECT_NAME = "BaconBazookaProjectileEffect";
+	public static final String BACONBAZOOKA_EFFECT_NAME = "BaconBazookaProjectileEffect";
 
 	/**
 	 * Bear blaster projectile effect name.
 	 */
-	public final static String BEARBLASTER_EFFECT_NAME = "BearBlasterProjectileEffect";
+	public static final String BEARBLASTER_EFFECT_NAME = "BearBlasterProjectileEffect";
 
 	/**
 	 * Creeper cannon projectile effect name.
 	 */
-	public final static String CREEPERCANNON_EFFECT_NAME = "CreeperCannonProjectileEffect";
+	public static final String CREEPERCANNON_EFFECT_NAME = "CreeperCannonProjectileEffect";
 
 	/**
 	 * Primed creeper cannon projectile effect name.
 	 */
-	public final static String PRIMEDCREEPERCANNON_EFFECT_NAME = "PrimedCreeperCannonProjectileEffect";
+	public static final String PRIMEDCREEPERCANNON_EFFECT_NAME = "PrimedCreeperCannonProjectileEffect";
 
 	/**
 	 * Mobs aggro effect, used by {@linkplain MobsAggroIdolInventoryItem}.

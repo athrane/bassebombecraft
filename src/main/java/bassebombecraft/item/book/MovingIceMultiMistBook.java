@@ -9,7 +9,7 @@ import bassebombecraft.item.action.mist.block.MovingIceMultiMist;
  */
 public class MovingIceMultiMistBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "MovingIceMultiMistBook";
+	public static final String ITEM_NAME = "MovingIceMultiMistBook";
 	static final BlockMistActionStrategy STRATEGY = new MovingIceMultiMist();
 
 	public MovingIceMultiMistBook() {

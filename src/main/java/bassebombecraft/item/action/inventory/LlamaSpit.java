@@ -4,9 +4,6 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import java.util.Random;
 
-import javax.naming.OperationNotSupportedException;
-
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -46,24 +43,14 @@ public class LlamaSpit implements InventoryItemActionStrategy {
 		LlamaSpitEntity entity = EntityType.LLAMA_SPIT.create(world);
 
 		// from EntityLlama.spit()
-		double d0 = target.posX - invoker.posX;
-		double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 3.0F) - entity.posY;
-		double d2 = target.posZ - invoker.posZ;
+		double d0 = target.getPosX() - invoker.getPosX();
+		double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 3.0F) - entity.getPosY();
+		double d2 = target.getPosZ() - invoker.getPosZ();
 		float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
 		entity.shoot(d0, d1 + (double) f, d2, 1.5F, 10.0F);
-		world.playSound((PlayerEntity) null, invoker.posX, invoker.posY, invoker.posZ, SoundEvents.ENTITY_LLAMA_SPIT,
+		world.playSound((PlayerEntity) null, invoker.getPosX(), invoker.getPosY(), invoker.getPosZ(), SoundEvents.ENTITY_LLAMA_SPIT,
 				invoker.getSoundCategory(), 1.0F, 1.0F + (random.nextFloat() - random.nextFloat()) * 0.2F);
 		world.addEntity(entity);
-	}
-
-	@Override
-	public int getEffectRange() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
-	}
-
-	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException(); // to signal that this method should not be used.
 	}
 
 }

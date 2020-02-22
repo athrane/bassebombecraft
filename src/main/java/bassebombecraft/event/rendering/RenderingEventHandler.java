@@ -3,19 +3,14 @@ package bassebombecraft.event.rendering;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.BUILD_MINE_BOOK;
 import static bassebombecraft.ModConstants.HUD_ITEM;
-import static bassebombecraft.ModConstants.TEXT_BILLBOARD_ROTATION;
-import static bassebombecraft.ModConstants.TEXT_COLOR;
-import static bassebombecraft.ModConstants.VERSION;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 import static bassebombecraft.player.PlayerUtils.getPlayer;
 import static bassebombecraft.player.PlayerUtils.isItemHeldInEitherHands;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
 import static bassebombecraft.rendering.DefaultRenderingInfo.getInstance;
-import static bassebombecraft.rendering.RenderingUtils.renderTextBillboardV2;
 
-import javax.vecmath.Vector4f;
-
+import bassebombecraft.rendering.DebugTextBillBoardRenderer;
 import bassebombecraft.rendering.DefaultBuildMineRenderer;
 import bassebombecraft.rendering.DefaultCharmedInfoRenderer;
 import bassebombecraft.rendering.DefaultCharmedRenderer;
@@ -26,14 +21,12 @@ import bassebombecraft.rendering.DefaultTeamRenderer;
 import bassebombecraft.rendering.EntityRenderer;
 import bassebombecraft.rendering.RenderingInfo;
 import bassebombecraft.rendering.RenderingUtils;
-import net.minecraft.client.MainWindow;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.DrawBlockHighlightEvent;
+import net.minecraftforge.client.event.DrawHighlightEvent.HighlightBlock;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -115,21 +108,22 @@ public class RenderingEventHandler {
 		if (!isItemInHotbar(player, HUD_ITEM))
 			return;
 
-		// get player position
-		Vec3d playerPos = CalculatePlayerPosition(player, event.getPartialTicks());
-
-		// get font renderer
-		Minecraft mc = Minecraft.getInstance();
-		FontRenderer fontRenderer = mc.fontRenderer;
-
-		String text = "Player view info:";
-		MainWindow window = event.getWindow();
-		int x = (window.getScaledWidth() - fontRenderer.getStringWidth(text)) / 2;
-		int y = window.getScaledHeight() - TEXT_RANDOM_Y_OFFSET - 50;
-
-		fontRenderer.drawString(text, x, y, TEXT_COLOR);
-		fontRenderer.drawString("Position: " + playerPos, x, y + 10, TEXT_COLOR);
-		fontRenderer.drawString("Look: " + player.getLookVec(), x, y + 20, TEXT_COLOR);
+		/**
+		 * // get player position Vec3d playerPos = CalculatePlayerPosition(player,
+		 * event.getPartialTicks());
+		 * 
+		 * // get font renderer Minecraft mc = Minecraft.getInstance(); FontRenderer
+		 * fontRenderer = mc.fontRenderer;
+		 * 
+		 * String text = "Player view info:"; MainWindow window = event.getWindow(); int
+		 * x = (window.getScaledWidth() - fontRenderer.getStringWidth(text)) / 2; int y
+		 * = window.getScaledHeight() - TEXT_RANDOM_Y_OFFSET - 50;
+		 * 
+		 * fontRenderer.drawString(text, x, y, TEXT_COLOR);
+		 * fontRenderer.drawString("Position: " + playerPos, x, y + 10, TEXT_COLOR);
+		 * fontRenderer.drawString("Look: " + player.getLookVec(), x, y + 20,
+		 * TEXT_COLOR);
+		 **/
 	}
 
 	@SubscribeEvent
@@ -143,6 +137,11 @@ public class RenderingEventHandler {
 		// get player
 		PlayerEntity player = getPlayer();
 
+		// render DEBUG billboard
+		//RenderingInfo info = getInstance(event.getPartialTicks());
+		//DebugTextBillBoardRenderer debugRenderer = new DebugTextBillBoardRenderer();
+		//debugRenderer.render(player, info);
+
 		// render if HUD item is in hotbar
 		if (isItemInHotbar(player, HUD_ITEM))
 			renderHudItem(event, player);
@@ -151,7 +150,7 @@ public class RenderingEventHandler {
 
 	@SubscribeEvent
 	@OnlyIn(Dist.CLIENT)
-	public static void handleDrawBlockHighlightEvent(DrawBlockHighlightEvent event) {
+	public static void handleHighlightBlock(HighlightBlock event) {
 
 		// exit if player is undefined
 		if (!isPlayerDefined())
@@ -196,30 +195,19 @@ public class RenderingEventHandler {
 			RenderingInfo info = getInstance(event.getPartialTicks());
 
 			// render
-			teamRenderer.render(player, info);
 			teamInfoRenderer.render(player, info);
-			charmedRenderer.render(player, info);
+			teamRenderer.render(player, info);
 			charmedInfoRenderer.render(player, info);
+			charmedRenderer.render(player, info);
 			targetsInfoRenderer.render(player, info);
 
 			Vec3d renderPos = RenderingUtils.getRenderPos();
 			Vec3d translation = playerPos.subtract(renderPos);
 			renderCompass(translation);
-			renderHudVersionInfo(translation);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
-	}
-
-	/**
-	 * Render HUB item version info.
-	 * 
-	 * @param translation
-	 */
-	static void renderHudVersionInfo(Vec3d translation) {
-		renderTextBillboardV2(translation.add(5, 5, 0), "HUD // BasseBombeCraft, version " + VERSION,
-				TEXT_BILLBOARD_ROTATION);
 	}
 
 	/**

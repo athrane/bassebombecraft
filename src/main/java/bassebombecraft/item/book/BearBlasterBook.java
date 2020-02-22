@@ -7,7 +7,7 @@ import bassebombecraft.item.action.ShootBearBlaster;
  */
 public class BearBlasterBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = BearBlasterBook.class.getSimpleName();
+	public static final String ITEM_NAME = BearBlasterBook.class.getSimpleName();
 
 	public BearBlasterBook() {
 		super(ITEM_NAME, new ShootBearBlaster());

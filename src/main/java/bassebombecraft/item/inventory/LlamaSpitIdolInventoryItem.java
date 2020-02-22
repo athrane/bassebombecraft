@@ -9,7 +9,7 @@ import bassebombecraft.item.action.inventory.LlamaSpit;
  */
 public class LlamaSpitIdolInventoryItem extends GenericInventoryItem {
 
-	public final static String ITEM_NAME = LlamaSpitIdolInventoryItem.class.getSimpleName();
+	public static final String ITEM_NAME = LlamaSpitIdolInventoryItem.class.getSimpleName();
 
 	public LlamaSpitIdolInventoryItem() {
 		super(ITEM_NAME, llamaSpitIdolInventoryItem, new LlamaSpit());

@@ -12,7 +12,7 @@ import bassebombecraft.item.action.inventory.Naturalize;
  */
 public class FlowerIdolInventoryItem extends GenericInventoryItem {
 
-	public final static String ITEM_NAME = FlowerIdolInventoryItem.class.getSimpleName();
+	public static final String ITEM_NAME = FlowerIdolInventoryItem.class.getSimpleName();
 
 	static Supplier<Integer> splSpiralSize = () -> naturalizeSpiralSize.get();
 

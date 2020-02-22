@@ -9,7 +9,7 @@ import bassebombecraft.projectile.action.SpawnLavaBlock;
  */
 public class LavaBlockBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "LavaBlockBook";
+	public static final String ITEM_NAME = "LavaBlockBook";
 	static final ProjectileAction PROJECTILE_ACTION = new SpawnLavaBlock();
 
 	public LavaBlockBook() {

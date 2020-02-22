@@ -9,7 +9,7 @@ import bassebombecraft.item.action.mist.block.RainbowSpiralMist;
  */
 public class RainbownizeBook extends GenericRightClickedBook {
 
-	public final static String ITEM_NAME = "RainbownizeBook";
+	public static final String ITEM_NAME = "RainbownizeBook";
 	static final BlockMistActionStrategy STRATEGY = new RainbowSpiralMist();
 
 	public RainbownizeBook() {

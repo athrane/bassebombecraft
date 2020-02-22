@@ -9,7 +9,7 @@ import bassebombecraft.item.action.inventory.Chickenize;
  */
 public class ChickenizeIdolInventoryItem extends GenericInventoryItem {
 
-	public final static String ITEM_NAME = ChickenizeIdolInventoryItem.class.getSimpleName();
+	public static final String ITEM_NAME = ChickenizeIdolInventoryItem.class.getSimpleName();
 
 	public ChickenizeIdolInventoryItem() {
 		super(ITEM_NAME, chickenizeIdolInventoryItem, new Chickenize());

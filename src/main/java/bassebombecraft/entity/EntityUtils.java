@@ -2,19 +2,21 @@ package bassebombecraft.entity;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE;
+import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
 import java.util.Optional;
 import java.util.Random;
 
-import bassebombecraft.BassebombeCraft;
+import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.player.PlayerDirection;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.monster.CreeperEntity;
-import net.minecraft.entity.passive.BatEntity;
+import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.passive.ParrotEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -43,14 +45,12 @@ public class EntityUtils {
 		Vec3d lookVec = entity.getLookVec();
 
 		// calculate spawn projectile spawn position
-		double x = entity.posX + (lookVec.x * spawnDisplacement);
-		double y = entity.posY + entity.getEyeHeight();
-		double z = entity.posZ + (lookVec.z * spawnDisplacement);
+		double x = entity.getPosX() + (lookVec.x * spawnDisplacement);
+		double y = entity.getPosY() + entity.getEyeHeight();
+		double z = entity.getPosZ() + (lookVec.z * spawnDisplacement);
 
 		// set spawn position
-		projectileEntity.posX = x;
-		projectileEntity.posY = y;
-		projectileEntity.posZ = z;
+		projectileEntity.setPosition(x, y, z);
 		projectileEntity.prevRotationYaw = projectileEntity.rotationYaw = projectileEntity.rotationYawHead = entity.rotationYaw;
 		projectileEntity.prevRotationPitch = projectileEntity.rotationPitch = entity.rotationPitch;
 	}
@@ -76,6 +76,21 @@ public class EntityUtils {
 
 		// kill target
 		entity.onKillCommand();
+	}
+
+	/**
+	 * Return true if entity is an expected type.
+	 * 
+	 * @param entity entity to test.
+	 * @param type   type to test for.
+	 * 
+	 * @return true if entity is the expected type.
+	 */
+	public static boolean isType(Entity entity, Class<?> type) {
+		Optional<Entity> oe = Optional.ofNullable(entity);
+		if (oe.isPresent())
+			return type.isInstance(oe.get());
+		return false;
 	}
 
 	/**
@@ -149,19 +164,19 @@ public class EntityUtils {
 	}
 
 	/**
-	 * return true if entity is a {@linkplain BatEntity}.
+	 * return true if entity is a {@linkplain BeeEntity}.
 	 * 
 	 * @param entity entity to test.
 	 * 
-	 * @return true if entity is a {@linkplain BatEntity}.
+	 * @return true if entity is a {@linkplain BeeEntity}.
 	 */
-	public static boolean isTypeBatEntity(Entity entity) {
+	public static boolean isTypeBeeEntity(Entity entity) {
 		Optional<Entity> oe = Optional.ofNullable(entity);
 		if (oe.isPresent())
-			return oe.get() instanceof BatEntity;
+			return oe.get() instanceof BeeEntity;
 		return false;
 	}
-	
+
 	/**
 	 * Calculate entity feet position (as a Y coordinate).
 	 * 
@@ -170,8 +185,7 @@ public class EntityUtils {
 	 * @return player feet position (as a Y coordinate).
 	 */
 	public static double calculateEntityFeetPositition(LivingEntity entity) {
-		double feetPosY = entity.posY - entity.getYOffset();
-		return feetPosY;
+		return entity.getPosY() - entity.getYOffset();
 	}
 
 	/**
@@ -298,6 +312,39 @@ public class EntityUtils {
 	}
 
 	/**
+	 * Resolve the entity target.
+	 * 
+	 * @param target    some nearby mob.
+	 * @param commander invoker of the effect.
+	 * 
+	 * @return resolved target.
+	 */
+	public static LivingEntity resolveTarget(Entity target, LivingEntity invoker) {
+
+		// if invoker is a player then get the player target.
+		if (isTypePlayerEntity(invoker)) {
+
+			// type cast
+			PlayerEntity player = (PlayerEntity) invoker;
+
+			// get player target
+			TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
+			Optional<LivingEntity> optTarget = repository.getFirst(player);
+
+			// return player target if defined
+			if (optTarget.isPresent())
+				return optTarget.get();
+		}
+
+		// if target is living entity then cast cast and return it
+		if (isTypeLivingEntity(target)) {
+			return (LivingEntity) target;
+		}
+
+		return null;
+	}
+
+	/**
 	 * Set entity to be aggro'ed. Aggro'ing is only supported for
 	 * {@linkplain MobEntity}.
 	 * 
@@ -362,8 +409,8 @@ public class EntityUtils {
 	/**
 	 * Returns true if minimum distance is reached between two entities.
 	 *
-	 * @param entity entity #1
-	 * @param entity2 entity #2
+	 * @param entity         entity #1
+	 * @param entity2        entity #2
 	 * @param minDistanceSqr the minimum distance squared.
 	 * 
 	 * @return true if minimum distance is reached.
@@ -372,5 +419,5 @@ public class EntityUtils {
 		double distSqr = entity.getDistanceSq(entity2);
 		return (minDistanceSqr > distSqr);
 	}
-	
+
 }

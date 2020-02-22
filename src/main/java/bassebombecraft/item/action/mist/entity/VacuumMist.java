@@ -20,7 +20,7 @@ public class VacuumMist implements EntityMistActionStrategy {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = VacuumMist.class.getSimpleName();
+	public static final String NAME = VacuumMist.class.getSimpleName();
 
 	/**
 	 * Particle rendering info

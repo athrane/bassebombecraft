@@ -23,12 +23,12 @@ public class SpawnCreeperArmy implements ProjectileAction {
 	/**
 	 * Action identifier.
 	 */
-	public final static String NAME = SpawnCreeperArmy.class.getSimpleName();
+	public static final String NAME = SpawnCreeperArmy.class.getSimpleName();
 	
 	/**
 	 * Skeleton pitch.
 	 */
-	final static float PITCH = 0.0F;
+	static final float PITCH = 0.0F;
 
 	/**
 	 * Number of entities.

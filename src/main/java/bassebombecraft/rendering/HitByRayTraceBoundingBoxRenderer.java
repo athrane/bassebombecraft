@@ -57,7 +57,7 @@ public class HitByRayTraceBoundingBoxRenderer implements BoundingBoxRenderer {
 		prepareSimpleRendering(x, y, z);
 
 		GlStateManager.enableBlend();
-		GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+		//GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
 		GlStateManager.disableTexture();
 		GlStateManager.depthMask(false);
 

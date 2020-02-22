@@ -21,7 +21,7 @@ public class AmplifierEffect extends Effect {
 	/**
 	 * Effect identifier.
 	 */
-	public final static String NAME = AmplifierEffect.class.getSimpleName();
+	public static final String NAME = AmplifierEffect.class.getSimpleName();
 	
 	/**
 	 * Update frequency for effect.

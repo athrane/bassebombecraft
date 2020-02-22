@@ -9,15 +9,19 @@ import static net.minecraftforge.fml.common.ObfuscationReflectionHelper.getPriva
 
 import java.time.Instant;
 
-import javax.vecmath.Vector4f;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter.DEFAULT;
 
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 
+import bassebombecraft.BassebombeCraft;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
@@ -36,18 +40,14 @@ public class RenderingUtils {
 	 * 
 	 * @return render position.
 	 */
+	@Deprecated
 	public static Vec3d getRenderPos() {
 
-		// get render manager
-		EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
-
-		// get value from private fields
-		double renderPosX = getPrivateValue(EntityRendererManager.class, renderManager, "field_78725_b");
-		double renderPosY = getPrivateValue(EntityRendererManager.class, renderManager, "field_78726_c");
-		double renderPosZ = getPrivateValue(EntityRendererManager.class, renderManager, "field_78723_d");
-		Vec3d renderPos = new Vec3d(renderPosX, renderPosY, renderPosZ);
-
-		return renderPos;
+		Minecraft mc = Minecraft.getInstance();				
+		ActiveRenderInfo info = mc.gameRenderer.getActiveRenderInfo();		
+		Vec3d pv = info.getProjectedView();
+		Vec3d renderPos = new Vec3d(pv.getX(), pv.getY(), pv.getZ());
+		return renderPos;						
 	}
 
 	/**
@@ -57,6 +57,7 @@ public class RenderingUtils {
 	 * @param y y-coordinate for translation.
 	 * @param z z-coordinate for translation.
 	 */
+	@Deprecated
 	public static void prepareSimpleRendering(double x, double y, double z) {
 		GlStateManager.pushMatrix();
 		GlStateManager.translated(x, y, z);
@@ -69,6 +70,7 @@ public class RenderingUtils {
 	/**
 	 * Complete rendering of simple lines.
 	 */
+	@Deprecated
 	public static void completeSimpleRendering() {
 		GlStateManager.enableTexture();
 		GlStateManager.disableBlend();
@@ -80,25 +82,13 @@ public class RenderingUtils {
 	 * Setup billboard rotation to face camera.
 	 */
 	public static void setupBillboardRotation() {
-		final Minecraft mc = Minecraft.getInstance();
-		EntityRendererManager renderManager = mc.getRenderManager();
-		GlStateManager.rotatef(-renderManager.playerViewY, 0.0F, 1.0F, 0.0F);
-		GlStateManager.rotatef(renderManager.playerViewX, 1.0F, 0.0F, 0.0F);
-	}
-
-	/**
-	 * Setup billboard rotation to face camera.
-	 */
-	public static void setupBillboardRotationV2() {
-		final Minecraft mc = Minecraft.getInstance();
-		final Entity rve = mc.getRenderViewEntity();
-		GlStateManager.rotatef(-rve.rotationYaw, 0, 1, 0);
-		GlStateManager.rotatef(rve.rotationPitch, 1, 0, 0);
+		RenderSystem.rotatef(180, 0, 1, 0);
 	}
 
 	/**
 	 * Setup billboard rendering options.
 	 */
+	@Deprecated
 	public static void resetBillboardRendering() {
 
 		// get matrix
@@ -132,12 +122,13 @@ public class RenderingUtils {
 	 * @param entityPos entity position
 	 * @param targetPos target position
 	 */
+	@Deprecated
 	public static void renderLineBillboard(Vec3d playerPos, Vec3d entityPos, Vec3d targetPos) {
 		setupBillboardRendering();
 
 		// set line width & color
 		GlStateManager.lineWidth(BILLBOARD_LINE_WIDTH);
-		GlStateManager.color3f(1.0F, 1.0F, 1.0F);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		// translate to camera position
 		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
@@ -169,12 +160,13 @@ public class RenderingUtils {
 	 * @param playerPos player position
 	 * @param entityPos entity position
 	 */
+	@Deprecated
 	public static void renderRectangleBillboard(Vec3d playerPos, Vec3d entityPos) {
 		setupBillboardRendering();
 
 		// set line width & color
 		GlStateManager.lineWidth(1);
-		GlStateManager.color3f(1.0F, 1.0F, 1.0F);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		// translate and rotate billboard
 		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
@@ -217,12 +209,13 @@ public class RenderingUtils {
 	 * @param entityPos entity position
 	 * @param rotation  rotation
 	 */
+	@Deprecated
 	public static void renderTriangleBillboard(Vec3d playerPos, Vec3d entityPos, Vector4f rotation) {
 		setupBillboardRendering();
 
 		// set line width & color
 		GlStateManager.lineWidth(BILLBOARD_LINE_WIDTH);
-		GlStateManager.color3f(1.0F, 1.0F, 1.0F);
+		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		// translate to camera position
 		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
@@ -231,7 +224,7 @@ public class RenderingUtils {
 		setupBillboardRotation();
 
 		// add addition rotation
-		GlStateManager.rotatef(rotation.w, rotation.x, rotation.y, rotation.z);
+		GlStateManager.rotatef(rotation.getW(), rotation.getX(), rotation.getY(), rotation.getZ());
 
 		// create tessellator & bufferbuilder
 		Tessellator tessellator = Tessellator.getInstance();
@@ -263,6 +256,7 @@ public class RenderingUtils {
 	 * @param playerPos player position
 	 * @param entityPos entity position
 	 */	
+	@Deprecated
 	public static void renderDebugBillboard(Vec3d playerPos, Vec3d entityPos) {
 		setupBillboardRendering();
 
@@ -270,7 +264,7 @@ public class RenderingUtils {
 
 		// set line width & color
 		GlStateManager.lineWidth(2);
-		GlStateManager.color3f(1.0F, 0.0F, 0.0F);
+		GlStateManager.color4f(1.0F, 0.0F, 0.0F, 1.0F);
 
 		// translate and rotate billboard
 		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
@@ -297,7 +291,7 @@ public class RenderingUtils {
 
 		// set line width & color
 		GlStateManager.lineWidth(2);
-		GlStateManager.color3f(0.0F, 1.0F, 0.0F);
+		GlStateManager.color4f(0.0F, 1.0F, 0.0F, 1.0F);
 
 		// translate and rotate billboard
 		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
@@ -324,7 +318,7 @@ public class RenderingUtils {
 
 		// set line width & color
 		GlStateManager.lineWidth(2);
-		GlStateManager.color3f(0.0F, 0.0F, 1.0F);
+		GlStateManager.color4f(0.0F, 0.0F, 1.0F, 1.0F);
 
 		// translate and rotate billboard
 		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
@@ -355,6 +349,7 @@ public class RenderingUtils {
 	 * @param text      text to render
 	 * @param rotation  rotation
 	 */
+	@Deprecated
 	public static void renderTextBillboard(Vec3d playerPos, Vec3d entityPos, String text, Vector4f rotation) {
 		renderTextBillboard(playerPos, entityPos, text, rotation, TEXT_COLOR);
 	}
@@ -387,7 +382,7 @@ public class RenderingUtils {
 		GlStateManager.scalef(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 
 		// add addition rotation
-		GlStateManager.rotatef(rotation.w, rotation.x, rotation.y, rotation.z);
+		GlStateManager.rotatef(rotation.getW(), rotation.getX(), rotation.getY(), rotation.getZ());
 
 		// draw
 		mc.fontRenderer.drawString(text, 0, 0, textColor);
@@ -395,40 +390,6 @@ public class RenderingUtils {
 		resetBillboardRendering();
 	}
 	
-	/**
-	 * Render text at origin.
-	 * 
-	 * @param translation translation vector.
-	 * @param text        text to render
-	 * @param rotation    rotation
-	 */
-	public static void renderTextBillboardV2(Vec3d translation, String text, Vector4f rotation) {
-		setupBillboardRendering();
-
-		// get minecraft
-		Minecraft mc = Minecraft.getInstance();
-
-		// enable for rendering of text
-		GlStateManager.enableTexture();
-
-		// translate to camera position
-		GlStateManager.translated(translation.x, translation.y, translation.z);
-
-		// set up billboard rotation
-		setupBillboardRotation();
-
-		// scale text
-		GlStateManager.scalef(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
-
-		// add addition rotation
-		GlStateManager.rotatef(rotation.w, rotation.x, rotation.y, rotation.z);
-
-		// draw
-		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
-
-		resetBillboardRendering();
-	}
-
 	/**
 	 * Render text at origin for rendering of HUD text.
 	 * 
@@ -442,6 +403,7 @@ public class RenderingUtils {
 	 *                          the HUD text.
 	 * @param text              text to render
 	 */
+	@Deprecated
 	public static void renderHudTextBillboard(Vec3d cameraTranslation, Vec3d textTranslation, String text) {
 		setupBillboardRendering();
 
@@ -465,8 +427,8 @@ public class RenderingUtils {
 		GlStateManager.scalef(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 
 		// add billboard rotation for text readability
-		GlStateManager.rotatef(TEXT_BILLBOARD_ROTATION.w, TEXT_BILLBOARD_ROTATION.x, TEXT_BILLBOARD_ROTATION.y,
-				TEXT_BILLBOARD_ROTATION.z);
+		GlStateManager.rotatef(TEXT_BILLBOARD_ROTATION.getW(), TEXT_BILLBOARD_ROTATION.getX(), TEXT_BILLBOARD_ROTATION.getY(),
+				TEXT_BILLBOARD_ROTATION.getZ());
 
 		// draw
 		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
@@ -474,6 +436,47 @@ public class RenderingUtils {
 		resetBillboardRendering();
 	}
 
+	/**
+	 * Render text at origin for rendering of HUD text.
+	 * 
+	 * This method supports translation of the text relative to the player view
+	 * direction and independent of the camera (or player) orientation and
+	 * placement.
+	 * 
+	 * @param textTranslation   text translation vector for translation of text
+	 *                          relative to view direction. Defines the placement of
+	 *                          the HUD text.
+	 * @param text              text to render
+	 */
+	public static void renderHudTextBillboard(Vec3d textTranslation, String text) {
+		setupBillboardRendering();
+
+		// get minecraft
+		Minecraft mc = Minecraft.getInstance();
+
+		// enable for rendering of text
+		GlStateManager.enableTexture();
+
+		// set up billboard rotation
+		setupBillboardRotation();
+
+		// translation of text relative to view direction.
+		// Defines the placement of the HUD text
+		GlStateManager.translated(textTranslation.x, textTranslation.y, textTranslation.z);
+
+		// scale text
+		GlStateManager.scalef(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
+
+		// add billboard rotation for text readability
+		GlStateManager.rotatef(TEXT_BILLBOARD_ROTATION.getW(), TEXT_BILLBOARD_ROTATION.getX(), TEXT_BILLBOARD_ROTATION.getY(),
+				TEXT_BILLBOARD_ROTATION.getZ());
+
+		// draw
+		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
+
+		resetBillboardRendering();
+	}
+	
 	/**
 	 * Render rotated text at origin for rendering compass.
 	 * 
@@ -486,6 +489,7 @@ public class RenderingUtils {
 	 * @param rotation          rotation rotation vector for rotation of text
 	 *                          relative to view direction.
 	 */
+	@Deprecated
 	public static void renderRotatedTextBillboard(Vec3d cameraTranslation, Vector4f rotation, String text) {
 		setupBillboardRendering();
 
@@ -496,13 +500,13 @@ public class RenderingUtils {
 		GlStateManager.enableTexture();
 
 		// add addition rotation
-		GlStateManager.rotatef(rotation.w, rotation.x, rotation.y, rotation.z);
+		GlStateManager.rotatef(rotation.getW(), rotation.getX(), rotation.getY(), rotation.getZ());
 
 		// translate to camera position
 		GlStateManager.translated(cameraTranslation.x, cameraTranslation.y, cameraTranslation.z);
 
 		// add addition rotation
-		GlStateManager.rotatef(rotation.w, -rotation.x, -rotation.y, -rotation.z);
+		GlStateManager.rotatef(rotation.getW(), -rotation.getX(), -rotation.getY(), -rotation.getZ());
 
 		// set up billboard rotation
 		setupBillboardRotation();
@@ -511,8 +515,8 @@ public class RenderingUtils {
 		GlStateManager.scalef(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 
 		// add billboard rotation for text readability
-		GlStateManager.rotatef(TEXT_BILLBOARD_ROTATION.w, TEXT_BILLBOARD_ROTATION.x, TEXT_BILLBOARD_ROTATION.y,
-				TEXT_BILLBOARD_ROTATION.z);
+		GlStateManager.rotatef(TEXT_BILLBOARD_ROTATION.getW(), TEXT_BILLBOARD_ROTATION.getX(), TEXT_BILLBOARD_ROTATION.getY(),
+				TEXT_BILLBOARD_ROTATION.getZ());
 
 		// draw
 		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);

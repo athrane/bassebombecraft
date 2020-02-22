@@ -56,7 +56,7 @@ public class DefaultTeamRepository implements TeamRepository {
 	/**
 	 * Null member stream.
 	 */
-	final static Set<LivingEntity> nullMembersSet = new HashSet<LivingEntity>();
+	static final Set<LivingEntity> nullMembersSet = new HashSet<LivingEntity>();
 
 	/**
 	 * Teams.
