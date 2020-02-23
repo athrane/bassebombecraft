@@ -92,11 +92,11 @@ public class RenderingUtils {
 	public static void resetBillboardRendering() {
 
 		// get matrix
-		GlStateManager.popMatrix();
+		RenderSystem.popMatrix();
 
-		// set attribute
+		// set attributes
+		RenderSystem.enableLighting();
 		GlStateManager.enableTexture();
-		GlStateManager.enableLighting();
 		GlStateManager.enableDepthTest();
 	}
 
@@ -106,9 +106,9 @@ public class RenderingUtils {
 	public static void setupBillboardRendering() {
 
 		// save matrix
-		GlStateManager.pushMatrix();
+		RenderSystem.pushMatrix();
 
-		GlStateManager.disableLighting();
+		RenderSystem.disableLighting();
 		GlStateManager.disableTexture();
 		GlStateManager.disableDepthTest();
 	}
@@ -410,26 +410,22 @@ public class RenderingUtils {
 		// get minecraft
 		Minecraft mc = Minecraft.getInstance();
 
-		// enable for rendering of text
-		GlStateManager.enableTexture();
-
 		// translate to camera position
-		GlStateManager.translated(cameraTranslation.x, cameraTranslation.y, cameraTranslation.z);
+		RenderSystem.translated(cameraTranslation.x, cameraTranslation.y, cameraTranslation.z);
 
 		// set up billboard rotation
 		setupBillboardRotation();
 
 		// translation of text relative to view direction.
 		// Defines the placement of the HUD text
-		GlStateManager.translated(textTranslation.x, textTranslation.y, textTranslation.z);
+		RenderSystem.translated(textTranslation.x, textTranslation.y, textTranslation.z);
 
 		// scale text
-		GlStateManager.scalef(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
+		RenderSystem.scaled(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 
-		// add billboard rotation for text readability
-		GlStateManager.rotatef(TEXT_BILLBOARD_ROTATION.getW(), TEXT_BILLBOARD_ROTATION.getX(), TEXT_BILLBOARD_ROTATION.getY(),
-				TEXT_BILLBOARD_ROTATION.getZ());
-
+		// add billboard rotation for text readability		
+		RenderSystem.rotatef(180, 0, 0, 1);
+				
 		// draw
 		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
 
@@ -454,22 +450,18 @@ public class RenderingUtils {
 		// get minecraft
 		Minecraft mc = Minecraft.getInstance();
 
-		// enable for rendering of text
-		GlStateManager.enableTexture();
-
 		// set up billboard rotation
 		setupBillboardRotation();
 
 		// translation of text relative to view direction.
 		// Defines the placement of the HUD text
-		GlStateManager.translated(textTranslation.x, textTranslation.y, textTranslation.z);
+		RenderSystem.translated(textTranslation.x, textTranslation.y, textTranslation.z);
 
 		// scale text
-		GlStateManager.scalef(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
+		RenderSystem.scaled(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 
-		// add billboard rotation for text readability
-		GlStateManager.rotatef(TEXT_BILLBOARD_ROTATION.getW(), TEXT_BILLBOARD_ROTATION.getX(), TEXT_BILLBOARD_ROTATION.getY(),
-				TEXT_BILLBOARD_ROTATION.getZ());
+		// add billboard rotation around z-axis for text readability
+		RenderSystem.rotatef(180, 0, 0, 1);
 
 		// draw
 		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
