@@ -1,7 +1,11 @@
 package bassebombecraft.operator.entity;
 
 import static bassebombecraft.entity.EntityUtils.resolveTarget;
+import static bassebombecraft.entity.EntityUtils.setAttribute;
 import static bassebombecraft.entity.ai.AiUtils.buildChargingAi;
+import static net.minecraft.entity.SharedMonsterAttributes.ATTACK_DAMAGE;
+import static net.minecraft.entity.SharedMonsterAttributes.FLYING_SPEED;
+import static net.minecraft.entity.SharedMonsterAttributes.MOVEMENT_SPEED;
 
 import java.util.Random;
 import java.util.function.DoubleSupplier;
@@ -13,8 +17,6 @@ import bassebombecraft.operator.Operator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -90,12 +92,9 @@ public class SpawnKillerBee implements Operator {
 		entity.copyLocationAndAnglesFrom(livingEntity);
 
 		// set entity attributes
-		AbstractAttributeMap attributes = entity.getAttributes();
-		attributes.getAttributeInstance(SharedMonsterAttributes.FLYING_SPEED)
-				.setBaseValue(splMovementSpeed.getAsDouble());
-		attributes.getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED)
-				.setBaseValue(splMovementSpeed.getAsDouble());
-		attributes.getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(splDamage.getAsInt());
+		setAttribute(entity, FLYING_SPEED, splMovementSpeed.getAsDouble());
+		setAttribute(entity, MOVEMENT_SPEED, splMovementSpeed.getAsDouble());
+		setAttribute(entity, ATTACK_DAMAGE, splDamage.getAsInt());
 
 		// set AI
 		LivingEntity entityTarget = resolveTarget(target, livingEntity);
@@ -107,4 +106,5 @@ public class SpawnKillerBee implements Operator {
 		// spawn
 		world.addEntity(entity);
 	}
+
 }

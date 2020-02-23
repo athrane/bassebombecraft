@@ -13,6 +13,9 @@ import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
+import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.passive.ParrotEntity;
@@ -418,6 +421,28 @@ public class EntityUtils {
 	public static boolean isMinimumDistanceReached(Entity entity, Entity entity2, double minDistanceSqr) {
 		double distSqr = entity.getDistanceSq(entity2);
 		return (minDistanceSqr > distSqr);
+	}
+
+	/**
+	 * set entity attribute with a double value.
+	 * 
+	 * If attribute isn't defined then it is registered with entity.
+	 * 
+	 * @param entity    entity to set attribute at.
+	 * @param attribute attribute to set.
+	 * @param value     value to set.
+	 */
+	public static void setAttribute(LivingEntity entity, IAttribute attribute, double value) {
+		AbstractAttributeMap attributes = entity.getAttributes();
+		IAttributeInstance instance = attributes.getAttributeInstance(attribute);
+
+		// if undefined then register attribute
+		if (instance == null) {
+			instance = attributes.registerAttribute(attribute);
+		}
+
+		// set value
+		instance.setBaseValue(value);
 	}
 
 }

@@ -2,7 +2,11 @@ package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.entity.EntityUtils.isTypeParrotEntity;
 import static bassebombecraft.entity.EntityUtils.resolveTarget;
+import static bassebombecraft.entity.EntityUtils.setAttribute;
 import static bassebombecraft.entity.ai.AiUtils.buildChargingAi;
+import static net.minecraft.entity.SharedMonsterAttributes.ATTACK_DAMAGE;
+import static net.minecraft.entity.SharedMonsterAttributes.FLYING_SPEED;
+import static net.minecraft.entity.SharedMonsterAttributes.MOVEMENT_SPEED;
 
 import java.util.Random;
 import java.util.function.Supplier;
@@ -11,7 +15,6 @@ import bassebombecraft.BassebombeCraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.ParrotEntity;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -80,10 +83,9 @@ public class SpawnAngryParrots implements InventoryItemActionStrategy {
 		entity.setVariant(random.nextInt(5));
 
 		// set entity attributes
-		
-		entity.getAttributes().getAttributeInstance(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(movementSpeed);
-		entity.getAttributes().getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(movementSpeed);
-		entity.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(damage);
+		setAttribute(entity, FLYING_SPEED, movementSpeed);
+		setAttribute(entity, MOVEMENT_SPEED, movementSpeed);
+		setAttribute(entity, ATTACK_DAMAGE, damage);
 
 		// set AI
 		LivingEntity entityTarget = resolveTarget(target, invoker);
