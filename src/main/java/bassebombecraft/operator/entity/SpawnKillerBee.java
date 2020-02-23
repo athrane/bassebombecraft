@@ -4,6 +4,8 @@ import static bassebombecraft.entity.EntityUtils.resolveTarget;
 import static bassebombecraft.entity.ai.AiUtils.buildChargingAi;
 
 import java.util.Random;
+import java.util.function.DoubleSupplier;
+import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
 import bassebombecraft.BassebombeCraft;
@@ -47,12 +49,12 @@ public class SpawnKillerBee implements Operator {
 	/**
 	 * Movement speed supplier.
 	 */
-	Supplier<Integer> splDamage;
+	IntSupplier splDamage;
 
 	/**
 	 * Attack damage supplier.
 	 */
-	Supplier<Double> splMovementSpeed;
+	DoubleSupplier splMovementSpeed;
 
 	/**
 	 * SpawnKillerBees constructor. S
@@ -62,8 +64,8 @@ public class SpawnKillerBee implements Operator {
 	 * @param splMovementSpeed movement speed supplier.
 	 * @param splDamage        attack damage supplier.
 	 */
-	public SpawnKillerBee(Supplier<LivingEntity> splEntity, Supplier<Entity> splTarget, Supplier<Integer> splDamage,
-			Supplier<Double> splMovementSpeed) {
+	public SpawnKillerBee(Supplier<LivingEntity> splEntity, Supplier<Entity> splTarget, IntSupplier splDamage,
+			DoubleSupplier splMovementSpeed) {
 		this.splEntity = splEntity;
 		this.splTarget = splTarget;
 		this.splDamage = splDamage;
@@ -89,13 +91,15 @@ public class SpawnKillerBee implements Operator {
 
 		// set entity attributes
 		AbstractAttributeMap attributes = entity.getAttributes();
-		attributes.getAttributeInstance(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(splMovementSpeed.get());
-		attributes.getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(splMovementSpeed.get());
-		attributes.getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(splDamage.get());
+		attributes.getAttributeInstance(SharedMonsterAttributes.FLYING_SPEED)
+				.setBaseValue(splMovementSpeed.getAsDouble());
+		attributes.getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED)
+				.setBaseValue(splMovementSpeed.getAsDouble());
+		attributes.getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(splDamage.getAsInt());
 
 		// set AI
 		LivingEntity entityTarget = resolveTarget(target, livingEntity);
-		buildChargingAi(entity, entityTarget, (float) splDamage.get());
+		buildChargingAi(entity, entityTarget, (float) splDamage.getAsInt());
 
 		// add spawn sound
 		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
