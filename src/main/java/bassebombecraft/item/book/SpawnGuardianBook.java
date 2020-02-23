@@ -2,7 +2,7 @@ package bassebombecraft.item.book;
 
 import static bassebombecraft.config.ModConfiguration.spawnGuardianBook;
 
-import bassebombecraft.item.action.GenericShootEggProjectile;
+import bassebombecraft.item.action.ShootGenericEggProjectile;
 import bassebombecraft.projectile.action.ProjectileAction;
 import bassebombecraft.projectile.action.SpawnGuardian;
 
@@ -15,6 +15,6 @@ public class SpawnGuardianBook extends GenericRightClickedBook {
 	static final ProjectileAction PROJECTILE_ACTION = new SpawnGuardian();
 
 	public SpawnGuardianBook() {
-		super(ITEM_NAME, spawnGuardianBook, new GenericShootEggProjectile(PROJECTILE_ACTION));
+		super(ITEM_NAME, spawnGuardianBook, new ShootGenericEggProjectile(PROJECTILE_ACTION));
 	}
 }

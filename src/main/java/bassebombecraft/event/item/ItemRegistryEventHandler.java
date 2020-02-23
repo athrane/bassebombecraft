@@ -57,6 +57,7 @@ import bassebombecraft.item.book.SpawnGiantZombieBook;
 import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnKittenArmyBook;
 import bassebombecraft.item.book.SpawnManyCowsBook;
+import bassebombecraft.item.book.SpawnRavagerBook;
 import bassebombecraft.item.book.SpawnSkeletonArmyBook;
 import bassebombecraft.item.book.SpawnSquidBook;
 import bassebombecraft.item.book.TeleportBook;
@@ -120,7 +121,7 @@ public class ItemRegistryEventHandler {
 			new EmitVerticalForceBook(), new EmitVerticalForceMistBook(), new BuildStairsBook(), new VacuumMistBook(),
 			new CopyPasteBlocksBook(), new DuplicateBlockBook(), new BuildRoadBook(), new BuildRainbowRoadBook(),
 			BUILD_MINE_BOOK, new BuildAbyssBook(), new BuildSmallHoleBook(), new NaturalizeBook(),
-			new RainbownizeBook(), new BuildTowerBook() };
+			new RainbownizeBook(), new BuildTowerBook(), new SpawnRavagerBook() };
 
 	/**
 	 * The set of inventory items.

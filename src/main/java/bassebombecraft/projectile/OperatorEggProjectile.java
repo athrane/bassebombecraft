@@ -9,8 +9,7 @@ import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.event.projectile.EntityTypeRegistryEventHandler;
-import bassebombecraft.projectile.action.NullAction;
-import bassebombecraft.projectile.action.ProjectileAction;
+import bassebombecraft.operator.Operators;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileItemEntity;
@@ -22,14 +21,15 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
- * Projectile which executes operator on impact.
+ * Implementation of {@linkplain ProjectileItemEntity} which executes embedded
+ * operators.
  */
-public class GenericEggProjectile extends ProjectileItemEntity {
+public class OperatorEggProjectile extends ProjectileItemEntity {
 
 	/**
-	 * Null behaviour.
+	 * Null Operators.
 	 */
-	static final ProjectileAction NULL_BEHAVIOUR = new NullAction();
+	static final Operators NULL_OPS = new Operators();
 
 	static final float R = 1.0F;
 	static final float G = 1.0F;
@@ -43,52 +43,48 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 
 	/**
 	 * Entity name.
-	 */		
-	public static final String PROJECTILE_NAME = GenericEggProjectile.class.getSimpleName();
-
-	/**
-	 * Action, initial null.
 	 */
-	ProjectileAction action = NULL_BEHAVIOUR;
+	public static final String PROJECTILE_NAME = OperatorEggProjectile.class.getSimpleName();
 
 	/**
-	 * GenericEggProjectile no-arg constructor.
-	 * 
-	 * Initialises entity with null behaviour.
+	 * Operators, initially null.
 	 */
+	Operators operators = NULL_OPS;
 
 	/**
-	 * GenericEggProjectile constructor
+	 * GenericOperatorEggProjectile constructor
 	 * 
 	 * Supports initialization in class {@linkplain EntityTypeRegistryEventHandler}.
+	 * 
+	 * Initialises entity with null behaviour.
 	 * 
 	 * @param type  entity type.
 	 * @param world world.
 	 */
-	public GenericEggProjectile(EntityType<? extends ProjectileItemEntity> type, World world) {
+	public OperatorEggProjectile(EntityType<? extends ProjectileItemEntity> type, World world) {
 		super(type, world);
-		setBehaviour(NULL_BEHAVIOUR);
+		setOperators(NULL_OPS);
 	}
 
 	/**
-	 * GenericEggProjectile constructor.
+	 * GenericOperatorEggProjectile constructor.
 	 * 
 	 * @param world     world object.
 	 * @param entity    projectile thrower.
-	 * @param behaviour projectile behaviour.
+	 * @param operators operators to execute on impact.
 	 */
-	public GenericEggProjectile(World world, LivingEntity entity, ProjectileAction behaviour) {
+	public OperatorEggProjectile(World world, LivingEntity entity, Operators operators) {
 		super(EntityType.EGG, entity, world);
-		setBehaviour(behaviour);
+		setOperators(operators);
 	}
 
 	/**
-	 * Sets action.
+	 * Sets operators.
 	 * 
-	 * @param action projectile action.
+	 * @param operators operators to execute on impact.
 	 */
-	public void setBehaviour(ProjectileAction action) {
-		this.action = action;
+	public void setOperators(Operators operators) {
+		this.operators = operators;
 	}
 
 	/**
@@ -105,8 +101,8 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 			return;
 
 		try {
-			// execute behaviour
-			action.execute(this, world, result);
+			// execute operators
+			operators.run(this.owner);
 
 			// add impact particle for rendering
 			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
@@ -123,7 +119,7 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 
 	public void tick() {
 		super.tick();
-		
+
 		try {
 			// add particle for rendering
 			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
@@ -132,10 +128,9 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
-		}		
+		}
 	}
-	
-	
+
 	@Override
 	protected Item getDefaultItem() {
 		return Items.EGG;

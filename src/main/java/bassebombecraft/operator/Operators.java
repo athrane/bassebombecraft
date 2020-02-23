@@ -53,9 +53,9 @@ public class Operators {
 	Supplier<Entity> splTargetEntity= () -> targetEntity;
 	
 	/**
-	 * Operator to execute
+	 * Operator to execute, initially the null operator.
 	 */
-	Operator operator;
+	Operator operator = new NullOp();
 
 	/**
 	 * Get {@linkplain LivingDamageEvent} supplier.
@@ -135,4 +135,15 @@ public class Operators {
 		reset();		
 	}
 
+	/**
+	 * Execute operator.
+	 * 
+	 * @param entity input entity
+	 */
+	public void run(LivingEntity entity) {
+		this.livingEntity = entity;
+		operator.run();
+		reset();		
+	}
+	
 }

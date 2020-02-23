@@ -1,6 +1,6 @@
 package bassebombecraft.item.book;
 
-import bassebombecraft.item.action.GenericShootEggProjectile;
+import bassebombecraft.item.action.ShootGenericEggProjectile;
 import bassebombecraft.projectile.action.EmitHorizontalForce;
 import bassebombecraft.projectile.action.ProjectileAction;
 
@@ -13,6 +13,6 @@ public class EmitHorizontalForceBook extends GenericRightClickedBook {
 	static final ProjectileAction PROJECTILE_ACTION = new EmitHorizontalForce();
 
 	public EmitHorizontalForceBook() {
-		super(ITEM_NAME, new GenericShootEggProjectile(PROJECTILE_ACTION));
+		super(ITEM_NAME, new ShootGenericEggProjectile(PROJECTILE_ACTION));
 	}
 }

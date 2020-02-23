@@ -44,7 +44,7 @@
     "item.bassebombecraft.spawnskeletonarmybook": "Book of Skeleton Army",
     "item.bassebombecraft.spawngiantzombiebook": "Book of Giant Rotten Helper",
     "item.bassebombecraft.spawncreeperarmybook": "Book of Suicide Squad",
-    "item.bassebombecraft.mobcommandersbaton": "Krenko's Command Baton",
+    "item.bassebombecraft.spawnravagerbook": "Book of Friendly Ravager",
 
     "_comment": "weapons and stuff",
     "item.bassebombecraft.multiplearrowsbook": "Book of Multiple Arrows",
@@ -122,6 +122,7 @@
     "_comment": "basic items",
     "item.bassebombecraft.terminatoreyeitem": "Terminator Eye",
     "item.bassebombecraft.huditem": "BasseBombeCraft tactical heads up display (HUD)",
+    "item.bassebombecraft.mobcommandersbaton": "Krenko's Command Baton",
     
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify potion effects",

@@ -1,6 +1,6 @@
 package bassebombecraft.item.book;
 
-import bassebombecraft.item.action.GenericShootEggProjectile;
+import bassebombecraft.item.action.ShootGenericEggProjectile;
 import bassebombecraft.projectile.action.ProjectileAction;
 import bassebombecraft.projectile.action.SetSpawnPoint;
 
@@ -13,7 +13,7 @@ public class SetSpawnPointBook extends GenericRightClickedBook {
 	static final ProjectileAction PROJECTILE_ACTION = new SetSpawnPoint();
 
 	public SetSpawnPointBook() {
-		super(ITEM_NAME, new GenericShootEggProjectile(PROJECTILE_ACTION));
+		super(ITEM_NAME, new ShootGenericEggProjectile(PROJECTILE_ACTION));
 	}
 
 	

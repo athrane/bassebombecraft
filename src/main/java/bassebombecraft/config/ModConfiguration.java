@@ -75,6 +75,7 @@ import bassebombecraft.item.book.SpawnCreeperArmyBook;
 import bassebombecraft.item.book.SpawnFlamingChickenBook;
 import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnKittenArmyBook;
+import bassebombecraft.item.book.SpawnRavagerBook;
 import bassebombecraft.item.book.SpawnSkeletonArmyBook;
 import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.item.book.VacuumMistBook;
@@ -271,6 +272,9 @@ public class ModConfiguration {
 
 	// SpawnFlamingChickenBook
 	public static ItemConfig spawnFlamingChickenBook;
+
+	// SpawnRavagerBook
+	public static ItemConfig spawnRavagerBook;
 
 	// BuildTowerBook
 	public static ForgeConfigSpec.ConfigValue<String> buildTowerBookTooltip;
@@ -1097,6 +1101,12 @@ public class ModConfiguration {
 		spawnGuardianBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to spawns a friendly golem. The golem will follow and protect its creator, i.e. the player or whoever spawned him. The golem will use the magic from BasseBombeCraft for its protection duties. The guardian can be commanded by Krenko's Command Baton",
 				25);
+
+		// SpawnRavagerBook
+		name = SpawnRavagerBook.ITEM_NAME;
+		spawnRavagerBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to spawns a friendly ravager. The ravager can be ridden by its creator, i.e. the player or whoever spawned him.",
+				100);
 
 		// SpawnFlamingChickenBook
 		name = SpawnFlamingChickenBook.ITEM_NAME;
