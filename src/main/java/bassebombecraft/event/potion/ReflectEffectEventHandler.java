@@ -42,7 +42,7 @@ public class ReflectEffectEventHandler {
 	}
 
 	@SubscribeEvent
-	public static void LivingDamageEvent(LivingDamageEvent event) {
+	public static void handleLivingDamageEvent(LivingDamageEvent event) {
 		LivingEntity livingEntity = event.getEntityLiving();
 		Optional<EffectInstance> optEffect = getEffectIfActive(livingEntity, REFLECT_EFFECT);
 		operators.run(event, event.getEntityLiving(), optEffect.orElse(NO_EFFECT));
