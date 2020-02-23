@@ -7,9 +7,9 @@ import net.minecraft.world.World;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} which executes
- * supplied operators.
+ * embedded operators.
  * 
- * Action isn't invoked when target is invoker.
+ * Strategy isn't invoked when target is invoker.
  */
 public class ExecuteOperator implements InventoryItemActionStrategy {
 
