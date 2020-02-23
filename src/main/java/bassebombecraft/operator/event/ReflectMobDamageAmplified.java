@@ -61,15 +61,4 @@ public class ReflectMobDamageAmplified implements Operator {
 		srcEntity.attackEntityFrom(newSource, amount);
 	}
 
-	/**
-	 * Factory method.
-	 * 
-	 * @param splEvent event supplier.
-	 * @param splEffect effect supplier.
-	 * 
-	 * @return operator instance.
-	 */
-	public static Operator getInstance(Supplier<LivingDamageEvent> splEvent, Supplier<EffectInstance> splEffect) {
-		return new ReflectMobDamageAmplified(splEvent, splEffect);
-	}
 }

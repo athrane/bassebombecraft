@@ -1,14 +1,14 @@
 package bassebombecraft.event.potion;
 
 import static bassebombecraft.ModConstants.REFLECT_EFFECT;
-import static bassebombecraft.operator.conditional.IfEffectIsActive.getInstance;
-import static bassebombecraft.operator.event.ReflectMobDamageAmplified.getInstance;
 import static bassebombecraft.potion.PotionUtils.getEffectIfActive;
 
 import java.util.Optional;
 
 import bassebombecraft.operator.Operator;
 import bassebombecraft.operator.Operators;
+import bassebombecraft.operator.conditional.IfEffectIsActive;
+import bassebombecraft.operator.event.ReflectMobDamageAmplified;
 import bassebombecraft.potion.effect.ReflectEffect;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
@@ -32,20 +32,20 @@ public class ReflectEffectEventHandler {
 	/**
 	 * Operator execution.
 	 */
-	static Operators operators;
+	static Operators ops;
 
 	static {
-		operators = new Operators();
-		Operator reflectOp = getInstance(operators.getSplLivingDamageEvent(), operators.getSplEffectInstance());
-		Operator ifOp = getInstance(operators.getSplLivingEntity(), reflectOp, REFLECT_EFFECT);
-		operators.setOperator(ifOp);
+		ops = new Operators();
+		Operator reflectOp = new ReflectMobDamageAmplified(ops.getSplLivingDamageEvent(), ops.getSplEffectInstance());
+		Operator ifOp = new IfEffectIsActive(ops.getSplLivingEntity(), reflectOp, REFLECT_EFFECT);
+		ops.setOperator(ifOp);
 	}
 
 	@SubscribeEvent
 	public static void handleLivingDamageEvent(LivingDamageEvent event) {
 		LivingEntity livingEntity = event.getEntityLiving();
 		Optional<EffectInstance> optEffect = getEffectIfActive(livingEntity, REFLECT_EFFECT);
-		operators.run(event, event.getEntityLiving(), optEffect.orElse(NO_EFFECT));
+		ops.run(event, event.getEntityLiving(), optEffect.orElse(NO_EFFECT));
 	}
 
 }

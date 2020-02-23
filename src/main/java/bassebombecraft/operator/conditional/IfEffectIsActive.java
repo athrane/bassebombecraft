@@ -58,16 +58,4 @@ public class IfEffectIsActive implements Operator {
 		operator.run();
 	}
 
-	/**
-	 * Factory method.
-	 * 
-	 * @param splEntity entity supplier.
-	 * @param operator  embedded operator which is executed if effect is active.
-	 * @param effect    effect to test for.
-	 * 
-	 * @return operator instance.
-	 */
-	public static Operator getInstance(Supplier<LivingEntity> splEntity, Operator operator, Effect effect) {
-		return new IfEffectIsActive(splEntity, operator, effect);
-	}
 }
