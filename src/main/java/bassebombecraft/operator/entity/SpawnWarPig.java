@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 
 /**
  * Implementation of the {@linkplain Operator} interface which spawn a war pig.
- * The pig is spawned at the invoked (e.g. the player).
+ * The pig is spawned at the invoker (e.g. the player).
  */
 public class SpawnWarPig implements Operator {
 

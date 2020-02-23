@@ -22,7 +22,7 @@ import net.minecraft.world.World;
 
 /**
  * Implementation of the {@linkplain Operator} interface which spawn a killer
- * bee. The bee is spawned at the invoked (e.g. the player).
+ * bee. The bee is spawned at the invoker (e.g. the player).
  */
 public class SpawnKillerBee implements Operator {
 
