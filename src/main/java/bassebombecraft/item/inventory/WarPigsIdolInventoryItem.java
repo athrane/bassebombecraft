@@ -4,6 +4,8 @@ import static bassebombecraft.config.ModConfiguration.spawnWarPigDamage;
 import static bassebombecraft.config.ModConfiguration.spawnWarPigMovementSpeed;
 import static bassebombecraft.config.ModConfiguration.warPigsIdolInventoryItem;
 
+import java.util.function.DoubleSupplier;
+import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
 import bassebombecraft.item.action.inventory.ExecuteOperator;
@@ -20,8 +22,8 @@ public class WarPigsIdolInventoryItem extends GenericInventoryItem {
 
 	public static final String ITEM_NAME = WarPigsIdolInventoryItem.class.getSimpleName();
 
-	static Supplier<Integer> splDamage = () -> spawnWarPigDamage.get();
-	static Supplier<Double> splMovementSpeed = () -> spawnWarPigMovementSpeed.get();
+	static IntSupplier splDamage = () -> spawnWarPigDamage.get();
+	static DoubleSupplier splMovementSpeed = () -> spawnWarPigMovementSpeed.get();
 	static Supplier<Operators> splOp = () -> {
 		Operators ops = new Operators();
 		SpawnWarPig spawnOp = new SpawnWarPig(ops.getSplLivingEntity(), ops.getSplTargetEntity(), splDamage,
