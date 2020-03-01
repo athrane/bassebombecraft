@@ -27,9 +27,9 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 public class TargetInfoRenderer {
 
 	/**
-	 * Render team info.
+	 * Render target info.
 	 * 
-	 * @param event event to render infor for.
+	 * @param event event to trigger rendering of information.
 	 */
 	public static void render(RenderWorldLastEvent event) {
 

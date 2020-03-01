@@ -32,7 +32,7 @@ public class TeamInfoRenderer {
 	/**
 	 * Render team info.
 	 * 
-	 * @param event event to render infor for.
+	 * @param event event to trigger rendering of information.
 	 */
 	public static void render(RenderWorldLastEvent event) {
 
