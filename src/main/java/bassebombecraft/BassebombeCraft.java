@@ -42,6 +42,7 @@ import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.proxy.ClientProxy;
 import bassebombecraft.proxy.Proxy;
 import bassebombecraft.proxy.ServerProxy;
+import bassebombecraft.rendering.renderer.CharmedInfoRenderer;
 import bassebombecraft.rendering.renderer.TargetInfoRenderer;
 import bassebombecraft.rendering.renderer.TeamInfoRenderer;
 import net.minecraft.client.Minecraft;
@@ -222,6 +223,7 @@ public class BassebombeCraft {
 		// EVENT_BUS.addListener(DebugRenderer_Highlightblock::render);
 		EVENT_BUS.addListener(TeamInfoRenderer::render);
 		EVENT_BUS.addListener(TargetInfoRenderer::render);
+		EVENT_BUS.addListener(CharmedInfoRenderer::render);		
 	}
 
 	/**

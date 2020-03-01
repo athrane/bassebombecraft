@@ -11,7 +11,6 @@ import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
 import static bassebombecraft.rendering.DefaultRenderingInfo.getInstance;
 
 import bassebombecraft.rendering.DefaultBuildMineRenderer;
-import bassebombecraft.rendering.DefaultCharmedInfoRenderer;
 import bassebombecraft.rendering.DefaultCharmedRenderer;
 import bassebombecraft.rendering.DefaultLookAtBlockRenderer;
 import bassebombecraft.rendering.DefaultTeamRenderer;
@@ -51,11 +50,6 @@ public class RenderingEventHandler {
 	 * Renderer for rendering charmed mobs in the HUD Item.
 	 */
 	static final EntityRenderer charmedRenderer = new DefaultCharmedRenderer();
-
-	/**
-	 * Renderer for rendering charmed mobs information in the HUD Item.
-	 */
-	static final EntityRenderer charmedInfoRenderer = new DefaultCharmedInfoRenderer();
 
 	/**
 	 * Renderer for rendering the block looked at by the player.
@@ -183,7 +177,6 @@ public class RenderingEventHandler {
 
 			// render
 			teamRenderer.render(player, info);
-			charmedInfoRenderer.render(player, info);
 			charmedRenderer.render(player, info);
 
 			Vec3d renderPos = RenderingUtils.getRenderPos();

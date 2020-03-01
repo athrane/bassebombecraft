@@ -52,7 +52,7 @@ public class TargetInfoRenderer {
 		// get current commander target
 		String commanderTargetName = getCommanderTargetName(player);
 
-		// get render buffer and maxtrix stack
+		// get render buffer and matrix stack
 		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
 		MatrixStack matrixStack = event.getMatrixStack();
 

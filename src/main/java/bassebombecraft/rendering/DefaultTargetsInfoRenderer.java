@@ -20,6 +20,7 @@ import net.minecraft.util.math.Vec3d;
  * Implementation of the {@linkplain Renderer} for rendering target information
  * in the HUD item.
  */
+@Deprecated
 public class DefaultTargetsInfoRenderer implements EntityRenderer {
 
 	/**
