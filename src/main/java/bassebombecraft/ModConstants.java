@@ -27,6 +27,7 @@ import bassebombecraft.potion.effect.MobRespawningEffect;
 import bassebombecraft.potion.effect.PlayerAggroEffect;
 import bassebombecraft.potion.effect.ReflectEffect;
 import bassebombecraft.rendering.DefaultBuildMineRenderer;
+import bassebombecraft.rendering.renderer.TeamInfoRenderer;
 import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
@@ -326,12 +327,18 @@ public class ModConstants {
 	 * Rendering: Text scale
 	 */
 	public static final float TEXT_SCALE = 0.02F;
-
+	
 	/**
 	 * Rendering: Text color.
 	 */
 	public static final int TEXT_COLOR = 0x00C000;
 
+	/**
+	 * Rendering_ Text translation along Z-axis for rendering of billboard text in HUD item
+	 * in the {@linkplain TeamInfoRenderer} class.
+	 */
+	public static final int TEXT_Z_TRANSLATION = 200;
+	
 	/**
 	 * Rendering: Text color for {@linkplain BuildMineBook} in
 	 * {@linkplain DefaultBuildMineRenderer}.
@@ -512,5 +519,4 @@ public class ModConstants {
 	 * implmentation.
 	 */
 	public static final int NOT_AN_AOE_EFFECT = 1;
-
 }

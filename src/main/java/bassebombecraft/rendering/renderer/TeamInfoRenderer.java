@@ -1,53 +1,52 @@
-package bassebombecraft.rendering;
+package bassebombecraft.rendering.renderer;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.ModConstants.HUD_TEXT_DISP;
+import static bassebombecraft.ModConstants.HUD_ITEM;
 import static bassebombecraft.ModConstants.TEAM_MEMBERS_TO_RENDER;
 import static bassebombecraft.entity.EntityUtils.getTarget;
-import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
-import static bassebombecraft.rendering.RenderingUtils.renderHudTextBillboard;
+import static bassebombecraft.player.PlayerUtils.getPlayer;
+import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
+import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
+import static bassebombecraft.rendering.RenderingUtils.renderBillboardText;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import bassebombecraft.entity.EntityUtils;
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
-import bassebombecraft.player.PlayerUtils;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 /**
- * Implementation of the {@linkplain Renderer} for rendering team information in
- * the HUD item.
+ * Rendering team information in the HUD item.
  */
-@Deprecated
-public class DefaultTeamInfoRenderer implements EntityRenderer {
+public class TeamInfoRenderer {
 
 	/**
-	 * Team label.
+	 * Render team info.
+	 * 
+	 * @param event event to render infor for.
 	 */
-	static final String TEAM_LABEL = "TEAM";
+	public static void render(RenderWorldLastEvent event) {
 
-	@Override
-	public void render(LivingEntity entity, RenderingInfo info) {
-
-		// exit if entity isn't player
-		if (!PlayerUtils.isTypePlayerEntity(entity))
+		// exit if player is undefined
+		if (!isPlayerDefined())
 			return;
 
-		// typecast
-		PlayerEntity player = (PlayerEntity) entity;
-
-		// get player position
-		Vec3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
-
-		// calculate translation of text
-		Vec3d renderPos = RenderingUtils.getRenderPos();
-		Vec3d translation = playerPos.subtract(renderPos);
-
+		// get player
+		PlayerEntity player = getPlayer();
+		
+		// exit if HUD item isn't in hotbar
+		if (!isItemInHotbar(player, HUD_ITEM))
+			return;
+		
 		// get team
 		TeamRepository repository = getBassebombeCraft().getTeamRepository();
 		Collection<LivingEntity> team = repository.get(player);
@@ -57,12 +56,14 @@ public class DefaultTeamInfoRenderer implements EntityRenderer {
 		MobCommanderRepository commanderRepository = getBassebombeCraft().getMobCommanderRepository();
 		MobCommand command = commanderRepository.getCommand(player);
 
+		// get render buffer and maxtrix stack
+		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+		MatrixStack matrixStack = event.getMatrixStack();
+
 		// render basic info
-		Vec3d textTranslation = new Vec3d(5, 4, 4);
-		renderHudTextBillboard(translation, textTranslation, TEAM_LABEL );
-		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 1, 0),
-				"Commander command: " + command.getTitle());
-		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 2, 0), "Team size: " + teamSize);
+		renderBillboardText(matrixStack, buffer, -210, -110, "TEAM");
+		renderBillboardText(matrixStack, buffer, -210, -100, "Commander command: " + command.getTitle());
+		renderBillboardText(matrixStack, buffer, -210, -90, "Team size: " + teamSize);
 
 		// create counter to use inside loop
 		final AtomicInteger count = new AtomicInteger();
@@ -75,11 +76,10 @@ public class DefaultTeamInfoRenderer implements EntityRenderer {
 			if (counter > TEAM_MEMBERS_TO_RENDER)
 				return;
 
-			int disp = 2 + counter;
 			String memberName = m.getName().getUnformattedComponentText();
 			String targetName = getTargetName(m);
 			String text = "Member: " + memberName + ", Target: " + targetName;
-			renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * disp, 0), text);
+			renderBillboardText(matrixStack, buffer, -200, -80 + (counter * 10), text);
 		});
 
 	}
@@ -91,7 +91,7 @@ public class DefaultTeamInfoRenderer implements EntityRenderer {
 	 * 
 	 * @return target name.
 	 */
-	String getTargetName(LivingEntity entity) {
+	static String getTargetName(LivingEntity entity) {
 
 		// exit if entity has no target
 		if (!EntityUtils.hasAliveTarget(entity))

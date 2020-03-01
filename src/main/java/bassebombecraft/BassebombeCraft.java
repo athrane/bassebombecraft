@@ -3,7 +3,7 @@ package bassebombecraft;
 import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.ModConstants.TAB_NAME;
 import static bassebombecraft.config.ModConfiguration.loadConfig;
-import static bassebombecraft.config.VersionUtils.*;
+import static bassebombecraft.config.VersionUtils.validateVersion;
 import static bassebombecraft.tab.ItemGroupFactory.createItemGroup;
 
 import java.io.PrintWriter;
@@ -41,6 +41,11 @@ import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.proxy.ClientProxy;
 import bassebombecraft.proxy.Proxy;
 import bassebombecraft.proxy.ServerProxy;
+import bassebombecraft.rendering.DebugRenderer_EntityText_v3;
+import bassebombecraft.rendering.DebugRenderer_Highlightblock;
+import bassebombecraft.rendering.DebugRenderer_MobLines;
+import bassebombecraft.rendering.DebugRenderer_WorldLastEventText;
+import bassebombecraft.rendering.renderer.TeamInfoRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -51,7 +56,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
@@ -124,7 +129,7 @@ public class BassebombeCraft {
 	 * Duration repository.
 	 */
 	DurationRepository durationRepository;
-	
+
 	/**
 	 * Minecraft server.
 	 */
@@ -156,7 +161,7 @@ public class BassebombeCraft {
 
 			// initialise duration repository
 			durationRepository = DefaultDurationRepository.getInstance();
-			
+
 			// Initialise charmed mobs repository
 			charmedMobsRepository = DefaultCharmedMobsRepository.getInstance();
 
@@ -186,13 +191,8 @@ public class BassebombeCraft {
 			throw e;
 		}
 
-		// register event handler for FMLCommonSetupEvent event on the mod event bus
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-	}
-
-	@SubscribeEvent
-	void setup(FMLCommonSetupEvent event) {
-		// initializeWorldGenerators();
+		// register event handler for FMLClientSetupEvent event on the mod event bus
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
 	}
 
 	@SubscribeEvent
@@ -216,15 +216,14 @@ public class BassebombeCraft {
 		PlayerEntity player = event.getPlayer();
 		validateVersion(player);
 	}
-	
-	/**
-	 * Initialize world generators.
-	 */
-	void initializeWorldGenerators() {
-		/*
-		 * GameRegistry.registerWorldGenerator(new RandomModStructuresGenerator(),
-		 * ModConstants.MOD_STRUCUTRE_GENERATOR_WEIGHT);
-		 */
+
+	@SubscribeEvent
+	void setupClient(FMLClientSetupEvent event) {
+		//MinecraftForge.EVENT_BUS.addListener(DebugRenderer_MobLines::render);
+		//MinecraftForge.EVENT_BUS.addListener(DebugRenderer_EntityText_v3::render);
+		//MinecraftForge.EVENT_BUS.addListener(DebugRenderer_WorldLastEventText::render);
+		//MinecraftForge.EVENT_BUS.addListener(DebugRenderer_Highlightblock::render);
+		MinecraftForge.EVENT_BUS.addListener(TeamInfoRenderer::render);		
 	}
 
 	/**
@@ -312,11 +311,11 @@ public class BassebombeCraft {
 	 * Get duration repository.
 	 * 
 	 * @return duration repository
-	 */	
+	 */
 	public DurationRepository getDurationRepository() {
-		return durationRepository; 
+		return durationRepository;
 	}
-	
+
 	/**
 	 * Get mod configuration from TOML file.
 	 * 

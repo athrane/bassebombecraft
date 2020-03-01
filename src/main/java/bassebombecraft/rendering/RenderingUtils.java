@@ -5,33 +5,55 @@ import static bassebombecraft.ModConstants.EQUILATERAL_TRIANGLE_HEIGHT;
 import static bassebombecraft.ModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEXT_SCALE;
-import static net.minecraftforge.fml.common.ObfuscationReflectionHelper.getPrivateValue;
+import static bassebombecraft.ModConstants.TEXT_Z_TRANSLATION;
 
 import java.time.Instant;
 
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter.DEFAULT;
-
 import org.lwjgl.opengl.GL11;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import bassebombecraft.BassebombeCraft;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 /**
  * Rendering utilities.
  */
 public class RenderingUtils {
+
+	/**
+	 * Packed light
+	 */
+	static final int PACKED_LIGHT = 0xf000f0;
+
+	/**
+	 * Some text effect.
+	 */
+	static final int TEXT_EFFECT = 0;
+
+	/**
+	 * Text isn't rendered transparent.
+	 */
+	static final boolean IS_TRANSPARENT = false;
+
+	/**
+	 * Render text with no drop shadow.
+	 */
+	static final boolean DROP_SHADOW = false;
 
 	/**
 	 * Get render position from {@linkplain EntityRendererManager}.
@@ -43,11 +65,11 @@ public class RenderingUtils {
 	@Deprecated
 	public static Vec3d getRenderPos() {
 
-		Minecraft mc = Minecraft.getInstance();				
-		ActiveRenderInfo info = mc.gameRenderer.getActiveRenderInfo();		
+		Minecraft mc = Minecraft.getInstance();
+		ActiveRenderInfo info = mc.gameRenderer.getActiveRenderInfo();
 		Vec3d pv = info.getProjectedView();
 		Vec3d renderPos = new Vec3d(pv.getX(), pv.getY(), pv.getZ());
-		return renderPos;						
+		return renderPos;
 	}
 
 	/**
@@ -255,7 +277,7 @@ public class RenderingUtils {
 	 * 
 	 * @param playerPos player position
 	 * @param entityPos entity position
-	 */	
+	 */
 	@Deprecated
 	public static void renderDebugBillboard(Vec3d playerPos, Vec3d entityPos) {
 		setupBillboardRendering();
@@ -340,7 +362,7 @@ public class RenderingUtils {
 		resetBillboardRendering();
 
 	}
-	
+
 	/**
 	 * Render text at origin.
 	 * 
@@ -353,7 +375,7 @@ public class RenderingUtils {
 	public static void renderTextBillboard(Vec3d playerPos, Vec3d entityPos, String text, Vector4f rotation) {
 		renderTextBillboard(playerPos, entityPos, text, rotation, TEXT_COLOR);
 	}
-	
+
 	/**
 	 * Render text at origin.
 	 * 
@@ -363,7 +385,8 @@ public class RenderingUtils {
 	 * @param rotation  rotation
 	 * @param textColor text color
 	 */
-	public static void renderTextBillboard(Vec3d playerPos, Vec3d entityPos, String text, Vector4f rotation, int textColor ) {
+	public static void renderTextBillboard(Vec3d playerPos, Vec3d entityPos, String text, Vector4f rotation,
+			int textColor) {
 		setupBillboardRendering();
 
 		// get minecraft
@@ -389,7 +412,7 @@ public class RenderingUtils {
 
 		resetBillboardRendering();
 	}
-	
+
 	/**
 	 * Render text at origin for rendering of HUD text.
 	 * 
@@ -423,9 +446,9 @@ public class RenderingUtils {
 		// scale text
 		RenderSystem.scaled(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 
-		// add billboard rotation for text readability		
+		// add billboard rotation for text readability
 		RenderSystem.rotatef(180, 0, 0, 1);
-				
+
 		// draw
 		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
 
@@ -439,10 +462,10 @@ public class RenderingUtils {
 	 * direction and independent of the camera (or player) orientation and
 	 * placement.
 	 * 
-	 * @param textTranslation   text translation vector for translation of text
-	 *                          relative to view direction. Defines the placement of
-	 *                          the HUD text.
-	 * @param text              text to render
+	 * @param textTranslation text translation vector for translation of text
+	 *                        relative to view direction. Defines the placement of
+	 *                        the HUD text.
+	 * @param text            text to render
 	 */
 	public static void renderHudTextBillboard(Vec3d textTranslation, String text) {
 		setupBillboardRendering();
@@ -468,7 +491,7 @@ public class RenderingUtils {
 
 		resetBillboardRendering();
 	}
-	
+
 	/**
 	 * Render rotated text at origin for rendering compass.
 	 * 
@@ -507,13 +530,40 @@ public class RenderingUtils {
 		GlStateManager.scalef(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 
 		// add billboard rotation for text readability
-		GlStateManager.rotatef(TEXT_BILLBOARD_ROTATION.getW(), TEXT_BILLBOARD_ROTATION.getX(), TEXT_BILLBOARD_ROTATION.getY(),
-				TEXT_BILLBOARD_ROTATION.getZ());
+		GlStateManager.rotatef(TEXT_BILLBOARD_ROTATION.getW(), TEXT_BILLBOARD_ROTATION.getX(),
+				TEXT_BILLBOARD_ROTATION.getY(), TEXT_BILLBOARD_ROTATION.getZ());
 
 		// draw
 		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
 
 		resetBillboardRendering();
+	}
+
+	/**
+	 * Render billboard text.
+	 * 
+	 * Supports rendering of billboard text in the renderer instances handling
+	 * processing the {@linkplain RenderWorldLastEvent}.
+	 * 
+	 * @param matrixStack matrix stack
+	 * @param buffer      render buffer.
+	 * @param x           x coordinate for text placement.
+	 * @param x           y coordinate for text placement.
+	 * @param text        text to render.
+	 */
+	public static void renderBillboardText(MatrixStack matrixStack, IRenderTypeBuffer buffer, float x, float y, String text) {
+		EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
+		FontRenderer fontRenderer = renderManager.getFontRenderer();
+
+		matrixStack.push();
+		matrixStack.scale(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
+		matrixStack.rotate(renderManager.getCameraOrientation());
+		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
+		matrixStack.translate(0, 0, TEXT_Z_TRANSLATION);
+		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		fontRenderer.renderString(text, x, y, TEXT_COLOR, DROP_SHADOW, positionMatrix, buffer, IS_TRANSPARENT,
+				TEXT_EFFECT, PACKED_LIGHT);
+		matrixStack.pop();
 	}
 
 	/**
@@ -581,26 +631,26 @@ public class RenderingUtils {
 		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
-				
+
 		// ADHE - back (clockwise)
 		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
 		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
-		
-		// EFGH - top 
+
+		// EFGH - top
 		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
 		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
-				
+
 		// BCGF - front
 		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
 		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
-		
-		// ABFE 
+
+		// ABFE
 		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
 		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
 		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
@@ -611,7 +661,7 @@ public class RenderingUtils {
 		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
-		
+
 		tessellator.draw();
 	}
 
@@ -624,13 +674,13 @@ public class RenderingUtils {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuffer();
 		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
-				
+
 		// EFGH - top (anti-clockwise)
 		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
 		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
-						
+
 		tessellator.draw();
 	}
 
@@ -643,16 +693,16 @@ public class RenderingUtils {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuffer();
 		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
-		
+
 		// ABCD - bottom (clockwise)
 		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
 		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
-						
+
 		tessellator.draw();
 	}
-	
+
 	/**
 	 * Render north side of solid box.
 	 * 
@@ -662,13 +712,13 @@ public class RenderingUtils {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuffer();
 		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION);
-		
+
 		// ADHE - back (clockwise)
 		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
 		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
-						
+
 		tessellator.draw();
 	}
 
@@ -687,7 +737,7 @@ public class RenderingUtils {
 		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
 		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
-		
+
 		tessellator.draw();
 	}
 
@@ -706,7 +756,7 @@ public class RenderingUtils {
 		bufferBuilder.pos(aabb.maxX, aabb.minY, aabb.minZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.minZ).endVertex();
 		bufferBuilder.pos(aabb.maxX, aabb.maxY, aabb.maxZ).endVertex();
-		
+
 		tessellator.draw();
 	}
 
@@ -725,10 +775,10 @@ public class RenderingUtils {
 		bufferBuilder.pos(aabb.minX, aabb.minY, aabb.minZ).endVertex();
 		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
 		bufferBuilder.pos(aabb.minX, aabb.maxY, aabb.maxZ).endVertex();
-		
+
 		tessellator.draw();
 	}
-	
+
 	/**
 	 * Render line.
 	 * 
@@ -745,7 +795,7 @@ public class RenderingUtils {
 	}
 
 	/**
-	 * Oscillate value. 
+	 * Oscillate value.
 	 * 
 	 * @param min
 	 * @param max
@@ -758,7 +808,7 @@ public class RenderingUtils {
 	}
 
 	/**
-	 * Oscillate value. 
+	 * Oscillate value.
 	 * 
 	 * @param time
 	 * @param min
