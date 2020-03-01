@@ -5,6 +5,7 @@ import static bassebombecraft.ModConstants.TAB_NAME;
 import static bassebombecraft.config.ModConfiguration.loadConfig;
 import static bassebombecraft.config.VersionUtils.validateVersion;
 import static bassebombecraft.tab.ItemGroupFactory.createItemGroup;
+import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -41,17 +42,13 @@ import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.proxy.ClientProxy;
 import bassebombecraft.proxy.Proxy;
 import bassebombecraft.proxy.ServerProxy;
-import bassebombecraft.rendering.DebugRenderer_EntityText_v3;
-import bassebombecraft.rendering.DebugRenderer_Highlightblock;
-import bassebombecraft.rendering.DebugRenderer_MobLines;
-import bassebombecraft.rendering.DebugRenderer_WorldLastEventText;
+import bassebombecraft.rendering.renderer.TargetInfoRenderer;
 import bassebombecraft.rendering.renderer.TeamInfoRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
@@ -149,7 +146,7 @@ public class BassebombeCraft {
 		instance = this;
 
 		// Register ourselves for forge events
-		MinecraftForge.EVENT_BUS.register(this);
+		EVENT_BUS.register(this);
 
 		try {
 
@@ -219,11 +216,12 @@ public class BassebombeCraft {
 
 	@SubscribeEvent
 	void setupClient(FMLClientSetupEvent event) {
-		//MinecraftForge.EVENT_BUS.addListener(DebugRenderer_MobLines::render);
-		//MinecraftForge.EVENT_BUS.addListener(DebugRenderer_EntityText_v3::render);
-		//MinecraftForge.EVENT_BUS.addListener(DebugRenderer_WorldLastEventText::render);
-		//MinecraftForge.EVENT_BUS.addListener(DebugRenderer_Highlightblock::render);
-		MinecraftForge.EVENT_BUS.addListener(TeamInfoRenderer::render);		
+		// EVENT_BUS.addListener(DebugRenderer_MobLines::render);
+		// EVENT_BUS.addListener(DebugRenderer_EntityText_v3::render);
+		// MinecraftForge.EVENT_BUS.addListener(DebugRenderer_WorldLastEventText::render);
+		// EVENT_BUS.addListener(DebugRenderer_Highlightblock::render);
+		EVENT_BUS.addListener(TeamInfoRenderer::render);
+		EVENT_BUS.addListener(TargetInfoRenderer::render);
 	}
 
 	/**
