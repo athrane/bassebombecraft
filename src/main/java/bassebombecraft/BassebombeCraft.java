@@ -221,9 +221,9 @@ public class BassebombeCraft {
 		// EVENT_BUS.addListener(DebugRenderer_EntityText_v3::render);
 		// MinecraftForge.EVENT_BUS.addListener(DebugRenderer_WorldLastEventText::render);
 		// EVENT_BUS.addListener(DebugRenderer_Highlightblock::render);
-		EVENT_BUS.addListener(TeamInfoRenderer::render);
-		EVENT_BUS.addListener(TargetInfoRenderer::render);
-		EVENT_BUS.addListener(CharmedInfoRenderer::render);		
+		EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(CharmedInfoRenderer::handleRenderWorldLastEvent);		
 	}
 
 	/**

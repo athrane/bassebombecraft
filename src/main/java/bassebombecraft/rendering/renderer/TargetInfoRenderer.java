@@ -27,22 +27,38 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 public class TargetInfoRenderer {
 
 	/**
-	 * Render target info.
+	 * Handle {@linkplain RenderWorldLastEvent}.
 	 * 
 	 * @param event event to trigger rendering of information.
 	 */
-	public static void render(RenderWorldLastEvent event) {
+	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
+		try {
+			
+			// exit if player is undefined
+			if (!isPlayerDefined())
+				return;
 
-		// exit if player is undefined
-		if (!isPlayerDefined())
-			return;
+			// get player
+			PlayerEntity player = getPlayer();
 
-		// get player
-		PlayerEntity player = getPlayer();
-
-		// exit if HUD item isn't in hotbar
-		if (!isItemInHotbar(player, HUD_ITEM))
-			return;
+			// exit if HUD item isn't in hotbar
+			if (!isItemInHotbar(player, HUD_ITEM))
+				return;
+			
+			render(event.getMatrixStack(), player);
+			
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
+	}
+	
+	/**
+	 * Render target info.
+	 * 
+	 * @param matrixStack matrix static for rendering transforms.
+	 * @param player player object.
+	 */
+	static void render(MatrixStack matrixStack, PlayerEntity player) {
 
 		// get targets
 		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
@@ -52,9 +68,8 @@ public class TargetInfoRenderer {
 		// get current commander target
 		String commanderTargetName = getCommanderTargetName(player);
 
-		// get render buffer and matrix stack
+		// get render buffer
 		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-		MatrixStack matrixStack = event.getMatrixStack();
 
 		// render basic info
 		renderBillboardText(matrixStack, buffer, 120, -110, "TARGETS");
