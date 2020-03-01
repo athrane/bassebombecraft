@@ -9,15 +9,16 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.renderer.vertex.VertexFormat;
 
 /**
- * https://wiki.mcjty.eu/modding/index.php?title=Tut15_Ep15
+ * {@linkplain RenderType} definition for overlay lines.
+ * see: https://wiki.mcjty.eu/modding/index.php?title=Tut15_Ep15
  */
-public class TestRenderType extends RenderType {
+public class OverlayLines extends RenderType {
 
-	 public TestRenderType(String name, VertexFormat format, int p_i225992_3_, int p_i225992_4_, boolean p_i225992_5_, boolean p_i225992_6_, Runnable runnablePre, Runnable runnablePost) {
+	 public OverlayLines(String name, VertexFormat format, int p_i225992_3_, int p_i225992_4_, boolean p_i225992_5_, boolean p_i225992_6_, Runnable runnablePre, Runnable runnablePost) {
 	        super(name, format, p_i225992_3_, p_i225992_4_, p_i225992_5_, p_i225992_6_, runnablePre, runnablePost);
 	    }
 
-	    private static final LineState THICK_LINES = new LineState(OptionalDouble.of(3.0D));
+	    static final LineState THICK_LINES = new LineState(OptionalDouble.of(3.0D));
 
 	    public static final RenderType OVERLAY_LINES = get("overlay_lines",
 	            DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256,

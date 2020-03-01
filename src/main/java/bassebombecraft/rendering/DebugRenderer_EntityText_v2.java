@@ -6,7 +6,7 @@ import static bassebombecraft.ModConstants.TEXT_SCALE;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import bassebombecraft.rendering.rendertype.TestRenderType;
+import bassebombecraft.rendering.rendertype.OverlayLines;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -32,7 +32,7 @@ public class DebugRenderer_EntityText_v2 {
 
 	static void showMobs(MatrixStack matrixStack, LivingEntity entity) {
 		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-		IVertexBuilder builder = buffer.getBuffer(TestRenderType.OVERLAY_LINES);
+		IVertexBuilder builder = buffer.getBuffer(OverlayLines.OVERLAY_LINES);
 
 		renderText(matrixStack, buffer, 0, 0, "RENDER_TEXT V2", TEXT_COLOR, 1F);
 	}
