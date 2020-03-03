@@ -39,12 +39,14 @@ import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.item.ItemRegistryEventHandler;
 import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
+import bassebombecraft.event.rendering.CharmedInfoRenderer;
+import bassebombecraft.event.rendering.TargetInfoRenderer;
+import bassebombecraft.event.rendering.TeamEnityRenderer;
+import bassebombecraft.event.rendering.TeamInfoRenderer;
 import bassebombecraft.proxy.ClientProxy;
 import bassebombecraft.proxy.Proxy;
 import bassebombecraft.proxy.ServerProxy;
-import bassebombecraft.rendering.renderer.CharmedInfoRenderer;
-import bassebombecraft.rendering.renderer.TargetInfoRenderer;
-import bassebombecraft.rendering.renderer.TeamInfoRenderer;
+import bassebombecraft.rendering.DebugRenderer_StrangeSize;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -221,9 +223,12 @@ public class BassebombeCraft {
 		// EVENT_BUS.addListener(DebugRenderer_EntityText_v3::render);
 		// MinecraftForge.EVENT_BUS.addListener(DebugRenderer_WorldLastEventText::render);
 		// EVENT_BUS.addListener(DebugRenderer_Highlightblock::render);
+		//EVENT_BUS.addListener(DebugRenderer_StrangeSize::render);				
+				
 		EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
 		EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
 		EVENT_BUS.addListener(CharmedInfoRenderer::handleRenderWorldLastEvent);		
+		EVENT_BUS.addListener(TeamEnityRenderer::handleRenderLivingEvent);				
 	}
 
 	/**

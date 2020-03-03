@@ -5,8 +5,6 @@ import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEXT_SCALE;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 
-import org.lwjgl.opengl.GL11;
-
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 

@@ -176,7 +176,7 @@ public class RenderingEventHandler {
 			RenderingInfo info = getInstance(event.getPartialTicks());
 
 			// render
-			teamRenderer.render(player, info);
+			//teamRenderer.render(player, info);
 			charmedRenderer.render(player, info);
 
 			Vec3d renderPos = RenderingUtils.getRenderPos();

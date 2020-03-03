@@ -3,7 +3,7 @@ package bassebombecraft.rendering;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import bassebombecraft.rendering.rendertype.OverlayLines;
+import bassebombecraft.event.rendering.rendertype.OverlayLines;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Matrix4f;

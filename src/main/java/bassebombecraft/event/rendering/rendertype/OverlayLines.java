@@ -1,4 +1,4 @@
-package bassebombecraft.rendering.rendertype;
+package bassebombecraft.event.rendering.rendertype;
 
 import java.util.OptionalDouble;
 

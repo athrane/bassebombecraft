@@ -4,9 +4,7 @@ import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEXT_SCALE;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import bassebombecraft.rendering.rendertype.OverlayLines;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
