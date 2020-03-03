@@ -4,11 +4,7 @@ import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEXT_SCALE;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import bassebombecraft.rendering.rendertype.OverlayLines;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -21,11 +17,10 @@ import net.minecraftforge.client.event.RenderLivingEvent;
 /**
  * https://wiki.mcjty.eu/modding/index.php?title=Tut15_Ep15
  * 
- * Text is rendered as billboard on top of entity.
- * Text is rotated 180D around the Z-axis (to get on top of the entity).
+ * Text is rendered as billboard on top of entity. Text is rotated 180D around
+ * the Z-axis (to get on top of the entity).
  * 
- * MatrixStack is read from entity.
- * Experimentation with culling.
+ * MatrixStack is read from entity. Experimentation with culling.
  */
 public class DebugRenderer_EntityText_v3 {
 
@@ -35,7 +30,6 @@ public class DebugRenderer_EntityText_v3 {
 
 	static void showMobs(MatrixStack matrixStack, LivingEntity entity) {
 		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-		IVertexBuilder builder = buffer.getBuffer(OverlayLines.OVERLAY_LINES);
 
 		renderText(matrixStack, buffer, 0, 0, "RENDER_TEXT V3", TEXT_COLOR, 1F);
 	}
@@ -47,9 +41,8 @@ public class DebugRenderer_EntityText_v3 {
 		FontRenderer fontrenderer = renderManager.getFontRenderer();
 
 		float w = (float) RenderingUtils.oscillate(0, 360);
-				
+
 		matrixStack.push();
-		        
 		matrixStack.scale(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 		matrixStack.rotate(renderManager.getCameraOrientation());
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
@@ -57,7 +50,7 @@ public class DebugRenderer_EntityText_v3 {
 		fontrenderer.renderString(text, (float) (x * 10 / scale - 40 / scale), (float) (y * 10 / scale - 40 / scale),
 				color, false, positionMatrix, buffer, false, 0, 0xf000f0);
 		matrixStack.pop();
-		
+
 	}
 
 }
