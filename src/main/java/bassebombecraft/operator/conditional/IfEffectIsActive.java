@@ -1,14 +1,12 @@
 package bassebombecraft.operator.conditional;
 
-import static bassebombecraft.potion.PotionUtils.getEffectIfActive;
+import static bassebombecraft.potion.PotionUtils.isEffectActive;
 
-import java.util.Optional;
 import java.util.function.Supplier;
 
 import bassebombecraft.operator.Operator;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
 
 /**
  * Implementation of the {@linkplain Operator} interface which executes the
@@ -51,8 +49,7 @@ public class IfEffectIsActive implements Operator {
 		LivingEntity livingEntity = splEntity.get();
 
 		// exit if effect isn't active
-		Optional<EffectInstance> optEffect = getEffectIfActive(livingEntity, effect);
-		if (!optEffect.isPresent())
+		if (!isEffectActive(livingEntity, effect))
 			return;
 
 		operator.run();
