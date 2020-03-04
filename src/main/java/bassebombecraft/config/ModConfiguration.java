@@ -46,6 +46,7 @@ import bassebombecraft.item.action.inventory.AddMobsAggroEffect;
 import bassebombecraft.item.action.inventory.AddMobsLevitationEffect;
 import bassebombecraft.item.action.inventory.AddMobsPrimingEffect;
 import bassebombecraft.item.action.inventory.AddPlayerAggroEffect;
+import bassebombecraft.item.action.inventory.AddReflectEffect;
 import bassebombecraft.item.action.inventory.AddSaturationEffect;
 import bassebombecraft.item.action.inventory.Naturalize;
 import bassebombecraft.item.action.inventory.Pinkynize;
@@ -400,6 +401,10 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue addHealingEffectDuration;
 	public static ForgeConfigSpec.IntValue addHealingEffectAmplifier;
 
+	// AddReflectEffect action
+	public static ForgeConfigSpec.IntValue addReflectEffectDuration;
+	public static ForgeConfigSpec.IntValue addReflectEffectAmplifier;
+	
 	// Naturalize action
 	public static ForgeConfigSpec.IntValue naturalizeSpiralSize;
 
@@ -886,12 +891,22 @@ public class ModConfiguration {
 		name = AddHealingEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		addHealingEffectAmplifier = COMMON_BUILDER
-				.comment("Potency of the effect (as a potion effect), i.e. the resulting blindness.")
+				.comment("Potency of the effect (as a potion effect), i.e. the resulting healing potency.")
 				.defineInRange("amplifier", 1, 0, Integer.MAX_VALUE);
 		addHealingEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
 				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		// AddReflectEffect
+		name = AddReflectEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		addReflectEffectAmplifier = COMMON_BUILDER
+				.comment("Potency of the effect (as a potion effect), i.e. the resulting reflected damage.")
+				.defineInRange("amplifier", 1, 0, Integer.MAX_VALUE);
+		addReflectEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+		
 		// Naturalize
 		name = Naturalize.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
