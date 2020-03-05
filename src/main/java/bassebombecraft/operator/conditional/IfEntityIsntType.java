@@ -29,7 +29,7 @@ public class IfEntityIsntType implements Operator {
 	Class<?> type;
 
 	/**
-	 * IfEntityIsntType constructor.
+	 * Constructor.
 	 * 
 	 * @param splEntity entity supplier.
 	 * @param operator  embedded operator which is executed if effect is active.

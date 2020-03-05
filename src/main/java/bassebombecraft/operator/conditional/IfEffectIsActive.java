@@ -30,7 +30,7 @@ public class IfEffectIsActive implements Operator {
 	Effect effect;
 
 	/**
-	 * IfEffectIsActive constructor.
+	 * Constructor.
 	 * 
 	 * @param splEntity entity supplier.
 	 * @param operator  embedded operator which is executed if effect is active.
