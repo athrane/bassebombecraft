@@ -1,5 +1,7 @@
 package bassebombecraft.operator.entity;
 
+import static bassebombecraft.config.ModConfiguration.spawnWarPigDamage;
+import static bassebombecraft.config.ModConfiguration.spawnWarPigMovementSpeed;
 import static bassebombecraft.entity.EntityUtils.resolveTarget;
 import static bassebombecraft.entity.EntityUtils.setAttribute;
 import static bassebombecraft.entity.ai.AiUtils.buildChargingAi;
@@ -7,8 +9,6 @@ import static net.minecraft.entity.SharedMonsterAttributes.ATTACK_DAMAGE;
 import static net.minecraft.entity.SharedMonsterAttributes.MOVEMENT_SPEED;
 
 import java.util.Random;
-import java.util.function.DoubleSupplier;
-import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
 import bassebombecraft.BassebombeCraft;
@@ -48,29 +48,26 @@ public class SpawnWarPig implements Operator {
 	Supplier<Entity> splTarget;
 
 	/**
-	 * Movement speed supplier.
+	 * Attack damage.
 	 */
-	IntSupplier splDamage;
+	int damage;
 
 	/**
-	 * Attack damage supplier.
+	 * Movement speed.
 	 */
-	DoubleSupplier splMovementSpeed;
+	double movementSpeed;
 
 	/**
-	 * SpawnKillerBees constructor. S
+	 * Constructor.
 	 * 
-	 * @param splEntity        invoker entity supplier.
-	 * @param splTarget        target entity supplier.
-	 * @param splMovementSpeed movement speed supplier.
-	 * @param splDamage        attack damage supplier.
+	 * @param splEntity invoker entity supplier.
+	 * @param splTarget target entity supplier.
 	 */
-	public SpawnWarPig(Supplier<LivingEntity> splEntity, Supplier<Entity> splTarget, IntSupplier splDamage,
-			DoubleSupplier splMovementSpeed) {
+	public SpawnWarPig(Supplier<LivingEntity> splEntity, Supplier<Entity> splTarget) {
 		this.splEntity = splEntity;
 		this.splTarget = splTarget;
-		this.splDamage = splDamage;
-		this.splMovementSpeed = splMovementSpeed;
+		this.damage = spawnWarPigDamage.get();
+		this.movementSpeed = spawnWarPigMovementSpeed.get();
 	}
 
 	@Override
@@ -91,12 +88,12 @@ public class SpawnWarPig implements Operator {
 		entity.copyLocationAndAnglesFrom(livingEntity);
 
 		// set entity attributes
-		setAttribute(entity, MOVEMENT_SPEED, splMovementSpeed.getAsDouble());
-		setAttribute(entity, ATTACK_DAMAGE, splDamage.getAsInt());
+		setAttribute(entity, MOVEMENT_SPEED, movementSpeed);
+		setAttribute(entity, ATTACK_DAMAGE, damage);
 
 		// set AI
 		LivingEntity entityTarget = resolveTarget(target, livingEntity);
-		buildChargingAi(entity, entityTarget, (float) splDamage.getAsInt());
+		buildChargingAi(entity, entityTarget, (float) damage);
 
 		// add spawn sound
 		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);

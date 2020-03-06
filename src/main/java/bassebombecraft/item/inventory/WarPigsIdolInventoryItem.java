@@ -22,12 +22,9 @@ public class WarPigsIdolInventoryItem extends GenericInventoryItem {
 
 	public static final String ITEM_NAME = WarPigsIdolInventoryItem.class.getSimpleName();
 
-	static IntSupplier splDamage = () -> spawnWarPigDamage.get();
-	static DoubleSupplier splMovementSpeed = () -> spawnWarPigMovementSpeed.get();
 	static Supplier<Operators> splOp = () -> {
 		Operators ops = new Operators();
-		SpawnWarPig spawnOp = new SpawnWarPig(ops.getSplLivingEntity(), ops.getSplTargetEntity(), splDamage,
-				splMovementSpeed);
+		SpawnWarPig spawnOp = new SpawnWarPig(ops.getSplLivingEntity(), ops.getSplTargetEntity());
 		Operator ifOp = new IfEntityIsntType(ops.getSplTargetEntity(), spawnOp, PigEntity.class);
 		ops.setOperator(ifOp);
 		return ops;
