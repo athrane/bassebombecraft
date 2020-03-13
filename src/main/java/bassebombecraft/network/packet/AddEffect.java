@@ -36,7 +36,7 @@ public class AddEffect {
 	 * Effect amplifier.
 	 */
 	int amplifier;
-	
+
 	/**
 	 * Entity ID.
 	 */
@@ -64,7 +64,7 @@ public class AddEffect {
 		this.entityId = entity.getEntityId();
 		this.effectId = Effect.getId(effectInstance.getPotion());
 		this.duration = effectInstance.getDuration();
-		this.amplifier = effectInstance.getDuration();
+		this.amplifier = effectInstance.getAmplifier();
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class AddEffect {
 		buf.writeInt(effectId);
 		buf.writeInt(entityId);
 		buf.writeInt(duration);
-		buf.writeInt(amplifier);		
+		buf.writeInt(amplifier);
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class AddEffect {
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
-	
+
 		ctx.setPacketHandled(true);
 	}
 }

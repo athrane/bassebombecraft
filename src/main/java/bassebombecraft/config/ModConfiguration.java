@@ -990,10 +990,10 @@ public class ModConfiguration {
 		name = AddEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		decreaseSizeEffectAmplifier = COMMON_BUILDER
-				.comment("Potency of the effect (as a potion effect), i.e. the resulting size decrease.")
-				.defineInRange("amplifier", 1, 0, Integer.MAX_VALUE);
+				.comment("Potency of the effect (as a potion effect), i.e. the resulting size decrease in procentage, i.e. 50% is half size. ")
+				.defineInRange("amplifier", 50, 1, 100);
 		decreaseSizeEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
-				.defineInRange("duration", 1000, 0, Integer.MAX_VALUE);
+				.defineInRange("duration", 100, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 	}
 

@@ -8,6 +8,8 @@ import bassebombecraft.potion.effect.DecreaseSizeEffect;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderLivingEvent.Post;
@@ -20,11 +22,6 @@ import net.minecraftforge.client.event.RenderLivingEvent.Pre;
 public class DecreasedSizedEffectRenderer {
 
 	/**
-	 * Decreased size scale.
-	 */
-	static final float SCALE = 0.5f;
-
-	/**
 	 * Handle {@linkplain RenderLivingEvent.Pre} rendering event.
 	 * 
 	 * @param event rendering event.
@@ -35,14 +32,20 @@ public class DecreasedSizedEffectRenderer {
 		// exit if effect isn't active
 		if (!entity.isPotionActive(DECREASE_SIZE_EFFECT))
 			return;
-		
+
+		// get calculated size
+		EffectInstance effectInstance = entity.getActivePotionEffect(DECREASE_SIZE_EFFECT);
+		Effect effect = effectInstance.getPotion();
+		DecreaseSizeEffect decreaseSizeEffect = (DecreaseSizeEffect) effect;
+		float scale = decreaseSizeEffect.getSize();
+				
 		// get and push matrix stack
 		MatrixStack matrixStack = event.getMatrixStack();
 		matrixStack.push();
-		matrixStack.scale(SCALE, SCALE, SCALE);
+		matrixStack.scale(scale, scale, scale);
 
 		// set entity bounding box to size
-		AxisAlignedBB aabb = entity.getBoundingBox().shrink(SCALE);
+		AxisAlignedBB aabb = entity.getBoundingBox().shrink(scale);
 		entity.setBoundingBox(aabb);
 	}
 
