@@ -21,6 +21,8 @@ import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
 import bassebombecraft.potion.effect.AmplifierEffect;
+import bassebombecraft.potion.effect.DecreaseSizeEffect;
+import bassebombecraft.potion.effect.IncreaseSizeEffect;
 import bassebombecraft.potion.effect.MobAggroEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.MobProjectileEffect;
@@ -513,10 +515,19 @@ public class ModConstants {
 	 */
 	public static final Effect REFLECT_EFFECT = new ReflectEffect();
 
+	/**
+	 * Increase size effect.
+	 */
+	public static final Effect INCREASE_SIZE_EFFECT = new IncreaseSizeEffect();
+
+	/**
+	 * Decrease size effect.
+	 */
+	public static final Effect DECREASE_SIZE_EFFECT = new DecreaseSizeEffect();
 	
 	/**
 	 * Range value for non-AOE effect in {@linkplain InventoryItemActionStrategy}
-	 * implmentation.
+	 * implementation.
 	 */
 	public static final int NOT_AN_AOE_EFFECT = 1;
 }

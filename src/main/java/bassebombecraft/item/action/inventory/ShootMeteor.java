@@ -37,7 +37,7 @@ public class ShootMeteor implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world, LivingEntity invoker) {
+	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
 		Random random = getBassebombeCraft().getRandom();
 
 		double posX = target.getPosX() + (random.nextInt(10) - 5);

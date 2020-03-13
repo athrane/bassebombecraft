@@ -85,7 +85,7 @@ public class Naturalize implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world, LivingEntity invoker) {
+	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
 		Random random = getBassebombeCraft().getRandom();
 
 		// calculate position

@@ -9,14 +9,14 @@ import net.minecraft.world.World;
  * Implementation of {@linkplain InventoryItemActionStrategy} which executes
  * embedded operators.
  * 
- * Strategy isn't invoked when target is invoker.
+ * Strategy is invoked when target isn't invoker.
  */
-public class ExecuteOperator implements InventoryItemActionStrategy {
+public class ExecuteOperatorOnTarget implements InventoryItemActionStrategy {
 
 	/**
 	 * Action identifier.
 	 */
-	public static final String NAME = ExecuteOperator.class.getSimpleName();
+	public static final String NAME = ExecuteOperatorOnTarget.class.getSimpleName();
 
 	/**
 	 * Operator execution.
@@ -24,11 +24,11 @@ public class ExecuteOperator implements InventoryItemActionStrategy {
 	Operators operators;
 
 	/**
-	 * ExecuteOperator constructor.
+	 * Constructor.
 	 * 
 	 * @param operators operators to execute.
 	 */
-	public ExecuteOperator(Operators operators) {
+	public ExecuteOperatorOnTarget(Operators operators) {
 		this.operators = operators;
 	}
 
@@ -43,7 +43,7 @@ public class ExecuteOperator implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world, LivingEntity invoker) {
+	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
 		operators.run(invoker, target);
 	}
 

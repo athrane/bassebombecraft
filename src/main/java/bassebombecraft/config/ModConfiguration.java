@@ -84,6 +84,7 @@ import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
 import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
 import bassebombecraft.item.inventory.ChickenizeIdolInventoryItem;
+import bassebombecraft.item.inventory.DecreaseSizeIdolInventoryItem;
 import bassebombecraft.item.inventory.EggProjectileIdolInventoryItem;
 import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
@@ -106,6 +107,7 @@ import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
 import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig;
+import bassebombecraft.operator.entity.potion.effect.AddEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.MobAggroEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
@@ -314,6 +316,7 @@ public class ModConfiguration {
 	public static InventoryItemConfig reflectIdolInventoryItem;
 	public static InventoryItemConfig killerBeesIdolInventoryItem;
 	public static InventoryItemConfig warPigsIdolInventoryItem;
+	public static InventoryItemConfig decreaseSizeIdolInventoryItem;
 
 	// Actions..
 
@@ -404,7 +407,7 @@ public class ModConfiguration {
 	// AddReflectEffect action
 	public static ForgeConfigSpec.IntValue addReflectEffectDuration;
 	public static ForgeConfigSpec.IntValue addReflectEffectAmplifier;
-	
+
 	// Naturalize action
 	public static ForgeConfigSpec.IntValue naturalizeSpiralSize;
 
@@ -440,6 +443,10 @@ public class ModConfiguration {
 	// Spawn war pig operator
 	public static ForgeConfigSpec.IntValue spawnWarPigDamage;
 	public static ForgeConfigSpec.DoubleValue spawnWarPigMovementSpeed;
+
+	// Decrease size effect operator
+	public static ForgeConfigSpec.IntValue decreaseSizeEffectDuration;
+	public static ForgeConfigSpec.IntValue decreaseSizeEffectAmplifier;
 
 	static {
 
@@ -906,7 +913,7 @@ public class ModConfiguration {
 		addReflectEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
 				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
-		
+
 		// Naturalize
 		name = Naturalize.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -979,6 +986,15 @@ public class ModConfiguration {
 				0, 5.0D);
 		COMMON_BUILDER.pop();
 
+		// Add decrease size effect
+		name = AddEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		decreaseSizeEffectAmplifier = COMMON_BUILDER
+				.comment("Potency of the effect (as a potion effect), i.e. the resulting size decrease.")
+				.defineInRange("amplifier", 1, 0, Integer.MAX_VALUE);
+		decreaseSizeEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 1000, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
 	}
 
 	/**
@@ -1325,6 +1341,13 @@ public class ModConfiguration {
 		warPigsIdolInventoryItem = getInstance(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will spawn psycho war pigs who will attack the player's target or some random mobs.",
 				25, 5, splParticles);
+
+		// DecreaseSizeIdolInventoryItem
+		name = DecreaseSizeIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 0.3, 0.75, 0.5, 0.5);
+		decreaseSizeIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will decrease the size of nearby mobs. The idol doesn't work on players.", 25, 5,
+				splParticles);
 	}
 
 	/**

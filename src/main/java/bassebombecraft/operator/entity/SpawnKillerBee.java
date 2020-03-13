@@ -46,7 +46,7 @@ public class SpawnKillerBee implements Operator {
 	/**
 	 * Entity target supplier.
 	 */
-	Supplier<Entity> splTarget;
+	Supplier<LivingEntity> splTarget;
 
 	/**
 	 * Attack damage.
@@ -64,7 +64,7 @@ public class SpawnKillerBee implements Operator {
 	 * @param splEntity invoker entity supplier.
 	 * @param splTarget target entity supplier.
 	 */
-	public SpawnKillerBee(Supplier<LivingEntity> splEntity, Supplier<Entity> splTarget) {
+	public SpawnKillerBee(Supplier<LivingEntity> splEntity, Supplier<LivingEntity> splTarget) {
 		this.splEntity = splEntity;
 		this.splTarget = splTarget;
 		this.damage = spawnKillerBeeDamage.get();

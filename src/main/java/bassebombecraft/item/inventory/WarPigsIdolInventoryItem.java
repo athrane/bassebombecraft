@@ -1,14 +1,10 @@
 package bassebombecraft.item.inventory;
 
-import static bassebombecraft.config.ModConfiguration.spawnWarPigDamage;
-import static bassebombecraft.config.ModConfiguration.spawnWarPigMovementSpeed;
 import static bassebombecraft.config.ModConfiguration.warPigsIdolInventoryItem;
 
-import java.util.function.DoubleSupplier;
-import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
-import bassebombecraft.item.action.inventory.ExecuteOperator;
+import bassebombecraft.item.action.inventory.ExecuteOperatorOnTarget;
 import bassebombecraft.operator.Operator;
 import bassebombecraft.operator.Operators;
 import bassebombecraft.operator.conditional.IfEntityIsntType;
@@ -31,6 +27,6 @@ public class WarPigsIdolInventoryItem extends GenericInventoryItem {
 	};
 
 	public WarPigsIdolInventoryItem() {
-		super(ITEM_NAME, warPigsIdolInventoryItem, new ExecuteOperator(splOp.get()));
+		super(ITEM_NAME, warPigsIdolInventoryItem, new ExecuteOperatorOnTarget(splOp.get()));
 	}
 }

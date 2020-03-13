@@ -45,7 +45,7 @@ public class SpawnWarPig implements Operator {
 	/**
 	 * Entity target supplier.
 	 */
-	Supplier<Entity> splTarget;
+	Supplier<LivingEntity> splTarget;
 
 	/**
 	 * Attack damage.
@@ -63,7 +63,7 @@ public class SpawnWarPig implements Operator {
 	 * @param splEntity invoker entity supplier.
 	 * @param splTarget target entity supplier.
 	 */
-	public SpawnWarPig(Supplier<LivingEntity> splEntity, Supplier<Entity> splTarget) {
+	public SpawnWarPig(Supplier<LivingEntity> splEntity, Supplier<LivingEntity> splTarget) {
 		this.splEntity = splEntity;
 		this.splTarget = splTarget;
 		this.damage = spawnWarPigDamage.get();

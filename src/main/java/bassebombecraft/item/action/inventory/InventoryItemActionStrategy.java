@@ -35,6 +35,6 @@ public interface InventoryItemActionStrategy {
 	 * @param world   world object.
 	 * @param invoker invoker entity.
 	 */
-	void applyEffect(Entity target, World world, LivingEntity invoker);
+	void applyEffect(LivingEntity target, World world, LivingEntity invoker);
 
 }

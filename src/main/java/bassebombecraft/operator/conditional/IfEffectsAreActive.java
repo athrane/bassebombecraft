@@ -8,9 +8,9 @@ import net.minecraft.potion.Effect;
 
 /**
  * Implementation of the {@linkplain Operator} interface which executes the
- * embedded operator if the effect is active.
+ * embedded operator if one of the effect is active, i.e. OR.
  */
-public class IfEffectIsActive implements Operator {
+public class IfEffectsAreActive implements Operator {
 
 	/**
 	 * Entity supplier.
@@ -28,16 +28,23 @@ public class IfEffectIsActive implements Operator {
 	Effect effect;
 
 	/**
+	 * Effect to test for.
+	 */
+	Effect effect2;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param splEntity entity supplier.
 	 * @param operator  embedded operator which is executed if effect is active.
 	 * @param effect    effect to test for.
+	 * @param effect2   effect to test for.
 	 */
-	public IfEffectIsActive(Supplier<LivingEntity> splEntity, Operator operator, Effect effect) {
+	public IfEffectsAreActive(Supplier<LivingEntity> splEntity, Operator operator, Effect effect, Effect effect2) {
 		this.splEntity = splEntity;
 		this.operator = operator;
 		this.effect = effect;
+		this.effect2 = effect;
 	}
 
 	@Override
@@ -46,11 +53,16 @@ public class IfEffectIsActive implements Operator {
 		// get entity
 		LivingEntity entity = splEntity.get();
 
-		// exit if effect isn't active
-		if (!entity.isPotionActive(effect))
+		// execute is effect is active
+		if (entity.isPotionActive(effect)) {
+			operator.run();
 			return;
+		}
 
-		operator.run();
+		// execute is effect #2 is active
+		if (entity.isPotionActive(effect2)) {
+			operator.run();
+		}
 	}
 
 }

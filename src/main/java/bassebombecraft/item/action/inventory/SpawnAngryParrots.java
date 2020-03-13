@@ -70,7 +70,7 @@ public class SpawnAngryParrots implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world, LivingEntity invoker) {
+	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
 
 		// don't apply when target is a parrot
 		if (isTypeParrotEntity(target))

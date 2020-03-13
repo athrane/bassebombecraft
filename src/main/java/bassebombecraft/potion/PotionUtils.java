@@ -102,19 +102,6 @@ public class PotionUtils {
 	}
 
 	/**
-	 * Returns true if effect is active on living entity.
-	 * 
-	 * @param entity the entity to test.
-	 * @param effect the effect to test for.
-	 * 
-	 * @return true if effect is active on living entity.
-	 */
-	public static boolean isEffectActive(LivingEntity entity, Effect effect) {
-		Optional<EffectInstance> optEffect = getEffectIfActive(entity, effect);
-		return optEffect.isPresent();
-	}
-
-	/**
 	 * Returns true if any of amplifier effect is active on living entity.
 	 * 
 	 * @param entity the entity to test.

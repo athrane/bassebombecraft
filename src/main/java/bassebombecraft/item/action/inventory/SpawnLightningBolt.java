@@ -28,7 +28,7 @@ public class SpawnLightningBolt implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world, LivingEntity invoker) {
+	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
 		AxisAlignedBB aabb = target.getBoundingBox();
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);

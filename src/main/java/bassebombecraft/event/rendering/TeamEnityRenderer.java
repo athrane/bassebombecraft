@@ -1,7 +1,6 @@
 package bassebombecraft.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.ModConstants.EQUILATERAL_TRIANGLE_HEIGHT;
 import static bassebombecraft.ModConstants.HUD_ITEM;
 import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEXT_SCALE;
@@ -24,9 +23,11 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.event.RenderLivingEvent.Pre;
 
 /**
  * Rendering team member information in the HUD item.
@@ -38,7 +39,7 @@ public class TeamEnityRenderer {
 	 * 
 	 * @param event event to trigger rendering of information.
 	 */
-	public static void handleRenderLivingEvent(RenderLivingEvent.Pre event) {
+	public static void handleRenderLivingEvent(Pre<PlayerEntity, PlayerModel<PlayerEntity>> event ) {
 		try {
 
 			// exit if player is undefined
@@ -65,7 +66,7 @@ public class TeamEnityRenderer {
 	}
 
 	/**
-	 * Render charmed info.
+	 * Render team member info.
 	 * 
 	 * @param matrixStack matrix static for rendering transforms.
 	 * @param entity      member of the players team.
@@ -75,16 +76,14 @@ public class TeamEnityRenderer {
 		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
 
 		float height = entity.getHeight();
-		matrixStack.push();
 		renderText(matrixStack, buffer, 0, 0, "TEAM");
 		renderText(matrixStack, buffer, 0, -10, getFirstRunningAiGoalName(entity));
 		renderText(matrixStack, buffer, 0, -20, getFirstRunningAiTargetGoalName(entity));
 
 		float w = (float) RenderingUtils.oscillate(-10, 10);
-			
 		matrixStack.push();
 		matrixStack.translate(0, height, 0);
-		matrixStack.rotate(Vector3f.YP.rotationDegrees(180));		
+		matrixStack.rotate(Vector3f.YP.rotationDegrees(180));
 		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
 		IVertexBuilder builder = buffer.getBuffer(OverlayLines.OVERLAY_LINES);
 		renderTriangle(builder, positionMatrix);
@@ -110,24 +109,24 @@ public class TeamEnityRenderer {
 	}
 
 	/**
-	 * Render triangle.
+	 * Render shield.
 	 */
 	public static void renderTriangle(IVertexBuilder builder, Matrix4f positionMatrix) {
 
 		addWhiteVertex(builder, positionMatrix, 0 - 0.5F, 0, 0);
 		addWhiteVertex(builder, positionMatrix, 1 - 0.5F, 0, 0);
-		
-		addWhiteVertex(builder, positionMatrix, 1 - 0.5F, 0, 0);
-		addWhiteVertex(builder, positionMatrix, 1 - 0.5F,  - 1, 0);
-		
-		addWhiteVertex(builder, positionMatrix, 1 - 0.5F,  - 1, 0);
-		addWhiteVertex(builder, positionMatrix, 0.5F - 0.5F,  - 1.25F, 0);
-		
-		addWhiteVertex(builder, positionMatrix, 0.5F - 0.5F, - 1.25F, 0);
-		addWhiteVertex(builder, positionMatrix, 0 - 0.5F, - 1, 0);
 
-		addWhiteVertex(builder, positionMatrix, 0 - 0.5F, - 1, 0);
-		addWhiteVertex(builder, positionMatrix, 0 - 0.5F, 0, 0);		
+		addWhiteVertex(builder, positionMatrix, 1 - 0.5F, 0, 0);
+		addWhiteVertex(builder, positionMatrix, 1 - 0.5F, -1, 0);
+
+		addWhiteVertex(builder, positionMatrix, 1 - 0.5F, -1, 0);
+		addWhiteVertex(builder, positionMatrix, 0.5F - 0.5F, -1.25F, 0);
+
+		addWhiteVertex(builder, positionMatrix, 0.5F - 0.5F, -1.25F, 0);
+		addWhiteVertex(builder, positionMatrix, 0 - 0.5F, -1, 0);
+
+		addWhiteVertex(builder, positionMatrix, 0 - 0.5F, -1, 0);
+		addWhiteVertex(builder, positionMatrix, 0 - 0.5F, 0, 0);
 	}
 
 	static void addWhiteVertex(IVertexBuilder builder, Matrix4f positionMatrix, float x, float y, float z) {

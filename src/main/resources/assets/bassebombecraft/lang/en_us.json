@@ -114,6 +114,7 @@
     "item.bassebombecraft.reflectidolinventoryitem": "Shield-maiden Idol",
     "item.bassebombecraft.killerbeesidolinventoryitem": "Attack of the Killer B's Idol",
     "item.bassebombecraft.warpigsidolinventoryitem": "Warpigs Idol",
+    "item.bassebombecraft.decreasesizeidolinventoryitem": "Micropsia Idol",
 
     "_comment": "blocks",
     "block.bassebombecraft.randombookblock": "Block of Random Books",
@@ -130,6 +131,8 @@
     "effect.bassebombecraft.mobrespawningeffect": "Respawn mobs",
     "effect.bassebombecraft.playerggroeffect": "Aggro mobs towards player",
     "effect.bassebombecraft.reflecteffect": "Reflect damage",
+    "effect.bassebombecraft.decreasesizeeffect": "Decrease size",
+    "effect.bassebombecraft.increasesizeeffect": "Increase size",
 
 	"_comment": "potions",
     "item.minecraft.potion.effect.weakamplificationpotion": "Potion of Weak Amplification",

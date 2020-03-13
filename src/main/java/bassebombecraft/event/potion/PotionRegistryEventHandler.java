@@ -106,6 +106,8 @@ public class PotionRegistryEventHandler {
 		registry.register(MOB_RESPAWNING_EFFECT);
 		registry.register(PLAYER_AGGRO_EFFECT);
 		registry.register(REFLECT_EFFECT);	
+		registry.register(DECREASE_SIZE_EFFECT);	
+		registry.register(INCREASE_SIZE_EFFECT);			
 		// registry.register(BEAR_BLASTER_EFFECT);
 		// registry.register(PRIMED_CREEPER_CANNON_EFFECT);
 		// registry.register(CREEPER_CANNON_EFFECT);

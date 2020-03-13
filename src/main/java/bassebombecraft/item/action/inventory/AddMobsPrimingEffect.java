@@ -49,7 +49,7 @@ public class AddMobsPrimingEffect implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world, LivingEntity invoker) {
+	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
 		if (isTypeLivingEntity(target)) {
 			LivingEntity entityLivingBase = (LivingEntity) target;
 			entityLivingBase.addPotionEffect(createEffect());

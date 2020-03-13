@@ -4,7 +4,7 @@ import static bassebombecraft.config.ModConfiguration.killerBeesIdolInventoryIte
 
 import java.util.function.Supplier;
 
-import bassebombecraft.item.action.inventory.ExecuteOperator;
+import bassebombecraft.item.action.inventory.ExecuteOperatorOnTarget;
 import bassebombecraft.operator.Operator;
 import bassebombecraft.operator.Operators;
 import bassebombecraft.operator.conditional.IfEntityIsntType;
@@ -27,6 +27,6 @@ public class KillerBeesIdolInventoryItem extends GenericInventoryItem {
 	};
 
 	public KillerBeesIdolInventoryItem() {
-		super(ITEM_NAME, killerBeesIdolInventoryItem, new ExecuteOperator(splOp.get()));
+		super(ITEM_NAME, killerBeesIdolInventoryItem, new ExecuteOperatorOnTarget(splOp.get()));
 	}
 }
