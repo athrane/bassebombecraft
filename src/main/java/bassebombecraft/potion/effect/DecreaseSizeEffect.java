@@ -5,11 +5,9 @@ import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
 import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 import static bassebombecraft.rendering.RenderingUtils.oscillate;
 
-import java.time.Instant;
 import java.util.Random;
 
-import bassebombecraft.BassebombeCraft;
-import bassebombecraft.event.potion.DecreasedSizedEffectRenderer;
+import bassebombecraft.event.potion.DecreaseSizedEffectRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
 
@@ -17,7 +15,7 @@ import net.minecraft.potion.Effect;
  * Effect which decrease the size of the entity to approximately half size.
  * 
  * The logic of the effect is implemented in
- * {@linkplain DecreasedSizedEffectRenderer} which renders the entity in its
+ * {@linkplain DecreaseSizedEffectRenderer} which renders the entity in its
  * reduced size.
  */
 public class DecreaseSizeEffect extends Effect {
@@ -47,8 +45,8 @@ public class DecreaseSizeEffect extends Effect {
 
 	@Override
 	public void performEffect(LivingEntity entity, int amplifier) {
-		float scaledSize = (float) amplifier / 100.0F;		
-		float scaledSizeFraction = scaledSize * 0.25F;				
+		float scaledSize = (float) amplifier / 100.0F;
+		float scaledSizeFraction = scaledSize * 0.25F;
 		float sizeVariation = (float) oscillate(entity.hashCode(), 0, scaledSizeFraction);
 		currentSize = scaledSize + sizeVariation;
 	}
@@ -66,4 +64,5 @@ public class DecreaseSizeEffect extends Effect {
 	public float getSize() {
 		return currentSize;
 	}
+
 }

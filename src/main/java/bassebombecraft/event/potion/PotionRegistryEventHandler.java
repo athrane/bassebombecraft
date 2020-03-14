@@ -34,7 +34,6 @@ import net.minecraftforge.registries.ObjectHolder;
 /**
  * Event handler for registration of potions.
  */
-@ObjectHolder(MODID)
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class PotionRegistryEventHandler {
 

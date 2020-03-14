@@ -14,15 +14,17 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderLivingEvent.Post;
 import net.minecraftforge.client.event.RenderLivingEvent.Pre;
+import net.minecraftforge.fml.common.Mod;
 
 /**
- * Renderer for rendering entities with size decreased by the
- * {@linkplain DecreaseSizeEffect} potion effects.
+ * Client side renderer for rendering entities with size decreased by the
+ * {@linkplain DecreaseSizeEffect} potion effect.
  */
-public class DecreasedSizedEffectRenderer {
+@Mod.EventBusSubscriber
+public class DecreaseSizedEffectRenderer {
 
 	/**
-	 * Handle {@linkplain RenderLivingEvent.Pre} rendering event.
+	 * Handle {@linkplain RenderLivingEvent.Pre} rendering event at client side.
 	 * 
 	 * @param event rendering event.
 	 */
@@ -38,7 +40,7 @@ public class DecreasedSizedEffectRenderer {
 		Effect effect = effectInstance.getPotion();
 		DecreaseSizeEffect decreaseSizeEffect = (DecreaseSizeEffect) effect;
 		float scale = decreaseSizeEffect.getSize();
-				
+
 		// get and push matrix stack
 		MatrixStack matrixStack = event.getMatrixStack();
 		matrixStack.push();
@@ -50,7 +52,7 @@ public class DecreasedSizedEffectRenderer {
 	}
 
 	/**
-	 * Handle {@linkplain RenderLivingEvent.Post} rendering event.
+	 * Handle {@linkplain RenderLivingEvent.Post} rendering event at client side.
 	 * 
 	 * @param event rendering event.
 	 */

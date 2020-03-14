@@ -5,6 +5,7 @@ import static bassebombecraft.ModConstants.MODID;
 import static net.minecraftforge.fml.network.NetworkRegistry.newSimpleChannel;
 
 import bassebombecraft.network.packet.AddEffect;
+import bassebombecraft.network.packet.RemoveEffect;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
@@ -48,6 +49,7 @@ public class NetworkChannelHelper {
 
 		// register messages
 		channel.registerMessage(msgIndex++, AddEffect.class, AddEffect::encode, AddEffect::new, AddEffect::handle);
+		channel.registerMessage(msgIndex++, RemoveEffect.class, RemoveEffect::encode, RemoveEffect::new, RemoveEffect::handle);		
 	}
 
 	/**
@@ -64,4 +66,18 @@ public class NetworkChannelHelper {
 		}
 	}
 
+	/**
+	 * Send {@linkplain RemoveEffect} network packet from server to client.
+	 * 
+	 * @param entity entity to remove effect from.
+	 * @param effect effect to remove from entity.
+	 */
+	public void sendRemoveEffectPacket(LivingEntity entity, EffectInstance effectInstance) {
+		try {
+			channel.send(PacketDistributor.ALL.noArg(), new RemoveEffect(entity, effectInstance));
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
+	}
+	
 }

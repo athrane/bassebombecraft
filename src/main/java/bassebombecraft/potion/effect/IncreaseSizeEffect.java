@@ -4,7 +4,7 @@ import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
 import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 
-import bassebombecraft.event.potion.DecreasedSizedEffectRenderer;
+import bassebombecraft.event.potion.DecreaseSizedEffectRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
 
@@ -13,7 +13,7 @@ import net.minecraft.potion.Effect;
  * 
  * Size is dependent by amplifier.
  * 
- * The logic of the effect is implemented in {@linkplain DecreasedSizedEffectRenderer}
+ * The logic of the effect is implemented in {@linkplain DecreaseSizedEffectRenderer}
  * which renders the entity in its increased size.
  */
 public class IncreaseSizeEffect extends Effect {
