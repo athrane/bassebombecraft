@@ -50,7 +50,7 @@ public class DebugRenderer_Highlightblock {
 		BlockRayTraceResult blockResult = (BlockRayTraceResult) event.getTarget();
 		BlockPos blockPos = blockResult.getPos();
 		AxisAlignedBB aabb = new AxisAlignedBB(blockPos);
-		double w = RenderingUtils.oscillate(0, 0.02);
+		double w = RenderingUtils.oscillate(0, 0.02F);
 		aabb = aabb.grow(w);
 
 		Vec3d projectedView = Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getProjectedView();

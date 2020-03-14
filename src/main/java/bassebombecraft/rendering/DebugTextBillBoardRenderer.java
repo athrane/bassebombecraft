@@ -206,7 +206,7 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 		// setupBillboardRotation();		
 		RenderSystem.rotatef(180, 0, 1, 0);
 
-		float z = (float) RenderingUtils.oscillate(0.1, 0.2);
+		float z = (float) RenderingUtils.oscillate(0.1F, 0.2F);
 		RenderSystem.translated(0,0, 0.1);
 		
 		// scale text

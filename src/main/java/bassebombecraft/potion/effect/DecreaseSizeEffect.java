@@ -3,9 +3,12 @@ package bassebombecraft.potion.effect;
 import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
 import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
+import static bassebombecraft.rendering.RenderingUtils.oscillate;
 
+import java.time.Instant;
 import java.util.Random;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.potion.DecreasedSizedEffectRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
@@ -44,7 +47,10 @@ public class DecreaseSizeEffect extends Effect {
 
 	@Override
 	public void performEffect(LivingEntity entity, int amplifier) {
-		currentSize = (float) amplifier / 100.0F;
+		float scaledSize = (float) amplifier / 100.0F;		
+		float scaledSizeFraction = scaledSize * 0.25F;				
+		float sizeVariation = (float) oscillate(entity.hashCode(), 0, scaledSizeFraction);
+		currentSize = scaledSize + sizeVariation;
 	}
 
 	@Override

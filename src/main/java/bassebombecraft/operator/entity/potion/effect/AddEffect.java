@@ -5,7 +5,6 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.operator.Operator;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
@@ -64,13 +63,11 @@ public class AddEffect implements Operator {
 		// get entity
 		LivingEntity entity = splEntity.get();
 
-		// create effect instance
+		// create and add effect 
 		EffectInstance effectInstance = new EffectInstance(effect, duration, amplifier);
-		
-		// add effect
 		entity.addPotionEffect(effectInstance);
-		
-		// sync effect to client		
+
+		// sync effect to client
 		getBassebombeCraft().getNetworkChannel().sendAddEffectPacket(entity, effectInstance);
 	}
 }

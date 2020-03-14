@@ -797,12 +797,12 @@ public class RenderingUtils {
 	/**
 	 * Oscillate value.
 	 * 
-	 * @param min
+	 * @param min 
 	 * @param max
 	 * 
 	 * @return oscillated value between min and max.
 	 */
-	public static double oscillate(double min, double max) {
+	public static double oscillate(float min, float max) {
 		long time = Instant.now().toEpochMilli() / 10;
 		return min + (Math.sin(Math.toRadians(time)) + 1) / 2 * (max - min);
 	}
@@ -810,13 +810,14 @@ public class RenderingUtils {
 	/**
 	 * Oscillate value.
 	 * 
-	 * @param time
+	 * @param timeDelta value added to time. 
 	 * @param min
 	 * @param max
 	 * 
 	 * @return oscillated value between min and max.
 	 */
-	public static double oscillate(double time, double min, double max) {
+	public static double oscillate(long timeDelta, float min, float max) {
+		long time = (Instant.now().toEpochMilli() / 10) + timeDelta;
 		return min + (Math.sin(Math.toRadians(time)) + 1) / 2 * (max - min);
 	}
 
