@@ -1,6 +1,7 @@
 package bassebombecraft.event.potion;
 
 import static bassebombecraft.ModConstants.DECREASE_SIZE_EFFECT;
+import static bassebombecraft.rendering.RenderingUtils.oscillate;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -8,7 +9,6 @@ import bassebombecraft.potion.effect.DecreaseSizeEffect;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.Mod;
  * {@linkplain DecreaseSizeEffect} potion effect.
  */
 @Mod.EventBusSubscriber
-public class DecreaseSizedEffectRenderer {
+public class DecreaseSizeEffectRenderer {
 
 	/**
 	 * Handle {@linkplain RenderLivingEvent.Pre} rendering event at client side.
@@ -37,9 +37,7 @@ public class DecreaseSizedEffectRenderer {
 
 		// get calculated size
 		EffectInstance effectInstance = entity.getActivePotionEffect(DECREASE_SIZE_EFFECT);
-		Effect effect = effectInstance.getPotion();
-		DecreaseSizeEffect decreaseSizeEffect = (DecreaseSizeEffect) effect;
-		float scale = decreaseSizeEffect.getSize();
+		float scale = calculateSize(effectInstance.getAmplifier(), entity);
 
 		// get and push matrix stack
 		MatrixStack matrixStack = event.getMatrixStack();
@@ -66,6 +64,21 @@ public class DecreaseSizedEffectRenderer {
 		// get and pop matrix stack
 		MatrixStack matrixStack = event.getMatrixStack();
 		matrixStack.pop();
+	}
+
+	/**
+	 * Calculate decreased entry size.
+	 * 
+	 * @param amplifier potion effect amplifier.
+	 * @param entity    entity to calculate size for.
+	 * 
+	 * @return decreased entry size.
+	 */
+	public static float calculateSize(float amplifier, LivingEntity entity) {
+		float scaledSize = (float) amplifier / 100.0F;
+		float scaledSizeFraction = scaledSize * 0.25F;
+		float sizeVariation = (float) oscillate(entity.hashCode(), 0, scaledSizeFraction);
+		return scaledSize + sizeVariation;
 	}
 
 }

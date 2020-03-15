@@ -8,10 +8,10 @@
 			"item": "minecraft:rabbit_spawn_egg"
 		},		
 		{
-			"item": "minecraft:cake"
+			"item": "bassebombecraft:decreasesizeidolinventoryitem"
 		}
 	],
 	"result": {
-		"item": "bassebombecraft:decreasesizeidolinventoryitem"
+		"item": "bassebombecraft:increasesizeidolinventoryitem"
 	}
 }

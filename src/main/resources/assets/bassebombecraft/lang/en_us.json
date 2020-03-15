@@ -115,6 +115,7 @@
     "item.bassebombecraft.killerbeesidolinventoryitem": "Attack of the Killer B's Idol",
     "item.bassebombecraft.warpigsidolinventoryitem": "Warpigs Idol",
     "item.bassebombecraft.decreasesizeidolinventoryitem": "Micropsia Idol",
+    "item.bassebombecraft.increasesizeidolinventoryitem": "Macropsia Idol",
 
     "_comment": "blocks",
     "block.bassebombecraft.randombookblock": "Block of Random Books",

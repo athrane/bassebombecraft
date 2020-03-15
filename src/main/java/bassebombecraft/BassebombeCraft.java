@@ -39,7 +39,8 @@ import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.item.ItemRegistryEventHandler;
 import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
-import bassebombecraft.event.potion.DecreaseSizedEffectRenderer;
+import bassebombecraft.event.potion.DecreaseSizeEffectRenderer;
+import bassebombecraft.event.potion.IncreaseSizeEffectRenderer;
 import bassebombecraft.event.rendering.CharmedInfoRenderer;
 import bassebombecraft.event.rendering.TargetInfoRenderer;
 import bassebombecraft.event.rendering.TeamEnityRenderer;
@@ -239,8 +240,11 @@ public class BassebombeCraft {
 		EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
 		EVENT_BUS.addListener(CharmedInfoRenderer::handleRenderWorldLastEvent);		
 		EVENT_BUS.addListener(TeamEnityRenderer::handleRenderLivingEvent);			
-		EVENT_BUS.addListener(DecreaseSizedEffectRenderer::handleRenderLivingEventPre);									
-		EVENT_BUS.addListener(DecreaseSizedEffectRenderer::handleRenderLivingEventPost);											
+		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPre);									
+		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPost);											
+		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPre);									
+		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPost);											
+		
 	}
 
 	/**

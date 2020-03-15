@@ -88,6 +88,7 @@ import bassebombecraft.item.inventory.DecreaseSizeIdolInventoryItem;
 import bassebombecraft.item.inventory.EggProjectileIdolInventoryItem;
 import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
+import bassebombecraft.item.inventory.IncreaseSizeIdolInventoryItem;
 import bassebombecraft.item.inventory.KillerBeesIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
@@ -317,6 +318,7 @@ public class ModConfiguration {
 	public static InventoryItemConfig killerBeesIdolInventoryItem;
 	public static InventoryItemConfig warPigsIdolInventoryItem;
 	public static InventoryItemConfig decreaseSizeIdolInventoryItem;
+	public static InventoryItemConfig increaseSizeIdolInventoryItem;
 
 	// Actions..
 
@@ -448,6 +450,10 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue decreaseSizeEffectDuration;
 	public static ForgeConfigSpec.IntValue decreaseSizeEffectAmplifier;
 
+	// Increase size effect operator
+	public static ForgeConfigSpec.IntValue increaseSizeEffectDuration;
+	public static ForgeConfigSpec.IntValue increaseSizeEffectAmplifier;
+	
 	static {
 
 		// build general section
@@ -986,15 +992,26 @@ public class ModConfiguration {
 				0, 5.0D);
 		COMMON_BUILDER.pop();
 
-		// Add decrease size effect
-		name = AddEffect.NAME;
+		// Add decrease size effect for the DecreaseSizeIdolInventoryItem class
+		name = DecreaseSizeIdolInventoryItem.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		decreaseSizeEffectAmplifier = COMMON_BUILDER
 				.comment("Potency of the effect (as a potion effect), i.e. the resulting size decrease in procentage, i.e. 50% is half size. ")
 				.defineInRange("amplifier", 50, 1, 100);
 		decreaseSizeEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
-				.defineInRange("duration", 100, 0, Integer.MAX_VALUE);
+				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
+		
+		// Add increase size effect for the for the IncreaseSizeIdolInventoryItem class
+		name = IncreaseSizeIdolInventoryItem.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		increaseSizeEffectAmplifier = COMMON_BUILDER
+				.comment("Potency of the effect (as a potion effect), i.e. the resulting size increase in procentage, i.e. 200% is double size. ")
+				.defineInRange("amplifier", 200, 1, 500);
+		increaseSizeEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+		
 	}
 
 	/**
@@ -1346,8 +1363,15 @@ public class ModConfiguration {
 		name = DecreaseSizeIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 0.3, 0.75, 0.5, 0.5);
 		decreaseSizeIdolInventoryItem = getInstance(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol will decrease the size of nearby mobs. The idol doesn't work on players.", 25, 5,
+				"Equip in either hand to activate. The idol will decrease the size of nearby mobs. The magic doesn't work on players.", 25, 5,
 				splParticles);
+
+		// IncreaseSizeIdolInventoryItem
+		name = IncreaseSizeIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 0.3, 0.75, 0.5, 0.5);
+		increaseSizeIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will increase the size of nearby mobs. The magic doesn't work on players.", 25, 5,
+				splParticles);		
 	}
 
 	/**
