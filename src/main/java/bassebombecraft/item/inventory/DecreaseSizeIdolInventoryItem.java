@@ -10,9 +10,11 @@ import java.util.function.Supplier;
 
 import bassebombecraft.item.action.inventory.ExecuteOperatorOnTarget;
 import bassebombecraft.operator.Operator;
+import bassebombecraft.operator.Sequence;
 import bassebombecraft.operator.Operators;
 import bassebombecraft.operator.conditional.IfEntityIsntType;
 import bassebombecraft.operator.entity.potion.effect.AddEffect;
+import bassebombecraft.operator.entity.potion.effect.AddEffectAtClient;
 import net.minecraft.entity.player.PlayerEntity;
 
 /**
@@ -27,9 +29,10 @@ public class DecreaseSizeIdolInventoryItem extends GenericInventoryItem {
 
 	static Supplier<Operators> splOp = () -> {
 		Operators ops = new Operators();
-		AddEffect addEffectOp = new AddEffect(ops.getSplTargetEntity(), DECREASE_SIZE_EFFECT, splDuration,
-				splAmplifier);
-		Operator ifOp = new IfEntityIsntType(ops.getSplTargetEntity(), addEffectOp, PlayerEntity.class);
+		AddEffect addOp = new AddEffect(ops.getSplTargetEntity(), DECREASE_SIZE_EFFECT, splDuration, splAmplifier);
+		AddEffectAtClient addOp2 = new AddEffectAtClient(ops.getSplTargetEntity(), addOp.getSplEffectInstance());
+		Sequence seqOp = new Sequence(addOp, addOp2);
+		Operator ifOp = new IfEntityIsntType(ops.getSplTargetEntity(), seqOp, PlayerEntity.class);
 		ops.setOperator(ifOp);
 		return ops;
 	};

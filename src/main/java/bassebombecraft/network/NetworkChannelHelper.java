@@ -7,6 +7,7 @@ import static net.minecraftforge.fml.network.NetworkRegistry.newSimpleChannel;
 import bassebombecraft.network.packet.AddEffect;
 import bassebombecraft.network.packet.RemoveEffect;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.PacketDistributor;
@@ -72,9 +73,9 @@ public class NetworkChannelHelper {
 	 * @param entity entity to remove effect from.
 	 * @param effect effect to remove from entity.
 	 */
-	public void sendRemoveEffectPacket(LivingEntity entity, EffectInstance effectInstance) {
+	public void sendRemoveEffectPacket(LivingEntity entity, Effect effect) {
 		try {
-			channel.send(PacketDistributor.ALL.noArg(), new RemoveEffect(entity, effectInstance));
+			channel.send(PacketDistributor.ALL.noArg(), new RemoveEffect(entity, effect));
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}

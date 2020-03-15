@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -42,11 +41,6 @@ public class Operators {
 	EffectInstance effectInstance;
 
 	/**
-	 * Effect.
-	 */
-	Effect effect;
-
-	/**
 	 * {@linkplain LivingDamageEvent} supplier.
 	 */
 	Supplier<LivingDamageEvent> splEvent = () -> livingDamageEvent;
@@ -70,11 +64,6 @@ public class Operators {
 	 * {@linkplain EffectInstance} supplier.
 	 */
 	Supplier<EffectInstance> splEffectInstance = () -> effectInstance;
-
-	/**
-	 * {@linkplain Effect} supplier.
-	 */
-	Supplier<Effect> splEffect = () -> effect;
 
 	/**
 	 * Operator to execute, initially the null operator.
@@ -127,15 +116,6 @@ public class Operators {
 	}
 
 	/**
-	 * Get {@linkplain Effect} supplier.
-	 * 
-	 * @return effect supplier.
-	 */
-	public Supplier<Effect> getSplEffect() {
-		return splEffect;
-	}
-
-	/**
 	 * Set operator.
 	 * 
 	 * @param operator operator.
@@ -153,7 +133,6 @@ public class Operators {
 		livingEntity = null;
 		targetEntity = null;
 		effectInstance = null;
-		effect = null;
 	}
 
 	/**
@@ -179,7 +158,7 @@ public class Operators {
 	 */
 	public void run(RenderLivingEvent<PlayerEntity, PlayerModel<PlayerEntity>> event, LivingEntity entity) {
 		this.renderLivingEvent = event;
-		this.livingEntity = entity;		
+		this.livingEntity = entity;
 		operator.run();
 		reset();
 	}

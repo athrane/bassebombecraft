@@ -10,7 +10,7 @@ import net.minecraft.potion.Effect;
  * Implementation of the {@linkplain Operator} interface which executes the
  * embedded operator if one of the effect is active, i.e. OR.
  */
-public class IfEffectsAreActive implements Operator {
+public class IfEitherEffectsAreActive implements Operator {
 
 	/**
 	 * Entity supplier.
@@ -40,7 +40,7 @@ public class IfEffectsAreActive implements Operator {
 	 * @param effect    effect to test for.
 	 * @param effect2   effect to test for.
 	 */
-	public IfEffectsAreActive(Supplier<LivingEntity> splEntity, Operator operator, Effect effect, Effect effect2) {
+	public IfEitherEffectsAreActive(Supplier<LivingEntity> splEntity, Operator operator, Effect effect, Effect effect2) {
 		this.splEntity = splEntity;
 		this.operator = operator;
 		this.effect = effect;

@@ -10,15 +10,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
 /**
  * Remove potion effect network packet.
  * 
- * Packet is used to send ID of potion effect remove from mob. The packet is used
- * to sync the client with the server.
+ * Packet is used to send ID of potion effect remove from mob. The packet is
+ * used to sync the client with the server.
  */
 public class RemoveEffect {
 
@@ -48,9 +47,9 @@ public class RemoveEffect {
 	 * @param entity entity to remove the effect from.
 	 * @param effect effect to remove from entity.
 	 */
-	public RemoveEffect(LivingEntity entity, EffectInstance effectInstance) {
+	public RemoveEffect(LivingEntity entity, Effect effect) {
 		this.entityId = entity.getEntityId();
-		this.effectId = Effect.getId(effectInstance.getPotion());
+		this.effectId = Effect.getId(effect);
 	}
 
 	/**

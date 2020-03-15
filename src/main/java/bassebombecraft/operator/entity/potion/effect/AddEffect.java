@@ -1,7 +1,5 @@
 package bassebombecraft.operator.entity.potion.effect;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
@@ -42,6 +40,16 @@ public class AddEffect implements Operator {
 	Effect effect;
 
 	/**
+	 * Effect instance (for outbound port).
+	 */
+	EffectInstance effectInstance;
+
+	/**
+	 * {@linkplain EffectInstance} supplier.
+	 */
+	Supplier<EffectInstance> splEffectInstance = () -> effectInstance;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param splEntity    entity supplier.
@@ -57,17 +65,28 @@ public class AddEffect implements Operator {
 		this.effect = effect;
 	}
 
+	/**
+	 * Get {@linkplain EffectInstance} supplier.
+	 * 
+	 * Defines an outbound port.
+	 * 
+	 * @return effect supplier.
+	 */
+	public Supplier<EffectInstance> getSplEffectInstance() {
+		return splEffectInstance;
+	}
+
 	@Override
 	public void run() {
 
 		// get entity
 		LivingEntity entity = splEntity.get();
 
-		// create and add effect 
-		EffectInstance effectInstance = new EffectInstance(effect, duration, amplifier);
-		entity.addPotionEffect(effectInstance);
+		// create effect instance (for outbound port)
+		effectInstance = new EffectInstance(effect, duration, amplifier);
 
-		// sync effect to client
-		getBassebombeCraft().getNetworkChannel().sendAddEffectPacket(entity, effectInstance);
+		// add effect
+		entity.addPotionEffect(effectInstance);
 	}
+
 }
