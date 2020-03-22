@@ -52,7 +52,7 @@ public class OperatorEggProjectile extends ProjectileItemEntity {
 	Operators operators = NULL_OPS;
 
 	/**
-	 * GenericOperatorEggProjectile constructor
+	 * Constructor
 	 * 
 	 * Supports initialization in class {@linkplain EntityTypeRegistryEventHandler}.
 	 * 
