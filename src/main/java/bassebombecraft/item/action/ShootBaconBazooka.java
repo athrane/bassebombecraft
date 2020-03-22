@@ -1,12 +1,14 @@
 package bassebombecraft.item.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.config.ModConfiguration.shootBaconBazookaDuration;
+import static bassebombecraft.config.ModConfiguration.shootBaconBazookaProjectileAge;
+import static bassebombecraft.config.ModConfiguration.shootBaconBazookaSpawnDisplacement;
 import static bassebombecraft.entity.EntityUtils.setProjectileEntityPosition;
 
 import java.util.Random;
 
 import bassebombecraft.ModConstants;
-import bassebombecraft.config.ModConfiguration;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -53,9 +55,9 @@ public class ShootBaconBazooka implements RightClickedItemAction {
 	 */
 	public ShootBaconBazooka() {
 		super();
-		age = ModConfiguration.shootBaconBazookaProjectileAge.get();
-		duration = ModConfiguration.shootBaconBazookaDuration.get();
-		spawnDisplacement = ModConfiguration.shootBaconBazookaSpawnDisplacement.get();
+		age = shootBaconBazookaProjectileAge.get();
+		duration = shootBaconBazookaDuration.get();
+		spawnDisplacement = shootBaconBazookaSpawnDisplacement.get();
 	}
 
 	@Override
