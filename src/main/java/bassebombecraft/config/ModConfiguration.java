@@ -111,6 +111,7 @@ import bassebombecraft.operator.entity.SpawnDecoy;
 import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig;
 import bassebombecraft.potion.effect.AmplifierEffect;
+import bassebombecraft.potion.effect.DecoyEffect;
 import bassebombecraft.potion.effect.AggroMobEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.MobRespawningEffect;
@@ -1022,7 +1023,7 @@ public class ModConfiguration {
 				0, 5.0D);
 		COMMON_BUILDER.pop();
 
-		// Add decrease size effect for the DecreaseSizeIdolInventoryItem class
+		// Decrease size effect for the DecreaseSizeIdolInventoryItem class
 		name = DecreaseSizeIdolInventoryItem.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		decreaseSizeEffectAmplifier = COMMON_BUILDER.comment(
@@ -1032,7 +1033,7 @@ public class ModConfiguration {
 				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// Add increase size effect for the for the IncreaseSizeIdolInventoryItem class
+		// Increase size effect for the for the IncreaseSizeIdolInventoryItem class
 		name = IncreaseSizeIdolInventoryItem.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		increaseSizeEffectAmplifier = COMMON_BUILDER.comment(
@@ -1051,8 +1052,8 @@ public class ModConfiguration {
 				.defineInRange("knockbackResistance ", 1.0D, 0, 1.0D);
 		COMMON_BUILDER.pop();
 		
-		// Add decoy and receive aggro effect for the DecoyBook class
-		name = DecoyBook.ITEM_NAME;
+		// Decoy effect for the DecoyBook class
+		name = DecoyEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		decoyEffectAmplifier = COMMON_BUILDER.comment(
 				"Potency of the effect (as a potion effect), i.e. the resulting size increase in procentage, i.e. 100% is normal size. ")
@@ -1060,11 +1061,16 @@ public class ModConfiguration {
 		decoyEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
 				.defineInRange("duration", 500, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
-				
-		public static ForgeConfigSpec.IntValue receiveAggroEffectDuration;
-		public static ForgeConfigSpec.IntValue receiveAggroEffectAmplifier;
-		
-		
+
+		// Receive aggro effect for the DecoyBook class
+		name = DecoyEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		receiveAggroEffectAmplifier = COMMON_BUILDER.comment(
+				"Potency of the effect (as a potion effect), has no fuction for this effect. ")
+				.defineInRange("amplifier", 175, 1, 200);
+		receiveAggroEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 500, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();		
 	}
 
 	/**

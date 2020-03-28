@@ -129,7 +129,7 @@
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",
     "effect.bassebombecraft.aggromobeffect": "Aggro mob",
-    "effect.bassebombecraft.receiveaggroeffect": "Receive Aggro",    
+    "effect.bassebombecraft.receiveaggroeffect": "Receive Aggro",   
     "effect.bassebombecraft.mobprimingeffect": "Prime mobs",
     "effect.bassebombecraft.mobrespawningeffect": "Respawn mobs",
     "effect.bassebombecraft.aggroplayereffect": "Aggro player",
@@ -151,9 +151,9 @@
     "item.minecraft.lingering_potion.effect.superioramplificationpotion": "Lingering Potion of Superior Amplification",
     "item.minecraft.splash_potion.effect.superioramplificationpotion": "Splash Potion of Superior Amplification",
     
-    "item.minecraft.potion.effect.mobaggropotion": "Potion of Mob Aggro",
-    "item.minecraft.lingering_potion.effect.mobaggropotion": "Lingering Potion of Mob Aggro",        
-    "item.minecraft.splash_potion.effect.mobaggropotion": "Splash Potion of Mob Aggro",        
+    "item.minecraft.potion.effect.mobaggropotion": "Potion of Aggro Mob",
+    "item.minecraft.lingering_potion.effect.mobaggropotion": "Lingering Potion of Aggro Mob",        
+    "item.minecraft.splash_potion.effect.mobaggropotion": "Splash Potion of Aggro Mob",        
     
     "item.minecraft.potion.effect.mobprimingpotion": "Potion of Mob Priming",
     "item.minecraft.lingering_potion.effect.mobprimingpotion": "Lingering Potion of Mob Priming",        
