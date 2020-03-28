@@ -1,6 +1,7 @@
 package bassebombecraft.operator.entity;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.DECOY;
 import static bassebombecraft.block.BlockUtils.calculatePosition;
 import static bassebombecraft.config.ModConfiguration.spawnDecoyKnockBackResistance;
 import static bassebombecraft.config.ModConfiguration.spawnDecoyMaxHealth;
@@ -133,6 +134,7 @@ public class SpawnDecoy implements Operator {
 		setAttribute(entity, MOVEMENT_SPEED, 0);
 		setAttribute(entity, MAX_HEALTH, spawnDecoyMaxHealth.get());
 		setAttribute(entity, KNOCKBACK_RESISTANCE, spawnDecoyKnockBackResistance.get());
+		setAttribute(entity, DECOY, 1.0D);
 
 		// set AI
 		// buildChargingAi(entity, entityTarget, (float) damage);

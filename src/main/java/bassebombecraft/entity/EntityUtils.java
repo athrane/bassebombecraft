@@ -455,4 +455,16 @@ public class EntityUtils {
 		instance.setBaseValue(value);
 	}
 
+	/**
+	 * Returns true of entity has attribute.
+	 * 
+	 * @param entity    entity to set attribute at.
+	 * @param attribute attribute to set.
+	 */
+	public static boolean hasAttribute(LivingEntity entity, IAttribute attribute) {
+		AbstractAttributeMap attributes = entity.getAttributes();
+		IAttributeInstance instance = attributes.getAttributeInstance(attribute);
+		return (instance != null);
+	}
+	
 }

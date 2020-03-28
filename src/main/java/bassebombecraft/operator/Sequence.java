@@ -1,11 +1,10 @@
 package bassebombecraft.operator;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.stream.Collectors;
+import java.util.List;
 
 /**
- * Implementation of the {@linkplain Operator} interface which executes three
+ * Implementation of the {@linkplain Operator} interface which executes the
  * embedded operators in sequence.
  */
 public class Sequence implements Operator {
@@ -13,20 +12,20 @@ public class Sequence implements Operator {
 	/**
 	 * Embedded operators.
 	 */
-	ArrayList<Operator> list = new ArrayList<Operator>();
+	List<Operator> operatorList;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param operator embedded operators which are executed in sequence
+	 * @param operators embedded operators which are executed in sequence
 	 */
 	public Sequence(Operator... operators) {
-		Arrays.stream(operators).collect(Collectors.toCollection(ArrayList<Operator>::new));
+		operatorList = Arrays.asList(operators);
 	}
 
 	@Override
 	public void run() {
-		list.forEach(o -> o.run());
+		operatorList.forEach(o -> o.run());
 	}
 
 }

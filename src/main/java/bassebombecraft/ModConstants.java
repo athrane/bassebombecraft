@@ -20,19 +20,20 @@ import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
+import bassebombecraft.potion.effect.AggroMobEffect;
+import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
-import bassebombecraft.potion.effect.DecoyEffect;
 import bassebombecraft.potion.effect.DecreaseSizeEffect;
 import bassebombecraft.potion.effect.IncreaseSizeEffect;
-import bassebombecraft.potion.effect.AggroMobEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.MobProjectileEffect;
 import bassebombecraft.potion.effect.MobRespawningEffect;
 import bassebombecraft.potion.effect.ReceiveAggroEffect;
-import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.ReflectEffect;
 import bassebombecraft.rendering.DefaultBuildMineRenderer;
 import net.minecraft.client.renderer.Vector4f;
+import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
 import net.minecraft.potion.Effect;
@@ -331,18 +332,18 @@ public class ModConstants {
 	 * Rendering: Text scale
 	 */
 	public static final float TEXT_SCALE = 0.02F;
-	
+
 	/**
 	 * Rendering: Text color.
 	 */
 	public static final int TEXT_COLOR = 0x00C000;
 
 	/**
-	 * Rendering_ Text translation along Z-axis for rendering of billboard text in HUD item
-	 * in the {@linkplain TeamInfoRenderer} class.
+	 * Rendering_ Text translation along Z-axis for rendering of billboard text in
+	 * HUD item in the {@linkplain TeamInfoRenderer} class.
 	 */
 	public static final int TEXT_Z_TRANSLATION = 200;
-	
+
 	/**
 	 * Rendering: Text color for {@linkplain BuildMineBook} in
 	 * {@linkplain DefaultBuildMineRenderer}.
@@ -468,12 +469,12 @@ public class ModConstants {
 	 * Receive mob aggro effect, used by {@linkplain MobsAggroIdolInventoryItem}.
 	 */
 	public static final Effect RECEIVE_AGGRO_EFFECT = new ReceiveAggroEffect();
-	
+
 	/**
 	 * Aggro player effect, used by {@linkplain MobRespawningEffectEventHandler}.
 	 */
 	public static final Effect AGGRO_PLAYER_EFFECT = new AggroPlayerEffect();
-	
+
 	/**
 	 * Primed mob effect, used by {@linkplain PrimeMobIdolInventoryItem}.
 	 */
@@ -533,13 +534,15 @@ public class ModConstants {
 	public static final Effect DECREASE_SIZE_EFFECT = new DecreaseSizeEffect();
 
 	/**
-	 * Decoy effect.
-	 */
-	public static final Effect DECOY_EFFECT = new DecoyEffect();
-	
-	/**
 	 * Range value for non-AOE effect in {@linkplain InventoryItemActionStrategy}
 	 * implementation.
 	 */
 	public static final int NOT_AN_AOE_EFFECT = 1;
+
+	/**
+	 * Entity attribute to define an entity as a decoy.
+	 */
+	public static final IAttribute DECOY = (new RangedAttribute((IAttribute) null, "bassebombecraft.decoy", 1.0D, 0.0D,
+			1.0D)).setShouldWatch(true);
+
 }

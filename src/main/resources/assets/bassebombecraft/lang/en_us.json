@@ -136,7 +136,6 @@
     "effect.bassebombecraft.reflecteffect": "Reflect damage",
     "effect.bassebombecraft.decreasesizeeffect": "Decrease size",
     "effect.bassebombecraft.increasesizeeffect": "Increase size",
-    "effect.bassebombecraft.decoyeffect": "Decoy",
 
 	"_comment": "potions",
     "item.minecraft.potion.effect.weakamplificationpotion": "Potion of Weak Amplification",

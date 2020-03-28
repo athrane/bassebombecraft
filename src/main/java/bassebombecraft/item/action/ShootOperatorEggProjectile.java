@@ -42,7 +42,6 @@ public class ShootOperatorEggProjectile implements RightClickedItemAction {
 	@Override
 	public void onRightClick(World world, LivingEntity entity) {
 		Random random = getBassebombeCraft().getRandom();
-
 		OperatorEggProjectile projectile = new OperatorEggProjectile(world, entity, operators);
 		projectile.shoot(entity, entity.rotationPitch, entity.rotationYaw, PITCH_OFFSET, VELOCITY, INACCURANCY);
 		entity.playSound(SOUND, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 0.8F));

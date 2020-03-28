@@ -38,14 +38,14 @@ import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.ShootSmallFireballRing;
 import bassebombecraft.item.action.build.CopyPasteBlocks;
+import bassebombecraft.item.action.inventory.AddAggroMobEffect;
+import bassebombecraft.item.action.inventory.AddAggroPlayerEffect;
 import bassebombecraft.item.action.inventory.AddBlindingEffect;
 import bassebombecraft.item.action.inventory.AddFlameEffect;
 import bassebombecraft.item.action.inventory.AddHealingEffect;
 import bassebombecraft.item.action.inventory.AddLevitationEffect;
-import bassebombecraft.item.action.inventory.AddAggroMobEffect;
 import bassebombecraft.item.action.inventory.AddMobsLevitationEffect;
 import bassebombecraft.item.action.inventory.AddMobsPrimingEffect;
-import bassebombecraft.item.action.inventory.AddAggroPlayerEffect;
 import bassebombecraft.item.action.inventory.AddReflectEffect;
 import bassebombecraft.item.action.inventory.AddSaturationEffect;
 import bassebombecraft.item.action.inventory.Naturalize;
@@ -110,13 +110,12 @@ import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
 import bassebombecraft.operator.entity.SpawnDecoy;
 import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig;
-import bassebombecraft.potion.effect.AmplifierEffect;
-import bassebombecraft.potion.effect.DecoyEffect;
 import bassebombecraft.potion.effect.AggroMobEffect;
+import bassebombecraft.potion.effect.AggroPlayerEffect;
+import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.MobRespawningEffect;
 import bassebombecraft.potion.effect.ReceiveAggroEffect;
-import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.projectile.action.DigMobHole;
 import bassebombecraft.projectile.action.SpawnCreeperArmy;
 import bassebombecraft.projectile.action.SpawnKittenArmy;
@@ -192,7 +191,7 @@ public class ModConfiguration {
 	// ReceiveAggroEffect
 	public static ForgeConfigSpec.IntValue receiveAggroEffectAreaOfEffect;
 	public static ForgeConfigSpec.IntValue receiveAggroEffectUpdateFrequency;
-	
+
 	// AggroPlayerEffect
 	public static ForgeConfigSpec.IntValue aggroPlayerEffectAreaOfEffect;
 	public static ForgeConfigSpec.IntValue aggroPlayerEffectUpdateFrequency;
@@ -468,14 +467,10 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue increaseSizeEffectDuration;
 	public static ForgeConfigSpec.IntValue increaseSizeEffectAmplifier;
 
-	// Decoy effect operator
-	public static ForgeConfigSpec.IntValue decoyEffectDuration;
-	public static ForgeConfigSpec.IntValue decoyEffectAmplifier;
-
 	// Receive aggro effect operator
 	public static ForgeConfigSpec.IntValue receiveAggroEffectDuration;
 	public static ForgeConfigSpec.IntValue receiveAggroEffectAmplifier;
-		
+
 	static {
 
 		// build general section
@@ -605,12 +600,12 @@ public class ModConfiguration {
 		// receive aggro effect
 		name = ReceiveAggroEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		receiveAggroEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.").defineInRange("areaOfEffect",
-				10, 0, Integer.MAX_VALUE);
+		receiveAggroEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.")
+				.defineInRange("areaOfEffect", 10, 0, Integer.MAX_VALUE);
 		receiveAggroEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
 				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
-		
+
 		// aggro player effect
 		name = AggroPlayerEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -619,7 +614,7 @@ public class ModConfiguration {
 		aggroPlayerEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
 				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
-		
+
 		// mob respawning effect
 		name = MobRespawningEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1051,26 +1046,16 @@ public class ModConfiguration {
 		spawnDecoyKnockBackResistance = COMMON_BUILDER.comment("Decoy knockback resistance in %.")
 				.defineInRange("knockbackResistance ", 1.0D, 0, 1.0D);
 		COMMON_BUILDER.pop();
-		
-		// Decoy effect for the DecoyBook class
-		name = DecoyEffect.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		decoyEffectAmplifier = COMMON_BUILDER.comment(
-				"Potency of the effect (as a potion effect), i.e. the resulting size increase in procentage, i.e. 100% is normal size. ")
-				.defineInRange("amplifier", 175, 1, 200);
-		decoyEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
-				.defineInRange("duration", 500, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
 
 		// Receive aggro effect for the DecoyBook class
-		name = DecoyEffect.NAME;
+		name = ReceiveAggroEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		receiveAggroEffectAmplifier = COMMON_BUILDER.comment(
-				"Potency of the effect (as a potion effect), has no fuction for this effect. ")
+		receiveAggroEffectAmplifier = COMMON_BUILDER
+				.comment("Potency of the effect (as a potion effect), has no fuction for this effect. ")
 				.defineInRange("amplifier", 175, 1, 200);
 		receiveAggroEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
 				.defineInRange("duration", 500, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();		
+		COMMON_BUILDER.pop();
 	}
 
 	/**

@@ -1,33 +1,36 @@
 package bassebombecraft.event.potion;
 
-import static bassebombecraft.ModConstants.DECOY_EFFECT;
+import static bassebombecraft.ModConstants.DECOY;
 import static bassebombecraft.rendering.RenderingUtils.oscillate;
+import static net.minecraft.util.math.MathHelper.interpolateAngle;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import bassebombecraft.potion.effect.DecoyEffect;
+import bassebombecraft.entity.EntityUtils;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.EffectInstance;
-import static net.minecraft.util.math.MathHelper.*;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderLivingEvent.Post;
 import net.minecraftforge.client.event.RenderLivingEvent.Pre;
 import net.minecraftforge.fml.common.Mod;
 
 /**
- * Client side renderer for rendering entities with the {@linkplain DecoyEffect}
- * potion effect.
+ * Client side renderer for rendering entities with the decoy attribute.
  */
 @Mod.EventBusSubscriber
 public class DecoyEffectRenderer {
 
 	/**
-	 * Paper thing depth of decoy.s
+	 * Paper thing depth of decoy.
 	 */
 	static final float THIN_DEPTH = 0.02F;
+
+	/**
+	 * Decoy size in procentage.
+	 */
+	static final float DECOY_SCALE = 200.0F;
 
 	/**
 	 * Handle {@linkplain RenderLivingEvent.Pre} rendering event at client side.
@@ -37,13 +40,12 @@ public class DecoyEffectRenderer {
 	public static void handleRenderLivingEventPre(Pre<PlayerEntity, PlayerModel<PlayerEntity>> event) {
 		LivingEntity entity = event.getEntity();
 
-		// exit if effect isn't active
-		if (!entity.isPotionActive(DECOY_EFFECT))
+		// exit if entity attribute isn't defined
+		if (!EntityUtils.hasAttribute(entity, DECOY))
 			return;
 
 		// get calculated size
-		EffectInstance effectInstance = entity.getActivePotionEffect(DECOY_EFFECT);
-		float scale = calculateSize(effectInstance.getAmplifier(), entity);
+		float scale = calculateSize(DECOY_SCALE, entity);
 
 		// get and push matrix stack
 		MatrixStack matrixStack = event.getMatrixStack();
@@ -77,8 +79,8 @@ public class DecoyEffectRenderer {
 	public static void handleRenderLivingEventPost(Post<PlayerEntity, PlayerModel<PlayerEntity>> event) {
 		LivingEntity entity = event.getEntity();
 
-		// exit if effect isn't active
-		if (!entity.isPotionActive(DECOY_EFFECT))
+		// exit if entity attribute isn't defined
+		if (!EntityUtils.hasAttribute(entity, DECOY))
 			return;
 
 		// get and pop matrix stack

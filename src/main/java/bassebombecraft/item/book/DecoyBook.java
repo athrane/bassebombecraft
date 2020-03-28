@@ -1,9 +1,9 @@
 package bassebombecraft.item.book;
 
-import static bassebombecraft.ModConstants.*;
+import static bassebombecraft.ModConstants.RECEIVE_AGGRO_EFFECT;
 import static bassebombecraft.config.ModConfiguration.decoyBook;
-import static bassebombecraft.config.ModConfiguration.*;
-import static bassebombecraft.config.ModConfiguration.decoyEffectDuration;
+import static bassebombecraft.config.ModConfiguration.receiveAggroEffectAmplifier;
+import static bassebombecraft.config.ModConfiguration.receiveAggroEffectDuration;
 
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
@@ -13,7 +13,6 @@ import bassebombecraft.operator.Operators;
 import bassebombecraft.operator.Sequence;
 import bassebombecraft.operator.entity.SpawnDecoy;
 import bassebombecraft.operator.entity.potion.effect.AddEffect;
-import bassebombecraft.operator.entity.potion.effect.AddEffectAtClient;
 
 /**
  * Book of decoy implementation.
@@ -22,18 +21,14 @@ public class DecoyBook extends GenericRightClickedBook {
 
 	public static final String ITEM_NAME = DecoyBook.class.getSimpleName();
 
-	static IntSupplier splDuration = () -> decoyEffectDuration.get();
-	static IntSupplier splAmplifier = () -> decoyEffectAmplifier.get();
-	static IntSupplier splDuration2 = () -> receiveAggroEffectDuration.get();
-	static IntSupplier splAmplifier2 = () -> receiveAggroEffectAmplifier.get();
+	static IntSupplier splDuration = () -> receiveAggroEffectDuration.get();
+	static IntSupplier splAmplifier = () -> receiveAggroEffectAmplifier.get();
 
 	static Supplier<Operators> splOp = () -> {
 		Operators ops = new Operators();
 		SpawnDecoy spawnOp = new SpawnDecoy(ops.getSplLivingEntity(), ops.getSplRayTraceResult());
-		AddEffect addOp = new AddEffect(spawnOp.getSplLivingEntity(), DECOY_EFFECT, splDuration, splAmplifier);
-		AddEffect addOp2 = new AddEffect(spawnOp.getSplLivingEntity(), RECEIVE_AGGRO_EFFECT, splDuration, splAmplifier);		
-		AddEffectAtClient addOp3 = new AddEffectAtClient(spawnOp.getSplLivingEntity(), addOp.getSplEffectInstance());
-		Sequence seqOp = new Sequence(spawnOp, addOp, addOp2, addOp3);
+		AddEffect addOp2 = new AddEffect(spawnOp.getSplLivingEntity(), RECEIVE_AGGRO_EFFECT, splDuration, splAmplifier);
+		Sequence seqOp = new Sequence(spawnOp, addOp2);
 		ops.setOperator(seqOp);
 		return ops;
 	};
