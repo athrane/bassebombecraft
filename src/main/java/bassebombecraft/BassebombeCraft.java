@@ -39,6 +39,7 @@ import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.item.ItemRegistryEventHandler;
 import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
+import bassebombecraft.event.potion.DecoyEffectRenderer;
 import bassebombecraft.event.potion.DecreaseSizeEffectRenderer;
 import bassebombecraft.event.potion.IncreaseSizeEffectRenderer;
 import bassebombecraft.event.rendering.CharmedInfoRenderer;
@@ -192,7 +193,7 @@ public class BassebombeCraft {
 
 			// initialize network
 			network = new NetworkChannelHelper();
-			
+
 		} catch (ExceptionInInitializerError e) {
 			reportAndLogException(e);
 			throw e;
@@ -233,18 +234,21 @@ public class BassebombeCraft {
 		// EVENT_BUS.addListener(DebugRenderer_EntityText_v3::render);
 		// MinecraftForge.EVENT_BUS.addListener(DebugRenderer_WorldLastEventText::render);
 		// EVENT_BUS.addListener(DebugRenderer_Highlightblock::render);
-		//EVENT_BUS.addListener(DebugRenderer_StrangeSize::render);				
+		// EVENT_BUS.addListener(DebugRenderer_StrangeSize::render);
+		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPre);
+		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPost);
 
 		// register renderer classes
 		EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
 		EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
-		EVENT_BUS.addListener(CharmedInfoRenderer::handleRenderWorldLastEvent);		
-		EVENT_BUS.addListener(TeamEnityRenderer::handleRenderLivingEvent);			
-		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPre);									
-		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPost);											
-		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPre);									
-		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPost);											
-		
+		EVENT_BUS.addListener(CharmedInfoRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(TeamEnityRenderer::handleRenderLivingEvent);
+		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPre);
+		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPost);
+		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPre);
+		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPost);
+		EVENT_BUS.addListener(DecoyEffectRenderer::handleRenderLivingEventPre);
+		EVENT_BUS.addListener(DecoyEffectRenderer::handleRenderLivingEventPost);
 	}
 
 	/**
@@ -388,6 +392,7 @@ public class BassebombeCraft {
 	public NetworkChannelHelper getNetworkChannel() {
 		return network;
 	}
+
 	/**
 	 * Get user.
 	 * 
@@ -429,7 +434,6 @@ public class BassebombeCraft {
 		return Minecraft.getInstance();
 	}
 
-	
 	/**
 	 * Exception reporting facility.
 	 * 

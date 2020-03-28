@@ -1,36 +1,32 @@
 package bassebombecraft.operator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 /**
- * Implementation of the {@linkplain Operator} interface which executes two
+ * Implementation of the {@linkplain Operator} interface which executes three
  * embedded operators in sequence.
  */
 public class Sequence implements Operator {
 
 	/**
-	 * Embedded operator #1.
+	 * Embedded operators.
 	 */
-	Operator operator1;
-
-	/**
-	 * Embedded operator #2.
-	 */
-	Operator operator2;
+	ArrayList<Operator> list = new ArrayList<Operator>();
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param operator1 embedded operator which is executed first.
-	 * @param operator2 embedded operator which is executed second.
+	 * @param operator embedded operators which are executed in sequence
 	 */
-	public Sequence(Operator operator1, Operator operator2) {
-		this.operator1 = operator1;
-		this.operator2 = operator2;
+	public Sequence(Operator... operators) {
+		Arrays.stream(operators).collect(Collectors.toCollection(ArrayList<Operator>::new));
 	}
 
 	@Override
 	public void run() {
-		operator1.run();
-		operator2.run();
+		list.forEach(o -> o.run());
 	}
 
 }

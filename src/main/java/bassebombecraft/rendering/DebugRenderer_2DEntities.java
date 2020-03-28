@@ -147,7 +147,14 @@ public class DebugRenderer_2DEntities {
 	}
 
 	static void prepareFlatRender(MatrixStack matrixStack, double x, double z, float f) {
-		double angle1 = Math.atan2(z, x) / 3.141592653589793D * 180.0D;
+		// angle from positive z-axis 
+		// https://gamedev.stackexchange.com/questions/14602/what-are-atan-and-atan2-used-for-in-games
+		double zxAngle = Math.atan2(z, x); 
+		
+		// conversion to radians.
+		double angle1 = zxAngle / 3.141592653589793D * 180.0D;
+		
+		// rotation back
 		double angle2 = Math.floor((f - angle1) / 45.0D) * 45.0D;
 		matrixStack.rotate(Vector3f.YP.rotationDegrees((float) angle1));
 		matrixStack.scale(0.02F, 1.0F, 1.0F);

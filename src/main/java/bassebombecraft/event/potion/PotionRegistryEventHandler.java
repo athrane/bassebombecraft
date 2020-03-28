@@ -1,16 +1,19 @@
 package bassebombecraft.event.potion;
 
-import static bassebombecraft.ModConstants.AMPLIFICATION_POTION_NAME;
-import static bassebombecraft.ModConstants.AMPLIFIER_EFFECT;
-import static bassebombecraft.ModConstants.MOB_AGGRO_EFFECT;
-import static bassebombecraft.ModConstants.MOB_AGGRO_POTION_NAME;
 import static bassebombecraft.ModConstants.*;
+import static bassebombecraft.ModConstants.AMPLIFIER_EFFECT;
+import static bassebombecraft.ModConstants.DECOY_EFFECT;
+import static bassebombecraft.ModConstants.DECREASE_SIZE_EFFECT;
+import static bassebombecraft.ModConstants.INCREASE_SIZE_EFFECT;
+import static bassebombecraft.ModConstants.AGGRO_MOB_EFFECT;
+import static bassebombecraft.ModConstants.MOB_AGGRO_POTION_NAME;
+import static bassebombecraft.ModConstants.MOB_PRIMING_EFFECT;
 import static bassebombecraft.ModConstants.MOB_PRIMING_POTION_NAME;
 import static bassebombecraft.ModConstants.MOB_RESPAWNING_EFFECT;
 import static bassebombecraft.ModConstants.MOB_RESPAWNING_POTION_NAME;
-import static bassebombecraft.ModConstants.MODID;
-import static bassebombecraft.ModConstants.PLAYER_AGGRO_EFFECT;
+import static bassebombecraft.ModConstants.AGGRO_PLAYER_EFFECT;
 import static bassebombecraft.ModConstants.POTIONS_CONFIGPATH;
+import static bassebombecraft.ModConstants.REFLECT_EFFECT;
 import static bassebombecraft.ModConstants.SUPERIOR_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.WEAK_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.potion.PotionUtils.getInstance;
@@ -29,7 +32,6 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.ObjectHolder;
 
 /**
  * Event handler for registration of potions.
@@ -71,7 +73,7 @@ public class PotionRegistryEventHandler {
 		// create and register mob aggro potion
 		name = MOB_AGGRO_POTION_NAME.toLowerCase();
 		configPath = POTIONS_CONFIGPATH + MOB_AGGRO_POTION_NAME;
-		Potion mobAggroPotion = getInstance(name, configPath, MOB_AGGRO_EFFECT);
+		Potion mobAggroPotion = getInstance(name, configPath, AGGRO_MOB_EFFECT);
 		registry.register(mobAggroPotion);
 		registerPotionRecipe(Potions.AWKWARD, EMERALD, mobAggroPotion);
 
@@ -100,13 +102,15 @@ public class PotionRegistryEventHandler {
 	public static void registerEffects(RegistryEvent.Register<Effect> event) {
 		IForgeRegistry<Effect> registry = event.getRegistry();
 		registry.register(AMPLIFIER_EFFECT);
-		registry.register(MOB_AGGRO_EFFECT);
+		registry.register(AGGRO_MOB_EFFECT);
+		registry.register(RECEIVE_AGGRO_EFFECT);		
+		registry.register(AGGRO_PLAYER_EFFECT);		
 		registry.register(MOB_PRIMING_EFFECT);
 		registry.register(MOB_RESPAWNING_EFFECT);
-		registry.register(PLAYER_AGGRO_EFFECT);
-		registry.register(REFLECT_EFFECT);	
-		registry.register(DECREASE_SIZE_EFFECT);	
-		registry.register(INCREASE_SIZE_EFFECT);			
+		registry.register(REFLECT_EFFECT);
+		registry.register(DECREASE_SIZE_EFFECT);
+		registry.register(INCREASE_SIZE_EFFECT);
+		registry.register(DECOY_EFFECT);
 		// registry.register(BEAR_BLASTER_EFFECT);
 		// registry.register(PRIMED_CREEPER_CANNON_EFFECT);
 		// registry.register(CREEPER_CANNON_EFFECT);

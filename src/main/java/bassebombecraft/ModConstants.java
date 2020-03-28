@@ -21,13 +21,15 @@ import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
 import bassebombecraft.potion.effect.AmplifierEffect;
+import bassebombecraft.potion.effect.DecoyEffect;
 import bassebombecraft.potion.effect.DecreaseSizeEffect;
 import bassebombecraft.potion.effect.IncreaseSizeEffect;
-import bassebombecraft.potion.effect.MobAggroEffect;
+import bassebombecraft.potion.effect.AggroMobEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.MobProjectileEffect;
 import bassebombecraft.potion.effect.MobRespawningEffect;
-import bassebombecraft.potion.effect.PlayerAggroEffect;
+import bassebombecraft.potion.effect.ReceiveAggroEffect;
+import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.ReflectEffect;
 import bassebombecraft.rendering.DefaultBuildMineRenderer;
 import net.minecraft.client.renderer.Vector4f;
@@ -458,15 +460,20 @@ public class ModConstants {
 	public static final String PRIMEDCREEPERCANNON_EFFECT_NAME = "PrimedCreeperCannonProjectileEffect";
 
 	/**
-	 * Mobs aggro effect, used by {@linkplain MobsAggroIdolInventoryItem}.
+	 * Aggro mob effect, used by {@linkplain MobsAggroIdolInventoryItem}.
 	 */
-	public static final Effect MOB_AGGRO_EFFECT = new MobAggroEffect();
+	public static final Effect AGGRO_MOB_EFFECT = new AggroMobEffect();
 
 	/**
-	 * Player aggro effect, used by {@linkplain MobRespawningEffectEventHandler}.
+	 * Receive mob aggro effect, used by {@linkplain MobsAggroIdolInventoryItem}.
 	 */
-	public static final Effect PLAYER_AGGRO_EFFECT = new PlayerAggroEffect();
-
+	public static final Effect RECEIVE_AGGRO_EFFECT = new ReceiveAggroEffect();
+	
+	/**
+	 * Aggro player effect, used by {@linkplain MobRespawningEffectEventHandler}.
+	 */
+	public static final Effect AGGRO_PLAYER_EFFECT = new AggroPlayerEffect();
+	
 	/**
 	 * Primed mob effect, used by {@linkplain PrimeMobIdolInventoryItem}.
 	 */
@@ -524,6 +531,11 @@ public class ModConstants {
 	 * Decrease size effect.
 	 */
 	public static final Effect DECREASE_SIZE_EFFECT = new DecreaseSizeEffect();
+
+	/**
+	 * Decoy effect.
+	 */
+	public static final Effect DECOY_EFFECT = new DecoyEffect();
 	
 	/**
 	 * Range value for non-AOE effect in {@linkplain InventoryItemActionStrategy}

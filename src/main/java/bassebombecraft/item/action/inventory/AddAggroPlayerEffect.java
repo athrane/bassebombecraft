@@ -1,6 +1,6 @@
 package bassebombecraft.item.action.inventory;
 
-import static bassebombecraft.ModConstants.PLAYER_AGGRO_EFFECT;
+import static bassebombecraft.ModConstants.AGGRO_PLAYER_EFFECT;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 
 import java.util.function.Supplier;
@@ -12,15 +12,15 @@ import net.minecraft.world.World;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
- * of inventory item actions. This class makes adds a player aggro effect to
+ * of inventory item actions. This class makes adds a aggro player effect to
  * nearby entities.
  */
-public class AddPlayerAggroEffect implements InventoryItemActionStrategy {
+public class AddAggroPlayerEffect implements InventoryItemActionStrategy {
 
 	/**
 	 * Action identifier.
 	 */
-	public static final String NAME = AddPlayerAggroEffect.class.getSimpleName();
+	public static final String NAME = AddAggroPlayerEffect.class.getSimpleName();
 
 	/**
 	 * Effect duration.
@@ -33,12 +33,12 @@ public class AddPlayerAggroEffect implements InventoryItemActionStrategy {
 	int amplifier;
 
 	/**
-	 * AddPlayerAggroEffect constructor
+	 * Constructor
 	 * 
 	 * @param splDuration  duration as a potion effect.
 	 * @param splAmplifier amplifier as a potion effect.
 	 */
-	public AddPlayerAggroEffect(Supplier<Integer> splDuration, Supplier<Integer> splAmplifier) {
+	public AddAggroPlayerEffect(Supplier<Integer> splDuration, Supplier<Integer> splAmplifier) {
 		duration = splDuration.get();
 		amplifier = splAmplifier.get();
 	}
@@ -69,7 +69,7 @@ public class AddPlayerAggroEffect implements InventoryItemActionStrategy {
 	 * @return potion effect
 	 */
 	EffectInstance createEffect() {
-		return new EffectInstance(PLAYER_AGGRO_EFFECT, duration, amplifier);
+		return new EffectInstance(AGGRO_PLAYER_EFFECT, duration, amplifier);
 	}
 
 }

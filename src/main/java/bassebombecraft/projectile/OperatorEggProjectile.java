@@ -67,7 +67,7 @@ public class OperatorEggProjectile extends ProjectileItemEntity {
 	}
 
 	/**
-	 * GenericOperatorEggProjectile constructor.
+	 * Constructor constructor.
 	 * 
 	 * @param world     world object.
 	 * @param entity    projectile thrower.
@@ -102,7 +102,7 @@ public class OperatorEggProjectile extends ProjectileItemEntity {
 
 		try {
 			// execute operators
-			operators.run(this.owner);
+			operators.run(owner, result);
 
 			// add impact particle for rendering
 			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);

@@ -410,6 +410,16 @@ public class EntityUtils {
 	}
 
 	/**
+	 * Self-destruct entity.
+	 * 
+	 * @param entity entity to self-destruct.
+	 */
+	public static void selfDestruct(LivingEntity entity) {
+		entity.setFire(AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE);
+		entity.setHealth(0);
+	}
+	
+	/**
 	 * Returns true if minimum distance is reached between two entities.
 	 *
 	 * @param entity         entity #1

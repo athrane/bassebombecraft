@@ -42,10 +42,10 @@ import bassebombecraft.item.action.inventory.AddBlindingEffect;
 import bassebombecraft.item.action.inventory.AddFlameEffect;
 import bassebombecraft.item.action.inventory.AddHealingEffect;
 import bassebombecraft.item.action.inventory.AddLevitationEffect;
-import bassebombecraft.item.action.inventory.AddMobsAggroEffect;
+import bassebombecraft.item.action.inventory.AddAggroMobEffect;
 import bassebombecraft.item.action.inventory.AddMobsLevitationEffect;
 import bassebombecraft.item.action.inventory.AddMobsPrimingEffect;
-import bassebombecraft.item.action.inventory.AddPlayerAggroEffect;
+import bassebombecraft.item.action.inventory.AddAggroPlayerEffect;
 import bassebombecraft.item.action.inventory.AddReflectEffect;
 import bassebombecraft.item.action.inventory.AddSaturationEffect;
 import bassebombecraft.item.action.inventory.Naturalize;
@@ -66,6 +66,7 @@ import bassebombecraft.item.book.BuildStairsBook;
 import bassebombecraft.item.book.BuildTowerBook;
 import bassebombecraft.item.book.CopyPasteBlocksBook;
 import bassebombecraft.item.book.CreeperCannonBook;
+import bassebombecraft.item.book.DecoyBook;
 import bassebombecraft.item.book.DigMobHoleBook;
 import bassebombecraft.item.book.LavaSpiralMistBook;
 import bassebombecraft.item.book.PrimedCreeperCannonBook;
@@ -106,14 +107,15 @@ import bassebombecraft.item.inventory.ReaperIdolInventoryItem;
 import bassebombecraft.item.inventory.ReflectIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
+import bassebombecraft.operator.entity.SpawnDecoy;
 import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig;
-import bassebombecraft.operator.entity.potion.effect.AddEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
-import bassebombecraft.potion.effect.MobAggroEffect;
+import bassebombecraft.potion.effect.AggroMobEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.MobRespawningEffect;
-import bassebombecraft.potion.effect.PlayerAggroEffect;
+import bassebombecraft.potion.effect.ReceiveAggroEffect;
+import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.projectile.action.DigMobHole;
 import bassebombecraft.projectile.action.SpawnCreeperArmy;
 import bassebombecraft.projectile.action.SpawnKittenArmy;
@@ -182,13 +184,17 @@ public class ModConfiguration {
 	// MobPrimingEffect
 	public static ForgeConfigSpec.IntValue mobPrimingEffectCountdown;
 
-	// MobAggroEffect
-	public static ForgeConfigSpec.IntValue mobAggroEffectAreaOfEffect;
-	public static ForgeConfigSpec.IntValue mobAggroEffectUpdateFrequency;
+	// AggroMobEffect
+	public static ForgeConfigSpec.IntValue aggroMobEffectAreaOfEffect;
+	public static ForgeConfigSpec.IntValue aggroMobEffectUpdateFrequency;
 
-	// PlayerAggroEffect
-	public static ForgeConfigSpec.IntValue playerAggroEffectAreaOfEffect;
-	public static ForgeConfigSpec.IntValue playerAggroEffectUpdateFrequency;
+	// ReceiveAggroEffect
+	public static ForgeConfigSpec.IntValue receiveAggroEffectAreaOfEffect;
+	public static ForgeConfigSpec.IntValue receiveAggroEffectUpdateFrequency;
+	
+	// AggroPlayerEffect
+	public static ForgeConfigSpec.IntValue aggroPlayerEffectAreaOfEffect;
+	public static ForgeConfigSpec.IntValue aggroPlayerEffectUpdateFrequency;
 
 	// MobRespawningEffect
 	public static ForgeConfigSpec.IntValue mobRespawningEffectAreaOfEffect;
@@ -247,6 +253,9 @@ public class ModConfiguration {
 	// SetSpawnPointBook
 	public static ForgeConfigSpec.ConfigValue<String> setSpawnPointBookTooltip;
 	public static ForgeConfigSpec.IntValue setSpawnPointBookCooldown;
+
+	// DecoyBook
+	public static ItemConfig decoyBook;
 
 	// DigMobHoleBook
 	public static ForgeConfigSpec.ConfigValue<String> digMobHoleBookTooltip;
@@ -424,13 +433,13 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue attackNearestMobCommandTargetDistance;
 	public static ForgeConfigSpec.IntValue attackNearestPlayerCommandTargetDistance;
 
-	// AddMobsAggroEffect action
-	public static ForgeConfigSpec.IntValue addMobsAggroEffectDuration;
-	public static ForgeConfigSpec.IntValue addMobsAggroEffectAmplifier;
+	// AddAggroMobEffect action
+	public static ForgeConfigSpec.IntValue addAggroMobEffectDuration;
+	public static ForgeConfigSpec.IntValue addAggroMobEffectAmplifier;
 
-	// AddPlayerAggroEffect action
-	public static ForgeConfigSpec.IntValue addPlayerAggroEffectDuration;
-	public static ForgeConfigSpec.IntValue addPlayerAggroEffectAmplifier;
+	// AddAggroPlayerEffect action
+	public static ForgeConfigSpec.IntValue addAggroPlayerEffectDuration;
+	public static ForgeConfigSpec.IntValue addAggroPlayerEffectAmplifier;
 
 	// Spawn angry parrots action
 	public static ForgeConfigSpec.IntValue spawnAngryParrotsDamage;
@@ -446,6 +455,10 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue spawnWarPigDamage;
 	public static ForgeConfigSpec.DoubleValue spawnWarPigMovementSpeed;
 
+	// Spawn decoy operator
+	public static ForgeConfigSpec.IntValue spawnDecoyMaxHealth;
+	public static ForgeConfigSpec.DoubleValue spawnDecoyKnockBackResistance;
+
 	// Decrease size effect operator
 	public static ForgeConfigSpec.IntValue decreaseSizeEffectDuration;
 	public static ForgeConfigSpec.IntValue decreaseSizeEffectAmplifier;
@@ -453,7 +466,15 @@ public class ModConfiguration {
 	// Increase size effect operator
 	public static ForgeConfigSpec.IntValue increaseSizeEffectDuration;
 	public static ForgeConfigSpec.IntValue increaseSizeEffectAmplifier;
-	
+
+	// Decoy effect operator
+	public static ForgeConfigSpec.IntValue decoyEffectDuration;
+	public static ForgeConfigSpec.IntValue decoyEffectAmplifier;
+
+	// Receive aggro effect operator
+	public static ForgeConfigSpec.IntValue receiveAggroEffectDuration;
+	public static ForgeConfigSpec.IntValue receiveAggroEffectAmplifier;
+		
 	static {
 
 		// build general section
@@ -571,15 +592,33 @@ public class ModConfiguration {
 				.defineInRange("countdown", 60, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// mob aggro effect
-		name = MobAggroEffect.NAME;
+		// aggro mob effect
+		name = AggroMobEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		mobAggroEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.").defineInRange("areaOfEffect",
+		aggroMobEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.").defineInRange("areaOfEffect",
 				10, 0, Integer.MAX_VALUE);
-		mobAggroEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
+		aggroMobEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
 				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		// receive aggro effect
+		name = ReceiveAggroEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		receiveAggroEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.").defineInRange("areaOfEffect",
+				10, 0, Integer.MAX_VALUE);
+		receiveAggroEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
+				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+		
+		// aggro player effect
+		name = AggroPlayerEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		aggroPlayerEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.")
+				.defineInRange("areaOfEffect", 10, 0, Integer.MAX_VALUE);
+		aggroPlayerEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
+				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+		
 		// mob respawning effect
 		name = MobRespawningEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -589,15 +628,6 @@ public class ModConfiguration {
 				.defineInRange("duration", 1200, 0, Integer.MAX_VALUE);
 		mobRespawningEffectSpawnArea = COMMON_BUILDER.comment("Spawn area in blocks.").defineInRange("spawnArea", 5, 0,
 				Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
-		// player aggro effect
-		name = PlayerAggroEffect.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		playerAggroEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.")
-				.defineInRange("areaOfEffect", 10, 0, Integer.MAX_VALUE);
-		playerAggroEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
-				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		// bacon bazooka projectile effect
@@ -942,22 +972,22 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		// AddMobsAggroEffect
-		name = AddMobsAggroEffect.NAME;
+		name = AddAggroMobEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		addMobsAggroEffectAmplifier = COMMON_BUILDER
+		addAggroMobEffectAmplifier = COMMON_BUILDER
 				.comment("Potency of the effect (as a potion effect), i.e. the resulting mob aggro.")
 				.defineInRange("amplifier", 1, 0, Integer.MAX_VALUE);
-		addMobsAggroEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+		addAggroMobEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
 				.defineInRange("duration", 400, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		// AddPlayerAggroEffect
-		name = AddPlayerAggroEffect.NAME;
+		name = AddAggroPlayerEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		addPlayerAggroEffectAmplifier = COMMON_BUILDER
+		addAggroPlayerEffectAmplifier = COMMON_BUILDER
 				.comment("Potency of the effect (as a potion effect), i.e. the resulting mob aggro toward the player.")
 				.defineInRange("amplifier", 1, 0, Integer.MAX_VALUE);
-		addPlayerAggroEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+		addAggroPlayerEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
 				.defineInRange("duration", 400, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
@@ -995,22 +1025,45 @@ public class ModConfiguration {
 		// Add decrease size effect for the DecreaseSizeIdolInventoryItem class
 		name = DecreaseSizeIdolInventoryItem.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		decreaseSizeEffectAmplifier = COMMON_BUILDER
-				.comment("Potency of the effect (as a potion effect), i.e. the resulting size decrease in procentage, i.e. 50% is half size. ")
+		decreaseSizeEffectAmplifier = COMMON_BUILDER.comment(
+				"Potency of the effect (as a potion effect), i.e. the resulting size decrease in procentage, i.e. 50% is half size. ")
 				.defineInRange("amplifier", 50, 1, 100);
 		decreaseSizeEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
 				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
-		
+
 		// Add increase size effect for the for the IncreaseSizeIdolInventoryItem class
 		name = IncreaseSizeIdolInventoryItem.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		increaseSizeEffectAmplifier = COMMON_BUILDER
-				.comment("Potency of the effect (as a potion effect), i.e. the resulting size increase in procentage, i.e. 200% is double size. ")
+		increaseSizeEffectAmplifier = COMMON_BUILDER.comment(
+				"Potency of the effect (as a potion effect), i.e. the resulting size increase in procentage, i.e. 200% is double size. ")
 				.defineInRange("amplifier", 200, 1, 500);
 		increaseSizeEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
 				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
+
+		// SpawnDecoy
+		name = SpawnDecoy.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnDecoyMaxHealth = COMMON_BUILDER.comment("Decoy max health.").defineInRange("maxHealth", 200, 0,
+				Integer.MAX_VALUE);
+		spawnDecoyKnockBackResistance = COMMON_BUILDER.comment("Decoy knockback resistance in %.")
+				.defineInRange("knockbackResistance ", 1.0D, 0, 1.0D);
+		COMMON_BUILDER.pop();
+		
+		// Add decoy and receive aggro effect for the DecoyBook class
+		name = DecoyBook.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		decoyEffectAmplifier = COMMON_BUILDER.comment(
+				"Potency of the effect (as a potion effect), i.e. the resulting size increase in procentage, i.e. 100% is normal size. ")
+				.defineInRange("amplifier", 175, 1, 200);
+		decoyEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 500, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+				
+		public static ForgeConfigSpec.IntValue receiveAggroEffectDuration;
+		public static ForgeConfigSpec.IntValue receiveAggroEffectAmplifier;
+		
 		
 	}
 
@@ -1094,6 +1147,11 @@ public class ModConfiguration {
 		setSpawnPointBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.")
 				.defineInRange("cooldown", 25, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
+
+		// DecoyBook
+		name = DecoyBook.ITEM_NAME;
+		decoyBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to spawn a decoy. All mobs in the vicinity will aggro the poor thing.", 100);
 
 		// DigMobHoleBook
 		name = DigMobHoleBook.ITEM_NAME;
@@ -1363,15 +1421,15 @@ public class ModConfiguration {
 		name = DecreaseSizeIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 0.3, 0.75, 0.5, 0.5);
 		decreaseSizeIdolInventoryItem = getInstance(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol will decrease the size of nearby mobs. The magic doesn't work on players.", 25, 5,
-				splParticles);
+				"Equip in either hand to activate. The idol will decrease the size of nearby mobs. The magic doesn't work on players.",
+				25, 5, splParticles);
 
 		// IncreaseSizeIdolInventoryItem
 		name = IncreaseSizeIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 0.3, 0.75, 0.5, 0.5);
 		increaseSizeIdolInventoryItem = getInstance(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol will increase the size of nearby mobs. The magic doesn't work on players.", 25, 5,
-				splParticles);		
+				"Equip in either hand to activate. The idol will increase the size of nearby mobs. The magic doesn't work on players.",
+				25, 5, splParticles);
 	}
 
 	/**

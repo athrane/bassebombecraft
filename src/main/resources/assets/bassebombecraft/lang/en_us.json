@@ -52,6 +52,7 @@
     "item.bassebombecraft.digmobholebook": "Book of Inconvenient Holes",
     "item.bassebombecraft.buildstairsbook": "Book of Convenient Stairs",
     "item.bassebombecraft.setspawnpointbook": "Book of Spawnpoint",
+    "item.bassebombecraft.decoybook": "Book of Decoy",
 
     "_comment": "Beastmaster",
     "item.bassebombecraft.beastmastermistbook": "Book of Beast Charming Mist",
@@ -126,14 +127,16 @@
     "item.bassebombecraft.mobcommandersbaton": "Krenko's Command Baton",
     
     "_comment": "effects",
-    "effect.bassebombecraft.amplifiereffect": "Amplify potion effects",
-    "effect.bassebombecraft.mobaggroeffect": "Aggro mobs",
+    "effect.bassebombecraft.amplifiereffect": "Amplify effects",
+    "effect.bassebombecraft.aggromobeffect": "Aggro mob",
+    "effect.bassebombecraft.receiveaggroeffect": "Receive Aggro",    
     "effect.bassebombecraft.mobprimingeffect": "Prime mobs",
     "effect.bassebombecraft.mobrespawningeffect": "Respawn mobs",
-    "effect.bassebombecraft.playerggroeffect": "Aggro mobs towards player",
+    "effect.bassebombecraft.aggroplayereffect": "Aggro player",
     "effect.bassebombecraft.reflecteffect": "Reflect damage",
     "effect.bassebombecraft.decreasesizeeffect": "Decrease size",
     "effect.bassebombecraft.increasesizeeffect": "Increase size",
+    "effect.bassebombecraft.decoyeffect": "Decoy",
 
 	"_comment": "potions",
     "item.minecraft.potion.effect.weakamplificationpotion": "Potion of Weak Amplification",

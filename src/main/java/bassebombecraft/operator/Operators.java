@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
@@ -41,6 +42,11 @@ public class Operators {
 	EffectInstance effectInstance;
 
 	/**
+	 * Ray trace result 
+	 */
+	RayTraceResult rayTraceResult;
+	
+	/**
 	 * {@linkplain LivingDamageEvent} supplier.
 	 */
 	Supplier<LivingDamageEvent> splEvent = () -> livingDamageEvent;
@@ -65,6 +71,11 @@ public class Operators {
 	 */
 	Supplier<EffectInstance> splEffectInstance = () -> effectInstance;
 
+	/**
+	 * {@linkplain RayTraceResult} supplier.
+	 */
+	Supplier<RayTraceResult> splRayTraceResult = () -> rayTraceResult;
+	
 	/**
 	 * Operator to execute, initially the null operator.
 	 */
@@ -115,6 +126,15 @@ public class Operators {
 		return splEffectInstance;
 	}
 
+	/**
+	 * Get {@linkplain RayTraceResult} supplier.
+	 * 
+	 * @return result supplier.
+	 */
+	public Supplier<RayTraceResult> getSplRayTraceResult() {
+		return splRayTraceResult;
+	}
+	
 	/**
 	 * Set operator.
 	 * 
@@ -167,6 +187,19 @@ public class Operators {
 	 * Execute operator.
 	 * 
 	 * @param entity input entity
+	 * @param result input ray trace result.
+	 */
+	public void run(LivingEntity entity, RayTraceResult result) {
+		this.livingEntity = entity;
+		this.rayTraceResult = result;
+		operator.run();
+		reset();
+	}
+	
+	/**
+	 * Execute operator.
+	 * 
+	 * @param entity input entity
 	 * @param target input target entity.
 	 */
 	public void run(LivingEntity entity, LivingEntity target) {
@@ -187,4 +220,5 @@ public class Operators {
 		reset();
 	}
 
+	
 }

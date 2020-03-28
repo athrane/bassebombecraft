@@ -1,7 +1,7 @@
 package bassebombecraft.event.potion;
 
 import static bassebombecraft.ModConstants.MOB_RESPAWNING_EFFECT;
-import static bassebombecraft.ModConstants.PLAYER_AGGRO_EFFECT;
+import static bassebombecraft.ModConstants.AGGRO_PLAYER_EFFECT;
 import static bassebombecraft.config.ModConfiguration.mobRespawningEffectAreaOfEffect;
 import static bassebombecraft.config.ModConfiguration.mobRespawningEffectDuration;
 import static bassebombecraft.config.ModConfiguration.mobRespawningEffectSpawnArea;
@@ -128,7 +128,7 @@ public class MobRespawningEffectEventHandler {
 	 * @return potion effect
 	 */
 	static EffectInstance createEffect() {
-		return new EffectInstance(PLAYER_AGGRO_EFFECT, mobRespawningEffectDuration.get());
+		return new EffectInstance(AGGRO_PLAYER_EFFECT, mobRespawningEffectDuration.get());
 	}
 
 }
