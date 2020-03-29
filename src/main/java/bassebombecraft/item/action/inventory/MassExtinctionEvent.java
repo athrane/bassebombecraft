@@ -27,7 +27,7 @@ public class MassExtinctionEvent implements InventoryItemActionStrategy {
 
 	@Override
 	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
-		killEntity(invoker);
+		killEntity(target);
 	}
 
 }
