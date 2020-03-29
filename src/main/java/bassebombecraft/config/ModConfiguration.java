@@ -69,6 +69,8 @@ import bassebombecraft.item.book.CreeperCannonBook;
 import bassebombecraft.item.book.DecoyBook;
 import bassebombecraft.item.book.DigMobHoleBook;
 import bassebombecraft.item.book.LavaSpiralMistBook;
+import bassebombecraft.item.book.LingeringFlameBook;
+import bassebombecraft.item.book.LingeringFuryBook;
 import bassebombecraft.item.book.PrimedCreeperCannonBook;
 import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
@@ -231,6 +233,12 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.ConfigValue<String> smallFireballRingBookTooltip;
 	public static ForgeConfigSpec.IntValue smallFireballRingBookCooldown;
 
+	// LingeringFlameBook
+	public static ItemConfig lingeringFlameBook;
+
+	// LingeringFlameBook
+	public static ItemConfig lingeringFuryBook;
+	
 	// BaconBazookaBook
 	public static ItemConfig baconBazookaBook;
 
@@ -1089,6 +1097,14 @@ public class ModConfiguration {
 				.defineInRange("cooldown", 50, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		// LingeringFlameBook
+		name = LingeringFlameBook.ITEM_NAME;
+		lingeringFlameBook = getInstance(COMMON_BUILDER, name, "Right-click to create a static flame that explodes when a mob comes near.", 25);
+
+		// LingeringFuryBook
+		name = LingeringFuryBook.ITEM_NAME;
+		lingeringFuryBook = getInstance(COMMON_BUILDER, name, "Right-click to create a static flame that explodes violently when a mob comes near.", 50);
+		
 		// BaconBazookaBook
 		name = BaconBazookaBook.ITEM_NAME;
 		baconBazookaBook = getInstance(COMMON_BUILDER, name, "Right-click to shoot a pig projectile.", 25);
