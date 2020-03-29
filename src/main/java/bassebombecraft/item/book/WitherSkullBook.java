@@ -1,5 +1,7 @@
 package bassebombecraft.item.book;
 
+import static bassebombecraft.config.ModConfiguration.witherSkullBook;
+
 import bassebombecraft.item.action.ShootWitherSkull;
 
 /**
@@ -7,9 +9,9 @@ import bassebombecraft.item.action.ShootWitherSkull;
  */
 public class WitherSkullBook extends GenericRightClickedBook {
 
-	public static final String ITEM_NAME = "WitherSkullBook";
-	
+	public static final String ITEM_NAME = WitherSkullBook.class.getSimpleName();
+S
 	public WitherSkullBook() {
-		super(ITEM_NAME, new ShootWitherSkull());
+		super(ITEM_NAME, witherSkullBook, new ShootWitherSkull());
 	}
 }

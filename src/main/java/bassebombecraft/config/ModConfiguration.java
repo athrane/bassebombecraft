@@ -81,7 +81,9 @@ import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnKittenArmyBook;
 import bassebombecraft.item.book.SpawnSkeletonArmyBook;
 import bassebombecraft.item.book.TeleportBook;
+import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.VacuumMistBook;
+import bassebombecraft.item.book.WitherSkullBook;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
@@ -238,6 +240,12 @@ public class ModConfiguration {
 
 	// LingeringFlameBook
 	public static ItemConfig lingeringFuryBook;
+
+	// ToxicMistBook
+	public static ItemConfig toxicMistBook;
+
+	// WitherSkullBook
+	public static ItemConfig witherSkullBook;
 	
 	// BaconBazookaBook
 	public static ItemConfig baconBazookaBook;
@@ -1103,7 +1111,15 @@ public class ModConfiguration {
 
 		// LingeringFuryBook
 		name = LingeringFuryBook.ITEM_NAME;
-		lingeringFuryBook = getInstance(COMMON_BUILDER, name, "Right-click to create a static flame that explodes violently when a mob comes near.", 50);
+		lingeringFuryBook = getInstance(COMMON_BUILDER, name, "Right-click to create a static flame that explodes violently when a mob comes near.", 50);		
+		
+		// ToxicMistBook
+		name = ToxicMistBook.ITEM_NAME;
+		toxicMistBook = getInstance(COMMON_BUILDER, name, "Right-click to create a cloud of poison mist.", 50);
+
+		// WitherSkullBook
+		name = WitherSkullBook.ITEM_NAME;
+		witherSkullBook = getInstance(COMMON_BUILDER, name, "Creates a Wither Skull that is hurled at foes.", 25);
 		
 		// BaconBazookaBook
 		name = BaconBazookaBook.ITEM_NAME;
