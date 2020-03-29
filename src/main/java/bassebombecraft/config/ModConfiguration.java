@@ -247,8 +247,7 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue primedCreeperCannonBookCooldown;
 
 	// TeleportBook
-	public static ForgeConfigSpec.ConfigValue<String> teleportBookTooltip;
-	public static ForgeConfigSpec.IntValue teleportBookCooldown;
+	public static ItemConfig teleportBook;
 
 	// SetSpawnPointBook
 	public static ForgeConfigSpec.ConfigValue<String> setSpawnPointBookTooltip;
@@ -1124,10 +1123,8 @@ public class ModConfiguration {
 		// TeleportBook
 		name = TeleportBook.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		teleportBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
-				"Right-click to shoot projectile and teleport to the position where the projectile hits.");
-		teleportBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.").defineInRange("cooldown",
-				25, 0, Integer.MAX_VALUE);
+		teleportBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to shoot projectile and teleport to the position where the projectile hits.", 25);
 		COMMON_BUILDER.pop();
 
 		// SetSpawnPointBook

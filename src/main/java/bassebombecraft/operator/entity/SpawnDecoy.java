@@ -33,7 +33,7 @@ import net.minecraft.world.World;
 
 /**
  * Implementation of the {@linkplain Operator} interface which spawn a decoy (2D
- * Pig). The entity is spawned at the invoker (e.g. the player).
+ * Panda). The entity is spawned at the invoker (e.g. the player).
  */
 public class SpawnDecoy implements Operator {
 
