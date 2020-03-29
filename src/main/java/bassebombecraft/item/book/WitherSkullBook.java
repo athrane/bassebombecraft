@@ -10,7 +10,7 @@ import bassebombecraft.item.action.ShootWitherSkull;
 public class WitherSkullBook extends GenericRightClickedBook {
 
 	public static final String ITEM_NAME = WitherSkullBook.class.getSimpleName();
-S
+
 	public WitherSkullBook() {
 		super(ITEM_NAME, witherSkullBook, new ShootWitherSkull());
 	}
