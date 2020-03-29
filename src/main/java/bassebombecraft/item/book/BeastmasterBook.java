@@ -1,18 +1,28 @@
 package bassebombecraft.item.book;
 
-import bassebombecraft.item.action.ShootGenericEggProjectile;
-import bassebombecraft.projectile.action.CharmEntity;
-import bassebombecraft.projectile.action.ProjectileAction;
+import static bassebombecraft.config.ModConfiguration.beastmasterBook;
+
+import java.util.function.Supplier;
+
+import bassebombecraft.item.action.ShootOperatorEggProjectile;
+import bassebombecraft.operator.Operators;
+import bassebombecraft.operator.entity.Charm;
 
 /**
- * Book of beast master. 
+ * Book of beast master.
  */
 public class BeastmasterBook extends GenericRightClickedBook {
 
-	public static final String ITEM_NAME = "BeastmasterBook";
-	static final ProjectileAction PROJECTILE_ACTION = new CharmEntity();
-	
+	public static final String ITEM_NAME = BeastmasterBook.class.getSimpleName();
+
+	static Supplier<Operators> splOp = () -> {
+		Operators ops = new Operators();
+		Charm charmOp = new Charm(ops.getSplLivingEntity(), ops.getSplRayTraceResult());
+		ops.setOperator(charmOp);
+		return ops;
+	};
+
 	public BeastmasterBook() {
-		super(ITEM_NAME, new ShootGenericEggProjectile(PROJECTILE_ACTION));
+		super(ITEM_NAME, beastmasterBook, new ShootOperatorEggProjectile(splOp.get()));
 	}
 }

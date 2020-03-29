@@ -61,6 +61,7 @@ import bassebombecraft.item.basic.TerminatorEyeItem;
 import bassebombecraft.item.baton.MobCommandersBaton;
 import bassebombecraft.item.book.BaconBazookaBook;
 import bassebombecraft.item.book.BearBlasterBook;
+import bassebombecraft.item.book.BeastmasterBook;
 import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.item.book.BuildStairsBook;
 import bassebombecraft.item.book.BuildTowerBook;
@@ -246,7 +247,7 @@ public class ModConfiguration {
 
 	// WitherSkullBook
 	public static ItemConfig witherSkullBook;
-	
+
 	// BaconBazookaBook
 	public static ItemConfig baconBazookaBook;
 
@@ -268,6 +269,9 @@ public class ModConfiguration {
 	// SetSpawnPointBook
 	public static ForgeConfigSpec.ConfigValue<String> setSpawnPointBookTooltip;
 	public static ForgeConfigSpec.IntValue setSpawnPointBookCooldown;
+
+	// BeastmasterBook
+	public static ItemConfig beastmasterBook;
 
 	// DecoyBook
 	public static ItemConfig decoyBook;
@@ -1107,12 +1111,14 @@ public class ModConfiguration {
 
 		// LingeringFlameBook
 		name = LingeringFlameBook.ITEM_NAME;
-		lingeringFlameBook = getInstance(COMMON_BUILDER, name, "Right-click to create a static flame that explodes when a mob comes near.", 25);
+		lingeringFlameBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to create a static flame that explodes when a mob comes near.", 25);
 
 		// LingeringFuryBook
 		name = LingeringFuryBook.ITEM_NAME;
-		lingeringFuryBook = getInstance(COMMON_BUILDER, name, "Right-click to create a static flame that explodes violently when a mob comes near.", 50);		
-		
+		lingeringFuryBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to create a static flame that explodes violently when a mob comes near.", 50);
+
 		// ToxicMistBook
 		name = ToxicMistBook.ITEM_NAME;
 		toxicMistBook = getInstance(COMMON_BUILDER, name, "Right-click to create a cloud of poison mist.", 50);
@@ -1120,7 +1126,7 @@ public class ModConfiguration {
 		// WitherSkullBook
 		name = WitherSkullBook.ITEM_NAME;
 		witherSkullBook = getInstance(COMMON_BUILDER, name, "Creates a Wither Skull that is hurled at foes.", 25);
-		
+
 		// BaconBazookaBook
 		name = BaconBazookaBook.ITEM_NAME;
 		baconBazookaBook = getInstance(COMMON_BUILDER, name, "Right-click to shoot a pig projectile.", 25);
@@ -1167,6 +1173,12 @@ public class ModConfiguration {
 		setSpawnPointBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.")
 				.defineInRange("cooldown", 25, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
+
+		// BeastmasterBook
+		name = BeastmasterBook.ITEM_NAME;
+		beastmasterBook = getInstance(COMMON_BUILDER, name,
+				"Right-click shot a beast charm at mobs. If the it hits, the mob will temporarily tamed to fight by the side of the beastmaster who conjured the charm. When the duration of the charm ends, the charmed mob will regain its former mental abilities. A charmed mob can be commanded by Krenko's Command Baton",
+				25);
 
 		// DecoyBook
 		name = DecoyBook.ITEM_NAME;
