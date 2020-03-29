@@ -1052,7 +1052,7 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		receiveAggroEffectAmplifier = COMMON_BUILDER
 				.comment("Potency of the effect (as a potion effect), has no fuction for this effect. ")
-				.defineInRange("amplifier", 175, 1, 200);
+				.defineInRange("amplifier", 1, 1, 1);
 		receiveAggroEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
 				.defineInRange("duration", 500, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();

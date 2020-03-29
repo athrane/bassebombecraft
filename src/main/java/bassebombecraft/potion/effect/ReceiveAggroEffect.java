@@ -105,4 +105,6 @@ public class ReceiveAggroEffect extends Effect {
 		return (moduloValue == 0);
 	}
 
+	
+	
 }
