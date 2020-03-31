@@ -73,6 +73,7 @@ import bassebombecraft.item.book.LavaSpiralMistBook;
 import bassebombecraft.item.book.LingeringFlameBook;
 import bassebombecraft.item.book.LingeringFuryBook;
 import bassebombecraft.item.book.PrimedCreeperCannonBook;
+import bassebombecraft.item.book.ReceiveAggroBook;
 import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.SmallFireballRingBook;
@@ -276,6 +277,9 @@ public class ModConfiguration {
 	// DecoyBook
 	public static ItemConfig decoyBook;
 
+	// ReceiveAggroBook
+	public static ItemConfig receiveAggroBook;
+	
 	// DigMobHoleBook
 	public static ForgeConfigSpec.ConfigValue<String> digMobHoleBookTooltip;
 	public static ForgeConfigSpec.IntValue digMobHoleBookCooldown;
@@ -1177,7 +1181,7 @@ public class ModConfiguration {
 		// BeastmasterBook
 		name = BeastmasterBook.ITEM_NAME;
 		beastmasterBook = getInstance(COMMON_BUILDER, name,
-				"Right-click shot a beast charm at mobs. If the it hits, the mob will temporarily tamed to fight by the side of the beastmaster who conjured the charm. When the duration of the charm ends, the charmed mob will regain its former mental abilities. A charmed mob can be commanded by Krenko's Command Baton",
+				"Right-click shot a beast charm at mobs. If the charm hits, the mob will temporarily tamed to fight by the side of the beastmaster who conjured the charm. When the duration of the charm ends, the charmed mob will regain its former mental abilities. A charmed mob can be commanded by Krenko's Command Baton",
 				25);
 
 		// DecoyBook
@@ -1185,6 +1189,11 @@ public class ModConfiguration {
 		decoyBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to spawn a decoy. All mobs in the vicinity will aggro the poor thing.", 100);
 
+		// ReceiveAggroBook
+		name = ReceiveAggroBook.ITEM_NAME;
+		receiveAggroBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to shoot projectile. If the projectile hits a target mob then all mobs in the vicinity will aggro the hit target mob.", 100);
+		
 		// DigMobHoleBook
 		name = DigMobHoleBook.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);

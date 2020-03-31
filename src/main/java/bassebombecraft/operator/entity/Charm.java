@@ -15,7 +15,7 @@ import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 
 /**
- * Implementation of the {@linkplain Operator} interface which which charm the
+ * Implementation of the {@linkplain Operator} interface which charm the
  * entity which has been hit.
  */
 public class Charm implements Operator {

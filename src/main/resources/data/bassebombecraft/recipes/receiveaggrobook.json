@@ -2,16 +2,13 @@
 	"type": "minecraft:crafting_shapeless",
 	"ingredients": [
 		{
-			"item": "minecraft:book"
+			"item": "minecraft:enchanted_book"
 		},
 		{
 			"item": "bassebombecraft:mobsaggroidolinventoryitem"
-		},
-		{
-			"item": "minecraft:bamboo"
 		}
 	],
 	"result": {
-		"item": "bassebombecraft:decoybook"
+		"item": "bassebombecraft:receiveaggrobook"
 	}
 }

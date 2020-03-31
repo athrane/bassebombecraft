@@ -46,6 +46,7 @@ import bassebombecraft.item.book.MultipleArrowsBook;
 import bassebombecraft.item.book.NaturalizeBook;
 import bassebombecraft.item.book.PrimedCreeperCannonBook;
 import bassebombecraft.item.book.RainbownizeBook;
+import bassebombecraft.item.book.ReceiveAggroBook;
 import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.SmallFireballRingBook;
@@ -123,7 +124,7 @@ public class ItemRegistryEventHandler {
 			new EmitVerticalForceBook(), new EmitVerticalForceMistBook(), new BuildStairsBook(), new VacuumMistBook(),
 			new CopyPasteBlocksBook(), new DuplicateBlockBook(), new BuildRoadBook(), new BuildRainbowRoadBook(),
 			BUILD_MINE_BOOK, new BuildAbyssBook(), new BuildSmallHoleBook(), new NaturalizeBook(),
-			new RainbownizeBook(), new BuildTowerBook(), new DecoyBook() };
+			new RainbownizeBook(), new BuildTowerBook(), new DecoyBook(), new ReceiveAggroBook() };
 
 	/**
 	 * The set of inventory items.

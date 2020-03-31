@@ -2,11 +2,13 @@ package bassebombecraft.operator;
 
 import java.util.function.Supplier;
 
+import bassebombecraft.BassebombeCraft;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -42,10 +44,10 @@ public class Operators {
 	EffectInstance effectInstance;
 
 	/**
-	 * Ray trace result 
+	 * Ray trace result
 	 */
 	RayTraceResult rayTraceResult;
-	
+
 	/**
 	 * {@linkplain LivingDamageEvent} supplier.
 	 */
@@ -59,7 +61,7 @@ public class Operators {
 	/**
 	 * {@linkplain LivingEntity} supplier.
 	 */
-	Supplier<LivingEntity> splEntity = () -> livingEntity;
+	Supplier<LivingEntity> splLivingEntity = () -> livingEntity;
 
 	/**
 	 * {@linkplain Entity} supplier.
@@ -75,7 +77,7 @@ public class Operators {
 	 * {@linkplain RayTraceResult} supplier.
 	 */
 	Supplier<RayTraceResult> splRayTraceResult = () -> rayTraceResult;
-	
+
 	/**
 	 * Operator to execute, initially the null operator.
 	 */
@@ -105,7 +107,7 @@ public class Operators {
 	 * @return entity supplier.
 	 */
 	public Supplier<LivingEntity> getSplLivingEntity() {
-		return splEntity;
+		return splLivingEntity;
 	}
 
 	/**
@@ -134,7 +136,7 @@ public class Operators {
 	public Supplier<RayTraceResult> getSplRayTraceResult() {
 		return splRayTraceResult;
 	}
-	
+
 	/**
 	 * Set operator.
 	 * 
@@ -166,8 +168,13 @@ public class Operators {
 		this.livingDamageEvent = event;
 		this.livingEntity = entity;
 		this.effectInstance = effectInstance;
-		operator.run();
-		reset();
+		try {
+			operator.run();
+		} catch (Exception e) {
+			BassebombeCraft.getBassebombeCraft().reportAndLogException(e);
+		} finally {
+			reset();
+		}
 	}
 
 	/**
@@ -179,8 +186,13 @@ public class Operators {
 	public void run(RenderLivingEvent<PlayerEntity, PlayerModel<PlayerEntity>> event, LivingEntity entity) {
 		this.renderLivingEvent = event;
 		this.livingEntity = entity;
-		operator.run();
-		reset();
+		try {
+			operator.run();
+		} catch (Exception e) {
+			BassebombeCraft.getBassebombeCraft().reportAndLogException(e);
+		} finally {
+			reset();
+		}
 	}
 
 	/**
@@ -192,10 +204,15 @@ public class Operators {
 	public void run(LivingEntity entity, RayTraceResult result) {
 		this.livingEntity = entity;
 		this.rayTraceResult = result;
-		operator.run();
-		reset();
+		try {
+			operator.run();
+		} catch (Exception e) {
+			BassebombeCraft.getBassebombeCraft().reportAndLogException(e);
+		} finally {
+			reset();
+		}
 	}
-	
+
 	/**
 	 * Execute operator.
 	 * 
@@ -205,8 +222,13 @@ public class Operators {
 	public void run(LivingEntity entity, LivingEntity target) {
 		this.livingEntity = entity;
 		this.targetEntity = target;
-		operator.run();
-		reset();
+		try {
+			operator.run();
+		} catch (Exception e) {
+			BassebombeCraft.getBassebombeCraft().reportAndLogException(e);
+		} finally {
+			reset();
+		}
 	}
 
 	/**
@@ -216,9 +238,27 @@ public class Operators {
 	 */
 	public void run(LivingEntity entity) {
 		this.livingEntity = entity;
-		operator.run();
-		reset();
+		try {
+			operator.run();
+		} catch (Exception e) {
+			BassebombeCraft.getBassebombeCraft().reportAndLogException(e);
+		} finally {
+			reset();
+		}
 	}
 
-	
+	/**
+	 * Get {@linkplain LivingEntity} supplier which returns entity contained in
+	 * {@linkplain RayTraceResult}.
+	 * 
+	 * @return entity supplier which resolves entity contained in ray trace result.
+	 */
+	public Supplier<LivingEntity> getSplRaytracedEntity() {
+		Supplier<LivingEntity> splRaytracedEntity = () -> {
+			Entity entity = ((EntityRayTraceResult) rayTraceResult).getEntity();
+			return (LivingEntity) entity;
+		};
+		return splRaytracedEntity;
+	}
+
 }

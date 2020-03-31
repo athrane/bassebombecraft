@@ -63,7 +63,7 @@ public class SpawnDecoy implements Operator {
 	Supplier<RayTraceResult> splRayTraceResult;
 
 	/**
-	 * {@linkplain LivingEntity} supplier.
+	 * {@linkplain LivingEntity} supplier (for outbound port).
 	 */
 	Supplier<LivingEntity> splLivingEntity = () -> livingEntity;
 
@@ -136,8 +136,7 @@ public class SpawnDecoy implements Operator {
 		setAttribute(entity, KNOCKBACK_RESISTANCE, spawnDecoyKnockBackResistance.get());
 		setAttribute(entity, DECOY, 1.0D);
 
-		// set AI
-		// buildChargingAi(entity, entityTarget, (float) damage);
+		// AI not set
 
 		// add spawn sound
 		Random random = getBassebombeCraft().getRandom();
@@ -146,6 +145,7 @@ public class SpawnDecoy implements Operator {
 		// spawn
 		world.addEntity(entity);
 
+		// set entity for outbound port
 		this.livingEntity = entity;
 	}
 
