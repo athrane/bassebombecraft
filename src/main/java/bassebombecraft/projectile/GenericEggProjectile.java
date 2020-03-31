@@ -8,6 +8,7 @@ import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
+import bassebombecraft.event.projectile.EntityTypeRegistryEventHandler;
 import bassebombecraft.projectile.action.NullAction;
 import bassebombecraft.projectile.action.ProjectileAction;
 import net.minecraft.entity.EntityType;
@@ -20,6 +21,9 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
+/**
+ * Projectile which executes operator on impact.
+ */
 public class GenericEggProjectile extends ProjectileItemEntity {
 
 	/**
@@ -37,12 +41,15 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 	static final ParticleRenderingInfo PARTICLE_INFO = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R,
 			G, B, PARTICLE_SPEED);
 
+	/**
+	 * Entity name.
+	 */		
 	public static final String PROJECTILE_NAME = GenericEggProjectile.class.getSimpleName();
 
 	/**
-	 * Behaviour, initial null.
+	 * Action, initial null.
 	 */
-	ProjectileAction behaviour = NULL_BEHAVIOUR;
+	ProjectileAction action = NULL_BEHAVIOUR;
 
 	/**
 	 * GenericEggProjectile no-arg constructor.
@@ -76,12 +83,12 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 	}
 
 	/**
-	 * Sets behaviour.
+	 * Sets action.
 	 * 
-	 * @param behaviour projectile behaviour.
+	 * @param action projectile action.
 	 */
-	public void setBehaviour(ProjectileAction behaviour) {
-		this.behaviour = behaviour;
+	public void setBehaviour(ProjectileAction action) {
+		this.action = action;
 	}
 
 	/**
@@ -99,7 +106,7 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 
 		try {
 			// execute behaviour
-			behaviour.execute(this, world, result);
+			action.execute(this, world, result);
 
 			// add impact particle for rendering
 			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);

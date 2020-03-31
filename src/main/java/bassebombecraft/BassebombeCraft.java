@@ -3,8 +3,9 @@ package bassebombecraft;
 import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.ModConstants.TAB_NAME;
 import static bassebombecraft.config.ModConfiguration.loadConfig;
-import static bassebombecraft.config.VersionUtils.*;
+import static bassebombecraft.config.VersionUtils.validateVersion;
 import static bassebombecraft.tab.ItemGroupFactory.createItemGroup;
+import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -38,6 +39,14 @@ import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.item.ItemRegistryEventHandler;
 import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
+import bassebombecraft.event.potion.DecoyEffectRenderer;
+import bassebombecraft.event.potion.DecreaseSizeEffectRenderer;
+import bassebombecraft.event.potion.IncreaseSizeEffectRenderer;
+import bassebombecraft.event.rendering.CharmedInfoRenderer;
+import bassebombecraft.event.rendering.TargetInfoRenderer;
+import bassebombecraft.event.rendering.TeamEnityRenderer;
+import bassebombecraft.event.rendering.TeamInfoRenderer;
+import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.proxy.ClientProxy;
 import bassebombecraft.proxy.Proxy;
 import bassebombecraft.proxy.ServerProxy;
@@ -46,12 +55,11 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.server.MinecraftServer;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
@@ -124,11 +132,16 @@ public class BassebombeCraft {
 	 * Duration repository.
 	 */
 	DurationRepository durationRepository;
-	
+
 	/**
 	 * Minecraft server.
 	 */
 	MinecraftServer server;
+
+	/**
+	 * Network channel.
+	 */
+	NetworkChannelHelper network;
 
 	/**
 	 * Random generator
@@ -144,7 +157,7 @@ public class BassebombeCraft {
 		instance = this;
 
 		// Register ourselves for forge events
-		MinecraftForge.EVENT_BUS.register(this);
+		EVENT_BUS.register(this);
 
 		try {
 
@@ -156,7 +169,7 @@ public class BassebombeCraft {
 
 			// initialise duration repository
 			durationRepository = DefaultDurationRepository.getInstance();
-			
+
 			// Initialise charmed mobs repository
 			charmedMobsRepository = DefaultCharmedMobsRepository.getInstance();
 
@@ -178,6 +191,9 @@ public class BassebombeCraft {
 			// initialise targeted entities repository
 			targetedEntitiesRepository = DefaultTargetedEntitiesRepository.getInstance();
 
+			// initialize network
+			network = new NetworkChannelHelper();
+
 		} catch (ExceptionInInitializerError e) {
 			reportAndLogException(e);
 			throw e;
@@ -186,13 +202,8 @@ public class BassebombeCraft {
 			throw e;
 		}
 
-		// register event handler for FMLCommonSetupEvent event on the mod event bus
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-	}
-
-	@SubscribeEvent
-	void setup(FMLCommonSetupEvent event) {
-		// initializeWorldGenerators();
+		// register event handler for FMLClientSetupEvent event on the mod event bus
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
 	}
 
 	@SubscribeEvent
@@ -216,15 +227,28 @@ public class BassebombeCraft {
 		PlayerEntity player = event.getPlayer();
 		validateVersion(player);
 	}
-	
-	/**
-	 * Initialize world generators.
-	 */
-	void initializeWorldGenerators() {
-		/*
-		 * GameRegistry.registerWorldGenerator(new RandomModStructuresGenerator(),
-		 * ModConstants.MOD_STRUCUTRE_GENERATOR_WEIGHT);
-		 */
+
+	@SubscribeEvent
+	void setupClient(FMLClientSetupEvent event) {
+		// EVENT_BUS.addListener(DebugRenderer_MobLines::render);
+		// EVENT_BUS.addListener(DebugRenderer_EntityText_v3::render);
+		// MinecraftForge.EVENT_BUS.addListener(DebugRenderer_WorldLastEventText::render);
+		// EVENT_BUS.addListener(DebugRenderer_Highlightblock::render);
+		// EVENT_BUS.addListener(DebugRenderer_StrangeSize::render);
+		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPre);
+		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPost);
+
+		// register renderer classes
+		EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(CharmedInfoRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(TeamEnityRenderer::handleRenderLivingEvent);
+		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPre);
+		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPost);
+		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPre);
+		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPost);
+		EVENT_BUS.addListener(DecoyEffectRenderer::handleRenderLivingEventPre);
+		EVENT_BUS.addListener(DecoyEffectRenderer::handleRenderLivingEventPost);
 	}
 
 	/**
@@ -312,11 +336,11 @@ public class BassebombeCraft {
 	 * Get duration repository.
 	 * 
 	 * @return duration repository
-	 */	
+	 */
 	public DurationRepository getDurationRepository() {
-		return durationRepository; 
+		return durationRepository;
 	}
-	
+
 	/**
 	 * Get mod configuration from TOML file.
 	 * 
@@ -360,6 +384,13 @@ public class BassebombeCraft {
 	 */
 	public Logger getLogger() {
 		return logger;
+	}
+
+	/**
+	 * Get networking channel
+	 */
+	public NetworkChannelHelper getNetworkChannel() {
+		return network;
 	}
 
 	/**

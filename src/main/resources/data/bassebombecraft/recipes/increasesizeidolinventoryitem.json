@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:clay_ball"
+		},
+		{
+			"item": "minecraft:rabbit_spawn_egg"
+		},		
+		{
+			"item": "bassebombecraft:decreasesizeidolinventoryitem"
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:increasesizeidolinventoryitem"
+	}
+}

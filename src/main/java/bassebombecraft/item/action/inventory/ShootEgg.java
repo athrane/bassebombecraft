@@ -39,7 +39,7 @@ public class ShootEgg implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world, LivingEntity invoker) {
+	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
 		Random random = getBassebombeCraft().getRandom();
 		EggEntity projectile = EntityType.EGG.create(world);
 

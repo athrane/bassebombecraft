@@ -11,8 +11,6 @@ import static bassebombecraft.rendering.RenderingUtils.renderSolidBoxTop;
 import static bassebombecraft.rendering.RenderingUtils.renderSolidBoxWest;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.mojang.blaze3d.platform.GlStateManager.DestFactor;
-import com.mojang.blaze3d.platform.GlStateManager.SourceFactor;
 
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -62,7 +60,7 @@ public class HitByRayTraceBoundingBoxRenderer implements BoundingBoxRenderer {
 		GlStateManager.depthMask(false);
 
 		// oscillate alpha
-		float alpha = (float) oscillate(0.25, 1.0);
+		float alpha = (float) oscillate(0.25F, 1.0F);
 		GlStateManager.color4f(0.75F, 0.75F, 0, alpha);
 
 		switch (direction) {

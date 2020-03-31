@@ -9,6 +9,7 @@ import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
 import bassebombecraft.event.charm.CharmedMobEventHandler;
 import bassebombecraft.event.particle.ParticleRenderingEventHandler;
 import bassebombecraft.event.potion.MobRespawningEffectEventHandler;
+import bassebombecraft.event.rendering.TeamInfoRenderer;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
@@ -19,15 +20,20 @@ import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
+import bassebombecraft.potion.effect.AggroMobEffect;
+import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
-import bassebombecraft.potion.effect.MobAggroEffect;
+import bassebombecraft.potion.effect.DecreaseSizeEffect;
+import bassebombecraft.potion.effect.IncreaseSizeEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.MobProjectileEffect;
 import bassebombecraft.potion.effect.MobRespawningEffect;
-import bassebombecraft.potion.effect.PlayerAggroEffect;
+import bassebombecraft.potion.effect.ReceiveAggroEffect;
 import bassebombecraft.potion.effect.ReflectEffect;
 import bassebombecraft.rendering.DefaultBuildMineRenderer;
 import net.minecraft.client.renderer.Vector4f;
+import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.Properties;
 import net.minecraft.potion.Effect;
@@ -56,7 +62,7 @@ public class ModConstants {
 	/**
 	 * Mod version.
 	 */
-	public static final String VERSION = "1.15.2-1.39";
+	public static final String VERSION = "1.15.2-1.40";
 
 	/**
 	 * In game tab name.
@@ -333,6 +339,12 @@ public class ModConstants {
 	public static final int TEXT_COLOR = 0x00C000;
 
 	/**
+	 * Rendering_ Text translation along Z-axis for rendering of billboard text in
+	 * HUD item in the {@linkplain TeamInfoRenderer} class.
+	 */
+	public static final int TEXT_Z_TRANSLATION = 200;
+
+	/**
 	 * Rendering: Text color for {@linkplain BuildMineBook} in
 	 * {@linkplain DefaultBuildMineRenderer}.
 	 */
@@ -449,14 +461,19 @@ public class ModConstants {
 	public static final String PRIMEDCREEPERCANNON_EFFECT_NAME = "PrimedCreeperCannonProjectileEffect";
 
 	/**
-	 * Mobs aggro effect, used by {@linkplain MobsAggroIdolInventoryItem}.
+	 * Aggro mob effect, used by {@linkplain MobsAggroIdolInventoryItem}.
 	 */
-	public static final Effect MOB_AGGRO_EFFECT = new MobAggroEffect();
+	public static final Effect AGGRO_MOB_EFFECT = new AggroMobEffect();
 
 	/**
-	 * Player aggro effect, used by {@linkplain MobRespawningEffectEventHandler}.
+	 * Receive mob aggro effect, used by {@linkplain MobsAggroIdolInventoryItem}.
 	 */
-	public static final Effect PLAYER_AGGRO_EFFECT = new PlayerAggroEffect();
+	public static final Effect RECEIVE_AGGRO_EFFECT = new ReceiveAggroEffect();
+
+	/**
+	 * Aggro player effect, used by {@linkplain MobRespawningEffectEventHandler}.
+	 */
+	public static final Effect AGGRO_PLAYER_EFFECT = new AggroPlayerEffect();
 
 	/**
 	 * Primed mob effect, used by {@linkplain PrimeMobIdolInventoryItem}.
@@ -506,11 +523,26 @@ public class ModConstants {
 	 */
 	public static final Effect REFLECT_EFFECT = new ReflectEffect();
 
-	
+	/**
+	 * Increase size effect.
+	 */
+	public static final Effect INCREASE_SIZE_EFFECT = new IncreaseSizeEffect();
+
+	/**
+	 * Decrease size effect.
+	 */
+	public static final Effect DECREASE_SIZE_EFFECT = new DecreaseSizeEffect();
+
 	/**
 	 * Range value for non-AOE effect in {@linkplain InventoryItemActionStrategy}
-	 * implmentation.
+	 * implementation.
 	 */
 	public static final int NOT_AN_AOE_EFFECT = 1;
+
+	/**
+	 * Entity attribute to define an entity as a decoy.
+	 */
+	public static final IAttribute DECOY = (new RangedAttribute((IAttribute) null, "bassebombecraft.decoy", 1.0D, 0.0D,
+			1.0D)).setShouldWatch(true);
 
 }

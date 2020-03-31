@@ -10,13 +10,9 @@ import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
 import static bassebombecraft.rendering.DefaultRenderingInfo.getInstance;
 
-import bassebombecraft.rendering.DebugTextBillBoardRenderer;
 import bassebombecraft.rendering.DefaultBuildMineRenderer;
-import bassebombecraft.rendering.DefaultCharmedInfoRenderer;
 import bassebombecraft.rendering.DefaultCharmedRenderer;
 import bassebombecraft.rendering.DefaultLookAtBlockRenderer;
-import bassebombecraft.rendering.DefaultTargetsInfoRenderer;
-import bassebombecraft.rendering.DefaultTeamInfoRenderer;
 import bassebombecraft.rendering.DefaultTeamRenderer;
 import bassebombecraft.rendering.EntityRenderer;
 import bassebombecraft.rendering.RenderingInfo;
@@ -51,24 +47,9 @@ public class RenderingEventHandler {
 	static final EntityRenderer teamRenderer = new DefaultTeamRenderer();
 
 	/**
-	 * Renderer for rendering team info in the HUD Item.
-	 */
-	static final EntityRenderer teamInfoRenderer = new DefaultTeamInfoRenderer();
-
-	/**
 	 * Renderer for rendering charmed mobs in the HUD Item.
 	 */
 	static final EntityRenderer charmedRenderer = new DefaultCharmedRenderer();
-
-	/**
-	 * Renderer for rendering charmed mobs information in the HUD Item.
-	 */
-	static final EntityRenderer charmedInfoRenderer = new DefaultCharmedInfoRenderer();
-
-	/**
-	 * Renderer for rendering targets information in the HUD Item.
-	 */
-	static final EntityRenderer targetsInfoRenderer = new DefaultTargetsInfoRenderer();
 
 	/**
 	 * Renderer for rendering the block looked at by the player.
@@ -138,9 +119,9 @@ public class RenderingEventHandler {
 		PlayerEntity player = getPlayer();
 
 		// render DEBUG billboard
-		//RenderingInfo info = getInstance(event.getPartialTicks());
-		//DebugTextBillBoardRenderer debugRenderer = new DebugTextBillBoardRenderer();
-		//debugRenderer.render(player, info);
+		// RenderingInfo info = getInstance(event.getPartialTicks());
+		// DebugTextBillBoardRenderer debugRenderer = new DebugTextBillBoardRenderer();
+		// debugRenderer.render(player, info);
 
 		// render if HUD item is in hotbar
 		if (isItemInHotbar(player, HUD_ITEM))
@@ -195,11 +176,8 @@ public class RenderingEventHandler {
 			RenderingInfo info = getInstance(event.getPartialTicks());
 
 			// render
-			teamInfoRenderer.render(player, info);
-			teamRenderer.render(player, info);
-			charmedInfoRenderer.render(player, info);
+			//teamRenderer.render(player, info);
 			charmedRenderer.render(player, info);
-			targetsInfoRenderer.render(player, info);
 
 			Vec3d renderPos = RenderingUtils.getRenderPos();
 			Vec3d translation = playerPos.subtract(renderPos);

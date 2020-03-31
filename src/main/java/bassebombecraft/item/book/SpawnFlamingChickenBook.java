@@ -2,7 +2,7 @@ package bassebombecraft.item.book;
 
 import static bassebombecraft.config.ModConfiguration.spawnFlamingChickenBook;
 
-import bassebombecraft.item.action.GenericShootEggProjectile;
+import bassebombecraft.item.action.ShootGenericEggProjectile;
 import bassebombecraft.projectile.action.ProjectileAction;
 import bassebombecraft.projectile.action.SpawnFlamingChicken;
 
@@ -15,6 +15,6 @@ public class SpawnFlamingChickenBook extends GenericRightClickedBook {
 	static final ProjectileAction PROJECTILE_ACTION = new SpawnFlamingChicken();
 
 	public SpawnFlamingChickenBook() {
-		super(ITEM_NAME, spawnFlamingChickenBook, new GenericShootEggProjectile(PROJECTILE_ACTION));
+		super(ITEM_NAME, spawnFlamingChickenBook, new ShootGenericEggProjectile(PROJECTILE_ACTION));
 	}
 }

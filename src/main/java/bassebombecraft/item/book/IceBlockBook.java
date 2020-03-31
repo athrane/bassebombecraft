@@ -1,6 +1,6 @@
 package bassebombecraft.item.book;
 
-import bassebombecraft.item.action.GenericShootEggProjectile;
+import bassebombecraft.item.action.ShootGenericEggProjectile;
 import bassebombecraft.projectile.action.ProjectileAction;
 import bassebombecraft.projectile.action.SpawnIceBlock;
 
@@ -13,6 +13,6 @@ public class IceBlockBook extends GenericRightClickedBook {
 	static final ProjectileAction PROJECTILE_ACTION = new SpawnIceBlock();
 
 	public IceBlockBook() {
-		super(ITEM_NAME, new GenericShootEggProjectile(PROJECTILE_ACTION));
+		super(ITEM_NAME, new ShootGenericEggProjectile(PROJECTILE_ACTION));
 	}
 }

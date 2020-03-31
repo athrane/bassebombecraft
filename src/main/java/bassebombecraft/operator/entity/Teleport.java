@@ -1,4 +1,4 @@
-package bassebombecraft.projectile.action;
+package bassebombecraft.operator.entity;
 
 import static bassebombecraft.block.BlockUtils.calculatePosition;
 import static bassebombecraft.projectile.ProjectileUtils.isBlockHit;
@@ -7,23 +7,56 @@ import static bassebombecraft.projectile.ProjectileUtils.isNothingHit;
 import static bassebombecraft.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
 import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 
+import java.util.function.Supplier;
+
+import bassebombecraft.operator.Operator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain ProjectileAction} which teleports the
+ * Implementation of the {@linkplain Operator} interface which teleports the
  * entity to hit block / entity.
  */
-public class TeleportEntity implements ProjectileAction {
+public class Teleport implements Operator {
+
+	/**
+	 * Operator identifier.
+	 */
+	public static final String NAME = Teleport.class.getSimpleName();
+
+	/**
+	 * Entity supplier.
+	 */
+	Supplier<LivingEntity> splEntity;
+
+	/**
+	 * RayTraceResult supplier.
+	 */
+	Supplier<RayTraceResult> splRayTraceResult;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param splEntity         invoker entity supplier.
+	 * @param splRayTraceResult projectile ray trace result.
+	 */
+	public Teleport(Supplier<LivingEntity> splEntity, Supplier<RayTraceResult> splRayTraceResult) {
+		this.splEntity = splEntity;
+		this.splRayTraceResult = splRayTraceResult;
+	}
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
+	public void run() {
+
+		// get entity
+		LivingEntity livingEntity = splEntity.get();
+
+		// get ray trace result
+		RayTraceResult result = splRayTraceResult.get();
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
@@ -32,21 +65,21 @@ public class TeleportEntity implements ProjectileAction {
 		// declare
 		BlockPos teleportPosition = null;
 
-		// teleport if entity was hit
+		// teleport to hit entity
 		if (isEntityHit(result)) {
 
-			// exit if result isn't entity ray trace result
+			// exit if result isn't entity ray trace result;
 			if (!isTypeEntityRayTraceResult(result))
 				return;
 
 			// get entity
 			Entity entity = ((EntityRayTraceResult) result).getEntity();
 
-			// get entity position
+			// get position
 			teleportPosition = entity.getPosition();
 		}
 
-		// teleport if block was hit
+		// teleport to hit block
 		if (isBlockHit(result)) {
 
 			// exit if result isn't entity ray trace result
@@ -61,8 +94,7 @@ public class TeleportEntity implements ProjectileAction {
 		}
 
 		// teleport
-		LivingEntity thrower = projectile.getThrower();
-		thrower.setPositionAndUpdate(teleportPosition.getX(), teleportPosition.getY(), teleportPosition.getZ());
+		livingEntity.setPositionAndUpdate(teleportPosition.getX(), teleportPosition.getY(), teleportPosition.getZ());
 	}
 
 }

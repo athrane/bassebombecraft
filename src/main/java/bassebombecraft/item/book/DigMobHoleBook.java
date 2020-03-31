@@ -1,6 +1,6 @@
 package bassebombecraft.item.book;
 
-import bassebombecraft.item.action.GenericShootEggProjectile;
+import bassebombecraft.item.action.ShootGenericEggProjectile;
 import bassebombecraft.projectile.action.DigMobHole;
 
 /**
@@ -11,6 +11,6 @@ public class DigMobHoleBook extends GenericRightClickedBook {
 	public static final String ITEM_NAME = DigMobHoleBook.class.getSimpleName();
 
 	public DigMobHoleBook() {
-		super(ITEM_NAME, new GenericShootEggProjectile(new DigMobHole()));
+		super(ITEM_NAME, new ShootGenericEggProjectile(new DigMobHole()));
 	}
 }

@@ -1,6 +1,6 @@
 package bassebombecraft.item.book;
 
-import bassebombecraft.item.action.GenericShootEggProjectile;
+import bassebombecraft.item.action.ShootGenericEggProjectile;
 import bassebombecraft.projectile.action.ProjectileAction;
 import bassebombecraft.projectile.action.Spawn100RainingLlamas;
 
@@ -13,6 +13,6 @@ public class Spawn100RainingLlamasBook extends GenericRightClickedBook {
 	static final ProjectileAction PROJECTILE_ACTION = new Spawn100RainingLlamas();
 
 	public Spawn100RainingLlamasBook() {
-		super(ITEM_NAME, new GenericShootEggProjectile(PROJECTILE_ACTION));
+		super(ITEM_NAME, new ShootGenericEggProjectile(PROJECTILE_ACTION));
 	}
 }

@@ -19,6 +19,7 @@ import bassebombecraft.item.book.CobwebBook;
 import bassebombecraft.item.book.CopyPasteBlocksBook;
 import bassebombecraft.item.book.CreeperApocalypseBook;
 import bassebombecraft.item.book.CreeperCannonBook;
+import bassebombecraft.item.book.DecoyBook;
 import bassebombecraft.item.book.DigMobHoleBook;
 import bassebombecraft.item.book.DuplicateBlockBook;
 import bassebombecraft.item.book.EmitHorizontalForceBook;
@@ -45,6 +46,7 @@ import bassebombecraft.item.book.MultipleArrowsBook;
 import bassebombecraft.item.book.NaturalizeBook;
 import bassebombecraft.item.book.PrimedCreeperCannonBook;
 import bassebombecraft.item.book.RainbownizeBook;
+import bassebombecraft.item.book.ReceiveAggroBook;
 import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.SmallFireballRingBook;
@@ -69,9 +71,11 @@ import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
 import bassebombecraft.item.inventory.CharmBeastIdolInventoryItem;
 import bassebombecraft.item.inventory.ChickenizeIdolInventoryItem;
+import bassebombecraft.item.inventory.DecreaseSizeIdolInventoryItem;
 import bassebombecraft.item.inventory.EggProjectileIdolInventoryItem;
 import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
+import bassebombecraft.item.inventory.IncreaseSizeIdolInventoryItem;
 import bassebombecraft.item.inventory.KillerBeesIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
 import bassebombecraft.item.inventory.LightningBoltIdolInventoryItem;
@@ -120,7 +124,7 @@ public class ItemRegistryEventHandler {
 			new EmitVerticalForceBook(), new EmitVerticalForceMistBook(), new BuildStairsBook(), new VacuumMistBook(),
 			new CopyPasteBlocksBook(), new DuplicateBlockBook(), new BuildRoadBook(), new BuildRainbowRoadBook(),
 			BUILD_MINE_BOOK, new BuildAbyssBook(), new BuildSmallHoleBook(), new NaturalizeBook(),
-			new RainbownizeBook(), new BuildTowerBook() };
+			new RainbownizeBook(), new BuildTowerBook(), new DecoyBook(), new ReceiveAggroBook() };
 
 	/**
 	 * The set of inventory items.
@@ -134,7 +138,7 @@ public class ItemRegistryEventHandler {
 			new ReaperIdolInventoryItem(), new MassExtinctionEventIdolInventoryItem(),
 			new MobsLevitationIdolInventoryItem(), new PlayerAggroIdolInventoryItem(),
 			new AngryParrotsIdolInventoryItem(), new ReflectIdolInventoryItem(), new KillerBeesIdolInventoryItem(),
-			new WarPigsIdolInventoryItem() };
+			new WarPigsIdolInventoryItem(), new DecreaseSizeIdolInventoryItem(), new IncreaseSizeIdolInventoryItem() };
 
 	/**
 	 * The set of baton items.

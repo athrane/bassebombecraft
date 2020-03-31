@@ -5,7 +5,7 @@ import static bassebombecraft.entity.EntityUtils.isType;
 import java.util.function.Supplier;
 
 import bassebombecraft.operator.Operator;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 
 /**
  * Implementation of the {@linkplain Operator} interface which executes the
@@ -16,7 +16,7 @@ public class IfEntityIsntType implements Operator {
 	/**
 	 * Entity supplier.
 	 */
-	Supplier<Entity> splEntity;
+	Supplier<LivingEntity> splEntity;
 
 	/**
 	 * Embedded operator.
@@ -29,13 +29,13 @@ public class IfEntityIsntType implements Operator {
 	Class<?> type;
 
 	/**
-	 * IfEntityIsntType constructor.
+	 * Constructor.
 	 * 
 	 * @param splEntity entity supplier.
 	 * @param operator  embedded operator which is executed if effect is active.
 	 * @param type      type to test for.
 	 */
-	public IfEntityIsntType(Supplier<Entity> splEntity, Operator operator, Class<?> type) {
+	public IfEntityIsntType(Supplier<LivingEntity> splEntity, Operator operator, Class<?> type) {
 		this.splEntity = splEntity;
 		this.operator = operator;
 		this.type = type;

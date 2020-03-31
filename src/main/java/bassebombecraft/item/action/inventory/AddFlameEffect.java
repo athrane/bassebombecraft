@@ -44,7 +44,7 @@ public class AddFlameEffect implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(Entity target, World world, LivingEntity sinvoker) {
+	public void applyEffect(LivingEntity target, World world, LivingEntity sinvoker) {
 		target.setFire(duration);
 	}
 

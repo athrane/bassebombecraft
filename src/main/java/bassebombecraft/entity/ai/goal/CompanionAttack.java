@@ -20,7 +20,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import bassebombecraft.event.frequency.FrequencyRepository;
-import bassebombecraft.item.action.GenericShootEggProjectile;
+import bassebombecraft.item.action.ShootGenericEggProjectile;
 import bassebombecraft.item.action.RightClickedItemAction;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootCreeperCannon;
@@ -249,11 +249,11 @@ public class CompanionAttack extends Goal {
 		actions.add(new ShootMultipleArrows());
 		actions.add(new ShootBaconBazooka());
 		actions.add(new ShootCreeperCannon(ISNT_PRIMED));
-		actions.add(new GenericShootEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));
-		actions.add(new GenericShootEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION));
-		actions.add(new GenericShootEggProjectile(LIGHTNING_PROJECTILE_ACTION));
-		actions.add(new GenericShootEggProjectile(MOB_HOLE_PROJECTILE_ACTION));
-		actions.add(new GenericShootEggProjectile(FLAMING_CHICKEN_PROJECTILE_ACTION));
+		actions.add(new ShootGenericEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));
+		actions.add(new ShootGenericEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION));
+		actions.add(new ShootGenericEggProjectile(LIGHTNING_PROJECTILE_ACTION));
+		actions.add(new ShootGenericEggProjectile(MOB_HOLE_PROJECTILE_ACTION));
+		actions.add(new ShootGenericEggProjectile(FLAMING_CHICKEN_PROJECTILE_ACTION));
 		return actions;
 	}
 
@@ -265,17 +265,17 @@ public class CompanionAttack extends Goal {
 	static List<RightClickedItemAction> initializeCloseRangeActions() {
 		List<RightClickedItemAction> actions = new ArrayList<RightClickedItemAction>();
 		actions.add(new GenericEntityMist(TOXIC_MIST_STRATEGY));
-		actions.add(new GenericShootEggProjectile(COWEB_PROJECTILE_ACTION));
-		actions.add(new GenericShootEggProjectile(EMIT_FORCE_PROJECTILE_ACTION));
-		actions.add(new GenericShootEggProjectile(EMIT_VERTICAL_FORCE_PROJECTILE_ACTION));
-		actions.add(new GenericShootEggProjectile(ICEBLOCK_PROJECTILE_ACTION));
-		actions.add(new GenericShootEggProjectile(LAVABLOCK_PROJECTILE_ACTION));
-		actions.add(new GenericShootEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));
-		actions.add(new GenericShootEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION));
+		actions.add(new ShootGenericEggProjectile(COWEB_PROJECTILE_ACTION));
+		actions.add(new ShootGenericEggProjectile(EMIT_FORCE_PROJECTILE_ACTION));
+		actions.add(new ShootGenericEggProjectile(EMIT_VERTICAL_FORCE_PROJECTILE_ACTION));
+		actions.add(new ShootGenericEggProjectile(ICEBLOCK_PROJECTILE_ACTION));
+		actions.add(new ShootGenericEggProjectile(LAVABLOCK_PROJECTILE_ACTION));
+		actions.add(new ShootGenericEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));
+		actions.add(new ShootGenericEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION));
 		actions.add(new GenericEntityMist(SPAWN_VACUUM_MIST_PROJECTILE_ACTION));
-		actions.add(new GenericShootEggProjectile(LIGHTNING_PROJECTILE_ACTION));
+		actions.add(new ShootGenericEggProjectile(LIGHTNING_PROJECTILE_ACTION));
 		actions.add(new GenericEntityMist(LIGHTNING_MIST_STRATEGY));
-		actions.add(new GenericShootEggProjectile(MOB_HOLE_PROJECTILE_ACTION));
+		actions.add(new ShootGenericEggProjectile(MOB_HOLE_PROJECTILE_ACTION));
 		return actions;
 	}
 

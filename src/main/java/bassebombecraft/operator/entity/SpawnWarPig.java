@@ -1,7 +1,12 @@
 package bassebombecraft.operator.entity;
 
+import static bassebombecraft.config.ModConfiguration.spawnWarPigDamage;
+import static bassebombecraft.config.ModConfiguration.spawnWarPigMovementSpeed;
 import static bassebombecraft.entity.EntityUtils.resolveTarget;
-import static bassebombecraft.entity.ai.AiUtils.*;
+import static bassebombecraft.entity.EntityUtils.setAttribute;
+import static bassebombecraft.entity.ai.AiUtils.buildChargingAi;
+import static net.minecraft.entity.SharedMonsterAttributes.ATTACK_DAMAGE;
+import static net.minecraft.entity.SharedMonsterAttributes.MOVEMENT_SPEED;
 
 import java.util.Random;
 import java.util.function.Supplier;
@@ -11,8 +16,6 @@ import bassebombecraft.operator.Operator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -20,7 +23,7 @@ import net.minecraft.world.World;
 
 /**
  * Implementation of the {@linkplain Operator} interface which spawn a war pig.
- * The pig is spawned at the invoked (e.g. the player).
+ * The pig is spawned at the invoker (e.g. the player).
  */
 public class SpawnWarPig implements Operator {
 
@@ -42,32 +45,29 @@ public class SpawnWarPig implements Operator {
 	/**
 	 * Entity target supplier.
 	 */
-	Supplier<Entity> splTarget;
+	Supplier<LivingEntity> splTarget;
 
 	/**
-	 * Movement speed supplier.
+	 * Attack damage.
 	 */
-	Supplier<Integer> splDamage;
+	int damage;
 
 	/**
-	 * Attack damage supplier.
+	 * Movement speed.
 	 */
-	Supplier<Double> splMovementSpeed;
+	double movementSpeed;
 
 	/**
-	 * SpawnKillerBees constructor. S
+	 * Constructor.
 	 * 
-	 * @param splEntity        invoker entity supplier.
-	 * @param splTarget        target entity supplier.
-	 * @param splMovementSpeed movement speed supplier.
-	 * @param splDamage        attack damage supplier.
+	 * @param splEntity invoker entity supplier.
+	 * @param splTarget target entity supplier.
 	 */
-	public SpawnWarPig(Supplier<LivingEntity> splEntity, Supplier<Entity> splTarget, Supplier<Integer> splDamage,
-			Supplier<Double> splMovementSpeed) {
+	public SpawnWarPig(Supplier<LivingEntity> splEntity, Supplier<LivingEntity> splTarget) {
 		this.splEntity = splEntity;
 		this.splTarget = splTarget;
-		this.splDamage = splDamage;
-		this.splMovementSpeed = splMovementSpeed;
+		this.damage = spawnWarPigDamage.get();
+		this.movementSpeed = spawnWarPigMovementSpeed.get();
 	}
 
 	@Override
@@ -88,13 +88,12 @@ public class SpawnWarPig implements Operator {
 		entity.copyLocationAndAnglesFrom(livingEntity);
 
 		// set entity attributes
-		AbstractAttributeMap attributes = entity.getAttributes();
-		attributes.getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(splMovementSpeed.get());
-		attributes.registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(splDamage.get());
+		setAttribute(entity, MOVEMENT_SPEED, movementSpeed);
+		setAttribute(entity, ATTACK_DAMAGE, damage);
 
 		// set AI
 		LivingEntity entityTarget = resolveTarget(target, livingEntity);
-		buildChargingAi(entity, entityTarget, (float) splDamage.get());
+		buildChargingAi(entity, entityTarget, (float) damage);
 
 		// add spawn sound
 		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);

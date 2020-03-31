@@ -12,6 +12,7 @@ import bassebombecraft.BassebombeCraft;
 import bassebombecraft.player.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
@@ -96,6 +97,7 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 		renderHudTextBillboard(textTranslation.add(0, -4, 0), "BTEXT at (5,0,4)");
 		**/
 
+		/**
 		renderHudTextBillboardV2(new Vec3d(0, 0, 4), "V2-TEXT at (0,0,4)");
 		Vec3d textTranslation = new Vec3d(5, 4, 4);		
 		renderHudTextBillboardV2(textTranslation, "V2-TEXT at (5,4,4)");
@@ -103,7 +105,9 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 		renderHudTextBillboardV2(textTranslation.add(-4, 0, 0), "V2-TEXT at (1,4,4)");		
 		renderHudTextBillboardV2(textTranslation.add(0, -2, 0), "V2-TEXT at (5,2,4)");
 		renderHudTextBillboardV2(textTranslation.add(0, -4, 0), "V2-TEXT at (5,0,4)");
+		**/
 
+		/**
 		renderHudTextBillboardV3("V3-TEXT at (0,0)", 0,0);
 		renderHudTextBillboardV3("V3-TEXT at (10,10)", 10,10);
 				
@@ -114,9 +118,72 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 		
 		renderHudTextBillboardV3("V3-TEXT at (2,+1)", 2,j1+1);
 		renderHudTextBillboardV3("V3-TEXT at (2,+2)", 2,j1+2);
-		renderHudTextBillboardV3("V3-TEXT at (2,+3)", 2,j1+3);		
+		renderHudTextBillboardV3("V3-TEXT at (2,+3)", 2,j1+3);
+		*/
+		
+		renderHudTextBillboardV2a(new Vec3d(0, 0, 4), "V2a-TEXT at (0,0,4)");
+		renderHudTextBillboardV2a(new Vec3d(2, 0, 4), "V2a-TEXT at (2,0,4)");
+		renderHudTextBillboardV2a(new Vec3d(2, 2, 4), "V2a-TEXT at (2,2,4)");
+		renderHudTextBillboardV2a(new Vec3d(0, 2, 4), "V2a-TEXT at (0,2,4)");		
 	}
 
+	/**
+	 * Render text at origin for rendering of HUD text.
+	 * 
+	 * This method supports translation of the text relative to the player view
+	 * direction and independent of the camera (or player) orientation and
+	 * placement.
+	 * 
+	 * @param textTranslation   text translation vector for translation of text
+	 *                          relative to view direction. Defines the placement of
+	 *                          the HUD text.
+	 * @param text              text to render
+	 */
+	void renderHudTextBillboardV2a(Vec3d textTranslation, String text) {
+		
+		RenderHelper.disableStandardItemLighting();
+		// setupBillboardRendering();
+		// save matrix
+		// V2		
+		//RenderSystem.pushMatrix();		
+		//RenderHelper.disableStandardItemLighting();
+		// V1
+		GlStateManager.pushMatrix();
+		GlStateManager.disableLighting();
+		GlStateManager.disableTexture();
+		GlStateManager.disableDepthTest();
+
+		// get minecraft
+		Minecraft mc = Minecraft.getInstance();
+
+		// set up billboard rotation
+		// setupBillboardRotation();		
+		float w = (float) RenderingUtils.oscillate(0, 20);
+		RenderSystem.rotatef(180, 0, 1, 0);
+		RenderSystem.rotatef(180+w, 0, 0, 1);		
+
+		// translation of text relative to view direction.
+		// Defines the placement of the HUD text
+		RenderSystem.translated(textTranslation.x, textTranslation.y, textTranslation.z);
+
+		// scale text
+		RenderSystem.scaled(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
+		
+		// draw
+		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);		
+		
+		// resetBilboardRendering();
+		// V1
+		GlStateManager.popMatrix();
+		GlStateManager.enableTexture();
+		GlStateManager.enableLighting();
+		GlStateManager.enableDepthTest();
+
+		// V2
+		//RenderHelper.enableStandardItemLighting();		
+        //RenderSystem.popMatrix();						
+	}
+	
 	/**
 	 * Render text at origin for rendering of HUD text.
 	 * 
@@ -139,7 +206,7 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 		// setupBillboardRotation();		
 		RenderSystem.rotatef(180, 0, 1, 0);
 
-		float z = (float) RenderingUtils.oscillate(0.1, 0.2);
+		float z = (float) RenderingUtils.oscillate(0.1F, 0.2F);
 		RenderSystem.translated(0,0, 0.1);
 		
 		// scale text

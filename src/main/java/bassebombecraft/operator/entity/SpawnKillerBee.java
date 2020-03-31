@@ -1,7 +1,13 @@
 package bassebombecraft.operator.entity;
 
+import static bassebombecraft.config.ModConfiguration.spawnKillerBeeDamage;
+import static bassebombecraft.config.ModConfiguration.spawnKillerBeeMovementSpeed;
 import static bassebombecraft.entity.EntityUtils.resolveTarget;
+import static bassebombecraft.entity.EntityUtils.setAttribute;
 import static bassebombecraft.entity.ai.AiUtils.buildChargingAi;
+import static net.minecraft.entity.SharedMonsterAttributes.ATTACK_DAMAGE;
+import static net.minecraft.entity.SharedMonsterAttributes.FLYING_SPEED;
+import static net.minecraft.entity.SharedMonsterAttributes.MOVEMENT_SPEED;
 
 import java.util.Random;
 import java.util.function.Supplier;
@@ -11,8 +17,6 @@ import bassebombecraft.operator.Operator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -20,7 +24,7 @@ import net.minecraft.world.World;
 
 /**
  * Implementation of the {@linkplain Operator} interface which spawn a killer
- * bee. The bee is spawned at the invoked (e.g. the player).
+ * bee. The bee is spawned at the invoker (e.g. the player).
  */
 public class SpawnKillerBee implements Operator {
 
@@ -42,32 +46,29 @@ public class SpawnKillerBee implements Operator {
 	/**
 	 * Entity target supplier.
 	 */
-	Supplier<Entity> splTarget;
+	Supplier<LivingEntity> splTarget;
 
 	/**
-	 * Movement speed supplier.
+	 * Attack damage.
 	 */
-	Supplier<Integer> splDamage;
+	int damage;
 
 	/**
-	 * Attack damage supplier.
+	 * Movement speed.
 	 */
-	Supplier<Double> splMovementSpeed;
+	double movementSpeed;
 
 	/**
-	 * SpawnKillerBees constructor. S
+	 * Constructor.
 	 * 
-	 * @param splEntity        invoker entity supplier.
-	 * @param splTarget        target entity supplier.
-	 * @param splMovementSpeed movement speed supplier.
-	 * @param splDamage        attack damage supplier.
+	 * @param splEntity invoker entity supplier.
+	 * @param splTarget target entity supplier.
 	 */
-	public SpawnKillerBee(Supplier<LivingEntity> splEntity, Supplier<Entity> splTarget, Supplier<Integer> splDamage,
-			Supplier<Double> splMovementSpeed) {
+	public SpawnKillerBee(Supplier<LivingEntity> splEntity, Supplier<LivingEntity> splTarget) {
 		this.splEntity = splEntity;
 		this.splTarget = splTarget;
-		this.splDamage = splDamage;
-		this.splMovementSpeed = splMovementSpeed;
+		this.damage = spawnKillerBeeDamage.get();
+		this.movementSpeed = spawnKillerBeeMovementSpeed.get();
 	}
 
 	@Override
@@ -88,14 +89,13 @@ public class SpawnKillerBee implements Operator {
 		entity.copyLocationAndAnglesFrom(livingEntity);
 
 		// set entity attributes
-		AbstractAttributeMap attributes = entity.getAttributes();
-		attributes.getAttributeInstance(SharedMonsterAttributes.FLYING_SPEED).setBaseValue(splMovementSpeed.get());
-		attributes.getAttributeInstance(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(splMovementSpeed.get());
-		attributes.getAttributeInstance(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(splDamage.get());
+		setAttribute(entity, FLYING_SPEED, movementSpeed);
+		setAttribute(entity, MOVEMENT_SPEED, movementSpeed);
+		setAttribute(entity, ATTACK_DAMAGE, damage);
 
 		// set AI
 		LivingEntity entityTarget = resolveTarget(target, livingEntity);
-		buildChargingAi(entity, entityTarget, (float) splDamage.get());
+		buildChargingAi(entity, entityTarget, (float) damage);
 
 		// add spawn sound
 		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
@@ -103,4 +103,5 @@ public class SpawnKillerBee implements Operator {
 		// spawn
 		world.addEntity(entity);
 	}
+
 }

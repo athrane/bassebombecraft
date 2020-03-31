@@ -21,16 +21,16 @@ import net.minecraft.potion.Effect;
 import net.minecraft.util.math.AxisAlignedBB;
 
 /**
- * Effect which make a mob aggro any entity, e.g. would attack it on sight.
+ * Effect which make the entity with the effect, "aggro" any mob, e.g. attack the mob on sight.
  * 
  * The effect has no effect on the player.
  */
-public class MobAggroEffect extends Effect {
+public class AggroMobEffect extends Effect {
 
 	/**
 	 * Effect identifier.
 	 */
-	public static final String NAME = MobAggroEffect.class.getSimpleName();
+	public static final String NAME = AggroMobEffect.class.getSimpleName();
 
 	/**
 	 * Update frequency for effect.
@@ -58,13 +58,13 @@ public class MobAggroEffect extends Effect {
 	DiscardSelf discardSelfFilter = new DiscardSelf();
 
 	/**
-	 * MobAggroEffect constructor.
+	 * Constructor.
 	 */
-	public MobAggroEffect() {
+	public AggroMobEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
 		doCommonEffectInitialization(this, NAME);
-		arreaOfEffect = ModConfiguration.mobAggroEffectAreaOfEffect.get();
-		updateFrequency = ModConfiguration.mobAggroEffectUpdateFrequency.get();
+		arreaOfEffect = ModConfiguration.aggroMobEffectAreaOfEffect.get();
+		updateFrequency = ModConfiguration.aggroMobEffectUpdateFrequency.get();
 	}
 
 	@Override

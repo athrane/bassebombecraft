@@ -1,7 +1,10 @@
 package bassebombecraft.event.potion;
 
 import static bassebombecraft.ModConstants.MOB_RESPAWNING_EFFECT;
-import static bassebombecraft.ModConstants.PLAYER_AGGRO_EFFECT;
+import static bassebombecraft.ModConstants.AGGRO_PLAYER_EFFECT;
+import static bassebombecraft.config.ModConfiguration.mobRespawningEffectAreaOfEffect;
+import static bassebombecraft.config.ModConfiguration.mobRespawningEffectDuration;
+import static bassebombecraft.config.ModConfiguration.mobRespawningEffectSpawnArea;
 import static bassebombecraft.entity.EntityUtils.calculateRandomYaw;
 import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
 import static bassebombecraft.player.PlayerUtils.getPlayer;
@@ -13,7 +16,6 @@ import static java.util.Optional.ofNullable;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
-import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.potion.effect.MobRespawningEffect;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -61,7 +63,7 @@ public class MobRespawningEffectEventHandler {
 
 		// exit if dead entity is outside of area-of-effect of the player
 		float distance = player.getDistance(deadEntity);
-		if (distance > ModConfiguration.mobRespawningEffectAreaOfEffect.get())
+		if (distance > mobRespawningEffectAreaOfEffect.get())
 			return;
 
 		// spawn entities
@@ -108,7 +110,7 @@ public class MobRespawningEffectEventHandler {
 
 		// create new entity
 		Entity spawnedEntity = type.create(world);
-		int spawnArea = ModConfiguration.mobRespawningEffectSpawnArea.get();
+		int spawnArea = mobRespawningEffectSpawnArea.get();
 
 		setRandomSpawnPosition(deadEntity.getPosition(), calculateRandomYaw(), spawnArea, spawnedEntity);
 		world.addEntity(spawnedEntity);
@@ -126,7 +128,7 @@ public class MobRespawningEffectEventHandler {
 	 * @return potion effect
 	 */
 	static EffectInstance createEffect() {
-		return new EffectInstance(PLAYER_AGGRO_EFFECT, ModConfiguration.mobRespawningEffectDuration.get());
+		return new EffectInstance(AGGRO_PLAYER_EFFECT, mobRespawningEffectDuration.get());
 	}
 
 }

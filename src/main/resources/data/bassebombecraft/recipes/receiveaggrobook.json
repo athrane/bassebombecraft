@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:enchanted_book"
+		},
+		{
+			"item": "bassebombecraft:mobsaggroidolinventoryitem"
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:receiveaggrobook"
+	}
+}

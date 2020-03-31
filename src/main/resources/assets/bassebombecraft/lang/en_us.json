@@ -44,7 +44,6 @@
     "item.bassebombecraft.spawnskeletonarmybook": "Book of Skeleton Army",
     "item.bassebombecraft.spawngiantzombiebook": "Book of Giant Rotten Helper",
     "item.bassebombecraft.spawncreeperarmybook": "Book of Suicide Squad",
-    "item.bassebombecraft.mobcommandersbaton": "Krenko's Command Baton",
 
     "_comment": "weapons and stuff",
     "item.bassebombecraft.multiplearrowsbook": "Book of Multiple Arrows",
@@ -53,6 +52,8 @@
     "item.bassebombecraft.digmobholebook": "Book of Inconvenient Holes",
     "item.bassebombecraft.buildstairsbook": "Book of Convenient Stairs",
     "item.bassebombecraft.setspawnpointbook": "Book of Spawnpoint",
+    "item.bassebombecraft.decoybook": "Book of Decoy",
+    "item.bassebombecraft.receiveaggrobook": "Book of Enmity",
 
     "_comment": "Beastmaster",
     "item.bassebombecraft.beastmastermistbook": "Book of Beast Charming Mist",
@@ -87,7 +88,7 @@
     "item.bassebombecraft.rainbownizebook": "Book of Rainbownize",
     "item.bassebombecraft.copypasteblocksbook": "Book of Copy and Paste",
     "item.bassebombecraft.duplicateblockbook": "Book of Duplication",
-    "item.bassebombecraft.buildtowerbook": "Book of Ruined Portal Tower",
+    "item.bassebombecraft.buildtowerbook": "Book of Ruined Necromancer Tower",
 
     "_comment": "inventory items",
     "item.bassebombecraft.rainidolinventoryitem": "Rain Idol",
@@ -115,6 +116,8 @@
     "item.bassebombecraft.reflectidolinventoryitem": "Shield-maiden Idol",
     "item.bassebombecraft.killerbeesidolinventoryitem": "Attack of the Killer B's Idol",
     "item.bassebombecraft.warpigsidolinventoryitem": "Warpigs Idol",
+    "item.bassebombecraft.decreasesizeidolinventoryitem": "Micropsia Idol",
+    "item.bassebombecraft.increasesizeidolinventoryitem": "Macropsia Idol",
 
     "_comment": "blocks",
     "block.bassebombecraft.randombookblock": "Block of Random Books",
@@ -122,14 +125,18 @@
     "_comment": "basic items",
     "item.bassebombecraft.terminatoreyeitem": "Terminator Eye",
     "item.bassebombecraft.huditem": "BasseBombeCraft tactical heads up display (HUD)",
+    "item.bassebombecraft.mobcommandersbaton": "Krenko's Command Baton",
     
     "_comment": "effects",
-    "effect.bassebombecraft.amplifiereffect": "Amplify potion effects",
-    "effect.bassebombecraft.mobaggroeffect": "Aggro mobs",
+    "effect.bassebombecraft.amplifiereffect": "Amplify effects",
+    "effect.bassebombecraft.aggromobeffect": "Aggro mob",
+    "effect.bassebombecraft.receiveaggroeffect": "Receive Aggro",   
     "effect.bassebombecraft.mobprimingeffect": "Prime mobs",
     "effect.bassebombecraft.mobrespawningeffect": "Respawn mobs",
-    "effect.bassebombecraft.playerggroeffect": "Aggro mobs towards player",
+    "effect.bassebombecraft.aggroplayereffect": "Aggro player",
     "effect.bassebombecraft.reflecteffect": "Reflect damage",
+    "effect.bassebombecraft.decreasesizeeffect": "Decrease size",
+    "effect.bassebombecraft.increasesizeeffect": "Increase size",
 
 	"_comment": "potions",
     "item.minecraft.potion.effect.weakamplificationpotion": "Potion of Weak Amplification",
@@ -144,9 +151,9 @@
     "item.minecraft.lingering_potion.effect.superioramplificationpotion": "Lingering Potion of Superior Amplification",
     "item.minecraft.splash_potion.effect.superioramplificationpotion": "Splash Potion of Superior Amplification",
     
-    "item.minecraft.potion.effect.mobaggropotion": "Potion of Mob Aggro",
-    "item.minecraft.lingering_potion.effect.mobaggropotion": "Lingering Potion of Mob Aggro",        
-    "item.minecraft.splash_potion.effect.mobaggropotion": "Splash Potion of Mob Aggro",        
+    "item.minecraft.potion.effect.mobaggropotion": "Potion of Aggro Mob",
+    "item.minecraft.lingering_potion.effect.mobaggropotion": "Lingering Potion of Aggro Mob",        
+    "item.minecraft.splash_potion.effect.mobaggropotion": "Splash Potion of Aggro Mob",        
     
     "item.minecraft.potion.effect.mobprimingpotion": "Potion of Mob Priming",
     "item.minecraft.lingering_potion.effect.mobprimingpotion": "Lingering Potion of Mob Priming",        

@@ -16,7 +16,7 @@ import net.minecraft.world.World;
  * Implementation of the {@linkplain RightClickedItemAction} which shoot an egg
  * projectile which executes an {@linkplain ProjectileAction} on impact.
  */
-public class GenericShootEggProjectile implements RightClickedItemAction {
+public class ShootGenericEggProjectile implements RightClickedItemAction {
 
 	static final float PITCH_OFFSET = 0.0F;
 	static final float VELOCITY = 3.0F;
@@ -29,7 +29,7 @@ public class GenericShootEggProjectile implements RightClickedItemAction {
 	 * 
 	 * @param action item action which is executed on impact.
 	 */
-	public GenericShootEggProjectile(ProjectileAction action) {
+	public ShootGenericEggProjectile(ProjectileAction action) {
 		this.action = action;
 	}
 

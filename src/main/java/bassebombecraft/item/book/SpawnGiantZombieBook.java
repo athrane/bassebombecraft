@@ -1,6 +1,6 @@
 package bassebombecraft.item.book;
 
-import bassebombecraft.item.action.GenericShootEggProjectile;
+import bassebombecraft.item.action.ShootGenericEggProjectile;
 import bassebombecraft.projectile.action.ProjectileAction;
 import bassebombecraft.projectile.action.SpawnGiantZombie;
 
@@ -13,6 +13,6 @@ public class SpawnGiantZombieBook extends GenericRightClickedBook {
 	static final ProjectileAction PROJECTILE_ACTION = new SpawnGiantZombie();
 
 	public SpawnGiantZombieBook() {
-		super(ITEM_NAME, new GenericShootEggProjectile(PROJECTILE_ACTION));
+		super(ITEM_NAME, new ShootGenericEggProjectile(PROJECTILE_ACTION));
 	}
 }
