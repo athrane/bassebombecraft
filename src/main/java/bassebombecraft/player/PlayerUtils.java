@@ -1,7 +1,5 @@
 package bassebombecraft.player;
 
-import static bassebombecraft.BassebombeCraft.getMincraft;
-
 import java.util.Optional;
 
 import net.minecraft.client.Minecraft;
@@ -117,11 +115,12 @@ public class PlayerUtils {
 	 * @return true if entity is a {@linkplain PlayerEntity} and it is alive.
 	 */
 	public static boolean isPlayerEntityAlive(Entity entity) {
-		if(!isTypePlayerEntity(entity)) return false;
+		if (!isTypePlayerEntity(entity))
+			return false;
 		PlayerEntity targetAsPlayer = (PlayerEntity) entity;
 		return targetAsPlayer.isAlive();
-	}	
-	
+	}
+
 	/**
 	 * Returns true if item is held in player off hand.
 	 * 
@@ -158,17 +157,18 @@ public class PlayerUtils {
 		if (item == null)
 			return false;
 
-		ItemStack itemStackOffhand = player.getHeldItemOffhand();		
+		ItemStack itemStackOffhand = player.getHeldItemOffhand();
 		if (itemStackOffhand == null)
 			return false;
 
 		Item itemOffhand = itemStackOffhand.getItem();
 		if (itemOffhand == null)
 			return false;
-		
+
 		// exit if item is held in off hand
-		if(item.equals(itemOffhand)) return true;
-		
+		if (item.equals(itemOffhand))
+			return true;
+
 		ItemStack itemStack = player.getHeldItemMainhand();
 		if (itemStack == null)
 			return false;
@@ -176,11 +176,11 @@ public class PlayerUtils {
 		Item itemMainhand = itemStack.getItem();
 		if (itemMainhand == null)
 			return false;
-		
+
 		// exit if item is held in main hand
-		return (item.equals(itemMainhand));		
+		return (item.equals(itemMainhand));
 	}
-	
+
 	/**
 	 * Returns true if item is held in hotbar.
 	 * 
@@ -236,7 +236,10 @@ public class PlayerUtils {
 	 * @return true if player is defined in Minecraft.
 	 */
 	public static boolean isPlayerDefined() {
-		return (getMincraft().player != null);
+		Minecraft mcClient = Minecraft.getInstance();
+		if (mcClient == null)
+			return false;
+		return (mcClient.player != null);
 	}
 
 	/**
@@ -247,7 +250,8 @@ public class PlayerUtils {
 	public static PlayerEntity getPlayer() {
 		if (!isPlayerDefined())
 			return null;
-		return getMincraft().player;
+		Minecraft mcClient = Minecraft.getInstance();
+		return mcClient.player;
 	}
 
 }

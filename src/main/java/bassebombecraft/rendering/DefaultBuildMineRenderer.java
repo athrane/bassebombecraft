@@ -1,7 +1,7 @@
 package bassebombecraft.rendering;
 
+import static bassebombecraft.ModClientConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.BUILDMINEBOOK__TEXT_COLOR;
-import static bassebombecraft.ModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 import static bassebombecraft.rendering.RenderingUtils.renderTextBillboard;
 import static net.minecraft.util.math.RayTraceResult.Type.BLOCK;

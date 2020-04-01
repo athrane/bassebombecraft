@@ -1,7 +1,6 @@
 package bassebombecraft.network.packet;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.BassebombeCraft.getMincraft;
 
 import java.util.function.Supplier;
 
@@ -76,8 +75,8 @@ public class RemoveEffect {
 			ctx.enqueueWork(() -> {
 
 				// get client side entity from ID
-				Minecraft mc = getMincraft();
-				Entity entity = mc.world.getEntityByID(entityId);
+				Minecraft mcClient = Minecraft.getInstance();
+				Entity entity = mcClient.world.getEntityByID(entityId);
 
 				// add potion effect
 				Effect effect = Effect.get(effectId);

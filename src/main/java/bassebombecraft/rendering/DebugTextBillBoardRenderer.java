@@ -1,6 +1,5 @@
 package bassebombecraft.rendering;
 
-import static bassebombecraft.ModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEXT_SCALE;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
@@ -9,6 +8,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import bassebombecraft.BassebombeCraft;
+import static bassebombecraft.ModClientConstants.*;
 import bassebombecraft.player.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;

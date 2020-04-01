@@ -51,4 +51,11 @@ public interface Proxy {
 	 */
 	public String getUser() throws OperationNotSupportedException;
 
+	/**
+	 * Setup client side rendering.
+	 * 
+	 * @throws OperationNotSupportedException if operation isn't supported.
+	 */
+	public void setupClientSideRendering() throws OperationNotSupportedException;
+	
 }

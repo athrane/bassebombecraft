@@ -1,13 +1,13 @@
 package bassebombecraft.event.particle;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.BassebombeCraft.getMincraft;
 import static bassebombecraft.ModConstants.PARTICLE_RENDERING_FREQUENCY;
 import static bassebombecraft.world.WorldUtils.isWorldAtServerSide;
 
 import java.util.Random;
 
 import bassebombecraft.event.frequency.FrequencyRepository;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.entity.player.PlayerEntity;
@@ -146,7 +146,8 @@ public class ParticleRenderingEventHandler {
 		double y = particle.getPosition().getY() + 1;
 		double z = particle.getPosition().getZ() + 0.5D;
 
-		ParticleManager manager = getMincraft().particles;
+		Minecraft mcClient = Minecraft.getInstance();		
+		ParticleManager manager = mcClient.particles;
 		Particle spellParticle = manager.addParticle(ParticleTypes.EFFECT, x, y, z, d0, d1, d2);
 		spellParticle.setColor(r, g, b);
 	}

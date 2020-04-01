@@ -1,8 +1,8 @@
 package bassebombecraft.rendering;
 
+import static bassebombecraft.ModClientConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.BILLBOARD_LINE_WIDTH;
 import static bassebombecraft.ModConstants.EQUILATERAL_TRIANGLE_HEIGHT;
-import static bassebombecraft.ModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEXT_SCALE;
 import static bassebombecraft.ModConstants.TEXT_Z_TRANSLATION;
@@ -390,7 +390,7 @@ public class RenderingUtils {
 		setupBillboardRendering();
 
 		// get minecraft
-		Minecraft mc = Minecraft.getInstance();
+		Minecraft mcClient = Minecraft.getInstance();
 
 		// enable for rendering of text
 		GlStateManager.enableTexture();
@@ -408,7 +408,7 @@ public class RenderingUtils {
 		GlStateManager.rotatef(rotation.getW(), rotation.getX(), rotation.getY(), rotation.getZ());
 
 		// draw
-		mc.fontRenderer.drawString(text, 0, 0, textColor);
+		mcClient.fontRenderer.drawString(text, 0, 0, textColor);
 
 		resetBillboardRendering();
 	}
@@ -551,7 +551,8 @@ public class RenderingUtils {
 	 * @param x           y coordinate for text placement.
 	 * @param text        text to render.
 	 */
-	public static void renderBillboardText(MatrixStack matrixStack, IRenderTypeBuffer buffer, float x, float y, String text) {
+	public static void renderBillboardText(MatrixStack matrixStack, IRenderTypeBuffer buffer, float x, float y,
+			String text) {
 		EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
 		FontRenderer fontRenderer = renderManager.getFontRenderer();
 
@@ -797,7 +798,7 @@ public class RenderingUtils {
 	/**
 	 * Oscillate value.
 	 * 
-	 * @param min 
+	 * @param min
 	 * @param max
 	 * 
 	 * @return oscillated value between min and max.
@@ -810,7 +811,7 @@ public class RenderingUtils {
 	/**
 	 * Oscillate value.
 	 * 
-	 * @param timeDelta value added to time. 
+	 * @param timeDelta value added to time.
 	 * @param min
 	 * @param max
 	 * 

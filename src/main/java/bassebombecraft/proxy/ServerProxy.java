@@ -79,4 +79,10 @@ public class ServerProxy implements Proxy {
 		throw new OperationNotSupportedException("Only invoke this method client side.");
 	}
 
+	@Override
+	public void setupClientSideRendering() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException("Only invoke this method client side.");		
+	}
+
+	
 }

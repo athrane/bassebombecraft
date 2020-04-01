@@ -1,8 +1,9 @@
 package bassebombecraft.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModClientConstants.ICON_BILLBOARD_ROTATION;
+import static bassebombecraft.ModClientConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.HUD_TEXT_DISP;
-import static bassebombecraft.ModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.entity.ai.AiUtils.getFirstRunningAiGoalName;
 import static bassebombecraft.entity.ai.AiUtils.getFirstRunningAiTargetGoalName;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
@@ -13,7 +14,6 @@ import java.util.Collection;
 
 import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.player.PlayerUtils;
-import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
@@ -24,16 +24,6 @@ import net.minecraft.util.math.Vec3d;
  */
 @Deprecated
 public class DefaultTeamRenderer implements EntityRenderer {
-
-	/**
-	 * Angle for rotation of billboard for triangle for rendering team members.
-	 */
-	static final int BILLBOARD_ANGLE = 0;
-
-	/**
-	 * Rotation of billboard for triangle for rendering team members.
-	 */
-	static final Vector4f BILLBOARD_ROTATION = new Vector4f(0.0F, 0.0F, 1.0F, BILLBOARD_ANGLE);
 
 	/**
 	 * Team label.
@@ -79,7 +69,7 @@ public class DefaultTeamRenderer implements EntityRenderer {
 	void renderTeamEntity(LivingEntity entity, Vec3d playerPos, RenderingInfo info) {
 
 		Vec3d entityPos = entity.getBoundingBox().getCenter();
-		renderTriangleBillboard(playerPos, entityPos, BILLBOARD_ROTATION);
+		renderTriangleBillboard(playerPos, entityPos, ICON_BILLBOARD_ROTATION);
 		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
 		entityPos = entityPos.add(0, -HUD_TEXT_DISP, 0);
 		renderTextBillboard(playerPos, entityPos, getFirstRunningAiGoalName(entity), TEXT_BILLBOARD_ROTATION);
