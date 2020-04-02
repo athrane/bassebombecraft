@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.Consumer;
 
 import javax.naming.OperationNotSupportedException;
 
@@ -39,18 +40,10 @@ import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.item.ItemRegistryEventHandler;
 import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
-import bassebombecraft.event.potion.DecoyEffectRenderer;
-import bassebombecraft.event.potion.DecreaseSizeEffectRenderer;
-import bassebombecraft.event.potion.IncreaseSizeEffectRenderer;
-import bassebombecraft.event.rendering.CharmedInfoRenderer;
-import bassebombecraft.event.rendering.TargetInfoRenderer;
-import bassebombecraft.event.rendering.TeamEnityRenderer;
-import bassebombecraft.event.rendering.TeamInfoRenderer;
 import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.proxy.ClientProxy;
 import bassebombecraft.proxy.Proxy;
 import bassebombecraft.proxy.ServerProxy;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -194,16 +187,25 @@ public class BassebombeCraft {
 			// initialize network
 			network = new NetworkChannelHelper();
 
+			
 		} catch (ExceptionInInitializerError e) {
 			reportAndLogException(e);
 			throw e;
 		} catch (Exception e) {
 			reportAndLogException(e);
 			throw e;
-		}
+		} 
 
 		// register event handler for FMLClientSetupEvent event on the mod event bus
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
+		Consumer<FMLClientSetupEvent> consumer = t -> {
+			try {
+				setupClient(t);
+			} catch (Exception e) {
+				reportAndLogException(e);
+			}
+		};
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(consumer);
+		
 	}
 
 	@SubscribeEvent
@@ -229,26 +231,8 @@ public class BassebombeCraft {
 	}
 
 	@SubscribeEvent
-	void setupClient(FMLClientSetupEvent event) {
-		// EVENT_BUS.addListener(DebugRenderer_MobLines::render);
-		// EVENT_BUS.addListener(DebugRenderer_EntityText_v3::render);
-		// MinecraftForge.EVENT_BUS.addListener(DebugRenderer_WorldLastEventText::render);
-		// EVENT_BUS.addListener(DebugRenderer_Highlightblock::render);
-		// EVENT_BUS.addListener(DebugRenderer_StrangeSize::render);
-		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPre);
-		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPost);
-
-		// register renderer classes
-		EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
-		EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
-		EVENT_BUS.addListener(CharmedInfoRenderer::handleRenderWorldLastEvent);
-		EVENT_BUS.addListener(TeamEnityRenderer::handleRenderLivingEvent);
-		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPre);
-		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPost);
-		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPre);
-		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPost);
-		EVENT_BUS.addListener(DecoyEffectRenderer::handleRenderLivingEventPre);
-		EVENT_BUS.addListener(DecoyEffectRenderer::handleRenderLivingEventPost);
+	void setupClient(FMLClientSetupEvent event) throws Exception {
+		proxy.setupClientSideRendering();
 	}
 
 	/**
@@ -423,15 +407,6 @@ public class BassebombeCraft {
 	 */
 	public Random getRandom() {
 		return random;
-	}
-
-	/**
-	 * Get Minecraft client.
-	 * 
-	 * @return Minecraft client
-	 */
-	public static Minecraft getMincraft() {
-		return Minecraft.getInstance();
 	}
 
 	/**

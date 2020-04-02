@@ -31,7 +31,6 @@ import bassebombecraft.potion.effect.MobRespawningEffect;
 import bassebombecraft.potion.effect.ReceiveAggroEffect;
 import bassebombecraft.potion.effect.ReflectEffect;
 import bassebombecraft.rendering.DefaultBuildMineRenderer;
-import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.item.Item;
@@ -62,7 +61,7 @@ public class ModConstants {
 	/**
 	 * Mod version.
 	 */
-	public static final String VERSION = "1.15.2-1.40";
+	public static final String VERSION = "1.15.2-1.41";
 
 	/**
 	 * In game tab name.
@@ -349,16 +348,6 @@ public class ModConstants {
 	 * {@linkplain DefaultBuildMineRenderer}.
 	 */
 	public static final int BUILDMINEBOOK__TEXT_COLOR = 0xC0C000;
-
-	/**
-	 * Rendering: Angle for rotation of text billboard.
-	 */
-	public static final int TEXT_BILLBOARD_ANGLE = 180;
-
-	/**
-	 * Rendering: Rotation of text billboard.
-	 */
-	public static final Vector4f TEXT_BILLBOARD_ROTATION = new Vector4f(0.0F, 0.0F, 1.0F, TEXT_BILLBOARD_ANGLE);
 
 	/**
 	 * HUD item: Team target label.

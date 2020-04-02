@@ -21,7 +21,7 @@ apply plugin: 'maven-publish'
 
 // definition of properties
 ext {
-    modVersion = "1.40"
+    modVersion = "1.41"
     mcVersion = "1.15.2"
 }
 version = project.mcVersion + "-" + project.modVersion  

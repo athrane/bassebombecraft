@@ -2,7 +2,7 @@ package bassebombecraft.rendering;
 
 import static bassebombecraft.player.PlayerUtils.getPlayer;
 
-import bassebombecraft.BassebombeCraft;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.RayTraceResult;
@@ -39,7 +39,8 @@ public class DefaultRenderingInfo implements RenderingInfo {
 
 	public DefaultRenderingInfo(float partialTicks) {
 		this.partialTicks = partialTicks;
-		Entity rve = BassebombeCraft.getMincraft().getRenderViewEntity();
+		Minecraft mcClient = Minecraft.getInstance();
+		Entity rve = mcClient.getRenderViewEntity();
 		rveModifiedX = rve.lastTickPosX + ((rve.getPosX() - rve.lastTickPosX) * partialTicks);
 		rveModifiedY = rve.lastTickPosY + ((rve.getPosY() - rve.lastTickPosY) * partialTicks);
 		rveModifiedZ = rve.lastTickPosZ + ((rve.getPosZ() - rve.lastTickPosZ) * partialTicks);
@@ -70,12 +71,12 @@ public class DefaultRenderingInfo implements RenderingInfo {
 	public double getRveTranslatedViewZ() {
 		return -rveModifiedZ;
 	}
-	
+
 	@Override
 	public float getPartialTicks() {
 		return partialTicks;
 	}
-	
+
 	@Override
 	public RayTraceResult getResult() {
 		return result;
@@ -96,17 +97,17 @@ public class DefaultRenderingInfo implements RenderingInfo {
 	public static RenderingInfo getInstance(float partialTicks) {
 		return new DefaultRenderingInfo(partialTicks);
 	}
-	
+
 	/**
 	 * Factory method.
 	 * 
 	 * @param partialTicks partial game ticks.
-	 * @param result ray trace result .
+	 * @param result       ray trace result .
 	 * 
 	 * @return rendering info.
 	 */
 	public static RenderingInfo getInstance(float partialTicks, RayTraceResult result) {
 		return new DefaultRenderingInfo(partialTicks, result);
 	}
-	
+
 }

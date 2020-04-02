@@ -1,14 +1,24 @@
 package bassebombecraft.proxy;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.config.VersionUtils.*;
+import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startSession;
 import static bassebombecraft.player.PlayerUtils.getClientSidePlayerUId;
+import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
+
+import javax.naming.OperationNotSupportedException;
 
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.config.VersionUtils;
+import bassebombecraft.event.potion.DecoyEffectRenderer;
+import bassebombecraft.event.potion.DecreaseSizeEffectRenderer;
+import bassebombecraft.event.potion.IncreaseSizeEffectRenderer;
+import bassebombecraft.event.rendering.CharmedInfoRenderer;
+import bassebombecraft.event.rendering.TargetInfoRenderer;
+import bassebombecraft.event.rendering.TeamEnityRenderer;
+import bassebombecraft.event.rendering.TeamInfoRenderer;
 
 /**
  * Implementation of the {@linkplain Proxy} interface.
@@ -75,14 +85,33 @@ public class ClientProxy implements Proxy {
 		}		
 	}
 
-	/**
-	 * Get player UID at client side.
-	 * 
-	 * @return player UID.
-	 */
 	@Override
 	public String getUser() {
 		return getClientSidePlayerUId();
 	}
 
+	@Override
+	public void setupClientSideRendering() throws OperationNotSupportedException {
+		// register debug renderer classes		
+		// EVENT_BUS.addListener(DebugRenderer_MobLines::render);
+		// EVENT_BUS.addListener(DebugRenderer_EntityText_v3::render);
+		// MinecraftForge.EVENT_BUS.addListener(DebugRenderer_WorldLastEventText::render);
+		// EVENT_BUS.addListener(DebugRenderer_Highlightblock::render);
+		// EVENT_BUS.addListener(DebugRenderer_StrangeSize::render);
+		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPre);
+		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPost);
+
+		// register renderer classes
+		EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(CharmedInfoRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(TeamEnityRenderer::handleRenderLivingEvent);
+		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPre);
+		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPost);
+		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPre);
+		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPost);
+		EVENT_BUS.addListener(DecoyEffectRenderer::handleRenderLivingEventPre);
+		EVENT_BUS.addListener(DecoyEffectRenderer::handleRenderLivingEventPost);		
+	}
+	
 }
