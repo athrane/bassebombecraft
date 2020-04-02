@@ -69,6 +69,7 @@ import bassebombecraft.item.book.CopyPasteBlocksBook;
 import bassebombecraft.item.book.CreeperCannonBook;
 import bassebombecraft.item.book.DecoyBook;
 import bassebombecraft.item.book.DigMobHoleBook;
+import bassebombecraft.item.book.LargeFireballBook;
 import bassebombecraft.item.book.LavaSpiralMistBook;
 import bassebombecraft.item.book.LingeringFlameBook;
 import bassebombecraft.item.book.LingeringFuryBook;
@@ -230,9 +231,11 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue mobCommandersBatonCooldown;
 
 	// SmallFireballBook
-	public static ForgeConfigSpec.ConfigValue<String> smallFireballBookTooltip;
-	public static ForgeConfigSpec.IntValue smallFireballBookCooldown;
+	public static ItemConfig smallFireballBook ;
 
+	// LargeFireballBook
+	public static ItemConfig largeFireballBook;
+	
 	// SmallFireballRingBook
 	public static ForgeConfigSpec.ConfigValue<String> smallFireballRingBookTooltip;
 	public static ForgeConfigSpec.IntValue smallFireballRingBookCooldown;
@@ -1097,13 +1100,14 @@ public class ModConfiguration {
 
 		// SmallFireballBook
 		name = SmallFireballBook.ITEM_NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		smallFireballBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
-				"Right-click to shoot a fireball that is hurled at foes.");
-		smallFireballBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.")
-				.defineInRange("cooldown", 25, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
+		smallFireballBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to shoot a fireball that is hurled at foes.", 25);		
 
+		// LargeFireballBook		
+		name = LargeFireballBook.ITEM_NAME;
+		largeFireballBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to shoot a large fireball that is hurled at foes.", 25);
+		
 		// SmallFireballRingBook
 		name = SmallFireballRingBook.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
