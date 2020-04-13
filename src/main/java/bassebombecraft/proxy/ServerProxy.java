@@ -23,8 +23,24 @@ public class ServerProxy implements Proxy {
 	public void startAnalyticsSession() {
 		try {
 			MinecraftServer server = getBassebombeCraft().getServer();
-			String hostname = server.getServerHostname();
-			startServerSession(hostname);
+
+			// define server host
+			String host = server.getServerHostname();
+			if ((host == null) || (host.isEmpty()))
+				host = "*";
+
+			// define server port
+			String port = Integer.toString(server.getServerPort());
+
+			// define server owner
+			String owner = server.getServerOwner();
+			if ((owner == null) || (owner.isEmpty()))
+				owner = "N/A";
+
+			String name = new StringBuilder().append(host).append(":").append(port).append(";").append(owner)
+					.append(";").append(server.getMOTD()).toString();
+
+			startServerSession(name);
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
 			logger.error("Initiating usage session failed with: " + ex.getMessage());
@@ -71,9 +87,9 @@ public class ServerProxy implements Proxy {
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
 			logger.error("Posting AI observation: failed with: " + ex.getMessage());
-		}		
+		}
 	}
-	
+
 	@Override
 	public String getUser() throws OperationNotSupportedException {
 		throw new OperationNotSupportedException("Only invoke this method client side.");
@@ -81,8 +97,7 @@ public class ServerProxy implements Proxy {
 
 	@Override
 	public void setupClientSideRendering() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException("Only invoke this method client side.");		
+		throw new OperationNotSupportedException("Only invoke this method client side.");
 	}
 
-	
 }

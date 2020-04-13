@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
@@ -183,6 +185,19 @@ public class VersionUtils {
 		// build request
 		URI uri = uriBuilder.build();
 		HttpPost request = new HttpPost(uri);
+
+		// post
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+
+		// Build the server URI together with the parameters
+		action = "System info (Server)";
+		postParameters = createSystemInfoParameters(uid, category, action);
+		uriBuilder = new URIBuilder(ANALYTICS_URL);
+		uriBuilder.addParameters(postParameters);
+
+		// build request
+		uri = uriBuilder.build();
+		request = new HttpPost(uri);
 
 		// post
 		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
@@ -467,9 +482,29 @@ public class VersionUtils {
 
 		String userInfo = new StringBuilder().append(uid).append(";").append(System.getProperty("os.name")).append(",")
 				.append(System.getProperty("os.version")).append(",").append(System.getProperty("os.arch")).append(";")
-				.append(System.getProperty("java.version")).append(";").append(mcVersion).append(";")
-				.append(forgeVersion).append(";").append(mcpVersion).append(";").toString();
+				.append(System.getProperty("java.version")).append(";").append(getJvmArgs()).append(mcVersion)
+				.append(";").append(forgeVersion).append(";").append(mcpVersion).append(";").toString();
 		return userInfo;
+	}
+
+	/**
+	 * Get JVM arguments used to start server.
+	 * 
+	 * @return JVM arguments used to start server.
+	 */
+	static String getJvmArgs() {
+
+		try {
+			RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+			List<String> jvmArgs = runtimeMXBean.getInputArguments();
+			StringBuilder args = new StringBuilder();
+			args.append("JVM args:");
+			for (String arg : jvmArgs)
+				args.append(arg).append(";");
+			return args.toString();
+		} catch (Exception e) {
+			return "JVM args: Not accessible";
+		}
 	}
 
 	/**
