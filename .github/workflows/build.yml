@@ -81,8 +81,8 @@ jobs:
         asset_name: BasseBombeCraft-${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}.jar
         asset_content_type: application/zip
 
-    - name: Upload Release Asset
-      id: upload_release_asset    
+    - name: Upload Release Asset (server jar)
+      id: upload_release_asset_server    
       uses: actions/upload-release-asset@v1.0.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
