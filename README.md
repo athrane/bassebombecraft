@@ -37,3 +37,12 @@ The repository has several branches:
 [dev-1.32](https://github.com/athrane/bassebombecraft/tree/dev-1.32), etc.
 - Master branch: [master](https://github.com/athrane/bassebombecraft/tree/master)
 
+# Shadowing of 3. party libraries
+
+In order to support usage of the mod on a server, then mod uses the [Gradle Shadow plugin](https://imperceptiblethoughts.com/shadow/) 
+to include these 3. party libraries within the generated jar file:
+* Apache HTTP components / httpcore 
+* Apache HTTP components / httpclient
+* Apache Commons Logging 
+
+See Issue #693 for additional information.
