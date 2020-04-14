@@ -19,7 +19,7 @@ import static bassebombecraft.ModConstants.WEAK_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.potion.PotionUtils.getInstance;
 import static bassebombecraft.potion.PotionUtils.registerPotionRecipe;
 import static net.minecraft.item.Items.CHORUS_FRUIT;
-import static net.minecraft.item.Items.CREEPER_SPAWN_EGG;
+import static net.minecraft.item.Items.CREEPER_HEAD;
 import static net.minecraft.item.Items.EMERALD;
 import static net.minecraft.item.Items.ENDER_PEARL;
 import static net.minecraft.item.Items.FIRE_CHARGE;
@@ -84,12 +84,12 @@ public class PotionRegistryEventHandler {
 		registry.register(primedMobPotion);
 		registerPotionRecipe(Potions.AWKWARD, FIRE_CHARGE, mobAggroPotion);
 
-		// create and register mob respawner potion
+		// create and register mob respawning potion
 		name = MOB_RESPAWNING_POTION_NAME.toLowerCase();
 		configPath = POTIONS_CONFIGPATH + MOB_RESPAWNING_POTION_NAME;
-		Potion mobRespawnerPotion = getInstance(name, configPath, MOB_RESPAWNING_EFFECT);
-		registry.register(mobRespawnerPotion);
-		registerPotionRecipe(Potions.AWKWARD, CREEPER_SPAWN_EGG, mobRespawnerPotion);
+		Potion mobRespawningPotion = getInstance(name, configPath, MOB_RESPAWNING_EFFECT);
+		registry.register(mobRespawningPotion);
+		registerPotionRecipe(Potions.AWKWARD, CREEPER_HEAD, mobRespawningPotion);
 	}
 
 	/**
