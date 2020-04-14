@@ -25,7 +25,7 @@ public class MobRespawningEffect extends Effect {
 	public static final String NAME = MobRespawningEffect.class.getSimpleName();
 
 	/**
-	 * MobAggroEffect constructor.
+	 * Constructor.
 	 */
 	public MobRespawningEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
