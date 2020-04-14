@@ -1330,7 +1330,7 @@ public class ModConfiguration {
 		name = PrimeMobIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "large_smoke", 7, 20, 0.2, 1.0, 1.0, 1.0);
 		primeMobIdolInventoryItem = getInstance(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol create a pink spiral of wool outwards from the player.", 5,
+				"Equip in either hand to activate. The idol will prime any nearby mob for an explosion.", 5,
 				5, splParticles);
 
 		// FlameBlastIdolInventoryItem
