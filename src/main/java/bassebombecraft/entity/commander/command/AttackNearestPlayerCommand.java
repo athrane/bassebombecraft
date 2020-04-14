@@ -66,7 +66,7 @@ public class AttackNearestPlayerCommand implements MobCommand {
 		// initialize filter
 		discardTeamCommander.set(commander);
 
-		// get list of mobs
+		// get list of players
 		AxisAlignedBB aabb = entity.getBoundingBox().expand(targetDistance, targetDistance, targetDistance);
 		List<PlayerEntity> targetList = entity.world.getEntitiesWithinAABB(PlayerEntity.class, aabb,
 				discardTeamCommander);
