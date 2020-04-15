@@ -4,10 +4,10 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.BUILD_MINE_BOOK;
 import static bassebombecraft.ModConstants.HUD_ITEM;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
-import static bassebombecraft.player.PlayerUtils.getPlayer;
+import static bassebombecraft.player.PlayerUtils.getClientSidePlayer;
 import static bassebombecraft.player.PlayerUtils.isItemHeldInEitherHands;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
-import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
+import static bassebombecraft.player.PlayerUtils.isClientSidePlayerDefined;
 import static bassebombecraft.rendering.DefaultRenderingInfo.getInstance;
 
 import bassebombecraft.rendering.DefaultBuildMineRenderer;
@@ -79,11 +79,11 @@ public class RenderingEventHandler {
 	public static void handleRenderGameOverlayEvent(RenderGameOverlayEvent event) {
 
 		// exit if player is undefined
-		if (!isPlayerDefined())
+		if (!isClientSidePlayerDefined())
 			return;
 
 		// get player
-		PlayerEntity player = getPlayer();
+		PlayerEntity player = getClientSidePlayer();
 
 		// exit if targeting overlay isn't in hotbar
 		if (!isItemInHotbar(player, HUD_ITEM))
@@ -112,11 +112,11 @@ public class RenderingEventHandler {
 	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
 
 		// exit if player is undefined
-		if (!isPlayerDefined())
+		if (!isClientSidePlayerDefined())
 			return;
 
 		// get player
-		PlayerEntity player = getPlayer();
+		PlayerEntity player = getClientSidePlayer();
 
 		// render DEBUG billboard
 		// RenderingInfo info = getInstance(event.getPartialTicks());
@@ -134,11 +134,11 @@ public class RenderingEventHandler {
 	public static void handleHighlightBlock(HighlightBlock event) {
 
 		// exit if player is undefined
-		if (!isPlayerDefined())
+		if (!isClientSidePlayerDefined())
 			return;
 
 		// get player
-		PlayerEntity player = getPlayer();
+		PlayerEntity player = getClientSidePlayer();
 
 		try {
 

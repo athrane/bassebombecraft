@@ -1,5 +1,7 @@
 package bassebombecraft.item.book;
 
+import static bassebombecraft.config.ModConfiguration.smallFireballBook;
+
 import bassebombecraft.item.action.ShootSmallFireball;
 
 /**
@@ -8,8 +10,8 @@ import bassebombecraft.item.action.ShootSmallFireball;
 public class SmallFireballBook extends GenericRightClickedBook {
 
 	public static final String ITEM_NAME = "SmallFireballBook";
-	
+
 	public SmallFireballBook() {
-		super(ITEM_NAME, new ShootSmallFireball());
+		super(ITEM_NAME, smallFireballBook, new ShootSmallFireball());
 	}
 }

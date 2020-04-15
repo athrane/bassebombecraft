@@ -4,7 +4,7 @@ import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
 import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 
-import bassebombecraft.event.potion.DecreaseSizeEffectRenderer;
+import bassebombecraft.event.rendering.DecreaseSizeEffectRenderer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
 

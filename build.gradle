@@ -9,19 +9,21 @@ buildscript {
     }
 }
 
-// Activation of SonarQube 
 plugins {
-  id "org.sonarqube" version "2.8"
+	// Activation of SonarQube 
+  	id "org.sonarqube" version "2.8"
+  	
+  	// Shadowing of 3. party libraries (i.e. Apache HTTP client)
+	id 'com.github.johnrengelman.shadow' version '4.0.4'  
 }
 
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
 
 // definition of properties
 ext {
-    modVersion = "1.41"
+    modVersion = "1.42"
     mcVersion = "1.15.2"
 }
 version = project.mcVersion + "-" + project.modVersion  
@@ -113,11 +115,16 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.15.2-31.1.0'
+    minecraft 'net.minecraftforge:forge:1.15.2-31.1.0'    
+    
+	// Declaration of shadowed 3. party libraries 
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.12'
+    compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.13'    
+	compile group: 'commons-logging', name: 'commons-logging', version: '1.2'            
 }
 
 jar {
-	// Example for how to get properties into the manifest for reading by the runtime..
+	// Get properties into the manifest for reading by the runtime..
     manifest {
         attributes([
             "Specification-Title": project.name,
@@ -147,4 +154,27 @@ processResources {
 	from(sourceSets.main.resources.srcDirs) {
 		exclude 'META-INF/mods.toml'
 	}
+}
+
+// Shadowing of 3. party libraries (i.e. Apache HTTP client)
+shadowJar {
+
+	// define postfix for generated jar
+	classifier = 'server'
+
+	// add dependencies to actively include in the jar.
+    dependencies {
+        include(dependency(group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.13'))
+        include(dependency(group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.12'))
+        include(dependency(group: 'commons-logging', name: 'commons-logging', version: '1.2'))        
+    }
+    
+    // relocate package names
+	relocate 'org.apache.http', 'shadowed.org.apache.http'
+	relocate 'org.apache.commons.logging', 'shadowed.org.apache.commons.logging'	
+}
+
+// Reobfuscate the shadowed JAR
+reobf {
+    shadowJar {}
 }

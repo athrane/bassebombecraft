@@ -3,9 +3,9 @@ package bassebombecraft.event.rendering;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.HUD_ITEM;
 import static bassebombecraft.ModConstants.TEAM_MEMBERS_TO_RENDER;
-import static bassebombecraft.player.PlayerUtils.getPlayer;
+import static bassebombecraft.player.PlayerUtils.getClientSidePlayer;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
-import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
+import static bassebombecraft.player.PlayerUtils.isClientSidePlayerDefined;
 import static bassebombecraft.rendering.RenderingUtils.renderBillboardText;
 
 import java.util.Optional;
@@ -35,11 +35,11 @@ public class TargetInfoRenderer {
 		try {
 			
 			// exit if player is undefined
-			if (!isPlayerDefined())
+			if (!isClientSidePlayerDefined())
 				return;
 
 			// get player
-			PlayerEntity player = getPlayer();
+			PlayerEntity player = getClientSidePlayer();
 
 			// exit if HUD item isn't in hotbar
 			if (!isItemInHotbar(player, HUD_ITEM))

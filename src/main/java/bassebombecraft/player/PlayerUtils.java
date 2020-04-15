@@ -231,11 +231,11 @@ public class PlayerUtils {
 	}
 
 	/**
-	 * Returns true if player is defined in Minecraft.
+	 * Returns true if player is defined in Minecraft client.
 	 * 
-	 * @return true if player is defined in Minecraft.
+	 * @return true if player is defined in Minecraft client.
 	 */
-	public static boolean isPlayerDefined() {
+	public static boolean isClientSidePlayerDefined() {
 		Minecraft mcClient = Minecraft.getInstance();
 		if (mcClient == null)
 			return false;
@@ -243,12 +243,13 @@ public class PlayerUtils {
 	}
 
 	/**
-	 * Returns player from Minecraft.
+	 * Returns player from Minecraft client.
 	 * 
-	 * @return player from Minecraft.
+	 * @return player from Minecraft client.
 	 */
-	public static PlayerEntity getPlayer() {
-		if (!isPlayerDefined())
+	
+	public static PlayerEntity getClientSidePlayer() {
+		if (!isClientSidePlayerDefined())
 			return null;
 		Minecraft mcClient = Minecraft.getInstance();
 		return mcClient.player;

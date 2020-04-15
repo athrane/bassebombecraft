@@ -1,6 +1,6 @@
 package bassebombecraft.rendering;
 
-import static bassebombecraft.player.PlayerUtils.getPlayer;
+import static bassebombecraft.player.PlayerUtils.getClientSidePlayer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -63,7 +63,7 @@ public class DefaultRenderingInfo implements RenderingInfo {
 
 	@Override
 	public double getRveTranslatedViewYOffsetWithPlayerEyeHeight() {
-		PlayerEntity player = getPlayer();
+		PlayerEntity player = getClientSidePlayer();
 		return getRveTranslatedViewY() - player.getEyeHeight();
 	}
 

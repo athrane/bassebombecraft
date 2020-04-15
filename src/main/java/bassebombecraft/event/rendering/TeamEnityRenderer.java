@@ -6,9 +6,9 @@ import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEXT_SCALE;
 import static bassebombecraft.entity.ai.AiUtils.getFirstRunningAiGoalName;
 import static bassebombecraft.entity.ai.AiUtils.getFirstRunningAiTargetGoalName;
-import static bassebombecraft.player.PlayerUtils.getPlayer;
+import static bassebombecraft.player.PlayerUtils.getClientSidePlayer;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
-import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
+import static bassebombecraft.player.PlayerUtils.isClientSidePlayerDefined;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -43,11 +43,11 @@ public class TeamEnityRenderer {
 		try {
 
 			// exit if player is undefined
-			if (!isPlayerDefined())
+			if (!isClientSidePlayerDefined())
 				return;
 
 			// get player
-			PlayerEntity player = getPlayer();
+			PlayerEntity player = getClientSidePlayer();
 
 			// exit if HUD item isn't in hotbar
 			if (!isItemInHotbar(player, HUD_ITEM))
