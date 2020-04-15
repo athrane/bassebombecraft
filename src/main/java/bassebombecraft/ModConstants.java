@@ -8,7 +8,6 @@ import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
 import bassebombecraft.event.charm.CharmedMobEventHandler;
 import bassebombecraft.event.particle.ParticleRenderingEventHandler;
-import bassebombecraft.event.potion.MobRespawningEffectEventHandler;
 import bassebombecraft.event.rendering.TeamInfoRenderer;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
@@ -27,11 +26,9 @@ import bassebombecraft.potion.effect.DecreaseSizeEffect;
 import bassebombecraft.potion.effect.IncreaseSizeEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.MobProjectileEffect;
-import bassebombecraft.potion.effect.MobRespawningEffect;
 import bassebombecraft.potion.effect.ReceiveAggroEffect;
 import bassebombecraft.potion.effect.ReflectEffect;
 import bassebombecraft.rendering.DefaultBuildMineRenderer;
-import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.item.Item;
@@ -426,11 +423,6 @@ public class ModConstants {
 	public static final String MOB_PRIMING_POTION_NAME = "MobPrimingPotion";
 
 	/**
-	 * Mob respawning potion name.
-	 */
-	public static final String MOB_RESPAWNING_POTION_NAME = "MobRespawningPotion";
-
-	/**
 	 * Bacon bazooka projectile effect name.
 	 */
 	public static final String BACONBAZOOKA_EFFECT_NAME = "BaconBazookaProjectileEffect";
@@ -469,11 +461,6 @@ public class ModConstants {
 	 * Primed mob effect, used by {@linkplain PrimeMobIdolInventoryItem}.
 	 */
 	public static final Effect MOB_PRIMING_EFFECT = new MobPrimingEffect();
-
-	/**
-	 * Mobs respawn effect.
-	 */
-	public static final Effect MOB_RESPAWNING_EFFECT = new MobRespawningEffect();
 
 	/**
 	 * Bacon Bazooka effect, used by {@linkplain ShootBaconBazooka}.
@@ -535,4 +522,16 @@ public class ModConstants {
 	public static final IAttribute DECOY = (new RangedAttribute((IAttribute) null, "bassebombecraft.decoy", 1.0D, 0.0D,
 			1.0D)).setShouldWatch(true);
 
+	/**
+	 * Entity attribute to tag an entity for respawn.
+	 */
+	public static final IAttribute RESPAWN = (new RangedAttribute((IAttribute) null, "bassebombecraft.respawn", 1.0D,
+			0.0D, 1.0D)).setShouldWatch(true);
+
+	/**
+	 * Entity attribute to tag an entity as respawned.
+	 */
+	public static final IAttribute IS_RESPAWNED = (new RangedAttribute((IAttribute) null, "bassebombecraft.isrespawned", 1.0D,
+			0.0D, 1.0D)).setShouldWatch(true);
+	
 }

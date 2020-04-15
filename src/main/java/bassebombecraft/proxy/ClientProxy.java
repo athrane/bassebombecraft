@@ -12,10 +12,11 @@ import javax.naming.OperationNotSupportedException;
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.config.VersionUtils;
-import bassebombecraft.event.potion.DecoyEffectRenderer;
-import bassebombecraft.event.potion.DecreaseSizeEffectRenderer;
-import bassebombecraft.event.potion.IncreaseSizeEffectRenderer;
 import bassebombecraft.event.rendering.CharmedInfoRenderer;
+import bassebombecraft.event.rendering.DecoyRenderer;
+import bassebombecraft.event.rendering.DecreaseSizeEffectRenderer;
+import bassebombecraft.event.rendering.IncreaseSizeEffectRenderer;
+import bassebombecraft.event.rendering.RespawnedRenderer;
 import bassebombecraft.event.rendering.TargetInfoRenderer;
 import bassebombecraft.event.rendering.TeamEnityRenderer;
 import bassebombecraft.event.rendering.TeamInfoRenderer;
@@ -110,8 +111,10 @@ public class ClientProxy implements Proxy {
 		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPost);
 		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPre);
 		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPost);
-		EVENT_BUS.addListener(DecoyEffectRenderer::handleRenderLivingEventPre);
-		EVENT_BUS.addListener(DecoyEffectRenderer::handleRenderLivingEventPost);		
+		EVENT_BUS.addListener(DecoyRenderer::handleRenderLivingEventPre);
+		EVENT_BUS.addListener(DecoyRenderer::handleRenderLivingEventPost);		
+		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPre);
+		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPost);				
 	}
 	
 }

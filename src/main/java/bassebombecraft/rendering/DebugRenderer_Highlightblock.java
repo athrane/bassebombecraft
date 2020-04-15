@@ -2,8 +2,8 @@ package bassebombecraft.rendering;
 
 import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEXT_SCALE;
-import static bassebombecraft.player.PlayerUtils.getPlayer;
-import static bassebombecraft.player.PlayerUtils.isPlayerDefined;
+import static bassebombecraft.player.PlayerUtils.getClientSidePlayer;
+import static bassebombecraft.player.PlayerUtils.isClientSidePlayerDefined;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -38,11 +38,11 @@ public class DebugRenderer_Highlightblock {
 	public static void render(HighlightBlock event) {
 
 		// exit if player is undefined
-		if (!isPlayerDefined())
+		if (!isClientSidePlayerDefined())
 			return;
 
 		// get player
-		PlayerEntity player = getPlayer();
+		PlayerEntity player = getClientSidePlayer();
 
 		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
 		IVertexBuilder builder = buffer.getBuffer(OverlayLines.OVERLAY_LINES);

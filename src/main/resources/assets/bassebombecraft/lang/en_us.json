@@ -118,6 +118,7 @@
     "item.bassebombecraft.warpigsidolinventoryitem": "Warpigs Idol",
     "item.bassebombecraft.decreasesizeidolinventoryitem": "Micropsia Idol",
     "item.bassebombecraft.increasesizeidolinventoryitem": "Macropsia Idol",
+    "item.bassebombecraft.respawnidolinventoryitem": "Respawn Idol",
 
     "_comment": "blocks",
     "block.bassebombecraft.randombookblock": "Block of Random Books",
@@ -132,7 +133,6 @@
     "effect.bassebombecraft.aggromobeffect": "Aggro mob",
     "effect.bassebombecraft.receiveaggroeffect": "Receive Aggro",   
     "effect.bassebombecraft.mobprimingeffect": "Prime mobs",
-    "effect.bassebombecraft.mobrespawningeffect": "Respawn mobs",
     "effect.bassebombecraft.aggroplayereffect": "Aggro player",
     "effect.bassebombecraft.reflecteffect": "Reflect damage",
     "effect.bassebombecraft.decreasesizeeffect": "Decrease size",
@@ -159,10 +159,6 @@
     "item.minecraft.lingering_potion.effect.mobprimingpotion": "Lingering Potion of Mob Priming",        
     "item.minecraft.splash_potion.effect.mobprimingpotion": "Splash Potion of Mob Priming",        
     
-    "item.minecraft.potion.effect.mobrespawningpotion": "Potion of Mob Respawning",
-    "item.minecraft.lingering_potion.effect.mobrespawningpotion": "Lingering Potion of Mob Respawning",        
-    "item.minecraft.splash_potion.effect.mobrespawningpotion": "Splash Potion of Mob Respawning",        
-
 	"_comment": "potion potency",
     "potion.potency.10": "(Somewhat explosive)",	
     "potion.potency.15": "(Weak)",  

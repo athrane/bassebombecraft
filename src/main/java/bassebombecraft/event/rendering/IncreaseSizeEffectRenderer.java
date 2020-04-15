@@ -1,4 +1,4 @@
-package bassebombecraft.event.potion;
+package bassebombecraft.event.rendering;
 
 import static bassebombecraft.ModConstants.INCREASE_SIZE_EFFECT;
 import static bassebombecraft.rendering.RenderingUtils.oscillate;

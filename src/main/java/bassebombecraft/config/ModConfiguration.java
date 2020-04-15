@@ -10,7 +10,6 @@ import static bassebombecraft.ModConstants.ITEM_BASICITEM_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.ModConstants.MOB_AGGRO_POTION_NAME;
 import static bassebombecraft.ModConstants.MOB_PRIMING_POTION_NAME;
-import static bassebombecraft.ModConstants.MOB_RESPAWNING_POTION_NAME;
 import static bassebombecraft.ModConstants.PRIMEDCREEPERCANNON_EFFECT_NAME;
 import static bassebombecraft.ModConstants.SUPERIOR_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.WEAK_AMPLIFICATION_POTION_NAME;
@@ -112,8 +111,10 @@ import bassebombecraft.item.inventory.RainIdolInventoryItem;
 import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
 import bassebombecraft.item.inventory.ReaperIdolInventoryItem;
 import bassebombecraft.item.inventory.ReflectIdolInventoryItem;
+import bassebombecraft.item.inventory.RespawnIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
+import bassebombecraft.operator.entity.Respawn;
 import bassebombecraft.operator.entity.SpawnDecoy;
 import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig;
@@ -121,7 +122,6 @@ import bassebombecraft.potion.effect.AggroMobEffect;
 import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
-import bassebombecraft.potion.effect.MobRespawningEffect;
 import bassebombecraft.potion.effect.ReceiveAggroEffect;
 import bassebombecraft.projectile.action.DigMobHole;
 import bassebombecraft.projectile.action.SpawnCreeperArmy;
@@ -179,10 +179,6 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue mobPrimingPotionAmplifier;
 	public static ForgeConfigSpec.IntValue mobPrimingPotionDuration;
 
-	// MobRespawnerPotion
-	public static ForgeConfigSpec.IntValue mobRespawningPotionAmplifier;
-	public static ForgeConfigSpec.IntValue mobRespawningPotionDuration;
-
 	// Potion effects..
 
 	// AmplifierEffect
@@ -202,11 +198,6 @@ public class ModConfiguration {
 	// AggroPlayerEffect
 	public static ForgeConfigSpec.IntValue aggroPlayerEffectAreaOfEffect;
 	public static ForgeConfigSpec.IntValue aggroPlayerEffectUpdateFrequency;
-
-	// MobRespawningEffect
-	public static ForgeConfigSpec.IntValue mobRespawningEffectAreaOfEffect;
-	public static ForgeConfigSpec.IntValue mobRespawningEffectDuration;
-	public static ForgeConfigSpec.IntValue mobRespawningEffectSpawnArea;
 
 	// BaconBazookaProjectileEffect
 	public static ForgeConfigSpec.IntValue baconBazookaProjectileEffectForce;
@@ -231,11 +222,11 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue mobCommandersBatonCooldown;
 
 	// SmallFireballBook
-	public static ItemConfig smallFireballBook ;
+	public static ItemConfig smallFireballBook;
 
 	// LargeFireballBook
 	public static ItemConfig largeFireballBook;
-	
+
 	// SmallFireballRingBook
 	public static ForgeConfigSpec.ConfigValue<String> smallFireballRingBookTooltip;
 	public static ForgeConfigSpec.IntValue smallFireballRingBookCooldown;
@@ -282,7 +273,7 @@ public class ModConfiguration {
 
 	// ReceiveAggroBook
 	public static ItemConfig receiveAggroBook;
-	
+
 	// DigMobHoleBook
 	public static ForgeConfigSpec.ConfigValue<String> digMobHoleBookTooltip;
 	public static ForgeConfigSpec.IntValue digMobHoleBookCooldown;
@@ -354,6 +345,7 @@ public class ModConfiguration {
 	public static InventoryItemConfig warPigsIdolInventoryItem;
 	public static InventoryItemConfig decreaseSizeIdolInventoryItem;
 	public static InventoryItemConfig increaseSizeIdolInventoryItem;
+	public static InventoryItemConfig respawnIdolInventoryItem;
 
 	// Actions..
 
@@ -496,6 +488,11 @@ public class ModConfiguration {
 	// Receive aggro effect operator
 	public static ForgeConfigSpec.IntValue receiveAggroEffectDuration;
 	public static ForgeConfigSpec.IntValue receiveAggroEffectAmplifier;
+
+	// Respawn operator
+	public static ForgeConfigSpec.IntValue respawnMinEntities;
+	public static ForgeConfigSpec.IntValue respawnMaxEntities;
+	public static ForgeConfigSpec.IntValue respawnSpawnArea;
 
 	static {
 
@@ -641,17 +638,6 @@ public class ModConfiguration {
 				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// mob respawning effect
-		name = MobRespawningEffect.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		mobRespawningEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.")
-				.defineInRange("areaOfEffect", 10, 0, Integer.MAX_VALUE);
-		mobRespawningEffectDuration = COMMON_BUILDER.comment("Duration of effect (on aggro'ed mobs) in game ticks.")
-				.defineInRange("duration", 1200, 0, Integer.MAX_VALUE);
-		mobRespawningEffectSpawnArea = COMMON_BUILDER.comment("Spawn area in blocks.").defineInRange("spawnArea", 5, 0,
-				Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
 		// bacon bazooka projectile effect
 		name = BACONBAZOOKA_EFFECT_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -738,15 +724,6 @@ public class ModConfiguration {
 		mobPrimingPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion, i.e. the resulting explosion.")
 				.defineInRange("amplifier", 10, 0, Integer.MAX_VALUE);
 		mobPrimingPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
-				.defineInRange("duration", 1200, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
-		// mob respawning potion
-		name = MOB_RESPAWNING_POTION_NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		mobRespawningPotionAmplifier = COMMON_BUILDER.comment("Potency of the potion, i.e. the number of spawned mobs.")
-				.defineInRange("amplifier", 2, 0, Integer.MAX_VALUE);
-		mobRespawningPotionDuration = COMMON_BUILDER.comment("Duration of the potion in game ticks.")
 				.defineInRange("duration", 1200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 	}
@@ -1082,6 +1059,19 @@ public class ModConfiguration {
 		receiveAggroEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
 				.defineInRange("duration", 500, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
+
+		// Respawn
+		name = Respawn.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		respawnMinEntities = COMMON_BUILDER.comment("Min. number of entities spawned.").defineInRange("minEntities", 5,
+				0, 10);
+		respawnMaxEntities = COMMON_BUILDER.comment("Max. number of entities spawned.").defineInRange("maxEntities", 2,
+				0, 5);
+		respawnSpawnArea = COMMON_BUILDER.comment("Size of spawn areas around the dead entity.").defineInRange("SpawnArea ", 5,
+				0, 10);
+
+		COMMON_BUILDER.pop();
+
 	}
 
 	/**
@@ -1100,14 +1090,14 @@ public class ModConfiguration {
 
 		// SmallFireballBook
 		name = SmallFireballBook.ITEM_NAME;
-		smallFireballBook = getInstance(COMMON_BUILDER, name,
-				"Right-click to shoot a fireball that is hurled at foes.", 25);		
+		smallFireballBook = getInstance(COMMON_BUILDER, name, "Right-click to shoot a fireball that is hurled at foes.",
+				25);
 
-		// LargeFireballBook		
+		// LargeFireballBook
 		name = LargeFireballBook.ITEM_NAME;
 		largeFireballBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to shoot a large fireball that is hurled at foes.", 25);
-		
+
 		// SmallFireballRingBook
 		name = SmallFireballRingBook.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1196,8 +1186,9 @@ public class ModConfiguration {
 		// ReceiveAggroBook
 		name = ReceiveAggroBook.ITEM_NAME;
 		receiveAggroBook = getInstance(COMMON_BUILDER, name,
-				"Right-click to shoot projectile. If the projectile hits a target mob then all mobs in the vicinity will aggro the hit target mob.", 100);
-		
+				"Right-click to shoot projectile. If the projectile hits a target mob then all mobs in the vicinity will aggro the hit target mob.",
+				100);
+
 		// DigMobHoleBook
 		name = DigMobHoleBook.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1330,8 +1321,8 @@ public class ModConfiguration {
 		name = PrimeMobIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "large_smoke", 7, 20, 0.2, 1.0, 1.0, 1.0);
 		primeMobIdolInventoryItem = getInstance(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol will prime any nearby mob for an explosion.", 5,
-				5, splParticles);
+				"Equip in either hand to activate. The idol will prime any nearby mob for an explosion.", 5, 5,
+				splParticles);
 
 		// FlameBlastIdolInventoryItem
 		name = FlameBlastIdolInventoryItem.ITEM_NAME;
@@ -1474,6 +1465,13 @@ public class ModConfiguration {
 		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 0.3, 0.75, 0.5, 0.5);
 		increaseSizeIdolInventoryItem = getInstance(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will increase the size of nearby mobs. The magic doesn't work on players.",
+				25, 5, splParticles);
+
+		// RespawnIdolInventoryItem
+		name = RespawnIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "crit", 5, 20, 0.5, 0.9, 0.9, 0.9);
+		respawnIdolInventoryItem = getInstance(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will curse nearby mobs with a spectral curse. When a cursed mob dies any number of spectres will respawn.",
 				25, 5, splParticles);
 	}
 

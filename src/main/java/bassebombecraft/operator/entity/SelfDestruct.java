@@ -33,10 +33,7 @@ public class SelfDestruct implements Operator {
 
 	@Override
 	public void run() {
-
-		// get entity
 		LivingEntity livingEntity = splEntity.get();
-
 		selfDestruct(livingEntity);
 	}
 }
