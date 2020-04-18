@@ -142,6 +142,17 @@ public class BassebombeCraft {
 	static Random random = new Random();
 
 	/**
+	 * Consumer for registration of client rendering.
+	 */
+	Consumer<FMLClientSetupEvent> clientSetupEventHandler = t -> {
+		try {
+			setupClient(t);
+		} catch (Exception e) {
+			reportAndLogException(e);
+		}
+	};
+
+	/**
 	 * BassebombeCraft constructor.
 	 */
 	public BassebombeCraft() {
@@ -187,25 +198,17 @@ public class BassebombeCraft {
 			// initialize network
 			network = new NetworkChannelHelper();
 
-			
 		} catch (ExceptionInInitializerError e) {
 			reportAndLogException(e);
 			throw e;
 		} catch (Exception e) {
 			reportAndLogException(e);
 			throw e;
-		} 
+		}
 
-		// register event handler for FMLClientSetupEvent event on the mod event bus
-		Consumer<FMLClientSetupEvent> consumer = t -> {
-			try {
-				setupClient(t);
-			} catch (Exception e) {
-				reportAndLogException(e);
-			}
-		};
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(consumer);
-		
+		// Register event handler for FMLClientSetupEvent event on the mod event bus
+		// The event handler initialises the client renders
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(clientSetupEventHandler);
 	}
 
 	@SubscribeEvent
