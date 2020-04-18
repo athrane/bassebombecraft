@@ -1,8 +1,13 @@
 package bassebombecraft.event.duration;
 
+import bassebombecraft.proxy.Proxy;
+
 /**
  * Interface for handling object which expired after a duration is reached.
  * Registered Objects are updated at fixed updates (ticks).
+ * 
+ * The repository is used at SERVER side. Access to the repository is supported
+ * via sided proxy, i.e.{@linkplain Proxy}.
  */
 public interface DurationRepository {
 

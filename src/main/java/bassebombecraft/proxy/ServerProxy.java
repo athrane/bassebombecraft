@@ -10,6 +10,8 @@ import javax.naming.OperationNotSupportedException;
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.config.VersionUtils;
+import bassebombecraft.event.duration.DefaultDurationRepository;
+import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.frequency.DefaultFrequencyRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import net.minecraft.server.MinecraftServer;
@@ -27,13 +29,20 @@ public class ServerProxy implements Proxy {
 	FrequencyRepository frequencyRepository;
 
 	/**
+	 * Duration repository.
+	 */
+	DurationRepository durationRepository;
+	
+	/**
 	 * Constructor 
 	 */
 	public ServerProxy() {
 
 		// initialise frequency repository
 		frequencyRepository = DefaultFrequencyRepository.getInstance();
-		
+
+		// initialise duration repository
+		durationRepository = DefaultDurationRepository.getInstance();		
 	}
 	
 	@Override
@@ -121,5 +130,10 @@ public class ServerProxy implements Proxy {
 	public FrequencyRepository getFrequencyRepository() throws OperationNotSupportedException {
 		return frequencyRepository;
 	}
-	
+
+	@Override
+	public DurationRepository getDurationRepository() throws OperationNotSupportedException {
+		return durationRepository;
+	}
+		
 }

@@ -2,6 +2,7 @@ package bassebombecraft.proxy;
 
 import javax.naming.OperationNotSupportedException;
 
+import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
 
 /**
@@ -69,5 +70,15 @@ public interface Proxy {
 	 * @return frequency repository
 	 */	
 	public FrequencyRepository getFrequencyRepository() throws OperationNotSupportedException;
+	
+	/**
+	 * Get duration repository.
+	 * 
+	 * This repository is available only on the SERVER side. 
+	 * That is, only the server side proxy implementation support this method.
+	 * 
+	 * @return duration repository
+	 */
+	public DurationRepository getDurationRepository() throws OperationNotSupportedException;
 	
 }

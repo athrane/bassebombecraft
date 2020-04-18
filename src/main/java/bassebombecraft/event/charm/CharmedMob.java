@@ -1,6 +1,7 @@
 package bassebombecraft.event.charm;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.entity.ai.AiUtils.captureGoals;
 
 import java.util.Set;
@@ -16,10 +17,15 @@ import net.minecraft.entity.ai.goal.PrioritizedGoal;
 public class CharmedMob {
 
 	/**
+	 * Value for expired charm.
+	 */
+	static final int IS_EXPIRED = 0;
+
+	/**
 	 * Id used for registration of duration.
 	 */
 	String id;
-	
+
 	/**
 	 * Captured AI goals.
 	 */
@@ -46,11 +52,16 @@ public class CharmedMob {
 		this.entity = entity;
 		goals = captureGoals(entity.goalSelector);
 		targetGoals = captureGoals(entity.targetSelector);
+		
+		try {
+			// register charmed mob
+			DurationRepository repository = getProxy().getDurationRepository();
+			id = entity.getName().getUnformattedComponentText();
+			repository.add(id, duration);
 
-		// register charmed mob 
-		DurationRepository repository = getBassebombeCraft().getDurationRepository();
-		id = entity.getName().getUnformattedComponentText();
-		repository.add(id, duration);		
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 	public Set<PrioritizedGoal> getGoals() {
@@ -66,17 +77,34 @@ public class CharmedMob {
 	}
 
 	public boolean isCharmExpired() {
-		DurationRepository repository = getBassebombeCraft().getDurationRepository();
-		return repository.isExpired(id);
+		try {
+			DurationRepository repository = getProxy().getDurationRepository();
+			return repository.isExpired(id);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+
+			// return charm is expired
+			return true;
+		}
 	}
 
 	public int getDuration() {
-		DurationRepository repository = getBassebombeCraft().getDurationRepository();
-		
-		// return zero if expired
-		if(repository.isExpired(id)) return 0;
-				
-		return repository.get(id);
+		try {
+			DurationRepository repository = getProxy().getDurationRepository();
+
+			// return zero if expired
+			if (repository.isExpired(id))
+				return IS_EXPIRED;
+
+			return repository.get(id);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+
+			// return zero as expired
+			return IS_EXPIRED;
+		}
 	}
 
 	/**

@@ -12,6 +12,7 @@ import javax.naming.OperationNotSupportedException;
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.config.VersionUtils;
+import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.frequency.DefaultFrequencyRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.rendering.CharmedInfoRenderer;
@@ -46,8 +47,7 @@ public class ClientProxy implements Proxy {
 	public ClientProxy() {
 
 		// initialise frequency repository
-		frequencyRepository = DefaultFrequencyRepository.getInstance();
-		
+		frequencyRepository = DefaultFrequencyRepository.getInstance();		
 	}
 
 	@Override
@@ -139,4 +139,9 @@ public class ClientProxy implements Proxy {
 		return frequencyRepository;
 	}
 		
+	@Override
+	public DurationRepository getDurationRepository() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException("Only invoke this method server side.");		
+	}
+	
 }

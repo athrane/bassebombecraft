@@ -29,8 +29,6 @@ import bassebombecraft.event.block.temporary.DefaultTemporaryBlockRepository;
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.charm.DefaultCharmedMobsRepository;
-import bassebombecraft.event.duration.DefaultDurationRepository;
-import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.entity.target.DefaultTargetedEntitiesRepository;
 import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.event.entity.team.DefaultTeamRepository;
@@ -115,11 +113,6 @@ public class BassebombeCraft {
 	TargetedEntitiesRepository targetedEntitiesRepository;
 
 	/**
-	 * Duration repository.
-	 */
-	DurationRepository durationRepository;
-
-	/**
 	 * Minecraft server.
 	 */
 	MinecraftServer server;
@@ -141,7 +134,7 @@ public class BassebombeCraft {
 		try {
 			setupClient(t);
 		} catch (Exception e) {
-			reportAndLogException(e);			
+			reportAndLogException(e);
 		}
 	};
 
@@ -160,9 +153,6 @@ public class BassebombeCraft {
 
 			// load configuration
 			loadConfig();
-
-			// initialise duration repository
-			durationRepository = DefaultDurationRepository.getInstance();
 
 			// Initialise charmed mobs repository
 			charmedMobsRepository = DefaultCharmedMobsRepository.getInstance();
@@ -298,15 +288,6 @@ public class BassebombeCraft {
 	 */
 	public TargetedEntitiesRepository getTargetedEntitiesRepository() {
 		return targetedEntitiesRepository;
-	}
-
-	/**
-	 * Get duration repository.
-	 * 
-	 * @return duration repository
-	 */
-	public DurationRepository getDurationRepository() {
-		return durationRepository;
 	}
 
 	/**
