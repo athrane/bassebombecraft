@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.Mod;
 public class DurationEventHandler {
 
 	@SubscribeEvent
-	static public void handlePlayerTickEvent(WorldTickEvent event) {
+	static public void handleWorldTickEvent(WorldTickEvent event) {
 		try {
 			// exit if handler is executed at client side
 			if (isWorldAtClientSide(event.world))
