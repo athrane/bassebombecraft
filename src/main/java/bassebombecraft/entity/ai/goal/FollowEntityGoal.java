@@ -1,6 +1,7 @@
 package bassebombecraft.entity.ai.goal;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.AI_PATH_RECALC_UPDATE_FREQUENCY;
 import static bassebombecraft.ModConstants.AI_TARGET_WATCH_DIST;
 import static bassebombecraft.entity.EntityUtils.isMinimumDistanceReached;
@@ -101,20 +102,25 @@ public class FollowEntityGoal extends Goal {
 
 	@Override
 	public void tick() {
+		try {
 
-		// look at
-		LookController lookController = entity.getLookController();
-		lookController.setLookPositionWithEntity(leaderEntity, AI_TARGET_WATCH_DIST,
-				(float) entity.getVerticalFaceSpeed());
+			// look at
+			LookController lookController = entity.getLookController();
+			lookController.setLookPositionWithEntity(leaderEntity, AI_TARGET_WATCH_DIST,
+					(float) entity.getVerticalFaceSpeed());
 
-		// exit if frequency isn't active
-		FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
-		if (!repository.isActive(AI_PATH_RECALC_UPDATE_FREQUENCY))
-			return;
+			// exit if frequency isn't active
+			FrequencyRepository repository = getProxy().getFrequencyRepository();
+			if (!repository.isActive(AI_PATH_RECALC_UPDATE_FREQUENCY))
+				return;
 
-		// move toward target
-		PathNavigator navigator = entity.getNavigator();
-		navigator.tryMoveToEntityLiving(leaderEntity, followSpeed);
+			// move toward target
+			PathNavigator navigator = entity.getNavigator();
+			navigator.tryMoveToEntityLiving(leaderEntity, followSpeed);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 	@Override

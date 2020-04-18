@@ -37,6 +37,13 @@ public interface ParticleRendering {
 	void updateDuration();
 
 	/**
+	 * Get duration of particle.
+	 * 
+	 * @return duration of particle.
+	 */
+	int getDuration();
+
+	/**
 	 * Return true if particle duration is expired.
 	 * 
 	 * @return true if particle duration is expired.
@@ -77,4 +84,10 @@ public interface ParticleRendering {
 	 */
 	double getSpeed();
 
+	/**
+	 * Return rendering info.
+	 * 
+	 * @return rendering info.
+	 */
+	ParticleRenderingInfo getInfo();
 }

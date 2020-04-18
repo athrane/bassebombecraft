@@ -1,7 +1,9 @@
 package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.ModConstants.*;
+import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ModConstants.BLOCK_EFFECT_FREQUENCY;
+import static bassebombecraft.ModConstants.PARTICLE_RENDERING_FREQUENCY;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
@@ -110,28 +112,33 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		try {
 
-		// exit if mist isn't active
-		if (!isActive())
-			return;
+			// exit if mist isn't active
+			if (!isActive())
+				return;
 
-		// render mist if frequency is active
-		FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
-		if (repository.isActive(PARTICLE_RENDERING_FREQUENCY))
-			render(worldIn);
+			// render mist if frequency is active
+			FrequencyRepository repository = getProxy().getFrequencyRepository();
+			if (repository.isActive(PARTICLE_RENDERING_FREQUENCY))
+				render(worldIn);
 
-		// update effect if frequency is active
-		if (repository.isActive(BLOCK_EFFECT_FREQUENCY))
-			applyEffect(worldIn);
+			// update effect if frequency is active
+			if (repository.isActive(BLOCK_EFFECT_FREQUENCY))
+				applyEffect(worldIn);
 
-		// disable if duration is completed
-		if (ticksCounter > strategy.getEffectDuration()) {
-			isActive = false;
-			entity = null;
-			return;
+			// disable if duration is completed
+			if (ticksCounter > strategy.getEffectDuration()) {
+				isActive = false;
+				entity = null;
+				return;
+			}
+
+			ticksCounter++;
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
 		}
-
-		ticksCounter++;
 	}
 
 	/**

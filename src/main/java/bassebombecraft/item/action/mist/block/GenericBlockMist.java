@@ -1,6 +1,7 @@
 package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.BLOCK_EFFECT_FREQUENCY;
 import static bassebombecraft.ModConstants.PARTICLE_RENDERING_FREQUENCY;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
@@ -92,13 +93,14 @@ public class GenericBlockMist implements RightClickedItemAction {
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		try {
 
 		// exit if mist isn't active
 		if (!isActive())
 			return;
 
 		// render mist if frequency is active
-		FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
+		FrequencyRepository repository = getProxy().getFrequencyRepository();
 		if (repository.isActive(PARTICLE_RENDERING_FREQUENCY))
 			render(worldIn);
 
@@ -114,6 +116,10 @@ public class GenericBlockMist implements RightClickedItemAction {
 		}
 
 		ticksCounter++;
+		
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}		
 	}
 
 	/**

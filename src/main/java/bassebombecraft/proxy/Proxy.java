@@ -2,6 +2,8 @@ package bassebombecraft.proxy;
 
 import javax.naming.OperationNotSupportedException;
 
+import bassebombecraft.event.frequency.FrequencyRepository;
+
 /**
  * Interface for mod proxy.
  * 
@@ -57,5 +59,15 @@ public interface Proxy {
 	 * @throws OperationNotSupportedException if operation isn't supported.
 	 */
 	public void setupClientSideRendering() throws OperationNotSupportedException;
+	
+	/**
+	 * Get frequency repository.
+	 * 
+	 * This repository is available on both CLIENT and SERVER side. 
+	 * That is, both proxy implementations support this method.
+	 * 
+	 * @return frequency repository
+	 */	
+	public FrequencyRepository getFrequencyRepository() throws OperationNotSupportedException;
 	
 }

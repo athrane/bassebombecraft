@@ -12,6 +12,8 @@ import javax.naming.OperationNotSupportedException;
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.config.VersionUtils;
+import bassebombecraft.event.frequency.DefaultFrequencyRepository;
+import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.rendering.CharmedInfoRenderer;
 import bassebombecraft.event.rendering.DecoyRenderer;
 import bassebombecraft.event.rendering.DecreaseSizeEffectRenderer;
@@ -32,6 +34,21 @@ public class ClientProxy implements Proxy {
 	 * Meta data for block.
 	 */
 	static final int META = 0;
+
+	/**
+	 * Frequency repository.
+	 */
+	FrequencyRepository frequencyRepository;
+
+	/**
+	 * Constructor 
+	 */
+	public ClientProxy() {
+
+		// initialise frequency repository
+		frequencyRepository = DefaultFrequencyRepository.getInstance();
+		
+	}
 
 	@Override
 	public void startAnalyticsSession() {
@@ -116,5 +133,10 @@ public class ClientProxy implements Proxy {
 		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPre);
 		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPost);				
 	}
-	
+
+	@Override
+	public FrequencyRepository getFrequencyRepository() throws OperationNotSupportedException {
+		return frequencyRepository;
+	}
+		
 }

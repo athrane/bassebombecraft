@@ -49,6 +49,11 @@ public class DefaultParticleRendering implements ParticleRendering {
 	}
 
 	@Override
+	public int getDuration() {
+		return duration;
+	}
+
+	@Override
 	public boolean isExpired() {
 		return (duration == 0);
 	}
@@ -74,6 +79,11 @@ public class DefaultParticleRendering implements ParticleRendering {
 	@Override
 	public double getSpeed() {
 		return info.getSpeed();
+	}
+
+	@Override
+	public ParticleRenderingInfo getInfo() {
+		return info;
 	}
 
 	/**

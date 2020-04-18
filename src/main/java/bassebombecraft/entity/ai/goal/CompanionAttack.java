@@ -1,6 +1,7 @@
 package bassebombecraft.entity.ai.goal;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.AI_COMPANION_ATTACK_UPDATE_FREQUENCY;
 import static bassebombecraft.config.ModConfiguration.vacuumMistDuration;
 import static bassebombecraft.config.ModConfiguration.vacuumMistForce;
@@ -20,10 +21,10 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import bassebombecraft.event.frequency.FrequencyRepository;
-import bassebombecraft.item.action.ShootGenericEggProjectile;
 import bassebombecraft.item.action.RightClickedItemAction;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootCreeperCannon;
+import bassebombecraft.item.action.ShootGenericEggProjectile;
 import bassebombecraft.item.action.ShootLargeFireball;
 import bassebombecraft.item.action.ShootMultipleArrows;
 import bassebombecraft.item.action.ShootSmallFireball;
@@ -172,7 +173,7 @@ public class CompanionAttack extends Goal {
 		try {
 
 			// exit if frequency isn't active
-			FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
+			FrequencyRepository repository = getProxy().getFrequencyRepository();
 			if (!repository.isActive(AI_COMPANION_ATTACK_UPDATE_FREQUENCY))
 				return;
 

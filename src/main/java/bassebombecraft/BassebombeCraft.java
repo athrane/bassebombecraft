@@ -35,8 +35,6 @@ import bassebombecraft.event.entity.target.DefaultTargetedEntitiesRepository;
 import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.event.entity.team.DefaultTeamRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
-import bassebombecraft.event.frequency.DefaultFrequencyRepository;
-import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.item.ItemRegistryEventHandler;
 import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
@@ -117,11 +115,6 @@ public class BassebombeCraft {
 	TargetedEntitiesRepository targetedEntitiesRepository;
 
 	/**
-	 * Frequency repository.
-	 */
-	FrequencyRepository frequencyRepository;
-
-	/**
 	 * Duration repository.
 	 */
 	DurationRepository durationRepository;
@@ -148,7 +141,7 @@ public class BassebombeCraft {
 		try {
 			setupClient(t);
 		} catch (Exception e) {
-			reportAndLogException(e);
+			reportAndLogException(e);			
 		}
 	};
 
@@ -167,9 +160,6 @@ public class BassebombeCraft {
 
 			// load configuration
 			loadConfig();
-
-			// initialise frequency repository
-			frequencyRepository = DefaultFrequencyRepository.getInstance();
 
 			// initialise duration repository
 			durationRepository = DefaultDurationRepository.getInstance();
@@ -308,15 +298,6 @@ public class BassebombeCraft {
 	 */
 	public TargetedEntitiesRepository getTargetedEntitiesRepository() {
 		return targetedEntitiesRepository;
-	}
-
-	/**
-	 * Get frequency repository.
-	 * 
-	 * @return frequency repository
-	 */
-	public FrequencyRepository getFrequencyRepository() {
-		return frequencyRepository;
 	}
 
 	/**

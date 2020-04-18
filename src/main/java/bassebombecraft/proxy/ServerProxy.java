@@ -10,6 +10,8 @@ import javax.naming.OperationNotSupportedException;
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.config.VersionUtils;
+import bassebombecraft.event.frequency.DefaultFrequencyRepository;
+import bassebombecraft.event.frequency.FrequencyRepository;
 import net.minecraft.server.MinecraftServer;
 
 /**
@@ -19,6 +21,21 @@ import net.minecraft.server.MinecraftServer;
  */
 public class ServerProxy implements Proxy {
 
+	/**
+	 * Frequency repository.
+	 */
+	FrequencyRepository frequencyRepository;
+
+	/**
+	 * Constructor 
+	 */
+	public ServerProxy() {
+
+		// initialise frequency repository
+		frequencyRepository = DefaultFrequencyRepository.getInstance();
+		
+	}
+	
 	@Override
 	public void startAnalyticsSession() {
 		try {
@@ -100,4 +117,9 @@ public class ServerProxy implements Proxy {
 		throw new OperationNotSupportedException("Only invoke this method client side.");
 	}
 
+	@Override
+	public FrequencyRepository getFrequencyRepository() throws OperationNotSupportedException {
+		return frequencyRepository;
+	}
+	
 }

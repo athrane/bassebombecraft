@@ -1,6 +1,7 @@
 package bassebombecraft.event.charm;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.CHARM_PARTICLE_RENDERING_FREQUENCY;
 import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
@@ -38,49 +39,60 @@ public class CharmedMobEventHandler {
 
 	@SubscribeEvent
 	static public void handleLivingUpdateEvent(LivingUpdateEvent event) {
-		
-		// type cast
-		if (!isTypeMobEntity(event.getEntityLiving()))
-			return;
-		MobEntity entity = (MobEntity) event.getEntityLiving();
+		try {
 
-		// get repositories
-		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
-		FrequencyRepository frequencyRepository = getBassebombeCraft().getFrequencyRepository();
+			// type cast
+			if (!isTypeMobEntity(event.getEntityLiving()))
+				return;
+			MobEntity entity = (MobEntity) event.getEntityLiving();
 
-		// exit if entity isn't charmed
-		if (!repository.contains(entity))
-			return;
+			// get repositories
+			CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
+			FrequencyRepository frequencyRepository = getProxy().getFrequencyRepository();
 
-		// update charm
-		repository.update(entity);
+			// exit if entity isn't charmed
+			if (!repository.contains(entity))
+				return;
 
-		// exit if frequency isn't active
-		if (!frequencyRepository.isActive(CHARM_PARTICLE_RENDERING_FREQUENCY))
-			return;
+			// update charm
+			repository.update(entity);
 
-		// get repository
-		ParticleRenderingRepository particleRepository = getBassebombeCraft().getParticleRenderingRepository();
+			// exit if frequency isn't active
+			if (!frequencyRepository.isActive(CHARM_PARTICLE_RENDERING_FREQUENCY))
+				return;
 
-		// register directive for rendering
-		BlockPos pos = entity.getPosition();
-		ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
-		particleRepository.add(particle);
+			// get repository
+			ParticleRenderingRepository particleRepository = getBassebombeCraft().getParticleRenderingRepository();
+
+			// register directive for rendering
+			BlockPos pos = entity.getPosition();
+			ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
+			particleRepository.add(particle);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
+
 	}
 
 	@SubscribeEvent
 	public static void handleEvent(LivingDeathEvent event) {
-		
-		// type cast		
-		if (!isTypeMobEntity(event.getEntityLiving()))
-			return;
-		MobEntity entity = (MobEntity) event.getEntityLiving();
+		try {
 
-		// get repository
-		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
+			// type cast
+			if (!isTypeMobEntity(event.getEntityLiving()))
+				return;
+			MobEntity entity = (MobEntity) event.getEntityLiving();
 
-		// remove
-		repository.remove(entity);
+			// get repository
+			CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
+
+			// remove
+			repository.remove(entity);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 }
