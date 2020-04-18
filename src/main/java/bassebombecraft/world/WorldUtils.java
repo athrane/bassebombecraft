@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import bassebombecraft.ModConstants;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -18,22 +19,46 @@ public class WorldUtils {
 	 * Return true if world is a client side (i.e. remote).
 	 * 
 	 * @param world to test.
+	 * 
 	 * @return true if world is a client side (i.e. remote).
 	 */
 	public static boolean isWorldAtClientSide(World world) {
 		return world.isRemote;
 	}
-
+	
 	/**
 	 * Return true if world is a server side (i.e. not remote).
 	 * 
 	 * @param world to test.
+	 * 
 	 * @return true if world is a server side (i.e. not remote).
 	 */
 	public static boolean isWorldAtServerSide(World world) {
 		return (!world.isRemote);
 	}
 
+	/**
+	 * Return true if world is a client side (i.e. remote).
+	 * 
+	 * @param entity embedded world in entity is tested.
+	 * 
+	 * @return true if world is a client side (i.e. remote).
+	 */
+	public static boolean isWorldAtClientSide(Entity entity) {
+		return isWorldAtClientSide(entity.world);
+	}
+	
+	/**
+	 * Return true if world is a server side (i.e. not remote).
+	 * 
+	 * @param entity embedded world in entity is tested.
+	 * 
+	 * @return true if world is a server side (i.e. not remote).
+	 */
+	public static boolean isWorldAtServerSide(Entity entity) {
+		return isWorldAtServerSide(entity.world);
+	}
+	
 	/**
 	 * Return true if entity is a {@linkplain ServerWorld}.
 	 * 

@@ -44,7 +44,7 @@ public class CharmedMobEventHandler {
 			return;
 		MobEntity entity = (MobEntity) event.getEntityLiving();
 
-		// get repository
+		// get repositories
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
 		FrequencyRepository frequencyRepository = getBassebombeCraft().getFrequencyRepository();
 

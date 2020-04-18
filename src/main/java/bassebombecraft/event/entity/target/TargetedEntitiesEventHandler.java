@@ -3,6 +3,7 @@ package bassebombecraft.event.entity.target;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
+import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -16,14 +17,21 @@ import net.minecraftforge.fml.common.Mod;
 
 /**
  * Event handler for handling targeted entities.
+ * 
+ * The handler only executes events SERVER side. 
  */
 @Mod.EventBusSubscriber
 public class TargetedEntitiesEventHandler {
 
 	@SubscribeEvent
 	static public void handleLivingDeathEvent(LivingDeathEvent event) {
-		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
 
+		// exit if handler is executed at client side
+		if(isWorldAtClientSide(event.getEntity())) return;
+
+		// get repository
+		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
+		
 		// remove entity from team upon death
 		LivingEntity entity = event.getEntityLiving();
 		repository.remove(entity);
@@ -45,6 +53,9 @@ public class TargetedEntitiesEventHandler {
 	@SubscribeEvent
 	static public void handleAttackEntityEvent(AttackEntityEvent event) {
 
+		// exit if handler is executed at client side
+		if(isWorldAtClientSide(event.getEntity())) return;
+		
 		// get player and target
 		PlayerEntity player = event.getPlayer();
 		Entity target = event.getTarget();
@@ -64,6 +75,9 @@ public class TargetedEntitiesEventHandler {
 	@SubscribeEvent
 	static public void handlePlayerLoggedInEvent(PlayerLoggedInEvent event) {
 
+		// exit if handler is executed at client side
+		if(isWorldAtClientSide(event.getEntity())) return;
+		
 		// register targets for commander
 		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
 		repository.createTargets(event.getPlayer());
@@ -72,6 +86,9 @@ public class TargetedEntitiesEventHandler {
 	@SubscribeEvent
 	static public void handlePlayerLoggedOutEvent(PlayerLoggedOutEvent event) {
 
+		// exit if handler is executed at client side
+		if(isWorldAtClientSide(event.getEntity())) return;
+		
 		// delete targets for commander
 		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
 		repository.deleteTargets(event.getPlayer());
