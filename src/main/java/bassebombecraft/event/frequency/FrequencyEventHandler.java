@@ -3,7 +3,7 @@ package bassebombecraft.event.frequency;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 
-import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -19,7 +19,7 @@ import net.minecraftforge.fml.common.Mod;
 public class FrequencyEventHandler {
 
 	@SubscribeEvent
-	static public void handlePlayerTickEvent(PlayerTickEvent event) {
+	static public void handleWorldTickEvent(WorldTickEvent event) {
 		try {
 
 			// get repository
