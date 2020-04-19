@@ -51,14 +51,6 @@ public interface ParticleRendering {
 	int getDuration();
 
 	/**
-	 * Return true if particle duration is expired.
-	 * 
-	 * @return true if particle duration is expired.
-	 */
-	@Deprecated
-	boolean isExpired();
-
-	/**
 	 * Return red color component.
 	 * 
 	 * @param random random generator to randomise the color.

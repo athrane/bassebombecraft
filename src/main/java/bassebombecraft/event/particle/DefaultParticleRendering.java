@@ -95,11 +95,6 @@ public class DefaultParticleRendering implements ParticleRendering {
 	}
 
 	@Override
-	public boolean isExpired() {
-		return (duration == 0);
-	}
-
-	@Override
 	public float getRedColorComponent(Random random) {
 		float rgbRed = info.getRedColorComponent();
 		return (random.nextFloat() * 0.25f) + (rgbRed * 0.75f) - 0.12f;
