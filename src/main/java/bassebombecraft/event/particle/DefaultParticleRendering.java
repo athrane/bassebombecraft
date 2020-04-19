@@ -27,11 +27,6 @@ public class DefaultParticleRendering implements ParticleRendering {
 	BlockPos position;
 
 	/**
-	 * Duration of rendering in game ticks.
-	 */
-	int duration;
-
-	/**
 	 * Particle rendering info.
 	 */
 	ParticleRenderingInfo info;
@@ -46,7 +41,6 @@ public class DefaultParticleRendering implements ParticleRendering {
 		this.id = UUID.randomUUID().toString();
 		this.position = pos;
 		this.info = info;
-		this.duration = info.getDuration();
 	}
 
 	/**
@@ -60,7 +54,6 @@ public class DefaultParticleRendering implements ParticleRendering {
 		this.id = id;
 		this.position = pos;
 		this.info = info;
-		this.duration = info.getDuration();
 	}
 	
 	@Override
@@ -81,17 +74,6 @@ public class DefaultParticleRendering implements ParticleRendering {
 	@Override
 	public int getNumber() {
 		return info.getNumber();
-	}
-
-	@Override
-	public void updateDuration() {
-		if (duration > 0)
-			duration--;
-	}
-
-	@Override
-	public int getDuration() {
-		return duration;
 	}
 
 	@Override

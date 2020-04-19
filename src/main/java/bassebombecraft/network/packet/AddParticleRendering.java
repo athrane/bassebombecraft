@@ -96,7 +96,7 @@ public class AddParticleRendering {
 	public AddParticleRendering(ParticleRendering rendering) {
 		this.id = rendering.getId();
 		this.position = rendering.getPosition();
-		this.duration = rendering.getDuration();
+		this.duration = rendering.getInfo().getDuration();
 		this.speed = rendering.getInfo().getSpeed();
 		this.number = rendering.getNumber();
 		this.rgbRed = rendering.getInfo().getRedColorComponent();

@@ -39,18 +39,6 @@ public interface ParticleRendering {
 	int getNumber();
 
 	/**
-	 * Update duration of particle.
-	 */
-	void updateDuration();
-
-	/**
-	 * Get duration of particle.
-	 * 
-	 * @return duration of particle.
-	 */
-	int getDuration();
-
-	/**
 	 * Return red color component.
 	 * 
 	 * @param random random generator to randomise the color.

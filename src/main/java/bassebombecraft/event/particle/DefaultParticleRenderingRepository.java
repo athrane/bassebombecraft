@@ -35,7 +35,7 @@ public class DefaultParticleRenderingRepository implements ParticleRenderingRepo
 				return;
 
 			// register duration
-			getProxy().getDurationRepository().add(id, particle.getDuration(), cRemovalCallback);
+			getProxy().getDurationRepository().add(id, particle.getInfo().getDuration(), cRemovalCallback);
 
 			// store particle
 			particles.put(id, particle);
