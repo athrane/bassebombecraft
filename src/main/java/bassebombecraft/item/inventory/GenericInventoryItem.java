@@ -15,11 +15,11 @@ import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 import java.util.List;
 
 import javax.annotation.Nullable;
+import javax.naming.OperationNotSupportedException;
 
 import bassebombecraft.config.InventoryItemConfig;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -56,11 +56,6 @@ public class GenericInventoryItem extends Item {
 	InventoryItemActionStrategy strategy;
 
 	/**
-	 * Particle repository.
-	 */
-	ParticleRenderingRepository particleRepository;
-
-	/**
 	 * Idol item cooldown value.
 	 */
 	int coolDown;
@@ -91,7 +86,6 @@ public class GenericInventoryItem extends Item {
 		super(ITEM_PROPERTIES);
 		doCommonItemInitialization(this, name);
 		this.strategy = strategy;
-		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
 		infos = createFromConfig(config.particles);
 		coolDown = config.cooldown.get();
 		tooltip = config.tooltip.get();
@@ -207,14 +201,19 @@ public class GenericInventoryItem extends Item {
 	 * @param position effect position.
 	 */
 	void renderEffect(Vec3d position) {
+		try {
+			// create position
+			BlockPos pos = new BlockPos(position);
 
-		// register particle for rendering
-		BlockPos pos = new BlockPos(position);
-
-		// iterate over rendering info's
-		for (ParticleRenderingInfo info : getRenderingInfos()) {
-			ParticleRendering particle = getInstance(pos, info);
-			particleRepository.add(particle);
+			// iterate over rendering info's
+			for (ParticleRenderingInfo info : getRenderingInfos()) {
+				
+				// send particle rendering info to client				
+				ParticleRendering particle = getInstance(pos, info);
+				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+			}
+		} catch (OperationNotSupportedException e) {
+			getBassebombeCraft().reportAndLogException(e);
 		}
 	}
 

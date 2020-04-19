@@ -238,10 +238,39 @@ public class VersionUtils {
 		// Build the server URI together with the parameters
 		String category = NAME + "-" + VERSION;
 
-		// get stack trace as string
+		// get stack trace as string with some additional meta data 		
 		StringWriter sw = new StringWriter();
 		e.printStackTrace(new PrintWriter(sw));
 		String description = new StringBuilder().append(sw.toString()).append(System.getProperty("line.separator"))
+				.append(createUserInfo(uid)).toString();
+
+		List<NameValuePair> postParameters = createExceptionParameters(uid, category, description);
+		URIBuilder uriBuilder = new URIBuilder(ANALYTICS_URL);
+		uriBuilder.addParameters(postParameters);
+
+		// build request
+		URI uri = uriBuilder.build();
+		HttpPost request = new HttpPost(uri);
+
+		// post
+		executionService.execute(request, HTTP_CONTEXT, requestHandler, callBack);
+	}
+
+	/**
+	 * Post error.
+	 * 
+	 * @param uid user ID.
+	 * @param msg error to report.
+	 * 
+	 * @throws Exception
+	 */
+	public static void postError(String uid, String msg) throws Exception {
+
+		// Build the server URI together with the parameters
+		String category = NAME + "-" + VERSION;
+
+		// get error as string with some additional meta data 
+		String description = new StringBuilder().append(msg).append(System.getProperty("line.separator"))
 				.append(createUserInfo(uid)).toString();
 
 		List<NameValuePair> postParameters = createExceptionParameters(uid, category, description);

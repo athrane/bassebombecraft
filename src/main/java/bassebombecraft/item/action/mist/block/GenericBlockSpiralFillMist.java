@@ -10,11 +10,12 @@ import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
 
+import javax.naming.OperationNotSupportedException;
+
 import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.geom.GeometryUtils;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.entity.Entity;
@@ -178,15 +179,18 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	 * @param world world object.
 	 */
 	void render(World world) {
-		updateMistPosition(world);
+		try {
+			updateMistPosition(world);
 
-		// render mists
-		ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
+			// iterate over rendering info's
+			for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
 
-		// iterate over rendering info's
-		for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
-			ParticleRendering particle = getInstance(mistPosition, info);
-			repository.add(particle);
+				// send particle rendering info to client
+				ParticleRendering particle = getInstance(mistPosition, info);
+				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+			}
+		} catch (OperationNotSupportedException e) {
+			getBassebombeCraft().reportAndLogException(e);
 		}
 	}
 

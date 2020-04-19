@@ -34,9 +34,6 @@ import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.event.entity.team.DefaultTeamRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.item.ItemRegistryEventHandler;
-import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
-import bassebombecraft.event.particle.ParticleRenderingRepository;
-import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.proxy.ClientProxy;
 import bassebombecraft.proxy.Proxy;
 import bassebombecraft.proxy.ServerProxy;
@@ -88,11 +85,6 @@ public class BassebombeCraft {
 	BlockDirectivesRepository blockDirectivesRepository;
 
 	/**
-	 * Particle rendering repository. Client side.
-	 */
-	ParticleRenderingRepository particleRepository;
-
-	/**
 	 * Temporary block repository.
 	 */
 	TemporaryBlockRepository tempBlockRepository;
@@ -116,11 +108,6 @@ public class BassebombeCraft {
 	 * Minecraft server.
 	 */
 	MinecraftServer server;
-
-	/**
-	 * Network channel.
-	 */
-	NetworkChannelHelper network;
 
 	/**
 	 * Random generator
@@ -163,9 +150,6 @@ public class BassebombeCraft {
 			// Initialise temporary block repository
 			tempBlockRepository = DefaultTemporaryBlockRepository.getInstance();
 
-			// Initialise particle rendering repository
-			particleRepository = DefaultParticleRenderingRepository.getInstance();
-
 			// Initialise mob commander repository
 			mobCommanderRepository = DefaultMobCommanderRepository.getInstance();
 
@@ -174,9 +158,6 @@ public class BassebombeCraft {
 
 			// initialise targeted entities repository
 			targetedEntitiesRepository = DefaultTargetedEntitiesRepository.getInstance();
-
-			// initialize network
-			network = new NetworkChannelHelper();
 
 		} catch (ExceptionInInitializerError e) {
 			reportAndLogException(e);
@@ -219,9 +200,9 @@ public class BassebombeCraft {
 	}
 
 	/**
-	 * Get proxy.
+	 * Get sided proxy.
 	 * 
-	 * @return proxy.
+	 * @return sided proxy.
 	 */
 	public static Proxy getProxy() {
 		return proxy;
@@ -252,15 +233,6 @@ public class BassebombeCraft {
 	 */
 	public TemporaryBlockRepository getTemporaryBlockRepository() {
 		return tempBlockRepository;
-	}
-
-	/**
-	 * Particle rendering repository.
-	 * 
-	 * @return particle rendering repository.
-	 */
-	public ParticleRenderingRepository getParticleRenderingRepository() {
-		return particleRepository;
 	}
 
 	/**
@@ -336,13 +308,6 @@ public class BassebombeCraft {
 	}
 
 	/**
-	 * Get networking channel
-	 */
-	public NetworkChannelHelper getNetworkChannel() {
-		return network;
-	}
-
-	/**
 	 * Get user.
 	 * 
 	 * @return user.
@@ -401,4 +366,14 @@ public class BassebombeCraft {
 		proxy.postException(e);
 	}
 
+	/**
+	 * Exception reporting facility.
+	 * 
+	 * @param msg error to report.
+	 */
+	public void reportAndLogError(String msg) {
+		proxy.postError(msg);
+		logger.error(msg);		
+	}
+	
 }

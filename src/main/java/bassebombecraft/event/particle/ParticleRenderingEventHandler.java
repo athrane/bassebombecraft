@@ -11,48 +11,35 @@ import bassebombecraft.event.frequency.FrequencyRepository;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 /**
  * Event handler for rendering particles.
  * 
- * Particles are only rendered at client side.
+ * The handler only executes events CLIENT side.
  */
 @Mod.EventBusSubscriber
 public class ParticleRenderingEventHandler {
 
 	@SubscribeEvent
-	@OnlyIn(Dist.CLIENT)
-	public static void handlePlayerTickEvent(PlayerTickEvent event) {
+	public static void handleWorldTickEvent(WorldTickEvent event) {
 		try {
 
+			// exit if handler is executed at server side
+			if (isWorldAtServerSide(event.world))
+				return;
+
 			// get repository
-			ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
+			ParticleRenderingRepository repository = getProxy().getParticleRenderingRepository();
 			FrequencyRepository frequencyRepository = getProxy().getFrequencyRepository();
 
 			// update particle duration
 			repository.updateParticleDuration();
-
-			// get world
-			PlayerEntity player = event.player;
-			World world = player.getEntityWorld();
-
-			// exit if world is undefined
-			if (world == null)
-				return;
-
-			// exit if at server side
-			// exit if invoked at server side
-			if (isWorldAtServerSide(world))
-				return;
 
 			// exit if particles should be rendered in this tick
 			// exit if frequency isn't active
@@ -60,7 +47,7 @@ public class ParticleRenderingEventHandler {
 				return;
 
 			// render particles
-			render(world, repository);
+			render(event.world, repository);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

@@ -1,13 +1,13 @@
 package bassebombecraft.projectile;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.event.projectile.EntityTypeRegistryEventHandler;
 import bassebombecraft.operator.Operators;
 import net.minecraft.entity.EntityType;
@@ -104,10 +104,9 @@ public class OperatorEggProjectile extends ProjectileItemEntity {
 			// execute operators
 			operators.run(owner, result);
 
-			// add impact particle for rendering
+			// send particle rendering info to client
 			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
-			ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
-			repository.add(particle);
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 
 			// remove this projectile
 			remove();
@@ -121,10 +120,9 @@ public class OperatorEggProjectile extends ProjectileItemEntity {
 		super.tick();
 
 		try {
-			// add particle for rendering
+			// send particle rendering info to client
 			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
-			ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
-			repository.add(particle);
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

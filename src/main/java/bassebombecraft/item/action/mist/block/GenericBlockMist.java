@@ -9,7 +9,6 @@ import static bassebombecraft.event.particle.DefaultParticleRendering.getInstanc
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.geom.GeometryUtils;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.entity.Entity;
@@ -69,18 +68,12 @@ public class GenericBlockMist implements RightClickedItemAction {
 	BlockMistActionStrategy strategy;
 
 	/**
-	 * Particle repository.
-	 */
-	ParticleRenderingRepository particleRepository;
-
-	/**
 	 * GenericBlockMist constructor.
 	 * 
 	 * @param strategy mist strategy.
 	 */
 	public GenericBlockMist(BlockMistActionStrategy strategy) {
 		this.strategy = strategy;
-		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
 	}
 
 	@Override
@@ -95,31 +88,31 @@ public class GenericBlockMist implements RightClickedItemAction {
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		try {
 
-		// exit if mist isn't active
-		if (!isActive())
-			return;
+			// exit if mist isn't active
+			if (!isActive())
+				return;
 
-		// render mist if frequency is active
-		FrequencyRepository repository = getProxy().getFrequencyRepository();
-		if (repository.isActive(PARTICLE_RENDERING_FREQUENCY))
-			render(worldIn);
+			// render mist if frequency is active
+			FrequencyRepository repository = getProxy().getFrequencyRepository();
+			if (repository.isActive(PARTICLE_RENDERING_FREQUENCY))
+				render(worldIn);
 
-		// update effect if frequency is active
-		if (repository.isActive(BLOCK_EFFECT_FREQUENCY))
-			applyEffect(worldIn);
+			// update effect if frequency is active
+			if (repository.isActive(BLOCK_EFFECT_FREQUENCY))
+				applyEffect(worldIn);
 
-		// disable if duration is completed
-		if (ticksCounter > strategy.getEffectDuration()) {
-			isActive = false;
-			entity = null;
-			return;
-		}
+			// disable if duration is completed
+			if (ticksCounter > strategy.getEffectDuration()) {
+				isActive = false;
+				entity = null;
+				return;
+			}
 
-		ticksCounter++;
-		
+			ticksCounter++;
+
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
-		}		
+		}
 	}
 
 	/**
@@ -206,14 +199,19 @@ public class GenericBlockMist implements RightClickedItemAction {
 	 * @param mistPosition
 	 */
 	void renderMist(Vec3d mistPosition) {
+		try {
+			// Get particle position
+			BlockPos pos = new BlockPos(mistPosition);
 
-		// register particle for rendering
-		BlockPos pos = new BlockPos(mistPosition);
+			// iterate over rendering info's
+			for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
 
-		// iterate over rendering info's
-		for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
-			ParticleRendering particle = getInstance(pos, info);
-			particleRepository.add(particle);
+				// send particle rendering info to client
+				ParticleRendering particle = getInstance(pos, info);
+				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+			}
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
 		}
 	}
 
@@ -227,11 +225,6 @@ public class GenericBlockMist implements RightClickedItemAction {
 			mistPositions[index] = mistPosition.add(mistDirection);
 			index++;
 		}
-	}
-
-	@Override
-	public String toString() {
-		return super.toString() + ", strategy=" + strategy;
 	}
 
 }

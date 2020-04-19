@@ -6,11 +6,13 @@ import static bassebombecraft.ModConstants.CHARM_PARTICLE_RENDERING_FREQUENCY;
 import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.event.particle.ParticleRenderingRepository;
+import bassebombecraft.network.NetworkChannelHelper;
+import bassebombecraft.network.packet.AddParticleRendering;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
@@ -23,6 +25,12 @@ import net.minecraftforge.fml.common.Mod;
 /**
  * Event handler for managing charmed mobs, i.e. removal on death and update for
  * the charm to time out.
+ * 
+ * The handler only executes events SERVER side.
+ * 
+ * When a charmed mob is updated, a particle is registered for rendering using
+ * {@linkplain NetworkChannelHelper} to send a {@linkplain AddParticleRendering}
+ * packet to the client.
  */
 @Mod.EventBusSubscriber
 public class CharmedMobEventHandler {
@@ -40,6 +48,10 @@ public class CharmedMobEventHandler {
 	@SubscribeEvent
 	static public void handleLivingUpdateEvent(LivingUpdateEvent event) {
 		try {
+
+			// exit if handler is executed at client side
+			if (isWorldAtClientSide(event.getEntityLiving().world))
+				return;
 
 			// type cast
 			if (!isTypeMobEntity(event.getEntityLiving()))
@@ -61,13 +73,10 @@ public class CharmedMobEventHandler {
 			if (!frequencyRepository.isActive(CHARM_PARTICLE_RENDERING_FREQUENCY))
 				return;
 
-			// get repository
-			ParticleRenderingRepository particleRepository = getBassebombeCraft().getParticleRenderingRepository();
-
-			// register directive for rendering
+			// send particle rendering info to client
 			BlockPos pos = entity.getPosition();
 			ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
-			particleRepository.add(particle);
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -76,8 +85,12 @@ public class CharmedMobEventHandler {
 	}
 
 	@SubscribeEvent
-	public static void handleEvent(LivingDeathEvent event) {
+	public static void handleLivingDeathEvent(LivingDeathEvent event) {
 		try {
+
+			// exit if handler is executed at client side
+			if (isWorldAtClientSide(event.getEntityLiving().world))
+				return;
 
 			// type cast
 			if (!isTypeMobEntity(event.getEntityLiving()))

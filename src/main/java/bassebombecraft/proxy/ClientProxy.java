@@ -15,6 +15,8 @@ import bassebombecraft.config.VersionUtils;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.frequency.DefaultFrequencyRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
+import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
+import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.event.rendering.CharmedInfoRenderer;
 import bassebombecraft.event.rendering.DecoyRenderer;
 import bassebombecraft.event.rendering.DecreaseSizeEffectRenderer;
@@ -23,6 +25,7 @@ import bassebombecraft.event.rendering.RespawnedRenderer;
 import bassebombecraft.event.rendering.TargetInfoRenderer;
 import bassebombecraft.event.rendering.TeamEnityRenderer;
 import bassebombecraft.event.rendering.TeamInfoRenderer;
+import bassebombecraft.network.NetworkChannelHelper;
 
 /**
  * Implementation of the {@linkplain Proxy} interface.
@@ -42,12 +45,20 @@ public class ClientProxy implements Proxy {
 	FrequencyRepository frequencyRepository;
 
 	/**
-	 * Constructor 
+	 * Particle rendering repository.
+	 */
+	ParticleRenderingRepository particleRepository;
+
+	/**
+	 * Constructor
 	 */
 	public ClientProxy() {
 
 		// initialise frequency repository
-		frequencyRepository = DefaultFrequencyRepository.getInstance();		
+		frequencyRepository = DefaultFrequencyRepository.getInstance();
+
+		// Initialise particle rendering repository
+		particleRepository = DefaultParticleRenderingRepository.getInstance();
 	}
 
 	@Override
@@ -57,7 +68,7 @@ public class ClientProxy implements Proxy {
 
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
-			logger.error("Initiating usage session failed with: " + ex.getMessage());			
+			logger.error("Initiating usage session failed with: " + ex.getMessage());
 		}
 	}
 
@@ -82,7 +93,7 @@ public class ClientProxy implements Proxy {
 			logger.error("Posting usage failed with: " + ex.getMessage());
 		}
 	}
-	
+
 	@Override
 	public void postException(Throwable e) {
 		try {
@@ -92,6 +103,16 @@ public class ClientProxy implements Proxy {
 			logger.error("Posting exception:" + e.getMessage() + " failed with: " + ex.getMessage());
 		}
 	}
+
+	@Override
+	public void postError(String msg) {
+		try {
+			VersionUtils.postError(getUser(), msg);
+		} catch (Exception ex) {
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Posting error:" + msg + " failed with: " + ex.getMessage());
+		}		
+	}
 	
 	@Override
 	public void postAiObservation(String type, String observation) {
@@ -100,7 +121,7 @@ public class ClientProxy implements Proxy {
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
 			logger.error("Posting AI observation: failed with: " + ex.getMessage());
-		}		
+		}
 	}
 
 	@Override
@@ -110,7 +131,7 @@ public class ClientProxy implements Proxy {
 
 	@Override
 	public void setupClientSideRendering() throws OperationNotSupportedException {
-		// register debug renderer classes		
+		// register debug renderer classes
 		// EVENT_BUS.addListener(DebugRenderer_MobLines::render);
 		// EVENT_BUS.addListener(DebugRenderer_EntityText_v3::render);
 		// MinecraftForge.EVENT_BUS.addListener(DebugRenderer_WorldLastEventText::render);
@@ -129,19 +150,29 @@ public class ClientProxy implements Proxy {
 		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPre);
 		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPost);
 		EVENT_BUS.addListener(DecoyRenderer::handleRenderLivingEventPre);
-		EVENT_BUS.addListener(DecoyRenderer::handleRenderLivingEventPost);		
+		EVENT_BUS.addListener(DecoyRenderer::handleRenderLivingEventPost);
 		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPre);
-		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPost);				
+		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPost);
+	}
+
+	@Override
+	public NetworkChannelHelper getNetworkChannel() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException("Only invoke this method server side.");
 	}
 
 	@Override
 	public FrequencyRepository getFrequencyRepository() throws OperationNotSupportedException {
 		return frequencyRepository;
 	}
-		
+
 	@Override
 	public DurationRepository getDurationRepository() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException("Only invoke this method server side.");		
+		throw new OperationNotSupportedException("Only invoke this method server side.");
 	}
-	
+
+	@Override
+	public ParticleRenderingRepository getParticleRenderingRepository() throws OperationNotSupportedException {
+		return particleRepository;
+	}
+
 }

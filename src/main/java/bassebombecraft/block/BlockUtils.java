@@ -2,7 +2,9 @@ package bassebombecraft.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.NULL_TILE_ENTITY;
-import static net.minecraft.state.properties.BlockStateProperties.*;
+import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
+import static net.minecraft.state.properties.BlockStateProperties.FACING;
+import static net.minecraft.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -15,6 +17,8 @@ import bassebombecraft.geom.WorldQuery;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.StairsBlock;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
@@ -52,8 +56,11 @@ public class BlockUtils {
 	 * @param blockDirective block directive for block to create.
 	 * @param worldQuery     world query object.
 	 */
+	@Deprecated
 	public static void createBlock(BlockDirective blockDirective, WorldQuery worldQuery) {
-		if (worldQuery.isWorldAtClientSide())
+
+		// exit if handler is executed at client side
+		if (isWorldAtClientSide(worldQuery.getWorld()))
 			return;
 
 		// get block
@@ -69,6 +76,47 @@ public class BlockUtils {
 			ItemStack emptyItemStack = new ItemStack(block);
 			block.harvestBlock(worldQuery.getWorld(), worldQuery.getPlayer(), blockPosition, blockState,
 					NULL_TILE_ENTITY, emptyItemStack);
+		}
+
+		// set block state
+		world.setBlockState(blockPosition, blockDirective.getState());
+	}
+
+	/**
+	 * Create single block of designated block type.
+	 * 
+	 * The block is only processed if the world is at SERVER side.
+	 * 
+	 * The block is only harvested if the block directive specifies it.
+	 * 
+	 * @param blockDirective block directive for block to create.
+	 * @param world          world object.
+	 */
+	public static void createBlock(BlockDirective blockDirective, World world) {
+
+		// exit if handler is executed at client side
+		if (isWorldAtClientSide(world))
+			return;
+
+		// get block
+		BlockPos blockPosition = blockDirective.getBlockPosition();
+		Block block = getBlockFromPosition(blockDirective, world);
+
+		// harvest block
+		if (blockDirective.harvestBlock()) {
+			BlockState blockState = getBlockStateFromPosition(blockPosition, world);
+			ItemStack emptyItemStack = new ItemStack(block);
+			Optional<PlayerEntity> optPlayer = blockDirective.getPlayer();
+
+			// will only harvest if player is defined
+			if (optPlayer.isPresent()) {
+				block.harvestBlock(world, optPlayer.get(), blockPosition, blockState, NULL_TILE_ENTITY, emptyItemStack);
+			} else {
+				// log warning if player was undefined
+				String msg = new StringBuilder().append("Attempted to harvest block directive=").append(blockDirective)
+						.append("but player wasn't defined as expected").toString();
+				getBassebombeCraft().reportAndLogError(msg);
+			}
 		}
 
 		// set block state
@@ -94,6 +142,7 @@ public class BlockUtils {
 	 * @param worldQuery    world query object.
 	 * @return block located at block position
 	 */
+	@Deprecated
 	public static Block getBlockFromPosition(BlockPos blockPosition, WorldQuery worldQuery) {
 		World world = worldQuery.getWorld();
 		return getBlockFromPosition(blockPosition, world);
@@ -106,9 +155,23 @@ public class BlockUtils {
 	 * @param worldQuery     world query object.
 	 * @return block defined at position specified by block directive.
 	 */
+	@Deprecated
 	public static Block getBlockFromPosition(BlockDirective blockDirective, WorldQuery worldQuery) {
 		BlockPos blockPosition = blockDirective.getBlockPosition();
 		return getBlockFromPosition(blockPosition, worldQuery);
+	}
+
+	/**
+	 * Get block defined at position specified by block directive.
+	 * 
+	 * @param blockDirective directive to get the block from.
+	 * @param world          world object.
+	 * 
+	 * @return block defined at position specified by block directive.
+	 */
+	public static Block getBlockFromPosition(BlockDirective blockDirective, World world) {
+		BlockPos blockPosition = blockDirective.getBlockPosition();
+		return getBlockFromPosition(blockPosition, world);
 	}
 
 	/**
@@ -116,10 +179,24 @@ public class BlockUtils {
 	 * 
 	 * @param blockPosition position of the block.
 	 * @param worldQuery    world query object.
+	 * 
 	 * @return block state located at block position
 	 */
+	@Deprecated
 	public static BlockState getBlockStateFromPosition(BlockPos blockPosition, WorldQuery worldQuery) {
 		World world = worldQuery.getWorld();
+		return world.getBlockState(blockPosition);
+	}
+
+	/**
+	 * Get block state from block position.
+	 * 
+	 * @param blockPosition position of the block.
+	 * @param world         world object.
+	 * 
+	 * @return block state located at block position
+	 */
+	public static BlockState getBlockStateFromPosition(BlockPos blockPosition, World world) {
 		return world.getBlockState(blockPosition);
 	}
 
@@ -129,8 +206,9 @@ public class BlockUtils {
 	 * If block state doesn't have the FACING property defined then the source state
 	 * is returned unchanged.
 	 * 
-	 * The facing property is defined in multiple times in MC, i.e. in {@linkplain BlockStateProperties}
-	 * and in {@linkplain StairsBlock} where is it a redefinition of {@linkplain BlockStateProperties.HORIZONTAL_FACING}
+	 * The facing property is defined in multiple times in MC, i.e. in
+	 * {@linkplain BlockStateProperties} and in {@linkplain StairsBlock} where is it
+	 * a redefinition of {@linkplain BlockStateProperties.HORIZONTAL_FACING}
 	 * 
 	 * The orientation is defined in degrees and only the values 0, 90, 180 and 270
 	 * are processed. For all other values the FACING property is returned
@@ -147,42 +225,41 @@ public class BlockUtils {
 		// exit if angle is zero
 		if (orientation == 0)
 			return sourceState;
-		
+
 		// rotate if block state have the FACING property defined.
 		if (hasFacingProperty(sourceState)) {
-			
-			// get direction 
+
+			// get direction
 			Direction direction = sourceState.get(FACING);
-			
+
 			// calculate new orientation
 			Direction newDirection = calculateFacingProperty(direction, orientation);
-			
+
 			// create now rotated state
 			BlockState rotatedState = sourceState.with(FACING, newDirection);
 
-			return rotatedState;			
+			return rotatedState;
 		}
 
 		// rotate if block state have the HORIZONTAL_FACING property defined.
 		if (hasHorizontalFacingProperty(sourceState)) {
-			
-			// get direction 
+
+			// get direction
 			Direction direction = sourceState.get(HORIZONTAL_FACING);
-			
+
 			// calculate new orientation
 			Direction newDirection = calculateFacingProperty(direction, orientation);
-			
+
 			// create now rotated state
 			BlockState rotatedState = sourceState.with(HORIZONTAL_FACING, newDirection);
-			
-			return rotatedState;			
+
+			return rotatedState;
 		}
-		
+
 		// return block state unchanged
-		return sourceState;		
+		return sourceState;
 	}
 
-	
 	/**
 	 * Calculate direction property from orientation and source property.
 	 * 
@@ -213,12 +290,12 @@ public class BlockUtils {
 			return d1.rotateY();
 		}
 
-		
 		return direction;
 	}
 
 	/**
-	 * Returns true if block state has the {@linkplain BlockStateProperties} .FACING property defined.
+	 * Returns true if block state has the {@linkplain BlockStateProperties} .FACING
+	 * property defined.
 	 * 
 	 * @param state block state to test.
 	 * 
@@ -229,7 +306,8 @@ public class BlockUtils {
 	}
 
 	/**
-	 * Returns true if block state has the {@linkplain BlockStateProperties} .HORIZONTAL_FACING property defined.
+	 * Returns true if block state has the {@linkplain BlockStateProperties}
+	 * .HORIZONTAL_FACING property defined.
 	 * 
 	 * @param state block state to test.
 	 * 
@@ -238,7 +316,7 @@ public class BlockUtils {
 	public static boolean hasHorizontalFacingProperty(BlockState state) {
 		return state.has(HORIZONTAL_FACING);
 	}
-	
+
 	/**
 	 * Returns true if the set of blocks are all of type air.
 	 * 
@@ -385,5 +463,5 @@ public class BlockUtils {
 			return oe.get() instanceof BlockDirective;
 		return false;
 	}
-	
+
 }

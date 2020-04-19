@@ -1,6 +1,7 @@
 package bassebombecraft.event.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.BLOCKS_PER_TICK;
 import static bassebombecraft.block.BlockUtils.createBlock;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
@@ -9,26 +10,26 @@ import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.geom.BlockDirective;
-import bassebombecraft.geom.WorldQueryImpl;
+import bassebombecraft.network.NetworkChannelHelper;
+import bassebombecraft.network.packet.AddParticleRendering;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 /**
  * Event handler for processing of {@linkplain BlockDirective}.
  * 
- * Directives are only processed at server side.
+ * The handler only executes events SERVER side.
  * 
- * When a directive is processed a particle is registered for rendering using
- * the {@linkplain ParticleRenderingRepository}.
+ * When a directive is processed, a particle is registered for rendering using
+ * {@linkplain NetworkChannelHelper} to send a {@linkplain AddParticleRendering}
+ * packet to the client.
  */
 @Mod.EventBusSubscriber
 public class ProcessBlockDirectivesEventHandler {
@@ -46,7 +47,11 @@ public class ProcessBlockDirectivesEventHandler {
 	static final BlockPos NULL_POSITION = null; // NULL block position.
 
 	@SubscribeEvent
-	public static void handlePlayerTickEvent(PlayerTickEvent event) throws Exception {
+	public static void handleWorldTickEvent(WorldTickEvent event) throws Exception {
+
+		// exit if handler is executed at client side
+		if (isWorldAtClientSide(event.world))
+			return;
 
 		// get repository
 		BlockDirectivesRepository repository = getBassebombeCraft().getBlockDirectivesRepository();
@@ -55,20 +60,9 @@ public class ProcessBlockDirectivesEventHandler {
 		if (!repository.containsDirectives())
 			return;
 
-		// get world
-		PlayerEntity player = event.player;
-		World world = player.getEntityWorld();
-
-		// exit if at client side
-		if (isWorldAtClientSide(world))
-			return;
-
-		// create world query
-		WorldQueryImpl worldQuery = new WorldQueryImpl(player, NULL_POSITION);
-
 		// process directives
 		for (int i = 0; i < BLOCKS_PER_TICK; i++) {
-			processDirective(world, worldQuery);
+			processDirective(event.world);
 		}
 	}
 
@@ -77,34 +71,37 @@ public class ProcessBlockDirectivesEventHandler {
 	 * skipped and another one is processed.
 	 * 
 	 * @param world
-	 * @param worldQuery
 	 * 
 	 * @throws Exception if processing fails.
 	 */
-	static void processDirective(World world, WorldQueryImpl worldQuery) throws Exception {
+	static void processDirective(World world) throws Exception {
+		try {
+			// get repositories
+			BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 
-		// get repositories
-		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
-		ParticleRenderingRepository particleRepository = getBassebombeCraft().getParticleRenderingRepository();
+			while (directivesRepository.containsDirectives()) {
 
-		while (directivesRepository.containsDirectives()) {
+				// get directive
+				BlockDirective directive = directivesRepository.getNext();
 
-			// get directive
-			BlockDirective directive = directivesRepository.getNext();
+				// skip if source and target states are both air
+				BlockState currentState = world.getBlockState(directive.getBlockPosition());
+				if (currentState.equals(directive.getState()))
+					continue;
 
-			// skip if source and target states are both air
-			BlockState currentState = world.getBlockState(directive.getBlockPosition());
-			if (currentState.equals(directive.getState()))
-				continue;
+				// process directive
+				createBlock(directive, world);
 
-			// process directive
-			createBlock(directive, worldQuery);
+				// send particle for rendering to client
+				BlockPos pos = directive.getBlockPosition();
+				ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
+				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+			}
 
-			// register directive for particle rendering
-			BlockPos pos = directive.getBlockPosition();
-			ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
-			particleRepository.add(particle);
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
 		}
+
 	}
 
 }

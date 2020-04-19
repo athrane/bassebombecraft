@@ -1,22 +1,47 @@
 package bassebombecraft.geom;
 
 import static bassebombecraft.block.BlockUtils.isTypeBlockDirective;
+import static java.util.Optional.ofNullable;
+
+import java.util.Optional;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 
 /**
  * Class for directing the creation/modification/harvesting of blocks.
  */
 public class BlockDirective {
+
+	/**
+	 * Block to process.
+	 */
 	Block block;
+
+	/**
+	 * Defines whether block should be harvested when processed.
+	 */
 	boolean harvest;
+
+	/**
+	 * Position of block to be harvested.
+	 */
 	BlockPos blockPos;
+
+	/**
+	 * Block state.
+	 */
 	BlockState state;
+
+	/**
+	 * Player which perform any harvesting of the block.
+	 */
+	Optional<PlayerEntity> optPlayer;
 
 	/**
 	 * BlockDirective constructor. Block is located at (0,0,0). Block is made of air
@@ -65,6 +90,21 @@ public class BlockDirective {
 		this.blockPos = blockPos;
 		this.block = block;
 		this.harvest = harvest;
+	}
+
+	/**
+	 * BlockDirective constructor.
+	 * 
+	 * @param blockPos block position
+	 * @param block
+	 * @param harvest  defines if block should be harvested.
+	 * @param player   player which should do the harvesting.
+	 */
+	BlockDirective(BlockPos blockPos, Block block, boolean harvest, PlayerEntity player) {
+		this.blockPos = blockPos;
+		this.block = block;
+		this.harvest = harvest;
+		this.optPlayer = ofNullable(player);
 	}
 
 	/**
@@ -120,9 +160,7 @@ public class BlockDirective {
 	/**
 	 * Set position.
 	 * 
-	 * @param x
-	 * @param y
-	 * @param z
+	 * @param position new position to set.
 	 */
 	void set(BlockPos position) {
 		this.blockPos = new BlockPos(position);
@@ -163,6 +201,16 @@ public class BlockDirective {
 		if (getBlock() != Blocks.AIR)
 			return false;
 		return this.harvest;
+	}
+
+	/**
+	 * Return player.
+	 * 
+	 * @return player. Is returned as {@linkplain Optional} is it will be undefined
+	 *         in many cases.
+	 */
+	public Optional<PlayerEntity> getPlayer() {
+		return optPlayer;
 	}
 
 	/**
@@ -236,4 +284,27 @@ public class BlockDirective {
 		directive.setState(blockState);
 		return directive;
 	}
+
+	/**
+	 * Block directive factory method.
+	 * 
+	 * The directive is created with a new immutable {@linkplain BlockPos} to avoid
+	 * position changes after creation of the directive.
+	 * 
+	 * @param blockPos   position
+	 * @param block      block
+	 * @param blockState block state
+	 * @param harvest    true if block should be harvested.
+	 * @param player     player which should do the harvesting.
+	 * 
+	 * @return block directive. The directive is created with a new immutable block
+	 *         position.
+	 */
+	public static BlockDirective getInstance(BlockPos blockPos, Block block, BlockState blockState, boolean harvest,
+			PlayerEntity player) {
+		BlockDirective directive = new BlockDirective(blockPos.toImmutable(), block, harvest, player);
+		directive.setState(blockState);
+		return directive;
+	}
+
 }

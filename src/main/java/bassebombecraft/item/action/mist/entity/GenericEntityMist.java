@@ -9,11 +9,12 @@ import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
 
 import java.util.List;
 
+import javax.naming.OperationNotSupportedException;
+
 import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.geom.GeometryUtils;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.entity.Entity;
@@ -210,38 +211,37 @@ public class GenericEntityMist implements RightClickedItemAction {
 			mistPos = mistPos.add(entityLook);
 		}
 
-		// get repository
-		ParticleRenderingRepository particleRepository = getBassebombeCraft().getParticleRenderingRepository();
+		try {
+			// Get particle position
+			BlockPos pos = new BlockPos(mistPos);
 
-		// register particle for rendering
-		BlockPos pos = new BlockPos(mistPos);
+			// iterate over rendering info's
+			for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
 
-		// iterate over rendering info's
-		for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
-			ParticleRendering particle = getInstance(pos, info);
-			particleRepository.add(particle);
+				// send particle rendering info to client
+				ParticleRendering particle = getInstance(pos, info);
+				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+			}
+
+			// calculate spiral index
+			int spiralCounter = (ticksCounter / PARTICLE_RENDERING_FREQUENCY) % spiralSize;
+
+			// get next spiral coordinate
+			BlockPos spiralCoord = spiralCoordinates.get(spiralCounter);
+
+			// calculate ground coordinates
+			BlockPos pos2 = pos.add(spiralCoord.getX(), 0, spiralCoord.getZ());
+
+			// iterate over rendering info's
+			for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
+
+				// send particle rendering info to client
+				ParticleRendering particle = getInstance(pos2, info);
+				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+			}
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
 		}
-
-		// calculate spiral index
-		int spiralCounter = (ticksCounter / PARTICLE_RENDERING_FREQUENCY) % spiralSize;
-
-		// get next spiral coordinate
-		BlockPos spiralCoord = spiralCoordinates.get(spiralCounter);
-
-		// calculate ground coordinates
-		BlockPos pos2 = pos.add(spiralCoord.getX(), 0, spiralCoord.getZ());
-
-		// iterate over rendering info's
-		for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
-			ParticleRendering particle = getInstance(pos2, info);
-			particleRepository.add(particle);
-		}
-
-	}
-
-	@Override
-	public String toString() {
-		return super.toString() + ", strategy=" + strategy;
 	}
 
 }

@@ -14,12 +14,14 @@ import bassebombecraft.event.duration.DefaultDurationRepository;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.frequency.DefaultFrequencyRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
+import bassebombecraft.event.particle.ParticleRenderingRepository;
+import bassebombecraft.network.NetworkChannelHelper;
 import net.minecraft.server.MinecraftServer;
 
 /**
  * Implementation of the {@linkplain Proxy} interface.
  * 
- * Forge client side proxy implementation.
+ * Forge server side proxy implementation.
  */
 public class ServerProxy implements Proxy {
 
@@ -32,9 +34,14 @@ public class ServerProxy implements Proxy {
 	 * Duration repository.
 	 */
 	DurationRepository durationRepository;
-	
+
 	/**
-	 * Constructor 
+	 * Network channel.
+	 */
+	NetworkChannelHelper networkHelper;
+
+	/**
+	 * Constructor
 	 */
 	public ServerProxy() {
 
@@ -42,9 +49,12 @@ public class ServerProxy implements Proxy {
 		frequencyRepository = DefaultFrequencyRepository.getInstance();
 
 		// initialise duration repository
-		durationRepository = DefaultDurationRepository.getInstance();		
+		durationRepository = DefaultDurationRepository.getInstance();
+
+		// initialize network
+		networkHelper = new NetworkChannelHelper();
 	}
-	
+
 	@Override
 	public void startAnalyticsSession() {
 		try {
@@ -105,6 +115,16 @@ public class ServerProxy implements Proxy {
 			logger.error("Posting exception:" + e.getMessage() + " failed with: " + ex.getMessage());
 		}
 	}
+	
+	@Override
+	public void postError(String msg) {
+		try {
+			VersionUtils.postError(getUser(), msg);
+		} catch (Exception ex) {
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Posting error:" + msg + " failed with: " + ex.getMessage());
+		}		
+	}
 
 	@Override
 	public void postAiObservation(String type, String observation) {
@@ -127,6 +147,11 @@ public class ServerProxy implements Proxy {
 	}
 
 	@Override
+	public NetworkChannelHelper getNetworkChannel() throws OperationNotSupportedException {
+		return networkHelper;
+	}
+
+	@Override
 	public FrequencyRepository getFrequencyRepository() throws OperationNotSupportedException {
 		return frequencyRepository;
 	}
@@ -135,5 +160,10 @@ public class ServerProxy implements Proxy {
 	public DurationRepository getDurationRepository() throws OperationNotSupportedException {
 		return durationRepository;
 	}
-		
+
+	@Override
+	public ParticleRenderingRepository getParticleRenderingRepository() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException("Only invoke this method client side.");
+	}
+
 }
