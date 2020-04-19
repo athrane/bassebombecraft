@@ -16,6 +16,13 @@ public interface DurationRepository {
 	/**
 	 * Update registered durable objects. A durable object is removed if it has
 	 * expired.
+	 * 
+	 * A durable object registered with a positive value is decremented with 1 on
+	 * every update. When a durable object reaches zero then the duration is expired
+	 * and removed from the repository.
+	 * 
+	 * A durable object registered with an initial value of -1 will never expired or
+	 * be decremented.
 	 */
 	public void update();
 
@@ -34,7 +41,7 @@ public interface DurationRepository {
 	 * @param duration number updates until object is expired.
 	 */
 	public void add(String id, int duration, Consumer<String> cId);
-	
+
 	/**
 	 * Remove durable object.
 	 * 

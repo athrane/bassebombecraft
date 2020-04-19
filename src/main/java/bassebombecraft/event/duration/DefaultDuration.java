@@ -12,6 +12,16 @@ import java.util.function.Consumer;
 public class DefaultDuration implements Duration {
 
 	/**
+	 * No expiry.
+	 */
+	static final int NO_EXPIRY= -1;
+
+	/**
+	 * Is expired .
+	 */
+	static final int IS_EXPIRED = 0;
+	
+	/**
 	 * Duration in ticks.
 	 */
 	int duration;
@@ -59,12 +69,22 @@ public class DefaultDuration implements Duration {
 	public void update() {
 		if (isExpired())
 			return;
+
+		// don't decrement a non expiring duration.
+		if (neverExpires())
+			return;
+
 		duration = duration - 1;
 	}
 
 	@Override
 	public boolean isExpired() {
-		return (duration == 0);
+		return (duration == IS_EXPIRED);
+	}
+
+	@Override
+	public boolean neverExpires() {
+		return (duration == -NO_EXPIRY);
 	}
 
 	@Override

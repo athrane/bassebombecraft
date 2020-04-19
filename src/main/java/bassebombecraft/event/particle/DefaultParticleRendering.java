@@ -12,11 +12,6 @@ import net.minecraft.util.math.BlockPos;
 public class DefaultParticleRendering implements ParticleRendering {
 
 	/**
-	 * Infinite duration.
-	 */
-	static final int INFINITE_DURATION = -1;
-
-	/**
 	 * Id used to register and unregister particle rendering.
 	 */
 	String id;
