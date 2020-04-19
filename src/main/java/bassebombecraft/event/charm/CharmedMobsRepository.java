@@ -26,9 +26,9 @@ public interface CharmedMobsRepository {
 	public void remove(MobEntity entity);
 
 	/**
-	 * Update charm.
+	 * Update registered charmed mobs.
 	 * 
-	 * If duration is expired then mob is removed.
+	 * If duration is expired then charmed mob is removed.
 	 * 
 	 * @param entity mob which is charmed.
 	 */

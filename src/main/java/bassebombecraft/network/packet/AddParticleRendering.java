@@ -26,6 +26,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class AddParticleRendering {
 
 	/**
+	 * ID used to register and unregister particle rendering.
+	 */
+	String id;
+
+	/**
 	 * Position.
 	 */
 	BlockPos position;
@@ -71,6 +76,7 @@ public class AddParticleRendering {
 	 * @param buf packet buffer.
 	 */
 	public AddParticleRendering(PacketBuffer buf) {
+		this.id = buf.readString();
 		this.position = buf.readBlockPos();
 		this.duration = buf.readInt();
 		this.speed = buf.readDouble();
@@ -85,10 +91,10 @@ public class AddParticleRendering {
 	/**
 	 * Constructor.
 	 * 
-	 * @param entity entity to add the effect to.
-	 * @param effect effect to add to entity.
+	 * @param rendering particle rendering directive.
 	 */
 	public AddParticleRendering(ParticleRendering rendering) {
+		this.id = rendering.getId();
 		this.position = rendering.getPosition();
 		this.duration = rendering.getDuration();
 		this.speed = rendering.getSpeed();
@@ -105,6 +111,7 @@ public class AddParticleRendering {
 	 * @param buf packet buffer.
 	 */
 	public void encode(PacketBuffer buf) {
+		buf.writeString(id);
 		buf.writeBlockPos(position);
 		buf.writeInt(duration);
 		buf.writeDouble(speed);
@@ -138,7 +145,7 @@ public class AddParticleRendering {
 
 					// register for rendering
 					ParticleRenderingRepository repository = getProxy().getParticleRenderingRepository();
-					repository.add(particle);
+					repository.add(id, particle);
 
 				} catch (Exception e) {
 					getBassebombeCraft().reportAndLogException(e);

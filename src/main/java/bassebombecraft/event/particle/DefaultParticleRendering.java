@@ -1,6 +1,7 @@
 package bassebombecraft.event.particle;
 
 import java.util.Random;
+import java.util.UUID;
 
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.math.BlockPos;
@@ -10,21 +11,61 @@ import net.minecraft.util.math.BlockPos;
  */
 public class DefaultParticleRendering implements ParticleRendering {
 
+	/**
+	 * Infinite duration.
+	 */
 	static final int INFINITE_DURATION = -1;
-	private BlockPos position;
-	private int duration;
-	private ParticleRenderingInfo info;
 
 	/**
-	 * DefaultParticleRendering constructor.
+	 * Id used to register and unregister particle rendering.
+	 */
+	String id;
+
+	/**
+	 * position for rendering of particles.
+	 */
+	BlockPos position;
+
+	/**
+	 * Duration of rendering in game ticks.
+	 */
+	int duration;
+
+	/**
+	 * Particle rendering info.
+	 */
+	ParticleRenderingInfo info;
+
+	/**
+	 * Constructor.
 	 * 
 	 * @param pos  particle position.
 	 * @param info particle rendering info.
 	 */
-	private DefaultParticleRendering(BlockPos pos, ParticleRenderingInfo info) {
+	DefaultParticleRendering(BlockPos pos, ParticleRenderingInfo info) {
+		this.id = UUID.randomUUID().toString();
 		this.position = pos;
 		this.info = info;
 		this.duration = info.getDuration();
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param id   used to register and unregister particle rendering.
+	 * @param pos  particle position.
+	 * @param info particle rendering info.
+	 */
+	DefaultParticleRendering(String id, BlockPos pos, ParticleRenderingInfo info) {
+		this.id = id;
+		this.position = pos;
+		this.info = info;
+		this.duration = info.getDuration();
+	}
+	
+	@Override
+	public String getId() {
+		return id;
 	}
 
 	@Override
@@ -96,5 +137,18 @@ public class DefaultParticleRendering implements ParticleRendering {
 	 */
 	public static ParticleRendering getInstance(BlockPos pos, ParticleRenderingInfo info) {
 		return new DefaultParticleRendering(pos, info);
+	}
+
+	/**
+	 * Factory method for creation of a particle rendering info object.
+	 * 
+	 * @param id   used to register and unregister particle rendering.
+	 * @param pos  particle position.
+	 * @param info particle rendering info.
+	 * 
+	 * @return particle rendering object.
+	 */
+	public static ParticleRendering getInstance(String id, BlockPos pos, ParticleRenderingInfo info) {
+		return new DefaultParticleRendering(id, pos, info);
 	}
 }

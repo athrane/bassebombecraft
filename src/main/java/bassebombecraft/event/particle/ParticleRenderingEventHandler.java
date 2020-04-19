@@ -34,34 +34,29 @@ public class ParticleRenderingEventHandler {
 			if (isWorldAtServerSide(event.world))
 				return;
 
-			// get repository
-			ParticleRenderingRepository repository = getProxy().getParticleRenderingRepository();
-			FrequencyRepository frequencyRepository = getProxy().getFrequencyRepository();
-
-			// update particle duration
-			repository.updateParticleDuration();
-
-			// exit if particles should be rendered in this tick
+			// exit if particles shouldn't be rendered in this tick
 			// exit if frequency isn't active
+			FrequencyRepository frequencyRepository = getProxy().getFrequencyRepository();
 			if (!frequencyRepository.isActive(PARTICLE_RENDERING_FREQUENCY))
 				return;
 
 			// render particles
-			render(event.world, repository);
+			render(event.world);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
-
 	}
 
 	/**
 	 * Render particles.
 	 * 
-	 * @param world      world object.
-	 * @param repository particle rendering repository.
+	 * @param world world object.
+	 * 
+	 * @throws Exception if rendering fails.
 	 */
-	static void render(World world, ParticleRenderingRepository repository) {
+	static void render(World world) throws Exception {
+		ParticleRenderingRepository repository = getProxy().getParticleRenderingRepository();
 		// get and render particles
 		ParticleRendering[] particles = repository.getParticles();
 		for (ParticleRendering particle : particles) {

@@ -18,13 +18,7 @@ public class FrequencyEventHandler {
 	@SubscribeEvent
 	static public void handleWorldTickEvent(WorldTickEvent event) {
 		try {
-
-			// get repository
-			FrequencyRepository repository = getProxy().getFrequencyRepository();
-
-			// update
-			repository.update();
-
+			getProxy().getFrequencyRepository().update();
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}

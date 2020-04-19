@@ -11,6 +11,13 @@ import net.minecraft.util.math.BlockPos;
 public interface ParticleRendering {
 
 	/**
+	 * Get Id used to register particle rendering.
+	 * 
+	 * @return id used to register particle rendering.
+	 */
+	String getId();
+
+	/**
 	 * Get position where particles should be rendered.
 	 * 
 	 * @return position where particles should be rendered.
@@ -48,6 +55,7 @@ public interface ParticleRendering {
 	 * 
 	 * @return true if particle duration is expired.
 	 */
+	@Deprecated
 	boolean isExpired();
 
 	/**

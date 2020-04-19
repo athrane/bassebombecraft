@@ -1,5 +1,7 @@
 package bassebombecraft.event.particle;
 
+import java.util.stream.Stream;
+
 import bassebombecraft.proxy.Proxy;
 
 /**
@@ -13,32 +15,35 @@ public interface ParticleRenderingRepository {
 	/**
 	 * Register particle for rendering.
 	 * 
-	 * @param first marker.
+	 * @param particle particle rendering directive to register for rendering.
 	 */
-	public void add(ParticleRendering particle);
+	public void add(String id, ParticleRendering particle);
 
 	/**
 	 * Remove particle from rendering.
 	 * 
-	 * @param particle particle to remove.
+	 * @param id id to remove particle rendering directive.
 	 */
-	public void remove(ParticleRendering particle);
+	public void remove(String id);
 
 	/**
 	 * Get particles to be rendered.
 	 * 
-	 * @return particles to be rendered.
+	 * @return particle rendering directives to be rendered.
 	 */
+	@Deprecated
 	ParticleRendering[] getParticles();
+
+	/**
+	 * Get particles to be rendered.
+	 * 
+	 * @return stream of particle rendering directives to be rendered.
+	 */
+	Stream<ParticleRendering> get();
 
 	/**
 	 * Clear particles.
 	 */
 	public void clear();
-
-	/**
-	 * Update particle duration.
-	 */
-	public void updateParticleDuration();
 
 }

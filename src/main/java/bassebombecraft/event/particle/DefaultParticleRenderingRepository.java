@@ -1,9 +1,12 @@
 package bassebombecraft.event.particle;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
+
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
+
+import bassebombecraft.event.duration.DurationRepository;
 
 /**
  * Default implementation of the {@linkplain ParticleRenderingRepository}.
@@ -11,56 +14,66 @@ import java.util.Set;
 public class DefaultParticleRenderingRepository implements ParticleRenderingRepository {
 
 	/**
-	 * Particle container.
+	 * Registered particles.
 	 */
-	Set<ParticleRendering> particles;
+	ConcurrentHashMap<String, ParticleRendering> particles = new ConcurrentHashMap<String, ParticleRendering>();
 
-	/**
-	 * DefaultParticleRenderingRepository constructor.
-	 */
-	public DefaultParticleRenderingRepository() {
-		super();
-		this.particles = Collections.synchronizedSet(new HashSet<ParticleRendering>());
+	@Override
+	public void add(String id, ParticleRendering particle) {
+		try {
+			if (particles.containsKey(id))
+				return;
+
+			// register duration
+			getProxy().getDurationRepository().add(id, particle.getDuration());
+
+			// store particle
+			particles.put(id, particle);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 	@Override
-	public void add(ParticleRendering particle) {
-		if (particles.contains(particle))
-			return;
-		particles.add(particle);
-	}
+	public void remove(String id) {
+		try {
+			// remove particle
+			particles.remove(id);
 
-	@Override
-	public void remove(ParticleRendering particle) {
-		particles.remove(particle);
+			// remove duration
+			getProxy().getDurationRepository().remove(id);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 	@Override
 	public ParticleRendering[] getParticles() {
 		ParticleRendering[] array = new ParticleRendering[particles.size()];
-		return particles.toArray(array);
+		return particles.values().toArray(array);
 	}
 
+	@Override
+	public Stream<ParticleRendering> get() {
+		return particles.values().stream();
+	}
+	
 	@Override
 	public void clear() {
-		particles.clear();
-	}
+		try {
+			// get repository
+			DurationRepository repository = getProxy().getDurationRepository();
 
-	@Override
-	public void updateParticleDuration() {
+			// remove durations
+			particles.forEachKey(10, k -> repository.remove(k));
 
-		synchronized (particles) {
+			// remove particles
+			particles.clear();
 
-			for (Iterator<ParticleRendering> it = particles.iterator(); it.hasNext();) {
-				ParticleRendering particle = it.next();
-
-				// update
-				particle.updateDuration();
-
-				// remove if expired
-				if (particle.isExpired())
-					it.remove();
-			}
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
 		}
 	}
 
