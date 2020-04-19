@@ -22,7 +22,7 @@ public class DefaultDurationRepository implements DurationRepository {
 
 		// step 1: update objects and identify expired objects
 		List<String> expired = new ArrayList<String>();
-		durableObjects.forEachKey(10, k -> {
+		durableObjects.forEachKey(1, k -> {
 
 			// update
 			Duration state = durableObjects.get(k);
@@ -37,7 +37,7 @@ public class DefaultDurationRepository implements DurationRepository {
 		expired.forEach(k -> {
 
 			// invoke callback if registered
-			durableObjects.get(k).accept();
+			durableObjects.get(k).notifyOfExpiry();
 
 			// remove
 			durableObjects.remove(k);

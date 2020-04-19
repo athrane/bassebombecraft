@@ -73,7 +73,7 @@ public class DefaultDuration implements Duration {
 	}
 
 	@Override
-	public void accept() {
+	public void notifyOfExpiry() {
 		if (!optConsumerId.isPresent())
 			return;
 		Consumer<String> cId = optConsumerId.get();

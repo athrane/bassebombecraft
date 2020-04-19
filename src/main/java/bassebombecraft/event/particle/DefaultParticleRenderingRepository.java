@@ -4,6 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import bassebombecraft.event.duration.DurationRepository;
@@ -12,6 +13,15 @@ import bassebombecraft.event.duration.DurationRepository;
  * Default implementation of the {@linkplain ParticleRenderingRepository}.
  */
 public class DefaultParticleRenderingRepository implements ParticleRenderingRepository {
+
+	/**
+	 * Consumer to support callback when {@linkplain DurationRepository} expires a
+	 * {@linkplain ParticleRendering} add by this repository.
+	 * 
+	 * When invoked by the {@linkplain DurationRepository} the expired element will
+	 * be removed from this repository as well.
+	 */
+	Consumer<String> cRemovalCallback = id -> remove(id);
 
 	/**
 	 * Registered particles.
@@ -25,7 +35,7 @@ public class DefaultParticleRenderingRepository implements ParticleRenderingRepo
 				return;
 
 			// register duration
-			getProxy().getDurationRepository().add(id, particle.getDuration());
+			getProxy().getDurationRepository().add(id, particle.getDuration(), cRemovalCallback);
 
 			// store particle
 			particles.put(id, particle);
@@ -59,14 +69,12 @@ public class DefaultParticleRenderingRepository implements ParticleRenderingRepo
 	public Stream<ParticleRendering> get() {
 		return particles.values().stream();
 	}
-	
+
 	@Override
 	public void clear() {
 		try {
-			// get repository
-			DurationRepository repository = getProxy().getDurationRepository();
-
 			// remove durations
+			DurationRepository repository = getProxy().getDurationRepository();
 			particles.forEachKey(10, k -> repository.remove(k));
 
 			// remove particles

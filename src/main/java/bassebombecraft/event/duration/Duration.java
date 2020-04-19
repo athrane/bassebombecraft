@@ -27,6 +27,6 @@ public interface Duration {
 	/**
 	 * Invoke callback (if defined).
 	 */
-	public void accept();
+	public void notifyOfExpiry();
 	
 }
