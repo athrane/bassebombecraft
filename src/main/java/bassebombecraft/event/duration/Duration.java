@@ -23,4 +23,10 @@ public interface Duration {
 	 * @return remaining duration.
 	 */
 	public int get();
+	
+	/**
+	 * Invoke callback (if defined).
+	 */
+	public void accept();
+	
 }

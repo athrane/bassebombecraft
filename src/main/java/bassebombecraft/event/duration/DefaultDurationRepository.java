@@ -3,6 +3,7 @@ package bassebombecraft.event.duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 /**
  * Default implementation of the {@linkplain DurationRepository} interface.
@@ -33,7 +34,14 @@ public class DefaultDurationRepository implements DurationRepository {
 		});
 
 		// step 2: remove expired objects
-		expired.forEach(k -> durableObjects.remove(k));
+		expired.forEach(k -> {
+
+			// invoke callback if registered
+			durableObjects.get(k).accept();
+
+			// remove
+			durableObjects.remove(k);
+		});
 	}
 
 	@Override
@@ -43,6 +51,20 @@ public class DefaultDurationRepository implements DurationRepository {
 
 		Duration state = DefaultDuration.getInstance(duration, id);
 		durableObjects.put(id, state);
+	}
+
+	@Override
+	public void add(String id, int duration, Consumer<String> cId) {
+		if (durableObjects.containsKey(id))
+			return;
+
+		Duration state = DefaultDuration.getInstance(duration, id, cId);
+		durableObjects.put(id, state);
+	}
+
+	@Override
+	public void remove(String id) {
+		durableObjects.remove(id);
 	}
 
 	@Override

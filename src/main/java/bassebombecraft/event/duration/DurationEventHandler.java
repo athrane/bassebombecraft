@@ -18,12 +18,7 @@ public class DurationEventHandler {
 	@SubscribeEvent
 	static public void handleWorldTickEvent(WorldTickEvent event) {
 		try {
-			// get repository
-			DurationRepository repository = getProxy().getDurationRepository();
-
-			// update
-			repository.update();
-
+			getProxy().getDurationRepository().update();
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}

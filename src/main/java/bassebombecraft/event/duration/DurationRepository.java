@@ -1,5 +1,7 @@
 package bassebombecraft.event.duration;
 
+import java.util.function.Consumer;
+
 import bassebombecraft.proxy.Proxy;
 
 /**
@@ -12,7 +14,8 @@ import bassebombecraft.proxy.Proxy;
 public interface DurationRepository {
 
 	/**
-	 * Update registered durable objects.
+	 * Update registered durable objects. A durable object is removed if it has
+	 * expired.
 	 */
 	public void update();
 
@@ -23,6 +26,21 @@ public interface DurationRepository {
 	 * @param duration number updates until object is expired.
 	 */
 	public void add(String id, int duration);
+
+	/**
+	 * Register durable object.
+	 * 
+	 * @param id       id to register
+	 * @param duration number updates until object is expired.
+	 */
+	public void add(String id, int duration, Consumer<String> cId);
+	
+	/**
+	 * Remove durable object.
+	 * 
+	 * @param id id to remove.
+	 */
+	public void remove(String id);
 
 	/**
 	 * Returns true if object has expired.
