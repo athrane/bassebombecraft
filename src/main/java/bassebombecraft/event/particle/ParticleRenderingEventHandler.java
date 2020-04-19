@@ -92,7 +92,7 @@ public class ParticleRenderingEventHandler {
 	 * @param particle particle to render.
 	 */
 	static void renderParticle(World world, ParticleRendering particle) {
-		double speed = particle.getSpeed();
+		double speed = particle.getInfo().getSpeed();
 		double d0 = calculateRandomSpeed(speed);
 		double d1 = calculateRandomSpeed(speed);
 		double d2 = calculateRandomSpeed(speed);
@@ -118,7 +118,7 @@ public class ParticleRenderingEventHandler {
 	static void renderParticleWithCustomColor(World world, ParticleRendering particle) {
 		Random random = getBassebombeCraft().getRandom();
 
-		double speed = particle.getSpeed();
+		double speed = particle.getInfo().getSpeed();
 		double d0 = calculateRandomSpeed(speed);
 		double d1 = calculateRandomSpeed(speed);
 		double d2 = calculateRandomSpeed(speed);

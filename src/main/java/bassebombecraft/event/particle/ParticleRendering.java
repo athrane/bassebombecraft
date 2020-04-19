@@ -78,13 +78,6 @@ public interface ParticleRendering {
 	float getBlueColorComponent(Random random);
 
 	/**
-	 * Return particle speed.
-	 * 
-	 * @return particle speed
-	 */
-	double getSpeed();
-
-	/**
 	 * Return rendering info.
 	 * 
 	 * @return rendering info.

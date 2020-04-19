@@ -113,11 +113,6 @@ public class DefaultParticleRendering implements ParticleRendering {
 	}
 
 	@Override
-	public double getSpeed() {
-		return info.getSpeed();
-	}
-
-	@Override
 	public ParticleRenderingInfo getInfo() {
 		return info;
 	}
