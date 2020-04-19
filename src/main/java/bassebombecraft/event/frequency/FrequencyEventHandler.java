@@ -11,9 +11,6 @@ import net.minecraftforge.fml.common.Mod;
  * Event handler for frequency updates.
  * 
  * The handler executes events CLIENT and SERVER side.
- * 
- * It is used SERVER side on other event handlers. It is used CLIENT side for
- * rendering.
  */
 @Mod.EventBusSubscriber
 public class FrequencyEventHandler {
