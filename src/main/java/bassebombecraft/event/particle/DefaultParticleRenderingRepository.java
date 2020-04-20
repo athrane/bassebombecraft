@@ -60,12 +60,6 @@ public class DefaultParticleRenderingRepository implements ParticleRenderingRepo
 	}
 
 	@Override
-	public ParticleRendering[] getParticles() {
-		ParticleRendering[] array = new ParticleRendering[particles.size()];
-		return particles.values().toArray(array);
-	}
-
-	@Override
 	public Stream<ParticleRendering> get() {
 		return particles.values().stream();
 	}

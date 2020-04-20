@@ -29,14 +29,6 @@ public interface ParticleRenderingRepository {
 	/**
 	 * Get particles to be rendered.
 	 * 
-	 * @return particle rendering directives to be rendered.
-	 */
-	@Deprecated
-	ParticleRendering[] getParticles();
-
-	/**
-	 * Get particles to be rendered.
-	 * 
 	 * @return stream of particle rendering directives to be rendered.
 	 */
 	Stream<ParticleRendering> get();

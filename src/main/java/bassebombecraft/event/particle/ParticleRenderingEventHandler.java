@@ -6,6 +6,7 @@ import static bassebombecraft.ModConstants.PARTICLE_RENDERING_FREQUENCY;
 import static bassebombecraft.world.WorldUtils.isWorldAtServerSide;
 
 import java.util.Random;
+import java.util.stream.Stream;
 
 import bassebombecraft.event.frequency.FrequencyRepository;
 import net.minecraft.client.Minecraft;
@@ -57,20 +58,20 @@ public class ParticleRenderingEventHandler {
 	 */
 	static void render(World world) throws Exception {
 		ParticleRenderingRepository repository = getProxy().getParticleRenderingRepository();
+		
 		// get and render particles
-		ParticleRendering[] particles = repository.getParticles();
-		for (ParticleRendering particle : particles) {
-
+		Stream<ParticleRendering> particles = repository.get();		
+		particles.forEach( p -> {
 			// render multiple instances of particles if specified
-			int numberToRender = particle.getNumber();
+			int numberToRender = p.getNumber();
 			for (int i = 0; i < numberToRender; i++) {
-				if (renderWithCustomColor(particle)) {
-					renderParticleWithCustomColor(world, particle);
+				if (renderWithCustomColor(p)) {
+					renderParticleWithCustomColor(world, p);
 					continue;
 				}
-				renderParticle(world, particle);
-			}
-		}
+				renderParticle(world, p);
+			}			
+		});
 	}
 
 	/**
