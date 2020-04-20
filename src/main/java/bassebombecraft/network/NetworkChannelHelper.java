@@ -8,6 +8,7 @@ import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.network.packet.AddEffect;
 import bassebombecraft.network.packet.AddParticleRendering;
 import bassebombecraft.network.packet.RemoveEffect;
+import bassebombecraft.network.packet.RemoveParticleRendering;
 import bassebombecraft.proxy.Proxy;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
@@ -59,6 +60,8 @@ public class NetworkChannelHelper {
 				RemoveEffect::handle);
 		channel.registerMessage(msgIndex++, AddParticleRendering.class, AddParticleRendering::encode,
 				AddParticleRendering::new, AddParticleRendering::handle);
+		channel.registerMessage(msgIndex++, RemoveParticleRendering.class, RemoveParticleRendering::encode,
+				RemoveParticleRendering::new, RemoveParticleRendering::handle);
 	}
 
 	/**
@@ -97,6 +100,20 @@ public class NetworkChannelHelper {
 	public void sendAddParticleRenderingPacket(ParticleRendering rendering) {
 		try {
 			channel.send(PacketDistributor.ALL.noArg(), new AddParticleRendering(rendering));
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
+	}
+
+	/**
+	 * Send {@linkplain RemoveParticleRendering} network packet from server to
+	 * client.
+	 * 
+	 * @param rendering particle rendering directive.
+	 */
+	public void sendRemoveParticleRenderingPacket(ParticleRendering rendering) {
+		try {
+			channel.send(PacketDistributor.ALL.noArg(), new RemoveParticleRendering(rendering));
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}

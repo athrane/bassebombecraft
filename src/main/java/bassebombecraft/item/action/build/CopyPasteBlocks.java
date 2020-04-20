@@ -528,8 +528,12 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * Clear rendering of particles.
 	 */
 	void clearRendering() {
-		//particleRepository.remove(firstMarkerParticle);
-		//particleRepository.remove(secondMarkerParticle);
+		try {
+			getProxy().getNetworkChannel().sendRemoveParticleRenderingPacket(firstMarkerParticle);
+			getProxy().getNetworkChannel().sendRemoveParticleRenderingPacket(secondMarkerParticle);
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 }

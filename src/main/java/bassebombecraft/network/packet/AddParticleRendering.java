@@ -26,7 +26,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class AddParticleRendering {
 
 	/**
-	 * ID used to register and unregister particle rendering.
+	 * ID used to register particle rendering.
 	 */
 	String id;
 
@@ -85,7 +85,6 @@ public class AddParticleRendering {
 		this.rgbGreen = buf.readFloat();
 		this.rgbBlue = buf.readFloat();
 		this.type = (BasicParticleType) ForgeRegistries.PARTICLE_TYPES.getValue(buf.readResourceLocation());
-
 	}
 
 	/**
@@ -125,7 +124,7 @@ public class AddParticleRendering {
 	/**
 	 * Handle received network packet.
 	 * 
-	 * Adds the potion effect to client side entity.
+	 * Create and adds the particle rendering directive to client side.
 	 * 
 	 * @param buf packet buffer.
 	 */
