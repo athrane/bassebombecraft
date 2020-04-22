@@ -32,6 +32,7 @@ import com.electronwill.nightconfig.core.io.WritingMode;
 import bassebombecraft.entity.commander.command.AttackNearestMobCommand;
 import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
 import bassebombecraft.entity.commander.command.DanceCommand;
+import bassebombecraft.event.charm.DefaultCharmedMobsRepository;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
@@ -146,6 +147,9 @@ public class ModConfiguration {
 	 * Common configuration for the mod.
 	 */
 	public static ForgeConfigSpec COMMON_CONFIG;
+
+	// DefaultCharmedMobsRepository properties
+	public static ForgeConfigSpec.IntValue charmDuration;
 
 	// Basic item properties
 	public static ForgeConfigSpec.IntValue basicItemDefaultCooldown;
@@ -498,6 +502,7 @@ public class ModConfiguration {
 
 		// build general section
 		COMMON_BUILDER.comment("General settings").push("General");
+		setupGeneralConfig();
 		COMMON_BUILDER.pop();
 
 		COMMON_BUILDER.comment("Basic item settings").push("BasicItems");
@@ -535,6 +540,20 @@ public class ModConfiguration {
 
 		// do build
 		COMMON_CONFIG = COMMON_BUILDER.build();
+	}
+
+	/**
+	 * Define general settings for repositories etc.
+	 */
+	static void setupGeneralConfig() {
+
+		// DefaultCharmedMobsRepository
+		String name = DefaultCharmedMobsRepository.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		charmDuration = COMMON_BUILDER.comment("Charm duration (in game ticks).").defineInRange("charmDuration", 10, 0,
+				Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
 	}
 
 	/**
@@ -1067,8 +1086,8 @@ public class ModConfiguration {
 				0, 10);
 		respawnMaxEntities = COMMON_BUILDER.comment("Max. number of entities spawned.").defineInRange("maxEntities", 2,
 				0, 5);
-		respawnSpawnArea = COMMON_BUILDER.comment("Size of spawn areas around the dead entity.").defineInRange("SpawnArea ", 5,
-				0, 10);
+		respawnSpawnArea = COMMON_BUILDER.comment("Size of spawn areas around the dead entity.")
+				.defineInRange("SpawnArea ", 5, 0, 10);
 
 		COMMON_BUILDER.pop();
 

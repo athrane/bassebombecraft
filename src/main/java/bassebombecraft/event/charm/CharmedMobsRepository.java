@@ -31,6 +31,13 @@ public interface CharmedMobsRepository {
 	public void remove(String id);
 
 	/**
+	 * Remove mob.
+	 * 
+	 * @param entity entity to remove.
+	 */
+	public void remove(MobEntity entity);
+	
+	/**
 	 * Returns true if mob is already charmed.
 	 * 
 	 * @param id ID of entity to query for. The ID is read from

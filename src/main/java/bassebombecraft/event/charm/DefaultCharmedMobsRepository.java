@@ -1,6 +1,7 @@
 package bassebombecraft.event.charm;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.config.ModConfiguration.charmDuration;
 import static bassebombecraft.entity.ai.AiUtils.assignAiGoals;
 import static bassebombecraft.entity.ai.AiUtils.assignAiTargetGoals;
 import static bassebombecraft.entity.ai.AiUtils.buildCharmedMobAi;
@@ -22,10 +23,9 @@ import net.minecraft.entity.MobEntity;
 public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 
 	/**
-	 * Charm duration.
+	 * Repository identifier (for configuration).
 	 */
-	@Deprecated
-	static final int EFFECT_DURATION = 1000; // Measured in ticks
+	public static final String NAME = DefaultCharmedMobsRepository.class.getSimpleName();
 
 	/**
 	 * Consumer to support callback when {@linkplain DurationRepository} expires a
@@ -50,7 +50,7 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 			return;
 
 		// create charmed mob container
-		CharmedMob charmedMob = CharmedMob.getInstance(entity, EFFECT_DURATION, cRemovalCallback);
+		CharmedMob charmedMob = CharmedMob.getInstance(entity, charmDuration.get(), cRemovalCallback);
 
 		clearAllAiGoals(entity);
 		buildCharmedMobAi(entity, commander);
@@ -73,14 +73,20 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 
 		// remove mob from repository
 		charmedMobs.remove(id);
-
+	}
+	
+	@Override
+	public void remove(MobEntity entity) {
+		int id = entity.getEntityId();
+		String idAsString = Integer.toString(id);
+		remove(idAsString);
 	}
 
 	@Override
 	public boolean contains(String id) {
 		return charmedMobs.containsKey(id);
 	}
-		
+
 	@Override
 	public boolean contains(MobEntity entity) {
 		int id = entity.getEntityId();
