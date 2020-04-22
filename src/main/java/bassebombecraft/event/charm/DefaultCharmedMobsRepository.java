@@ -7,10 +7,10 @@ import static bassebombecraft.entity.ai.AiUtils.assignAiTargetGoals;
 import static bassebombecraft.entity.ai.AiUtils.buildCharmedMobAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 
-import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
@@ -74,7 +74,7 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 		// remove mob from repository
 		charmedMobs.remove(id);
 	}
-	
+
 	@Override
 	public void remove(MobEntity entity) {
 		int id = entity.getEntityId();
@@ -95,8 +95,13 @@ public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 	}
 
 	@Override
-	public Collection<CharmedMob> get() {
-		return charmedMobs.values();
+	public Stream<CharmedMob> get() {
+		return charmedMobs.values().stream();
+	}
+	
+	@Override
+	public int size() {
+		return charmedMobs.size();
 	}
 
 	/**

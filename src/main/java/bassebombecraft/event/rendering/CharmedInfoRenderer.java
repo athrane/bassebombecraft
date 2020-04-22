@@ -10,6 +10,7 @@ import static bassebombecraft.rendering.RenderingUtils.renderBillboardText;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -62,8 +63,8 @@ public class CharmedInfoRenderer {
 
 		// get charmed entities
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
-		Collection<CharmedMob> charmedMobs = repository.get();
-		int charmedSize = charmedMobs.size();
+		Stream<CharmedMob> charmedMobs = repository.get();
+		int charmedSize = repository.size();
 
 		// get render buffer
 		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();

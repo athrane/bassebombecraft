@@ -1,6 +1,6 @@
 package bassebombecraft.event.charm;
 
-import java.util.Collection;
+import java.util.stream.Stream;
 
 import bassebombecraft.proxy.Proxy;
 import net.minecraft.entity.LivingEntity;
@@ -36,7 +36,7 @@ public interface CharmedMobsRepository {
 	 * @param entity entity to remove.
 	 */
 	public void remove(MobEntity entity);
-	
+
 	/**
 	 * Returns true if mob is already charmed.
 	 * 
@@ -58,8 +58,14 @@ public interface CharmedMobsRepository {
 	/**
 	 * Get charmed mobs. Iteration must be take place in synchronized section.
 	 * 
-	 * @return collection of charmed mobs
+	 * @return stream of charmed mobs..
 	 */
-	public Collection<CharmedMob> get();
+	public Stream<CharmedMob> get();
 
+	/**
+	 * Get number of mobs charmed.
+	 * 
+	 * @return number of mobs charmed.
+	 */
+	public int size();
 }
