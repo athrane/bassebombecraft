@@ -27,8 +27,6 @@ import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.block.DefaultBlockDirectiveRepository;
 import bassebombecraft.event.block.temporary.DefaultTemporaryBlockRepository;
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
-import bassebombecraft.event.charm.CharmedMobsRepository;
-import bassebombecraft.event.charm.DefaultCharmedMobsRepository;
 import bassebombecraft.event.entity.target.DefaultTargetedEntitiesRepository;
 import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.event.entity.team.DefaultTeamRepository;
@@ -73,11 +71,6 @@ public class BassebombeCraft {
 	 * {@linkplain ItemGroup} which implements creative tab.
 	 */
 	static final ItemGroup MOD_ITEMGROUP = createItemGroup(TAB_NAME);
-
-	/**
-	 * Charmed Mob repository
-	 */
-	CharmedMobsRepository charmedMobsRepository;
 
 	/**
 	 * Block directives repository. Server side.
@@ -141,9 +134,6 @@ public class BassebombeCraft {
 			// load configuration
 			loadConfig();
 
-			// Initialise charmed mobs repository
-			charmedMobsRepository = DefaultCharmedMobsRepository.getInstance();
-
 			// Initialise directives repository
 			blockDirectivesRepository = DefaultBlockDirectiveRepository.getInstance();
 
@@ -179,7 +169,7 @@ public class BassebombeCraft {
 
 	@SubscribeEvent
 	void serverStarted(FMLServerStartedEvent event) {
-		proxy.startAnalyticsSession();
+		proxy.startAnalyticsSession();		
 	}
 
 	@SubscribeEvent
@@ -206,15 +196,6 @@ public class BassebombeCraft {
 	 */
 	public static Proxy getProxy() {
 		return proxy;
-	}
-
-	/**
-	 * Get charmed mobs repository.
-	 * 
-	 * @return charmed mobs repository.
-	 */
-	public CharmedMobsRepository getCharmedMobsRepository() {
-		return charmedMobsRepository;
 	}
 
 	/**
@@ -373,7 +354,7 @@ public class BassebombeCraft {
 	 */
 	public void reportAndLogError(String msg) {
 		proxy.postError(msg);
-		logger.error(msg);		
+		logger.error(msg);
 	}
-	
+
 }

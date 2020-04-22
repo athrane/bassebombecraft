@@ -1,6 +1,7 @@
 package bassebombecraft.item.action.mist.entity;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
@@ -33,15 +34,20 @@ public class BeastmasterMist implements EntityMistActionStrategy {
 	@Override
 	public void applyEffectToEntity(LivingEntity target, Vec3d mistPos, LivingEntity invoker) {
 
-		// skip if entity can't be charmed, i.e. is a mob entity
-		if (!isTypeMobEntity(target))
-			return;
+		try {
+			// skip if entity can't be charmed, i.e. is a mob entity
+			if (!isTypeMobEntity(target))
+				return;
 
-		// type cast		
-		MobEntity mobEntity = (MobEntity) target;
+			// type cast
+			MobEntity mobEntity = (MobEntity) target;
 
-		// register mob as charmed
-		getBassebombeCraft().getCharmedMobsRepository().add(mobEntity, invoker);
+			// register mob as charmed
+			getProxy().getCharmedMobsRepository().add(mobEntity, invoker);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 	@Override

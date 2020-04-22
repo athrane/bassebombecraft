@@ -9,7 +9,9 @@ import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
+import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -19,62 +21,71 @@ import net.minecraft.entity.MobEntity;
  */
 public class DefaultCharmedMobsRepository implements CharmedMobsRepository {
 
+	/**
+	 * Charm duration.
+	 */
+	@Deprecated
 	static final int EFFECT_DURATION = 1000; // Measured in ticks
+
+	/**
+	 * Consumer to support callback when {@linkplain DurationRepository} expires a
+	 * {@linkplain CharmedMob} added by this repository.
+	 * 
+	 * When invoked by the {@linkplain DurationRepository} the expired element will
+	 * be removed from this repository as well.
+	 */
+	Consumer<String> cRemovalCallback = id -> remove(id);
 
 	/**
 	 * Charmed mobs.
 	 */
-	Map<MobEntity, CharmedMob> charmedMobs = new ConcurrentHashMap<MobEntity, CharmedMob>();
+	Map<String, CharmedMob> charmedMobs = new ConcurrentHashMap<String, CharmedMob>();
 
 	@Override
 	public void add(MobEntity entity, LivingEntity commander) {
 
-		// exist if entity is team member
+		// exit if entity is team member
 		TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
 		if (teamRepository.isMember(commander, entity))
 			return;
 
 		// create charmed mob container
-		CharmedMob charmedMob = CharmedMob.getInstance(entity, EFFECT_DURATION);
+		CharmedMob charmedMob = CharmedMob.getInstance(entity, EFFECT_DURATION, cRemovalCallback);
 
 		clearAllAiGoals(entity);
 		buildCharmedMobAi(entity, commander);
 
 		// store mob
-		charmedMobs.put(entity, charmedMob);
+		String id = Integer.toString(entity.getEntityId());
+		charmedMobs.put(id, charmedMob);
 	}
 
 	@Override
-	public void remove(MobEntity entity) {
-		if (!contains(entity))
+	public void remove(String id) {
+		if (!contains(id))
 			return;
 
-		// restore AI tasks
-		CharmedMob charmedMob = charmedMobs.get(entity);
-		clearAllAiGoals(entity);
-		assignAiGoals(entity, charmedMob.getGoals());
-		assignAiTargetGoals(entity, charmedMob.getTargetGoals());
+		// get entity
+		CharmedMob charmedMob = charmedMobs.get(id);
+		clearAllAiGoals(charmedMob.getEntity());
+		assignAiGoals(charmedMob.getEntity(), charmedMob.getGoals());
+		assignAiTargetGoals(charmedMob.getEntity(), charmedMob.getTargetGoals());
 
 		// remove mob from repository
-		charmedMobs.remove(entity);
+		charmedMobs.remove(id);
+
 	}
 
 	@Override
-	public void update(MobEntity entity) {
-		if (!contains(entity))
-			return;
-
-		// get charmed mob
-		CharmedMob charmedMob = charmedMobs.get(entity);
-
-		// remove if charm is expired
-		if (charmedMob.isCharmExpired())
-			remove(entity);
+	public boolean contains(String id) {
+		return charmedMobs.containsKey(id);
 	}
-
+		
 	@Override
 	public boolean contains(MobEntity entity) {
-		return charmedMobs.containsKey(entity);
+		int id = entity.getEntityId();
+		String idAsString = Integer.toString(id);
+		return charmedMobs.containsKey(idAsString);
 	}
 
 	@Override

@@ -16,7 +16,7 @@ public class DefaultParticleRenderingRepository implements ParticleRenderingRepo
 
 	/**
 	 * Consumer to support callback when {@linkplain DurationRepository} expires a
-	 * {@linkplain ParticleRendering} add by this repository.
+	 * {@linkplain ParticleRendering} added by this repository.
 	 * 
 	 * When invoked by the {@linkplain DurationRepository} the expired element will
 	 * be removed from this repository as well.

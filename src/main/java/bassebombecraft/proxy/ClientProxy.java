@@ -12,6 +12,7 @@ import javax.naming.OperationNotSupportedException;
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.config.VersionUtils;
+import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.duration.DefaultDurationRepository;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.frequency.DefaultFrequencyRepository;
@@ -184,4 +185,9 @@ public class ClientProxy implements Proxy {
 		return particleRepository;
 	}
 
+	@Override
+	public CharmedMobsRepository getCharmedMobsRepository() throws OperationNotSupportedException {
+		throw new OperationNotSupportedException("Only invoke this method server side.");
+	}
+	
 }

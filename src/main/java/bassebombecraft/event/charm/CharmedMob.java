@@ -5,9 +5,9 @@ import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.entity.ai.AiUtils.captureGoals;
 
 import java.util.Set;
+import java.util.function.Consumer;
 
 import bassebombecraft.event.duration.DurationRepository;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
 
@@ -42,13 +42,24 @@ public class CharmedMob {
 	final MobEntity entity;
 
 	/**
+	 * Consumer to support callback when {@linkplain DurationRepository} expires a
+	 * {@linkplain CharmedMob} added by {@linkplain CharmedMobsRepository}.
+	 * 
+	 * When invoked by the {@linkplain DurationRepository} the expired element will
+	 * be removed from the {@linkplain CharmedMobsRepository} as well.
+	 */
+	Consumer<String> cRemovalCallback;
+	
+	/**
 	 * CharmedMob constructor.
 	 * 
 	 * @param entity   charmed mob.
 	 * @param duration duration of charm in measured in ticks.
-	 * 
+	 * @param cRemovalCallback removal callback function invoked by
+	 *                         {@linkplain DurationRepository} when mob is
+	 *                         uncharmed.
 	 */
-	CharmedMob(MobEntity entity, int duration) {
+	CharmedMob(MobEntity entity, int duration, Consumer<String> cRemovalCallback) {
 		this.entity = entity;
 		goals = captureGoals(entity.goalSelector);
 		targetGoals = captureGoals(entity.targetSelector);
@@ -56,8 +67,8 @@ public class CharmedMob {
 		try {
 			// register charmed mob
 			DurationRepository repository = getProxy().getDurationRepository();
-			id = entity.getName().getUnformattedComponentText();
-			repository.add(id, duration);
+			id = Integer.toString(entity.getEntityId());
+			repository.add(id, duration, cRemovalCallback);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -72,21 +83,8 @@ public class CharmedMob {
 		return targetGoals;
 	}
 
-	public LivingEntity getEntity() {
+	public MobEntity getEntity() {
 		return entity;
-	}
-
-	public boolean isCharmExpired() {
-		try {
-			DurationRepository repository = getProxy().getDurationRepository();
-			return repository.isExpired(id);
-
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
-
-			// return charm is expired
-			return true;
-		}
 	}
 
 	public int getDuration() {
@@ -110,12 +108,14 @@ public class CharmedMob {
 	/**
 	 * CharmedMob factory method.
 	 * 
-	 * @param entity   charmed mob.
-	 * @param duration duration of charm in measured in ticks.
-	 * 
+	 * @param entity           charmed mob.
+	 * @param duration         duration of charm in measured in ticks.
+	 * @param cRemovalCallback removal callback function invoked by
+	 *                         {@linkplain DurationRepository} when mob is
+	 *                         uncharmed.
 	 */
-	public static CharmedMob getInstance(MobEntity entity, int duration) {
-		return new CharmedMob(entity, duration);
+	public static CharmedMob getInstance(MobEntity entity, int duration, Consumer<String> cRemovalCallback) {
+		return new CharmedMob(entity, duration, cRemovalCallback);
 	}
 
 }

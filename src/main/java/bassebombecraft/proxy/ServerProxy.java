@@ -10,6 +10,8 @@ import javax.naming.OperationNotSupportedException;
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.config.VersionUtils;
+import bassebombecraft.event.charm.CharmedMobsRepository;
+import bassebombecraft.event.charm.DefaultCharmedMobsRepository;
 import bassebombecraft.event.duration.DefaultDurationRepository;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.frequency.DefaultFrequencyRepository;
@@ -36,6 +38,11 @@ public class ServerProxy implements Proxy {
 	DurationRepository durationRepository;
 
 	/**
+	 * Charmed Mob repository
+	 */
+	CharmedMobsRepository charmedMobsRepository;
+	
+	/**
 	 * Network channel.
 	 */
 	NetworkChannelHelper networkHelper;
@@ -51,6 +58,9 @@ public class ServerProxy implements Proxy {
 		// initialise duration repository
 		durationRepository = DefaultDurationRepository.getInstance();
 
+		// Initialise charmed mobs repository
+		charmedMobsRepository = DefaultCharmedMobsRepository.getInstance();
+		
 		// initialize network
 		networkHelper = new NetworkChannelHelper();
 	}
@@ -166,4 +176,9 @@ public class ServerProxy implements Proxy {
 		throw new OperationNotSupportedException("Only invoke this method client side.");
 	}
 
+	@Override
+	public CharmedMobsRepository getCharmedMobsRepository() throws OperationNotSupportedException {
+		return charmedMobsRepository;
+	}
+	
 }

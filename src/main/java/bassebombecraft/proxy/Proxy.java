@@ -2,6 +2,7 @@ package bassebombecraft.proxy;
 
 import javax.naming.OperationNotSupportedException;
 
+import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
@@ -107,7 +108,7 @@ public interface Proxy {
 	public DurationRepository getDurationRepository() throws OperationNotSupportedException;
 
 	/**
-	 * Particle rendering repository.
+	 * Get particle rendering repository.
 	 * 
 	 * This repository is available only on the CLIENT side. That is, only the
 	 * client side proxy implementation support this method.
@@ -118,4 +119,16 @@ public interface Proxy {
 	 */
 	public ParticleRenderingRepository getParticleRenderingRepository() throws OperationNotSupportedException;
 
+	/**
+	 * Get charmed mobs repository.
+	 * 
+	 * This repository is available only on the SERVER side. That is, only the
+	 * server side proxy implementation support this method.
+	 * 
+	 * @return charmed mobs repository.
+	 * 
+	 * @throws OperationNotSupportedException if invoked on server side.
+	 */
+	public CharmedMobsRepository getCharmedMobsRepository() throws OperationNotSupportedException; 
+	
 }

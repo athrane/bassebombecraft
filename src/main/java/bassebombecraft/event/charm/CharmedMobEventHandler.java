@@ -8,7 +8,6 @@ import static bassebombecraft.event.particle.DefaultParticleRendering.getInstanc
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 
-import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.network.NetworkChannelHelper;
@@ -53,24 +52,20 @@ public class CharmedMobEventHandler {
 			if (isWorldAtClientSide(event.getEntityLiving().world))
 				return;
 
-			// type cast
+			// exit if frequency isn't active
+			if (!getProxy().getFrequencyRepository().isActive(CHARM_PARTICLE_RENDERING_FREQUENCY))
+				return;
+
+			// exit if entity isn't a mob (since only they can be charmed)
 			if (!isTypeMobEntity(event.getEntityLiving()))
 				return;
+
+			// type cast
 			MobEntity entity = (MobEntity) event.getEntityLiving();
 
-			// get repositories
-			CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
-			FrequencyRepository frequencyRepository = getProxy().getFrequencyRepository();
-
 			// exit if entity isn't charmed
+			CharmedMobsRepository repository = getProxy().getCharmedMobsRepository();
 			if (!repository.contains(entity))
-				return;
-
-			// update charm
-			repository.update(entity);
-
-			// exit if frequency isn't active
-			if (!frequencyRepository.isActive(CHARM_PARTICLE_RENDERING_FREQUENCY))
 				return;
 
 			// send particle rendering info to client
@@ -81,7 +76,6 @@ public class CharmedMobEventHandler {
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
-
 	}
 
 	@SubscribeEvent
@@ -95,13 +89,11 @@ public class CharmedMobEventHandler {
 			// type cast
 			if (!isTypeMobEntity(event.getEntityLiving()))
 				return;
+
 			MobEntity entity = (MobEntity) event.getEntityLiving();
 
-			// get repository
-			CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
-
 			// remove
-			repository.remove(entity);
+			getProxy().getCharmedMobsRepository().remove(entity);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

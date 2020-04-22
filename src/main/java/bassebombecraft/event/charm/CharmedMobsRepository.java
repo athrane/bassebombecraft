@@ -2,11 +2,15 @@ package bassebombecraft.event.charm;
 
 import java.util.Collection;
 
+import bassebombecraft.proxy.Proxy;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 
 /**
  * Interface for repository for handling charmed mobs.
+ * 
+ * The repository is used at both SERVER side. Access to the repository is
+ * supported via sided proxy, i.e.{@linkplain Proxy}.
  */
 public interface CharmedMobsRepository {
 
@@ -21,23 +25,25 @@ public interface CharmedMobsRepository {
 	/**
 	 * Remove mob.
 	 * 
-	 * @param entity mob which is removed.
+	 * @param id ID of entity which is removed. The ID is read from
+	 *           {@linkplain Entity.getEntityId()}.
 	 */
-	public void remove(MobEntity entity);
-
-	/**
-	 * Update registered charmed mobs.
-	 * 
-	 * If duration is expired then charmed mob is removed.
-	 * 
-	 * @param entity mob which is charmed.
-	 */
-	public void update(MobEntity entity);
+	public void remove(String id);
 
 	/**
 	 * Returns true if mob is already charmed.
 	 * 
-	 * @param entity mob to query.
+	 * @param id ID of entity to query for. The ID is read from
+	 *           {@linkplain Entity.getEntityId()}.
+	 * @return true if mob is already charmed.
+	 */
+	public boolean contains(String id);
+
+	/**
+	 * Returns true if mob is already charmed.
+	 * 
+	 * @param entity entity to query for.
+	 * 
 	 * @return true if mob is already charmed.
 	 */
 	public boolean contains(MobEntity entity);
