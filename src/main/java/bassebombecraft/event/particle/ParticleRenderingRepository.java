@@ -33,9 +33,4 @@ public interface ParticleRenderingRepository {
 	 */
 	Stream<ParticleRendering> get();
 
-	/**
-	 * Clear particles.
-	 */
-	public void clear();
-
 }

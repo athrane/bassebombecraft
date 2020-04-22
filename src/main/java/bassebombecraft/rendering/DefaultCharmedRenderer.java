@@ -7,7 +7,7 @@ import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 import static bassebombecraft.rendering.RenderingUtils.renderTextBillboard;
 import static bassebombecraft.rendering.RenderingUtils.renderTriangleBillboard;
 
-import java.util.Collection;
+import java.util.stream.Stream;
 
 import bassebombecraft.event.charm.CharmedMob;
 import bassebombecraft.event.charm.CharmedMobsRepository;
@@ -52,13 +52,12 @@ public class DefaultCharmedRenderer implements EntityRenderer {
 
 		// get charmed entities
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
-		Collection<CharmedMob> entities = repository.get();
+		Stream<CharmedMob> charmedMobs = repository.get();
 
-		// loop over charmed mob
-		synchronized (entities) {
-			for (CharmedMob charmedMob : entities)
-				renderTeamEntity(charmedMob, playerPos, info);
-		}
+		// loop over charmed mobs
+		charmedMobs.forEach(c -> {
+			renderTeamEntity(c, playerPos, info);
+		});
 	}
 
 	/**

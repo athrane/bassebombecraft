@@ -64,21 +64,6 @@ public class DefaultParticleRenderingRepository implements ParticleRenderingRepo
 		return particles.values().stream();
 	}
 
-	@Override
-	public void clear() {
-		try {
-			// remove durations
-			DurationRepository repository = getProxy().getDurationRepository();
-			particles.forEachKey(10, k -> repository.remove(k));
-
-			// remove particles
-			particles.clear();
-
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
-		}
-	}
-
 	/**
 	 * Factory method.
 	 * 

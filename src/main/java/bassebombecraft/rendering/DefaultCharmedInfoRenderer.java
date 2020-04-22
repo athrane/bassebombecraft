@@ -8,6 +8,7 @@ import static bassebombecraft.rendering.RenderingUtils.renderHudTextBillboard;
 
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 import bassebombecraft.event.charm.CharmedMob;
 import bassebombecraft.event.charm.CharmedMobsRepository;
@@ -47,8 +48,8 @@ public class DefaultCharmedInfoRenderer implements EntityRenderer {
 
 		// get charmed entities
 		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
-		Collection<CharmedMob> charmedMobs = repository.get();
-		int charmedSize = charmedMobs.size();
+		Stream<CharmedMob> charmedMobs = repository.get();
+		int charmedSize = repository.size();
 
 		// render basic info
 		Vec3d textTranslation = new Vec3d(5, 1, 4);

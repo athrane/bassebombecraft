@@ -56,7 +56,7 @@ public interface CharmedMobsRepository {
 	public boolean contains(MobEntity entity);
 
 	/**
-	 * Get charmed mobs. Iteration must be take place in synchronized section.
+	 * Get charmed mobs. 
 	 * 
 	 * @return stream of charmed mobs..
 	 */
