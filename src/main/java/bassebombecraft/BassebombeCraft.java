@@ -13,8 +13,6 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.Consumer;
 
-import javax.naming.OperationNotSupportedException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -169,7 +167,7 @@ public class BassebombeCraft {
 
 	@SubscribeEvent
 	void serverStarted(FMLServerStartedEvent event) {
-		proxy.startAnalyticsSession();		
+		proxy.startAnalyticsSession();
 	}
 
 	@SubscribeEvent
@@ -296,7 +294,7 @@ public class BassebombeCraft {
 	public String getUser() {
 		try {
 			return proxy.getUser();
-		} catch (OperationNotSupportedException e) {
+		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 			throw new RuntimeException(e);
 		}

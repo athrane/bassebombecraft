@@ -7,12 +7,11 @@ import static bassebombecraft.config.VersionUtils.startSession;
 import static bassebombecraft.player.PlayerUtils.getClientSidePlayerUId;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
-import javax.naming.OperationNotSupportedException;
-
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.config.VersionUtils;
 import bassebombecraft.event.charm.CharmedMobsRepository;
+import bassebombecraft.event.charm.ClientSideCharmedMobsRepository;
 import bassebombecraft.event.duration.DefaultDurationRepository;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.frequency.DefaultFrequencyRepository;
@@ -50,11 +49,16 @@ public class ClientProxy implements Proxy {
 	 * Duration repository.
 	 */
 	DurationRepository durationRepository;
-	
+
 	/**
 	 * Particle rendering repository.
 	 */
 	ParticleRenderingRepository particleRepository;
+
+	/**
+	 * Charmed Mob repository
+	 */
+	CharmedMobsRepository charmedMobsRepository;
 
 	/**
 	 * Constructor
@@ -66,9 +70,12 @@ public class ClientProxy implements Proxy {
 
 		// initialise duration repository
 		durationRepository = DefaultDurationRepository.getInstance();
-		
+
 		// Initialise particle rendering repository
 		particleRepository = DefaultParticleRenderingRepository.getInstance();
+
+		// Initialise charmed mobs repository
+		charmedMobsRepository = ClientSideCharmedMobsRepository.getInstance();
 	}
 
 	@Override
@@ -121,9 +128,9 @@ public class ClientProxy implements Proxy {
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
 			logger.error("Posting error:" + msg + " failed with: " + ex.getMessage());
-		}		
+		}
 	}
-	
+
 	@Override
 	public void postAiObservation(String type, String observation) {
 		try {
@@ -140,7 +147,7 @@ public class ClientProxy implements Proxy {
 	}
 
 	@Override
-	public void setupClientSideRendering() throws OperationNotSupportedException {
+	public void setupClientSideRendering() throws UnsupportedOperationException {
 		// register debug renderer classes
 		// EVENT_BUS.addListener(DebugRenderer_MobLines::render);
 		// EVENT_BUS.addListener(DebugRenderer_EntityText_v3::render);
@@ -166,28 +173,28 @@ public class ClientProxy implements Proxy {
 	}
 
 	@Override
-	public NetworkChannelHelper getNetworkChannel() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException("Only invoke this method server side.");
+	public NetworkChannelHelper getNetworkChannel() throws UnsupportedOperationException {
+		throw new UnsupportedOperationException("Operation not supported at client side.");
 	}
 
 	@Override
-	public FrequencyRepository getFrequencyRepository() throws OperationNotSupportedException {
+	public FrequencyRepository getFrequencyRepository() throws UnsupportedOperationException {
 		return frequencyRepository;
 	}
 
 	@Override
-	public DurationRepository getDurationRepository() throws OperationNotSupportedException {
+	public DurationRepository getDurationRepository() throws UnsupportedOperationException {
 		return durationRepository;
 	}
 
 	@Override
-	public ParticleRenderingRepository getParticleRenderingRepository() throws OperationNotSupportedException {
+	public ParticleRenderingRepository getParticleRenderingRepository() throws UnsupportedOperationException {
 		return particleRepository;
 	}
 
 	@Override
-	public CharmedMobsRepository getCharmedMobsRepository() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException("Only invoke this method server side.");
+	public CharmedMobsRepository getCharmedMobsRepository() throws UnsupportedOperationException {
+		return charmedMobsRepository;
 	}
-	
+
 }

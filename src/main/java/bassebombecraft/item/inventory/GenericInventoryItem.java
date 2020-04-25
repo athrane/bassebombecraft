@@ -15,7 +15,6 @@ import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
 import java.util.List;
 
 import javax.annotation.Nullable;
-import javax.naming.OperationNotSupportedException;
 
 import bassebombecraft.config.InventoryItemConfig;
 import bassebombecraft.event.particle.ParticleRendering;
@@ -207,12 +206,12 @@ public class GenericInventoryItem extends Item {
 
 			// iterate over rendering info's
 			for (ParticleRenderingInfo info : getRenderingInfos()) {
-				
-				// send particle rendering info to client				
+
+				// send particle rendering info to client
 				ParticleRendering particle = getInstance(pos, info);
 				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 			}
-		} catch (OperationNotSupportedException e) {
+		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
 	}

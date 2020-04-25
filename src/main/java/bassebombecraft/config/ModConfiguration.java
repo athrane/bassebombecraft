@@ -32,7 +32,7 @@ import com.electronwill.nightconfig.core.io.WritingMode;
 import bassebombecraft.entity.commander.command.AttackNearestMobCommand;
 import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
 import bassebombecraft.entity.commander.command.DanceCommand;
-import bassebombecraft.event.charm.DefaultCharmedMobsRepository;
+import bassebombecraft.event.charm.ServerSideCharmedMobsRepository;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
@@ -548,7 +548,7 @@ public class ModConfiguration {
 	static void setupGeneralConfig() {
 
 		// DefaultCharmedMobsRepository
-		String name = DefaultCharmedMobsRepository.NAME;
+		String name = ServerSideCharmedMobsRepository.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		charmDuration = COMMON_BUILDER.comment("Charm duration (in game ticks).").defineInRange("charmDuration", 10, 0,
 				Integer.MAX_VALUE);

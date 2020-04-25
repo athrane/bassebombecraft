@@ -5,12 +5,14 @@ import static bassebombecraft.ModConstants.MODID;
 import static net.minecraftforge.fml.network.NetworkRegistry.newSimpleChannel;
 
 import bassebombecraft.event.particle.ParticleRendering;
+import bassebombecraft.network.packet.AddCharm;
 import bassebombecraft.network.packet.AddEffect;
 import bassebombecraft.network.packet.AddParticleRendering;
 import bassebombecraft.network.packet.RemoveEffect;
 import bassebombecraft.network.packet.RemoveParticleRendering;
 import bassebombecraft.proxy.Proxy;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
@@ -114,6 +116,21 @@ public class NetworkChannelHelper {
 	public void sendRemoveParticleRenderingPacket(ParticleRendering rendering) {
 		try {
 			channel.send(PacketDistributor.ALL.noArg(), new RemoveParticleRendering(rendering));
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
+	}
+
+	/**
+	 * Send {@linkplain AddCharm} network packet from server to client.
+	 * 
+	 * Charm is removed at client side by duration repository.
+	 * 
+	 * @param entity charmed mob.
+	 */
+	public void sendAddCharmPacket(MobEntity entity) {
+		try {
+			channel.send(PacketDistributor.ALL.noArg(), new AddCharm(entity));
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}

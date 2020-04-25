@@ -1,8 +1,8 @@
 package bassebombecraft.proxy;
 
-import javax.naming.OperationNotSupportedException;
-
 import bassebombecraft.event.charm.CharmedMobsRepository;
+import bassebombecraft.event.charm.ClientSideCharmedMobsRepository;
+import bassebombecraft.event.charm.ServerSideCharmedMobsRepository;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
@@ -46,7 +46,7 @@ public interface Proxy {
 	 * @param msg error to report
 	 */
 	public void postError(String msg);
-	
+
 	/**
 	 * Post AI observation .
 	 * 
@@ -60,29 +60,29 @@ public interface Proxy {
 	 * 
 	 * @return mod user.
 	 * 
-	 * @throws OperationNotSupportedException if operation isn't supported.
+	 * @throws UnsupportedOperationException if operation isn't supported.
 	 */
-	public String getUser() throws OperationNotSupportedException;
+	public String getUser() throws UnsupportedOperationException;
 
 	/**
 	 * Setup client side rendering.
 	 * 
-	 * @throws OperationNotSupportedException if operation isn't supported.
+	 * @throws UnsupportedOperationException if operation isn't supported.
 	 */
-	public void setupClientSideRendering() throws OperationNotSupportedException;
+	public void setupClientSideRendering() throws UnsupportedOperationException;
 
 	/**
 	 * Get networking channel helper.
 	 * 
-	 * This helper is available only on the SERVER side. That is, only the
-	 * server side proxy implementation support this method.
+	 * This helper is available only on the SERVER side. That is, only the server
+	 * side proxy implementation support this method.
 	 * 
 	 * @return network channel helper
 	 * 
-	 * @throws OperationNotSupportedException if invoked on client side.
+	 * @throws UnsupportedOperationException if invoked on client side.
 	 */
-	public NetworkChannelHelper getNetworkChannel() throws OperationNotSupportedException;
-	
+	public NetworkChannelHelper getNetworkChannel() throws UnsupportedOperationException;
+
 	/**
 	 * Get frequency repository.
 	 * 
@@ -91,9 +91,9 @@ public interface Proxy {
 	 * 
 	 * @return frequency repository
 	 * 
-	 * @throws OperationNotSupportedException this exception is never thrown.
+	 * @throws UnsupportedOperationException this exception is never thrown.
 	 */
-	public FrequencyRepository getFrequencyRepository() throws OperationNotSupportedException;
+	public FrequencyRepository getFrequencyRepository() throws UnsupportedOperationException;
 
 	/**
 	 * Get duration repository.
@@ -103,9 +103,9 @@ public interface Proxy {
 	 * 
 	 * @return duration repository
 	 * 
-	 * @throws OperationNotSupportedException if invoked on client side.
+	 * @throws UnsupportedOperationException if invoked on client side.
 	 */
-	public DurationRepository getDurationRepository() throws OperationNotSupportedException;
+	public DurationRepository getDurationRepository() throws UnsupportedOperationException;
 
 	/**
 	 * Get particle rendering repository.
@@ -115,20 +115,23 @@ public interface Proxy {
 	 * 
 	 * @return particle rendering repository.
 	 * 
-	 * @throws OperationNotSupportedException if invoked on server side.
+	 * @throws UnsupportedOperationException if invoked on server side.
 	 */
-	public ParticleRenderingRepository getParticleRenderingRepository() throws OperationNotSupportedException;
+	public ParticleRenderingRepository getParticleRenderingRepository() throws UnsupportedOperationException;
 
 	/**
 	 * Get charmed mobs repository.
 	 * 
-	 * This repository is available only on the SERVER side. That is, only the
-	 * server side proxy implementation support this method.
+	 * This repository is available on both CLIENT and SERVER side. That is, both
+	 * proxy implementations support this method. Each proxy will return a different
+	 * implementation. The client side proxy will return
+	 * {@linkplain ClientSideCharmedMobsRepository} and the server side proxy will
+	 * return {@linkplain ServerSideCharmedMobsRepository}.
 	 * 
 	 * @return charmed mobs repository.
 	 * 
-	 * @throws OperationNotSupportedException if invoked on server side.
+	 * @throws UnsupportedOperationException this exception is never thrown.
 	 */
-	public CharmedMobsRepository getCharmedMobsRepository() throws OperationNotSupportedException; 
-	
+	public CharmedMobsRepository getCharmedMobsRepository() throws UnsupportedOperationException;
+
 }

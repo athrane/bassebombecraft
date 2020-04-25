@@ -5,13 +5,11 @@ import static bassebombecraft.config.VersionUtils.endServerSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startServerSession;
 
-import javax.naming.OperationNotSupportedException;
-
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.config.VersionUtils;
 import bassebombecraft.event.charm.CharmedMobsRepository;
-import bassebombecraft.event.charm.DefaultCharmedMobsRepository;
+import bassebombecraft.event.charm.ServerSideCharmedMobsRepository;
 import bassebombecraft.event.duration.DefaultDurationRepository;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.frequency.DefaultFrequencyRepository;
@@ -41,7 +39,7 @@ public class ServerProxy implements Proxy {
 	 * Charmed Mob repository
 	 */
 	CharmedMobsRepository charmedMobsRepository;
-	
+
 	/**
 	 * Network channel.
 	 */
@@ -59,8 +57,8 @@ public class ServerProxy implements Proxy {
 		durationRepository = DefaultDurationRepository.getInstance();
 
 		// Initialise charmed mobs repository
-		charmedMobsRepository = DefaultCharmedMobsRepository.getInstance();
-		
+		charmedMobsRepository = ServerSideCharmedMobsRepository.getInstance();
+
 		// initialize network
 		networkHelper = new NetworkChannelHelper();
 	}
@@ -125,7 +123,7 @@ public class ServerProxy implements Proxy {
 			logger.error("Posting exception:" + e.getMessage() + " failed with: " + ex.getMessage());
 		}
 	}
-	
+
 	@Override
 	public void postError(String msg) {
 		try {
@@ -133,7 +131,7 @@ public class ServerProxy implements Proxy {
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
 			logger.error("Posting error:" + msg + " failed with: " + ex.getMessage());
-		}		
+		}
 	}
 
 	@Override
@@ -147,38 +145,38 @@ public class ServerProxy implements Proxy {
 	}
 
 	@Override
-	public String getUser() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException("Only invoke this method client side.");
+	public String getUser() throws UnsupportedOperationException {
+		throw new UnsupportedOperationException("Operation not supported at serverside.");
 	}
 
 	@Override
-	public void setupClientSideRendering() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException("Only invoke this method client side.");
+	public void setupClientSideRendering() throws UnsupportedOperationException {
+		throw new UnsupportedOperationException("Operation not supported at serverside.");
 	}
 
 	@Override
-	public NetworkChannelHelper getNetworkChannel() throws OperationNotSupportedException {
+	public NetworkChannelHelper getNetworkChannel() throws UnsupportedOperationException {
 		return networkHelper;
 	}
 
 	@Override
-	public FrequencyRepository getFrequencyRepository() throws OperationNotSupportedException {
+	public FrequencyRepository getFrequencyRepository() throws UnsupportedOperationException {
 		return frequencyRepository;
 	}
 
 	@Override
-	public DurationRepository getDurationRepository() throws OperationNotSupportedException {
+	public DurationRepository getDurationRepository() throws UnsupportedOperationException {
 		return durationRepository;
 	}
 
 	@Override
-	public ParticleRenderingRepository getParticleRenderingRepository() throws OperationNotSupportedException {
-		throw new OperationNotSupportedException("Only invoke this method client side.");
+	public ParticleRenderingRepository getParticleRenderingRepository() throws UnsupportedOperationException {
+		throw new UnsupportedOperationException("Operation not supported at serverside.");
 	}
 
 	@Override
-	public CharmedMobsRepository getCharmedMobsRepository() throws OperationNotSupportedException {
+	public CharmedMobsRepository getCharmedMobsRepository() throws UnsupportedOperationException {
 		return charmedMobsRepository;
 	}
-	
+
 }

@@ -1,6 +1,6 @@
 package bassebombecraft.rendering;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModClientConstants.ICON_BILLBOARD_ROTATION;
 import static bassebombecraft.ModClientConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
@@ -51,7 +51,7 @@ public class DefaultCharmedRenderer implements EntityRenderer {
 		Vec3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
 
 		// get charmed entities
-		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
+		CharmedMobsRepository repository = getProxy().getCharmedMobsRepository();
 		Stream<CharmedMob> charmedMobs = repository.get();
 
 		// loop over charmed mobs

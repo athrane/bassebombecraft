@@ -9,8 +9,13 @@ import net.minecraft.entity.MobEntity;
 /**
  * Interface for repository for handling charmed mobs.
  * 
- * The repository is used at both SERVER side. Access to the repository is
- * supported via sided proxy, i.e.{@linkplain Proxy}.
+ * The repository is used at both SERVER and CLIENT side. Access to the
+ * repository is supported via sided proxy, i.e.{@linkplain Proxy}.
+ * 
+ * The SERVER side implementation {@linkplain ServerSideCharmedMobsRepository} will
+ * implement the actual charm logic . The CLIENT side implementation
+ * {@linkplain ClientSideCharmedMobsRepository }will only implement logic to
+ * support rendering.
  */
 public interface CharmedMobsRepository {
 
@@ -56,7 +61,7 @@ public interface CharmedMobsRepository {
 	public boolean contains(MobEntity entity);
 
 	/**
-	 * Get charmed mobs. 
+	 * Get charmed mobs.
 	 * 
 	 * @return stream of charmed mobs..
 	 */

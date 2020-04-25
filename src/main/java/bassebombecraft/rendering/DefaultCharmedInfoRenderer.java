@@ -1,12 +1,11 @@
 package bassebombecraft.rendering;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.HUD_TEXT_DISP;
 import static bassebombecraft.ModConstants.TEAM_MEMBERS_TO_RENDER;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 import static bassebombecraft.rendering.RenderingUtils.renderHudTextBillboard;
 
-import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
@@ -47,7 +46,7 @@ public class DefaultCharmedInfoRenderer implements EntityRenderer {
 		Vec3d translation = playerPos.subtract(renderPos);
 
 		// get charmed entities
-		CharmedMobsRepository repository = getBassebombeCraft().getCharmedMobsRepository();
+		CharmedMobsRepository repository = getProxy().getCharmedMobsRepository();
 		Stream<CharmedMob> charmedMobs = repository.get();
 		int charmedSize = repository.size();
 
