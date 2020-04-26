@@ -6,7 +6,7 @@ import static bassebombecraft.ModConstants.CHARM_PARTICLE_RENDERING_FREQUENCY;
 import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
-import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
+import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
@@ -49,7 +49,7 @@ public class CharmedMobEventHandler {
 		try {
 
 			// exit if handler is executed at client side
-			if (isWorldAtClientSide(event.getEntityLiving().world))
+			if (isLogicalClient(event.getEntityLiving().getEntityWorld()))
 				return;
 
 			// exit if frequency isn't active
@@ -71,7 +71,7 @@ public class CharmedMobEventHandler {
 			// send particle rendering info to client
 			BlockPos pos = entity.getPosition();
 			ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
-			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+			getProxy().getNetworkChannel(entity.getEntityWorld()).sendAddParticleRenderingPacket(particle);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -83,7 +83,7 @@ public class CharmedMobEventHandler {
 		try {
 
 			// exit if handler is executed at client side
-			if (isWorldAtClientSide(event.getEntityLiving().world))
+			if (isLogicalClient(event.getEntityLiving().world))
 				return;
 
 			// type cast

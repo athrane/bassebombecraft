@@ -4,7 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
-import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
+import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
@@ -93,11 +93,8 @@ public class OperatorEggProjectile extends ProjectileItemEntity {
 	@Override
 	protected void onImpact(RayTraceResult result) {
 
-		// get world
-		World world = this.getEntityWorld();
-
 		// exit if on client side
-		if (isWorldAtClientSide(world))
+		if (isLogicalClient(getEntityWorld()))
 			return;
 
 		try {
@@ -106,7 +103,7 @@ public class OperatorEggProjectile extends ProjectileItemEntity {
 
 			// send particle rendering info to client
 			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
-			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+			getProxy().getNetworkChannel(getEntityWorld()).sendAddParticleRenderingPacket(particle);
 
 			// remove this projectile
 			remove();
@@ -122,7 +119,7 @@ public class OperatorEggProjectile extends ProjectileItemEntity {
 		try {
 			// send particle rendering info to client
 			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
-			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+			getProxy().getNetworkChannel(getEntityWorld()).sendAddParticleRenderingPacket(particle);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

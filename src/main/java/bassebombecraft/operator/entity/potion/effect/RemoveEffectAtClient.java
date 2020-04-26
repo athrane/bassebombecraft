@@ -48,7 +48,7 @@ public class RemoveEffectAtClient implements Operator {
 			LivingEntity entity = splEntity.get();
 
 			// sync effect to client
-			getProxy().getNetworkChannel().sendRemoveEffectPacket(entity, effect);
+			getProxy().getNetworkChannel(entity.getEntityWorld()).sendRemoveEffectPacket(entity, effect);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

@@ -9,8 +9,6 @@ import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
 
 import java.util.List;
 
-import javax.naming.OperationNotSupportedException;
-
 import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
@@ -220,7 +218,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 
 				// send particle rendering info to client
 				ParticleRendering particle = getInstance(pos, info);
-				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+				getProxy().getNetworkChannel(world).sendAddParticleRenderingPacket(particle);
 			}
 
 			// calculate spiral index
@@ -237,7 +235,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 
 				// send particle rendering info to client
 				ParticleRendering particle = getInstance(pos2, info);
-				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+				getProxy().getNetworkChannel(world).sendAddParticleRenderingPacket(particle);
 			}
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

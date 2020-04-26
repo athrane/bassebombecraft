@@ -44,7 +44,7 @@ public class AddEffectAtClient implements Operator {
 			EffectInstance effectInstance = splEffectInstance.get();
 
 			// sync effect to client
-			getProxy().getNetworkChannel().sendAddEffectPacket(entity, effectInstance);
+			getProxy().getNetworkChannel(entity.getEntityWorld()).sendAddEffectPacket(entity, effectInstance);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

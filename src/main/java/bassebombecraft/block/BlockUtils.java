@@ -2,7 +2,7 @@ package bassebombecraft.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.NULL_TILE_ENTITY;
-import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
+import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static net.minecraft.state.properties.BlockStateProperties.FACING;
 import static net.minecraft.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
@@ -60,7 +60,7 @@ public class BlockUtils {
 	public static void createBlock(BlockDirective blockDirective, WorldQuery worldQuery) {
 
 		// exit if handler is executed at client side
-		if (isWorldAtClientSide(worldQuery.getWorld()))
+		if (isLogicalClient(worldQuery.getWorld()))
 			return;
 
 		// get block
@@ -95,7 +95,7 @@ public class BlockUtils {
 	public static void createBlock(BlockDirective blockDirective, World world) {
 
 		// exit if handler is executed at client side
-		if (isWorldAtClientSide(world))
+		if (isLogicalClient(world))
 			return;
 
 		// get block

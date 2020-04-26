@@ -64,6 +64,7 @@ public class NetworkChannelHelper {
 				AddParticleRendering::new, AddParticleRendering::handle);
 		channel.registerMessage(msgIndex++, RemoveParticleRendering.class, RemoveParticleRendering::encode,
 				RemoveParticleRendering::new, RemoveParticleRendering::handle);
+		channel.registerMessage(msgIndex++, AddCharm.class, AddCharm::encode, AddCharm::new, AddCharm::handle);		
 	}
 
 	/**

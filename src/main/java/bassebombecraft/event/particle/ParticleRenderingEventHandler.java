@@ -3,7 +3,7 @@ package bassebombecraft.event.particle;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.PARTICLE_RENDERING_FREQUENCY;
-import static bassebombecraft.world.WorldUtils.isWorldAtServerSide;
+import static bassebombecraft.world.WorldUtils.isLogicalServer;
 
 import java.util.Random;
 import java.util.stream.Stream;
@@ -32,7 +32,7 @@ public class ParticleRenderingEventHandler {
 		try {
 
 			// exit if handler is executed at server side
-			if (isWorldAtServerSide(event.world))
+			if (isLogicalServer(event.world))
 				return;
 
 			// exit if particles shouldn't be rendered in this tick

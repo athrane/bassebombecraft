@@ -6,7 +6,7 @@ import static bassebombecraft.ModConstants.BLOCKS_PER_TICK;
 import static bassebombecraft.block.BlockUtils.createBlock;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
-import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
+import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
@@ -50,7 +50,7 @@ public class ProcessBlockDirectivesEventHandler {
 	public static void handleWorldTickEvent(WorldTickEvent event) throws Exception {
 
 		// exit if handler is executed at client side
-		if (isWorldAtClientSide(event.world))
+		if (isLogicalClient(event.world))
 			return;
 
 		// get repository
@@ -95,7 +95,7 @@ public class ProcessBlockDirectivesEventHandler {
 				// send particle for rendering to client
 				BlockPos pos = directive.getBlockPosition();
 				ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
-				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+				getProxy().getNetworkChannel(world).sendAddParticleRenderingPacket(particle);
 			}
 
 		} catch (Exception e) {

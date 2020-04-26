@@ -27,11 +27,13 @@ import bassebombecraft.event.rendering.TargetInfoRenderer;
 import bassebombecraft.event.rendering.TeamEnityRenderer;
 import bassebombecraft.event.rendering.TeamInfoRenderer;
 import bassebombecraft.network.NetworkChannelHelper;
+import bassebombecraft.world.WorldUtils;
+import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
 
 /**
- * Implementation of the {@linkplain Proxy} interface.
- * 
- * Forge client side proxy implementation.
+ * Implementation of the {@linkplain Proxy} interface for the physical client.
+ * Physical side is determined by {@linkplain Dist}.
  */
 public class ClientProxy implements Proxy {
 
@@ -61,6 +63,11 @@ public class ClientProxy implements Proxy {
 	CharmedMobsRepository charmedMobsRepository;
 
 	/**
+	 * Network helper.
+	 */
+	NetworkChannelHelper networkHelper;
+
+	/**
 	 * Constructor
 	 */
 	public ClientProxy() {
@@ -76,6 +83,9 @@ public class ClientProxy implements Proxy {
 
 		// Initialise charmed mobs repository
 		charmedMobsRepository = ClientSideCharmedMobsRepository.getInstance();
+
+		// initialize network
+		networkHelper = new NetworkChannelHelper();
 	}
 
 	@Override
@@ -173,8 +183,11 @@ public class ClientProxy implements Proxy {
 	}
 
 	@Override
-	public NetworkChannelHelper getNetworkChannel() throws UnsupportedOperationException {
-		throw new UnsupportedOperationException("Operation not supported at client side.");
+	public NetworkChannelHelper getNetworkChannel(World world) throws UnsupportedOperationException {
+		if (WorldUtils.isLogicalServer(world)) return networkHelper;
+
+		// throw exception if helper is used by physical client w/ logical client.		
+		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
 	}
 
 	@Override

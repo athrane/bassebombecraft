@@ -1,6 +1,6 @@
 package bassebombecraft.operator.conditional;
 
-import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
+import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import java.util.function.Supplier;
 
@@ -9,7 +9,7 @@ import net.minecraft.entity.LivingEntity;
 
 /**
  * Implementation of the {@linkplain Operator} interface which executes the
- * embedded operator if the embedded world is at server side.
+ * embedded operator if the embedded world is at logic server side.
  */
 public class IfWorldAtServerSide implements Operator {
 
@@ -40,8 +40,8 @@ public class IfWorldAtServerSide implements Operator {
 		// get entity
 		LivingEntity entity = splEntity.get();
 
-		// exit if handler is executed at client side
-		if (isWorldAtClientSide(entity))
+		// exit if handler is executed at logical client side
+		if (isLogicalClient(entity))
 			return;
 
 		operator.run();

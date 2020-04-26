@@ -7,11 +7,14 @@ import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.network.NetworkChannelHelper;
+import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
 
 /**
  * Interface for mod proxy.
  * 
- * Used to separate code that need to run server side and client side.
+ * Used to separate code that need to run either on the physical server or
+ * client. Physical side is determined by {@linkplain Dist}.
  */
 public interface Proxy {
 
@@ -74,19 +77,27 @@ public interface Proxy {
 	/**
 	 * Get networking channel helper.
 	 * 
-	 * This helper is available only on the SERVER side. That is, only the server
-	 * side proxy implementation support this method.
+	 * This helper is available in the logical SERVER side.
+	 * 
+	 * The server proxy implementation support this method to support the
+	 * configuration: physical server w/ logical server (dedicated server).
+	 * 
+	 * The client proxy implementation support this method to support the
+	 * configuration: physical client w/ logical server (integrated server).
+	 * 
+	 * @param world world for verification of legal configuration.
 	 * 
 	 * @return network channel helper
 	 * 
-	 * @throws UnsupportedOperationException if invoked on client side.
+	 * @throws UnsupportedOperationException if invoked in configuration: physical
+	 *                                       client w/ logical client.
 	 */
-	public NetworkChannelHelper getNetworkChannel() throws UnsupportedOperationException;
+	public NetworkChannelHelper getNetworkChannel(World world) throws UnsupportedOperationException;
 
 	/**
-	 * Get frequency repository.
+	 * Get frequency repository. This repository is available on both CLIENT and
+	 * SERVER side. That is, both
 	 * 
-	 * This repository is available on both CLIENT and SERVER side. That is, both
 	 * proxy implementations support this method.
 	 * 
 	 * @return frequency repository

@@ -61,7 +61,7 @@ public class ServerSideCharmedMobsRepository implements CharmedMobsRepository {
 		charmedMobs.put(id, charmedMob);
 
 		// send charm info to client
-		getProxy().getNetworkChannel().sendAddCharmPacket(entity);
+		getProxy().getNetworkChannel(entity.getEntityWorld()).sendAddCharmPacket(entity);
 	}
 
 	@Override

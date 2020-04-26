@@ -25,7 +25,7 @@ public class TeamMembershipEventHandler {
 		TeamRepository repository = getBassebombeCraft().getTeamRepository();
 
 		// exit if handler is executed at client side
-		if(isWorldAtClientSide(event.getEntity())) return;
+		if(isLogicalClient(event.getEntity())) return;
 		
 		// remove living entity from team upon death
 		if (isTypeLivingEntity(event.getEntityLiving())) {
@@ -51,7 +51,7 @@ public class TeamMembershipEventHandler {
 	static public void handlePlayerLoggedInEvent(PlayerLoggedInEvent event) {
 
 		// exit if handler is executed at client side
-		if(isWorldAtClientSide(event.getEntity())) return;
+		if(isLogicalClient(event.getEntity())) return;
 		
 		// register team
 		TeamRepository repository = getBassebombeCraft().getTeamRepository();		
@@ -62,7 +62,7 @@ public class TeamMembershipEventHandler {
 	static public void handlePlayerLoggedOutEvent(PlayerLoggedOutEvent event) {
 
 		// exit if handler is executed at client side
-		if(isWorldAtClientSide(event.getEntity())) return;
+		if(isLogicalClient(event.getEntity())) return;
 
 		// disband team
 		TeamRepository repository = getBassebombeCraft().getTeamRepository();		

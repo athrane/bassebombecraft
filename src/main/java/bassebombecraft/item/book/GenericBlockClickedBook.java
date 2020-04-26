@@ -8,7 +8,7 @@ import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 import static bassebombecraft.config.ConfigUtils.resolveTooltip;
 import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
-import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
+import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import java.util.List;
 
@@ -85,7 +85,7 @@ public class GenericBlockClickedBook extends Item {
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
 		// exit if invoked at client side
-		if (isWorldAtClientSide(context.getWorld())) {
+		if (isLogicalClient(context.getWorld())) {
 			return super.onItemUse(context);
 		}
 

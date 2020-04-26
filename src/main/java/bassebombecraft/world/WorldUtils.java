@@ -16,47 +16,47 @@ import net.minecraft.world.server.ServerWorld;
 public class WorldUtils {
 
 	/**
-	 * Return true if world is a client side (i.e. remote).
+	 * Return true if world is at logical client side (i.e. remote).
 	 * 
 	 * @param world to test.
 	 * 
-	 * @return true if world is a client side (i.e. remote).
+	 * @return true if world is at logical client side (i.e. remote).
 	 */
-	public static boolean isWorldAtClientSide(World world) {
+	public static boolean isLogicalClient(World world) {
 		return world.isRemote;
 	}
 	
 	/**
-	 * Return true if world is a server side (i.e. not remote).
+	 * Return true if world is at logical server side (i.e. not remote).
 	 * 
 	 * @param world to test.
 	 * 
-	 * @return true if world is a server side (i.e. not remote).
+	 * @return true if world is at logical server side (i.e. not remote).
 	 */
-	public static boolean isWorldAtServerSide(World world) {
+	public static boolean isLogicalServer(World world) {
 		return (!world.isRemote);
 	}
 
 	/**
-	 * Return true if world is a client side (i.e. remote).
+	 * Return true if world is at logical client side (i.e. remote).
 	 * 
 	 * @param entity embedded world in entity is tested.
 	 * 
-	 * @return true if world is a client side (i.e. remote).
+	 * @return true if world is at logical client side (i.e. remote).
 	 */
-	public static boolean isWorldAtClientSide(Entity entity) {
-		return isWorldAtClientSide(entity.world);
+	public static boolean isLogicalClient(Entity entity) {
+		return isLogicalClient(entity.world);
 	}
 	
 	/**
-	 * Return true if world is a server side (i.e. not remote).
+	 * Return true if world is at logical server side (i.e. not remote).
 	 * 
 	 * @param entity embedded world in entity is tested.
 	 * 
-	 * @return true if world is a server side (i.e. not remote).
+	 * @return true if world is at logical server side (i.e. not remote).
 	 */
-	public static boolean isWorldAtServerSide(Entity entity) {
-		return isWorldAtServerSide(entity.world);
+	public static boolean isLogicalServer(Entity entity) {
+		return isLogicalServer(entity.world);
 	}
 	
 	/**

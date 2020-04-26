@@ -17,11 +17,12 @@ import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.network.NetworkChannelHelper;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
 
 /**
- * Implementation of the {@linkplain Proxy} interface.
- * 
- * Forge server side proxy implementation.
+ * Implementation of the {@linkplain Proxy} interface for the physical server.
+ * Physical side is determined by {@linkplain Dist}.
  */
 public class ServerProxy implements Proxy {
 
@@ -41,7 +42,7 @@ public class ServerProxy implements Proxy {
 	CharmedMobsRepository charmedMobsRepository;
 
 	/**
-	 * Network channel.
+	 * Network helper.
 	 */
 	NetworkChannelHelper networkHelper;
 
@@ -85,6 +86,7 @@ public class ServerProxy implements Proxy {
 					.append(";").append(server.getMOTD()).toString();
 
 			startServerSession(name);
+			
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
 			logger.error("Initiating usage session failed with: " + ex.getMessage());
@@ -155,7 +157,8 @@ public class ServerProxy implements Proxy {
 	}
 
 	@Override
-	public NetworkChannelHelper getNetworkChannel() throws UnsupportedOperationException {
+	public NetworkChannelHelper getNetworkChannel(World world) throws UnsupportedOperationException {
+		// NB: World isn't used by server proxy.
 		return networkHelper;
 	}
 
