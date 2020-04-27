@@ -1,10 +1,10 @@
 package bassebombecraft.network.packet;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 
 import java.util.function.Supplier;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.charm.ClientSideCharmedMobsRepository;
 import net.minecraft.client.Minecraft;
@@ -77,7 +77,7 @@ public class AddCharm {
 				MobEntity mobEntity = (MobEntity) entity;
 
 				// register
-				CharmedMobsRepository repository = BassebombeCraft.getProxy().getCharmedMobsRepository();
+				CharmedMobsRepository repository = getProxy().getCharmedMobsRepository(mobEntity.getEntityWorld());
 				repository.add(mobEntity, null);
 			});
 

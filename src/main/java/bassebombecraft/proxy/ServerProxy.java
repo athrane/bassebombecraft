@@ -148,12 +148,12 @@ public class ServerProxy implements Proxy {
 
 	@Override
 	public String getUser() throws UnsupportedOperationException {
-		throw new UnsupportedOperationException("Operation not supported at serverside.");
+		throw new UnsupportedOperationException("Operation not supported by physical client.");
 	}
 
 	@Override
 	public void setupClientSideRendering() throws UnsupportedOperationException {
-		throw new UnsupportedOperationException("Operation not supported at serverside.");
+		throw new UnsupportedOperationException("Operation not supported by physical client.");
 	}
 
 	@Override
@@ -174,11 +174,12 @@ public class ServerProxy implements Proxy {
 
 	@Override
 	public ParticleRenderingRepository getParticleRenderingRepository() throws UnsupportedOperationException {
-		throw new UnsupportedOperationException("Operation not supported at serverside.");
+		throw new UnsupportedOperationException("Operation not supported by physical client.");
 	}
 
 	@Override
-	public CharmedMobsRepository getCharmedMobsRepository() throws UnsupportedOperationException {
+	public CharmedMobsRepository getCharmedMobsRepository(World world) throws UnsupportedOperationException {
+		// NB: World isn't used by server proxy.		
 		return charmedMobsRepository;
 	}
 

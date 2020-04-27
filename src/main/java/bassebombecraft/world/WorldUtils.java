@@ -23,7 +23,7 @@ public class WorldUtils {
 	 * @return true if world is at logical client side (i.e. remote).
 	 */
 	public static boolean isLogicalClient(World world) {
-		return world.isRemote;
+		return world.isRemote();
 	}
 	
 	/**
@@ -34,7 +34,7 @@ public class WorldUtils {
 	 * @return true if world is at logical server side (i.e. not remote).
 	 */
 	public static boolean isLogicalServer(World world) {
-		return (!world.isRemote);
+		return (!world.isRemote());
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class WorldUtils {
 	 * @return true if world is at logical client side (i.e. remote).
 	 */
 	public static boolean isLogicalClient(Entity entity) {
-		return isLogicalClient(entity.world);
+		return isLogicalClient(entity.getEntityWorld());
 	}
 	
 	/**
@@ -56,7 +56,7 @@ public class WorldUtils {
 	 * @return true if world is at logical server side (i.e. not remote).
 	 */
 	public static boolean isLogicalServer(Entity entity) {
-		return isLogicalServer(entity.world);
+		return isLogicalServer(entity.getEntityWorld());
 	}
 	
 	/**

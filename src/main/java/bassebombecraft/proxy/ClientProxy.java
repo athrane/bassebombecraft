@@ -5,6 +5,8 @@ import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startSession;
 import static bassebombecraft.player.PlayerUtils.getClientSidePlayerUId;
+import static bassebombecraft.world.WorldUtils.isLogicalClient;
+import static bassebombecraft.world.WorldUtils.isLogicalServer;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 import org.apache.logging.log4j.Logger;
@@ -12,6 +14,7 @@ import org.apache.logging.log4j.Logger;
 import bassebombecraft.config.VersionUtils;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.charm.ClientSideCharmedMobsRepository;
+import bassebombecraft.event.charm.ServerSideCharmedMobsRepository;
 import bassebombecraft.event.duration.DefaultDurationRepository;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.frequency.DefaultFrequencyRepository;
@@ -27,7 +30,6 @@ import bassebombecraft.event.rendering.TargetInfoRenderer;
 import bassebombecraft.event.rendering.TeamEnityRenderer;
 import bassebombecraft.event.rendering.TeamInfoRenderer;
 import bassebombecraft.network.NetworkChannelHelper;
-import bassebombecraft.world.WorldUtils;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 
@@ -60,8 +62,13 @@ public class ClientProxy implements Proxy {
 	/**
 	 * Charmed Mob repository
 	 */
-	CharmedMobsRepository charmedMobsRepository;
+	CharmedMobsRepository clientSideCharmedMobsRepository;
 
+	/**
+	 * Charmed Mob repository
+	 */
+	CharmedMobsRepository serverSideCharmedMobsRepository;
+	
 	/**
 	 * Network helper.
 	 */
@@ -81,8 +88,9 @@ public class ClientProxy implements Proxy {
 		// Initialise particle rendering repository
 		particleRepository = DefaultParticleRenderingRepository.getInstance();
 
-		// Initialise charmed mobs repository
-		charmedMobsRepository = ClientSideCharmedMobsRepository.getInstance();
+		// Initialise charmed mobs repositories
+		clientSideCharmedMobsRepository = ClientSideCharmedMobsRepository.getInstance();
+		serverSideCharmedMobsRepository = ServerSideCharmedMobsRepository.getInstance();
 
 		// initialize network
 		networkHelper = new NetworkChannelHelper();
@@ -184,9 +192,10 @@ public class ClientProxy implements Proxy {
 
 	@Override
 	public NetworkChannelHelper getNetworkChannel(World world) throws UnsupportedOperationException {
-		if (WorldUtils.isLogicalServer(world)) return networkHelper;
+		if (isLogicalServer(world))
+			return networkHelper;
 
-		// throw exception if helper is used by physical client w/ logical client.		
+		// throw exception if helper is used by physical client w/ logical client.
 		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
 	}
 
@@ -206,8 +215,10 @@ public class ClientProxy implements Proxy {
 	}
 
 	@Override
-	public CharmedMobsRepository getCharmedMobsRepository() throws UnsupportedOperationException {
-		return charmedMobsRepository;
+	public CharmedMobsRepository getCharmedMobsRepository(World world) throws UnsupportedOperationException {
+		if (isLogicalClient(world))
+			return clientSideCharmedMobsRepository;
+		return serverSideCharmedMobsRepository;
 	}
 
 }
