@@ -47,17 +47,17 @@ public class ProcessBlockDirectivesEventHandler {
 	static final BlockPos NULL_POSITION = null; // NULL block position.
 
 	@SubscribeEvent
-	public static void handleWorldTickEvent(WorldTickEvent event) throws Exception {
+	public static void handleWorldTickEvent(WorldTickEvent event) {
 
 		// exit if handler is executed at client side
 		if (isLogicalClient(event.world))
 			return;
 
 		// get repository
-		BlockDirectivesRepository repository = getBassebombeCraft().getBlockDirectivesRepository();
+		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(event.world);
 
 		// exit if no directives are waiting to be processed.
-		if (!repository.containsDirectives())
+		if (repository.isEmpty())
 			return;
 
 		// process directives
@@ -70,19 +70,17 @@ public class ProcessBlockDirectivesEventHandler {
 	 * Process directive if an air directive is encountered then the directive is
 	 * skipped and another one is processed.
 	 * 
-	 * @param world
-	 * 
-	 * @throws Exception if processing fails.
+	 * @param world world object.
 	 */
-	static void processDirective(World world) throws Exception {
+	static void processDirective(World world) {
 		try {
 			// get repositories
-			BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
+			BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(world);
 
-			while (directivesRepository.containsDirectives()) {
+			while (!repository.isEmpty()) {
 
 				// get directive
-				BlockDirective directive = directivesRepository.getNext();
+				BlockDirective directive = repository.getNext();
 
 				// skip if source and target states are both air
 				BlockState currentState = world.getBlockState(directive.getBlockPosition());

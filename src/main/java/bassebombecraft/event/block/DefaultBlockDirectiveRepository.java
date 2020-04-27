@@ -26,7 +26,7 @@ public class DefaultBlockDirectiveRepository implements BlockDirectivesRepositor
 			return;
 		try {
 			queue.put(directive);
-		} catch (InterruptedException e) {
+		} catch (Exception e) {
 			Logger logger = getBassebombeCraft().getLogger();
 			logger.error("Failed to add block directive: " + directive + " due to exception: " + e);
 			getBassebombeCraft().reportException(e);					
@@ -41,8 +41,8 @@ public class DefaultBlockDirectiveRepository implements BlockDirectivesRepositor
 	}
 
 	@Override
-	public boolean containsDirectives() {
-		return (!queue.isEmpty());
+	public boolean isEmpty() {
+		return queue.isEmpty();
 	}
 
 	@Override

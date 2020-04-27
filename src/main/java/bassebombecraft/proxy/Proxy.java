@@ -1,5 +1,6 @@
 package bassebombecraft.proxy;
 
+import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.charm.ClientSideCharmedMobsRepository;
 import bassebombecraft.event.charm.ServerSideCharmedMobsRepository;
@@ -172,4 +173,23 @@ public interface Proxy {
 	 */
 	public CharmedMobsRepository getCharmedMobsRepository(World world) throws UnsupportedOperationException;
 
+	/**
+	 * Get block directives repository.
+	 * 
+	 * This repository is available at the logical SERVER.
+	 * 
+	 * The server proxy implementation support this method to support the
+	 * configuration: physical server w/ logical server (dedicated server).
+	 * 
+	 * The client proxy implementation support this method to support the
+	 * configuration: physical client w/ logical server (integrated server).
+	 * 
+	 * @return block directives repository.
+	 * 
+	 * @throws UnsupportedOperationException if invoked in configuration: physical
+	 *                                       client w/ logical client.
+	 */
+	public BlockDirectivesRepository getBlockDirectivesRepository(World world) throws UnsupportedOperationException;
+
+	
 }

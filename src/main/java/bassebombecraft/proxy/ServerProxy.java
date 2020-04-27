@@ -8,6 +8,8 @@ import static bassebombecraft.config.VersionUtils.startServerSession;
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.config.VersionUtils;
+import bassebombecraft.event.block.BlockDirectivesRepository;
+import bassebombecraft.event.block.DefaultBlockDirectiveRepository;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.charm.ServerSideCharmedMobsRepository;
 import bassebombecraft.event.duration.DefaultDurationRepository;
@@ -42,6 +44,11 @@ public class ServerProxy implements Proxy {
 	CharmedMobsRepository charmedMobsRepository;
 
 	/**
+	 * Block directives repository.
+	 */
+	BlockDirectivesRepository blockDirectivesRepository;
+	
+	/**
 	 * Network helper.
 	 */
 	NetworkChannelHelper networkHelper;
@@ -60,6 +67,9 @@ public class ServerProxy implements Proxy {
 		// Initialise charmed mobs repository
 		charmedMobsRepository = ServerSideCharmedMobsRepository.getInstance();
 
+		// Initialise directives repository
+		blockDirectivesRepository = DefaultBlockDirectiveRepository.getInstance();
+		
 		// initialize network
 		networkHelper = new NetworkChannelHelper();
 	}
@@ -183,4 +193,10 @@ public class ServerProxy implements Proxy {
 		return charmedMobsRepository;
 	}
 
+	@Override
+	public BlockDirectivesRepository getBlockDirectivesRepository(World world) throws UnsupportedOperationException {
+		// NB: World isn't used by server proxy.		
+		return blockDirectivesRepository;
+	}
+	
 }

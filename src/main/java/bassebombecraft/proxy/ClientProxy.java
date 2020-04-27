@@ -12,6 +12,8 @@ import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.config.VersionUtils;
+import bassebombecraft.event.block.BlockDirectivesRepository;
+import bassebombecraft.event.block.DefaultBlockDirectiveRepository;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.charm.ClientSideCharmedMobsRepository;
 import bassebombecraft.event.charm.ServerSideCharmedMobsRepository;
@@ -70,6 +72,11 @@ public class ClientProxy implements Proxy {
 	CharmedMobsRepository serverSideCharmedMobsRepository;
 	
 	/**
+	 * Block directives repository.
+	 */
+	BlockDirectivesRepository blockDirectivesRepository;
+	
+	/**
 	 * Network helper.
 	 */
 	NetworkChannelHelper networkHelper;
@@ -92,6 +99,9 @@ public class ClientProxy implements Proxy {
 		clientSideCharmedMobsRepository = ClientSideCharmedMobsRepository.getInstance();
 		serverSideCharmedMobsRepository = ServerSideCharmedMobsRepository.getInstance();
 
+		// Initialise directives repository
+		blockDirectivesRepository = DefaultBlockDirectiveRepository.getInstance();
+		
 		// initialize network
 		networkHelper = new NetworkChannelHelper();
 	}
@@ -221,4 +231,13 @@ public class ClientProxy implements Proxy {
 		return serverSideCharmedMobsRepository;
 	}
 
+	@Override
+	public BlockDirectivesRepository getBlockDirectivesRepository(World world) throws UnsupportedOperationException {
+		if (isLogicalServer(world))
+			return blockDirectivesRepository;
+
+		// throw exception if helper is used by physical client w/ logical client.
+		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
+	}
+	
 }
