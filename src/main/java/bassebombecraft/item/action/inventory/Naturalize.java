@@ -1,6 +1,7 @@
 package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.createFlowerDirective;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
@@ -40,11 +41,6 @@ public class Naturalize implements InventoryItemActionStrategy {
 	final int spiralSize;
 
 	/**
-	 * Block directives repository
-	 */
-	BlockDirectivesRepository directivesRepository;
-
-	/**
 	 * Spiral counter.
 	 */
 	int spiralCounter;
@@ -60,15 +56,12 @@ public class Naturalize implements InventoryItemActionStrategy {
 	List<BlockPos> spiralCoordinates;
 
 	/**
-	 * Naturalize constructor.
+	 * Constructor.
 	 * 
 	 * @param splSpiralSize Spiral size, measured in rotations around the centre.
 	 */
 	public Naturalize(Supplier<Integer> splSpiralSize) {
 		spiralSize = splSpiralSize.get();
-
-		// get directives repository
-		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 
 		// calculate spiral
 		spiralCoordinates = GeometryUtils.calculateSpiral(spiralSize, spiralSize);
@@ -99,7 +92,8 @@ public class Naturalize implements InventoryItemActionStrategy {
 		BlockDirective directive = createFlowerDirective(flowerPos, random);
 
 		// create block
-		directivesRepository.add(directive);
+		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(world);
+		repository.add(directive);
 	}
 
 	/**

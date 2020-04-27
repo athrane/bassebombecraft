@@ -1,6 +1,7 @@
 package bassebombecraft.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.NULL_TILE_ENTITY;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static net.minecraft.state.properties.BlockStateProperties.FACING;
@@ -392,8 +393,8 @@ public class BlockUtils {
 
 		// create temporary block
 		TemporaryBlock temporaryBlock = DefaultTemporaryBlock.getInstance(duration, tempDirective, orgDirective);
-		TemporaryBlockRepository tempBlockRepository = getBassebombeCraft().getTemporaryBlockRepository();
-		tempBlockRepository.add(temporaryBlock);
+		TemporaryBlockRepository repository = getProxy().getTemporaryBlockRepository(world);
+		repository.add(temporaryBlock);
 	}
 
 	/**

@@ -114,11 +114,6 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	List<BlockDirective> capturedBlocks;
 
 	/**
-	 * Process block directives repository.
-	 */
-	BlockDirectivesRepository directivesRepository;
-
-	/**
 	 * Particle for rendering of the first marker.
 	 */
 	ParticleRendering firstMarkerParticle;
@@ -139,7 +134,6 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	public CopyPasteBlocks() {
 		infos = createFromConfig(copyPasteBlocksParticleInfo);
 		captureOnCopy = copyPasteBlocksCaptureOnCopy.get();
-		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 	}
 
 	@Override
@@ -164,7 +158,8 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
 
 		// add directives
-		directivesRepository.addAll(directives);
+		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(player.getEntityWorld());		
+		repository.addAll(directives);
 
 		return USED_ITEM;
 	}

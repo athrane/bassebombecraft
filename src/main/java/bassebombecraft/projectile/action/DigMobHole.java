@@ -1,6 +1,6 @@
 package bassebombecraft.projectile.action;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.block.BlockUtils.calculatePosition;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
@@ -42,11 +42,6 @@ public class DigMobHole implements ProjectileAction {
 	public static final String NAME = DigMobHole.class.getSimpleName();
 
 	/**
-	 * Process block directives repository.
-	 */
-	BlockDirectivesRepository repository;
-
-	/**
 	 * No hit hole depth.
 	 */
 	final int noHitHoleDepth;
@@ -71,7 +66,6 @@ public class DigMobHole implements ProjectileAction {
 	 */
 	public DigMobHole() {
 		super();
-		repository = getBassebombeCraft().getBlockDirectivesRepository();
 		noHitHoleDepth = ModConfiguration.digMobHoleNoHitHoleDepth.get();
 		noHitholeHeight = ModConfiguration.digMobHoleNoHitHoleHeight.get();
 		noHitholeWidth = ModConfiguration.digMobHoleNoHitHoleWidth.get();
@@ -99,6 +93,7 @@ public class DigMobHole implements ProjectileAction {
 			List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, composite);
 
 			// add directives
+			BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(world);
 			repository.addAll(directives);
 
 			return;
@@ -119,19 +114,21 @@ public class DigMobHole implements ProjectileAction {
 		AxisAlignedBB aabb = entity.getBoundingBox();
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY - holeHeightExpansion, aabb.minZ);
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
-		BlockPos.getAllInBox(min, max).forEach(pos -> registerBlockToDig(aabb, pos));
+		BlockPos.getAllInBox(min, max).forEach(pos -> registerBlockToDig(aabb, pos, world));
 	}
 
 	/**
 	 * Register block for processed to generate air block.
 	 * 
-	 * @param aabb AABB
-	 * @param pos  block position to process.
+	 * @param aabb  AABB
+	 * @param pos   block position to process.
+	 * @param world world object.
 	 */
-	void registerBlockToDig(AxisAlignedBB aabb, BlockPos pos) {
+	void registerBlockToDig(AxisAlignedBB aabb, BlockPos pos, World world) {
 		double translateY = aabb.maxY - aabb.minY;
 		BlockPos tranlatedPos = pos.add(0, -translateY, 0);
 		BlockDirective directive = new BlockDirective(tranlatedPos, AIR, DONT_HARVEST);
+		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(world);
 		repository.add(directive);
 	}
 

@@ -1,6 +1,7 @@
 package bassebombecraft.item.action.build;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.item.action.build.BuildUtils.addMainEntranceFront;
@@ -47,13 +48,7 @@ public class BuildTower implements BlockClickedItemAction {
 	/**
 	 * Random generator.
 	 */
-	// Random random = new Random(2);
-	Random random = new Random(2);
-
-	/**
-	 * Process block directives repository.
-	 */
-	BlockDirectivesRepository repository;
+	Random random;
 
 	/**
 	 * Minimum size reduction per layer.
@@ -110,7 +105,9 @@ public class BuildTower implements BlockClickedItemAction {
 	 */
 	public BuildTower() {
 		super();
-		repository = getBassebombeCraft().getBlockDirectivesRepository();
+		
+		random = getBassebombeCraft().getRandom();
+		
 		builder = new DefaultBuilder(random);
 
 		floorWidth = 35;
@@ -149,6 +146,7 @@ public class BuildTower implements BlockClickedItemAction {
 		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure, DONT_HARVEST);
 
 		// add directives
+		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(player.getEntityWorld());		
 		repository.addAll(directives);
 
 		return USED_ITEM;

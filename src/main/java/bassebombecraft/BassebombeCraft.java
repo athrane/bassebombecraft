@@ -21,8 +21,6 @@ import com.electronwill.nightconfig.core.UnmodifiableConfig;
 import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;
-import bassebombecraft.event.block.temporary.DefaultTemporaryBlockRepository;
-import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import bassebombecraft.event.entity.target.DefaultTargetedEntitiesRepository;
 import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.event.entity.team.DefaultTeamRepository;
@@ -67,11 +65,6 @@ public class BassebombeCraft {
 	 * {@linkplain ItemGroup} which implements creative tab.
 	 */
 	static final ItemGroup MOD_ITEMGROUP = createItemGroup(TAB_NAME);
-
-	/**
-	 * Temporary block repository.
-	 */
-	TemporaryBlockRepository tempBlockRepository;
 
 	/**
 	 * Mob commander repository.
@@ -124,9 +117,6 @@ public class BassebombeCraft {
 
 			// load configuration
 			loadConfig();
-
-			// Initialise temporary block repository
-			tempBlockRepository = DefaultTemporaryBlockRepository.getInstance();
 
 			// Initialise mob commander repository
 			mobCommanderRepository = DefaultMobCommanderRepository.getInstance();
@@ -184,15 +174,6 @@ public class BassebombeCraft {
 	 */
 	public static Proxy getProxy() {
 		return proxy;
-	}
-
-	/**
-	 * Get temporary block repository.
-	 * 
-	 * @return temporary block repository.
-	 */
-	public TemporaryBlockRepository getTemporaryBlockRepository() {
-		return tempBlockRepository;
 	}
 
 	/**

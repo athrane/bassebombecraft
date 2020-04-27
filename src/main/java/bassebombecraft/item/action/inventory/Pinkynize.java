@@ -1,6 +1,6 @@
 package bassebombecraft.item.action.inventory;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.block.BlockUtils.selectPinkColoredWool;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
@@ -36,11 +36,6 @@ public class Pinkynize implements InventoryItemActionStrategy {
 	final int spiralSize;
 
 	/**
-	 * Block directives repository
-	 */
-	BlockDirectivesRepository directivesRepository;
-
-	/**
 	 * Current color counter.
 	 */
 	int colorCounter = 0;
@@ -61,15 +56,12 @@ public class Pinkynize implements InventoryItemActionStrategy {
 	List<BlockPos> spiralCoordinates;
 
 	/**
-	 * Pinkynize constructor
+	 * Constructor
 	 * 
 	 * @param splSpiralSize Spiral size, measured in rotations around the centre.
 	 */
 	public Pinkynize(Supplier<Integer> splSpiralSize) {
 		spiralSize = splSpiralSize.get();
-
-		// get directives repository
-		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 
 		// calculate spiral
 		spiralCoordinates = calculateSpiral(spiralSize, spiralSize);
@@ -101,8 +93,8 @@ public class Pinkynize implements InventoryItemActionStrategy {
 		directive.setState(selectPinkColoredWool(colorCounter));
 
 		// create block
-		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
-		directivesRepository.add(directive);
+		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(world);
+		repository.add(directive);
 	}
 
 	/**
@@ -148,5 +140,5 @@ public class Pinkynize implements InventoryItemActionStrategy {
 		spiralCounter = 0;
 		spiralCenter = new BlockPos(target);
 	}
-	
+
 }

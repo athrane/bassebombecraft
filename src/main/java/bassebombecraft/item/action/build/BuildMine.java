@@ -1,6 +1,6 @@
 package bassebombecraft.item.action.build;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.UNITY_BLOCK_SIZE;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.item.action.build.BuildUtils.addOakFencedDoorEntryFront;
@@ -41,8 +41,7 @@ public class BuildMine implements BlockClickedItemAction {
 	 * Action identifier.
 	 */
 	public static final String NAME = BuildMine.class.getSimpleName();
-	
-	
+
 	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
 	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;
 
@@ -66,20 +65,13 @@ public class BuildMine implements BlockClickedItemAction {
 	int ticksExisted = 0;
 
 	/**
-	 * Process block directives repository.
-	 */
-	BlockDirectivesRepository repository;
-
-	/**
 	 * CreateRoad constructor.
 	 */
 	public BuildMine() {
 		super();
-		repository = getBassebombeCraft().getBlockDirectivesRepository();
-		random = BassebombeCraft.getBassebombeCraft().getRandom();		
+		random = BassebombeCraft.getBassebombeCraft().getRandom();
 	}
 
-	
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
 		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
@@ -87,7 +79,7 @@ public class BuildMine implements BlockClickedItemAction {
 
 		// calculate if selected block is a ground block
 		BlockPos pos = context.getPos();
-		PlayerEntity player = context.getPlayer();		
+		PlayerEntity player = context.getPlayer();
 		boolean isGroundBlock = isBelowPlayerYPosition(pos.getY(), player);
 
 		// calculate structure
@@ -104,6 +96,7 @@ public class BuildMine implements BlockClickedItemAction {
 		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
 
 		// add directives
+		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(player.getEntityWorld());
 		repository.addAll(directives);
 
 		return USED_ITEM;
@@ -117,8 +110,7 @@ public class BuildMine implements BlockClickedItemAction {
 	/**
 	 * Create random structure.
 	 * 
-	 * @param isGroundBlock
-	 *            boolean designates of player click on ground block.
+	 * @param isGroundBlock boolean designates of player click on ground block.
 	 * 
 	 * @return random structure
 	 */
@@ -237,8 +229,7 @@ public class BuildMine implements BlockClickedItemAction {
 	}
 
 	/**
-	 * Create room with initial plateau and lower door with bounding box
-	 * (8,8,9).
+	 * Create room with initial plateau and lower door with bounding box (8,8,9).
 	 * 
 	 * @return structures.
 	 */
@@ -533,10 +524,8 @@ public class BuildMine implements BlockClickedItemAction {
 	/**
 	 * Add doorway entry turning front.
 	 * 
-	 * @param structure
-	 *            structure where door is added to.
-	 * @param globalOffset
-	 *            global offset.
+	 * @param structure    structure where door is added to.
+	 * @param globalOffset global offset.
 	 */
 	@Deprecated
 	void addDoorEntryFront(Structure structure, BlockDirective globalOffset) {
@@ -557,10 +546,8 @@ public class BuildMine implements BlockClickedItemAction {
 	/**
 	 * Add stair down from plateau .
 	 * 
-	 * @param structure
-	 *            structure where stair is added to.
-	 * @param globalOffset
-	 *            global offset.
+	 * @param structure    structure where stair is added to.
+	 * @param globalOffset global offset.
 	 */
 
 	void addPlateauStairDown(Structure structure, BlockPos globalOffset) {
@@ -581,10 +568,8 @@ public class BuildMine implements BlockClickedItemAction {
 	/**
 	 * Create great hall column.
 	 * 
-	 * @param structure
-	 *            structure where column is added to.
-	 * @param globalOffset
-	 *            global offset.
+	 * @param structure    structure where column is added to.
+	 * @param globalOffset global offset.
 	 */
 	void addGreatHallColumn(Structure structure, BlockDirective globalOffset) {
 
@@ -611,10 +596,8 @@ public class BuildMine implements BlockClickedItemAction {
 	/**
 	 * Add torch.
 	 * 
-	 * @param structure
-	 *            structure where torch is added to.
-	 * @param globalOffset
-	 *            global offset.
+	 * @param structure    structure where torch is added to.
+	 * @param globalOffset global offset.
 	 */
 	void addTorch(Structure structure, BlockPos globalOffset) {
 		BlockPos offset = globalOffset;
@@ -627,14 +610,10 @@ public class BuildMine implements BlockClickedItemAction {
 	/**
 	 * Add columns
 	 * 
-	 * @param structure
-	 *            structure where torch is added to.
-	 * @param globalOffset
-	 *            global offset.
-	 * @param columns
-	 *            number of columns.
-	 * @param height
-	 *            height of columns.
+	 * @param structure    structure where torch is added to.
+	 * @param globalOffset global offset.
+	 * @param columns      number of columns.
+	 * @param height       height of columns.
 	 */
 	void addColumns(Structure structure, BlockPos globalOffset, int columns, int height) {
 		BlockPos offset = globalOffset;
@@ -649,12 +628,9 @@ public class BuildMine implements BlockClickedItemAction {
 	/**
 	 * Add floor details.
 	 * 
-	 * @param structure
-	 *            structure where column is added to.
-	 * @param offset
-	 *            global offset.
-	 * @param size
-	 *            room size.
+	 * @param structure structure where column is added to.
+	 * @param offset    global offset.
+	 * @param size      room size.
 	 */
 	void addFloorDetails(Structure structure, BlockPos offset, BlockPos size) {
 
@@ -673,8 +649,7 @@ public class BuildMine implements BlockClickedItemAction {
 	/**
 	 * Select a position form the array.
 	 * 
-	 * @param positions
-	 *            position to select from.
+	 * @param positions position to select from.
 	 * 
 	 * @return selected position.
 	 */

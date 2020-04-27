@@ -1,11 +1,11 @@
 package bassebombecraft.item.action.build;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.player.PlayerUtils.calculatePlayerFeetPosititionAsInt;
 import static bassebombecraft.player.PlayerUtils.getPlayerDirection;
 import static bassebombecraft.player.PlayerUtils.isBelowPlayerYPosition;
-import static bassebombecraft.structure.ChildStructure.*;
+import static bassebombecraft.structure.ChildStructure.createAirStructure;
 import static bassebombecraft.structure.CompositeStructure.getInstance;
 
 import java.util.List;
@@ -88,7 +88,7 @@ public class BuildSmallHole implements BlockClickedItemAction {
 		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
 
 		// add directives
-		BlockDirectivesRepository repository = getBassebombeCraft().getBlockDirectivesRepository();
+		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(player.getEntityWorld());
 		repository.addAll(directives);
 
 		return USED_ITEM;

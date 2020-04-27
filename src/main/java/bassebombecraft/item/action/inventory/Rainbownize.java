@@ -1,13 +1,12 @@
 package bassebombecraft.item.action.inventory;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.block.BlockUtils.selectRainbowColoredWool;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
-import java.util.Random;
 import java.util.function.Supplier;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
@@ -37,16 +36,6 @@ public class Rainbownize implements InventoryItemActionStrategy {
 	final int spiralSize;
 
 	/**
-	 * Random generator
-	 */
-	Random random = new Random();
-
-	/**
-	 * Block directives repository
-	 */
-	BlockDirectivesRepository directivesRepository;
-
-	/**
 	 * Current color counter.
 	 */
 	int colorCounter = 0;
@@ -73,9 +62,6 @@ public class Rainbownize implements InventoryItemActionStrategy {
 	 */
 	public Rainbownize(Supplier<Integer> splSpiralSize) {
 		spiralSize = splSpiralSize.get();
-
-		// get directives repository
-		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
 
 		// calculate spiral
 		spiralCoordinates = GeometryUtils.calculateSpiral(spiralSize, spiralSize);
@@ -107,8 +93,8 @@ public class Rainbownize implements InventoryItemActionStrategy {
 		directive.setState(woolBlock);
 
 		// create block
-		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
-		directivesRepository.add(directive);
+		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(world);
+		repository.add(directive);
 	}
 
 	/**

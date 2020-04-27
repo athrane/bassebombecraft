@@ -10,6 +10,8 @@ import org.apache.logging.log4j.Logger;
 import bassebombecraft.config.VersionUtils;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.block.DefaultBlockDirectiveRepository;
+import bassebombecraft.event.block.temporary.DefaultTemporaryBlockRepository;
+import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.charm.ServerSideCharmedMobsRepository;
 import bassebombecraft.event.duration.DefaultDurationRepository;
@@ -47,6 +49,11 @@ public class ServerProxy implements Proxy {
 	 * Block directives repository.
 	 */
 	BlockDirectivesRepository blockDirectivesRepository;
+
+	/**
+	 * Temporary block repository.
+	 */
+	TemporaryBlockRepository tempBlockRepository;
 	
 	/**
 	 * Network helper.
@@ -69,6 +76,9 @@ public class ServerProxy implements Proxy {
 
 		// Initialise directives repository
 		blockDirectivesRepository = DefaultBlockDirectiveRepository.getInstance();
+		
+		// Initialise temporary block repository
+		tempBlockRepository = DefaultTemporaryBlockRepository.getInstance();
 		
 		// initialize network
 		networkHelper = new NetworkChannelHelper();
@@ -168,7 +178,6 @@ public class ServerProxy implements Proxy {
 
 	@Override
 	public NetworkChannelHelper getNetworkChannel(World world) throws UnsupportedOperationException {
-		// NB: World isn't used by server proxy.
 		return networkHelper;
 	}
 
@@ -189,14 +198,17 @@ public class ServerProxy implements Proxy {
 
 	@Override
 	public CharmedMobsRepository getCharmedMobsRepository(World world) throws UnsupportedOperationException {
-		// NB: World isn't used by server proxy.		
 		return charmedMobsRepository;
 	}
 
 	@Override
 	public BlockDirectivesRepository getBlockDirectivesRepository(World world) throws UnsupportedOperationException {
-		// NB: World isn't used by server proxy.		
 		return blockDirectivesRepository;
+	}
+
+	@Override
+	public TemporaryBlockRepository getTemporaryBlockRepository(World world) throws UnsupportedOperationException {
+		return tempBlockRepository;
 	}
 	
 }

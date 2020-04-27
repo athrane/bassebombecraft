@@ -1,6 +1,6 @@
 package bassebombecraft.item.action.build;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.player.PlayerUtils.calculatePlayerFeetPosititionAsInt;
 import static bassebombecraft.player.PlayerUtils.getPlayerDirection;
@@ -8,7 +8,6 @@ import static bassebombecraft.structure.ChildStructure.createAirStructure;
 import static bassebombecraft.structure.ChildStructure.createWaterStructure;
 
 import java.util.List;
-import java.util.Random;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
@@ -40,27 +39,9 @@ public class BuildAbyss implements BlockClickedItemAction {
 	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
 
 	/**
-	 * Random generator.
-	 */
-	Random random = new Random();
-
-	/**
 	 * Ticks exists since first marker was set.
 	 */
 	int ticksExisted = 0;
-
-	/**
-	 * Process block directives repository.
-	 */
-	BlockDirectivesRepository repository;
-
-	/**
-	 * CreateRoad constructor.
-	 */
-	public BuildAbyss() {
-		super();
-		repository = getBassebombeCraft().getBlockDirectivesRepository();
-	}
 
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
@@ -83,6 +64,7 @@ public class BuildAbyss implements BlockClickedItemAction {
 		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
 
 		// add directives
+		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(player.getEntityWorld());
 		repository.addAll(directives);
 
 		return USED_ITEM;

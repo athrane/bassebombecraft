@@ -1,6 +1,6 @@
 package bassebombecraft.item.action.build;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.UNITY_BLOCK_SIZE;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.player.PlayerUtils.calculatePlayerFeetPosititionAsInt;
@@ -55,19 +55,6 @@ public class BuildRoad implements BlockClickedItemAction {
 	 */
 	int ticksExisted = 0;
 
-	/**
-	 * Process block directives repository.
-	 */
-	BlockDirectivesRepository repository;
-
-	/**
-	 * CreateRoad constructor.
-	 */
-	public BuildRoad() {
-		super();
-		repository = getBassebombeCraft().getBlockDirectivesRepository();
-	}
-
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
 		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
@@ -75,7 +62,7 @@ public class BuildRoad implements BlockClickedItemAction {
 
 		// calculate if selected block is a ground block
 		BlockPos pos = context.getPos();
-		PlayerEntity player = context.getPlayer();		
+		PlayerEntity player = context.getPlayer();
 		boolean isGroundBlock = isBelowPlayerYPosition(pos.getY(), player);
 
 		// calculate structure
@@ -96,9 +83,10 @@ public class BuildRoad implements BlockClickedItemAction {
 		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
 
 		// add directives
+		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(player.getEntityWorld());
 		repository.addAll(directives);
 
-		return USED_ITEM;		
+		return USED_ITEM;
 	}
 
 	@Override

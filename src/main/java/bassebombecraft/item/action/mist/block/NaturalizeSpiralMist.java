@@ -1,6 +1,7 @@
 package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 import static bassebombecraft.geom.GeometryUtils.createFlowerDirective;
 import static net.minecraft.block.Blocks.GRASS_BLOCK;
@@ -46,15 +47,15 @@ public class NaturalizeSpiralMist implements BlockMistActionStrategy {
 		BlockDirective directive = new BlockDirective(target, GRASS_BLOCK, DONT_HARVEST);
 
 		// create block
-		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
-		directivesRepository.add(directive);
+		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(world);						
+		repository.add(directive);
 
 		// create flower block
 		BlockPos flowerPos = target.up();
 		directive = createFlowerDirective(flowerPos, getBassebombeCraft().getRandom());
 
 		// create block
-		directivesRepository.add(directive);
+		repository.add(directive);
 	}
 
 	@Override

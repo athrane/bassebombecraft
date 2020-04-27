@@ -1,6 +1,6 @@
 package bassebombecraft.item.action.build;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.UNITY_BLOCK_SIZE;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.player.PlayerUtils.calculatePlayerFeetPosititionAsInt;
@@ -56,19 +56,6 @@ public class BuildRainbowRoad implements BlockClickedItemAction {
 	 */
 	int ticksExisted = 0;
 
-	/**
-	 * Process block directives repository.
-	 */
-	BlockDirectivesRepository repository;
-
-	/**
-	 * CreateRoad constructor.
-	 */
-	public BuildRainbowRoad() {
-		super();
-		repository = getBassebombeCraft().getBlockDirectivesRepository();
-	}
-
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
 		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
@@ -97,6 +84,7 @@ public class BuildRainbowRoad implements BlockClickedItemAction {
 		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
 
 		// add directives
+		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(player.getEntityWorld());
 		repository.addAll(directives);
 
 		return USED_ITEM;

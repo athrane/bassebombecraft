@@ -14,6 +14,8 @@ import org.apache.logging.log4j.Logger;
 import bassebombecraft.config.VersionUtils;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.block.DefaultBlockDirectiveRepository;
+import bassebombecraft.event.block.temporary.DefaultTemporaryBlockRepository;
+import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.charm.ClientSideCharmedMobsRepository;
 import bassebombecraft.event.charm.ServerSideCharmedMobsRepository;
@@ -77,6 +79,11 @@ public class ClientProxy implements Proxy {
 	BlockDirectivesRepository blockDirectivesRepository;
 	
 	/**
+	 * Temporary block repository.
+	 */
+	TemporaryBlockRepository tempBlockRepository;
+	
+	/**
 	 * Network helper.
 	 */
 	NetworkChannelHelper networkHelper;
@@ -101,6 +108,9 @@ public class ClientProxy implements Proxy {
 
 		// Initialise directives repository
 		blockDirectivesRepository = DefaultBlockDirectiveRepository.getInstance();
+		
+		// Initialise temporary block repository
+		tempBlockRepository = DefaultTemporaryBlockRepository.getInstance();
 		
 		// initialize network
 		networkHelper = new NetworkChannelHelper();
@@ -239,5 +249,15 @@ public class ClientProxy implements Proxy {
 		// throw exception if helper is used by physical client w/ logical client.
 		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
 	}
+
+	@Override
+	public TemporaryBlockRepository getTemporaryBlockRepository(World world) throws UnsupportedOperationException {
+		if (isLogicalServer(world))
+			return tempBlockRepository;
+
+		// throw exception if helper is used by physical client w/ logical client.
+		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
+	}
+
 	
 }

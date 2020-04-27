@@ -1,12 +1,12 @@
 package bassebombecraft.event.block.temporary;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 
 import java.util.List;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
-import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -17,12 +17,12 @@ import net.minecraftforge.fml.common.Mod;
 public class TemporaryBlockEventHandler {
 
 	@SubscribeEvent
-	public static void handlePlayerTickEvent(PlayerTickEvent event) {		
-		
-		// get repositories		
-		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
-		TemporaryBlockRepository repository = getBassebombeCraft().getTemporaryBlockRepository();
-		
+	public static void handleWorldTickEvent(WorldTickEvent event) {
+
+		// get repositories
+		BlockDirectivesRepository directivesRepository = getProxy().getBlockDirectivesRepository(event.world);
+		TemporaryBlockRepository repository = getProxy().getTemporaryBlockRepository(event.world);
+
 		// update block duration
 		repository.updateBlockDuration();
 

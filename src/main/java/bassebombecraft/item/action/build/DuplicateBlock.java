@@ -1,6 +1,7 @@
 package bassebombecraft.item.action.build;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.block.BlockUtils.getBlockFromPosition;
 import static bassebombecraft.block.BlockUtils.getBlockStateFromPosition;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
@@ -50,27 +51,9 @@ public class DuplicateBlock implements BlockClickedItemAction {
 	static final Structure NULL_STRUCTURE = new CompositeStructure();
 
 	/**
-	 * Random generator.
-	 */
-	Random random = new Random();
-
-	/**
 	 * Ticks exists since first marker was set.
 	 */
 	int ticksExisted = 0;
-
-	/**
-	 * Process block directives repository.
-	 */
-	BlockDirectivesRepository repository;
-
-	/**
-	 * DuplicateBlock constructor.
-	 */
-	public DuplicateBlock() {
-		super();
-		repository = getBassebombeCraft().getBlockDirectivesRepository();
-	}
 
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
@@ -98,6 +81,7 @@ public class DuplicateBlock implements BlockClickedItemAction {
 		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
 
 		// add directives
+		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(world);					
 		repository.addAll(directives);
 
 		return USED_ITEM;		
@@ -147,6 +131,7 @@ public class DuplicateBlock implements BlockClickedItemAction {
 	 * @return true if TNT variant of duplicated block should be created.
 	 */
 	boolean createTntVariant() {
+		Random random = getBassebombeCraft().getRandom();
 		int randomValue = random.nextInt(25);
 		return (randomValue == 0);
 	}
