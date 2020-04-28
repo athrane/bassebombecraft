@@ -8,6 +8,8 @@ import static bassebombecraft.config.VersionUtils.startServerSession;
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.config.VersionUtils;
+import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
+import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.block.DefaultBlockDirectiveRepository;
 import bassebombecraft.event.block.temporary.DefaultTemporaryBlockRepository;
@@ -54,7 +56,12 @@ public class ServerProxy implements Proxy {
 	 * Temporary block repository.
 	 */
 	TemporaryBlockRepository tempBlockRepository;
-	
+
+	/**
+	 * Mob commander repository.
+	 */
+	MobCommanderRepository mobCommanderRepository;
+
 	/**
 	 * Network helper.
 	 */
@@ -76,10 +83,13 @@ public class ServerProxy implements Proxy {
 
 		// Initialise directives repository
 		blockDirectivesRepository = DefaultBlockDirectiveRepository.getInstance();
-		
+
 		// Initialise temporary block repository
 		tempBlockRepository = DefaultTemporaryBlockRepository.getInstance();
-		
+
+		// Initialise mob commander repository
+		mobCommanderRepository = DefaultMobCommanderRepository.getInstance();
+
 		// initialize network
 		networkHelper = new NetworkChannelHelper();
 	}
@@ -106,7 +116,7 @@ public class ServerProxy implements Proxy {
 					.append(";").append(server.getMOTD()).toString();
 
 			startServerSession(name);
-			
+
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
 			logger.error("Initiating usage session failed with: " + ex.getMessage());
@@ -210,5 +220,10 @@ public class ServerProxy implements Proxy {
 	public TemporaryBlockRepository getTemporaryBlockRepository(World world) throws UnsupportedOperationException {
 		return tempBlockRepository;
 	}
-	
+
+	@Override
+	public MobCommanderRepository getMobCommanderRepository(World world) throws UnsupportedOperationException {
+		return mobCommanderRepository;
+	}
+
 }

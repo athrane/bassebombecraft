@@ -1,6 +1,7 @@
 package bassebombecraft.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.HUD_TEXT_DISP;
 import static bassebombecraft.ModConstants.TEAM_MEMBERS_TO_RENDER;
 import static bassebombecraft.entity.EntityUtils.getTarget;
@@ -54,12 +55,12 @@ public class DefaultTeamInfoRenderer implements EntityRenderer {
 		int teamSize = repository.size(player);
 
 		// get current commander command
-		MobCommanderRepository commanderRepository = getBassebombeCraft().getMobCommanderRepository();
+		MobCommanderRepository commanderRepository = getProxy().getMobCommanderRepository(player.getEntityWorld());
 		MobCommand command = commanderRepository.getCommand(player);
 
 		// render basic info
 		Vec3d textTranslation = new Vec3d(5, 4, 4);
-		renderHudTextBillboard(translation, textTranslation, TEAM_LABEL );
+		renderHudTextBillboard(translation, textTranslation, TEAM_LABEL);
 		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 1, 0),
 				"Commander command: " + command.getTitle());
 		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 2, 0), "Team size: " + teamSize);

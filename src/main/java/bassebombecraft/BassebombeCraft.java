@@ -19,8 +19,6 @@ import org.apache.logging.log4j.Logger;
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
 
 import bassebombecraft.config.ModConfiguration;
-import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
-import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.entity.target.DefaultTargetedEntitiesRepository;
 import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
 import bassebombecraft.event.entity.team.DefaultTeamRepository;
@@ -65,11 +63,6 @@ public class BassebombeCraft {
 	 * {@linkplain ItemGroup} which implements creative tab.
 	 */
 	static final ItemGroup MOD_ITEMGROUP = createItemGroup(TAB_NAME);
-
-	/**
-	 * Mob commander repository.
-	 */
-	MobCommanderRepository mobCommanderRepository;
 
 	/**
 	 * Team repository.
@@ -117,9 +110,6 @@ public class BassebombeCraft {
 
 			// load configuration
 			loadConfig();
-
-			// Initialise mob commander repository
-			mobCommanderRepository = DefaultMobCommanderRepository.getInstance();
 
 			// initialise team repository
 			teamRepository = DefaultTeamRepository.getInstance();
@@ -174,15 +164,6 @@ public class BassebombeCraft {
 	 */
 	public static Proxy getProxy() {
 		return proxy;
-	}
-
-	/**
-	 * Get mob commander repository.
-	 * 
-	 * @return mob commander repository.
-	 */
-	public MobCommanderRepository getMobCommanderRepository() {
-		return mobCommanderRepository;
 	}
 
 	/**

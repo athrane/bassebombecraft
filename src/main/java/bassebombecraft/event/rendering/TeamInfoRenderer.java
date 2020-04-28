@@ -1,6 +1,7 @@
 package bassebombecraft.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.HUD_ITEM;
 import static bassebombecraft.ModConstants.TEAM_MEMBERS_TO_RENDER;
 import static bassebombecraft.entity.EntityUtils.getTarget;
@@ -69,7 +70,7 @@ public class TeamInfoRenderer {
 		int teamSize = repository.size(player);
 
 		// get current commander command
-		MobCommanderRepository commanderRepository = getBassebombeCraft().getMobCommanderRepository();
+		MobCommanderRepository commanderRepository = getProxy().getMobCommanderRepository(player.getEntityWorld());
 		MobCommand command = commanderRepository.getCommand(player);
 
 		// get render buffer

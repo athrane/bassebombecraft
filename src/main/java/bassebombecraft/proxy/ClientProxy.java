@@ -12,6 +12,8 @@ import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.config.VersionUtils;
+import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
+import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.block.DefaultBlockDirectiveRepository;
 import bassebombecraft.event.block.temporary.DefaultTemporaryBlockRepository;
@@ -72,17 +74,22 @@ public class ClientProxy implements Proxy {
 	 * Charmed Mob repository
 	 */
 	CharmedMobsRepository serverSideCharmedMobsRepository;
-	
+
 	/**
 	 * Block directives repository.
 	 */
 	BlockDirectivesRepository blockDirectivesRepository;
-	
+
 	/**
 	 * Temporary block repository.
 	 */
 	TemporaryBlockRepository tempBlockRepository;
-	
+
+	/**
+	 * Mob commander repository.
+	 */
+	MobCommanderRepository mobCommanderRepository;
+
 	/**
 	 * Network helper.
 	 */
@@ -108,10 +115,13 @@ public class ClientProxy implements Proxy {
 
 		// Initialise directives repository
 		blockDirectivesRepository = DefaultBlockDirectiveRepository.getInstance();
-		
+
 		// Initialise temporary block repository
 		tempBlockRepository = DefaultTemporaryBlockRepository.getInstance();
-		
+
+		// Initialise mob commander repository
+		mobCommanderRepository = DefaultMobCommanderRepository.getInstance();
+
 		// initialize network
 		networkHelper = new NetworkChannelHelper();
 	}
@@ -259,5 +269,13 @@ public class ClientProxy implements Proxy {
 		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
 	}
 
-	
+	@Override
+	public MobCommanderRepository getMobCommanderRepository(World world) throws UnsupportedOperationException {
+		if (isLogicalServer(world))
+			return mobCommanderRepository;
+
+		// throw exception if helper is used by physical client w/ logical client.
+		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
+	}
+
 }

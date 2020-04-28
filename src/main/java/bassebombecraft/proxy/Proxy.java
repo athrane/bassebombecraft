@@ -1,5 +1,6 @@
 package bassebombecraft.proxy;
 
+import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import bassebombecraft.event.charm.CharmedMobsRepository;
@@ -203,11 +204,30 @@ public interface Proxy {
 	 * The client proxy implementation support this method to support the
 	 * configuration: physical client w/ logical server (integrated server).
 	 * 
-	 * @return block directives repository.
+	 * @return temporary block directives repository.
 	 * 
 	 * @throws UnsupportedOperationException if invoked in configuration: physical
 	 *                                       client w/ logical client.
 	 */
 	public TemporaryBlockRepository getTemporaryBlockRepository(World world) throws UnsupportedOperationException;
+
+	/**
+	 * Get mob commander repository.
+	 * 
+	 * This repository is available at the logical SERVER.
+	 * TODO: Rendering in {@linkplain HudItem} not supported. 
+	 * 
+	 * The server proxy implementation support this method to support the
+	 * configuration: physical server w/ logical server (dedicated server).
+	 * 
+	 * The client proxy implementation support this method to support the
+	 * configuration: physical client w/ logical server (integrated server).
+	 * 
+	 * @return mob commander repository.
+	 * 
+	 * @throws UnsupportedOperationException if invoked in configuration: physical
+	 *                                       client w/ logical client.
+	 */
+	public MobCommanderRepository getMobCommanderRepository(World world) throws UnsupportedOperationException;
 	
 }

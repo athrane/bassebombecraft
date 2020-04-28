@@ -1,6 +1,7 @@
 package bassebombecraft.entity.ai.goal;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
 
 import java.util.EnumSet;
@@ -47,25 +48,36 @@ public class CommanderControlledTargeting extends Goal {
 
 	@Override
 	public boolean shouldExecute() {
+		try {
+			// register player and get command
+			MobCommanderRepository repository = getProxy().getMobCommanderRepository(commander.getEntityWorld());
+			MobCommand command = repository.getCommand(commander);
 
-		// register player and get command
-		MobCommanderRepository repository = getBassebombeCraft().getMobCommanderRepository();
-		MobCommand command = repository.getCommand(commander);
+			// initialize command
+			return command.shouldExecute(commander, entity);			
+		} catch(Exception e) {			
+			getBassebombeCraft().reportAndLogException(e);
 
-		// initialize command
-		return command.shouldExecute(commander, entity);
+			// don't execute as we have a error
+			return false;
+		}
 	}
 
 	
 	@Override
 	public void tick() {
+		try {
 
 		// register player and get command
-		MobCommanderRepository repository = getBassebombeCraft().getMobCommanderRepository();
+		MobCommanderRepository repository = getProxy().getMobCommanderRepository(commander.getEntityWorld());
 		MobCommand command = repository.getCommand(commander);
 
 		// execute
 		command.tick(commander, entity);
+		
+		} catch(Exception e) {			
+			getBassebombeCraft().reportAndLogException(e);			
+		}		
 	}
 
 }
