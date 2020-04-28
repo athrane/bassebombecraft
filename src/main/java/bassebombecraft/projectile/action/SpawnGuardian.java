@@ -1,10 +1,10 @@
 package bassebombecraft.projectile.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.entity.ai.AiUtils.buildCharmedMobAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 
-import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
@@ -20,21 +20,24 @@ public class SpawnGuardian implements ProjectileAction {
 
 	@Override
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
+		try {
+			LivingEntity owner = projectile.getThrower();
+			IronGolemEntity entity = EntityType.IRON_GOLEM.create(world);
+			entity.setLocationAndAngles(projectile.getPosX(), projectile.getPosY(), projectile.getPosZ(),
+					projectile.rotationYaw, projectile.rotationPitch);
 
-		LivingEntity owner = projectile.getThrower();
-		IronGolemEntity entity = EntityType.IRON_GOLEM.create(world);
-		entity.setLocationAndAngles(projectile.getPosX(), projectile.getPosY(), projectile.getPosZ(), projectile.rotationYaw,
-				projectile.rotationPitch);
+			// add entity to team
+			getProxy().getTeamRepository(world).add(owner, entity);
 
-		// add entity to team
-		TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
-		teamRepository.add(owner, entity);
+			// set AI
+			clearAllAiGoals(entity);
+			buildCharmedMobAi(entity, owner);
 
-		// set AI
-		clearAllAiGoals(entity);
-		buildCharmedMobAi(entity, owner);
-		
-		world.addEntity(entity);		
+			world.addEntity(entity);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 }

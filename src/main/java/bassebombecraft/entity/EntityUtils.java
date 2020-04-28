@@ -1,6 +1,7 @@
 package bassebombecraft.entity;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
@@ -323,28 +324,37 @@ public class EntityUtils {
 	 * @return resolved target.
 	 */
 	public static LivingEntity resolveTarget(Entity target, LivingEntity invoker) {
+		try {
+			// if invoker is a player then get the player target.
+			if (isTypePlayerEntity(invoker)) {
 
-		// if invoker is a player then get the player target.
-		if (isTypePlayerEntity(invoker)) {
+				// type cast
+				PlayerEntity player = (PlayerEntity) invoker;
 
-			// type cast
-			PlayerEntity player = (PlayerEntity) invoker;
+				// get player target
+				TargetedEntitiesRepository repository = getProxy()
+						.getTargetedEntitiesRepository(player.getEntityWorld());
+				Optional<LivingEntity> optTarget = repository.getFirst(player);
 
-			// get player target
-			TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
-			Optional<LivingEntity> optTarget = repository.getFirst(player);
+				// return player target if defined
+				if (optTarget.isPresent())
+					return optTarget.get();
+			}
 
-			// return player target if defined
-			if (optTarget.isPresent())
-				return optTarget.get();
+			// if target is living entity then cast cast and return it
+			if (isTypeLivingEntity(target)) {
+				return (LivingEntity) target;
+			}
+
+			return null;
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+
+			// return no target, since we had an error
+			return null;
 		}
 
-		// if target is living entity then cast cast and return it
-		if (isTypeLivingEntity(target)) {
-			return (LivingEntity) target;
-		}
-
-		return null;
 	}
 
 	/**
@@ -418,7 +428,7 @@ public class EntityUtils {
 		entity.setFire(AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE);
 		entity.setHealth(0);
 	}
-	
+
 	/**
 	 * Returns true if minimum distance is reached between two entities.
 	 *
@@ -466,5 +476,5 @@ public class EntityUtils {
 		IAttributeInstance instance = attributes.getAttributeInstance(attribute);
 		return (instance != null);
 	}
-	
+
 }

@@ -1,9 +1,10 @@
 package bassebombecraft.event.entity.target;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
-import static bassebombecraft.world.WorldUtils.*;
+import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -31,7 +32,8 @@ public class TargetedEntitiesEventHandler {
 			return;
 
 		// get repository
-		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
+		TargetedEntitiesRepository repository = getProxy()
+				.getTargetedEntitiesRepository(event.getEntity().getEntityWorld());
 
 		// remove entity from team upon death
 		LivingEntity entity = event.getEntityLiving();
@@ -54,48 +56,64 @@ public class TargetedEntitiesEventHandler {
 	@SubscribeEvent
 	static public void handleAttackEntityEvent(AttackEntityEvent event) {
 
-		// exit if handler is executed at client side
-		if (isLogicalClient(event.getEntity()))
-			return;
+		try {
+			// exit if handler is executed at client side
+			if (isLogicalClient(event.getEntity()))
+				return;
 
-		// get player and target
-		PlayerEntity player = event.getPlayer();
-		Entity target = event.getTarget();
+			// get player and target
+			PlayerEntity player = event.getPlayer();
+			Entity target = event.getTarget();
 
-		// exit if target isn't a living entity
-		if (!isTypeLivingEntity(target))
-			return;
+			// exit if target isn't a living entity
+			if (!isTypeLivingEntity(target))
+				return;
 
-		// type cast
-		LivingEntity targetAsLivingEntity = (LivingEntity) target;
+			// type cast
+			LivingEntity targetAsLivingEntity = (LivingEntity) target;
 
-		// add target for commander
-		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
-		repository.add(player, targetAsLivingEntity);
+			// add target for commander
+			TargetedEntitiesRepository repository = getProxy().getTargetedEntitiesRepository(player.getEntityWorld());
+			repository.add(player, targetAsLivingEntity);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 	@SubscribeEvent
 	static public void handlePlayerLoggedInEvent(PlayerLoggedInEvent event) {
+		try {
+			// exit if handler is executed at client side
+			if (isLogicalClient(event.getEntity()))
+				return;
 
-		// exit if handler is executed at client side
-		if (isLogicalClient(event.getEntity()))
-			return;
+			// register targets for commander
+			TargetedEntitiesRepository repository = getProxy()
+					.getTargetedEntitiesRepository(event.getPlayer().getEntityWorld());
+			repository.createTargets(event.getPlayer());
 
-		// register targets for commander
-		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
-		repository.createTargets(event.getPlayer());
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 	@SubscribeEvent
 	static public void handlePlayerLoggedOutEvent(PlayerLoggedOutEvent event) {
+		try {
+			// exit if handler is executed at client side
+			if (isLogicalClient(event.getEntity()))
+				return;
 
-		// exit if handler is executed at client side
-		if (isLogicalClient(event.getEntity()))
-			return;
+			// delete targets for commander
+			TargetedEntitiesRepository repository = getProxy()
+					.getTargetedEntitiesRepository(event.getPlayer().getEntityWorld());
+			repository.deleteTargets(event.getPlayer());
 
-		// delete targets for commander
-		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
-		repository.deleteTargets(event.getPlayer());
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
+
 	}
 
 }

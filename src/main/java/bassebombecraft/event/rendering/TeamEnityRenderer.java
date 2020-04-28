@@ -1,14 +1,15 @@
 package bassebombecraft.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.HUD_ITEM;
 import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEXT_SCALE;
 import static bassebombecraft.entity.ai.AiUtils.getFirstRunningAiGoalName;
 import static bassebombecraft.entity.ai.AiUtils.getFirstRunningAiTargetGoalName;
 import static bassebombecraft.player.PlayerUtils.getClientSidePlayer;
-import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 import static bassebombecraft.player.PlayerUtils.isClientSidePlayerDefined;
+import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -39,7 +40,7 @@ public class TeamEnityRenderer {
 	 * 
 	 * @param event event to trigger rendering of information.
 	 */
-	public static void handleRenderLivingEvent(Pre<PlayerEntity, PlayerModel<PlayerEntity>> event ) {
+	public static void handleRenderLivingEvent(Pre<PlayerEntity, PlayerModel<PlayerEntity>> event) {
 		try {
 
 			// exit if player is undefined
@@ -54,7 +55,7 @@ public class TeamEnityRenderer {
 				return;
 
 			// exit if entity isn't a member
-			TeamRepository repository = getBassebombeCraft().getTeamRepository();
+			TeamRepository repository = getProxy().getTeamRepository(player.getEntityWorld());
 			if (!repository.isMember(player, event.getEntity()))
 				return;
 

@@ -7,6 +7,8 @@ import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.charm.ClientSideCharmedMobsRepository;
 import bassebombecraft.event.charm.ServerSideCharmedMobsRepository;
 import bassebombecraft.event.duration.DurationRepository;
+import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
+import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.network.NetworkChannelHelper;
@@ -229,5 +231,43 @@ public interface Proxy {
 	 *                                       client w/ logical client.
 	 */
 	public MobCommanderRepository getMobCommanderRepository(World world) throws UnsupportedOperationException;
+
+	/**
+	 * Get team repository.
+	 * 
+	 * This repository is available at the logical SERVER.
+	 * TODO: Rendering in {@linkplain HudItem} not supported. 
+	 * 
+	 * The server proxy implementation support this method to support the
+	 * configuration: physical server w/ logical server (dedicated server).
+	 * 
+	 * The client proxy implementation support this method to support the
+	 * configuration: physical client w/ logical server (integrated server).
+	 * 
+	 * @return mob commander repository.
+	 * 
+	 * @throws UnsupportedOperationException if invoked in configuration: physical
+	 *                                       client w/ logical client.
+	 */
+	public TeamRepository getTeamRepository(World world) throws UnsupportedOperationException;
+
+	/**
+	 * Get targeted entities repository.
+	 * 
+	 * This repository is available at the logical SERVER.
+	 * TODO: Rendering in {@linkplain HudItem} not supported. 
+	 * 
+	 * The server proxy implementation support this method to support the
+	 * configuration: physical server w/ logical server (dedicated server).
+	 * 
+	 * The client proxy implementation support this method to support the
+	 * configuration: physical client w/ logical server (integrated server).
+	 * 
+	 * @return mob commander repository.
+	 * 
+	 * @throws UnsupportedOperationException if invoked in configuration: physical
+	 *                                       client w/ logical client.
+	 */
+	public TargetedEntitiesRepository getTargetedEntitiesRepository(World world) throws UnsupportedOperationException;
 	
 }

@@ -1,12 +1,12 @@
 package bassebombecraft.projectile.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
 import static bassebombecraft.entity.ai.AiUtils.buildCreeperArmyAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 
-import bassebombecraft.config.ModConfiguration;
-import bassebombecraft.event.entity.team.TeamRepository;
+import static bassebombecraft.config.ModConfiguration.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.CreeperEntity;
@@ -24,7 +24,7 @@ public class SpawnCreeperArmy implements ProjectileAction {
 	 * Action identifier.
 	 */
 	public static final String NAME = SpawnCreeperArmy.class.getSimpleName();
-	
+
 	/**
 	 * Skeleton pitch.
 	 */
@@ -44,33 +44,38 @@ public class SpawnCreeperArmy implements ProjectileAction {
 	 * SpawnCreeperArmy constructor.
 	 */
 	public SpawnCreeperArmy() {
-		entities = ModConfiguration.spawnCreeperArmyEntities.get();
-		spawnArea = ModConfiguration.spawnCreeperArmySpawnArea.get();
+		entities = spawnCreeperArmyEntities.get();
+		spawnArea =spawnCreeperArmySpawnArea.get();
 	}
 
 	@Override
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
-		for (int i = 0; i < entities; i++) {
 
-			// create creeper
-			CreeperEntity entity = EntityType.CREEPER.create(world);
+		try {
 
-			// calculate random spawn position
-			setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnArea, entity);
+			for (int i = 0; i < entities; i++) {
 
-			// get owner
-			LivingEntity thrower = projectile.getThrower();
+				// create creeper
+				CreeperEntity entity = EntityType.CREEPER.create(world);
 
-			// add entity to team
-			TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
-			teamRepository.add(thrower, entity);
+				// calculate random spawn position
+				setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnArea, entity);
 
-			// set AI
-			clearAllAiGoals(entity);
-			buildCreeperArmyAi(entity, thrower);
+				// get owner
+				LivingEntity thrower = projectile.getThrower();
 
-			// spawn
-			world.addEntity(entity);
+				// add entity to team
+				getProxy().getTeamRepository(world).add(thrower, entity);
+
+				// set AI
+				clearAllAiGoals(entity);
+				buildCreeperArmyAi(entity, thrower);
+
+				// spawn
+				world.addEntity(entity);
+			}
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
 		}
 	}
 

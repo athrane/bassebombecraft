@@ -23,6 +23,10 @@ import bassebombecraft.event.charm.ClientSideCharmedMobsRepository;
 import bassebombecraft.event.charm.ServerSideCharmedMobsRepository;
 import bassebombecraft.event.duration.DefaultDurationRepository;
 import bassebombecraft.event.duration.DurationRepository;
+import bassebombecraft.event.entity.target.DefaultTargetedEntitiesRepository;
+import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
+import bassebombecraft.event.entity.team.DefaultTeamRepository;
+import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.frequency.DefaultFrequencyRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
@@ -91,6 +95,16 @@ public class ClientProxy implements Proxy {
 	MobCommanderRepository mobCommanderRepository;
 
 	/**
+	 * Team repository.
+	 */
+	TeamRepository teamRepository;
+
+	/**
+	 * Targeted entities repository.
+	 */
+	TargetedEntitiesRepository targetedEntitiesRepository;
+	
+	/**
 	 * Network helper.
 	 */
 	NetworkChannelHelper networkHelper;
@@ -122,6 +136,12 @@ public class ClientProxy implements Proxy {
 		// Initialise mob commander repository
 		mobCommanderRepository = DefaultMobCommanderRepository.getInstance();
 
+		// initialise team repository
+		teamRepository = DefaultTeamRepository.getInstance();
+
+		// initialise targeted entities repository
+		targetedEntitiesRepository = DefaultTargetedEntitiesRepository.getInstance();
+		
 		// initialize network
 		networkHelper = new NetworkChannelHelper();
 	}
@@ -278,4 +298,23 @@ public class ClientProxy implements Proxy {
 		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
 	}
 
+	@Override
+	public TeamRepository getTeamRepository(World world) throws UnsupportedOperationException {
+		if (isLogicalServer(world))
+			return teamRepository;
+
+		// throw exception if helper is used by physical client w/ logical client.
+		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
+	}
+
+	@Override
+	public TargetedEntitiesRepository getTargetedEntitiesRepository(World world) throws UnsupportedOperationException {
+		if (isLogicalServer(world))
+			return targetedEntitiesRepository;
+
+		// throw exception if helper is used by physical client w/ logical client.
+		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
+	}
+
+	
 }

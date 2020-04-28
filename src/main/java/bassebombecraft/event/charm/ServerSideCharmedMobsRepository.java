@@ -44,24 +44,28 @@ public class ServerSideCharmedMobsRepository implements CharmedMobsRepository {
 
 	@Override
 	public void add(MobEntity entity, LivingEntity commander) {
+		try {
+			// exit if entity is team member
+			TeamRepository repository = getProxy().getTeamRepository(entity.getEntityWorld());
+			if (repository.isMember(commander, entity))
+				return;
 
-		// exit if entity is team member
-		TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
-		if (teamRepository.isMember(commander, entity))
-			return;
+			// create charmed mob container
+			CharmedMob charmedMob = ServerSideCharmedMob.getInstance(entity, charmDuration.get(), cRemovalCallback);
 
-		// create charmed mob container
-		CharmedMob charmedMob = ServerSideCharmedMob.getInstance(entity, charmDuration.get(), cRemovalCallback);
+			clearAllAiGoals(entity);
+			buildCharmedMobAi(entity, commander);
 
-		clearAllAiGoals(entity);
-		buildCharmedMobAi(entity, commander);
+			// store mob
+			String id = Integer.toString(entity.getEntityId());
+			charmedMobs.put(id, charmedMob);
 
-		// store mob
-		String id = Integer.toString(entity.getEntityId());
-		charmedMobs.put(id, charmedMob);
+			// send charm info to client
+			getProxy().getNetworkChannel(entity.getEntityWorld()).sendAddCharmPacket(entity);
 
-		// send charm info to client
-		getProxy().getNetworkChannel(entity.getEntityWorld()).sendAddCharmPacket(entity);
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 	@Override

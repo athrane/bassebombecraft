@@ -1,12 +1,12 @@
 package bassebombecraft.projectile.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
 import static bassebombecraft.entity.ai.AiUtils.buildSkeletonArmyAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 
-import bassebombecraft.config.ModConfiguration;
-import bassebombecraft.event.entity.team.TeamRepository;
+import static bassebombecraft.config.ModConfiguration.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.SkeletonEntity;
@@ -47,40 +47,43 @@ public class SpawnSkeletonArmy implements ProjectileAction {
 	 * SpawnSkeletonArmy constructor
 	 */
 	public SpawnSkeletonArmy() {
-		entities = ModConfiguration.spawnSkeletonArmyEntities.get();
-		spawnArea = ModConfiguration.spawnSkeletonArmySpawnArea.get();
+		entities = spawnSkeletonArmyEntities.get();
+		spawnArea = spawnSkeletonArmySpawnArea.get();
 	}
 
 	@Override
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
-		for (int i = 0; i < entities; i++) {
+		try {
+			for (int i = 0; i < entities; i++) {
 
-			// create skeleton
-			SkeletonEntity entity = EntityType.SKELETON.create(world);
+				// create skeleton
+				SkeletonEntity entity = EntityType.SKELETON.create(world);
 
-			// calculate random spawn position
-			setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnArea, entity);
+				// calculate random spawn position
+				setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnArea, entity);
 
-			// add bow
-			entity.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.BOW));
+				// add bow
+				entity.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.BOW));
 
-			// helmet
-			ItemStack helmetstack = new ItemStack(Items.DIAMOND_HELMET);
-			entity.setItemStackToSlot(EquipmentSlotType.HEAD, helmetstack);
+				// helmet
+				ItemStack helmetstack = new ItemStack(Items.DIAMOND_HELMET);
+				entity.setItemStackToSlot(EquipmentSlotType.HEAD, helmetstack);
 
-			// get owner
-			LivingEntity thrower = projectile.getThrower();
+				// get owner
+				LivingEntity thrower = projectile.getThrower();
 
-			// add entity to team
-			TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
-			teamRepository.add(thrower, entity);
+				// add entity to team
+				getProxy().getTeamRepository(world).add(thrower, entity);
 
-			// set AI
-			clearAllAiGoals(entity);
-			buildSkeletonArmyAi(entity, thrower);
+				// set AI
+				clearAllAiGoals(entity);
+				buildSkeletonArmyAi(entity, thrower);
 
-			// spawn
-			world.addEntity(entity);
+				// spawn
+				world.addEntity(entity);
+			}
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
 		}
 	}
 

@@ -1,8 +1,8 @@
 package bassebombecraft.projectile.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 
-import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.ChickenEntity;
@@ -21,23 +21,28 @@ public class SpawnFlamingChicken implements ProjectileAction {
 
 	@Override
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
-		ChickenEntity entity = EntityType.CHICKEN.create(world);
-		entity.setGrowingAge(CHILD_AGE);
-		entity.setLocationAndAngles(projectile.getPosX(), projectile.getPosY(), projectile.getPosZ(), projectile.rotationYaw, PITCH);
-		entity.setFire(3);
+		try {
+			ChickenEntity entity = EntityType.CHICKEN.create(world);
+			entity.setGrowingAge(CHILD_AGE);
+			entity.setLocationAndAngles(projectile.getPosX(), projectile.getPosY(), projectile.getPosZ(),
+					projectile.rotationYaw, PITCH);
+			entity.setFire(3);
 
-		// get owner
-		LivingEntity commander = projectile.getThrower();
+			// get owner
+			LivingEntity owner = projectile.getThrower();
 
-		// add entity to team
-		TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
-		teamRepository.add(commander, entity);
+			// add entity to team
+			getProxy().getTeamRepository(world).add(owner, entity);
 
-		// set AI
-		// NO-OP
+			// set AI
+			// NO-OP
 
-		// spawn
-		world.addEntity(entity);
+			// spawn
+			world.addEntity(entity);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 }

@@ -19,10 +19,6 @@ import org.apache.logging.log4j.Logger;
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
 
 import bassebombecraft.config.ModConfiguration;
-import bassebombecraft.event.entity.target.DefaultTargetedEntitiesRepository;
-import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
-import bassebombecraft.event.entity.team.DefaultTeamRepository;
-import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.item.ItemRegistryEventHandler;
 import bassebombecraft.proxy.ClientProxy;
 import bassebombecraft.proxy.Proxy;
@@ -65,16 +61,6 @@ public class BassebombeCraft {
 	static final ItemGroup MOD_ITEMGROUP = createItemGroup(TAB_NAME);
 
 	/**
-	 * Team repository.
-	 */
-	TeamRepository teamRepository;
-
-	/**
-	 * Targeted entities repository.
-	 */
-	TargetedEntitiesRepository targetedEntitiesRepository;
-
-	/**
 	 * Minecraft server.
 	 */
 	MinecraftServer server;
@@ -103,19 +89,13 @@ public class BassebombeCraft {
 		// store mod instance
 		instance = this;
 
-		// Register ourselves for forge events
-		EVENT_BUS.register(this);
-
 		try {
+
+			// Register ourselves for forge events
+			EVENT_BUS.register(this);
 
 			// load configuration
 			loadConfig();
-
-			// initialise team repository
-			teamRepository = DefaultTeamRepository.getInstance();
-
-			// initialise targeted entities repository
-			targetedEntitiesRepository = DefaultTargetedEntitiesRepository.getInstance();
 
 		} catch (ExceptionInInitializerError e) {
 			reportAndLogException(e);
@@ -164,24 +144,6 @@ public class BassebombeCraft {
 	 */
 	public static Proxy getProxy() {
 		return proxy;
-	}
-
-	/**
-	 * Get team repository.
-	 * 
-	 * @return team repository.
-	 */
-	public TeamRepository getTeamRepository() {
-		return teamRepository;
-	}
-
-	/**
-	 * Get targeted entities repository.
-	 * 
-	 * @return targeted entities repository.
-	 */
-	public TargetedEntitiesRepository getTargetedEntitiesRepository() {
-		return targetedEntitiesRepository;
 	}
 
 	/**

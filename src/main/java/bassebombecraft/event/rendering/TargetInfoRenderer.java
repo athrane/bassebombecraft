@@ -1,11 +1,12 @@
 package bassebombecraft.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.HUD_ITEM;
 import static bassebombecraft.ModConstants.TEAM_MEMBERS_TO_RENDER;
 import static bassebombecraft.player.PlayerUtils.getClientSidePlayer;
-import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 import static bassebombecraft.player.PlayerUtils.isClientSidePlayerDefined;
+import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 import static bassebombecraft.rendering.RenderingUtils.renderBillboardText;
 
 import java.util.Optional;
@@ -33,7 +34,7 @@ public class TargetInfoRenderer {
 	 */
 	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
 		try {
-			
+
 			// exit if player is undefined
 			if (!isClientSidePlayerDefined())
 				return;
@@ -44,24 +45,24 @@ public class TargetInfoRenderer {
 			// exit if HUD item isn't in hotbar
 			if (!isItemInHotbar(player, HUD_ITEM))
 				return;
-			
+
 			render(event.getMatrixStack(), player);
-			
+
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
 	}
-	
+
 	/**
 	 * Render target info.
 	 * 
 	 * @param matrixStack matrix static for rendering transforms.
-	 * @param player player object.
+	 * @param player      player object.
 	 */
 	static void render(MatrixStack matrixStack, PlayerEntity player) {
 
 		// get targets
-		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
+		TargetedEntitiesRepository repository = getProxy().getTargetedEntitiesRepository(player.getEntityWorld());
 		Stream<LivingEntity> targets = repository.get(player);
 		int targetsSize = repository.size(player);
 
@@ -103,7 +104,7 @@ public class TargetInfoRenderer {
 	static String getCommanderTargetName(PlayerEntity player) {
 
 		// get commander target
-		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
+		TargetedEntitiesRepository repository = getProxy().getTargetedEntitiesRepository(player.getEntityWorld());
 		Optional<LivingEntity> optTarget = repository.getFirst(player);
 
 		// exit if entity has no target

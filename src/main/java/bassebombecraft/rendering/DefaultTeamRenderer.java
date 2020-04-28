@@ -1,6 +1,6 @@
 package bassebombecraft.rendering;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModClientConstants.ICON_BILLBOARD_ROTATION;
 import static bassebombecraft.ModClientConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.HUD_TEXT_DISP;
@@ -49,7 +49,7 @@ public class DefaultTeamRenderer implements EntityRenderer {
 		Vec3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
 
 		// get team members
-		TeamRepository repository = getBassebombeCraft().getTeamRepository();
+		TeamRepository repository = getProxy().getTeamRepository(player.getEntityWorld());
 		Collection<LivingEntity> entities = repository.get(player);
 
 		// loop over team members

@@ -64,8 +64,8 @@ public class TeamInfoRenderer {
 	 */
 	static void render(MatrixStack matrixStack, PlayerEntity player) {
 
-		// get team
-		TeamRepository repository = getBassebombeCraft().getTeamRepository();
+		// get team		
+		TeamRepository repository = getProxy().getTeamRepository(player.getEntityWorld());
 		Collection<LivingEntity> team = repository.get(player);
 		int teamSize = repository.size(player);
 

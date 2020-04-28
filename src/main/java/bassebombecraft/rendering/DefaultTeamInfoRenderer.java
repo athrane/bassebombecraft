@@ -1,6 +1,6 @@
 package bassebombecraft.rendering;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.*;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.HUD_TEXT_DISP;
 import static bassebombecraft.ModConstants.TEAM_MEMBERS_TO_RENDER;
@@ -50,7 +50,7 @@ public class DefaultTeamInfoRenderer implements EntityRenderer {
 		Vec3d translation = playerPos.subtract(renderPos);
 
 		// get team
-		TeamRepository repository = getBassebombeCraft().getTeamRepository();
+		TeamRepository repository = getProxy().getTeamRepository(player.getEntityWorld());
 		Collection<LivingEntity> team = repository.get(player);
 		int teamSize = repository.size(player);
 
