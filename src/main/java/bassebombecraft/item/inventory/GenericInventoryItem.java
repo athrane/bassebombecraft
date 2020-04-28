@@ -16,7 +16,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.config.InventoryItemConfig;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
@@ -98,8 +97,6 @@ public class GenericInventoryItem extends Item {
 		// only apply the action at server side since we updates the world
 		if (isLogicalClient(worldIn))
 			return;
-
-		BassebombeCraft.getBassebombeCraft().getLogger().debug("CP1");
 
 		// exit if item isn't in hotbar
 		if (!isInHotbar(itemSlot))

@@ -17,7 +17,7 @@ import java.util.stream.Stream;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
-public class DefaultTargetedEntitiesRepository implements TargetedEntitiesRepository {
+public class DefaultTargetRepository implements TargetRepository {
 
 	/**
 	 * DTO for targets repository, commanders set of targets.
@@ -224,8 +224,8 @@ public class DefaultTargetedEntitiesRepository implements TargetedEntitiesReposi
 	 * 
 	 * @return repository instance.
 	 */
-	public static TargetedEntitiesRepository getInstance() {
-		return new DefaultTargetedEntitiesRepository();
+	public static TargetRepository getInstance() {
+		return new DefaultTargetRepository();
 	}
 
 }

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
-import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
+import bassebombecraft.event.entity.target.TargetRepository;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 
@@ -30,8 +30,7 @@ public class AttackCommandersTargetCommand implements MobCommand {
 	public boolean shouldExecute(LivingEntity commander, CreatureEntity entity) {
 		try {
 			// get target
-			TargetedEntitiesRepository repository = getProxy()
-					.getTargetedEntitiesRepository(commander.getEntityWorld());
+			TargetRepository repository = getProxy().getTargetRepository(commander.getEntityWorld());
 			Optional<LivingEntity> optTarget = repository.getFirst(commander);
 
 			// exit if target is undefined

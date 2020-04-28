@@ -18,8 +18,8 @@ import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.charm.ServerSideCharmedMobsRepository;
 import bassebombecraft.event.duration.DefaultDurationRepository;
 import bassebombecraft.event.duration.DurationRepository;
-import bassebombecraft.event.entity.target.DefaultTargetedEntitiesRepository;
-import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
+import bassebombecraft.event.entity.target.DefaultTargetRepository;
+import bassebombecraft.event.entity.target.TargetRepository;
 import bassebombecraft.event.entity.team.DefaultTeamRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.frequency.DefaultFrequencyRepository;
@@ -74,7 +74,7 @@ public class ServerProxy implements Proxy {
 	/**
 	 * Targeted entities repository.
 	 */
-	TargetedEntitiesRepository targetedEntitiesRepository;
+	TargetRepository targetRepository;
 	
 	/**
 	 * Network helper.
@@ -107,8 +107,8 @@ public class ServerProxy implements Proxy {
 		// initialise team repository
 		teamRepository = DefaultTeamRepository.getInstance();
 
-		// initialise targeted entities repository
-		targetedEntitiesRepository = DefaultTargetedEntitiesRepository.getInstance();
+		// initialise target repository
+		targetRepository = DefaultTargetRepository.getInstance();
 		
 		// initialize network
 		networkHelper = new NetworkChannelHelper();
@@ -252,8 +252,8 @@ public class ServerProxy implements Proxy {
 	}
 
 	@Override
-	public TargetedEntitiesRepository getTargetedEntitiesRepository(World world) throws UnsupportedOperationException {
-		return targetedEntitiesRepository;
+	public TargetRepository getTargetRepository(World world) throws UnsupportedOperationException {
+		return targetRepository;
 	}
 	
 }

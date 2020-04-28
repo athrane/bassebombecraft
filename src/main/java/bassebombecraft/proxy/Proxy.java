@@ -7,10 +7,11 @@ import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.charm.ClientSideCharmedMobsRepository;
 import bassebombecraft.event.charm.ServerSideCharmedMobsRepository;
 import bassebombecraft.event.duration.DurationRepository;
-import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
+import bassebombecraft.event.entity.target.TargetRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRenderingRepository;
+import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.network.NetworkChannelHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -216,8 +217,8 @@ public interface Proxy {
 	/**
 	 * Get mob commander repository.
 	 * 
-	 * This repository is available at the logical SERVER.
-	 * TODO: Rendering in {@linkplain HudItem} not supported. 
+	 * This repository is available at the logical SERVER. TODO: Rendering in
+	 * {@linkplain HudItem} not supported.
 	 * 
 	 * The server proxy implementation support this method to support the
 	 * configuration: physical server w/ logical server (dedicated server).
@@ -235,8 +236,8 @@ public interface Proxy {
 	/**
 	 * Get team repository.
 	 * 
-	 * This repository is available at the logical SERVER.
-	 * TODO: Rendering in {@linkplain HudItem} not supported. 
+	 * This repository is available at the logical SERVER. TODO: Rendering in
+	 * {@linkplain HudItem} not supported.
 	 * 
 	 * The server proxy implementation support this method to support the
 	 * configuration: physical server w/ logical server (dedicated server).
@@ -252,10 +253,10 @@ public interface Proxy {
 	public TeamRepository getTeamRepository(World world) throws UnsupportedOperationException;
 
 	/**
-	 * Get targeted entities repository.
+	 * Get target repository.
 	 * 
-	 * This repository is available at the logical SERVER.
-	 * TODO: Rendering in {@linkplain HudItem} not supported. 
+	 * This repository is available at the logical SERVER. TODO: Rendering in
+	 * {@linkplain HudItem} not supported.
 	 * 
 	 * The server proxy implementation support this method to support the
 	 * configuration: physical server w/ logical server (dedicated server).
@@ -268,6 +269,6 @@ public interface Proxy {
 	 * @throws UnsupportedOperationException if invoked in configuration: physical
 	 *                                       client w/ logical client.
 	 */
-	public TargetedEntitiesRepository getTargetedEntitiesRepository(World world) throws UnsupportedOperationException;
-	
+	public TargetRepository getTargetRepository(World world) throws UnsupportedOperationException;
+
 }

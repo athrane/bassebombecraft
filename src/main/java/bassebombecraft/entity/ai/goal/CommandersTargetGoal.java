@@ -9,7 +9,7 @@ import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
 import java.util.EnumSet;
 import java.util.Optional;
 
-import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
+import bassebombecraft.event.entity.target.TargetRepository;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
@@ -64,8 +64,7 @@ public class CommandersTargetGoal extends Goal {
 				return false;
 
 			// get target
-			TargetedEntitiesRepository repository = getProxy()
-					.getTargetedEntitiesRepository(commander.getEntityWorld());
+			TargetRepository repository = getProxy().getTargetRepository(commander.getEntityWorld());
 			Optional<LivingEntity> optTarget = repository.getFirst(commander);
 
 			// exit if target isn't defined (anymore)
@@ -87,8 +86,7 @@ public class CommandersTargetGoal extends Goal {
 	public void tick() {
 		try {
 			// get target
-			TargetedEntitiesRepository repository = getProxy()
-					.getTargetedEntitiesRepository(commander.getEntityWorld());
+			TargetRepository repository = getProxy().getTargetRepository(commander.getEntityWorld());
 			Optional<LivingEntity> optTarget = repository.getFirst(commander);
 
 			// exit if target isn't defined (anymore)

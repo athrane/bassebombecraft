@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.Mod;
  * The handler only executes events SERVER side.
  */
 @Mod.EventBusSubscriber
-public class TargetedEntitiesEventHandler {
+public class TargetEventHandler {
 
 	@SubscribeEvent
 	static public void handleLivingDeathEvent(LivingDeathEvent event) {
@@ -32,8 +32,7 @@ public class TargetedEntitiesEventHandler {
 			return;
 
 		// get repository
-		TargetedEntitiesRepository repository = getProxy()
-				.getTargetedEntitiesRepository(event.getEntity().getEntityWorld());
+		TargetRepository repository = getProxy().getTargetRepository(event.getEntity().getEntityWorld());
 
 		// remove entity from team upon death
 		LivingEntity entity = event.getEntityLiving();
@@ -73,7 +72,7 @@ public class TargetedEntitiesEventHandler {
 			LivingEntity targetAsLivingEntity = (LivingEntity) target;
 
 			// add target for commander
-			TargetedEntitiesRepository repository = getProxy().getTargetedEntitiesRepository(player.getEntityWorld());
+			TargetRepository repository = getProxy().getTargetRepository(player.getEntityWorld());
 			repository.add(player, targetAsLivingEntity);
 
 		} catch (Exception e) {
@@ -89,8 +88,7 @@ public class TargetedEntitiesEventHandler {
 				return;
 
 			// register targets for commander
-			TargetedEntitiesRepository repository = getProxy()
-					.getTargetedEntitiesRepository(event.getPlayer().getEntityWorld());
+			TargetRepository repository = getProxy().getTargetRepository(event.getPlayer().getEntityWorld());
 			repository.createTargets(event.getPlayer());
 
 		} catch (Exception e) {
@@ -106,8 +104,7 @@ public class TargetedEntitiesEventHandler {
 				return;
 
 			// delete targets for commander
-			TargetedEntitiesRepository repository = getProxy()
-					.getTargetedEntitiesRepository(event.getPlayer().getEntityWorld());
+			TargetRepository repository = getProxy().getTargetRepository(event.getPlayer().getEntityWorld());
 			repository.deleteTargets(event.getPlayer());
 
 		} catch (Exception e) {

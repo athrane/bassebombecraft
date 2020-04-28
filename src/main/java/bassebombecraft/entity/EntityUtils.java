@@ -8,7 +8,7 @@ import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import java.util.Optional;
 import java.util.Random;
 
-import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
+import bassebombecraft.event.entity.target.TargetRepository;
 import bassebombecraft.player.PlayerDirection;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
@@ -332,8 +332,7 @@ public class EntityUtils {
 				PlayerEntity player = (PlayerEntity) invoker;
 
 				// get player target
-				TargetedEntitiesRepository repository = getProxy()
-						.getTargetedEntitiesRepository(player.getEntityWorld());
+				TargetRepository repository = getProxy().getTargetRepository(player.getEntityWorld());
 				Optional<LivingEntity> optTarget = repository.getFirst(player);
 
 				// return player target if defined

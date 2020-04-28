@@ -23,8 +23,8 @@ import bassebombecraft.event.charm.ClientSideCharmedMobsRepository;
 import bassebombecraft.event.charm.ServerSideCharmedMobsRepository;
 import bassebombecraft.event.duration.DefaultDurationRepository;
 import bassebombecraft.event.duration.DurationRepository;
-import bassebombecraft.event.entity.target.DefaultTargetedEntitiesRepository;
-import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
+import bassebombecraft.event.entity.target.DefaultTargetRepository;
+import bassebombecraft.event.entity.target.TargetRepository;
 import bassebombecraft.event.entity.team.DefaultTeamRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.frequency.DefaultFrequencyRepository;
@@ -100,9 +100,9 @@ public class ClientProxy implements Proxy {
 	TeamRepository teamRepository;
 
 	/**
-	 * Targeted entities repository.
+	 * Target repository.
 	 */
-	TargetedEntitiesRepository targetedEntitiesRepository;
+	TargetRepository targetRepository;
 	
 	/**
 	 * Network helper.
@@ -140,7 +140,7 @@ public class ClientProxy implements Proxy {
 		teamRepository = DefaultTeamRepository.getInstance();
 
 		// initialise targeted entities repository
-		targetedEntitiesRepository = DefaultTargetedEntitiesRepository.getInstance();
+		targetRepository = DefaultTargetRepository.getInstance();
 		
 		// initialize network
 		networkHelper = new NetworkChannelHelper();
@@ -308,9 +308,9 @@ public class ClientProxy implements Proxy {
 	}
 
 	@Override
-	public TargetedEntitiesRepository getTargetedEntitiesRepository(World world) throws UnsupportedOperationException {
+	public TargetRepository getTargetRepository(World world) throws UnsupportedOperationException {
 		if (isLogicalServer(world))
-			return targetedEntitiesRepository;
+			return targetRepository;
 
 		// throw exception if helper is used by physical client w/ logical client.
 		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");

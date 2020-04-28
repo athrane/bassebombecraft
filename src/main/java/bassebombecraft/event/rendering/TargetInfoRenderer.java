@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
+import bassebombecraft.event.entity.target.TargetRepository;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.LivingEntity;
@@ -62,7 +62,7 @@ public class TargetInfoRenderer {
 	static void render(MatrixStack matrixStack, PlayerEntity player) {
 
 		// get targets
-		TargetedEntitiesRepository repository = getProxy().getTargetedEntitiesRepository(player.getEntityWorld());
+		TargetRepository repository = getProxy().getTargetRepository(player.getEntityWorld());
 		Stream<LivingEntity> targets = repository.get(player);
 		int targetsSize = repository.size(player);
 
@@ -104,7 +104,7 @@ public class TargetInfoRenderer {
 	static String getCommanderTargetName(PlayerEntity player) {
 
 		// get commander target
-		TargetedEntitiesRepository repository = getProxy().getTargetedEntitiesRepository(player.getEntityWorld());
+		TargetRepository repository = getProxy().getTargetRepository(player.getEntityWorld());
 		Optional<LivingEntity> optTarget = repository.getFirst(player);
 
 		// exit if entity has no target

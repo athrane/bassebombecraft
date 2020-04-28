@@ -9,7 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 /**
  * Interface for repository for handling targeted entities.
  */
-public interface TargetedEntitiesRepository {
+public interface TargetRepository {
 
 	/**
 	 * Create target set for commander.

@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
-import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
+import bassebombecraft.event.entity.target.TargetRepository;
 import bassebombecraft.player.PlayerUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -46,7 +46,7 @@ public class DefaultTargetsInfoRenderer implements EntityRenderer {
 		Vec3d translation = playerPos.subtract(renderPos);
 
 		// get targets
-		TargetedEntitiesRepository repository = getProxy().getTargetedEntitiesRepository(player.getEntityWorld());
+		TargetRepository repository = getProxy().getTargetRepository(player.getEntityWorld());
 		Stream<LivingEntity> targets = repository.get(player);
 		int targetsSize = repository.size(player);
 
@@ -90,7 +90,7 @@ public class DefaultTargetsInfoRenderer implements EntityRenderer {
 	String getCommanderTargetName(PlayerEntity player) {
 
 		// get commander target
-		TargetedEntitiesRepository repository = getProxy().getTargetedEntitiesRepository(player.getEntityWorld());
+		TargetRepository repository = getProxy().getTargetRepository(player.getEntityWorld());
 		Optional<LivingEntity> optTarget = repository.getFirst(player);
 
 		// exit if entity has no target
