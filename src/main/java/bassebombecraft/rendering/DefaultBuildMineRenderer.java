@@ -1,6 +1,6 @@
 package bassebombecraft.rendering;
 
-import static bassebombecraft.ModClientConstants.TEXT_BILLBOARD_ROTATION;
+import static bassebombecraft.ClientModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.BUILDMINEBOOK__TEXT_COLOR;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 import static bassebombecraft.rendering.RenderingUtils.renderTextBillboard;

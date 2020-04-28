@@ -3,13 +3,14 @@ package bassebombecraft.event.rendering;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.BUILD_MINE_BOOK;
 import static bassebombecraft.ModConstants.HUD_ITEM;
+import static bassebombecraft.player.ClientPlayerUtils.getClientSidePlayer;
+import static bassebombecraft.player.ClientPlayerUtils.isClientSidePlayerDefined;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
-import static bassebombecraft.player.PlayerUtils.getClientSidePlayer;
 import static bassebombecraft.player.PlayerUtils.isItemHeldInEitherHands;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
-import static bassebombecraft.player.PlayerUtils.isClientSidePlayerDefined;
 import static bassebombecraft.rendering.DefaultRenderingInfo.getInstance;
 
+import bassebombecraft.player.ClientPlayerUtils;
 import bassebombecraft.rendering.DefaultBuildMineRenderer;
 import bassebombecraft.rendering.DefaultCharmedRenderer;
 import bassebombecraft.rendering.DefaultLookAtBlockRenderer;
@@ -79,11 +80,11 @@ public class RenderingEventHandler {
 	public static void handleRenderGameOverlayEvent(RenderGameOverlayEvent event) {
 
 		// exit if player is undefined
-		if (!isClientSidePlayerDefined())
+		if (!ClientPlayerUtils.isClientSidePlayerDefined())
 			return;
 
 		// get player
-		PlayerEntity player = getClientSidePlayer();
+		PlayerEntity player = ClientPlayerUtils.getClientSidePlayer();
 
 		// exit if targeting overlay isn't in hotbar
 		if (!isItemInHotbar(player, HUD_ITEM))
@@ -112,11 +113,11 @@ public class RenderingEventHandler {
 	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
 
 		// exit if player is undefined
-		if (!isClientSidePlayerDefined())
+		if (!ClientPlayerUtils.isClientSidePlayerDefined())
 			return;
 
 		// get player
-		PlayerEntity player = getClientSidePlayer();
+		PlayerEntity player = ClientPlayerUtils.getClientSidePlayer();
 
 		// render DEBUG billboard
 		// RenderingInfo info = getInstance(event.getPartialTicks());
@@ -176,7 +177,7 @@ public class RenderingEventHandler {
 			RenderingInfo info = getInstance(event.getPartialTicks());
 
 			// render
-			//teamRenderer.render(player, info);
+			// teamRenderer.render(player, info);
 			charmedRenderer.render(player, info);
 
 			Vec3d renderPos = RenderingUtils.getRenderPos();

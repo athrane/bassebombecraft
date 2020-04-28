@@ -5,9 +5,9 @@ import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.HUD_ITEM;
 import static bassebombecraft.ModConstants.TEAM_MEMBERS_TO_RENDER;
 import static bassebombecraft.entity.EntityUtils.getTarget;
-import static bassebombecraft.player.PlayerUtils.getClientSidePlayer;
+import static bassebombecraft.player.ClientPlayerUtils.getClientSidePlayer;
+import static bassebombecraft.player.ClientPlayerUtils.isClientSidePlayerDefined;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
-import static bassebombecraft.player.PlayerUtils.isClientSidePlayerDefined;
 import static bassebombecraft.rendering.RenderingUtils.renderBillboardText;
 
 import java.util.Collection;
@@ -37,7 +37,7 @@ public class TeamInfoRenderer {
 	 */
 	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
 		try {
-			
+
 			// exit if player is undefined
 			if (!isClientSidePlayerDefined())
 				return;
@@ -48,9 +48,9 @@ public class TeamInfoRenderer {
 			// exit if HUD item isn't in hotbar
 			if (!isItemInHotbar(player, HUD_ITEM))
 				return;
-			
+
 			render(event.getMatrixStack(), player);
-			
+
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
@@ -60,11 +60,11 @@ public class TeamInfoRenderer {
 	 * Render team info.
 	 * 
 	 * @param matrixStack matrix static for rendering transforms.
-	 * @param player player object.
+	 * @param player      player object.
 	 */
 	static void render(MatrixStack matrixStack, PlayerEntity player) {
 
-		// get team		
+		// get team
 		TeamRepository repository = getProxy().getTeamRepository(player.getEntityWorld());
 		Collection<LivingEntity> team = repository.get(player);
 		int teamSize = repository.size(player);

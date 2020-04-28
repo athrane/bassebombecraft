@@ -1,6 +1,6 @@
 package bassebombecraft.rendering;
 
-import static bassebombecraft.ModClientConstants.TEXT_BILLBOARD_ROTATION;
+import static bassebombecraft.ClientModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.BILLBOARD_LINE_WIDTH;
 import static bassebombecraft.ModConstants.EQUILATERAL_TRIANGLE_HEIGHT;
 import static bassebombecraft.ModConstants.TEXT_COLOR;

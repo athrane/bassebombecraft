@@ -7,8 +7,8 @@ import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEXT_SCALE;
 import static bassebombecraft.entity.ai.AiUtils.getFirstRunningAiGoalName;
 import static bassebombecraft.entity.ai.AiUtils.getFirstRunningAiTargetGoalName;
-import static bassebombecraft.player.PlayerUtils.getClientSidePlayer;
-import static bassebombecraft.player.PlayerUtils.isClientSidePlayerDefined;
+import static bassebombecraft.player.ClientPlayerUtils.getClientSidePlayer;
+import static bassebombecraft.player.ClientPlayerUtils.isClientSidePlayerDefined;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 
 import com.mojang.blaze3d.matrix.MatrixStack;

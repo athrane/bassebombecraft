@@ -8,7 +8,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import bassebombecraft.BassebombeCraft;
-import static bassebombecraft.ModClientConstants.*;
+import static bassebombecraft.ClientModConstants.*;
 import bassebombecraft.player.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;

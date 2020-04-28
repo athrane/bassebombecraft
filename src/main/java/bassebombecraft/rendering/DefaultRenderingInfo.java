@@ -1,6 +1,6 @@
 package bassebombecraft.rendering;
 
-import static bassebombecraft.player.PlayerUtils.getClientSidePlayer;
+import static bassebombecraft.player.ClientPlayerUtils.getClientSidePlayer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;

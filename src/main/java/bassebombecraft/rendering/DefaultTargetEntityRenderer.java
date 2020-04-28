@@ -1,10 +1,10 @@
 package bassebombecraft.rendering;
 
-import static bassebombecraft.ModClientConstants.TEXT_BILLBOARD_ROTATION;
+import static bassebombecraft.ClientModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.TARGET_LABEL;
 import static bassebombecraft.entity.EntityUtils.getTarget;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
-import static bassebombecraft.player.PlayerUtils.getClientSidePlayer;
+import static bassebombecraft.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.rendering.RenderingUtils.completeSimpleRendering;
 import static bassebombecraft.rendering.RenderingUtils.prepareSimpleRendering;
 import static bassebombecraft.rendering.RenderingUtils.renderLine;

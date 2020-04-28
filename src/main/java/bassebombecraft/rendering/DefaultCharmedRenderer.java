@@ -1,8 +1,8 @@
 package bassebombecraft.rendering;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.ModClientConstants.ICON_BILLBOARD_ROTATION;
-import static bassebombecraft.ModClientConstants.TEXT_BILLBOARD_ROTATION;
+import static bassebombecraft.ClientModConstants.ICON_BILLBOARD_ROTATION;
+import static bassebombecraft.ClientModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 import static bassebombecraft.rendering.RenderingUtils.renderTextBillboard;
 import static bassebombecraft.rendering.RenderingUtils.renderTriangleBillboard;

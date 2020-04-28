@@ -3,9 +3,9 @@ package bassebombecraft;
 import net.minecraft.client.renderer.Vector4f;
 
 /**
- * Mod constants which should only be loaded client side.
+ * Mod constants which should only be loaded by by the configuration: physical client / logical client.
  */
-public class ModClientConstants {
+public class ClientModConstants {
 
 	/**
 	 * Rendering: Angle for rotation of text billboard.

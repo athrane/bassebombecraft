@@ -4,7 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startSession;
-import static bassebombecraft.player.PlayerUtils.getClientSidePlayerUId;
+import static bassebombecraft.player.ClientPlayerUtils.getClientSidePlayerUId;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static bassebombecraft.world.WorldUtils.isLogicalServer;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
@@ -103,7 +103,7 @@ public class ClientProxy implements Proxy {
 	 * Target repository.
 	 */
 	TargetRepository targetRepository;
-	
+
 	/**
 	 * Network helper.
 	 */
@@ -141,7 +141,7 @@ public class ClientProxy implements Proxy {
 
 		// initialise targeted entities repository
 		targetRepository = DefaultTargetRepository.getInstance();
-		
+
 		// initialize network
 		networkHelper = new NetworkChannelHelper();
 	}
@@ -316,5 +316,4 @@ public class ClientProxy implements Proxy {
 		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
 	}
 
-	
 }

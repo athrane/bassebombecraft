@@ -2,8 +2,8 @@ package bassebombecraft.rendering;
 
 import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEXT_SCALE;
-import static bassebombecraft.player.PlayerUtils.getClientSidePlayer;
-import static bassebombecraft.player.PlayerUtils.isClientSidePlayerDefined;
+import static bassebombecraft.player.ClientPlayerUtils.getClientSidePlayer;
+import static bassebombecraft.player.ClientPlayerUtils.isClientSidePlayerDefined;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
