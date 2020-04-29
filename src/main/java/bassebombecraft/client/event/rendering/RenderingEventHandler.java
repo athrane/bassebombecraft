@@ -21,12 +21,8 @@ import bassebombecraft.client.rendering.RenderingUtils;
 import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.DrawHighlightEvent.HighlightBlock;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -63,20 +59,6 @@ public class RenderingEventHandler {
 	static final EntityRenderer buildMineRenderer = new DefaultBuildMineRenderer();
 
 	@SubscribeEvent
-	@OnlyIn(Dist.CLIENT)
-	public static void handleEntityViewRenderEvent(EntityViewRenderEvent event) {
-		// TODO: Can this replace loops for rendering of charmed, team and targets?
-		return;
-	}
-
-	@SubscribeEvent
-	@OnlyIn(Dist.CLIENT)
-	public static void handleRenderLivingEvent(RenderLivingEvent event) {
-		// TODO: Can this replace loops for rendering of charmed, team and targets?
-	}
-
-	@SubscribeEvent
-	@OnlyIn(Dist.CLIENT)
 	public static void handleRenderGameOverlayEvent(RenderGameOverlayEvent event) {
 
 		// exit if player is undefined
@@ -109,11 +91,10 @@ public class RenderingEventHandler {
 	}
 
 	@SubscribeEvent
-	@OnlyIn(Dist.CLIENT)
 	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
 
 		// exit if player is undefined
-		if (!ClientPlayerUtils.isClientSidePlayerDefined())
+		if (!isClientSidePlayerDefined())
 			return;
 
 		// get player
@@ -131,7 +112,6 @@ public class RenderingEventHandler {
 	}
 
 	@SubscribeEvent
-	@OnlyIn(Dist.CLIENT)
 	public static void handleHighlightBlock(HighlightBlock event) {
 
 		// exit if player is undefined
