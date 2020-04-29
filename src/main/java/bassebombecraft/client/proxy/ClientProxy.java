@@ -1,0 +1,320 @@
+package bassebombecraft.client.proxy;
+
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayerUId;
+import static bassebombecraft.config.VersionUtils.endSession;
+import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
+import static bassebombecraft.config.VersionUtils.startSession;
+import static bassebombecraft.world.WorldUtils.isLogicalClient;
+import static bassebombecraft.world.WorldUtils.isLogicalServer;
+import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
+
+import org.apache.logging.log4j.Logger;
+
+import bassebombecraft.client.event.rendering.CharmedInfoRenderer;
+import bassebombecraft.client.event.rendering.DecoyRenderer;
+import bassebombecraft.client.event.rendering.DecreaseSizeEffectRenderer;
+import bassebombecraft.client.event.rendering.IncreaseSizeEffectRenderer;
+import bassebombecraft.client.event.rendering.RespawnedRenderer;
+import bassebombecraft.client.event.rendering.TargetInfoRenderer;
+import bassebombecraft.client.event.rendering.TeamEnityRenderer;
+import bassebombecraft.client.event.rendering.TeamInfoRenderer;
+import bassebombecraft.config.VersionUtils;
+import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
+import bassebombecraft.entity.commander.MobCommanderRepository;
+import bassebombecraft.event.block.BlockDirectivesRepository;
+import bassebombecraft.event.block.DefaultBlockDirectiveRepository;
+import bassebombecraft.event.block.temporary.DefaultTemporaryBlockRepository;
+import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
+import bassebombecraft.event.charm.CharmedMobsRepository;
+import bassebombecraft.event.charm.ClientSideCharmedMobsRepository;
+import bassebombecraft.event.charm.ServerSideCharmedMobsRepository;
+import bassebombecraft.event.duration.DefaultDurationRepository;
+import bassebombecraft.event.duration.DurationRepository;
+import bassebombecraft.event.entity.target.DefaultTargetRepository;
+import bassebombecraft.event.entity.target.TargetRepository;
+import bassebombecraft.event.entity.team.DefaultTeamRepository;
+import bassebombecraft.event.entity.team.TeamRepository;
+import bassebombecraft.event.frequency.DefaultFrequencyRepository;
+import bassebombecraft.event.frequency.FrequencyRepository;
+import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
+import bassebombecraft.event.particle.ParticleRenderingRepository;
+import bassebombecraft.network.NetworkChannelHelper;
+import bassebombecraft.proxy.Proxy;
+import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+
+/**
+ * Implementation of the {@linkplain Proxy} interface for the physical client.
+ * Physical side is determined by {@linkplain Dist}.
+ */
+public class ClientProxy implements Proxy {
+
+	/**
+	 * Meta data for block.
+	 */
+	static final int META = 0;
+
+	/**
+	 * Frequency repository.
+	 */
+	FrequencyRepository frequencyRepository;
+
+	/**
+	 * Duration repository.
+	 */
+	DurationRepository durationRepository;
+
+	/**
+	 * Particle rendering repository.
+	 */
+	ParticleRenderingRepository particleRepository;
+
+	/**
+	 * Charmed Mob repository
+	 */
+	CharmedMobsRepository clientSideCharmedMobsRepository;
+
+	/**
+	 * Charmed Mob repository
+	 */
+	CharmedMobsRepository serverSideCharmedMobsRepository;
+
+	/**
+	 * Block directives repository.
+	 */
+	BlockDirectivesRepository blockDirectivesRepository;
+
+	/**
+	 * Temporary block repository.
+	 */
+	TemporaryBlockRepository tempBlockRepository;
+
+	/**
+	 * Mob commander repository.
+	 */
+	MobCommanderRepository mobCommanderRepository;
+
+	/**
+	 * Team repository.
+	 */
+	TeamRepository teamRepository;
+
+	/**
+	 * Target repository.
+	 */
+	TargetRepository targetRepository;
+
+	/**
+	 * Network helper.
+	 */
+	NetworkChannelHelper networkHelper;
+
+	/**
+	 * Constructor
+	 */
+	public ClientProxy() {
+
+		// initialise frequency repository
+		frequencyRepository = DefaultFrequencyRepository.getInstance();
+
+		// initialise duration repository
+		durationRepository = DefaultDurationRepository.getInstance();
+
+		// Initialise particle rendering repository
+		particleRepository = DefaultParticleRenderingRepository.getInstance();
+
+		// Initialise charmed mobs repositories
+		clientSideCharmedMobsRepository = ClientSideCharmedMobsRepository.getInstance();
+		serverSideCharmedMobsRepository = ServerSideCharmedMobsRepository.getInstance();
+
+		// Initialise directives repository
+		blockDirectivesRepository = DefaultBlockDirectiveRepository.getInstance();
+
+		// Initialise temporary block repository
+		tempBlockRepository = DefaultTemporaryBlockRepository.getInstance();
+
+		// Initialise mob commander repository
+		mobCommanderRepository = DefaultMobCommanderRepository.getInstance();
+
+		// initialise team repository
+		teamRepository = DefaultTeamRepository.getInstance();
+
+		// initialise targeted entities repository
+		targetRepository = DefaultTargetRepository.getInstance();
+
+		// initialize network
+		networkHelper = new NetworkChannelHelper();
+	}
+
+	@Override
+	public void startAnalyticsSession() {
+		try {
+			startSession(getUser());
+
+		} catch (Exception ex) {
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Initiating usage session failed with: " + ex.getMessage());
+		}
+	}
+
+	@Override
+	public void endAnalyticsSession() {
+		try {
+			endSession(getUser());
+
+		} catch (Exception ex) {
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Initiating usage session failed with: " + ex.getMessage());
+		}
+	}
+
+	@Override
+	public void postItemUsage(String itemName, String user) {
+		try {
+			postItemUsageEvent(user, itemName);
+
+		} catch (Exception ex) {
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Posting usage failed with: " + ex.getMessage());
+		}
+	}
+
+	@Override
+	public void postException(Throwable e) {
+		try {
+			VersionUtils.postException(getUser(), e);
+		} catch (Exception ex) {
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Posting exception:" + e.getMessage() + " failed with: " + ex.getMessage());
+		}
+	}
+
+	@Override
+	public void postError(String msg) {
+		try {
+			VersionUtils.postError(getUser(), msg);
+		} catch (Exception ex) {
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Posting error:" + msg + " failed with: " + ex.getMessage());
+		}
+	}
+
+	@Override
+	public void postAiObservation(String type, String observation) {
+		try {
+			VersionUtils.postAiObservation(getUser(), type, observation);
+		} catch (Exception ex) {
+			Logger logger = getBassebombeCraft().getLogger();
+			logger.error("Posting AI observation: failed with: " + ex.getMessage());
+		}
+	}
+
+	@Override
+	public String getUser() {
+		return getClientSidePlayerUId();
+	}
+
+	@Override
+	public void setupClientSideRendering() throws UnsupportedOperationException {
+		// register debug renderer classes
+		// EVENT_BUS.addListener(DebugRenderer_MobLines::render);
+		// EVENT_BUS.addListener(DebugRenderer_EntityText_v3::render);
+		// MinecraftForge.EVENT_BUS.addListener(DebugRenderer_WorldLastEventText::render);
+		// EVENT_BUS.addListener(DebugRenderer_Highlightblock::render);
+		// EVENT_BUS.addListener(DebugRenderer_StrangeSize::render);
+		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPre);
+		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPost);
+
+		// register renderer classes
+		EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(CharmedInfoRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(TeamEnityRenderer::handleRenderLivingEvent);
+		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPre);
+		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPost);
+		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPre);
+		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPost);
+		EVENT_BUS.addListener(DecoyRenderer::handleRenderLivingEventPre);
+		EVENT_BUS.addListener(DecoyRenderer::handleRenderLivingEventPost);
+		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPre);
+		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPost);
+	}
+
+	@Override
+	public NetworkChannelHelper getNetworkChannel(World world) throws UnsupportedOperationException {
+		if (isLogicalServer(world))
+			return networkHelper;
+
+		// throw exception if helper is used by physical client w/ logical client.
+		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
+	}
+
+	@Override
+	public FrequencyRepository getFrequencyRepository() throws UnsupportedOperationException {
+		return frequencyRepository;
+	}
+
+	@Override
+	public DurationRepository getDurationRepository() throws UnsupportedOperationException {
+		return durationRepository;
+	}
+
+	@Override
+	public ParticleRenderingRepository getParticleRenderingRepository() throws UnsupportedOperationException {
+		return particleRepository;
+	}
+
+	@Override
+	public CharmedMobsRepository getCharmedMobsRepository(World world) throws UnsupportedOperationException {
+		if (isLogicalClient(world))
+			return clientSideCharmedMobsRepository;
+		return serverSideCharmedMobsRepository;
+	}
+
+	@Override
+	public BlockDirectivesRepository getBlockDirectivesRepository(World world) throws UnsupportedOperationException {
+		if (isLogicalServer(world))
+			return blockDirectivesRepository;
+
+		// throw exception if helper is used by physical client w/ logical client.
+		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
+	}
+
+	@Override
+	public TemporaryBlockRepository getTemporaryBlockRepository(World world) throws UnsupportedOperationException {
+		if (isLogicalServer(world))
+			return tempBlockRepository;
+
+		// throw exception if helper is used by physical client w/ logical client.
+		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
+	}
+
+	@Override
+	public MobCommanderRepository getMobCommanderRepository(World world) throws UnsupportedOperationException {
+		if (isLogicalServer(world))
+			return mobCommanderRepository;
+
+		// throw exception if helper is used by physical client w/ logical client.
+		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
+	}
+
+	@Override
+	public TeamRepository getTeamRepository(World world) throws UnsupportedOperationException {
+		if (isLogicalServer(world))
+			return teamRepository;
+
+		// throw exception if helper is used by physical client w/ logical client.
+		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
+	}
+
+	@Override
+	public TargetRepository getTargetRepository(World world) throws UnsupportedOperationException {
+		if (isLogicalServer(world))
+			return targetRepository;
+
+		// throw exception if helper is used by physical client w/ logical client.
+		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
+	}
+
+}

@@ -18,9 +18,9 @@ import org.apache.logging.log4j.Logger;
 
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
 
+import bassebombecraft.client.proxy.ClientProxy;
 import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.item.ItemRegistryEventHandler;
-import bassebombecraft.proxy.ClientProxy;
 import bassebombecraft.proxy.Proxy;
 import bassebombecraft.proxy.ServerProxy;
 import net.minecraft.entity.player.PlayerEntity;

@@ -2,13 +2,14 @@ package bassebombecraft;
 
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 
+import bassebombecraft.client.event.rendering.TeamInfoRenderer;
+import bassebombecraft.client.rendering.DefaultBuildMineRenderer;
 import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
 import bassebombecraft.event.charm.CharmedMobEventHandler;
 import bassebombecraft.event.particle.ParticleRenderingEventHandler;
-import bassebombecraft.event.rendering.TeamInfoRenderer;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
@@ -28,7 +29,6 @@ import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.MobProjectileEffect;
 import bassebombecraft.potion.effect.ReceiveAggroEffect;
 import bassebombecraft.potion.effect.ReflectEffect;
-import bassebombecraft.rendering.DefaultBuildMineRenderer;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.item.Item;
