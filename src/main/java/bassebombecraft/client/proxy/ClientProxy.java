@@ -227,10 +227,10 @@ public class ClientProxy implements Proxy {
 		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPost);
 
 		// register renderer classes
-		EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
-		EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
+		//EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
+		//EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
 		EVENT_BUS.addListener(CharmedInfoRenderer::handleRenderWorldLastEvent);
-		EVENT_BUS.addListener(TeamEnityRenderer::handleRenderLivingEvent);
+		//EVENT_BUS.addListener(TeamEnityRenderer::handleRenderLivingEvent);
 		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPre);
 		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPost);
 		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPre);
