@@ -60,26 +60,21 @@ public class RemoveParticleRendering {
 	 */
 	public void handle(Supplier<NetworkEvent.Context> context) {
 		Context ctx = context.get();
+		ctx.enqueueWork(() -> handlePacket());
+		ctx.setPacketHandled(true);
+	}
 
+	/**
+	 * Handle received network packet.
+	 */		
+	void handlePacket() {
 		try {
-			ctx.enqueueWork(() -> {
-
-				try {
-
-					// remove particle rendering directive
-					ParticleRenderingRepository repository = getProxy().getParticleRenderingRepository();
-					repository.remove(id);
-					;
-
-				} catch (Exception e) {
-					getBassebombeCraft().reportAndLogException(e);
-				}
-			});
-
+			// remove particle rendering directive
+			ParticleRenderingRepository repository = getProxy().getParticleRenderingRepository();
+			repository.remove(id);
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
-
-		ctx.setPacketHandled(true);
 	}
+	
 }

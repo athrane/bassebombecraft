@@ -65,26 +65,33 @@ public class AddCharm {
 	 */
 	public void handle(Supplier<NetworkEvent.Context> context) {
 		Context ctx = context.get();
+		ctx.enqueueWork(() -> handlePacket());
+		ctx.setPacketHandled(true);
+	}
 
+	/**
+	 * Handle received network packet.
+	 */
+	void handlePacket() {
 		try {
-			ctx.enqueueWork(() -> {
 
-				// get client side entity from ID
-				Minecraft mcClient = Minecraft.getInstance();
-				Entity entity = mcClient.world.getEntityByID(entityId);
+			// get client side entity from ID
+			Minecraft mcClient = Minecraft.getInstance();
+			Entity entity = mcClient.world.getEntityByID(entityId);
 
-				// type cast
-				MobEntity mobEntity = (MobEntity) entity;
+			// exit if entity isn't defined
+			if(entity == null) return;
+			
+			// type cast
+			MobEntity mobEntity = (MobEntity) entity;
 
-				// register
-				CharmedMobsRepository repository = getProxy().getCharmedMobsRepository(mobEntity.getEntityWorld());
-				repository.add(mobEntity, null);
-			});
+			// register
+			CharmedMobsRepository repository = getProxy().getCharmedMobsRepository(mobEntity.getEntityWorld());
+			repository.add(mobEntity, null);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
 
-		ctx.setPacketHandled(true);
 	}
 }

@@ -130,31 +130,27 @@ public class AddParticleRendering {
 	 */
 	public void handle(Supplier<NetworkEvent.Context> context) {
 		Context ctx = context.get();
+		ctx.enqueueWork(() -> handlePacket());
+		ctx.setPacketHandled(true);
+	}
 
+	/**
+	 * Handle received network packet.
+	 */	
+	void handlePacket() {
 		try {
-			ctx.enqueueWork(() -> {
+			// create particle info
+			ParticleRenderingInfo info = getInstance(type, number, duration, rgbRed, rgbGreen, rgbBlue, speed);
 
-				try {
+			// create particle rendering
+			ParticleRendering particle = getInstance(position, info);
 
-					// create particle info
-					ParticleRenderingInfo info = getInstance(type, number, duration, rgbRed, rgbGreen, rgbBlue, speed);
-
-					// create particle rendering
-					ParticleRendering particle = getInstance(position, info);
-
-					// register for rendering
-					ParticleRenderingRepository repository = getProxy().getParticleRenderingRepository();
-					repository.add(id, particle);
-
-				} catch (Exception e) {
-					getBassebombeCraft().reportAndLogException(e);
-				}
-			});
+			// register for rendering
+			ParticleRenderingRepository repository = getProxy().getParticleRenderingRepository();
+			repository.add(id, particle);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
-
-		ctx.setPacketHandled(true);
 	}
 }

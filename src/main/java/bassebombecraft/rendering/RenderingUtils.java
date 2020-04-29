@@ -471,7 +471,7 @@ public class RenderingUtils {
 		setupBillboardRendering();
 
 		// get minecraft
-		Minecraft mc = Minecraft.getInstance();
+		Minecraft mcClient = Minecraft.getInstance();
 
 		// set up billboard rotation
 		setupBillboardRotation();
@@ -487,7 +487,7 @@ public class RenderingUtils {
 		RenderSystem.rotatef(180, 0, 0, 1);
 
 		// draw
-		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
+		mcClient.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
 
 		resetBillboardRendering();
 	}
@@ -509,7 +509,7 @@ public class RenderingUtils {
 		setupBillboardRendering();
 
 		// get minecraft
-		Minecraft mc = Minecraft.getInstance();
+		Minecraft mcClient = Minecraft.getInstance();
 
 		// enable for rendering of text
 		GlStateManager.enableTexture();
@@ -534,7 +534,7 @@ public class RenderingUtils {
 				TEXT_BILLBOARD_ROTATION.getY(), TEXT_BILLBOARD_ROTATION.getZ());
 
 		// draw
-		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
+		mcClient.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
 
 		resetBillboardRendering();
 	}

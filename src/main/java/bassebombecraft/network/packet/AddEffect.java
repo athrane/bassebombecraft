@@ -87,24 +87,33 @@ public class AddEffect {
 	 */
 	public void handle(Supplier<NetworkEvent.Context> context) {
 		Context ctx = context.get();
+		ctx.enqueueWork(() -> handlePacket());
+		ctx.setPacketHandled(true);
+	}
 
+	/**
+	 * Handle received network packet.
+	 */	
+	void handlePacket() {
 		try {
-			ctx.enqueueWork(() -> {
+			// get client side entity from ID
+			Minecraft mcClient = Minecraft.getInstance();
+			Entity entity = mcClient.world.getEntityByID(entityId);
 
-				// get client side entity from ID
-				Minecraft mcClient = Minecraft.getInstance();
-				Entity entity = mcClient.world.getEntityByID(entityId);
+			// exit if entity isn't defined
+			if(entity == null) return;
+			
+			// exit if effect isn't defined			
+			Effect effect = Effect.get(effectId);
+			if(effect == null) return;
 
-				// add potion effect
-				Effect effect = Effect.get(effectId);
-				EffectInstance effectInstance = new EffectInstance(effect, duration, amplifier);
-				((LivingEntity) entity).addPotionEffect(effectInstance);
-			});
+			// add potion effect			
+			EffectInstance effectInstance = new EffectInstance(effect, duration, amplifier);
+			((LivingEntity) entity).addPotionEffect(effectInstance);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
 
-		ctx.setPacketHandled(true);
 	}
 }
