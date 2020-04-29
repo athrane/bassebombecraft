@@ -22,7 +22,6 @@ public class ClientPlayerUtils {
 	 * 
 	 * @return true if player is defined in Minecraft client.
 	 */
-	@OnlyIn(Dist.CLIENT)
 	public static boolean isClientSidePlayerDefined() {
 		Minecraft mcClient = Minecraft.getInstance();
 		if (mcClient == null)
@@ -35,7 +34,6 @@ public class ClientPlayerUtils {
 	 * 
 	 * @return player from Minecraft client.
 	 */
-	@OnlyIn(Dist.CLIENT)
 	public static PlayerEntity getClientSidePlayer() {
 		if (!isClientSidePlayerDefined())
 			return null;
