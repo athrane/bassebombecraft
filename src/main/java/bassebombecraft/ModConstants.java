@@ -1,7 +1,5 @@
 package bassebombecraft;
 
-import static bassebombecraft.BassebombeCraft.getItemGroup;
-
 import bassebombecraft.client.event.rendering.TeamInfoRenderer;
 import bassebombecraft.client.rendering.DefaultBuildMineRenderer;
 import bassebombecraft.config.ModConfiguration;
@@ -31,8 +29,6 @@ import bassebombecraft.potion.effect.ReceiveAggroEffect;
 import bassebombecraft.potion.effect.ReflectEffect;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.Properties;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectType;
 import net.minecraft.tileentity.TileEntity;
@@ -311,11 +307,6 @@ public class ModConstants {
 	public static final int AI_TARGET_WATCH_DIST = 10;
 
 	/**
-	 * Item properties which places item in tab.
-	 */
-	public static final Properties ITEM_PROPERTIES = new Item.Properties().group(getItemGroup());
-
-	/**
 	 * Rendering: Line width for rendering billboards.
 	 */
 	public static final int BILLBOARD_LINE_WIDTH = 1;
@@ -531,7 +522,7 @@ public class ModConstants {
 	/**
 	 * Entity attribute to tag an entity as respawned.
 	 */
-	public static final IAttribute IS_RESPAWNED = (new RangedAttribute((IAttribute) null, "bassebombecraft.isrespawned", 1.0D,
-			0.0D, 1.0D)).setShouldWatch(true);
-	
+	public static final IAttribute IS_RESPAWNED = (new RangedAttribute((IAttribute) null, "bassebombecraft.isrespawned",
+			1.0D, 0.0D, 1.0D)).setShouldWatch(true);
+
 }

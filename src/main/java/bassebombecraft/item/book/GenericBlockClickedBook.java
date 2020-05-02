@@ -39,11 +39,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class GenericBlockClickedBook extends Item {
 
 	/**
-	 * Item properties which places item in tab.
-	 */
-	public static final Properties ITEM_PROPERTIES = new Item.Properties().group(getItemGroup());
-
-	/**
 	 * Item action.
 	 */
 	BlockClickedItemAction action;
@@ -66,7 +61,7 @@ public class GenericBlockClickedBook extends Item {
 	 *               with this item.
 	 */
 	public GenericBlockClickedBook(String name, BlockClickedItemAction action) {
-		super(ITEM_PROPERTIES);
+		super(new Item.Properties().group(getItemGroup()));
 		doCommonItemInitialization(this, name);
 
 		this.action = action;

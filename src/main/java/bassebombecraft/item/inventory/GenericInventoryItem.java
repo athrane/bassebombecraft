@@ -45,11 +45,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class GenericInventoryItem extends Item {
 
 	/**
-	 * Item properties which places item in tab.
-	 */
-	public static final Properties ITEM_PROPERTIES = new Item.Properties().group(getItemGroup());
-
-	/**
 	 * Item strategy.
 	 */
 	InventoryItemActionStrategy strategy;
@@ -82,7 +77,7 @@ public class GenericInventoryItem extends Item {
 	 * @param strategy inventory item strategy.
 	 */
 	public GenericInventoryItem(String name, InventoryItemConfig config, InventoryItemActionStrategy strategy) {
-		super(ITEM_PROPERTIES);
+		super(new Item.Properties().group(getItemGroup()));
 		doCommonItemInitialization(this, name);
 		this.strategy = strategy;
 		infos = createFromConfig(config.particles);
