@@ -24,13 +24,10 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.DrawHighlightEvent.HighlightBlock;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 /**
  * Event handler for additional rendering.
  */
-@Mod.EventBusSubscriber
 public class RenderingEventHandler {
 
 	/**
@@ -58,7 +55,6 @@ public class RenderingEventHandler {
 	 */
 	static final EntityRenderer buildMineRenderer = new DefaultBuildMineRenderer();
 
-	@SubscribeEvent
 	public static void handleRenderGameOverlayEvent(RenderGameOverlayEvent event) {
 
 		// exit if player is undefined
@@ -90,7 +86,6 @@ public class RenderingEventHandler {
 		 **/
 	}
 
-	@SubscribeEvent
 	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
 
 		// exit if player is undefined
@@ -111,7 +106,6 @@ public class RenderingEventHandler {
 
 	}
 
-	@SubscribeEvent
 	public static void handleHighlightBlock(HighlightBlock event) {
 
 		// exit if player is undefined

@@ -15,6 +15,7 @@ import bassebombecraft.client.event.rendering.CharmedInfoRenderer;
 import bassebombecraft.client.event.rendering.DecoyRenderer;
 import bassebombecraft.client.event.rendering.DecreaseSizeEffectRenderer;
 import bassebombecraft.client.event.rendering.IncreaseSizeEffectRenderer;
+import bassebombecraft.client.event.rendering.RenderingEventHandler;
 import bassebombecraft.client.event.rendering.RespawnedRenderer;
 import bassebombecraft.client.event.rendering.TargetInfoRenderer;
 import bassebombecraft.client.event.rendering.TeamEnityRenderer;
@@ -227,6 +228,9 @@ public class ClientProxy implements Proxy {
 		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPost);
 
 		// register renderer classes
+		EVENT_BUS.addListener(RenderingEventHandler::handleRenderGameOverlayEvent);		
+		EVENT_BUS.addListener(RenderingEventHandler::handleRenderWorldLastEvent);		
+		EVENT_BUS.addListener(RenderingEventHandler::handleHighlightBlock);				
 		//EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
 		//EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
 		EVENT_BUS.addListener(CharmedInfoRenderer::handleRenderWorldLastEvent);
