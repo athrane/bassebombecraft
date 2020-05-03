@@ -14,13 +14,11 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderLivingEvent.Post;
 import net.minecraftforge.client.event.RenderLivingEvent.Pre;
-import net.minecraftforge.fml.common.Mod;
 
 /**
  * Client side renderer for rendering entities with size decreased by the
  * {@linkplain DecreaseSizeEffect} potion effect.
  */
-@Mod.EventBusSubscriber
 public class DecreaseSizeEffectRenderer {
 
 	/**
