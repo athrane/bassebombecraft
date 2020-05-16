@@ -65,13 +65,13 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ${{ steps.read_jar_name.outputs.jar_file}}
-        path: /build/libs/${{ steps.read_jar_name.outputs.jar_file}}
+        path: ./build/libs/${{ steps.read_jar_name.outputs.jar_file}}
 
     - name: Upload server jar artifact
       uses: actions/upload-artifact@v2
       with:
         name: ${{ steps.read_server_jar_name.outputs.jar_file}}
-        path: /build/libs/${{ steps.read_server_jar_name.outputs.jar_file}}
+        path: ./build/libs/${{ steps.read_server_jar_name.outputs.jar_file}}
 
   create_container_job:
     name: Create container
