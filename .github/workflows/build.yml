@@ -96,7 +96,7 @@ jobs:
       MOD_URL: https://github.com/athrane/bassebombecraft/releases/download/1.42.1/
       FORGE_VERSION: 31.1.10
 
-    steps:    
+    steps:
     - name: Checkout
       uses: actions/checkout@v2
 
@@ -143,6 +143,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: test_job
 
+    steps:
     - name: Download artifacts
       uses: actions/download-artifact@v2
 
