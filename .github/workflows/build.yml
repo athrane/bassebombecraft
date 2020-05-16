@@ -92,6 +92,7 @@ jobs:
     - name: Download artifacts
       uses: actions/download-artifact@v2
       with:
+        name: ${{ needs.build_job.outputs.server_jar_file}}
         path: ${{ github.workspace }}/artifact/
         
     - name: Display downloaded artifacts
