@@ -68,7 +68,7 @@ jobs:
       run: ./gradlew sonarqube
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }]
 
     - name: Create artifact directory used by build
       run: mkdir -p ${{ github.workspace }}/artifact
