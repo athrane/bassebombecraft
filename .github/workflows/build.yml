@@ -91,9 +91,7 @@ jobs:
     needs: build_job
 
     env:
-      DOCKER_USER: thrane
       DOCKER_BUILDKIT: 1
-      MOD_URL: https://github.com/athrane/bassebombecraft/releases/download/1.42.1/
       FORGE_VERSION: 31.1.10
 
     steps:
@@ -107,13 +105,13 @@ jobs:
       run: ls -R
 
     - name: DockerHub login
-      run: docker login -u $DOCKER_USER -p ${{ secrets.DOCKER_PASSWORD }}
+      run: docker login -u ${{ secrets.DOCKER_USER}} -p ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build image
-      run: docker build . --build-arg MOD_JAR=${{ needs.build_job.outputs.server_jar_file}} --build-arg MOD_URL=$MOD_URL --build-arg MC_VERSION=${{ needs.build_job.outputs.mc_version}} --build-arg FORGE_VERSION=$FORGE_VERSION --file Dockerfile --tag bassebombecraft/minecraft:${{ github.sha }} --tag bassebombecraft/minecraft:latest
+      run: docker build . --build-arg MOD_JAR=${{ needs.build_job.outputs.server_jar_file}} --build-arg MC_VERSION=${{ needs.build_job.outputs.mc_version}} --build-arg FORGE_VERSION=$FORGE_VERSION --file Dockerfile --tag bassebombecraft/minecraft:${{ github.sha }} --tag bassebombecraft/minecraft:latest
 
     - name: Push image
-      run: docker push bassebombecraft/minecraft:${{ github.sha }}
+      run: docker push bassebombecraft/minecraft:${{ needs.build_job.outputs.final_version }}-${{ github.sha }}
 
     - name: Push image
       run: docker push bassebombecraft/minecraft:latest
