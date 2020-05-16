@@ -3,16 +3,21 @@ on: [push]
 name: Build and release
 
 jobs:
-  build:
+  build_job:
+    name: Build mod
     runs-on: ubuntu-latest
+
+    outputs:
+      jar_file: ${{ steps.read_jar_name.outputs.jar_file}}
+      server_jar_file: ${{ steps.read_server_jar_name.outputs.jar_file}}
+      mc_version: ${{ steps.read_mc_version.outputs.version}}
+      final_version: ${{ steps.read_final_version.outputs.version}}
 
     steps:
     - name: Checkout
-      id: checkout_source
-      uses: actions/checkout@v1
+      uses: actions/checkout@v2
 
     - name: Install jq
-      id: install_jq    
       run: sudo apt-get install jq
 
     - name: Read version.json into output variable
@@ -27,37 +32,119 @@ jobs:
       id: read_mc_version
       run: echo ::set-output name=version::$(cat ./version.json | jq -r '.minecraftVersion')
 
+    - name: Read final version into output variable
+      id: read_final_version
+      run: echo ::set-output name=version::${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}
+
+    - name: Read jar name into output variable
+      id: read_jar_name
+      run: echo ::set-output name=jar_file::BasseBombeCraft-${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}.jar
+
+    - name: Read server jar name into output variable
+      id: read_server_jar_name
+      run: echo ::set-output name=jar_file::BasseBombeCraft-${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}-server.jar
+
     - name: Setup JDK 1.8
-      id: init_jdk
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
 
     - name: Display the path
-      id: ls_path
       run: ls -la
       shell: bash
 
     - name: Make gradlew executable
-      id: make_gradle_executable
       run: chmod +x ./gradlew
       shell: bash
 
     - name: Delete gradle.properties
-      id: delete_gradle_properties
       run: rm ./gradle.properties
       shell: bash
 
     - name: Build with Gradle
-      id: build_gradle
       run: ./gradlew build
 
     - name: Do SonarQube analysis
-      id: sonar_analysis
       run: ./gradlew sonarqube
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}        
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }
+
+    - name: Create artifact directory used by build
+      run: mkdir -p ${{ github.workspace }}/artifact
+
+    - name: Upload jar artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ./build/libs/${{ steps.read_jar_name.outputs.jar_file}}
+        path: ${{ github.workspace }}/artifact/
+
+    - name: Upload server jar artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ./build/libs/${{ steps.read_server_jar_name.outputs.jar_file}}
+        path: ${{ github.workspace }}/artifact/
+
+  create_container_job:
+    name: Create container (with mod)
+    runs-on: ubuntu-latest
+    needs: build_job
+
+    env:
+      DOCKER_USER: thrane
+      DOCKER_BUILDKIT: 1
+      MOD_URL: https://github.com/athrane/bassebombecraft/releases/download/1.42.1/
+      FORGE_VERSION: 31.1.10
+
+    steps:    
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name Download artifacts
+      uses: actions/download-artifact@v2
+
+    - name: Display structure of downloaded files
+      run: ls -R
+
+    - name: DockerHub login
+      run: docker login -u $DOCKER_USER -p ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build image
+      run: docker build . --build-arg MOD_JAR=${{ needs.build_job.outputs.server_jar_file}} --build-arg MOD_URL=$MOD_URL --build-arg MC_VERSION=${{ needs.build_job.outputs.mc_version}} --build-arg FORGE_VERSION=$FORGE_VERSION --file Dockerfile --tag bassebombecraft/minecraft:${{ github.sha }} --tag bassebombecraft/minecraft:latest
+
+    - name: Push image
+      run: docker push bassebombecraft/minecraft:${{ github.sha }}
+
+    - name: Push image
+      run: docker push bassebombecraft/minecraft:latest
+
+  test_job:
+    name: Test mod (on server)
+    runs-on: ubuntu-latest
+    needs: create_container_job
+    timeout-minutes: 5
+
+    services:
+      mcserver:
+        image: bassebombecraft/minecraft:latest
+        ports:
+          - 25565:25565
+        options: --name minecraftserver
+
+    steps:    
+      - name: Get Minecraft container health
+        run: /usr/bin/docker container inspect -f "{{.State.Health.Status}}" minecraftserver
+
+      - name: Display Minecraft container logs
+        run: /usr/bin/docker logs minecraftserver
+
+  release_job:
+    name: Release mod
+    runs-on: ubuntu-latest
+    needs: test_job
+
+    - name Download artifacts
+      uses: actions/download-artifact@v2
 
     - name: Create Release
       id: create_release
@@ -66,29 +153,28 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ github.ref }}
-        release_name: Release ${{ steps.read_mod_version.outputs.version }} - ${{ github.sha }}
+        release_name: Release ${{ needs.build_job.outputs.final_version }} - ${{ github.sha }}
         draft: true
         prerelease: false
 
     - name: Upload Release Asset
-      id: upload_release_asset    
       uses: actions/upload-release-asset@v1.0.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./build/libs/BasseBombeCraft-${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}.jar
-        asset_name: BasseBombeCraft-${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}.jar
+        asset_path: ./${{ needs.build_job.outputs.jar_file}}
+        asset_name: ${{ needs.build_job.outputs.jar_file}}
         asset_content_type: application/zip
 
     - name: Upload Release Asset (server jar)
-      id: upload_release_asset_server    
       uses: actions/upload-release-asset@v1.0.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path: ./build/libs/BasseBombeCraft-${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}-server.jar
-        asset_name: BasseBombeCraft-${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}-server.jar
+        asset_path: ./${{ needs.build_job.outputs.server_jar_file}}
+        asset_name: ${{ needs.build_job.outputs.server_jar_file}}
         asset_content_type: application/zip
+
  
