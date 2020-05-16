@@ -51,15 +51,12 @@ jobs:
 
     - name: Display the path
       run: ls -la
-      shell: bash
 
     - name: Make gradlew executable
       run: chmod +x ./gradlew
-      shell: bash
 
     - name: Delete gradle.properties
       run: rm ./gradle.properties
-      shell: bash
 
     - name: Build with Gradle
       run: ./gradlew build
@@ -98,11 +95,19 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: Create artifact directory used by build
+      run: mkdir -p ${{ github.workspace }}/artifact
+
     - name: Download artifacts
       uses: actions/download-artifact@v2
-
-    - name: Display structure of downloaded files
+      with:
+        path: ${{ github.workspace }}/artifact/
+        
+    - name: Display downloaded artifacts
       run: ls -R
+
+    - name: Display the path
+      run: ls -la ${{ github.workspace }}/artifact/
 
     - name: DockerHub login
       run: docker login -u ${{ secrets.DOCKER_USER}} -p ${{ secrets.DOCKER_PASSWORD }}
