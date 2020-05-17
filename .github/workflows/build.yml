@@ -1,6 +1,6 @@
 on: [push]
 
-name: Build, test and release
+name: Build, QA code, test and release
 
 jobs:
   build_job:
@@ -101,9 +101,6 @@ jobs:
         path: ${{ github.workspace }}/artifact/
         
     - name: Display downloaded artifacts
-      run: ls -R
-
-    - name: Display downloaded artifacts
       run: ls -la ${{ github.workspace }}/artifact/
 
     - name: DockerHub login
@@ -151,6 +148,12 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         path: ${{ github.workspace }}/artifact/
+
+    - name: Display downloaded artifacts
+      run: ls -la ${{ github.workspace }}/artifact/
+
+    - name: Display downloaded artifacts
+      run: ls -la ./artifact/
 
     - name: Create Release
       id: create_release
