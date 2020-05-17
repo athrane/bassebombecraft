@@ -110,7 +110,7 @@ jobs:
       run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Build image
-      run: docker build . --build-arg MOD_PATH=./artifact --build-arg MOD_JAR=${{ needs.build_job.outputs.server_jar_file }} --build-arg MC_VERSION=${{ needs.build_job.outputs.mc_version }} --build-arg FORGE_VERSION=$FORGE_VERSION --file Dockerfile --tag bassebombecraft/minecraft:${{ github.sha }} --tag bassebombecraft/minecraft:latest
+      run: docker build . --build-arg MOD_PATH=./artifact --build-arg MOD_JAR=${{ needs.build_job.outputs.server_jar_file }} --build-arg MC_VERSION=${{ needs.build_job.outputs.mc_version }} --build-arg FORGE_VERSION=$FORGE_VERSION --file Dockerfile --tag bassebombecraft/minecraft:${{ needs.build_job.outputs.final_version }}-${{ github.sha }} --tag bassebombecraft/minecraft:latest
 
     - name: Push image
       run: docker push bassebombecraft/minecraft:${{ needs.build_job.outputs.final_version }}-${{ github.sha }}
