@@ -1,5 +1,6 @@
 FROM itzg/minecraft-server
 
+ARG MOD_PATH
 ARG MOD_JAR
 ARG MC_VERSION
 ARG FORGE_VERSION
@@ -7,7 +8,7 @@ ARG FORGE_VERSION
 RUN mkdir -m 777 /data/mods \
   && chown minecraft:minecraft /data/mods 
  
-COPY $MOD_JAR /data/mods/
+COPY $MOD_PATH/$MOD_JAR /data/mods/
  
 RUN chmod 777 /data/mods/$MOD_JAR \
   && chown minecraft:minecraft /data/mods/$MOD_JAR
