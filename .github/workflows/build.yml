@@ -103,6 +103,9 @@ jobs:
     - name: Display downloaded artifacts
       run: ls -R
 
+    - name: Display downloaded artifacts
+      run: ls -la ${{ github.workspace }}/artifact/
+
     - name: DockerHub login
       run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
 
