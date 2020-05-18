@@ -198,22 +198,27 @@ public class ServerProxy implements Proxy {
 
 	@Override
 	public String getUser() throws UnsupportedOperationException {
-		throw new UnsupportedOperationException("Operation not supported by physical client.");
+		throw new UnsupportedOperationException("Operation not supported by server.");
 	}
 
 	@Override
 	public void setupClientSideRendering() throws UnsupportedOperationException {
-		throw new UnsupportedOperationException("Operation not supported by physical client.");
+		throw new UnsupportedOperationException("Operation not supported by server.");
 	}
 
 	@Override
 	public NetworkChannelHelper getNetworkChannel(World world) throws UnsupportedOperationException {
 		return networkHelper;
 	}
+	
+	@Override
+	public FrequencyRepository getServerFrequencyRepository() throws UnsupportedOperationException {
+		return frequencyRepository;
+	}
 
 	@Override
-	public FrequencyRepository getFrequencyRepository() throws UnsupportedOperationException {
-		return frequencyRepository;
+	public FrequencyRepository getClientFrequencyRepository() throws UnsupportedOperationException {
+		throw new UnsupportedOperationException("Operation not supported by server.");
 	}
 
 	@Override
@@ -223,7 +228,7 @@ public class ServerProxy implements Proxy {
 
 	@Override
 	public ParticleRenderingRepository getParticleRenderingRepository() throws UnsupportedOperationException {
-		throw new UnsupportedOperationException("Operation not supported by physical client.");
+		throw new UnsupportedOperationException("Operation not supported by server.");
 	}
 
 	@Override

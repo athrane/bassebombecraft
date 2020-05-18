@@ -58,7 +58,7 @@ public class DefaultFrequencyRepository implements FrequencyRepository {
 		int value = counter % frequency;
 		return (value == 0);
 	}
-	
+
 	/**
 	 * Factory method.
 	 * 

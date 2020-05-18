@@ -8,7 +8,6 @@ import static bassebombecraft.event.particle.DefaultParticleRendering.getInstanc
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.network.NetworkChannelHelper;
@@ -49,28 +48,18 @@ public class CharmedMobEventHandler {
 	static public void handleLivingUpdateEvent(LivingUpdateEvent event) {
 		try {
 
-			BassebombeCraft.getBassebombeCraft().getLogger().debug("handleLivingUpdateEvent: CP1 entity="+event.getEntityLiving());			
-			
 			// exit if handler is executed at client side
 			if (isLogicalClient(event.getEntityLiving().getEntityWorld()))
 				return;
 
-			BassebombeCraft.getBassebombeCraft().getLogger().debug("handleLivingUpdateEvent: CP2, at logical server");			
-
-			BassebombeCraft.getBassebombeCraft().getLogger().debug("handleLivingUpdateEvent: CP3 "+getProxy().getFrequencyRepository().isActive(CHARM_PARTICLE_RENDERING_FREQUENCY));			
-			
 			// exit if frequency isn't active
-			if (!getProxy().getFrequencyRepository().isActive(CHARM_PARTICLE_RENDERING_FREQUENCY))
+			if (!getProxy().getServerFrequencyRepository().isActive(CHARM_PARTICLE_RENDERING_FREQUENCY))
 				return;
 
-			BassebombeCraft.getBassebombeCraft().getLogger().debug("handleLivingUpdateEvent: CP3, charm rendering freq active");			
-			
 			// exit if entity isn't a mob (since only they can be charmed)
 			if (!isTypeMobEntity(event.getEntityLiving()))
 				return;
 
-			BassebombeCraft.getBassebombeCraft().getLogger().debug("handleLivingUpdateEvent: CP4, is living entity");			
-			
 			// type cast
 			MobEntity entity = (MobEntity) event.getEntityLiving();
 
@@ -79,8 +68,6 @@ public class CharmedMobEventHandler {
 			if (!repository.contains(entity))
 				return;
 
-			BassebombeCraft.getBassebombeCraft().getLogger().debug("handleLivingUpdateEvent: CP5 is charmed");			
-			
 			// send particle rendering info to client
 			BlockPos pos = entity.getPosition();
 			ParticleRendering particle = getInstance(pos, PARTICLE_INFO);

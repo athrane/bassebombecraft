@@ -110,7 +110,7 @@ public class FollowEntityGoal extends Goal {
 					(float) entity.getVerticalFaceSpeed());
 
 			// exit if frequency isn't active
-			FrequencyRepository repository = getProxy().getFrequencyRepository();
+			FrequencyRepository repository = getProxy().getServerFrequencyRepository();
 			if (!repository.isActive(AI_PATH_RECALC_UPDATE_FREQUENCY))
 				return;
 

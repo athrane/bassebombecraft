@@ -118,7 +118,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 				return;
 
 			// render mist if frequency is active
-			FrequencyRepository repository = getProxy().getFrequencyRepository();
+			FrequencyRepository repository = getProxy().getServerFrequencyRepository();
 			if (repository.isActive(PARTICLE_RENDERING_FREQUENCY))
 				render(worldIn);
 

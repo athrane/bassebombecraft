@@ -173,7 +173,7 @@ public class CompanionAttack extends Goal {
 		try {
 
 			// exit if frequency isn't active
-			FrequencyRepository repository = getProxy().getFrequencyRepository();
+			FrequencyRepository repository = getProxy().getServerFrequencyRepository();
 			if (!repository.isActive(AI_COMPANION_ATTACK_UPDATE_FREQUENCY))
 				return;
 

@@ -17,9 +17,6 @@ import bassebombecraft.client.event.rendering.DecreaseSizeEffectRenderer;
 import bassebombecraft.client.event.rendering.IncreaseSizeEffectRenderer;
 import bassebombecraft.client.event.rendering.RenderingEventHandler;
 import bassebombecraft.client.event.rendering.RespawnedRenderer;
-import bassebombecraft.client.event.rendering.TargetInfoRenderer;
-import bassebombecraft.client.event.rendering.TeamEnityRenderer;
-import bassebombecraft.client.event.rendering.TeamInfoRenderer;
 import bassebombecraft.config.VersionUtils;
 import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;
@@ -57,9 +54,14 @@ public class ClientProxy implements Proxy {
 	static final int META = 0;
 
 	/**
-	 * Frequency repository.
+	 * Client frequency repository.
 	 */
-	FrequencyRepository frequencyRepository;
+	FrequencyRepository clientFrequencyRepository;
+
+	/**
+	 * Server frequency repository.
+	 */
+	FrequencyRepository serverFrequencyRepository;
 
 	/**
 	 * Duration repository.
@@ -116,8 +118,9 @@ public class ClientProxy implements Proxy {
 	 */
 	public ClientProxy() {
 
-		// initialise frequency repository
-		frequencyRepository = DefaultFrequencyRepository.getInstance();
+		// initialise frequency repositories
+		clientFrequencyRepository = DefaultFrequencyRepository.getInstance();
+		serverFrequencyRepository = DefaultFrequencyRepository.getInstance();
 
 		// initialise duration repository
 		durationRepository = DefaultDurationRepository.getInstance();
@@ -228,13 +231,13 @@ public class ClientProxy implements Proxy {
 		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPost);
 
 		// register renderer classes
-		EVENT_BUS.addListener(RenderingEventHandler::handleRenderGameOverlayEvent);		
-		EVENT_BUS.addListener(RenderingEventHandler::handleRenderWorldLastEvent);		
-		EVENT_BUS.addListener(RenderingEventHandler::handleHighlightBlock);				
-		//EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
-		//EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(RenderingEventHandler::handleRenderGameOverlayEvent);
+		EVENT_BUS.addListener(RenderingEventHandler::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(RenderingEventHandler::handleHighlightBlock);
+		// EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
+		// EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
 		EVENT_BUS.addListener(CharmedInfoRenderer::handleRenderWorldLastEvent);
-		//EVENT_BUS.addListener(TeamEnityRenderer::handleRenderLivingEvent);
+		// EVENT_BUS.addListener(TeamEnityRenderer::handleRenderLivingEvent);
 		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPre);
 		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPost);
 		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPre);
@@ -255,8 +258,13 @@ public class ClientProxy implements Proxy {
 	}
 
 	@Override
-	public FrequencyRepository getFrequencyRepository() throws UnsupportedOperationException {
-		return frequencyRepository;
+	public FrequencyRepository getServerFrequencyRepository() throws UnsupportedOperationException {
+		return serverFrequencyRepository;
+	}
+
+	@Override
+	public FrequencyRepository getClientFrequencyRepository() throws UnsupportedOperationException {
+		return clientFrequencyRepository;
 	}
 
 	@Override

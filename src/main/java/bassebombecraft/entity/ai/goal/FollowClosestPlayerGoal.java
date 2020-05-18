@@ -86,7 +86,7 @@ public class FollowClosestPlayerGoal extends Goal {
 		try {
 
 			// exit if frequency isn't active
-			FrequencyRepository repository = getProxy().getFrequencyRepository();
+			FrequencyRepository repository = getProxy().getServerFrequencyRepository();
 			if (!repository.isActive(AI_PATH_RECALC_UPDATE_FREQUENCY))
 				return;
 

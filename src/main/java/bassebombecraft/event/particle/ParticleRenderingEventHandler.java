@@ -37,7 +37,7 @@ public class ParticleRenderingEventHandler {
 
 			// exit if particles shouldn't be rendered in this tick
 			// exit if frequency isn't active
-			FrequencyRepository frequencyRepository = getProxy().getFrequencyRepository();
+			FrequencyRepository frequencyRepository = getProxy().getClientFrequencyRepository();
 			if (!frequencyRepository.isActive(PARTICLE_RENDERING_FREQUENCY))
 				return;
 
@@ -58,10 +58,10 @@ public class ParticleRenderingEventHandler {
 	 */
 	static void render(World world) throws Exception {
 		ParticleRenderingRepository repository = getProxy().getParticleRenderingRepository();
-		
+
 		// get and render particles
-		Stream<ParticleRendering> particles = repository.get();		
-		particles.forEach( p -> {
+		Stream<ParticleRendering> particles = repository.get();
+		particles.forEach(p -> {
 			// render multiple instances of particles if specified
 			int numberToRender = p.getNumber();
 			for (int i = 0; i < numberToRender; i++) {
@@ -70,7 +70,7 @@ public class ParticleRenderingEventHandler {
 					continue;
 				}
 				renderParticle(world, p);
-			}			
+			}
 		});
 	}
 

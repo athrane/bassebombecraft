@@ -101,23 +101,35 @@ public interface Proxy {
 	public NetworkChannelHelper getNetworkChannel(World world) throws UnsupportedOperationException;
 
 	/**
-	 * Get frequency repository.
-	 * 
-	 * This repository is available at both the logical CLIENT and SERVER.
+	 * Get frequency repository for the logical SERVER.
 	 * 
 	 * The server proxy implementation support this method to support the
 	 * configuration: physical server w/ logical server (dedicated server).
 	 * 
 	 * The client proxy implementation support this method to support the
+	 * configuration: physical client w/ logical server (integrated server).
+	 * 
+	 * @return frequency repository for logical client.
+	 * 
+	 * @throws UnsupportedOperationException if invoked on server proxy.
+	 */
+	public FrequencyRepository getServerFrequencyRepository() throws UnsupportedOperationException;
+	
+	/**
+	 * Get frequency repository for the logical CLIENT.
+	 * 
+	 * The server proxy implementation doesn't support this method.
+	 * 
+	 * The client proxy implementation support this method to support the
 	 * configurations: 1) physical client w/ logical server (integrated server). 2)
 	 * physical client w/ logical client.
 	 * 
-	 * @return frequency repository
+	 * @return frequency repository for logical client.
 	 * 
-	 * @throws UnsupportedOperationException this exception is never thrown.
+	 * @throws UnsupportedOperationException if invoked on server proxy.
 	 */
-	public FrequencyRepository getFrequencyRepository() throws UnsupportedOperationException;
-
+	public FrequencyRepository getClientFrequencyRepository() throws UnsupportedOperationException;
+	
 	/**
 	 * Get duration repository.
 	 * 
