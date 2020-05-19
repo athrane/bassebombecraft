@@ -46,7 +46,7 @@ public class DefaultCharmedInfoRenderer implements EntityRenderer {
 		Vec3d translation = playerPos.subtract(renderPos);
 
 		// get charmed entities
-		CharmedMobsRepository repository = getProxy().getCharmedMobsRepository(player.getEntityWorld());
+		CharmedMobsRepository repository = getProxy().getClientCharmedMobsRepository();
 		Stream<CharmedMob> charmedMobs = repository.get();
 		int charmedSize = repository.size();
 

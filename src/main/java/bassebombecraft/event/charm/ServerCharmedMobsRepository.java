@@ -22,12 +22,12 @@ import net.minecraft.entity.MobEntity;
 /**
  * SERVER side implementation of the {@linkplain CharmedMobsRepository}.
  */
-public class ServerSideCharmedMobsRepository implements CharmedMobsRepository {
+public class ServerCharmedMobsRepository implements CharmedMobsRepository {
 
 	/**
 	 * Repository identifier (for configuration).
 	 */
-	public static final String NAME = ServerSideCharmedMobsRepository.class.getSimpleName();
+	public static final String NAME = ServerCharmedMobsRepository.class.getSimpleName();
 
 	/**
 	 * Consumer to support callback when {@linkplain DurationRepository} expires a
@@ -56,7 +56,7 @@ public class ServerSideCharmedMobsRepository implements CharmedMobsRepository {
 				return;
 
 			// create charmed mob container
-			CharmedMob charmedMob = ServerSideCharmedMob.getInstance(entity, charmDuration.get(), cRemovalCallback);
+			CharmedMob charmedMob = ServerCharmedMob.getInstance(entity, charmDuration.get(), cRemovalCallback);
 
 			clearAllAiGoals(entity);
 			buildCharmedMobAi(entity, commander);
@@ -129,7 +129,7 @@ public class ServerSideCharmedMobsRepository implements CharmedMobsRepository {
 	 * @return repository instance.
 	 */
 	public static CharmedMobsRepository getInstance() {
-		return new ServerSideCharmedMobsRepository();
+		return new ServerCharmedMobsRepository();
 	}
 
 }

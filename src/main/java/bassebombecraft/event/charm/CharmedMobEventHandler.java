@@ -64,7 +64,7 @@ public class CharmedMobEventHandler {
 			MobEntity entity = (MobEntity) event.getEntityLiving();
 
 			// exit if entity isn't charmed
-			CharmedMobsRepository repository = getProxy().getCharmedMobsRepository(entity.getEntityWorld());
+			CharmedMobsRepository repository = getProxy().getServerCharmedMobsRepository();
 			if (!repository.contains(entity))
 				return;
 
@@ -94,7 +94,7 @@ public class CharmedMobEventHandler {
 			MobEntity entity = (MobEntity) event.getEntityLiving();
 
 			// remove
-			getProxy().getCharmedMobsRepository(entity.getEntityWorld()).remove(entity);
+			getProxy().getServerCharmedMobsRepository().remove(entity);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

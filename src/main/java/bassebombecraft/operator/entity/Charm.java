@@ -77,7 +77,7 @@ public class Charm implements Operator {
 			MobEntity mobEntity = (MobEntity) entity;
 
 			// register mob as charmed
-			getProxy().getCharmedMobsRepository(mobEntity.getEntityWorld()).add(mobEntity, livingEntity);
+			getProxy().getServerCharmedMobsRepository().add(mobEntity, livingEntity);
 			
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

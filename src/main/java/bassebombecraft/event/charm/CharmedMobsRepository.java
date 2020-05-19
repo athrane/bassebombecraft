@@ -2,6 +2,7 @@ package bassebombecraft.event.charm;
 
 import java.util.stream.Stream;
 
+import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
 import bassebombecraft.proxy.Proxy;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -12,9 +13,9 @@ import net.minecraft.entity.MobEntity;
  * The repository is used at both SERVER and CLIENT side. Access to the
  * repository is supported via sided proxy, i.e.{@linkplain Proxy}.
  * 
- * The SERVER side implementation {@linkplain ServerSideCharmedMobsRepository} will
+ * The SERVER side implementation {@linkplain ServerCharmedMobsRepository} will
  * implement the actual charm logic . The CLIENT side implementation
- * {@linkplain ClientSideCharmedMobsRepository }will only implement logic to
+ * {@linkplain ClientCharmedMobsRepository }will only implement logic to
  * support rendering.
  */
 public interface CharmedMobsRepository {

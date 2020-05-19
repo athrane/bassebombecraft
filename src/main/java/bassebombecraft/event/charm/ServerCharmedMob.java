@@ -1,24 +1,24 @@
 package bassebombecraft.event.charm;
 
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.entity.ai.AiUtils.captureGoals;
 import static bassebombecraft.entity.ai.AiUtils.getCharmDuration;
 
 import java.util.Set;
 import java.util.function.Consumer;
 
-import bassebombecraft.entity.ai.AiUtils;
 import bassebombecraft.event.duration.DurationRepository;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
 
 /**
  * SERVER side implementation of {@linkplain CharmedMob}. Used by
- * {@linkplain ServerSideCharmedMobsRepository} to store charmed mobs.
+ * {@linkplain ServerCharmedMobsRepository} to store charmed mobs.
  * 
  * The server side implementation of {@linkplain CharmedMob} captures the AI
  * goals of the charmed entity for later restore when the charm expired.
  */
-public class ServerSideCharmedMob implements CharmedMob {
+public class ServerCharmedMob implements CharmedMob {
 
 	/**
 	 * ID used for registration and lookup of duration.
@@ -49,12 +49,15 @@ public class ServerSideCharmedMob implements CharmedMob {
 	 *                         {@linkplain DurationRepository} when mob charm
 	 *                         expires.
 	 */
-	ServerSideCharmedMob(MobEntity entity, int duration, Consumer<String> cRemovalCallback) {
+	ServerCharmedMob(MobEntity entity, int duration, Consumer<String> cRemovalCallback) {
 		this.entity = entity;
 		goals = captureGoals(entity.goalSelector);
 		targetGoals = captureGoals(entity.targetSelector);
 		id = Integer.toString(entity.getEntityId());
-		AiUtils.registerCharmedMob(id, duration, cRemovalCallback);
+
+		// register charmed mob with server duration repository
+		DurationRepository repository = getProxy().getServerDurationRepository();
+		repository.add(id, duration, cRemovalCallback);
 	}
 
 	public Set<PrioritizedGoal> getGoals() throws UnsupportedOperationException {
@@ -70,7 +73,7 @@ public class ServerSideCharmedMob implements CharmedMob {
 	}
 
 	public int getDuration() {
-		return getCharmDuration(id);
+		return getCharmDuration(id, getProxy().getServerDurationRepository());
 	}
 
 	/**
@@ -82,8 +85,8 @@ public class ServerSideCharmedMob implements CharmedMob {
 	 *                         {@linkplain DurationRepository} when mob charm
 	 *                         expires.
 	 */
-	public static ServerSideCharmedMob getInstance(MobEntity entity, int duration, Consumer<String> cRemovalCallback) {
-		return new ServerSideCharmedMob(entity, duration, cRemovalCallback);
+	public static ServerCharmedMob getInstance(MobEntity entity, int duration, Consumer<String> cRemovalCallback) {
+		return new ServerCharmedMob(entity, duration, cRemovalCallback);
 	}
 
 }

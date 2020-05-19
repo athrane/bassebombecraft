@@ -1,4 +1,4 @@
-package bassebombecraft.event.charm;
+package bassebombecraft.client.event.charm;
 
 import static bassebombecraft.config.ModConfiguration.charmDuration;
 
@@ -7,6 +7,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import bassebombecraft.event.charm.CharmedMob;
+import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.duration.DurationRepository;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -14,12 +16,12 @@ import net.minecraft.entity.MobEntity;
 /**
  * CLIENT side implementation of the {@linkplain CharmedMobsRepository}.
  */
-public class ClientSideCharmedMobsRepository implements CharmedMobsRepository {
+public class ClientCharmedMobsRepository implements CharmedMobsRepository {
 
 	/**
 	 * Repository identifier (for configuration).
 	 */
-	public static final String NAME = ClientSideCharmedMobsRepository.class.getSimpleName();
+	public static final String NAME = ClientCharmedMobsRepository.class.getSimpleName();
 
 	/**
 	 * Consumer to support callback when {@linkplain DurationRepository} expires a
@@ -39,7 +41,7 @@ public class ClientSideCharmedMobsRepository implements CharmedMobsRepository {
 	public void add(MobEntity entity, LivingEntity commander) {
 
 		// create charmed mob container
-		CharmedMob charmedMob = ClientSideCharmedMob.getInstance(entity, charmDuration.get(), cRemovalCallback);
+		CharmedMob charmedMob = ClientCharmedMob.getInstance(entity, charmDuration.get(), cRemovalCallback);
 
 		// store mob
 		String id = Integer.toString(entity.getEntityId());
@@ -90,7 +92,7 @@ public class ClientSideCharmedMobsRepository implements CharmedMobsRepository {
 	 * @return repository instance.
 	 */
 	public static CharmedMobsRepository getInstance() {
-		return new ClientSideCharmedMobsRepository();
+		return new ClientCharmedMobsRepository();
 	}
 
 }

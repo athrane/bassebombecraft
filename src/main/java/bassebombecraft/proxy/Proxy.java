@@ -1,12 +1,12 @@
 package bassebombecraft.proxy;
 
+import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
 import bassebombecraft.client.event.particle.ParticleRenderingRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import bassebombecraft.event.charm.CharmedMobsRepository;
-import bassebombecraft.event.charm.ClientSideCharmedMobsRepository;
-import bassebombecraft.event.charm.ServerSideCharmedMobsRepository;
+import bassebombecraft.event.charm.ServerCharmedMobsRepository;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.entity.target.TargetRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
@@ -179,20 +179,15 @@ public interface Proxy {
 	/**
 	 * Get charmed mobs repository.
 	 * 
-	 * This repository is available at both the logical CLIENT and SERVER.
+	 * This repository is available at the logical SERVER.
 	 * 
 	 * The server proxy implementation support this method to support the
 	 * configuration: physical server w/ logical server (dedicated server).
-	 * 
-	 * The server proxy will return {@linkplain ServerSideCharmedMobsRepository}.
-	 * 
+	 * 	 * 
 	 * The client proxy implementation support this method to support the
-	 * configurations: 1) physical client w/ logical server (integrated server). 2)
-	 * physical client w/ logical client.
+	 * configurations: 1) physical client w/ logical server (integrated server). 
 	 * 
-	 * The client proxy will return {@linkplain ServerSideCharmedMobsRepository} for
-	 * configuration 1). And return {@linkplain ClientSideCharmedMobsRepository} for
-	 * configuration 2).
+	 * Both proxies will return {@linkplain ServerCharmedMobsRepository}.
 	 * 
 	 * @param world world for resolution of repository implementation.
 	 * 
@@ -200,8 +195,29 @@ public interface Proxy {
 	 * 
 	 * @throws UnsupportedOperationException this exception is never thrown.
 	 */
-	public CharmedMobsRepository getCharmedMobsRepository(World world) throws UnsupportedOperationException;
+	public CharmedMobsRepository getServerCharmedMobsRepository() throws UnsupportedOperationException;
 
+	/**
+	 * Get charmed mobs repository.
+	 * 
+	 * This repository is available at the logical CLIENT.
+	 * 
+	 * The server proxy implementation doesn't support this method.
+	 * 
+	 * The client proxy implementation support this method to support the
+	 * configurations: 1) physical client w/ logical server (integrated server). 2)
+	 * physical client w/ logical client.
+	 * 
+	 * The client proxy will return {@linkplain ClientCharmedMobsRepository}.
+	 * 
+	 * @param world world for resolution of repository implementation.
+	 * 
+	 * @return charmed mobs repository.
+	 * 
+	 * @throws UnsupportedOperationException if invoked on server proxy.
+	 */
+	public CharmedMobsRepository getClientCharmedMobsRepository() throws UnsupportedOperationException;
+	
 	/**
 	 * Get block directives repository.
 	 * 

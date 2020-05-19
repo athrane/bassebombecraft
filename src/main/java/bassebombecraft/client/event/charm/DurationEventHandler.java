@@ -1,4 +1,4 @@
-package bassebombecraft.client.event.duration;
+package bassebombecraft.client.event.charm;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;

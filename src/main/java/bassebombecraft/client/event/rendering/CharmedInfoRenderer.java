@@ -62,7 +62,7 @@ public class CharmedInfoRenderer {
 	static void render(MatrixStack matrixStack, PlayerEntity player) {
 
 		// get charmed entities
-		CharmedMobsRepository repository = getProxy().getCharmedMobsRepository(player.getEntityWorld());
+		CharmedMobsRepository repository = getProxy().getClientCharmedMobsRepository();
 		Stream<CharmedMob> charmedMobs = repository.get();
 		int charmedSize = repository.size();
 

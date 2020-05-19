@@ -1,7 +1,6 @@
 package bassebombecraft.entity.ai;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
 import static bassebombecraft.event.charm.CharmedMob.IS_EXPIRED;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
@@ -12,7 +11,6 @@ import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
 import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.apache.logging.log4j.LogManager;
@@ -427,14 +425,13 @@ public class AiUtils {
 	/**
 	 * Get charm duration of charm mob.
 	 * 
-	 * @param id ID of charmed mob. ID is Entity.getEntityId() as a string.
+	 * @param id         ID of charmed mob. ID is Entity.getEntityId() as a string.
+	 * @param repository duration repository to perform query in.
 	 * 
 	 * @return charm duration of charm mob.
 	 */
-	public static int getCharmDuration(String id) {
+	public static int getCharmDuration(String id, DurationRepository repository) {
 		try {
-			DurationRepository repository = getProxy().getServerDurationRepository();
-
 			// return zero if expired
 			if (repository.isExpired(id))
 				return IS_EXPIRED;
@@ -446,26 +443,6 @@ public class AiUtils {
 
 			// return zero as expired
 			return IS_EXPIRED;
-		}
-	}
-
-	/**
-	 * Register charmed mob with duration repository.
-	 * 
-	 * @param id               ID of charmed mob. ID is Entity.getEntityId() as a
-	 *                         string.
-	 * @param duration         duration of charm in measured in ticks.
-	 * @param cRemovalCallback removal callback function invoked by
-	 *                         {@linkplain DurationRepository} when mob charm
-	 *                         expires.
-	 */
-	public static void registerCharmedMob(String id, int duration, Consumer<String> cRemovalCallback) {
-		try {
-			DurationRepository repository = getProxy().getServerDurationRepository();
-			repository.add(id, duration, cRemovalCallback);
-
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
 		}
 	}
 

@@ -31,7 +31,7 @@ import net.minecraftforge.fml.common.Mod;
 public class ParticleRenderingEventHandler {
 
 	@SubscribeEvent
-	public static void handleWorldTickEvent(RenderWorldLastEvent event) {
+	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
 		try {
 
 			// exit if player isn't defined

@@ -39,7 +39,7 @@ public class CharmBeast implements InventoryItemActionStrategy {
 			MobEntity mobEntity = (MobEntity) target;
 
 			// register mob as charmed
-			getProxy().getCharmedMobsRepository(mobEntity.getEntityWorld()).add(mobEntity, invoker);
+			getProxy().getServerCharmedMobsRepository().add(mobEntity, invoker);
 			
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

@@ -16,7 +16,7 @@ import bassebombecraft.event.block.DefaultBlockDirectiveRepository;
 import bassebombecraft.event.block.temporary.DefaultTemporaryBlockRepository;
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import bassebombecraft.event.charm.CharmedMobsRepository;
-import bassebombecraft.event.charm.ServerSideCharmedMobsRepository;
+import bassebombecraft.event.charm.ServerCharmedMobsRepository;
 import bassebombecraft.event.duration.DefaultDurationRepository;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.entity.target.DefaultTargetRepository;
@@ -93,7 +93,7 @@ public class ServerProxy implements Proxy {
 		durationRepository = DefaultDurationRepository.getInstance();
 
 		// Initialise charmed mobs repository
-		charmedMobsRepository = ServerSideCharmedMobsRepository.getInstance();
+		charmedMobsRepository = ServerCharmedMobsRepository.getInstance();
 
 		// Initialise directives repository
 		blockDirectivesRepository = DefaultBlockDirectiveRepository.getInstance();
@@ -235,10 +235,15 @@ public class ServerProxy implements Proxy {
 	public ParticleRenderingRepository getParticleRenderingRepository() throws UnsupportedOperationException {
 		throw new UnsupportedOperationException("Operation not supported by server.");
 	}
+	
+	@Override
+	public CharmedMobsRepository getServerCharmedMobsRepository() throws UnsupportedOperationException {
+		return charmedMobsRepository;
+	}
 
 	@Override
-	public CharmedMobsRepository getCharmedMobsRepository(World world) throws UnsupportedOperationException {
-		return charmedMobsRepository;
+	public CharmedMobsRepository getClientCharmedMobsRepository() throws UnsupportedOperationException {
+		throw new UnsupportedOperationException("Operation not supported by server.");
 	}
 
 	@Override

@@ -5,8 +5,8 @@ import static bassebombecraft.BassebombeCraft.getProxy;
 
 import java.util.function.Supplier;
 
+import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
 import bassebombecraft.event.charm.CharmedMobsRepository;
-import bassebombecraft.event.charm.ClientSideCharmedMobsRepository;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
@@ -59,7 +59,7 @@ public class AddCharm {
 	 * 
 	 * Registers the mob as charmed at the client side implementation of
 	 * {@linkplain CharmedMobsRepository} which is
-	 * {@linkplain ClientSideCharmedMobsRepository}..
+	 * {@linkplain ClientCharmedMobsRepository}..
 	 * 
 	 * @param buf packet buffer.
 	 */
@@ -86,7 +86,7 @@ public class AddCharm {
 			MobEntity mobEntity = (MobEntity) entity;
 
 			// register
-			CharmedMobsRepository repository = getProxy().getCharmedMobsRepository(mobEntity.getEntityWorld());
+			CharmedMobsRepository repository = getProxy().getClientCharmedMobsRepository();
 			repository.add(mobEntity, null);
 
 		} catch (Exception e) {
