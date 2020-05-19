@@ -1,4 +1,4 @@
-package bassebombecraft.event.particle;
+package bassebombecraft.client.event.particle;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import bassebombecraft.event.duration.DurationRepository;
+import bassebombecraft.event.particle.ParticleRendering;
 
 /**
  * Default implementation of the {@linkplain ParticleRenderingRepository}.
@@ -35,7 +36,7 @@ public class DefaultParticleRenderingRepository implements ParticleRenderingRepo
 				return;
 
 			// register duration
-			getProxy().getDurationRepository().add(id, particle.getInfo().getDuration(), cRemovalCallback);
+			getProxy().getClientDurationRepository().add(id, particle.getInfo().getDuration(), cRemovalCallback);
 
 			// store particle
 			particles.put(id, particle);
@@ -52,7 +53,7 @@ public class DefaultParticleRenderingRepository implements ParticleRenderingRepo
 			particles.remove(id);
 
 			// remove duration
-			getProxy().getDurationRepository().remove(id);
+			getProxy().getClientDurationRepository().remove(id);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

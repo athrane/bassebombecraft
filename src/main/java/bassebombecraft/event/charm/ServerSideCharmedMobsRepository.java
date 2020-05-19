@@ -13,6 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.LivingEntity;
@@ -45,6 +46,10 @@ public class ServerSideCharmedMobsRepository implements CharmedMobsRepository {
 	@Override
 	public void add(MobEntity entity, LivingEntity commander) {
 		try {
+			
+			//BassebombeCraft.getBassebombeCraft().getLogger().debug("ServerSideCharmedMobsRepository.add: entity="+entity);			
+			//BassebombeCraft.getBassebombeCraft().getLogger().debug("ServerSideCharmedMobsRepository.add: commander="+commander);			
+			
 			// exit if entity is team member
 			TeamRepository repository = getProxy().getTeamRepository(entity.getEntityWorld());
 			if (repository.isMember(commander, entity))
@@ -63,6 +68,9 @@ public class ServerSideCharmedMobsRepository implements CharmedMobsRepository {
 			// send charm info to client
 			getProxy().getNetworkChannel(entity.getEntityWorld()).sendAddCharmPacket(entity);
 
+			//BassebombeCraft.getBassebombeCraft().getLogger().debug("ServerSideCharmedMobsRepository.add: done...");			
+			
+			
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
@@ -81,6 +89,9 @@ public class ServerSideCharmedMobsRepository implements CharmedMobsRepository {
 
 		// remove mob from repository
 		charmedMobs.remove(id);
+		
+		//BassebombeCraft.getBassebombeCraft().getLogger().debug("ServerSideCharmedMobsRepository.remove: id="+id);					
+		//BassebombeCraft.getBassebombeCraft().getLogger().debug("ServerSideCharmedMobsRepository.remove: entity="+charmedMob);							
 	}
 
 	@Override

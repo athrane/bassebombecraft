@@ -433,7 +433,7 @@ public class AiUtils {
 	 */
 	public static int getCharmDuration(String id) {
 		try {
-			DurationRepository repository = getProxy().getDurationRepository();
+			DurationRepository repository = getProxy().getServerDurationRepository();
 
 			// return zero if expired
 			if (repository.isExpired(id))
@@ -461,7 +461,7 @@ public class AiUtils {
 	 */
 	public static void registerCharmedMob(String id, int duration, Consumer<String> cRemovalCallback) {
 		try {
-			DurationRepository repository = getProxy().getDurationRepository();
+			DurationRepository repository = getProxy().getServerDurationRepository();
 			repository.add(id, duration, cRemovalCallback);
 
 		} catch (Exception e) {

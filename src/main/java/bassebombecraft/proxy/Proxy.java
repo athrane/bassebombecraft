@@ -1,5 +1,6 @@
 package bassebombecraft.proxy;
 
+import bassebombecraft.client.event.particle.ParticleRenderingRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
@@ -10,7 +11,6 @@ import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.entity.target.TargetRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
-import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.network.NetworkChannelHelper;
 import net.minecraft.world.World;
@@ -129,25 +129,37 @@ public interface Proxy {
 	 * @throws UnsupportedOperationException if invoked on server proxy.
 	 */
 	public FrequencyRepository getClientFrequencyRepository() throws UnsupportedOperationException;
-	
+
 	/**
-	 * Get duration repository.
-	 * 
-	 * This repository is available at both the logical CLIENT and SERVER.
+	 * Get duration repository for the logical SERVER.
 	 * 
 	 * The server proxy implementation support this method to support the
 	 * configuration: physical server w/ logical server (dedicated server).
 	 * 
 	 * The client proxy implementation support this method to support the
+	 * configuration: physical client w/ logical server (integrated server).
+	 * 
+	 * @return frequency repository for logical client.
+	 * 
+	 * @throws UnsupportedOperationException if invoked on server proxy.
+	 */
+	public DurationRepository getServerDurationRepository() throws UnsupportedOperationException;
+	
+	/**
+	 * Get duration repository for the logical CLIENT.
+	 * 
+	 * The server proxy implementation doesn't support this method.
+	 * 
+	 * The client proxy implementation support this method to support the
 	 * configurations: 1) physical client w/ logical server (integrated server). 2)
 	 * physical client w/ logical client.
 	 * 
-	 * @return duration repository
+	 * @return frequency repository for logical client.
 	 * 
-	 * @throws UnsupportedOperationException this exception is never thrown.
+	 * @throws UnsupportedOperationException if invoked on server proxy.
 	 */
-	public DurationRepository getDurationRepository() throws UnsupportedOperationException;
-
+	public DurationRepository getClientDurationRepository() throws UnsupportedOperationException;
+	
 	/**
 	 * Get particle rendering repository.
 	 * 

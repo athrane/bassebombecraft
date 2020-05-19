@@ -1,5 +1,6 @@
 package bassebombecraft;
 
+import bassebombecraft.client.event.particle.ParticleRenderingEventHandler;
 import bassebombecraft.client.event.rendering.TeamInfoRenderer;
 import bassebombecraft.client.rendering.DefaultBuildMineRenderer;
 import bassebombecraft.config.ModConfiguration;
@@ -7,7 +8,6 @@ import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
 import bassebombecraft.event.charm.CharmedMobEventHandler;
-import bassebombecraft.event.particle.ParticleRenderingEventHandler;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;

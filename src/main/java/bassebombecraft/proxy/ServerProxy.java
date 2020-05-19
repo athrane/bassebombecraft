@@ -7,6 +7,7 @@ import static bassebombecraft.config.VersionUtils.startServerSession;
 
 import org.apache.logging.log4j.Logger;
 
+import bassebombecraft.client.event.particle.ParticleRenderingRepository;
 import bassebombecraft.config.VersionUtils;
 import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;
@@ -24,7 +25,6 @@ import bassebombecraft.event.entity.team.DefaultTeamRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.frequency.DefaultFrequencyRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
-import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.network.NetworkChannelHelper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
@@ -220,10 +220,15 @@ public class ServerProxy implements Proxy {
 	public FrequencyRepository getClientFrequencyRepository() throws UnsupportedOperationException {
 		throw new UnsupportedOperationException("Operation not supported by server.");
 	}
+	
+	@Override
+	public DurationRepository getServerDurationRepository() throws UnsupportedOperationException {
+		return durationRepository;
+	}
 
 	@Override
-	public DurationRepository getDurationRepository() throws UnsupportedOperationException {
-		return durationRepository;
+	public DurationRepository getClientDurationRepository() throws UnsupportedOperationException {
+		throw new UnsupportedOperationException("Operation not supported by server.");
 	}
 
 	@Override

@@ -1,7 +1,8 @@
-package bassebombecraft.event.particle;
+package bassebombecraft.client.event.particle;
 
 import java.util.stream.Stream;
 
+import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.proxy.Proxy;
 
 /**

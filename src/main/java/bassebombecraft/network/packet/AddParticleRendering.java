@@ -7,9 +7,9 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 
 import java.util.function.Supplier;
 
+import bassebombecraft.client.event.particle.ParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.event.particle.ParticleRenderingRepository;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.math.BlockPos;
@@ -136,7 +136,7 @@ public class AddParticleRendering {
 
 	/**
 	 * Handle received network packet.
-	 */	
+	 */
 	void handlePacket() {
 		try {
 			// create particle info

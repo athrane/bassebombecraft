@@ -11,6 +11,8 @@ import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 import org.apache.logging.log4j.Logger;
 
+import bassebombecraft.client.event.particle.DefaultParticleRenderingRepository;
+import bassebombecraft.client.event.particle.ParticleRenderingRepository;
 import bassebombecraft.client.event.rendering.CharmedInfoRenderer;
 import bassebombecraft.client.event.rendering.DecoyRenderer;
 import bassebombecraft.client.event.rendering.DecreaseSizeEffectRenderer;
@@ -35,8 +37,6 @@ import bassebombecraft.event.entity.team.DefaultTeamRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.frequency.DefaultFrequencyRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
-import bassebombecraft.event.particle.DefaultParticleRenderingRepository;
-import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.proxy.Proxy;
 import net.minecraft.world.World;
@@ -64,10 +64,15 @@ public class ClientProxy implements Proxy {
 	FrequencyRepository serverFrequencyRepository;
 
 	/**
-	 * Duration repository.
+	 * Client duration repository.
 	 */
-	DurationRepository durationRepository;
+	DurationRepository clientDurationRepository;
 
+	/**
+	 * Server duration repository.
+	 */
+	DurationRepository serverDurationRepository;
+	
 	/**
 	 * Particle rendering repository.
 	 */
@@ -76,12 +81,12 @@ public class ClientProxy implements Proxy {
 	/**
 	 * Charmed Mob repository
 	 */
-	CharmedMobsRepository clientSideCharmedMobsRepository;
+	CharmedMobsRepository clientCharmedMobsRepository;
 
 	/**
 	 * Charmed Mob repository
 	 */
-	CharmedMobsRepository serverSideCharmedMobsRepository;
+	CharmedMobsRepository serverCharmedMobsRepository;
 
 	/**
 	 * Block directives repository.
@@ -122,15 +127,16 @@ public class ClientProxy implements Proxy {
 		clientFrequencyRepository = DefaultFrequencyRepository.getInstance();
 		serverFrequencyRepository = DefaultFrequencyRepository.getInstance();
 
-		// initialise duration repository
-		durationRepository = DefaultDurationRepository.getInstance();
+		// initialise duration repositories
+		clientDurationRepository = DefaultDurationRepository.getInstance();
+		serverDurationRepository = DefaultDurationRepository.getInstance();
 
 		// Initialise particle rendering repository
 		particleRepository = DefaultParticleRenderingRepository.getInstance();
 
 		// Initialise charmed mobs repositories
-		clientSideCharmedMobsRepository = ClientSideCharmedMobsRepository.getInstance();
-		serverSideCharmedMobsRepository = ServerSideCharmedMobsRepository.getInstance();
+		clientCharmedMobsRepository = ClientSideCharmedMobsRepository.getInstance();
+		serverCharmedMobsRepository = ServerSideCharmedMobsRepository.getInstance();
 
 		// Initialise directives repository
 		blockDirectivesRepository = DefaultBlockDirectiveRepository.getInstance();
@@ -267,9 +273,15 @@ public class ClientProxy implements Proxy {
 		return clientFrequencyRepository;
 	}
 
+	
 	@Override
-	public DurationRepository getDurationRepository() throws UnsupportedOperationException {
-		return durationRepository;
+	public DurationRepository getServerDurationRepository() throws UnsupportedOperationException {
+		return clientDurationRepository;
+	}
+
+	@Override
+	public DurationRepository getClientDurationRepository() throws UnsupportedOperationException {
+		return serverDurationRepository;
 	}
 
 	@Override
@@ -280,8 +292,8 @@ public class ClientProxy implements Proxy {
 	@Override
 	public CharmedMobsRepository getCharmedMobsRepository(World world) throws UnsupportedOperationException {
 		if (isLogicalClient(world))
-			return clientSideCharmedMobsRepository;
-		return serverSideCharmedMobsRepository;
+			return clientCharmedMobsRepository;
+		return serverCharmedMobsRepository;
 	}
 
 	@Override

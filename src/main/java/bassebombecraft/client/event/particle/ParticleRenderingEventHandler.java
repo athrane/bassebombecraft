@@ -1,4 +1,4 @@
-package bassebombecraft.event.particle;
+package bassebombecraft.client.event.particle;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
@@ -9,6 +9,7 @@ import java.util.Random;
 import java.util.stream.Stream;
 
 import bassebombecraft.event.frequency.FrequencyRepository;
+import bassebombecraft.event.particle.ParticleRendering;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleManager;
