@@ -3,7 +3,8 @@ package bassebombecraft.client.event.particle;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.PARTICLE_RENDERING_FREQUENCY;
-import static bassebombecraft.world.WorldUtils.isLogicalServer;
+import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
+import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
 
 import java.util.Random;
 import java.util.stream.Stream;
@@ -13,10 +14,11 @@ import bassebombecraft.event.particle.ParticleRendering;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.world.World;
-import net.minecraftforge.event.TickEvent.WorldTickEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -29,12 +31,18 @@ import net.minecraftforge.fml.common.Mod;
 public class ParticleRenderingEventHandler {
 
 	@SubscribeEvent
-	public static void handleWorldTickEvent(WorldTickEvent event) {
+	public static void handleWorldTickEvent(RenderWorldLastEvent event) {
 		try {
 
-			// exit if handler is executed at server side
-			if (isLogicalServer(event.world))
+			// exit if player isn't defined
+			if (!isClientSidePlayerDefined())
 				return;
+
+			// get player
+			PlayerEntity player = getClientSidePlayer();
+
+			// get world
+			World world = player.getEntityWorld();
 
 			// exit if particles shouldn't be rendered in this tick
 			// exit if frequency isn't active
@@ -43,7 +51,7 @@ public class ParticleRenderingEventHandler {
 				return;
 
 			// render particles
-			render(event.world);
+			render(world);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
