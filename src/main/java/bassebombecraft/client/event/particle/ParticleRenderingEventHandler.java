@@ -18,6 +18,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -27,13 +28,13 @@ import net.minecraftforge.fml.common.Mod;
  * 
  * The handler only executes events CLIENT side.
  */
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(Dist.CLIENT)
 public class ParticleRenderingEventHandler {
 
 	@SubscribeEvent
 	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
 		try {
-
+			
 			// exit if player isn't defined
 			if (!isClientSidePlayerDefined())
 				return;
