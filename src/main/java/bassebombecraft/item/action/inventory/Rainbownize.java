@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
+import static bassebombecraft.geom.BlockDirective.*;
+
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.GeometryUtils;
 import net.minecraft.block.BlockState;
@@ -89,11 +91,11 @@ public class Rainbownize implements InventoryItemActionStrategy {
 
 		// create wool block
 		BlockState woolBlock = selectRainbowColoredWool(colorCounter);
-		BlockDirective directive = new BlockDirective(groundPosition, woolBlock.getBlock(), DONT_HARVEST);
+		BlockDirective directive = getInstance(groundPosition, woolBlock.getBlock(), DONT_HARVEST);
 		directive.setState(woolBlock);
 
 		// create block
-		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(world);
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 		repository.add(directive);
 	}
 

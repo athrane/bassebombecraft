@@ -6,6 +6,7 @@ import static bassebombecraft.ModConstants.NULL_TILE_ENTITY;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static net.minecraft.state.properties.BlockStateProperties.FACING;
 import static net.minecraft.state.properties.BlockStateProperties.HORIZONTAL_FACING;
+import static bassebombecraft.geom.BlockDirective.*;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -373,7 +374,7 @@ public class BlockUtils {
 	public static void setTemporaryBlock(World world, BlockPos pos, Block tempBlock, int duration) {
 
 		// create temporary block
-		BlockDirective tempDirective = new BlockDirective(pos, tempBlock, DONT_HARVEST);
+		BlockDirective tempDirective = getInstance(pos, tempBlock, DONT_HARVEST);
 		setTemporaryBlock(world, tempDirective, duration);
 	}
 
@@ -389,7 +390,7 @@ public class BlockUtils {
 
 		// create original block
 		Block block = BlockUtils.getBlockFromPosition(tempDirective.getBlockPosition(), world);
-		BlockDirective orgDirective = new BlockDirective(tempDirective.getBlockPosition(), block, DONT_HARVEST);
+		BlockDirective orgDirective = getInstance(tempDirective.getBlockPosition(), block, DONT_HARVEST);
 
 		// create temporary block
 		TemporaryBlock temporaryBlock = DefaultTemporaryBlock.getInstance(duration, tempDirective, orgDirective);

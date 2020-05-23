@@ -232,7 +232,7 @@ public class ServerProxy implements Proxy {
 	}
 
 	@Override
-	public ParticleRenderingRepository getParticleRenderingRepository() throws UnsupportedOperationException {
+	public ParticleRenderingRepository getClientParticleRenderingRepository() throws UnsupportedOperationException {
 		throw new UnsupportedOperationException("Operation not supported by server.");
 	}
 	
@@ -247,7 +247,7 @@ public class ServerProxy implements Proxy {
 	}
 
 	@Override
-	public BlockDirectivesRepository getBlockDirectivesRepository(World world) throws UnsupportedOperationException {
+	public BlockDirectivesRepository getServerBlockDirectivesRepository() throws UnsupportedOperationException {
 		return blockDirectivesRepository;
 	}
 

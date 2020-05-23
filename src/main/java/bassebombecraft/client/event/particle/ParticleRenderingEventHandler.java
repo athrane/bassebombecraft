@@ -67,7 +67,7 @@ public class ParticleRenderingEventHandler {
 	 * @throws Exception if rendering fails.
 	 */
 	static void render(World world) throws Exception {
-		ParticleRenderingRepository repository = getProxy().getParticleRenderingRepository();
+		ParticleRenderingRepository repository = getProxy().getClientParticleRenderingRepository();
 
 		// get and render particles
 		Stream<ParticleRendering> particles = repository.get();

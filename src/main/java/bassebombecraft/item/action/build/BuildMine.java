@@ -96,7 +96,7 @@ public class BuildMine implements BlockClickedItemAction {
 		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
 
 		// add directives
-		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(player.getEntityWorld());
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 		repository.addAll(directives);
 
 		return USED_ITEM;
@@ -447,32 +447,32 @@ public class BuildMine implements BlockClickedItemAction {
 		CompositeStructure composite = new CompositeStructure();
 
 		// torch left - set before air structure
-		BlockDirective offset = new BlockDirective(9, 1, 1);
-		BlockDirective size = new BlockDirective(1, 1, 1);
+		BlockPos offset = new BlockPos(9, 1, 1);
+		BlockPos size = new BlockPos(1, 1, 1);
 		composite.add(createTorchStructure(offset, size));
 
 		// column
-		offset = new BlockDirective(10, 0, 10);
+		offset = new BlockPos(10, 0, 10);
 		addGreatHallColumn(composite, offset);
-		offset = new BlockDirective(-10, 0, 10);
+		offset = new BlockPos(-10, 0, 10);
 		addGreatHallColumn(composite, offset);
-		offset = new BlockDirective(4, 0, 10);
+		offset = new BlockPos(4, 0, 10);
 		addGreatHallColumn(composite, offset);
-		offset = new BlockDirective(-4, 0, 10);
+		offset = new BlockPos(-4, 0, 10);
 		addGreatHallColumn(composite, offset);
 
-		offset = new BlockDirective(10, 0, 20);
+		offset = new BlockPos(10, 0, 20);
 		addGreatHallColumn(composite, offset);
-		offset = new BlockDirective(-10, 0, 20);
+		offset = new BlockPos(-10, 0, 20);
 		addGreatHallColumn(composite, offset);
-		offset = new BlockDirective(4, 0, 20);
+		offset = new BlockPos(4, 0, 20);
 		addGreatHallColumn(composite, offset);
-		offset = new BlockDirective(-4, 0, 20);
+		offset = new BlockPos(-4, 0, 20);
 		addGreatHallColumn(composite, offset);
 
 		// main room
-		offset = new BlockDirective(-10, 0, 0);
-		size = new BlockDirective(20, 10, 30);
+		offset = new BlockPos(-10, 0, 0);
+		size = new BlockPos(20, 10, 30);
 		composite.add(createAirStructure(offset, size));
 
 		return composite;
@@ -487,21 +487,21 @@ public class BuildMine implements BlockClickedItemAction {
 		CompositeStructure composite = new CompositeStructure();
 
 		// torch left - set before air structure
-		BlockDirective offset = new BlockDirective(-2, 1, 3);
-		BlockDirective size = new BlockDirective(1, 1, 1);
+		BlockPos offset = new BlockPos(-2, 1, 3);
+		BlockPos size = new BlockPos(1, 1, 1);
 		composite.add(createTorchStructure(offset, size));
 
 		// main room
-		offset = new BlockDirective(-2, -4, 0);
-		size = new BlockDirective(2, 4, 4);
+		offset = new BlockPos(-2, -4, 0);
+		size = new BlockPos(2, 4, 4);
 		composite.add(createAirStructure(offset, size));
 
-		offset = new BlockDirective(-2, 0, 0);
-		size = new BlockDirective(4, 4, 4);
+		offset = new BlockPos(-2, 0, 0);
+		size = new BlockPos(4, 4, 4);
 		composite.add(createAirStructure(offset, size));
 
 		// door entry - back
-		addDoorEntryFront(composite, new BlockDirective(1, 0, 4));
+		addDoorEntryFront(composite, new BlockPos(1, 0, 4));
 		return composite;
 	}
 
@@ -514,8 +514,8 @@ public class BuildMine implements BlockClickedItemAction {
 		CompositeStructure composite = new CompositeStructure();
 
 		// main room
-		BlockDirective offset = new BlockDirective(-2, -8, 0);
-		BlockDirective size = new BlockDirective(4, 8, 4);
+		BlockPos offset = new BlockPos(-2, -8, 0);
+		BlockPos size = new BlockPos(4, 8, 4);
 		composite.add(createAirStructure(offset, size));
 
 		return composite;
@@ -527,19 +527,18 @@ public class BuildMine implements BlockClickedItemAction {
 	 * @param structure    structure where door is added to.
 	 * @param globalOffset global offset.
 	 */
-	@Deprecated
-	void addDoorEntryFront(Structure structure, BlockDirective globalOffset) {
-		BlockDirective offset = new BlockDirective(-1 + globalOffset.getX(), globalOffset.getY(), globalOffset.getZ());
-		BlockDirective size = new BlockDirective(2, 3, 1);
+	void addDoorEntryFront(Structure structure, BlockPos globalOffset) {
+		BlockPos offset = new BlockPos(-1 + globalOffset.getX(), globalOffset.getY(), globalOffset.getZ());
+		BlockPos size = new BlockPos(2, 3, 1);
 		structure.add(createAirStructure(offset, size));
-		offset = new BlockDirective(-2 + globalOffset.getX(), globalOffset.getY(), globalOffset.getZ());
-		size = new BlockDirective(1, 3, 1);
+		offset = new BlockPos(-2 + globalOffset.getX(), globalOffset.getY(), globalOffset.getZ());
+		size = new BlockPos(1, 3, 1);
 		structure.add(createWoodStructure(offset, size));
-		offset = new BlockDirective(1 + globalOffset.getX(), globalOffset.getY(), globalOffset.getZ());
-		size = new BlockDirective(1, 3, 1);
+		offset = new BlockPos(1 + globalOffset.getX(), globalOffset.getY(), globalOffset.getZ());
+		size = new BlockPos(1, 3, 1);
 		structure.add(createWoodStructure(offset, size));
-		offset = new BlockDirective(-2 + globalOffset.getX(), 3 + globalOffset.getY(), globalOffset.getZ());
-		size = new BlockDirective(4, 1, 1);
+		offset = new BlockPos(-2 + globalOffset.getX(), 3 + globalOffset.getY(), globalOffset.getZ());
+		size = new BlockPos(4, 1, 1);
 		structure.add(createWoodStructure(offset, size));
 	}
 
@@ -571,25 +570,24 @@ public class BuildMine implements BlockClickedItemAction {
 	 * @param structure    structure where column is added to.
 	 * @param globalOffset global offset.
 	 */
-	void addGreatHallColumn(Structure structure, BlockDirective globalOffset) {
+	void addGreatHallColumn(Structure structure, BlockPos globalOffset) {
 
 		// torch low
-		BlockDirective offset = new BlockDirective(globalOffset.getX() - 2, globalOffset.getY() + 7,
-				globalOffset.getZ());
-		BlockDirective size = new BlockDirective(1, 1, 1);
+		BlockPos offset = new BlockPos(globalOffset.getX() - 2, globalOffset.getY() + 7, globalOffset.getZ());
+		BlockPos size = new BlockPos(1, 1, 1);
 		structure.add(createTorchStructure(offset, size));
 
 		// torch high
-		offset = new BlockDirective(globalOffset.getX() + 1, globalOffset.getY() + 4, globalOffset.getZ());
+		offset = new BlockPos(globalOffset.getX() + 1, globalOffset.getY() + 4, globalOffset.getZ());
 		structure.add(createTorchStructure(offset, size));
 
 		// column
-		offset = new BlockDirective(globalOffset.getX() - 1, globalOffset.getY(), globalOffset.getZ() - 1);
-		size = new BlockDirective(2, 9, 2);
+		offset = new BlockPos(globalOffset.getX() - 1, globalOffset.getY(), globalOffset.getZ() - 1);
+		size = new BlockPos(2, 9, 2);
 		structure.add(new ChildStructure(offset, size, Blocks.QUARTZ_BLOCK));
 
-		offset = new BlockDirective(globalOffset.getX() - 2, globalOffset.getY() + 9, globalOffset.getZ() - 2);
-		size = new BlockDirective(4, 1, 4);
+		offset = new BlockPos(globalOffset.getX() - 2, globalOffset.getY() + 9, globalOffset.getZ() - 2);
+		size = new BlockPos(4, 1, 4);
 		structure.add(new ChildStructure(offset, size, Blocks.QUARTZ_BLOCK));
 	}
 
@@ -643,7 +641,6 @@ public class BuildMine implements BlockClickedItemAction {
 		if (random.nextBoolean()) {
 			return;
 		}
-
 	}
 
 	/**

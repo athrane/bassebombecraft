@@ -44,35 +44,11 @@ public class BlockDirective {
 	Optional<PlayerEntity> optPlayer;
 
 	/**
-	 * BlockDirective constructor. Block is located at (0,0,0). Block is made of air
-	 * and can be harvested.
-	 */
-	public BlockDirective() {
-		set(0, 0, 0);
-		this.block = Blocks.AIR;
-		this.harvest = true;
-	}
-
-	/**
-	 * BlockDirective constructor. Block is made of air and can be harvested.
-	 * 
-	 * @param x
-	 * @param y
-	 * @param z
-	 */
-	@Deprecated
-	public BlockDirective(int x, int y, int z) {
-		set(x, y, z);
-		this.block = Blocks.AIR;
-		this.harvest = true;
-	}
-
-	/**
-	 * BlockDirective constructor. Block is a copy of source block directive.
+	 * Constructor. Block is a copy of source block directive.
 	 * 
 	 * @param other source block directive.
 	 */
-	public BlockDirective(BlockDirective other) {
+	BlockDirective(BlockDirective other) {
 		set(other.getBlockPosition());
 		this.block = other.block;
 		this.harvest = other.harvestBlock();
@@ -80,20 +56,20 @@ public class BlockDirective {
 	}
 
 	/**
-	 * BlockDirective constructor.
+	 * constructor.
 	 * 
 	 * @param blockPos block position
 	 * @param block
 	 * @param harvest  defines if block should be harvested.
 	 */
-	public BlockDirective(BlockPos blockPos, Block block, boolean harvest) {
+	BlockDirective(BlockPos blockPos, Block block, boolean harvest) {
 		this.blockPos = blockPos;
 		this.block = block;
 		this.harvest = harvest;
 	}
 
 	/**
-	 * BlockDirective constructor.
+	 * Constructor.
 	 * 
 	 * @param blockPos block position
 	 * @param block
@@ -105,18 +81,6 @@ public class BlockDirective {
 		this.block = block;
 		this.harvest = harvest;
 		this.optPlayer = ofNullable(player);
-	}
-
-	/**
-	 * BlockDirective constructor.
-	 * 
-	 * Block is defined to be harvested.
-	 * 
-	 * @param blockPos block position
-	 * @param block    block type.
-	 */
-	public BlockDirective(BlockPos blockPos, Block block) {
-		this(blockPos, block, true);
 	}
 
 	/**
@@ -307,4 +271,35 @@ public class BlockDirective {
 		return directive;
 	}
 
+	/**
+	 * Block directive factory method.
+	 * 
+	 * BlockDirective constructor. Block is a copy of source block directive.
+	 * 
+	 * @param other source block directive.
+	 * 
+	 * @return block directive. 
+	 */
+	public static BlockDirective getInstance(BlockDirective other) {
+		return new BlockDirective(other);
+	}
+
+	/**
+	 * Block directive factory method.
+	 * 
+	 * The directive is created with a new immutable {@linkplain BlockPos} to avoid
+	 * position changes after creation of the directive.
+	 * 
+	 * @param blockPos   position
+	 * @param block      block
+	 * @param harvest    true if block should be harvested.
+	 * 
+	 * @return block directive. The directive is created with a new immutable block
+	 *         position.
+	 */
+	public static BlockDirective getInstance(BlockPos blockPos, Block block, boolean harvest) {
+		BlockDirective directive = new BlockDirective(blockPos.toImmutable(), block, harvest);
+		return directive;
+	}
+	
 }

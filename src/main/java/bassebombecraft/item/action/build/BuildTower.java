@@ -146,7 +146,7 @@ public class BuildTower implements BlockClickedItemAction {
 		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure, DONT_HARVEST);
 
 		// add directives
-		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(player.getEntityWorld());		
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();		
 		repository.addAll(directives);
 
 		return USED_ITEM;

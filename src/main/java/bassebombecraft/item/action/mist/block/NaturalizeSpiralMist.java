@@ -10,6 +10,8 @@ import static net.minecraft.particles.ParticleTypes.EFFECT;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
+
+import static bassebombecraft.geom.BlockDirective.*;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -44,10 +46,10 @@ public class NaturalizeSpiralMist implements BlockMistActionStrategy {
 		colorCounter++;
 
 		// create dirt block
-		BlockDirective directive = new BlockDirective(target, GRASS_BLOCK, DONT_HARVEST);
+		BlockDirective directive = getInstance(target, GRASS_BLOCK, DONT_HARVEST);
 
 		// create block
-		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(world);						
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();						
 		repository.add(directive);
 
 		// create flower block

@@ -2,6 +2,7 @@ package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.geom.BlockDirective.getInstance;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
@@ -44,15 +45,15 @@ public class MovingTntMist implements BlockMistActionStrategy {
 		counter++;
 		counter = counter % MOD_VALUE;
 
-		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(world);
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 
 		if (counter == 0) {
-			BlockDirective directive = new BlockDirective(target, Blocks.REDSTONE_BLOCK, DONT_HARVEST);
+			BlockDirective directive = getInstance(target, Blocks.REDSTONE_BLOCK, DONT_HARVEST);
 			repository.add(directive);
 			return;
 		}
 
-		BlockDirective directive = new BlockDirective(target, Blocks.TNT, DONT_HARVEST);
+		BlockDirective directive = getInstance(target, Blocks.TNT, DONT_HARVEST);
 		repository.add(directive);
 	}
 

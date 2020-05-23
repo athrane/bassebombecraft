@@ -146,7 +146,7 @@ public class AddParticleRendering {
 			ParticleRendering particle = getInstance(position, info);
 
 			// register for rendering
-			ParticleRenderingRepository repository = getProxy().getParticleRenderingRepository();
+			ParticleRenderingRepository repository = getProxy().getClientParticleRenderingRepository();
 			repository.add(id, particle);
 
 		} catch (Exception e) {

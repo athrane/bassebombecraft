@@ -355,7 +355,7 @@ public class GeometryUtils {
 		List<BlockDirective> translated = new ArrayList<BlockDirective>();
 
 		for (BlockDirective directive : directives) {
-			BlockDirective translatedDirective = new BlockDirective(directive);
+			BlockDirective translatedDirective = getInstance(directive);
 			translatedDirective.translate(translationVector);
 			translated.add(translatedDirective);
 		}

@@ -283,7 +283,7 @@ public class ClientProxy implements Proxy {
 	}
 
 	@Override
-	public ParticleRenderingRepository getParticleRenderingRepository() throws UnsupportedOperationException {
+	public ParticleRenderingRepository getClientParticleRenderingRepository() throws UnsupportedOperationException {
 		return particleRepository;
 	}
 
@@ -298,12 +298,8 @@ public class ClientProxy implements Proxy {
 	}
 
 	@Override
-	public BlockDirectivesRepository getBlockDirectivesRepository(World world) throws UnsupportedOperationException {
-		if (isLogicalServer(world))
-			return blockDirectivesRepository;
-
-		// throw exception if helper is used by physical client w/ logical client.
-		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
+	public BlockDirectivesRepository getServerBlockDirectivesRepository() throws UnsupportedOperationException {
+		return blockDirectivesRepository;
 	}
 
 	@Override

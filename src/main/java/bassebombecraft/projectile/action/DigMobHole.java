@@ -3,6 +3,7 @@ package bassebombecraft.projectile.action;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.block.BlockUtils.calculatePosition;
+import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.player.PlayerDirection.South;
 import static bassebombecraft.projectile.ProjectileUtils.isBlockHit;
@@ -93,7 +94,7 @@ public class DigMobHole implements ProjectileAction {
 			List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, composite);
 
 			// add directives
-			BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(world);
+			BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 			repository.addAll(directives);
 
 			return;
@@ -114,21 +115,20 @@ public class DigMobHole implements ProjectileAction {
 		AxisAlignedBB aabb = entity.getBoundingBox();
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY - holeHeightExpansion, aabb.minZ);
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
-		BlockPos.getAllInBox(min, max).forEach(pos -> registerBlockToDig(aabb, pos, world));
+		BlockPos.getAllInBox(min, max).forEach(pos -> registerBlockToDig(aabb, pos));
 	}
 
 	/**
 	 * Register block for processed to generate air block.
 	 * 
-	 * @param aabb  AABB
-	 * @param pos   block position to process.
-	 * @param world world object.
+	 * @param aabb AABB
+	 * @param pos  block position to process.
 	 */
-	void registerBlockToDig(AxisAlignedBB aabb, BlockPos pos, World world) {
+	void registerBlockToDig(AxisAlignedBB aabb, BlockPos pos) {
 		double translateY = aabb.maxY - aabb.minY;
 		BlockPos tranlatedPos = pos.add(0, -translateY, 0);
-		BlockDirective directive = new BlockDirective(tranlatedPos, AIR, DONT_HARVEST);
-		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(world);
+		BlockDirective directive = getInstance(tranlatedPos, AIR, DONT_HARVEST);
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 		repository.add(directive);
 	}
 

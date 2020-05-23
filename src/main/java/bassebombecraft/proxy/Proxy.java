@@ -174,7 +174,7 @@ public interface Proxy {
 	 * 
 	 * @throws UnsupportedOperationException if invoked on server proxy.
 	 */
-	public ParticleRenderingRepository getParticleRenderingRepository() throws UnsupportedOperationException;
+	public ParticleRenderingRepository getClientParticleRenderingRepository() throws UnsupportedOperationException;
 
 	/**
 	 * Get charmed mobs repository.
@@ -230,11 +230,8 @@ public interface Proxy {
 	 * configuration: physical client w/ logical server (integrated server).
 	 * 
 	 * @return block directives repository.
-	 * 
-	 * @throws UnsupportedOperationException if invoked in configuration: physical
-	 *                                       client w/ logical client.
 	 */
-	public BlockDirectivesRepository getBlockDirectivesRepository(World world) throws UnsupportedOperationException;
+	public BlockDirectivesRepository getServerBlockDirectivesRepository() throws UnsupportedOperationException;
 
 	/**
 	 * Get temporary block directives repository.

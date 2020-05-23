@@ -70,7 +70,7 @@ public class RemoveParticleRendering {
 	void handlePacket() {
 		try {
 			// remove particle rendering directive
-			ParticleRenderingRepository repository = getProxy().getParticleRenderingRepository();
+			ParticleRenderingRepository repository = getProxy().getClientParticleRenderingRepository();
 			repository.remove(id);
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

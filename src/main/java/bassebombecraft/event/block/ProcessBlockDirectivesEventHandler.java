@@ -18,6 +18,7 @@ import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.event.TickEvent.ServerTickEvent;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -47,14 +48,14 @@ public class ProcessBlockDirectivesEventHandler {
 	static final BlockPos NULL_POSITION = null; // NULL block position.
 
 	@SubscribeEvent
-	public static void handleWorldTickEvent(WorldTickEvent event) {
-
+	public static void handleServerTickEvent(ServerTickEvent event) {
+		
 		// exit if handler is executed at client side
 		if (isLogicalClient(event.world))
 			return;
 
 		// get repository
-		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(event.world);
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 
 		// exit if no directives are waiting to be processed.
 		if (repository.isEmpty())
@@ -75,7 +76,7 @@ public class ProcessBlockDirectivesEventHandler {
 	static void processDirective(World world) {
 		try {
 			// get repositories
-			BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(world);
+			BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 
 			while (!repository.isEmpty()) {
 

@@ -20,7 +20,7 @@ public class TemporaryBlockEventHandler {
 	public static void handleWorldTickEvent(WorldTickEvent event) {
 
 		// get repositories
-		BlockDirectivesRepository directivesRepository = getProxy().getBlockDirectivesRepository(event.world);
+		BlockDirectivesRepository directivesRepository = getProxy().getServerBlockDirectivesRepository();
 		TemporaryBlockRepository repository = getProxy().getTemporaryBlockRepository(event.world);
 
 		// update block duration

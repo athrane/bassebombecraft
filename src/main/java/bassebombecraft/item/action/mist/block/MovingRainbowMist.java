@@ -6,6 +6,8 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
+
+import static bassebombecraft.geom.BlockDirective.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.particles.BasicParticleType;
@@ -43,11 +45,11 @@ public class MovingRainbowMist implements BlockMistActionStrategy {
 
 		// create flower block
 		BlockState blockstate = selectWoolColor();
-		BlockDirective directive = new BlockDirective(target, blockstate.getBlock(), DONT_HARVEST);
+		BlockDirective directive = getInstance(target, blockstate.getBlock(), DONT_HARVEST);
 		directive.setState(blockstate);
 
 		// create temporary block
-		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(world);
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 		repository.add(directive);
 	}
 

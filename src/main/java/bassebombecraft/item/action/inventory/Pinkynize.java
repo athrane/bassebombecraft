@@ -12,6 +12,8 @@ import java.util.function.Supplier;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
+
+import static bassebombecraft.geom.BlockDirective.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -89,11 +91,11 @@ public class Pinkynize implements InventoryItemActionStrategy {
 
 		// create wool block
 		BlockState woolBlock = selectPinkColoredWool(colorCounter);
-		BlockDirective directive = new BlockDirective(groundPosition, woolBlock.getBlock(), DONT_HARVEST);
+		BlockDirective directive = getInstance(groundPosition, woolBlock.getBlock(), DONT_HARVEST);
 		directive.setState(selectPinkColoredWool(colorCounter));
 
 		// create block
-		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(world);
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 		repository.add(directive);
 	}
 

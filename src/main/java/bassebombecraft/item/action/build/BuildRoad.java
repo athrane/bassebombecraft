@@ -83,7 +83,7 @@ public class BuildRoad implements BlockClickedItemAction {
 		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
 
 		// add directives
-		BlockDirectivesRepository repository = getProxy().getBlockDirectivesRepository(player.getEntityWorld());
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 		repository.addAll(directives);
 
 		return USED_ITEM;
