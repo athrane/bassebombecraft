@@ -96,7 +96,7 @@ public class SpawnStairs implements ProjectileAction {
 
 		// calculate set of block directives
 		BlockPos offset = targetPosition;
-		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, composite);
+		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, composite, world);
 
 		// set blocks
 		for (BlockDirective directive : directives) {

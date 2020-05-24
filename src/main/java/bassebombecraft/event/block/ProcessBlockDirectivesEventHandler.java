@@ -6,7 +6,6 @@ import static bassebombecraft.ModConstants.BLOCKS_PER_TICK;
 import static bassebombecraft.block.BlockUtils.createBlock;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
-import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
@@ -19,7 +18,6 @@ import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
-import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -49,10 +47,6 @@ public class ProcessBlockDirectivesEventHandler {
 
 	@SubscribeEvent
 	public static void handleServerTickEvent(ServerTickEvent event) {
-		
-		// exit if handler is executed at client side
-		if (isLogicalClient(event.world))
-			return;
 
 		// get repository
 		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
@@ -63,17 +57,15 @@ public class ProcessBlockDirectivesEventHandler {
 
 		// process directives
 		for (int i = 0; i < BLOCKS_PER_TICK; i++) {
-			processDirective(event.world);
+			processDirective();
 		}
 	}
 
 	/**
 	 * Process directive if an air directive is encountered then the directive is
 	 * skipped and another one is processed.
-	 * 
-	 * @param world world object.
 	 */
-	static void processDirective(World world) {
+	static void processDirective() {
 		try {
 			// get repositories
 			BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
@@ -83,13 +75,16 @@ public class ProcessBlockDirectivesEventHandler {
 				// get directive
 				BlockDirective directive = repository.getNext();
 
+				// get world
+				World world = directive.getWorld();
+
 				// skip if source and target states are both air
 				BlockState currentState = world.getBlockState(directive.getBlockPosition());
 				if (currentState.equals(directive.getState()))
 					continue;
 
 				// process directive
-				createBlock(directive, world);
+				createBlock(directive);
 
 				// send particle for rendering to client
 				BlockPos pos = directive.getBlockPosition();

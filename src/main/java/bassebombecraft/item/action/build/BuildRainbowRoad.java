@@ -79,9 +79,12 @@ public class BuildRainbowRoad implements BlockClickedItemAction {
 		// get player direction
 		PlayerDirection playerDirection = getPlayerDirection(player);
 
+		// get world
+		World world = context.getWorld();
+		
 		// calculate set of block directives
 		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
-		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
+		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure, world);
 
 		// add directives
 		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();

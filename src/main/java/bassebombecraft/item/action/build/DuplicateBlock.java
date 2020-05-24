@@ -62,11 +62,13 @@ public class DuplicateBlock implements BlockClickedItemAction {
 
 		// create world query
 		PlayerEntity player = context.getPlayer();
-		BlockPos pos = context.getPos();		
+		BlockPos pos = context.getPos();
 		WorldQueryImpl worldQuery = new WorldQueryImpl(player, pos);
 
-		// calculate structure
+		// get world
 		World world = context.getWorld();
+
+		// calculate structure
 		Block sourceBlock = getBlockFromPosition(worldQuery.getTargetBlockPosition(), world);
 		Structure structure = createDuplicatedBlock(sourceBlock, worldQuery);
 
@@ -78,15 +80,15 @@ public class DuplicateBlock implements BlockClickedItemAction {
 
 		// calculate set of block directives
 		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
-		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
+		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure, world);
 
 		// add directives
-		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();					
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 		repository.addAll(directives);
 
-		return USED_ITEM;		
+		return USED_ITEM;
 	}
-	
+
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		// NO-OP

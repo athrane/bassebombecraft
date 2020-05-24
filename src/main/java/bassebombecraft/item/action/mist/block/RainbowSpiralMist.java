@@ -49,7 +49,7 @@ public class RainbowSpiralMist implements BlockMistActionStrategy {
 
 		// create wool block
 		BlockState woolBlock = selectRainbowColoredWool(colorCounter);
-		BlockDirective directive = getInstance(target, woolBlock.getBlock(), DONT_HARVEST);
+		BlockDirective directive = getInstance(target, woolBlock.getBlock(), DONT_HARVEST, world);
 		directive.setState(selectRainbowColoredWool(colorCounter));
 
 		// create block

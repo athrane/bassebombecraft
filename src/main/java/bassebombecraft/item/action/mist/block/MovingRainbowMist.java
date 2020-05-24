@@ -43,9 +43,9 @@ public class MovingRainbowMist implements BlockMistActionStrategy {
 	public void applyEffectToBlock(BlockPos target, World world) {
 		colorCounter++;
 
-		// create flower block
+		// create rainbow block
 		BlockState blockstate = selectWoolColor();
-		BlockDirective directive = getInstance(target, blockstate.getBlock(), DONT_HARVEST);
+		BlockDirective directive = getInstance(target, blockstate.getBlock(), DONT_HARVEST, world);
 		directive.setState(blockstate);
 
 		// create temporary block

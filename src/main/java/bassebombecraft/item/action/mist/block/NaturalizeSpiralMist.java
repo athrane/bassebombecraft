@@ -1,8 +1,8 @@
 package bassebombecraft.item.action.mist.block;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.geom.GeometryUtils.createFlowerDirective;
 import static net.minecraft.block.Blocks.GRASS_BLOCK;
 import static net.minecraft.particles.ParticleTypes.EFFECT;
@@ -10,8 +10,6 @@ import static net.minecraft.particles.ParticleTypes.EFFECT;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
-
-import static bassebombecraft.geom.BlockDirective.*;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -46,15 +44,15 @@ public class NaturalizeSpiralMist implements BlockMistActionStrategy {
 		colorCounter++;
 
 		// create dirt block
-		BlockDirective directive = getInstance(target, GRASS_BLOCK, DONT_HARVEST);
+		BlockDirective directive = getInstance(target, GRASS_BLOCK, DONT_HARVEST, world);
 
 		// create block
-		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();						
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 		repository.add(directive);
 
 		// create flower block
 		BlockPos flowerPos = target.up();
-		directive = createFlowerDirective(flowerPos, getBassebombeCraft().getRandom());
+		directive = createFlowerDirective(flowerPos, world);
 
 		// create block
 		repository.add(directive);

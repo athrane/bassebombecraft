@@ -12,6 +12,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 /**
  * Class for directing the creation/modification/harvesting of blocks.
@@ -44,6 +45,11 @@ public class BlockDirective {
 	Optional<PlayerEntity> optPlayer;
 
 	/**
+	 * World object, where directive should be processed in. 
+	 */
+	World world;
+	
+	/**
 	 * Constructor. Block is a copy of source block directive.
 	 * 
 	 * @param other source block directive.
@@ -53,6 +59,7 @@ public class BlockDirective {
 		this.block = other.block;
 		this.harvest = other.harvestBlock();
 		this.state = other.getState();
+		this.world = other.getWorld();
 	}
 
 	/**
@@ -61,11 +68,13 @@ public class BlockDirective {
 	 * @param blockPos block position
 	 * @param block
 	 * @param harvest  defines if block should be harvested.
+	 * @param world world where directive should be processed.
 	 */
-	BlockDirective(BlockPos blockPos, Block block, boolean harvest) {
+	BlockDirective(BlockPos blockPos, Block block, boolean harvest, World world) {
 		this.blockPos = blockPos;
 		this.block = block;
 		this.harvest = harvest;
+		this.world = world;
 	}
 
 	/**
@@ -81,6 +90,7 @@ public class BlockDirective {
 		this.block = block;
 		this.harvest = harvest;
 		this.optPlayer = ofNullable(player);
+		this.world = player.getEntityWorld();
 	}
 
 	/**
@@ -178,6 +188,15 @@ public class BlockDirective {
 	}
 
 	/**
+	 * Return world.
+	 * 
+	 * @return world where the directive should be processed in. 
+	 */
+	public World getWorld() {
+		return world;
+	}
+	
+	/**
 	 * Return block position.
 	 * 
 	 * @return block position.
@@ -239,16 +258,36 @@ public class BlockDirective {
 	 * @param block      block
 	 * @param blockState block state
 	 * @param harvest    true if block should be harvested.
+	 * @param world world where directive should be processed.
 	 * 
 	 * @return block directive. The directive is created with a new immutable block
 	 *         position.
 	 */
-	public static BlockDirective getInstance(BlockPos blockPos, Block block, BlockState blockState, boolean harvest) {
-		BlockDirective directive = new BlockDirective(blockPos.toImmutable(), block, harvest);
+	public static BlockDirective getInstance(BlockPos blockPos, Block block, BlockState blockState, boolean harvest, World world) {
+		BlockDirective directive = new BlockDirective(blockPos.toImmutable(), block, harvest, world);
 		directive.setState(blockState);
 		return directive;
 	}
 
+	/**
+	 * Block directive factory method.
+	 * 
+	 * The directive is created with a new immutable {@linkplain BlockPos} to avoid
+	 * position changes after creation of the directive.
+	 * 
+	 * @param blockPos   position
+	 * @param block      block
+	 * @param harvest    true if block should be harvested.
+	 * @param world world where directive should be processed.
+	 * 
+	 * @return block directive. The directive is created with a new immutable block
+	 *         position.
+	 */
+	public static BlockDirective getInstance(BlockPos blockPos, Block block, boolean harvest, World world) {
+		BlockDirective directive = new BlockDirective(blockPos.toImmutable(), block, harvest, world);
+		return directive;
+	}
+	
 	/**
 	 * Block directive factory method.
 	 * 
@@ -282,24 +321,6 @@ public class BlockDirective {
 	 */
 	public static BlockDirective getInstance(BlockDirective other) {
 		return new BlockDirective(other);
-	}
-
-	/**
-	 * Block directive factory method.
-	 * 
-	 * The directive is created with a new immutable {@linkplain BlockPos} to avoid
-	 * position changes after creation of the directive.
-	 * 
-	 * @param blockPos   position
-	 * @param block      block
-	 * @param harvest    true if block should be harvested.
-	 * 
-	 * @return block directive. The directive is created with a new immutable block
-	 *         position.
-	 */
-	public static BlockDirective getInstance(BlockPos blockPos, Block block, boolean harvest) {
-		BlockDirective directive = new BlockDirective(blockPos.toImmutable(), block, harvest);
-		return directive;
 	}
 	
 }

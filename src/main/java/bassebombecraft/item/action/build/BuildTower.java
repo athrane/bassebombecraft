@@ -141,9 +141,12 @@ public class BuildTower implements BlockClickedItemAction {
 		// get player direction
 		PlayerDirection playerDirection = getPlayerDirection(player);
 
+		// get world
+		World world = context.getWorld();
+		
 		// calculate set of block directives
 		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
-		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure, DONT_HARVEST);
+		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure, DONT_HARVEST, world);
 
 		// add directives
 		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();		

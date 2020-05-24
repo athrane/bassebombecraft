@@ -3,10 +3,10 @@ package bassebombecraft.block;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.NULL_TILE_ENTITY;
+import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static net.minecraft.state.properties.BlockStateProperties.FACING;
 import static net.minecraft.state.properties.BlockStateProperties.HORIZONTAL_FACING;
-import static bassebombecraft.geom.BlockDirective.*;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -51,50 +51,16 @@ public class BlockUtils {
 	/**
 	 * Create single block of designated block type.
 	 * 
-	 * The block is only processed if the world isn't located at client side.
-	 * 
-	 * The block is only harvested if the block directive specifies it.
-	 * 
-	 * @param blockDirective block directive for block to create.
-	 * @param worldQuery     world query object.
-	 */
-	@Deprecated
-	public static void createBlock(BlockDirective blockDirective, WorldQuery worldQuery) {
-
-		// exit if handler is executed at client side
-		if (isLogicalClient(worldQuery.getWorld()))
-			return;
-
-		// get block
-		BlockPos blockPosition = blockDirective.getBlockPosition();
-		Block block = getBlockFromPosition(blockDirective, worldQuery);
-
-		// get world
-		World world = worldQuery.getWorld();
-
-		// harvest block
-		if (blockDirective.harvestBlock()) {
-			BlockState blockState = getBlockStateFromPosition(blockPosition, worldQuery);
-			ItemStack emptyItemStack = new ItemStack(block);
-			block.harvestBlock(worldQuery.getWorld(), worldQuery.getPlayer(), blockPosition, blockState,
-					NULL_TILE_ENTITY, emptyItemStack);
-		}
-
-		// set block state
-		world.setBlockState(blockPosition, blockDirective.getState());
-	}
-
-	/**
-	 * Create single block of designated block type.
-	 * 
 	 * The block is only processed if the world is at SERVER side.
 	 * 
 	 * The block is only harvested if the block directive specifies it.
 	 * 
 	 * @param blockDirective block directive for block to create.
-	 * @param world          world object.
 	 */
-	public static void createBlock(BlockDirective blockDirective, World world) {
+	public static void createBlock(BlockDirective blockDirective) {
+
+		// get world
+		World world = blockDirective.getWorld();
 
 		// exit if handler is executed at client side
 		if (isLogicalClient(world))
@@ -135,32 +101,6 @@ public class BlockUtils {
 	public static Block getBlockFromPosition(BlockPos blockPosition, World world) {
 		BlockState blockState = world.getBlockState(blockPosition);
 		return blockState.getBlock();
-	}
-
-	/**
-	 * Get block from block position.
-	 * 
-	 * @param blockPosition position of the block.
-	 * @param worldQuery    world query object.
-	 * @return block located at block position
-	 */
-	@Deprecated
-	public static Block getBlockFromPosition(BlockPos blockPosition, WorldQuery worldQuery) {
-		World world = worldQuery.getWorld();
-		return getBlockFromPosition(blockPosition, world);
-	}
-
-	/**
-	 * Get block defined at position specified by block directive.
-	 * 
-	 * @param blockDirective directive to get the block from.
-	 * @param worldQuery     world query object.
-	 * @return block defined at position specified by block directive.
-	 */
-	@Deprecated
-	public static Block getBlockFromPosition(BlockDirective blockDirective, WorldQuery worldQuery) {
-		BlockPos blockPosition = blockDirective.getBlockPosition();
-		return getBlockFromPosition(blockPosition, worldQuery);
 	}
 
 	/**
@@ -323,11 +263,12 @@ public class BlockUtils {
 	 * Returns true if the set of blocks are all of type air.
 	 * 
 	 * @param stream of blocks to query.
+	 * @param world  world where query should be processed.
 	 * 
 	 * @return true if the blocks are all of type air.
 	 */
-	public static boolean containsAirBlocksOnly(Stream<BlockPos> blocks, WorldQuery worldQuery) {
-		return blocks.map(bp -> getBlockFromPosition(bp, worldQuery)).anyMatch(b -> b != Blocks.AIR);
+	public static boolean containsAirBlocksOnly(Stream<BlockPos> blocks, World world) {
+		return blocks.map(bp -> getBlockFromPosition(bp, world)).anyMatch(b -> b != Blocks.AIR);
 	}
 
 	/**
@@ -374,7 +315,7 @@ public class BlockUtils {
 	public static void setTemporaryBlock(World world, BlockPos pos, Block tempBlock, int duration) {
 
 		// create temporary block
-		BlockDirective tempDirective = getInstance(pos, tempBlock, DONT_HARVEST);
+		BlockDirective tempDirective = getInstance(pos, tempBlock, DONT_HARVEST, world);
 		setTemporaryBlock(world, tempDirective, duration);
 	}
 
@@ -390,7 +331,7 @@ public class BlockUtils {
 
 		// create original block
 		Block block = BlockUtils.getBlockFromPosition(tempDirective.getBlockPosition(), world);
-		BlockDirective orgDirective = getInstance(tempDirective.getBlockPosition(), block, DONT_HARVEST);
+		BlockDirective orgDirective = getInstance(tempDirective.getBlockPosition(), block, DONT_HARVEST, world);
 
 		// create temporary block
 		TemporaryBlock temporaryBlock = DefaultTemporaryBlock.getInstance(duration, tempDirective, orgDirective);

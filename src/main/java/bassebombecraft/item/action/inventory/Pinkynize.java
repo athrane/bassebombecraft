@@ -91,7 +91,7 @@ public class Pinkynize implements InventoryItemActionStrategy {
 
 		// create wool block
 		BlockState woolBlock = selectPinkColoredWool(colorCounter);
-		BlockDirective directive = getInstance(groundPosition, woolBlock.getBlock(), DONT_HARVEST);
+		BlockDirective directive = getInstance(groundPosition, woolBlock.getBlock(), DONT_HARVEST, world);
 		directive.setState(selectPinkColoredWool(colorCounter));
 
 		// create block

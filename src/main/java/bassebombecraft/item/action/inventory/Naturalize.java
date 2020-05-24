@@ -89,7 +89,7 @@ public class Naturalize implements InventoryItemActionStrategy {
 
 		// create flower block
 		BlockPos flowerPos = groundPosition.up();
-		BlockDirective directive = createFlowerDirective(flowerPos, random);
+		BlockDirective directive = createFlowerDirective(flowerPos, world);
 
 		// create block
 		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();

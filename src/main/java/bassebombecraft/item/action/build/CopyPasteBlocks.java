@@ -153,12 +153,15 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		// get player direction
 		PlayerDirection playerDirection = getPlayerDirection(player);
 
+		// get world
+		World world = context.getWorld();
+
 		// calculate list of block directives
 		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
-		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
+		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure, world);
 
 		// add directives
-		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();		
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 		repository.addAll(directives);
 
 		return USED_ITEM;
@@ -366,7 +369,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		}
 
 		// capture
-		capturedBlocks = captureRectangle(captureOffset, captureSize, worldQuery);
+		capturedBlocks = captureRectangle(captureOffset, captureSize, worldQuery.getWorld());
 
 		// translate
 		BlockPos translation = calculateTranslationVector(captureOffset, captureSize, playerDirection);

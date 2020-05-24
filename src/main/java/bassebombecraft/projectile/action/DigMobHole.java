@@ -91,7 +91,7 @@ public class DigMobHole implements ProjectileAction {
 			CompositeStructure composite = new CompositeStructure();
 			createVerticalStructure(composite);
 			PlayerDirection playerDirection = South;
-			List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, composite);
+			List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, composite, world);
 
 			// add directives
 			BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
@@ -115,7 +115,7 @@ public class DigMobHole implements ProjectileAction {
 		AxisAlignedBB aabb = entity.getBoundingBox();
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY - holeHeightExpansion, aabb.minZ);
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
-		BlockPos.getAllInBox(min, max).forEach(pos -> registerBlockToDig(aabb, pos));
+		BlockPos.getAllInBox(min, max).forEach(pos -> registerBlockToDig(aabb, pos, world));
 	}
 
 	/**
@@ -123,11 +123,12 @@ public class DigMobHole implements ProjectileAction {
 	 * 
 	 * @param aabb AABB
 	 * @param pos  block position to process.
+	 * @param world world where directive should be processed.
 	 */
-	void registerBlockToDig(AxisAlignedBB aabb, BlockPos pos) {
+	void registerBlockToDig(AxisAlignedBB aabb, BlockPos pos, World world) {
 		double translateY = aabb.maxY - aabb.minY;
 		BlockPos tranlatedPos = pos.add(0, -translateY, 0);
-		BlockDirective directive = getInstance(tranlatedPos, AIR, DONT_HARVEST);
+		BlockDirective directive = getInstance(tranlatedPos, AIR, DONT_HARVEST, world);
 		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 		repository.add(directive);
 	}

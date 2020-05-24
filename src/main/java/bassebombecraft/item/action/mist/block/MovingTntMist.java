@@ -48,12 +48,12 @@ public class MovingTntMist implements BlockMistActionStrategy {
 		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 
 		if (counter == 0) {
-			BlockDirective directive = getInstance(target, Blocks.REDSTONE_BLOCK, DONT_HARVEST);
+			BlockDirective directive = getInstance(target, Blocks.REDSTONE_BLOCK, DONT_HARVEST, world);
 			repository.add(directive);
 			return;
 		}
 
-		BlockDirective directive = getInstance(target, Blocks.TNT, DONT_HARVEST);
+		BlockDirective directive = getInstance(target, Blocks.TNT, DONT_HARVEST, world);
 		repository.add(directive);
 	}
 

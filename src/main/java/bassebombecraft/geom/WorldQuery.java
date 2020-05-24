@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 /**
  * Interface for querying about the world.
  */
+@Deprecated
 public interface WorldQuery {
 
 	/**

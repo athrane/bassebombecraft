@@ -3,6 +3,7 @@ package bassebombecraft.item.action.inventory;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.block.BlockUtils.selectRainbowColoredWool;
+import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
@@ -10,8 +11,6 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
-import static bassebombecraft.geom.BlockDirective.*;
-
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.GeometryUtils;
 import net.minecraft.block.BlockState;
@@ -91,7 +90,7 @@ public class Rainbownize implements InventoryItemActionStrategy {
 
 		// create wool block
 		BlockState woolBlock = selectRainbowColoredWool(colorCounter);
-		BlockDirective directive = getInstance(groundPosition, woolBlock.getBlock(), DONT_HARVEST);
+		BlockDirective directive = getInstance(groundPosition, woolBlock.getBlock(), DONT_HARVEST, world);
 		directive.setState(woolBlock);
 
 		// create block
