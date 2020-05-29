@@ -267,7 +267,7 @@ public class ServerProxy implements Proxy {
 	}
 
 	@Override
-	public TargetRepository getTargetRepository(World world) throws UnsupportedOperationException {
+	public TargetRepository getServerTargetRepository() throws UnsupportedOperationException {
 		return targetRepository;
 	}
 	

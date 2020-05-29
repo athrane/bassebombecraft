@@ -46,7 +46,7 @@ public class DefaultTargetsInfoRenderer implements EntityRenderer {
 		Vec3d translation = playerPos.subtract(renderPos);
 
 		// get targets
-		TargetRepository repository = getProxy().getTargetRepository(player.getEntityWorld());
+		TargetRepository repository = getProxy().getServerTargetRepository();
 		Stream<LivingEntity> targets = repository.get(player);
 		int targetsSize = repository.size(player);
 
@@ -90,7 +90,7 @@ public class DefaultTargetsInfoRenderer implements EntityRenderer {
 	String getCommanderTargetName(PlayerEntity player) {
 
 		// get commander target
-		TargetRepository repository = getProxy().getTargetRepository(player.getEntityWorld());
+		TargetRepository repository = getProxy().getServerTargetRepository();
 		Optional<LivingEntity> optTarget = repository.getFirst(player);
 
 		// exit if entity has no target

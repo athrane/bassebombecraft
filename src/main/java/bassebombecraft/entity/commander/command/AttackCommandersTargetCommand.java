@@ -30,7 +30,7 @@ public class AttackCommandersTargetCommand implements MobCommand {
 	public boolean shouldExecute(LivingEntity commander, CreatureEntity entity) {
 		try {
 			// get target
-			TargetRepository repository = getProxy().getTargetRepository(commander.getEntityWorld());
+			TargetRepository repository = getProxy().getServerTargetRepository();
 			Optional<LivingEntity> optTarget = repository.getFirst(commander);
 
 			// exit if target is undefined

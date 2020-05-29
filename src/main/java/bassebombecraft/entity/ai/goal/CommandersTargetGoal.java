@@ -64,7 +64,7 @@ public class CommandersTargetGoal extends Goal {
 				return false;
 
 			// get target
-			TargetRepository repository = getProxy().getTargetRepository(commander.getEntityWorld());
+			TargetRepository repository = getProxy().getServerTargetRepository();
 			Optional<LivingEntity> optTarget = repository.getFirst(commander);
 
 			// exit if target isn't defined (anymore)
@@ -86,7 +86,7 @@ public class CommandersTargetGoal extends Goal {
 	public void tick() {
 		try {
 			// get target
-			TargetRepository repository = getProxy().getTargetRepository(commander.getEntityWorld());
+			TargetRepository repository = getProxy().getServerTargetRepository();
 			Optional<LivingEntity> optTarget = repository.getFirst(commander);
 
 			// exit if target isn't defined (anymore)

@@ -332,7 +332,7 @@ public class EntityUtils {
 				PlayerEntity player = (PlayerEntity) invoker;
 
 				// get player target
-				TargetRepository repository = getProxy().getTargetRepository(player.getEntityWorld());
+				TargetRepository repository = getProxy().getServerTargetRepository();
 				Optional<LivingEntity> optTarget = repository.getFirst(player);
 
 				// return player target if defined

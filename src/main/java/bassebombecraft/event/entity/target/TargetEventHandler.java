@@ -32,7 +32,7 @@ public class TargetEventHandler {
 			return;
 
 		// get repository
-		TargetRepository repository = getProxy().getTargetRepository(event.getEntity().getEntityWorld());
+		TargetRepository repository = getProxy().getServerTargetRepository();
 
 		// remove entity from team upon death
 		LivingEntity entity = event.getEntityLiving();
@@ -72,7 +72,7 @@ public class TargetEventHandler {
 			LivingEntity targetAsLivingEntity = (LivingEntity) target;
 
 			// add target for commander
-			TargetRepository repository = getProxy().getTargetRepository(player.getEntityWorld());
+			TargetRepository repository = getProxy().getServerTargetRepository();
 			repository.add(player, targetAsLivingEntity);
 
 		} catch (Exception e) {
@@ -88,7 +88,7 @@ public class TargetEventHandler {
 				return;
 
 			// register targets for commander
-			TargetRepository repository = getProxy().getTargetRepository(event.getPlayer().getEntityWorld());
+			TargetRepository repository = getProxy().getServerTargetRepository();
 			repository.createTargets(event.getPlayer());
 
 		} catch (Exception e) {
@@ -104,7 +104,7 @@ public class TargetEventHandler {
 				return;
 
 			// delete targets for commander
-			TargetRepository repository = getProxy().getTargetRepository(event.getPlayer().getEntityWorld());
+			TargetRepository repository = getProxy().getServerTargetRepository();
 			repository.deleteTargets(event.getPlayer());
 
 		} catch (Exception e) {

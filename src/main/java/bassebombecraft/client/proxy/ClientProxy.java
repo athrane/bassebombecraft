@@ -326,12 +326,8 @@ public class ClientProxy implements Proxy {
 	}
 
 	@Override
-	public TargetRepository getTargetRepository(World world) throws UnsupportedOperationException {
-		if (isLogicalServer(world))
-			return targetRepository;
-
-		// throw exception if helper is used by physical client w/ logical client.
-		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
+	public TargetRepository getServerTargetRepository() throws UnsupportedOperationException {
+		return targetRepository;
 	}
 
 }
