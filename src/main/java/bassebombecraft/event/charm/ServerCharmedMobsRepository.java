@@ -51,7 +51,7 @@ public class ServerCharmedMobsRepository implements CharmedMobsRepository {
 			//BassebombeCraft.getBassebombeCraft().getLogger().debug("ServerSideCharmedMobsRepository.add: commander="+commander);			
 			
 			// exit if entity is team member
-			TeamRepository repository = getProxy().getTeamRepository(entity.getEntityWorld());
+			TeamRepository repository = getProxy().getServerTeamRepository();
 			if (repository.isMember(commander, entity))
 				return;
 

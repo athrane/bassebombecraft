@@ -32,7 +32,7 @@ public class SpawnFlamingChicken implements ProjectileAction {
 			LivingEntity owner = projectile.getThrower();
 
 			// add entity to team
-			getProxy().getTeamRepository(world).add(owner, entity);
+			getProxy().getServerTeamRepository().add(owner, entity);
 
 			// set AI
 			// NO-OP

@@ -55,7 +55,7 @@ public class TeamEnityRenderer {
 				return;
 
 			// exit if entity isn't a member
-			TeamRepository repository = getProxy().getTeamRepository(player.getEntityWorld());
+			TeamRepository repository = getProxy().getServerTeamRepository();
 			if (!repository.isMember(player, event.getEntity()))
 				return;
 

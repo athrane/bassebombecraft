@@ -95,7 +95,7 @@ public class SpawnKittenArmy implements ProjectileAction {
 				setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnSize, entity);
 
 				// add entity to team
-				getProxy().getTeamRepository(world).add(owner, entity);
+				getProxy().getServerTeamRepository().add(owner, entity);
 
 				// set AI
 				clearAllAiGoals(entity);

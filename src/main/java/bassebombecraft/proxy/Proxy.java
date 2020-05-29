@@ -281,10 +281,8 @@ public interface Proxy {
 	 * 
 	 * @return mob commander repository.
 	 * 
-	 * @throws UnsupportedOperationException if invoked in configuration: physical
-	 *                                       client w/ logical client.
 	 */
-	public TeamRepository getTeamRepository(World world) throws UnsupportedOperationException;
+	public TeamRepository getServerTeamRepository() throws UnsupportedOperationException;
 
 	/**
 	 * Get target repository.

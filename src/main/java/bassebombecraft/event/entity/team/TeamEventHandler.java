@@ -20,7 +20,7 @@ import net.minecraftforge.fml.common.Mod;
  * The handler only executes events SERVER side.
  */
 @Mod.EventBusSubscriber
-public class TeamMembershipEventHandler {
+public class TeamEventHandler {
 
 	@SubscribeEvent
 	static public void handleLivingDeathEvent(LivingDeathEvent event) {
@@ -30,7 +30,7 @@ public class TeamMembershipEventHandler {
 				return;
 
 			// get repository
-			TeamRepository repository = getProxy().getTeamRepository(event.getEntity().getEntityWorld());
+			TeamRepository repository = getProxy().getServerTeamRepository();
 
 			// remove living entity from team upon death
 			if (isTypeLivingEntity(event.getEntityLiving())) {
@@ -63,7 +63,7 @@ public class TeamMembershipEventHandler {
 				return;
 
 			// register team
-			TeamRepository repository = getProxy().getTeamRepository(event.getEntity().getEntityWorld());
+			TeamRepository repository = getProxy().getServerTeamRepository();
 			repository.createTeam(event.getPlayer());
 
 		} catch (Exception e) {
@@ -79,7 +79,7 @@ public class TeamMembershipEventHandler {
 				return;
 
 			// disband team
-			TeamRepository repository = getProxy().getTeamRepository(event.getEntity().getEntityWorld());
+			TeamRepository repository = getProxy().getServerTeamRepository();
 			repository.deleteTeam(event.getPlayer());
 
 		} catch (Exception e) {

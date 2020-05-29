@@ -50,7 +50,7 @@ public class DefaultTeamInfoRenderer implements EntityRenderer {
 		Vec3d translation = playerPos.subtract(renderPos);
 
 		// get team
-		TeamRepository repository = getProxy().getTeamRepository(player.getEntityWorld());
+		TeamRepository repository = getProxy().getServerTeamRepository();
 		Collection<LivingEntity> team = repository.get(player);
 		int teamSize = repository.size(player);
 

@@ -49,7 +49,7 @@ public class DefaultTeamRenderer implements EntityRenderer {
 		Vec3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
 
 		// get team members
-		TeamRepository repository = getProxy().getTeamRepository(player.getEntityWorld());
+		TeamRepository repository = getProxy().getServerTeamRepository();
 		Collection<LivingEntity> entities = repository.get(player);
 
 		// loop over team members

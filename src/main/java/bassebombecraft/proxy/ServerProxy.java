@@ -262,7 +262,7 @@ public class ServerProxy implements Proxy {
 	}
 
 	@Override
-	public TeamRepository getTeamRepository(World world) throws UnsupportedOperationException {
+	public TeamRepository getServerTeamRepository() throws UnsupportedOperationException {
 		return teamRepository;
 	}
 

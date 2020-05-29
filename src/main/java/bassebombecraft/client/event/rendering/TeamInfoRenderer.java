@@ -65,7 +65,7 @@ public class TeamInfoRenderer {
 	static void render(MatrixStack matrixStack, PlayerEntity player) {
 
 		// get team
-		TeamRepository repository = getProxy().getTeamRepository(player.getEntityWorld());
+		TeamRepository repository = getProxy().getServerTeamRepository();
 		Collection<LivingEntity> team = repository.get(player);
 		int teamSize = repository.size(player);
 

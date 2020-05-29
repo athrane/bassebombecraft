@@ -27,7 +27,7 @@ public class SpawnGiantZombie implements ProjectileAction {
 					projectile.rotationYaw, projectile.rotationPitch);
 
 			// add entity to team
-			getProxy().getTeamRepository(world).add(owner, entity);
+			getProxy().getServerTeamRepository().add(owner, entity);
 
 			// set AI
 			clearAllAiGoals(entity);

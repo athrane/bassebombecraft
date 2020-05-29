@@ -31,7 +31,7 @@ public class DiscardTeamMembers implements Predicate<LivingEntity> {
 				return false;
 
 			// verify if members of the same team
-			TeamRepository repository = getProxy().getTeamRepository(entity.getEntityWorld());
+			TeamRepository repository = getProxy().getServerTeamRepository();
 			return (!repository.isTeamMembers(this.entity, candidateMember));
 
 		} catch (Exception e) {

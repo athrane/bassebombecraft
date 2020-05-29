@@ -73,7 +73,7 @@ public class SpawnSkeletonArmy implements ProjectileAction {
 				LivingEntity thrower = projectile.getThrower();
 
 				// add entity to team
-				getProxy().getTeamRepository(world).add(thrower, entity);
+				getProxy().getServerTeamRepository().add(thrower, entity);
 
 				// set AI
 				clearAllAiGoals(entity);
