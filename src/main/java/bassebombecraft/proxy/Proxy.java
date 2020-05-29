@@ -261,11 +261,8 @@ public interface Proxy {
 	 * configuration: physical client w/ logical server (integrated server).
 	 * 
 	 * @return mob commander repository.
-	 * 
-	 * @throws UnsupportedOperationException if invoked in configuration: physical
-	 *                                       client w/ logical client.
 	 */
-	public MobCommanderRepository getMobCommanderRepository(World world) throws UnsupportedOperationException;
+	public MobCommanderRepository getServerMobCommanderRepository() throws UnsupportedOperationException;
 
 	/**
 	 * Get team repository.
@@ -280,7 +277,6 @@ public interface Proxy {
 	 * configuration: physical client w/ logical server (integrated server).
 	 * 
 	 * @return mob commander repository.
-	 * 
 	 */
 	public TeamRepository getServerTeamRepository() throws UnsupportedOperationException;
 

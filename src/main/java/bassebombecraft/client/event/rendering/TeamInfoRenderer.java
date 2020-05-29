@@ -70,7 +70,7 @@ public class TeamInfoRenderer {
 		int teamSize = repository.size(player);
 
 		// get current commander command
-		MobCommanderRepository commanderRepository = getProxy().getMobCommanderRepository(player.getEntityWorld());
+		MobCommanderRepository commanderRepository = getProxy().getServerMobCommanderRepository();
 		MobCommand command = commanderRepository.getCommand(player);
 
 		// get render buffer

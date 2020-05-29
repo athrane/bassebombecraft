@@ -257,7 +257,7 @@ public class ServerProxy implements Proxy {
 	}
 
 	@Override
-	public MobCommanderRepository getMobCommanderRepository(World world) throws UnsupportedOperationException {
+	public MobCommanderRepository getServerMobCommanderRepository() throws UnsupportedOperationException {
 		return mobCommanderRepository;
 	}
 

@@ -50,7 +50,7 @@ public class CommanderControlledTargeting extends Goal {
 	public boolean shouldExecute() {
 		try {
 			// register player and get command
-			MobCommanderRepository repository = getProxy().getMobCommanderRepository(commander.getEntityWorld());
+			MobCommanderRepository repository = getProxy().getServerMobCommanderRepository();
 			MobCommand command = repository.getCommand(commander);
 
 			// initialize command
@@ -69,7 +69,7 @@ public class CommanderControlledTargeting extends Goal {
 		try {
 
 		// register player and get command
-		MobCommanderRepository repository = getProxy().getMobCommanderRepository(commander.getEntityWorld());
+		MobCommanderRepository repository = getProxy().getServerMobCommanderRepository();
 		MobCommand command = repository.getCommand(commander);
 
 		// execute

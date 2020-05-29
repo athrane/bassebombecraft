@@ -22,7 +22,7 @@ public class CommandMobs implements RightClickedItemAction {
 	public void onRightClick(World world, LivingEntity entity) {
 		try {
 			// get repository
-			MobCommanderRepository repository = getProxy().getMobCommanderRepository(world);
+			MobCommanderRepository repository = getProxy().getServerMobCommanderRepository();
 
 			// exit if not a player
 			if (!PlayerUtils.isTypePlayerEntity(entity))
