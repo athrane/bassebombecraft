@@ -2,12 +2,11 @@ package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.geom.BlockDirective.getInstance;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
-
-import static bassebombecraft.geom.BlockDirective.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.particles.BasicParticleType;
