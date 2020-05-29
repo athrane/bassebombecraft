@@ -313,29 +313,29 @@ public class BlockUtils {
 	 * @param duration  duration in game ticks for temporary block to exist.
 	 */
 	public static void setTemporaryBlock(World world, BlockPos pos, Block tempBlock, int duration) {
-
-		// create temporary block
 		BlockDirective tempDirective = getInstance(pos, tempBlock, DONT_HARVEST, world);
-		setTemporaryBlock(world, tempDirective, duration);
+		setTemporaryBlock(tempDirective, duration);
 	}
 
 	/**
 	 * Add temporary block.
 	 * 
-	 * @param world         world object.
 	 * @param tempDirective temporary block directive where temporary block should
 	 *                      be spawned.
 	 * @param duration      duration in game ticks for temporary block to exist.
 	 */
-	public static void setTemporaryBlock(World world, BlockDirective tempDirective, int duration) {
+	public static void setTemporaryBlock(BlockDirective tempDirective, int duration) {
 
+		// get world
+		World world = tempDirective.getWorld();
+		
 		// create original block
 		Block block = BlockUtils.getBlockFromPosition(tempDirective.getBlockPosition(), world);
 		BlockDirective orgDirective = getInstance(tempDirective.getBlockPosition(), block, DONT_HARVEST, world);
 
 		// create temporary block
 		TemporaryBlock temporaryBlock = DefaultTemporaryBlock.getInstance(duration, tempDirective, orgDirective);
-		TemporaryBlockRepository repository = getProxy().getTemporaryBlockRepository(world);
+		TemporaryBlockRepository repository = getProxy().getServerTemporaryBlockRepository();
 		repository.add(temporaryBlock);
 	}
 

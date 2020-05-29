@@ -100,7 +100,7 @@ public class SpawnStairs implements ProjectileAction {
 
 		// set blocks
 		for (BlockDirective directive : directives) {
-			setTemporaryBlock(world, directive, duration);
+			setTemporaryBlock(directive, duration);
 		}
 
 	}

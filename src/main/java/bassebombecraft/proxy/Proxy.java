@@ -245,11 +245,8 @@ public interface Proxy {
 	 * configuration: physical client w/ logical server (integrated server).
 	 * 
 	 * @return temporary block directives repository.
-	 * 
-	 * @throws UnsupportedOperationException if invoked in configuration: physical
-	 *                                       client w/ logical client.
 	 */
-	public TemporaryBlockRepository getTemporaryBlockRepository(World world) throws UnsupportedOperationException;
+	public TemporaryBlockRepository getServerTemporaryBlockRepository() throws UnsupportedOperationException;
 
 	/**
 	 * Get mob commander repository.

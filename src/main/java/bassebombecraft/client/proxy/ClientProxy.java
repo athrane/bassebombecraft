@@ -303,12 +303,8 @@ public class ClientProxy implements Proxy {
 	}
 
 	@Override
-	public TemporaryBlockRepository getTemporaryBlockRepository(World world) throws UnsupportedOperationException {
-		if (isLogicalServer(world))
-			return tempBlockRepository;
-
-		// throw exception if helper is used by physical client w/ logical client.
-		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
+	public TemporaryBlockRepository getServerTemporaryBlockRepository() throws UnsupportedOperationException {
+		return tempBlockRepository;
 	}
 
 	@Override

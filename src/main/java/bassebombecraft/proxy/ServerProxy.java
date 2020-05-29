@@ -252,7 +252,7 @@ public class ServerProxy implements Proxy {
 	}
 
 	@Override
-	public TemporaryBlockRepository getTemporaryBlockRepository(World world) throws UnsupportedOperationException {
+	public TemporaryBlockRepository getServerTemporaryBlockRepository() throws UnsupportedOperationException {
 		return tempBlockRepository;
 	}
 
