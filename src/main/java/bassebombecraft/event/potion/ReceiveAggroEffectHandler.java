@@ -14,10 +14,12 @@ import net.minecraftforge.fml.common.Mod;
 /**
  * Event handler for the receive aggro potion effect.
  * 
- * Server side logic for the {@linkplain ReceiveAggroEffect}.
+ * Logic for the {@linkplain ReceiveAggroEffect}.
  * 
  * When {@linkplain PotionExpiryEvent} is received at server side then the
  * entity is killed if it is a decoy.
+ * 
+ * The handler only executes events SERVER side. 
  */
 @Mod.EventBusSubscriber
 public class ReceiveAggroEffectHandler {
