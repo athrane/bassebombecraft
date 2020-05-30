@@ -148,7 +148,7 @@ public class ModConfiguration {
 	 */
 	public static ForgeConfigSpec COMMON_CONFIG;
 
-	// DefaultCharmedMobsRepository properties
+	// Charm properties used by ServerCharmedMobsRepository / ClientCharmedMobsRepository 
 	public static ForgeConfigSpec.IntValue charmDuration;
 
 	// Basic item properties
@@ -547,13 +547,12 @@ public class ModConfiguration {
 	 */
 	static void setupGeneralConfig() {
 
-		// DefaultCharmedMobsRepository
+		// Charm properties used by ServerCharmedMobsRepository / ClientCharmedMobsRepository 
 		String name = ServerCharmedMobsRepository.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		charmDuration = COMMON_BUILDER.comment("Charm duration (in game ticks).").defineInRange("charmDuration", 10, 0,
+		charmDuration = COMMON_BUILDER.comment("Charm duration (in game ticks).").defineInRange("charmDuration", 100, 0,
 				Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
-
 	}
 
 	/**
