@@ -28,6 +28,16 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 public class CharmedInfoRenderer {
 
 	/**
+	 * HUD text x position.
+	 */
+	static final int TEXT_X_POS = 110;
+
+	/**
+	 * HUD text y position.
+	 */
+	static final int TEXT_Y_POS = 10;
+
+	/**
 	 * Handle {@linkplain RenderWorldLastEvent}.
 	 * 
 	 * @param event event to trigger rendering of information.
@@ -70,8 +80,8 @@ public class CharmedInfoRenderer {
 		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
 
 		// render basic info
-		renderBillboardText(matrixStack, buffer, 120, 10, "CHARMED MOBS");
-		renderBillboardText(matrixStack, buffer, 120, 20, "Number chamred: " + charmedSize);
+		renderBillboardText(matrixStack, buffer, TEXT_X_POS, TEXT_Y_POS, "CHARMED MOBS");
+		renderBillboardText(matrixStack, buffer, TEXT_X_POS, TEXT_Y_POS + 10, "Number chamred: " + charmedSize);
 
 		// create counter to use inside loop
 		final AtomicInteger count = new AtomicInteger();
@@ -88,7 +98,7 @@ public class CharmedInfoRenderer {
 			String memberName = charmedEntity.getName().getUnformattedComponentText();
 			int duration = c.getDuration();
 			String text = "Mob: " + memberName + ", Charm duration: " + duration;
-			renderBillboardText(matrixStack, buffer, 120, 30 + (counter * 10), text);
+			renderBillboardText(matrixStack, buffer, TEXT_X_POS, TEXT_Y_POS + 20 + (counter * 10), text);
 		});
 
 	}
