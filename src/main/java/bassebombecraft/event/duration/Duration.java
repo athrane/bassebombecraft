@@ -32,6 +32,13 @@ public interface Duration {
 	public boolean neverExpires();
 
 	/**
+	 * Get duration ID.
+	 * 
+	 * @return id.
+	 */
+	public String getId();
+	
+	/**
 	 * Get remaining duration.
 	 * 
 	 * @return remaining duration.

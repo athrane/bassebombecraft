@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
-import bassebombecraft.BassebombeCraft;
-
 /**
  * Default implementation of the {@linkplain DurationRepository} interface.
  * 
@@ -31,15 +29,13 @@ public class DefaultDurationRepository implements DurationRepository {
 			state.update();
 
 			// remove if expired
-			if (isExpired(k))
+			if (state.isExpired())
 				expired.add(k);
 		});
 
 		// step 2: remove expired objects
 		expired.forEach(k -> {
 
-			//BassebombeCraft.getBassebombeCraft().getLogger().debug("DefaultDurationRepository.update: expired="+k);			
-			
 			// invoke callback if registered
 			durableObjects.get(k).notifyOfExpiry();
 

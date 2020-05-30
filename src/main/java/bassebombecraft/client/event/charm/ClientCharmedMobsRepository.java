@@ -39,7 +39,6 @@ public class ClientCharmedMobsRepository implements CharmedMobsRepository {
 
 	@Override
 	public void add(MobEntity entity, LivingEntity commander) {
-
 		// create charmed mob container
 		CharmedMob charmedMob = ClientCharmedMob.getInstance(entity, charmDuration.get(), cRemovalCallback);
 

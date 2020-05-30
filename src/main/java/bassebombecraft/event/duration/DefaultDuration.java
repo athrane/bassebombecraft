@@ -14,13 +14,13 @@ public class DefaultDuration implements Duration {
 	/**
 	 * No expiry.
 	 */
-	static final int NO_EXPIRY= -1;
+	static final int NO_EXPIRY = -1;
 
 	/**
 	 * Is expired .
 	 */
 	static final int IS_EXPIRED = 0;
-	
+
 	/**
 	 * Duration in ticks.
 	 */
@@ -40,7 +40,8 @@ public class DefaultDuration implements Duration {
 	/**
 	 * Constructor.
 	 * 
-	 * @param duration duration of duration.
+	 * @param duration duration of duration. -1 will result in non expiring
+	 *                 duration.
 	 * @param id       id of the duration.
 	 */
 	DefaultDuration(int duration, String id) {
@@ -84,7 +85,12 @@ public class DefaultDuration implements Duration {
 
 	@Override
 	public boolean neverExpires() {
-		return (duration == -NO_EXPIRY);
+		return (duration == NO_EXPIRY);
+	}
+
+	@Override
+	public String getId() {
+		return id;
 	}
 
 	@Override
