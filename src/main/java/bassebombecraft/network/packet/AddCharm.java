@@ -9,6 +9,7 @@ import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -22,6 +23,11 @@ import net.minecraftforge.fml.network.NetworkEvent.Context;
  */
 public class AddCharm {
 
+	/**
+	 * Null Commander value.
+	 */
+	final static LivingEntity NULL_COMMANDER = null;
+	
 	/**
 	 * Entity ID.
 	 */
@@ -87,7 +93,7 @@ public class AddCharm {
 
 			// register
 			CharmedMobsRepository repository = getProxy().getClientCharmedMobsRepository();
-			repository.add(mobEntity, null);
+			repository.add(mobEntity, NULL_COMMANDER);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
