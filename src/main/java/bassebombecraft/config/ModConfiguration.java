@@ -550,7 +550,7 @@ public class ModConfiguration {
 		// Charm properties used by ServerCharmedMobsRepository / ClientCharmedMobsRepository 
 		String name = ServerCharmedMobsRepository.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		charmDuration = COMMON_BUILDER.comment("Charm duration (in game ticks).").defineInRange("charmDuration", 100, 0,
+		charmDuration = COMMON_BUILDER.comment("Charm duration (in game ticks).").defineInRange("charmDuration", 1000, 0,
 				Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 	}
