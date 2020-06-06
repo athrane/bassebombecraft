@@ -1,9 +1,17 @@
 package bassebombecraft;
 
+import static bassebombecraft.config.ModConfiguration.baconBazookaProjectileEffectExplosion;
+import static bassebombecraft.config.ModConfiguration.baconBazookaProjectileEffectForce;
+import static bassebombecraft.config.ModConfiguration.bearBlasterProjectileEffectExplosion;
+import static bassebombecraft.config.ModConfiguration.bearBlasterProjectileEffectForce;
+import static bassebombecraft.config.ModConfiguration.creeperCannonProjectileEffectExplosion;
+import static bassebombecraft.config.ModConfiguration.creeperCannonProjectileEffectForce;
+import static bassebombecraft.config.ModConfiguration.primedCreeperCannonProjectileEffectExplosion;
+import static bassebombecraft.config.ModConfiguration.primedCreeperCannonProjectileEffectForce;
+
 import bassebombecraft.client.event.particle.ParticleRenderingEventHandler;
 import bassebombecraft.client.event.rendering.TeamInfoRenderer;
 import bassebombecraft.client.rendering.DefaultBuildMineRenderer;
-import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
@@ -389,6 +397,11 @@ public class ModConstants {
 	public static final String BOOKS_CONFIGPATH = "Books.";
 
 	/**
+	 * harmed mob configuration identifier.
+	 */
+	public static final String CHARMED_MOB_NAME = "CharmedMob";
+	
+	/**
 	 * Week amplification potion name.
 	 */
 	public static final String WEAK_AMPLIFICATION_POTION_NAME = "WeakAmplificationPotion";
@@ -456,30 +469,26 @@ public class ModConstants {
 	/**
 	 * Bacon Bazooka effect, used by {@linkplain ShootBaconBazooka}.
 	 */
-	public static final Effect BACON_BAZOOKA_EFFECT = new MobProjectileEffect(
-			ModConfiguration.baconBazookaProjectileEffectForce.get(),
-			ModConfiguration.baconBazookaProjectileEffectExplosion.get());
+	public static final Effect BACON_BAZOOKA_EFFECT = new MobProjectileEffect(baconBazookaProjectileEffectForce.get(),
+			baconBazookaProjectileEffectExplosion.get());
 
 	/**
 	 * Bear blaster effect, used by {@linkplain ShootBearBlaster}.
 	 */
-	public static final Effect BEAR_BLASTER_EFFECT = new MobProjectileEffect(
-			ModConfiguration.bearBlasterProjectileEffectForce.get(),
-			ModConfiguration.bearBlasterProjectileEffectExplosion.get());
+	public static final Effect BEAR_BLASTER_EFFECT = new MobProjectileEffect(bearBlasterProjectileEffectForce.get(),
+			bearBlasterProjectileEffectExplosion.get());
 
 	/**
 	 * Creeper cannon effect, used by {@linkplain ShootCreeperCannon}.
 	 */
-	public static final Effect CREEPER_CANNON_EFFECT = new MobProjectileEffect(
-			ModConfiguration.creeperCannonProjectileEffectForce.get(),
-			ModConfiguration.creeperCannonProjectileEffectExplosion.get());
+	public static final Effect CREEPER_CANNON_EFFECT = new MobProjectileEffect(creeperCannonProjectileEffectForce.get(),
+			creeperCannonProjectileEffectExplosion.get());
 
 	/**
 	 * Creeper cannon effect, used by {@linkplain ShootCreeperCannon}.
 	 */
 	public static final Effect PRIMED_CREEPER_CANNON_EFFECT = new MobProjectileEffect(
-			ModConfiguration.primedCreeperCannonProjectileEffectForce.get(),
-			ModConfiguration.primedCreeperCannonProjectileEffectExplosion.get());
+			primedCreeperCannonProjectileEffectForce.get(), primedCreeperCannonProjectileEffectExplosion.get());
 
 	/**
 	 * Potion amplifier effect.

@@ -1,6 +1,5 @@
 package bassebombecraft.operator.entity;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;
 import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
@@ -49,39 +48,32 @@ public class Charm implements Operator {
 
 	@Override
 	public void run() {
+		// get entity
+		LivingEntity livingEntity = splEntity.get();
 
-		try {
+		// get ray trace result
+		RayTraceResult result = splRayTraceResult.get();
 
-			// get entity
-			LivingEntity livingEntity = splEntity.get();
+		// exit if no entity was hit
+		if (!isEntityHit(result))
+			return;
 
-			// get ray trace result
-			RayTraceResult result = splRayTraceResult.get();
+		// exit if result isn't entity ray trace result
+		if (!isTypeEntityRayTraceResult(result))
+			return;
 
-			// exit if no entity was hit
-			if (!isEntityHit(result))
-				return;
+		// get entity
+		Entity entity = ((EntityRayTraceResult) result).getEntity();
 
-			// exit if result isn't entity ray trace result
-			if (!isTypeEntityRayTraceResult(result))
-				return;
+		// skip if entity can't be charmed, i.e. is a mob entity
+		if (!isTypeMobEntity(entity))
+			return;
 
-			// get entity
-			Entity entity = ((EntityRayTraceResult) result).getEntity();
+		// type cast
+		MobEntity mobEntity = (MobEntity) entity;
 
-			// skip if entity can't be charmed, i.e. is a mob entity
-			if (!isTypeMobEntity(entity))
-				return;
-
-			// type cast
-			MobEntity mobEntity = (MobEntity) entity;
-
-			// register mob as charmed
-			getProxy().getServerCharmedMobsRepository().add(mobEntity, livingEntity);
-			
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
-		}
+		// register mob as charmed
+		getProxy().getServerCharmedMobsRepository().add(mobEntity, livingEntity);
 	}
 
 }

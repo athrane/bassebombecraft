@@ -4,6 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.BACONBAZOOKA_EFFECT_NAME;
 import static bassebombecraft.ModConstants.BEARBLASTER_EFFECT_NAME;
+import static bassebombecraft.ModConstants.CHARMED_MOB_NAME;
 import static bassebombecraft.ModConstants.CREEPERCANNON_EFFECT_NAME;
 import static bassebombecraft.ModConstants.INTERNAL_TOML_CONFIG_FILE_NAME;
 import static bassebombecraft.ModConstants.ITEM_BASICITEM_DEFAULT_COOLDOWN;
@@ -29,9 +30,11 @@ import org.apache.logging.log4j.Logger;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 
+import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
 import bassebombecraft.entity.commander.command.AttackNearestMobCommand;
 import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
 import bassebombecraft.entity.commander.command.DanceCommand;
+import bassebombecraft.event.charm.CharmedMobEventHandler;
 import bassebombecraft.event.charm.ServerCharmedMobsRepository;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
@@ -148,8 +151,22 @@ public class ModConfiguration {
 	 */
 	public static ForgeConfigSpec COMMON_CONFIG;
 
-	// Charm properties used by ServerCharmedMobsRepository / ClientCharmedMobsRepository 
+	// Repositories..
+
+	/**
+	 * Charmed mob properties used by repositories
+	 * {@linkplain ServerCharmedMobsRepository} and
+	 * {@linkplain ClientCharmedMobsRepository}.
+	 */
 	public static ForgeConfigSpec.IntValue charmDuration;
+
+	// Event handlers..
+
+	/**
+	 * Particles spawned by charmed mob, spawned by
+	 * {@linkplain CharmedMobEventHandler}.
+	 */
+	public static ParticlesConfig charmedMobParticles;
 
 	// Basic item properties
 	public static ForgeConfigSpec.IntValue basicItemDefaultCooldown;
@@ -543,15 +560,29 @@ public class ModConfiguration {
 	}
 
 	/**
-	 * Define general settings for repositories etc.
+	 * Define general settings for repositories and event handlers etc.
 	 */
 	static void setupGeneralConfig() {
 
-		// Charm properties used by ServerCharmedMobsRepository / ClientCharmedMobsRepository 
-		String name = ServerCharmedMobsRepository.NAME;
+		/**
+		 * Charmed mob properties used by repositories
+		 * {@linkplain ServerCharmedMobsRepository} and
+		 * {@linkplain ClientCharmedMobsRepository}.
+		 */
+		String name = CHARMED_MOB_NAME;
+		;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		charmDuration = COMMON_BUILDER.comment("Charm duration (in game ticks).").defineInRange("charmDuration", 1000, 0,
-				Integer.MAX_VALUE);
+		charmDuration = COMMON_BUILDER.comment("Charm duration (in game ticks).").defineInRange("charmDuration", 1000,
+				0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Particles spawned by charmed mob, spawned by
+		 * {@linkplain CharmedMobEventHandler}.
+		 */
+		name = CHARMED_MOB_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		charmedMobParticles = getInstance(COMMON_BUILDER, "heart", 1, 10, 0.1, 1.0, 1.0, 1.0);
 		COMMON_BUILDER.pop();
 	}
 
@@ -1089,7 +1120,6 @@ public class ModConfiguration {
 				.defineInRange("SpawnArea ", 5, 0, 10);
 
 		COMMON_BUILDER.pop();
-
 	}
 
 	/**

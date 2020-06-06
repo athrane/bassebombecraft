@@ -67,7 +67,7 @@ public class GeometryUtils {
 	 * @param blocks stream of {@linkplain BlockPos} to capture.
 	 * @param world  world where block information is queried.
 	 * 
-	 * @param result list of captured {@linkplain BlockDirective}.
+	 * @param opResult list of captured {@linkplain BlockDirective}.
 	 */
 	public static List<BlockDirective> captureBlockDirectives(Stream<BlockPos> blocks, World world) {
 		return blocks.map(p -> getInstance(p, getBlockFromPosition(p, world), getBlockStateFromPosition(p, world),

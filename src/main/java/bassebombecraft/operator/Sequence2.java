@@ -4,6 +4,7 @@ package bassebombecraft.operator;
  * Implementation of the {@linkplain Operator} interface which executes two
  * embedded operators in sequence.
  */
+@Deprecated
 public class Sequence2 implements Operator {
 
 	/**

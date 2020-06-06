@@ -43,6 +43,8 @@ public class WorldUtils {
 	 * @param entity embedded world in entity is tested.
 	 * 
 	 * @return true if world is at logical client side (i.e. remote).
+	 * 
+	 * @throws IllegalArgumentException if parameter is undefined.
 	 */
 	public static boolean isLogicalClient(Entity entity) {
 		return isLogicalClient(entity.getEntityWorld());

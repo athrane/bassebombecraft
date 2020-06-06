@@ -1,21 +1,20 @@
 package bassebombecraft.event.charm;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.CHARM_PARTICLE_RENDERING_FREQUENCY;
-import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;
-import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
-import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
-import static bassebombecraft.world.WorldUtils.isLogicalClient;
+import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ModConfiguration.charmedMobParticles;
+import static bassebombecraft.operator.Operators2.run;
 
-import bassebombecraft.event.particle.ParticleRendering;
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.network.packet.AddParticleRendering;
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.client.rendering.AddParticlesAtClient2;
+import bassebombecraft.operator.conditional.IsEntityIsCharmed2;
+import bassebombecraft.operator.conditional.IsEntityOfType2;
+import bassebombecraft.operator.conditional.IsFrequencyIsActive2;
+import bassebombecraft.operator.conditional.IsWorldAtServerSide2;
+import bassebombecraft.operator.entity.RemoveCharm2;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -34,71 +33,27 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class CharmedMobEventHandler {
 
-	static final float R = 1.0F;
-	static final float G = 1.0F;
-	static final float B = 1.0F;
-	static final int PARTICLE_NUMBER = 1;
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.HEART;
-	static final int PARTICLE_DURATION = 20; // Measured in world ticks
-	static final double PARTICLE_SPEED = 0.3;
-	static final ParticleRenderingInfo PARTICLE_INFO = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R,
-			G, B, PARTICLE_SPEED);
+	/**
+	 * Operator for spawning particles for charmed mob.
+	 */
+	static Operator2[] particlesOps = { new IsWorldAtServerSide2(),
+			new IsFrequencyIsActive2(CHARM_PARTICLE_RENDERING_FREQUENCY), new IsEntityOfType2(MobEntity.class),
+			new IsEntityIsCharmed2(), new AddParticlesAtClient2(createFromConfig(charmedMobParticles)) };
+
+	/**
+	 * Operators for uncharm.
+	 */
+	static Operator2[] uncharmOps = { new IsWorldAtServerSide2(), new IsEntityOfType2(MobEntity.class),
+			new RemoveCharm2() };
 
 	@SubscribeEvent
 	static public void handleLivingUpdateEvent(LivingUpdateEvent event) {
-		try {
-
-			// exit if handler is executed at client side
-			if (isLogicalClient(event.getEntityLiving().getEntityWorld()))
-				return;
-
-			// exit if frequency isn't active
-			if (!getProxy().getServerFrequencyRepository().isActive(CHARM_PARTICLE_RENDERING_FREQUENCY))
-				return;
-
-			// exit if entity isn't a mob (since only they can be charmed)
-			if (!isTypeMobEntity(event.getEntityLiving()))
-				return;
-
-			// type cast
-			MobEntity entity = (MobEntity) event.getEntityLiving();
-
-			// exit if entity isn't charmed
-			CharmedMobsRepository repository = getProxy().getServerCharmedMobsRepository();
-			if (!repository.contains(entity))
-				return;
-
-			// send particle rendering info to client
-			BlockPos pos = entity.getPosition();
-			ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
-			getProxy().getNetworkChannel(entity.getEntityWorld()).sendAddParticleRenderingPacket(particle);
-
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
-		}
+		run(event.getEntityLiving(), particlesOps);
 	}
 
 	@SubscribeEvent
 	public static void handleLivingDeathEvent(LivingDeathEvent event) {
-		try {
-
-			// exit if handler is executed at client side
-			if (isLogicalClient(event.getEntityLiving().getEntityWorld()))
-				return;
-
-			// type cast
-			if (!isTypeMobEntity(event.getEntityLiving()))
-				return;
-
-			// get an type cast entity
-			MobEntity entity = (MobEntity) event.getEntityLiving();
-
-			// remove
-			getProxy().getServerCharmedMobsRepository().remove(entity);
-
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
-		}
+		run(event.getEntityLiving(), uncharmOps);
 	}
 
 }

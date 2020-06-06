@@ -1,6 +1,5 @@
 package bassebombecraft.operator.entity.potion.effect;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 
 import java.util.function.Supplier;
@@ -43,16 +42,10 @@ public class RemoveEffectAtClient implements Operator {
 
 	@Override
 	public void run() {
-		try {
-			// get entity
-			LivingEntity entity = splEntity.get();
+		// get entity
+		LivingEntity entity = splEntity.get();
 
-			// sync effect to client
-			getProxy().getNetworkChannel(entity.getEntityWorld()).sendRemoveEffectPacket(entity, effect);
-
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
-		}
-
+		// sync effect to client
+		getProxy().getNetworkChannel(entity.getEntityWorld()).sendRemoveEffectPacket(entity, effect);
 	}
 }
