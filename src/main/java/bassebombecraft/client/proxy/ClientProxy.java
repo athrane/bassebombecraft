@@ -8,6 +8,9 @@ import static bassebombecraft.config.VersionUtils.startSession;
 import static bassebombecraft.world.WorldUtils.isLogicalServer;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
@@ -185,7 +188,12 @@ public class ClientProxy implements Proxy {
 
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
-			logger.error("Posting usage failed with: " + ex.getMessage());
+			logger.error("Posting usage failed with: " + ex);
+			
+			// get stack trace for positing exception
+			StringWriter sw = new StringWriter();
+			ex.printStackTrace(new PrintWriter(sw));
+			logger.error("Stack trace for posting exception:" + sw);						
 		}
 	}
 
@@ -195,7 +203,18 @@ public class ClientProxy implements Proxy {
 			VersionUtils.postException(getUser(), e);
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
-			logger.error("Posting exception:" + e.getMessage() + " failed with: " + ex.getMessage());
+
+			logger.error("Posting exception:" + e + " failed with: " + ex);
+			
+			// get stack trace for original exception
+			StringWriter sw = new StringWriter();
+			e.printStackTrace(new PrintWriter(sw));
+			logger.error("Stack trace for original exception:" + sw);
+
+			// get stack trace for positing exception
+			sw = new StringWriter();
+			ex.printStackTrace(new PrintWriter(sw));
+			logger.error("Stack trace for posting exception:" + sw);			
 		}
 	}
 
@@ -205,7 +224,13 @@ public class ClientProxy implements Proxy {
 			VersionUtils.postError(getUser(), msg);
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
-			logger.error("Posting error:" + msg + " failed with: " + ex.getMessage());
+			logger.error("Posting error:" + msg + " failed with: " + ex);
+			
+			// get stack trace for positing exception
+			StringWriter sw = new StringWriter();
+			ex.printStackTrace(new PrintWriter(sw));
+			logger.error("Stack trace for posting exception:" + sw);			
+			
 		}
 	}
 
@@ -215,7 +240,12 @@ public class ClientProxy implements Proxy {
 			VersionUtils.postAiObservation(getUser(), type, observation);
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
-			logger.error("Posting AI observation: failed with: " + ex.getMessage());
+			logger.error("Posting AI observation: failed with: " + ex);
+			
+			// get stack trace for positing exception
+			StringWriter sw = new StringWriter();
+			ex.printStackTrace(new PrintWriter(sw));
+			logger.error("Stack trace for posting exception:" + sw);						
 		}
 	}
 
