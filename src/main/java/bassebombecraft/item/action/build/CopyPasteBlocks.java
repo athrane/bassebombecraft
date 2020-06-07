@@ -197,7 +197,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 			if (!isLegaLSecondMarker(isGroundBlock, worldQuery.getTargetBlockPosition()))
 				return NULL_STRUCTURE;
 			state = StaffState.SECOND_MARKER_DEFINED;
-			registerSecondMarker(worldQuery.getTargetBlockPosition(), worldQuery.getWorld());
+			registerSecondMarker(worldQuery.getTargetBlockPosition());
 			captureWorldContent(worldQuery);
 			sendChatMessageToPlayer(worldQuery.getPlayer(), MSG_REGISTERED_M2);
 			return NULL_STRUCTURE;
@@ -208,7 +208,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 				if (shouldReset(isGroundBlock)) {
 					state = StaffState.NO_MARKERS_DEFINED;
 					sendChatMessageToPlayer(worldQuery.getPlayer(), MSG_RESET);
-					clearRendering(worldQuery.getWorld());
+					clearRendering();
 					return NULL_STRUCTURE;
 				}
 
@@ -317,7 +317,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 
 			// send particle rendering info to client
 			firstMarkerParticle = DefaultParticleRendering.getInstance(pos, infos[FIRST_INDEX]);
-			getProxy().getNetworkChannel(player.world).sendAddParticleRenderingPacket(firstMarkerParticle);
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(firstMarkerParticle);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -327,16 +327,15 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	/**
 	 * Register second marker.
 	 * 
-	 * @param pos   marker position.
-	 * @param world world.
+	 * @param pos marker position.
 	 */
-	void registerSecondMarker(BlockPos pos, World world) {
+	void registerSecondMarker(BlockPos pos) {
 		try {
 			secondMarker = pos;
 
 			// send particle rendering info to client
 			secondMarkerParticle = DefaultParticleRendering.getInstance(pos, infos[FIRST_INDEX]);
-			getProxy().getNetworkChannel(world).sendAddParticleRenderingPacket(firstMarkerParticle);
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(firstMarkerParticle);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -525,13 +524,11 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 
 	/**
 	 * Clear rendering of particles.
-	 * 
-	 * @param world world.
 	 */
-	void clearRendering(World world) {
+	void clearRendering() {
 		try {
-			getProxy().getNetworkChannel(world).sendRemoveParticleRenderingPacket(firstMarkerParticle);
-			getProxy().getNetworkChannel(world).sendRemoveParticleRenderingPacket(secondMarkerParticle);
+			getProxy().getNetworkChannel().sendRemoveParticleRenderingPacket(firstMarkerParticle);
+			getProxy().getNetworkChannel().sendRemoveParticleRenderingPacket(secondMarkerParticle);
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}

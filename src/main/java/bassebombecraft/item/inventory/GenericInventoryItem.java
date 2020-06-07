@@ -182,7 +182,7 @@ public class GenericInventoryItem extends Item {
 			if (strategy.shouldApplyEffect(foundEntity, isInvoker)) {
 
 				strategy.applyEffect(foundEntity, world, invokingEntity);
-				renderEffect(foundEntity.getPositionVector(), world);
+				renderEffect(foundEntity.getPositionVector());
 			}
 		}
 	}
@@ -191,9 +191,8 @@ public class GenericInventoryItem extends Item {
 	 * Render a effect at some position.
 	 * 
 	 * @param position effect position.
-	 * @param world    world object
 	 */
-	void renderEffect(Vec3d position, World world) {
+	void renderEffect(Vec3d position) {
 		try {
 			// create position
 			BlockPos pos = new BlockPos(position);
@@ -202,7 +201,7 @@ public class GenericInventoryItem extends Item {
 			for (ParticleRenderingInfo info : infos) {
 				// send particle rendering info to client
 				ParticleRendering particle = getInstance(pos, info);
-				getProxy().getNetworkChannel(world).sendAddParticleRenderingPacket(particle);
+				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 			}
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

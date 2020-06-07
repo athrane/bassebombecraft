@@ -13,7 +13,6 @@ import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.network.NetworkChannelHelper;
-import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 
 /**
@@ -91,14 +90,9 @@ public interface Proxy {
 	 * The client proxy implementation support this method to support the
 	 * configuration: physical client w/ logical server (integrated server).
 	 * 
-	 * @param world world for verification of legal configuration.
-	 * 
 	 * @return network channel helper
-	 * 
-	 * @throws UnsupportedOperationException if invoked in configuration: physical
-	 *                                       client w/ logical client.
 	 */
-	public NetworkChannelHelper getNetworkChannel(World world) throws UnsupportedOperationException;
+	public NetworkChannelHelper getNetworkChannel();
 
 	/**
 	 * Get frequency repository for the logical SERVER.
@@ -109,12 +103,10 @@ public interface Proxy {
 	 * The client proxy implementation support this method to support the
 	 * configuration: physical client w/ logical server (integrated server).
 	 * 
-	 * @return frequency repository for logical client.
-	 * 
-	 * @throws UnsupportedOperationException if invoked on server proxy.
+	 * @return frequency repository.
 	 */
-	public FrequencyRepository getServerFrequencyRepository() throws UnsupportedOperationException;
-	
+	public FrequencyRepository getServerFrequencyRepository();
+
 	/**
 	 * Get frequency repository for the logical CLIENT.
 	 * 
@@ -124,7 +116,7 @@ public interface Proxy {
 	 * configurations: 1) physical client w/ logical server (integrated server). 2)
 	 * physical client w/ logical client.
 	 * 
-	 * @return frequency repository for logical client.
+	 * @return frequency repository.
 	 * 
 	 * @throws UnsupportedOperationException if invoked on server proxy.
 	 */
@@ -139,12 +131,10 @@ public interface Proxy {
 	 * The client proxy implementation support this method to support the
 	 * configuration: physical client w/ logical server (integrated server).
 	 * 
-	 * @return frequency repository for logical client.
-	 * 
-	 * @throws UnsupportedOperationException if invoked on server proxy.
+	 * @return duration repository.
 	 */
-	public DurationRepository getServerDurationRepository() throws UnsupportedOperationException;
-	
+	public DurationRepository getServerDurationRepository();
+
 	/**
 	 * Get duration repository for the logical CLIENT.
 	 * 
@@ -154,12 +144,12 @@ public interface Proxy {
 	 * configurations: 1) physical client w/ logical server (integrated server). 2)
 	 * physical client w/ logical client.
 	 * 
-	 * @return frequency repository for logical client.
+	 * @return duration repository.
 	 * 
 	 * @throws UnsupportedOperationException if invoked on server proxy.
 	 */
 	public DurationRepository getClientDurationRepository() throws UnsupportedOperationException;
-	
+
 	/**
 	 * Get particle rendering repository.
 	 * 
@@ -182,20 +172,15 @@ public interface Proxy {
 	 * This repository is available at the logical SERVER.
 	 * 
 	 * The server proxy implementation support this method to support the
-	 * configuration: physical server w/ logical server (dedicated server).
-	 * 	 * 
-	 * The client proxy implementation support this method to support the
-	 * configurations: 1) physical client w/ logical server (integrated server). 
+	 * configuration: physical server w/ logical server (dedicated server). * The
+	 * client proxy implementation support this method to support the
+	 * configurations: 1) physical client w/ logical server (integrated server).
 	 * 
 	 * Both proxies will return {@linkplain ServerCharmedMobsRepository}.
 	 * 
-	 * @param world world for resolution of repository implementation.
-	 * 
 	 * @return charmed mobs repository.
-	 * 
-	 * @throws UnsupportedOperationException this exception is never thrown.
 	 */
-	public CharmedMobsRepository getServerCharmedMobsRepository() throws UnsupportedOperationException;
+	public CharmedMobsRepository getServerCharmedMobsRepository();
 
 	/**
 	 * Get charmed mobs repository.
@@ -217,7 +202,7 @@ public interface Proxy {
 	 * @throws UnsupportedOperationException if invoked on server proxy.
 	 */
 	public CharmedMobsRepository getClientCharmedMobsRepository() throws UnsupportedOperationException;
-	
+
 	/**
 	 * Get block directives repository.
 	 * 
@@ -231,7 +216,7 @@ public interface Proxy {
 	 * 
 	 * @return block directives repository.
 	 */
-	public BlockDirectivesRepository getServerBlockDirectivesRepository() throws UnsupportedOperationException;
+	public BlockDirectivesRepository getServerBlockDirectivesRepository();
 
 	/**
 	 * Get temporary block directives repository.
@@ -246,7 +231,7 @@ public interface Proxy {
 	 * 
 	 * @return temporary block directives repository.
 	 */
-	public TemporaryBlockRepository getServerTemporaryBlockRepository() throws UnsupportedOperationException;
+	public TemporaryBlockRepository getServerTemporaryBlockRepository();
 
 	/**
 	 * Get mob commander repository.
@@ -262,7 +247,7 @@ public interface Proxy {
 	 * 
 	 * @return mob commander repository.
 	 */
-	public MobCommanderRepository getServerMobCommanderRepository() throws UnsupportedOperationException;
+	public MobCommanderRepository getServerMobCommanderRepository();
 
 	/**
 	 * Get team repository.
@@ -278,7 +263,7 @@ public interface Proxy {
 	 * 
 	 * @return mob commander repository.
 	 */
-	public TeamRepository getServerTeamRepository() throws UnsupportedOperationException;
+	public TeamRepository getServerTeamRepository();
 
 	/**
 	 * Get target repository.
@@ -294,6 +279,6 @@ public interface Proxy {
 	 * 
 	 * @return mob commander repository.
 	 */
-	public TargetRepository getServerTargetRepository() throws UnsupportedOperationException;
+	public TargetRepository getServerTargetRepository();
 
 }

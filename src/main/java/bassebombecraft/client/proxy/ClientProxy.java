@@ -5,7 +5,6 @@ import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlaye
 import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startSession;
-import static bassebombecraft.world.WorldUtils.isLogicalServer;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 import java.io.PrintWriter;
@@ -41,7 +40,6 @@ import bassebombecraft.event.frequency.DefaultFrequencyRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.proxy.Proxy;
-import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 
 /**
@@ -189,11 +187,11 @@ public class ClientProxy implements Proxy {
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
 			logger.error("Posting usage failed with: " + ex);
-			
+
 			// get stack trace for positing exception
 			StringWriter sw = new StringWriter();
 			ex.printStackTrace(new PrintWriter(sw));
-			logger.error("Stack trace for posting exception:" + sw);						
+			logger.error("Stack trace for posting exception:" + sw);
 		}
 	}
 
@@ -205,7 +203,7 @@ public class ClientProxy implements Proxy {
 			Logger logger = getBassebombeCraft().getLogger();
 
 			logger.error("Posting exception:" + e + " failed with: " + ex);
-			
+
 			// get stack trace for original exception
 			StringWriter sw = new StringWriter();
 			e.printStackTrace(new PrintWriter(sw));
@@ -214,7 +212,7 @@ public class ClientProxy implements Proxy {
 			// get stack trace for positing exception
 			sw = new StringWriter();
 			ex.printStackTrace(new PrintWriter(sw));
-			logger.error("Stack trace for posting exception:" + sw);			
+			logger.error("Stack trace for posting exception:" + sw);
 		}
 	}
 
@@ -225,12 +223,12 @@ public class ClientProxy implements Proxy {
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
 			logger.error("Posting error:" + msg + " failed with: " + ex);
-			
+
 			// get stack trace for positing exception
 			StringWriter sw = new StringWriter();
 			ex.printStackTrace(new PrintWriter(sw));
-			logger.error("Stack trace for posting exception:" + sw);			
-			
+			logger.error("Stack trace for posting exception:" + sw);
+
 		}
 	}
 
@@ -241,11 +239,11 @@ public class ClientProxy implements Proxy {
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();
 			logger.error("Posting AI observation: failed with: " + ex);
-			
+
 			// get stack trace for positing exception
 			StringWriter sw = new StringWriter();
 			ex.printStackTrace(new PrintWriter(sw));
-			logger.error("Stack trace for posting exception:" + sw);						
+			logger.error("Stack trace for posting exception:" + sw);
 		}
 	}
 
@@ -284,12 +282,8 @@ public class ClientProxy implements Proxy {
 	}
 
 	@Override
-	public NetworkChannelHelper getNetworkChannel(World world) throws UnsupportedOperationException {
-		if (isLogicalServer(world))
-			return networkHelper;
-
-		// throw exception if helper is used by physical client w/ logical client.
-		throw new UnsupportedOperationException("Operation not supported by physical client w/ logical client.");
+	public NetworkChannelHelper getNetworkChannel() {
+		return networkHelper;
 	}
 
 	@Override
@@ -303,7 +297,7 @@ public class ClientProxy implements Proxy {
 	}
 
 	@Override
-	public DurationRepository getServerDurationRepository() throws UnsupportedOperationException {
+	public DurationRepository getServerDurationRepository() {
 		return serverDurationRepository;
 	}
 
@@ -318,7 +312,7 @@ public class ClientProxy implements Proxy {
 	}
 
 	@Override
-	public CharmedMobsRepository getServerCharmedMobsRepository() throws UnsupportedOperationException {
+	public CharmedMobsRepository getServerCharmedMobsRepository() {
 		return serverCharmedMobsRepository;
 	}
 
@@ -328,27 +322,27 @@ public class ClientProxy implements Proxy {
 	}
 
 	@Override
-	public BlockDirectivesRepository getServerBlockDirectivesRepository() throws UnsupportedOperationException {
+	public BlockDirectivesRepository getServerBlockDirectivesRepository() {
 		return blockDirectivesRepository;
 	}
 
 	@Override
-	public TemporaryBlockRepository getServerTemporaryBlockRepository() throws UnsupportedOperationException {
+	public TemporaryBlockRepository getServerTemporaryBlockRepository() {
 		return tempBlockRepository;
 	}
 
 	@Override
-	public MobCommanderRepository getServerMobCommanderRepository() throws UnsupportedOperationException {
+	public MobCommanderRepository getServerMobCommanderRepository() {
 		return mobCommanderRepository;
 	}
 
 	@Override
-	public TeamRepository getServerTeamRepository() throws UnsupportedOperationException {
+	public TeamRepository getServerTeamRepository() {
 		return teamRepository;
 	}
 
 	@Override
-	public TargetRepository getServerTargetRepository() throws UnsupportedOperationException {
+	public TargetRepository getServerTargetRepository() {
 		return targetRepository;
 	}
 

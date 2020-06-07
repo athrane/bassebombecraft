@@ -107,7 +107,7 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 
 			// send particle rendering info (for impact particle) to client
 			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
-			getProxy().getNetworkChannel(getEntityWorld()).sendAddParticleRenderingPacket(particle);
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 
 			// remove this projectile
 			remove();
@@ -123,7 +123,7 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 		try {
 			// send particle rendering info to client
 			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
-			getProxy().getNetworkChannel(getEntityWorld()).sendAddParticleRenderingPacket(particle);
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}

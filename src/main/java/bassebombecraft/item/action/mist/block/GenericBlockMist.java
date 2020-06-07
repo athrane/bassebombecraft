@@ -78,10 +78,15 @@ public class GenericBlockMist implements RightClickedItemAction {
 
 	@Override
 	public void onRightClick(World world, LivingEntity entity) {
-		this.entity = entity;
-		isActive = true;
-		ticksCounter = 0;
-		initializeMistPostition(world, entity);
+		try {
+			this.entity = entity;
+			isActive = true;
+			ticksCounter = 0;
+			initializeMistPostition(world, entity);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 	@Override
@@ -189,7 +194,7 @@ public class GenericBlockMist implements RightClickedItemAction {
 
 		// render mists
 		for (Vec3d mistPosition : mistPositions) {
-			renderMist(mistPosition, world);
+			renderMist(mistPosition);
 		}
 	}
 
@@ -197,9 +202,8 @@ public class GenericBlockMist implements RightClickedItemAction {
 	 * Render a single mist.
 	 * 
 	 * @param mistPosition position where the mist should is rendered.
-	 * @param world world object.
 	 */
-	void renderMist(Vec3d mistPosition, World world) {
+	void renderMist(Vec3d mistPosition) {
 		try {
 			// Get particle position
 			BlockPos pos = new BlockPos(mistPosition);
@@ -209,7 +213,7 @@ public class GenericBlockMist implements RightClickedItemAction {
 
 				// send particle rendering info to client
 				ParticleRendering particle = getInstance(pos, info);
-				getProxy().getNetworkChannel(world).sendAddParticleRenderingPacket(particle);
+				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 			}
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

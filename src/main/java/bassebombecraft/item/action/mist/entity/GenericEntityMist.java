@@ -148,7 +148,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 			// render mist if frequency is active
 			FrequencyRepository repository = getProxy().getServerFrequencyRepository();
 			if (repository.isActive(PARTICLE_RENDERING_FREQUENCY))
-				render(worldIn);
+				render();
 
 			// update effect if frequency is active
 			if (repository.isActive(BLOCK_EFFECT_FREQUENCY))
@@ -199,10 +199,8 @@ public class GenericEntityMist implements RightClickedItemAction {
 
 	/**
 	 * Render mist in world.
-	 * 
-	 * @param world world object.
 	 */
-	void render(World world) {
+	void render() {
 
 		// update position if mist should move away from the invoking entity
 		if (!strategy.isStationary()) {
@@ -218,7 +216,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 
 				// send particle rendering info to client
 				ParticleRendering particle = getInstance(pos, info);
-				getProxy().getNetworkChannel(world).sendAddParticleRenderingPacket(particle);
+				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 			}
 
 			// calculate spiral index
@@ -235,7 +233,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 
 				// send particle rendering info to client
 				ParticleRendering particle = getInstance(pos2, info);
-				getProxy().getNetworkChannel(world).sendAddParticleRenderingPacket(particle);
+				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 			}
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

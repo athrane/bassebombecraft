@@ -9,7 +9,6 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which adds particles
@@ -40,14 +39,11 @@ public class AddParticlesAtClient2 implements Operator2 {
 		// get entity position
 		BlockPos pos = entity.getPosition();
 
-		// get world
-		World world = entity.getEntityWorld();
-
 		// iterate over rendering info's
 		for (ParticleRenderingInfo info : infos) {
 			// send particle rendering info to client
 			ParticleRendering particle = getInstance(pos, info);
-			getProxy().getNetworkChannel(world).sendAddParticleRenderingPacket(particle);
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 		}
 
 		return ports;

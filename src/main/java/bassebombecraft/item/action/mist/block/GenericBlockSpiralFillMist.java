@@ -185,7 +185,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 
 				// send particle rendering info to client
 				ParticleRendering particle = getInstance(mistPosition, info);
-				getProxy().getNetworkChannel(world).sendAddParticleRenderingPacket(particle);
+				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 			}
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

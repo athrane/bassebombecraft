@@ -46,6 +46,6 @@ public class RemoveEffectAtClient implements Operator {
 		LivingEntity entity = splEntity.get();
 
 		// sync effect to client
-		getProxy().getNetworkChannel(entity.getEntityWorld()).sendRemoveEffectPacket(entity, effect);
+		getProxy().getNetworkChannel().sendRemoveEffectPacket(entity, effect);
 	}
 }

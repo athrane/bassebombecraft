@@ -103,7 +103,7 @@ public class OperatorEggProjectile extends ProjectileItemEntity {
 
 			// send particle rendering info to client
 			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
-			getProxy().getNetworkChannel(getEntityWorld()).sendAddParticleRenderingPacket(particle);
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 
 			// remove this projectile
 			remove();
@@ -119,7 +119,7 @@ public class OperatorEggProjectile extends ProjectileItemEntity {
 		try {
 			// send particle rendering info to client
 			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
-			getProxy().getNetworkChannel(getEntityWorld()).sendAddParticleRenderingPacket(particle);
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

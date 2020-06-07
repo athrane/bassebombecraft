@@ -89,7 +89,7 @@ public class ProcessBlockDirectivesEventHandler {
 				// send particle for rendering to client
 				BlockPos pos = directive.getBlockPosition();
 				ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
-				getProxy().getNetworkChannel(world).sendAddParticleRenderingPacket(particle);
+				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 			}
 
 		} catch (Exception e) {

@@ -62,7 +62,7 @@ public class ServerCharmedMobsRepository implements CharmedMobsRepository {
 			charmedMobs.put(id, charmedMob);
 
 			// send charm info to client
-			getProxy().getNetworkChannel(entity.getEntityWorld()).sendAddCharmPacket(entity);
+			getProxy().getNetworkChannel().sendAddCharmPacket(entity);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
