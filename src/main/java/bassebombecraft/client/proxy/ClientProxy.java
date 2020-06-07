@@ -304,12 +304,12 @@ public class ClientProxy implements Proxy {
 
 	@Override
 	public DurationRepository getServerDurationRepository() throws UnsupportedOperationException {
-		return clientDurationRepository;
+		return serverDurationRepository;
 	}
 
 	@Override
 	public DurationRepository getClientDurationRepository() throws UnsupportedOperationException {
-		return serverDurationRepository;
+		return clientDurationRepository;
 	}
 
 	@Override

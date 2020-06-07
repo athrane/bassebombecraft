@@ -24,23 +24,27 @@ public class DefaultDurationRepository implements DurationRepository {
 		List<String> expired = new ArrayList<String>();
 		durableObjects.forEachKey(1, k -> {
 
-			// update
+			// get duration and update
 			Duration state = durableObjects.get(k);
 			state.update();
 
-			// remove if expired
-			if (state.isExpired())
+			// handle expired duration
+			if (state.isExpired()) {
+
+				// invoke callback if registered
+				state.notifyOfExpiry();
+
+				// register for removal
 				expired.add(k);
+			}
 		});
 
 		// step 2: remove expired objects
 		expired.forEach(k -> {
 
-			// invoke callback if registered
-			durableObjects.get(k).notifyOfExpiry();
-
-			// remove
-			durableObjects.remove(k);
+			// remove if key hasn't been removed already by some other thread
+			if (k != null)
+				durableObjects.remove(k);
 		});
 	}
 
