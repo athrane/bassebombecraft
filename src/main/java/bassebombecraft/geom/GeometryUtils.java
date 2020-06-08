@@ -29,7 +29,6 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.player.PlayerUtils;
 import bassebombecraft.structure.Structure;
@@ -142,10 +141,10 @@ public class GeometryUtils {
 			// create rotated directive
 			BlockPos rotatedPosition = new BlockPos((int) rotationPoint[0], sourceDirective.getBlockPosition().getY(),
 					(int) rotationPoint[1]);
-			BlockDirective rotatedDirective = getInstance(sourceDirective,rotatedPosition);
-					
-					getInstance(rotatedPosition, sourceDirective.getBlock(),
-					sourceDirective.harvestBlock(), sourceDirective.getWorld());
+			BlockDirective rotatedDirective = getInstance(sourceDirective, rotatedPosition);
+
+			getInstance(rotatedPosition, sourceDirective.getBlock(), sourceDirective.harvestBlock(),
+					sourceDirective.getWorld());
 
 			// add block state to rotated directive
 			BlockState sourceState = sourceDirective.getState();
