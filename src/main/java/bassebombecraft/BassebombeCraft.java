@@ -5,6 +5,7 @@ import static bassebombecraft.ModConstants.TAB_NAME;
 import static bassebombecraft.config.ModConfiguration.loadConfig;
 import static bassebombecraft.config.VersionUtils.validateVersion;
 import static bassebombecraft.tab.ItemGroupFactory.createItemGroup;
+import static java.util.Optional.ofNullable;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 import java.io.PrintWriter;
@@ -208,10 +209,11 @@ public class BassebombeCraft {
 	/**
 	 * Get server.
 	 * 
-	 * @return server.
+	 * @return server. Can be null in physical client, if an error happens before
+	 *         the logical server is started.
 	 */
-	public MinecraftServer getServer() {
-		return server;
+	public Optional<MinecraftServer> getServer() {
+		return ofNullable(server);
 	}
 
 	/**
@@ -229,7 +231,7 @@ public class BassebombeCraft {
 	 * @param e exception to report and log.
 	 */
 	public void reportAndLogException(Throwable e) {
-		Optional<String> nullableString = Optional.ofNullable(e.getMessage());
+		Optional<String> nullableString = ofNullable(e.getMessage());
 		nullableString.ifPresent(s -> logger.error(s));
 
 		// get and log stack trace

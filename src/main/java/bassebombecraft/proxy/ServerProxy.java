@@ -7,6 +7,7 @@ import static bassebombecraft.config.VersionUtils.startServerSession;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Optional;
 
 import org.apache.logging.log4j.Logger;
 
@@ -119,8 +120,11 @@ public class ServerProxy implements Proxy {
 	@Override
 	public void startAnalyticsSession() {
 		try {
-			MinecraftServer server = getBassebombeCraft().getServer();
-
+			
+			// get server
+			Optional<MinecraftServer> optServer = getBassebombeCraft().getServer();
+			MinecraftServer server = optServer.get(); 
+					
 			// define server host
 			String host = server.getServerHostname();
 			if ((host == null) || (host.isEmpty()))
@@ -148,7 +152,9 @@ public class ServerProxy implements Proxy {
 	@Override
 	public void endAnalyticsSession() {
 		try {
-			MinecraftServer server = getBassebombeCraft().getServer();
+			// get server
+			Optional<MinecraftServer> optServer = getBassebombeCraft().getServer();
+			MinecraftServer server = optServer.get(); 
 			String hostname = server.getServerHostname();
 			endServerSession(hostname);
 		} catch (Exception ex) {
