@@ -232,8 +232,8 @@ public class ServerProxy implements Proxy {
 	}
 
 	@Override
-	public String getUser() throws UnsupportedOperationException {
-		throw new UnsupportedOperationException("Operation not supported by server.");
+	public String getUser() {
+		return "N/A(user not available in server)";
 	}
 
 	@Override

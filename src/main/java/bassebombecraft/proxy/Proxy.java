@@ -66,11 +66,12 @@ public interface Proxy {
 	/**
 	 * Get user.
 	 * 
-	 * @return mod user.
+	 * If method is invoked in the server proxy then "N/A(user not available in
+	 * server)" is returned.
 	 * 
-	 * @throws UnsupportedOperationException if operation isn't supported.
+	 * @return mod user.
 	 */
-	public String getUser() throws UnsupportedOperationException;
+	public String getUser();
 
 	/**
 	 * Setup client side rendering.
