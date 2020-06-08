@@ -3,6 +3,10 @@ package bassebombecraft.projectile.action;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.block.BlockUtils.calculatePosition;
+import static bassebombecraft.config.ModConfiguration.digMobHoleHeightExpansion;
+import static bassebombecraft.config.ModConfiguration.digMobHoleNoHitHoleDepth;
+import static bassebombecraft.config.ModConfiguration.digMobHoleNoHitHoleHeight;
+import static bassebombecraft.config.ModConfiguration.digMobHoleNoHitHoleWidth;
 import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.player.PlayerDirection.South;
@@ -15,7 +19,6 @@ import static net.minecraft.block.Blocks.AIR;
 
 import java.util.List;
 
-import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.player.PlayerDirection;
@@ -67,10 +70,10 @@ public class DigMobHole implements ProjectileAction {
 	 */
 	public DigMobHole() {
 		super();
-		noHitHoleDepth = ModConfiguration.digMobHoleNoHitHoleDepth.get();
-		noHitholeHeight = ModConfiguration.digMobHoleNoHitHoleHeight.get();
-		noHitholeWidth = ModConfiguration.digMobHoleNoHitHoleWidth.get();
-		holeHeightExpansion = ModConfiguration.digMobHoleHeightExpansion.get();
+		noHitHoleDepth = digMobHoleNoHitHoleDepth.get();
+		noHitholeHeight = digMobHoleNoHitHoleHeight.get();
+		noHitholeWidth = digMobHoleNoHitHoleWidth.get();
+		holeHeightExpansion = digMobHoleHeightExpansion.get();
 	}
 
 	@Override
@@ -91,7 +94,8 @@ public class DigMobHole implements ProjectileAction {
 			CompositeStructure composite = new CompositeStructure();
 			createVerticalStructure(composite);
 			PlayerDirection playerDirection = South;
-			List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, composite, world);
+			List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, composite, DONT_HARVEST,
+					world);
 
 			// add directives
 			BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
@@ -121,8 +125,8 @@ public class DigMobHole implements ProjectileAction {
 	/**
 	 * Register block for processed to generate air block.
 	 * 
-	 * @param aabb AABB
-	 * @param pos  block position to process.
+	 * @param aabb  AABB
+	 * @param pos   block position to process.
 	 * @param world world where directive should be processed.
 	 */
 	void registerBlockToDig(AxisAlignedBB aabb, BlockPos pos, World world) {

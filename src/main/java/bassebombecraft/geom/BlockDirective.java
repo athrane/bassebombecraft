@@ -4,6 +4,7 @@ import static bassebombecraft.block.BlockUtils.isTypeBlockDirective;
 import static java.util.Optional.ofNullable;
 
 import java.util.Optional;
+import static java.util.Optional.*;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
@@ -45,10 +46,10 @@ public class BlockDirective {
 	Optional<PlayerEntity> optPlayer;
 
 	/**
-	 * World object, where directive should be processed in. 
+	 * World object, where directive should be processed in.
 	 */
 	World world;
-	
+
 	/**
 	 * Constructor. Block is a copy of source block directive.
 	 * 
@@ -60,6 +61,7 @@ public class BlockDirective {
 		this.harvest = other.harvestBlock();
 		this.state = other.getState();
 		this.world = other.getWorld();
+		this.optPlayer = other.getPlayer();
 	}
 
 	/**
@@ -68,13 +70,14 @@ public class BlockDirective {
 	 * @param blockPos block position
 	 * @param block
 	 * @param harvest  defines if block should be harvested.
-	 * @param world world where directive should be processed.
+	 * @param world    world where directive should be processed.
 	 */
 	BlockDirective(BlockPos blockPos, Block block, boolean harvest, World world) {
 		this.blockPos = blockPos;
 		this.block = block;
 		this.harvest = harvest;
 		this.world = world;
+		this.optPlayer = empty();
 	}
 
 	/**
@@ -190,12 +193,12 @@ public class BlockDirective {
 	/**
 	 * Return world.
 	 * 
-	 * @return world where the directive should be processed in. 
+	 * @return world where the directive should be processed in.
 	 */
 	public World getWorld() {
 		return world;
 	}
-	
+
 	/**
 	 * Return block position.
 	 * 
@@ -249,7 +252,7 @@ public class BlockDirective {
 	}
 
 	/**
-	 * Block directive factory method.
+	 * Factory method.
 	 * 
 	 * The directive is created with a new immutable {@linkplain BlockPos} to avoid
 	 * position changes after creation of the directive.
@@ -258,27 +261,28 @@ public class BlockDirective {
 	 * @param block      block
 	 * @param blockState block state
 	 * @param harvest    true if block should be harvested.
-	 * @param world world where directive should be processed.
+	 * @param world      world where directive should be processed.
 	 * 
 	 * @return block directive. The directive is created with a new immutable block
 	 *         position.
 	 */
-	public static BlockDirective getInstance(BlockPos blockPos, Block block, BlockState blockState, boolean harvest, World world) {
+	public static BlockDirective getInstance(BlockPos blockPos, Block block, BlockState blockState, boolean harvest,
+			World world) {
 		BlockDirective directive = new BlockDirective(blockPos.toImmutable(), block, harvest, world);
 		directive.setState(blockState);
 		return directive;
 	}
 
 	/**
-	 * Block directive factory method.
+	 * Factory method.
 	 * 
 	 * The directive is created with a new immutable {@linkplain BlockPos} to avoid
 	 * position changes after creation of the directive.
 	 * 
-	 * @param blockPos   position
-	 * @param block      block
-	 * @param harvest    true if block should be harvested.
-	 * @param world world where directive should be processed.
+	 * @param blockPos position
+	 * @param block    block
+	 * @param harvest  true if block should be harvested.
+	 * @param world    world where directive should be processed.
 	 * 
 	 * @return block directive. The directive is created with a new immutable block
 	 *         position.
@@ -287,9 +291,9 @@ public class BlockDirective {
 		BlockDirective directive = new BlockDirective(blockPos.toImmutable(), block, harvest, world);
 		return directive;
 	}
-	
+
 	/**
-	 * Block directive factory method.
+	 * Factory method.
 	 * 
 	 * The directive is created with a new immutable {@linkplain BlockPos} to avoid
 	 * position changes after creation of the directive.
@@ -311,16 +315,35 @@ public class BlockDirective {
 	}
 
 	/**
-	 * Block directive factory method.
+	 * Factory method.
 	 * 
 	 * BlockDirective constructor. Block is a copy of source block directive.
 	 * 
 	 * @param other source block directive.
 	 * 
-	 * @return block directive. 
+	 * @return block directive.
 	 */
 	public static BlockDirective getInstance(BlockDirective other) {
 		return new BlockDirective(other);
+	}
+	
+	/**
+	 * Factory method.
+	 * 
+	 * Block is a copy of source block directive with a new position.
+	 * 
+	 * The directive is created with a new immutable {@linkplain BlockPos} to avoid
+	 * position changes after creation of the directive.
+	 * 
+	 * @param other source block directive.
+	 * @param blockPos new position.
+	 * 
+	 * @return block directive.
+	 */
+	public static BlockDirective getInstance(BlockDirective other, BlockPos blockPos) {
+		BlockDirective directive = getInstance(other);
+		directive.set(blockPos.toImmutable());
+		return directive;
 	}
 	
 }

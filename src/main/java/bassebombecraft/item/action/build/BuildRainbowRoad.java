@@ -1,10 +1,10 @@
 package bassebombecraft.item.action.build;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.ModConstants.UNITY_BLOCK_SIZE;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.player.PlayerUtils.calculatePlayerFeetPosititionAsInt;
-import static bassebombecraft.player.PlayerUtils.getPlayerDirection;
 import static bassebombecraft.player.PlayerUtils.isBelowPlayerYPosition;
 
 import java.util.List;
@@ -13,7 +13,6 @@ import java.util.Random;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.item.action.BlockClickedItemAction;
-import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
@@ -76,15 +75,9 @@ public class BuildRainbowRoad implements BlockClickedItemAction {
 		// calculate Y offset in structure
 		int yOffset = calculatePlayerFeetPosititionAsInt(player);
 
-		// get player direction
-		PlayerDirection playerDirection = getPlayerDirection(player);
-
-		// get world
-		World world = context.getWorld();
-		
 		// calculate set of block directives
 		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
-		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure, world);
+		List<BlockDirective> directives = calculateBlockDirectives(offset, player, structure, DONT_HARVEST);
 
 		// add directives
 		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();

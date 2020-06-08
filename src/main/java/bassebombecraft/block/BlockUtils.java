@@ -15,7 +15,6 @@ import bassebombecraft.event.block.temporary.DefaultTemporaryBlock;
 import bassebombecraft.event.block.temporary.TemporaryBlock;
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import bassebombecraft.geom.BlockDirective;
-import bassebombecraft.geom.WorldQuery;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -73,6 +72,7 @@ public class BlockUtils {
 		// harvest block
 		if (blockDirective.harvestBlock()) {
 			BlockState blockState = getBlockStateFromPosition(blockPosition, world);
+
 			ItemStack emptyItemStack = new ItemStack(block);
 			Optional<PlayerEntity> optPlayer = blockDirective.getPlayer();
 
@@ -114,20 +114,6 @@ public class BlockUtils {
 	public static Block getBlockFromPosition(BlockDirective blockDirective, World world) {
 		BlockPos blockPosition = blockDirective.getBlockPosition();
 		return getBlockFromPosition(blockPosition, world);
-	}
-
-	/**
-	 * Get block state from block position.
-	 * 
-	 * @param blockPosition position of the block.
-	 * @param worldQuery    world query object.
-	 * 
-	 * @return block state located at block position
-	 */
-	@Deprecated
-	public static BlockState getBlockStateFromPosition(BlockPos blockPosition, WorldQuery worldQuery) {
-		World world = worldQuery.getWorld();
-		return world.getBlockState(blockPosition);
 	}
 
 	/**
@@ -328,7 +314,7 @@ public class BlockUtils {
 
 		// get world
 		World world = tempDirective.getWorld();
-		
+
 		// create original block
 		Block block = BlockUtils.getBlockFromPosition(tempDirective.getBlockPosition(), world);
 		BlockDirective orgDirective = getInstance(tempDirective.getBlockPosition(), block, DONT_HARVEST, world);

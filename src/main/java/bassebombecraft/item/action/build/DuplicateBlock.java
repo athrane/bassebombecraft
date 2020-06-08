@@ -2,12 +2,12 @@ package bassebombecraft.item.action.build;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ModConstants.HARVEST;
 import static bassebombecraft.block.BlockUtils.getBlockFromPosition;
 import static bassebombecraft.block.BlockUtils.getBlockStateFromPosition;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.geom.GeometryUtils.calculateYOffsetFromBlock;
 import static bassebombecraft.player.PlayerUtils.calculatePlayerFeetPosititionAsInt;
-import static bassebombecraft.player.PlayerUtils.getPlayerDirection;
 
 import java.util.List;
 import java.util.Random;
@@ -17,7 +17,6 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.WorldQuery;
 import bassebombecraft.geom.WorldQueryImpl;
 import bassebombecraft.item.action.BlockClickedItemAction;
-import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
@@ -75,12 +74,9 @@ public class DuplicateBlock implements BlockClickedItemAction {
 		// calculate Y offset in structure
 		int yOffset = calculatePlayerFeetPosititionAsInt(player);
 
-		// get player direction
-		PlayerDirection playerDirection = getPlayerDirection(player);
-
 		// calculate set of block directives
 		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
-		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure, world);
+		List<BlockDirective> directives = calculateBlockDirectives(offset, player, structure, HARVEST);
 
 		// add directives
 		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
@@ -122,7 +118,7 @@ public class DuplicateBlock implements BlockClickedItemAction {
 		}
 
 		// create regular variant
-		BlockState blockState = getBlockStateFromPosition(blockPosition, worldQuery);
+		BlockState blockState = getBlockStateFromPosition(blockPosition, worldQuery.getWorld());
 		composite.add(new ChildStructure(offset, size, sourceBlock, blockState));
 		return composite;
 	}

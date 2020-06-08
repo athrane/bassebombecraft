@@ -48,52 +48,57 @@ public class ProcessBlockDirectivesEventHandler {
 	@SubscribeEvent
 	public static void handleServerTickEvent(ServerTickEvent event) {
 
-		// get repository
-		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
+		try {
 
-		// exit if no directives are waiting to be processed.
-		if (repository.isEmpty())
-			return;
+			// get repository
+			BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 
-		// process directives
-		for (int i = 0; i < BLOCKS_PER_TICK; i++) {
-			processDirective();
+			// exit if no directives are waiting to be processed.
+			if (repository.isEmpty())
+				return;
+
+			// process directives
+			for (int i = 0; i < BLOCKS_PER_TICK; i++) {
+				processDirective();
+			}
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
 		}
+
 	}
 
 	/**
 	 * Process directive if an air directive is encountered then the directive is
 	 * skipped and another one is processed.
+	 * 
+	 * @throws exception if directive processing fails.
 	 */
-	static void processDirective() {
-		try {
-			// get repositories
-			BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
+	static void processDirective() throws Exception {
 
-			while (!repository.isEmpty()) {
+		// get repositories
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 
-				// get directive
-				BlockDirective directive = repository.getNext();
+		while (!repository.isEmpty()) {
 
-				// get world
-				World world = directive.getWorld();
+			// get directive
+			BlockDirective directive = repository.getNext();
 
-				// skip if source and target states are both air
-				BlockState currentState = world.getBlockState(directive.getBlockPosition());
-				if (currentState.equals(directive.getState()))
-					continue;
+			// get world
+			World world = directive.getWorld();
 
-				// process directive
-				createBlock(directive);
+			// skip if source and target states are equal
+			BlockState currentState = world.getBlockState(directive.getBlockPosition());
+			if (currentState.equals(directive.getState()))
+				continue;
 
-				// send particle for rendering to client
-				BlockPos pos = directive.getBlockPosition();
-				ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
-				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
-			}
+			// process directive
+			createBlock(directive);
 
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
+			// send particle for rendering to client
+			BlockPos pos = directive.getBlockPosition();
+			ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 		}
 
 	}

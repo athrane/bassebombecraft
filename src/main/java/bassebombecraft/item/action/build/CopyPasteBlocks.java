@@ -2,6 +2,7 @@ package bassebombecraft.item.action.build;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.config.ModConfiguration.copyPasteBlocksCaptureOnCopy;
 import static bassebombecraft.config.ModConfiguration.copyPasteBlocksParticleInfo;
@@ -150,15 +151,9 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		// calculate Y offset in structure
 		int yOffset = calculatePlayerFeetPosititionAsInt(player);
 
-		// get player direction
-		PlayerDirection playerDirection = getPlayerDirection(player);
-
-		// get world
-		World world = context.getWorld();
-
 		// calculate list of block directives
 		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
-		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure, world);
+		List<BlockDirective> directives = calculateBlockDirectives(offset, player, structure, DONT_HARVEST);
 
 		// add directives
 		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
