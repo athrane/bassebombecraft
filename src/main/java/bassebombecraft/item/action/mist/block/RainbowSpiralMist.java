@@ -3,15 +3,15 @@ package bassebombecraft.item.action.mist.block;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.block.BlockUtils.selectRainbowColoredWool;
-import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ModConfiguration.rainbowSpiralMistDuration;
+import static bassebombecraft.config.ModConfiguration.rainbowSpiralMistParticleInfo;
 import static bassebombecraft.geom.BlockDirective.getInstance;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
 import net.minecraft.block.BlockState;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -24,23 +24,33 @@ import net.minecraft.world.World;
  */
 public class RainbowSpiralMist implements BlockMistActionStrategy {
 
-	static final int EFFECT_DURATION = 800; // Measured in ticks
+	/**
+	 * Action identifier.
+	 */
+	public static final String NAME = RainbowSpiralMist.class.getSimpleName();
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.NOTE;
-	static final int PARTICLE_NUMBER = 5;
-	static final int PARTICLE_DURATION = 20;
-	static final float R = 0.75F;
-	static final float B = 0.75F;
-	static final float G = 0.75F;
-	static final double PARTICLE_SPEED = 0.075;
-	static final ParticleRenderingInfo MIST = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R, G, B,
-			PARTICLE_SPEED);
-	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
+	/**
+	 * Particle rendering info
+	 */
+	ParticleRenderingInfo[] infos;
+
+	/**
+	 * Effect duration.
+	 */
+	int duration;
 
 	/**
 	 * Current color counter.
 	 */
 	int colorCounter = 0;
+
+	/**
+	 * Constructor.
+	 */
+	public RainbowSpiralMist() {
+		infos = createFromConfig(rainbowSpiralMistParticleInfo);
+		duration = rainbowSpiralMistDuration.get();
+	}
 
 	@Override
 	public void applyEffectToBlock(BlockPos target, World world) {
@@ -58,7 +68,7 @@ public class RainbowSpiralMist implements BlockMistActionStrategy {
 
 	@Override
 	public int getEffectDuration() {
-		return EFFECT_DURATION;
+		return duration;
 	}
 
 	@Override
@@ -78,7 +88,7 @@ public class RainbowSpiralMist implements BlockMistActionStrategy {
 
 	@Override
 	public ParticleRenderingInfo[] getRenderingInfos() {
-		return INFOS;
+		return infos;
 	}
 
 	@Override

@@ -57,6 +57,8 @@ import bassebombecraft.item.action.inventory.Rainbownize;
 import bassebombecraft.item.action.inventory.SpawnAngryParrots;
 import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.block.LavaSpiralMist;
+import bassebombecraft.item.action.mist.block.NaturalizeSpiralMist;
+import bassebombecraft.item.action.mist.block.RainbowSpiralMist;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.action.mist.entity.VacuumMist;
 import bassebombecraft.item.basic.HudItem;
@@ -403,6 +405,14 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue lavaSpiralMistDuration;
 	public static ParticlesConfig lavaSpiralMistParticleInfo;
 
+	// RainbowSpiralMist action
+	public static ForgeConfigSpec.IntValue rainbowSpiralMistDuration;
+	public static ParticlesConfig rainbowSpiralMistParticleInfo;
+
+	// NaturalizeSpiralMist action
+	public static ForgeConfigSpec.IntValue naturalizeSpiralMistDuration;
+	public static ParticlesConfig naturalizeSpiralMistParticleInfo;
+	
 	// VacuumMist action
 	public static ForgeConfigSpec.IntValue vacuumMistDuration;
 	public static ForgeConfigSpec.IntValue vacuumMistForce;
@@ -846,6 +856,22 @@ public class ModConfiguration {
 		lavaSpiralMistParticleInfo = getInstance(COMMON_BUILDER, "flame", 10, 10, 0.1, 0.0, 0.0, 0.0);
 		COMMON_BUILDER.pop();
 
+		// RainbowSpiralMist
+		name = RainbowSpiralMist.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		rainbowSpiralMistDuration = COMMON_BUILDER.comment("Duration in game ticks.").defineInRange("duration", 9*9*3, 0,
+				Integer.MAX_VALUE);
+		rainbowSpiralMistParticleInfo = getInstance(COMMON_BUILDER, "heart", 1, 10, 0.2, 0.75, 0.75, 0.75);
+		COMMON_BUILDER.pop();
+
+		// NaturalizeSpiralMist
+		name = NaturalizeSpiralMist.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		naturalizeSpiralMistDuration = COMMON_BUILDER.comment("Duration in game ticks.").defineInRange("duration", 9*9*3, 0,
+				Integer.MAX_VALUE);
+		naturalizeSpiralMistParticleInfo = getInstance(COMMON_BUILDER, "effect", 1, 10, 0.2, 0.75, 0.75, 0.75);
+		COMMON_BUILDER.pop();
+		
 		// VacuumMist
 		name = VacuumMist.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
