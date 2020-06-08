@@ -1,7 +1,7 @@
 package bassebombecraft.item.book;
 
 import static bassebombecraft.ModConstants.RECEIVE_AGGRO_EFFECT;
-import static bassebombecraft.config.ModConfiguration.decoyBook;
+import static bassebombecraft.config.ModConfiguration.receiveAggroBook;
 import static bassebombecraft.config.ModConfiguration.receiveAggroEffectAmplifier;
 import static bassebombecraft.config.ModConfiguration.receiveAggroEffectDuration;
 
@@ -32,7 +32,7 @@ public class ReceiveAggroBook extends GenericRightClickedBook {
 	};
 
 	public ReceiveAggroBook() {
-		super(ITEM_NAME, decoyBook, new ShootOperatorEggProjectile(splOp.get()));
+		super(ITEM_NAME, receiveAggroBook, new ShootOperatorEggProjectile(splOp.get()));
 	}
 
 }
