@@ -76,7 +76,9 @@ import bassebombecraft.item.book.LargeFireballBook;
 import bassebombecraft.item.book.LavaSpiralMistBook;
 import bassebombecraft.item.book.LingeringFlameBook;
 import bassebombecraft.item.book.LingeringFuryBook;
+import bassebombecraft.item.book.NaturalizeBook;
 import bassebombecraft.item.book.PrimedCreeperCannonBook;
+import bassebombecraft.item.book.RainbownizeBook;
 import bassebombecraft.item.book.ReceiveAggroBook;
 import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
@@ -244,8 +246,6 @@ public class ModConfiguration {
 
 	// SmallFireballBook
 	public static ItemConfig smallFireballBook;
-
-	// LargeFireballBook
 	public static ItemConfig largeFireballBook;
 
 	// SmallFireballRingBook
@@ -254,17 +254,9 @@ public class ModConfiguration {
 
 	// LingeringFlameBook
 	public static ItemConfig lingeringFlameBook;
-
-	// LingeringFlameBook
 	public static ItemConfig lingeringFuryBook;
-
-	// ToxicMistBook
 	public static ItemConfig toxicMistBook;
-
-	// WitherSkullBook
 	public static ItemConfig witherSkullBook;
-
-	// BaconBazookaBook
 	public static ItemConfig baconBazookaBook;
 
 	// BearBlasterBook
@@ -288,11 +280,7 @@ public class ModConfiguration {
 
 	// BeastmasterBook
 	public static ItemConfig beastmasterBook;
-
-	// DecoyBook
 	public static ItemConfig decoyBook;
-
-	// ReceiveAggroBook
 	public static ItemConfig receiveAggroBook;
 
 	// DigMobHoleBook
@@ -301,8 +289,6 @@ public class ModConfiguration {
 
 	// LavaSpiralMistBook
 	public static ItemConfig lavaSpiralMistBook;
-
-	// VacuumMistBook
 	public static ItemConfig vacuumMistBook;
 
 	// SpawnCreeperArmyBook
@@ -319,8 +305,6 @@ public class ModConfiguration {
 
 	// SpawnGuardianBook
 	public static ItemConfig spawnGuardianBook;
-
-	// SpawnFlamingChickenBook
 	public static ItemConfig spawnFlamingChickenBook;
 
 	// BuildTowerBook
@@ -337,7 +321,9 @@ public class ModConfiguration {
 
 	// BuildMineBook
 	public static ItemConfig buildMineBook;
-
+	public static ItemConfig rainbownizeBook;
+	public static ItemConfig naturalizeBook;
+	
 	// Inventory items..
 	public static InventoryItemConfig charmBeastIdolInventoryItem;
 	public static InventoryItemConfig levitationIdolInventoryItem;
@@ -1326,6 +1312,18 @@ public class ModConfiguration {
 				"Click on a ground block to excavate an entrance entrance to a lower level mine. A ground block is a block at the same level as the block that the payer is standing on. Click on a block in front of the player to excavate a mine corridor, room or hall.",
 				25);
 
+		// RainbownizeBook
+		name = RainbownizeBook.ITEM_NAME;
+		rainbownizeBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to create an expanding spiral of rainbow-colored wool blocks centered on where the caster is placed.",
+				25);
+
+		// NaturalizeBook
+		name = NaturalizeBook.ITEM_NAME;
+		naturalizeBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to create an expanding spiral of flowers around the caster.",
+				25);
+		
 	}
 
 	/**

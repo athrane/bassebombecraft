@@ -13,6 +13,8 @@ import net.minecraft.util.math.BlockPos;
 /**
  * Implementation of the {@linkplain Operator2} interface which adds particles
  * at client side.
+ * 
+ * The particles are added at the entity position.
  */
 public class AddParticlesAtClient2 implements Operator2 {
 
