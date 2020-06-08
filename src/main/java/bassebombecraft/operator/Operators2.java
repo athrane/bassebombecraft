@@ -32,6 +32,9 @@ public class Operators2 {
 	/**
 	 * Execute operators.
 	 * 
+	 * Operators are executed in sequence. If an executed operator set the result
+	 * port to failed (i.e. failed) then the execution of the sequence is aborted.
+	 * 
 	 * @param ports   input ports
 	 * @param opertor operators executed in sequence.
 	 * 
@@ -47,6 +50,9 @@ public class Operators2 {
 
 	/**
 	 * Execute operators.
+	 * 
+	 * Operators are executed in sequence. If an executed operator set the result
+	 * port to failed (i.e. failed) then the execution of the sequence is aborted.
 	 * 
 	 * @param ports   input ports
 	 * @param opertor operators executed in sequence.
