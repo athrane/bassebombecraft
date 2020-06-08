@@ -1,6 +1,7 @@
 package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.block.BlockUtils.selectRainbowColoredWool;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 import static bassebombecraft.geom.BlockDirective.getInstance;
@@ -23,7 +24,6 @@ import net.minecraft.world.World;
  */
 public class RainbowSpiralMist implements BlockMistActionStrategy {
 
-	static final boolean DONT_HARVEST = false;
 	static final int EFFECT_DURATION = 800; // Measured in ticks
 
 	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.NOTE;

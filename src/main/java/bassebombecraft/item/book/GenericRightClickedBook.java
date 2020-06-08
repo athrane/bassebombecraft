@@ -99,6 +99,7 @@ public class GenericRightClickedBook extends Item {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+		
 		// exit if invoked at client side
 		if (isLogicalClient(worldIn)) {
 			return super.onItemRightClick(worldIn, playerIn, handIn);
@@ -119,6 +120,11 @@ public class GenericRightClickedBook extends Item {
 
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		
+		// only update the action at server side since we updates the world
+		if (isLogicalClient(worldIn))
+			return;
+		
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 

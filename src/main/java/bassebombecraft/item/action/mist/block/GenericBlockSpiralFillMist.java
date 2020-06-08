@@ -4,17 +4,17 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.BLOCK_EFFECT_FREQUENCY;
 import static bassebombecraft.ModConstants.PARTICLE_RENDERING_FREQUENCY;
+import static bassebombecraft.config.ModConfiguration.genericBlockSpiralFillMistSpiralSize;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
+import static bassebombecraft.geom.GeometryUtils.calculateSpiral;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
 
-import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.geom.GeometryUtils;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -95,10 +95,10 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	 */
 	public GenericBlockSpiralFillMist(BlockMistActionStrategy strategy) {
 		this.strategy = strategy;
-		spiralSize = ModConfiguration.genericBlockSpiralFillMistSpiralSize.get();
+		spiralSize = genericBlockSpiralFillMistSpiralSize.get();
 
 		// calculate spiral
-		spiralCoordinates = GeometryUtils.calculateSpiral(spiralSize, spiralSize);
+		spiralCoordinates = calculateSpiral(spiralSize, spiralSize);
 	}
 
 	@Override
@@ -216,11 +216,6 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 		mistPosition = locateGroundBlockPos(groundCandidate, ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK, world);
 
 		spiralCounter++;
-	}
-
-	@Override
-	public String toString() {
-		return super.toString() + ", strategy=" + strategy;
 	}
 
 }
