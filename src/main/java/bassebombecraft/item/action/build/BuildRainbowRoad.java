@@ -1,5 +1,6 @@
 package bassebombecraft.item.action.build;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.ModConstants.UNITY_BLOCK_SIZE;
@@ -35,8 +36,6 @@ public class BuildRainbowRoad implements BlockClickedItemAction {
 	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
 	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;
 
-	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
-
 	private static final int MAX_ROAD_SEGMENTS = 8;
 	static final int X_SIZE = 3;
 	static final int Y_SIZE = 1;
@@ -45,20 +44,8 @@ public class BuildRainbowRoad implements BlockClickedItemAction {
 	static final int Y_OFFSET_DOWN = -1;
 	static final Structure NULL_STRUCTURE = new CompositeStructure();
 
-	/**
-	 * Random generator.
-	 */
-	Random random = new Random();
-
-	/**
-	 * Ticks exists since first marker was set.
-	 */
-	int ticksExisted = 0;
-
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
-		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
-			return DIDNT_USED_ITEM;
 
 		// calculate if selected block is a ground block
 		BlockPos pos = context.getPos();
@@ -174,6 +161,7 @@ public class BuildRainbowRoad implements BlockClickedItemAction {
 	int calculateDisplacement(int index, int displacement) {
 		if (index == 0)
 			return X_OFFSET;
+		Random random = getBassebombeCraft().getRandom();
 		int displacementRandom = random.nextInt(3);
 		if (displacementRandom == 1)
 			return displacement + 1;

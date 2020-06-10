@@ -36,8 +36,6 @@ public class BuildAbyss implements BlockClickedItemAction {
 	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
 	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;
 
-	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
-
 	/**
 	 * Ticks exists since first marker was set.
 	 */
@@ -45,8 +43,6 @@ public class BuildAbyss implements BlockClickedItemAction {
 
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
-		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
-			return DIDNT_USED_ITEM;
 
 		// calculate structure
 		Structure structure = createStructure();

@@ -40,8 +40,6 @@ public class DuplicateBlock implements BlockClickedItemAction {
 	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
 	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;
 
-	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
-
 	static final int X_SIZE = 3;
 	static final int Y_SIZE = 1;
 	static final int Z_SIZE = 10;
@@ -49,15 +47,8 @@ public class DuplicateBlock implements BlockClickedItemAction {
 	static final int Y_OFFSET_DOWN = 0;
 	static final Structure NULL_STRUCTURE = new CompositeStructure();
 
-	/**
-	 * Ticks exists since first marker was set.
-	 */
-	int ticksExisted = 0;
-
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
-		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
-			return DIDNT_USED_ITEM;
 
 		// create world query
 		PlayerEntity player = context.getPlayer();

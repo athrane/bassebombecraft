@@ -1,5 +1,6 @@
 package bassebombecraft.item.action.build;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.HARVEST;
 import static bassebombecraft.ModConstants.UNITY_BLOCK_SIZE;
@@ -15,7 +16,6 @@ import static bassebombecraft.structure.ChildStructure.createWoodStructure;
 import java.util.List;
 import java.util.Random;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.item.action.BlockClickedItemAction;
@@ -59,22 +59,15 @@ public class BuildMine implements BlockClickedItemAction {
 	Random random;
 
 	/**
-	 * Ticks exists since first marker was set.
-	 */
-	int ticksExisted = 0;
-
-	/**
-	 * CreateRoad constructor.
+	 * Constructor.
 	 */
 	public BuildMine() {
 		super();
-		random = BassebombeCraft.getBassebombeCraft().getRandom();
+		random = getBassebombeCraft().getRandom();
 	}
 
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
-		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
-			return DIDNT_USED_ITEM;
 
 		// calculate if selected block is a ground block
 		BlockPos pos = context.getPos();
@@ -100,7 +93,7 @@ public class BuildMine implements BlockClickedItemAction {
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-
+		// NO-OP
 	}
 
 	/**

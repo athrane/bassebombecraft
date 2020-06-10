@@ -52,17 +52,8 @@ public class BuildSmallHole implements BlockClickedItemAction {
 	 */
 	static final BlockPos VERTICAL_SIZE = new BlockPos(3, 3, 1);
 
-	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
-
-	/**
-	 * Ticks exists since first marker was set.
-	 */
-	int ticksExisted = 0;
-
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
-		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
-			return DIDNT_USED_ITEM;
 
 		// calculate if selected block is a ground block
 		BlockPos pos = context.getPos();

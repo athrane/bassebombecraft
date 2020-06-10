@@ -7,8 +7,8 @@ import bassebombecraft.item.action.build.BuildRoad;
  */
 public class BuildRoadBook extends GenericBlockClickedBook {
 
-	public static final String ITEM_NAME = "BuildRoadBook";
-
+	public static final String ITEM_NAME = BuildRoadBook.class.getSimpleName();
+	
 	public BuildRoadBook() {
 		super(ITEM_NAME, new BuildRoad());
 	}
