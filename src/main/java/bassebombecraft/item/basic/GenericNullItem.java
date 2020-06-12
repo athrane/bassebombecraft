@@ -99,6 +99,11 @@ public class GenericNullItem extends Item {
 
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		
+		// only update the action at server side since we updates the world
+		if (isLogicalClient(worldIn))
+			return;
+		
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 
