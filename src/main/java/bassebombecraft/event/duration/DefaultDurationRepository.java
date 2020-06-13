@@ -58,12 +58,20 @@ public class DefaultDurationRepository implements DurationRepository {
 	}
 
 	@Override
-	public void add(String id, int duration, Consumer<String> cId) {
+	public void add(String id, int duration, Consumer<String> cRemovalCallback) {
 		if (durableObjects.containsKey(id))
 			return;
 
-		Duration state = DefaultDuration.getInstance(duration, id, cId);
+		Duration state = DefaultDuration.getInstance(duration, id, cRemovalCallback);
 		durableObjects.put(id, state);
+	}
+		
+	@Override
+	public void add(String id, int duration, Consumer<String> cUpdateCallback, Consumer<String> cRemovalCallback) {
+		if (durableObjects.containsKey(id))
+			return;
+		Duration state = DefaultDuration.getInstance(duration, id, cUpdateCallback, cRemovalCallback);
+		durableObjects.put(id, state);		
 	}
 
 	@Override

@@ -38,6 +38,8 @@ import bassebombecraft.event.entity.team.DefaultTeamRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.frequency.DefaultFrequencyRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
+import bassebombecraft.event.job.DefaultJobReposiory;
+import bassebombecraft.event.job.JobRepository;
 import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.proxy.Proxy;
 import net.minecraftforge.api.distmarker.Dist;
@@ -73,6 +75,11 @@ public class ClientProxy implements Proxy {
 	 */
 	DurationRepository serverDurationRepository;
 
+	/**
+	 * Job repository.
+	 */
+	JobRepository jobRepository;
+	
 	/**
 	 * Particle rendering repository.
 	 */
@@ -131,6 +138,9 @@ public class ClientProxy implements Proxy {
 		clientDurationRepository = DefaultDurationRepository.getInstance();
 		serverDurationRepository = DefaultDurationRepository.getInstance();
 
+		// initialise job repository
+		jobRepository = DefaultJobReposiory.getInstance();
+		
 		// Initialise particle rendering repository
 		particleRepository = DefaultParticleRenderingRepository.getInstance();
 
@@ -306,6 +316,11 @@ public class ClientProxy implements Proxy {
 		return clientDurationRepository;
 	}
 
+	@Override
+	public JobRepository getServerJobRepository() {
+		return jobRepository;
+	}
+	
 	@Override
 	public ParticleRenderingRepository getClientParticleRenderingRepository() throws UnsupportedOperationException {
 		return particleRepository;

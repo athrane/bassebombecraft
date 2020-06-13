@@ -37,10 +37,24 @@ public interface DurationRepository {
 	/**
 	 * Register durable object.
 	 * 
-	 * @param id       id to register
-	 * @param duration number updates until object is expired.
+	 * @param id               id to register
+	 * @param duration         number updates until object is expired.
+	 * @param cRemovalCallback callback function used by the duration repository to
+	 *                         notify a listener that the duration has expired.
 	 */
-	public void add(String id, int duration, Consumer<String> cId);
+	public void add(String id, int duration, Consumer<String> cRemovalCallback);
+
+	/**
+	 * Register durable object.
+	 * 
+	 * @param id               id to register
+	 * @param duration         number updates until object is expired.
+	 * @param cUpdateCallback  callback function used by the duration repository to
+	 *                         notify a listener that the duration has be updated.
+	 * @param cRemovalCallback callback function used by the duration repository to
+	 *                         notify a listener that the duration has expired.
+	 */
+	public void add(String id, int duration, Consumer<String> cUpdateCallback, Consumer<String> cRemovalCallback);
 
 	/**
 	 * Remove durable object.

@@ -35,8 +35,14 @@ public class DefaultDuration implements Duration {
 	 * Callback function used by the duration repository to notify a listener that
 	 * the duration has expired.
 	 */
-	Optional<Consumer<String>> optConsumerId;
+	Optional<Consumer<String>> optRemovalCallback;
 
+	/**
+	 * Callback function used by the duration repository to notify a listener that
+	 * the duration has been updated.
+	 */
+	Optional<Consumer<String>> optUpdateCallback;
+	
 	/**
 	 * Constructor.
 	 * 
@@ -48,7 +54,8 @@ public class DefaultDuration implements Duration {
 		super();
 		this.duration = duration;
 		this.id = id;
-		this.optConsumerId = empty();
+		this.optUpdateCallback = empty();				
+		this.optRemovalCallback = empty();
 	}
 
 	/**
@@ -56,25 +63,51 @@ public class DefaultDuration implements Duration {
 	 * 
 	 * @param duration duration of duration.
 	 * @param id       id of the duration.
-	 * @param cId      callback function used by the duration repository to notify a
-	 *                 listener that the duration has expired.
+	 * @param cRemovalCallback callback function used by the duration repository to
+	 *                         notify a listener that the duration has expired.
 	 */
-	DefaultDuration(int duration, String id, Consumer<String> cId) {
+	DefaultDuration(int duration, String id, Consumer<String> cRemovalCallback) {
 		super();
 		this.duration = duration;
 		this.id = id;
-		this.optConsumerId = of(cId);
+		this.optUpdateCallback = empty();		
+		this.optRemovalCallback = of(cRemovalCallback);
 	}
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param duration duration of duration.
+	 * @param id       id of the duration.
+	 * @param cUpdateCallback  callback function used by the duration repository to
+	 *                         notify a listener that the duration has be updated.
+	 * @param cRemovalCallback callback function used by the duration repository to
+	 *                         notify a listener that the duration has expired.
+	 */
+	DefaultDuration(int duration, String id, Consumer<String> cUpdateCallback, Consumer<String> cRemovalCallback) {
+		super();
+		this.duration = duration;
+		this.id = id;
+		this.optUpdateCallback = of(cUpdateCallback);		
+		this.optRemovalCallback = of(cRemovalCallback);
+	}
+	
 	@Override
 	public void update() {
 		if (isExpired())
 			return;
 
+		// update of present
+		if (optRemovalCallback.isPresent()) {
+			Consumer<String> cUpdateCallback = optUpdateCallback.get();
+			cUpdateCallback.accept(id);			
+		}
+				
 		// don't decrement a non expiring duration.
 		if (neverExpires())
 			return;
 
+		// decrement
 		duration = duration - 1;
 	}
 
@@ -100,10 +133,10 @@ public class DefaultDuration implements Duration {
 
 	@Override
 	public void notifyOfExpiry() {
-		if (!optConsumerId.isPresent())
+		if (!optRemovalCallback.isPresent())
 			return;
-		Consumer<String> cId = optConsumerId.get();
-		cId.accept(id);
+		Consumer<String> cRemovalCallback = optRemovalCallback.get();
+		cRemovalCallback.accept(id);
 	}
 
 	/**
@@ -119,12 +152,28 @@ public class DefaultDuration implements Duration {
 	/**
 	 * Factory method.
 	 * 
-	 * @param duration duration of duration.
-	 * @param id       id of the duration.
-	 * @param cId      callback function used by the duration repository to notify a
-	 *                 listener that the duration has expired.
+	 * @param duration         duration of duration.
+	 * @param id               id of the duration.
+	 * @param cRemovalCallback callback function used by the duration repository to
+	 *                         notify a listener that the duration has expired.
 	 */
-	public static Duration getInstance(int duration, String id, Consumer<String> cId) {
-		return new DefaultDuration(duration, id, cId);
+	public static Duration getInstance(int duration, String id, Consumer<String> cRemovalCallback) {
+		return new DefaultDuration(duration, id, cRemovalCallback);
 	}
+
+	/**
+	 * Factory method.
+	 * 
+	 * @param duration         duration of duration.
+	 * @param id               id of the duration.
+	 * @param cUpdateCallback  callback function used by the duration repository to
+	 *                         notify a listener that the duration has be updated.
+	 * @param cRemovalCallback callback function used by the duration repository to
+	 *                         notify a listener that the duration has expired.
+	 */
+	public static Duration getInstance(int duration, String id, Consumer<String> cUpdateCallback,
+			Consumer<String> cRemovalCallback) {
+		return new DefaultDuration(duration, id, cUpdateCallback, cRemovalCallback);
+	}
+
 }

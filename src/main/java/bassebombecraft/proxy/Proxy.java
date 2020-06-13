@@ -11,6 +11,7 @@ import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.entity.target.TargetRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
+import bassebombecraft.event.job.JobRepository;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.network.NetworkChannelHelper;
 import net.minecraftforge.api.distmarker.Dist;
@@ -152,6 +153,19 @@ public interface Proxy {
 	public DurationRepository getClientDurationRepository() throws UnsupportedOperationException;
 
 	/**
+	 * Get job repository for the logical SERVER.
+	 * 
+	 * The server proxy implementation support this method to support the
+	 * configuration: physical server w/ logical server (dedicated server).
+	 * 
+	 * The client proxy implementation support this method to support the
+	 * configuration: physical client w/ logical server (integrated server).
+	 * 
+	 * @return job repository.
+	 */
+	public JobRepository getServerJobRepository();
+	
+	/**
 	 * Get particle rendering repository.
 	 * 
 	 * This repository is available at the logical CLIENT.
@@ -281,5 +295,5 @@ public interface Proxy {
 	 * @return mob commander repository.
 	 */
 	public TargetRepository getServerTargetRepository();
-
+	
 }

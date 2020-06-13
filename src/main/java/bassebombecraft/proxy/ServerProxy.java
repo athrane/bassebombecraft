@@ -29,6 +29,8 @@ import bassebombecraft.event.entity.team.DefaultTeamRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.event.frequency.DefaultFrequencyRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
+import bassebombecraft.event.job.DefaultJobReposiory;
+import bassebombecraft.event.job.JobRepository;
 import bassebombecraft.network.NetworkChannelHelper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.api.distmarker.Dist;
@@ -49,6 +51,11 @@ public class ServerProxy implements Proxy {
 	 */
 	DurationRepository durationRepository;
 
+	/**
+	 * Job repository.
+	 */
+	JobRepository jobRepository;
+	
 	/**
 	 * Charmed Mob repository
 	 */
@@ -95,6 +102,9 @@ public class ServerProxy implements Proxy {
 		// initialise duration repository
 		durationRepository = DefaultDurationRepository.getInstance();
 
+		// initialise job repository
+		jobRepository = DefaultJobReposiory.getInstance();
+		
 		// Initialise charmed mobs repository
 		charmedMobsRepository = ServerCharmedMobsRepository.getInstance();
 
@@ -264,6 +274,11 @@ public class ServerProxy implements Proxy {
 	@Override
 	public DurationRepository getClientDurationRepository() throws UnsupportedOperationException {
 		throw new UnsupportedOperationException("Operation not supported by server.");
+	}
+	
+	@Override
+	public JobRepository getServerJobRepository() {
+		return jobRepository;
 	}
 
 	@Override
