@@ -2,18 +2,21 @@ package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.config.ModConfiguration.genericBlockSpiralFillMistSpiralSize;
-import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
-import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.calculateSpiral;
-import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
+import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.operator.Operators2.run;
 
 import java.util.List;
+import java.util.function.Function;
 
 import bassebombecraft.event.job.Job;
-import bassebombecraft.event.job.JobRepository;
-import bassebombecraft.event.particle.ParticleRendering;
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.item.action.RightClickedItemAction;
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.block.mist.ApplyEffectFromMistStrategy2;
+import bassebombecraft.operator.block.mist.CalculateSpiralPosition2;
+import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
+import bassebombecraft.operator.conditional.IsSpiralNotCompleted2;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -21,8 +24,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain RightClickedItemAction} which creates one
- * or more mists with a custom effect when a mist passes a block.
+ * Implementation of the {@linkplain RightClickedItemAction} which creates an
+ * expanding spiral (mist) with a custom effect when the mist passes a block.
  * 
  * The effect is implemented by the configured strategy
  * {@linkplain BlockMistActionStrategy}.
@@ -35,83 +38,36 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	class GenericBlockSpiralFillMistJob implements Job {
 
 		/**
-		 * Spiral counter. Exclude the centre of the spiral
-		 */
-		int spiralCounter = 1;
-
-		/**
-		 * Global centre of the spiral.
-		 */
-		BlockPos spiralCenter;
-
-		/**
-		 * Current position in the mist.
-		 */
-		BlockPos mistPosition;
-
-		/**
 		 * World object.
 		 */
 		World world;
 
 		/**
+		 * Operator ports.
+		 */
+		Ports ports;
+
+		/**
+		 * Operators for the job.
+		 */
+		Operator2[] ops;
+
+		/**
 		 * Constructor.
 		 * 
-		 * @param spiralCenter global centre of the spiral.
-		 * @param world        world object.
+		 * @param world world object.
+		 * @param ops   stateful operators for the job.
 		 */
-		public GenericBlockSpiralFillMistJob(BlockPos spiralCenter, World world) {
-			this.spiralCenter = spiralCenter;
+		public GenericBlockSpiralFillMistJob(World world, Operator2[] ops) {
 			this.world = world;
+			this.ops = ops;
+			this.ports = getInstance();
 		}
 
 		@Override
 		public void update() {
-			updateMistPosition();
-			render();
-			strategy.applyEffectToBlock(mistPosition, world);
-		}
-
-		@Override
-		public void terminate() {
-			// NO-OP
-		}
-
-		/**
-		 * Update current position in the spiral.
-		 */
-		void updateMistPosition() {
-
-			// exit if entire spiral is processed
-			if (spiralCounter >= spiralCoordinates.size())
-				return;
-
-			// get next spiral coordinate
-			BlockPos spiralCoord = spiralCoordinates.get(spiralCounter);
-
-			// calculate ground coordinates
-			int x = spiralCenter.getX() + spiralCoord.getX();
-			int y = spiralCenter.getY();
-			int z = spiralCenter.getZ() + spiralCoord.getZ();
-			BlockPos groundCandidate = new BlockPos(x, y, z);
-
-			// locate ground block
-			mistPosition = locateGroundBlockPos(groundCandidate, ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK, world);
-
-			spiralCounter++;
-		}
-
-		/**
-		 * Render mist in world.
-		 */
-		void render() {
-			// iterate over rendering info's
-			for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
-
-				// send particle rendering info to client
-				ParticleRendering particle = getInstance(mistPosition, info);
-				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
-			}
+			ports.setWorld(world);
+			run(ports, ops);
 		}
 	}
 
@@ -142,25 +98,27 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	 */
 	public GenericBlockSpiralFillMist(BlockMistActionStrategy strategy) {
 		this.strategy = strategy;
-		spiralSize = genericBlockSpiralFillMistSpiralSize.get();
-
-		// calculate spiral
-		spiralCoordinates = calculateSpiral(spiralSize, spiralSize);
+		this.spiralSize = genericBlockSpiralFillMistSpiralSize.get();
+		this.spiralCoordinates = calculateSpiral(spiralSize, spiralSize);
 	}
 
 	@Override
 	public void onRightClick(World world, LivingEntity entity) {
 
-		// get ID for invocation
+		// get spiral centre
+		BlockPos center = new BlockPos(entity);
+
+		// create spiral operator
+		Function<Ports, BlockPos> fnBlockPos = p -> p.getBlockPosition();
+		Operator2[] ops = new Operator2[] { new IsSpiralNotCompleted2(spiralCoordinates),
+				new CalculateSpiralPosition2(spiralCoordinates, center),
+				new ApplyEffectFromMistStrategy2(strategy, fnBlockPos),
+				new AddParticlesFromPosAtClient2(strategy.getRenderingInfos(), fnBlockPos) };
+
+		// create and register job
+		GenericBlockSpiralFillMistJob job = new GenericBlockSpiralFillMistJob(world, ops);
 		String id = new StringBuilder().append(entity.getEntityString()).append(strategy.toString()).toString();
-
-		// create job
-		BlockPos spiralCenter = new BlockPos(entity);
-		GenericBlockSpiralFillMistJob job = new GenericBlockSpiralFillMistJob(spiralCenter, world);
-
-		// register job
-		JobRepository jobRepository = getProxy().getServerJobRepository();
-		jobRepository.add(id, strategy.getEffectDuration(), job);
+		getProxy().getServerJobRepository().add(id, strategy.getEffectDuration(), job);
 	}
 
 	@Override

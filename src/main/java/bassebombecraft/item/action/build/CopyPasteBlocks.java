@@ -251,7 +251,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * ground block and it isn't identical to the first or second marker.
 	 * 
 	 * @param isGroundBlock boolean to indicate if invoked block is a ground block.
-	 * @param pos           trigger position.
+	 * @param position           trigger position.
 	 * @param player        player object.
 	 * @return
 	 */

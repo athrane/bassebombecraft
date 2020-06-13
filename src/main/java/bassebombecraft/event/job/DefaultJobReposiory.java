@@ -63,10 +63,6 @@ public class DefaultJobReposiory implements JobRepository {
 		if (!contains(id))
 			return;
 
-		// invoke job
-		Job job = jobs.get(id);
-		job.terminate();
-
 		// remove
 		jobs.remove(id);
 	}

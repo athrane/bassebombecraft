@@ -10,9 +10,4 @@ public interface Job {
 	 */
 	void update();
 
-	/**
-	 * Invoked when job is terminated.
-	 */
-	void terminate();
-
 }

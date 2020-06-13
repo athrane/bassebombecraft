@@ -1,0 +1,59 @@
+package bassebombecraft.operator.client.rendering;
+
+import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
+
+import java.util.function.Function;
+
+import bassebombecraft.event.particle.ParticleRendering;
+import bassebombecraft.event.particle.ParticleRenderingInfo;
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
+import net.minecraft.util.math.BlockPos;
+
+/**
+ * Implementation of the {@linkplain Operator2} interface which adds particles
+ * at client side.
+ * 
+ * The particles are added from a block position.
+ */
+public class AddParticlesFromPosAtClient2 implements Operator2 {
+
+	/**
+	 * Rendering infos.
+	 */
+	ParticleRenderingInfo[] infos;
+
+	/**
+	 * Function to get block position from ports.
+	 */
+	Function<Ports, BlockPos> fnBlockPos;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param particles  particle rendering infos.
+	 * @param fnBlockPos function to get block position where particles should
+	 *                   rendered.
+	 */
+	public AddParticlesFromPosAtClient2(ParticleRenderingInfo[] infos, Function<Ports, BlockPos> fnBlockPos) {
+		this.infos = infos;
+		this.fnBlockPos = fnBlockPos;
+	}
+
+	@Override
+	public Ports run(Ports ports) {
+
+		// get position
+		BlockPos pos = fnBlockPos.apply(ports);
+
+		// iterate over rendering info's
+		for (ParticleRenderingInfo info : infos) {
+			// send particle rendering info to client
+			ParticleRendering particle = getInstance(pos, info);
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+		}
+
+		return ports;
+	}
+}

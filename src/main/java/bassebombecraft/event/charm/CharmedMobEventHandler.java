@@ -8,7 +8,7 @@ import static bassebombecraft.operator.Operators2.run;
 import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.network.packet.AddParticleRendering;
 import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.client.rendering.AddParticlesAtClient2;
+import bassebombecraft.operator.client.rendering.AddParticlesFromEntityAtClient2;
 import bassebombecraft.operator.conditional.IsEntityIsCharmed2;
 import bassebombecraft.operator.conditional.IsEntityOfType2;
 import bassebombecraft.operator.conditional.IsFrequencyIsActive2;
@@ -38,7 +38,7 @@ public class CharmedMobEventHandler {
 	 */
 	static Operator2[] particlesOps = { new IsWorldAtServerSide2(),
 			new IsFrequencyIsActive2(CHARM_PARTICLE_RENDERING_FREQUENCY), new IsEntityOfType2(MobEntity.class),
-			new IsEntityIsCharmed2(), new AddParticlesAtClient2(createFromConfig(charmedMobParticles)) };
+			new IsEntityIsCharmed2(), new AddParticlesFromEntityAtClient2(createFromConfig(charmedMobParticles)) };
 
 	/**
 	 * Operators for uncharm.

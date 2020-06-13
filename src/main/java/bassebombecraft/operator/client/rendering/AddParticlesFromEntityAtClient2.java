@@ -14,9 +14,9 @@ import net.minecraft.util.math.BlockPos;
  * Implementation of the {@linkplain Operator2} interface which adds particles
  * at client side.
  * 
- * The particles are added at the entity position.
+ * The particles are added at the ports position.
  */
-public class AddParticlesAtClient2 implements Operator2 {
+public class AddParticlesFromEntityAtClient2 implements Operator2 {
 
 	/**
 	 * Rendering infos.
@@ -28,7 +28,7 @@ public class AddParticlesAtClient2 implements Operator2 {
 	 * 
 	 * @param particles particle rendering infos.
 	 */
-	public AddParticlesAtClient2(ParticleRenderingInfo[] infos) {
+	public AddParticlesFromEntityAtClient2(ParticleRenderingInfo[] infos) {
 		this.infos = infos;
 	}
 
