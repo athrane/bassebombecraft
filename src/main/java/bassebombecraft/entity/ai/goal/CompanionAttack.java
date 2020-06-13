@@ -3,8 +3,6 @@ package bassebombecraft.entity.ai.goal;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.AI_COMPANION_ATTACK_UPDATE_FREQUENCY;
-import static bassebombecraft.config.ModConfiguration.vacuumMistDuration;
-import static bassebombecraft.config.ModConfiguration.vacuumMistForce;
 import static bassebombecraft.entity.EntityUtils.getNullableTarget;
 import static bassebombecraft.entity.EntityUtils.getTarget;
 import static bassebombecraft.entity.EntityUtils.hasTarget;
@@ -17,7 +15,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import bassebombecraft.event.frequency.FrequencyRepository;
@@ -74,9 +71,7 @@ public class CompanionAttack extends Goal {
 	static final ProjectileAction MOB_HOLE_PROJECTILE_ACTION = new DigMobHole();
 	static final ProjectileAction FLAMING_CHICKEN_PROJECTILE_ACTION = new SpawnFlamingChicken();
 
-	static Supplier<Integer> splDuration = () -> vacuumMistDuration.get();
-	static Supplier<Integer> splForce = () -> vacuumMistForce.get();
-	static final EntityMistActionStrategy SPAWN_VACUUM_MIST_PROJECTILE_ACTION = new VacuumMist(splDuration, splForce);
+	static final EntityMistActionStrategy SPAWN_VACUUM_MIST_PROJECTILE_ACTION = new VacuumMist();
 
 	static final EntityMistActionStrategy TOXIC_MIST_STRATEGY = new ToxicMist();
 	static final EntityMistActionStrategy LIGHTNING_MIST_STRATEGY = new LightningBoltMist();
