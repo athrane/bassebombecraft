@@ -1,11 +1,11 @@
 package bassebombecraft.item.action.mist.entity;
 
-import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ModConfiguration.healingMistDuration;
+import static bassebombecraft.config.ModConfiguration.healingMistParticleInfo;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.math.Vec3d;
@@ -16,18 +16,28 @@ import net.minecraft.util.math.Vec3d;
  */
 public class HealingMist implements EntityMistActionStrategy {
 
-	static final int EFFECT_DURATION = 200; // Measured in ticks
+	/**
+	 * Action identifier.
+	 */
+	public static final String NAME = VacuumMist.class.getSimpleName();
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
-	static final int PARTICLE_NUMBER = 5;
-	static final int PARTICLE_DURATION = 20;
-	static final float R = 0.75F;
-	static final float G = 0.0F;
-	static final float B = 0.0F;
-	static final double PARTICLE_SPEED = 0.3;
-	static final ParticleRenderingInfo MIST = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R, G, B,
-			PARTICLE_SPEED);
-	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
+	/**
+	 * Particle rendering info
+	 */
+	ParticleRenderingInfo[] infos;
+
+	/**
+	 * Effect duration.
+	 */
+	int duration;
+
+	/**
+	 * Constructor.
+	 */
+	public HealingMist() {
+		infos = createFromConfig(healingMistParticleInfo);
+		duration = healingMistDuration.get();
+	}
 
 	/**
 	 * Create potion effect.
@@ -35,7 +45,7 @@ public class HealingMist implements EntityMistActionStrategy {
 	 * @return potion effect
 	 */
 	EffectInstance createEffect() {
-		return new EffectInstance(Effects.REGENERATION, getEffectDuration());
+		return new EffectInstance(Effects.REGENERATION, duration);
 	}
 
 	@Override
@@ -45,7 +55,7 @@ public class HealingMist implements EntityMistActionStrategy {
 
 	@Override
 	public int getEffectDuration() {
-		return EFFECT_DURATION;
+		return duration;
 	}
 
 	@Override
@@ -70,7 +80,7 @@ public class HealingMist implements EntityMistActionStrategy {
 
 	@Override
 	public ParticleRenderingInfo[] getRenderingInfos() {
-		return INFOS;
+		return infos;
 	}
 
 }

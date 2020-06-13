@@ -60,6 +60,7 @@ import bassebombecraft.item.action.mist.block.LavaSpiralMist;
 import bassebombecraft.item.action.mist.block.NaturalizeSpiralMist;
 import bassebombecraft.item.action.mist.block.RainbowSpiralMist;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
+import bassebombecraft.item.action.mist.entity.HealingMist;
 import bassebombecraft.item.action.mist.entity.VacuumMist;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.basic.TerminatorEyeItem;
@@ -74,6 +75,7 @@ import bassebombecraft.item.book.CopyPasteBlocksBook;
 import bassebombecraft.item.book.CreeperCannonBook;
 import bassebombecraft.item.book.DecoyBook;
 import bassebombecraft.item.book.DigMobHoleBook;
+import bassebombecraft.item.book.HealingMistBook;
 import bassebombecraft.item.book.LargeFireballBook;
 import bassebombecraft.item.book.LavaSpiralMistBook;
 import bassebombecraft.item.book.LingeringFlameBook;
@@ -289,12 +291,12 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.ConfigValue<String> digMobHoleBookTooltip;
 	public static ForgeConfigSpec.IntValue digMobHoleBookCooldown;
 
-	// LavaSpiralMistBook
 	public static ItemConfig lavaSpiralMistBook;
 	public static ItemConfig rainbownizeBook;
 	public static ItemConfig naturalizeBook;
 	
 	public static ItemConfig vacuumMistBook;
+	public static ItemConfig healingMistBook;
 
 	// SpawnCreeperArmyBook
 	public static ForgeConfigSpec.ConfigValue<String> spawnCreeperArmyBookTooltip;
@@ -324,7 +326,6 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.ConfigValue<String> copyPasteBlocksBookTooltip;
 	public static ForgeConfigSpec.IntValue copyPasteBlocksBookCooldown;
 
-	// BuildMineBook
 	public static ItemConfig buildMineBook;
 	
 	// Inventory items..
@@ -419,6 +420,10 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue vacuumMistForce;
 	public static ParticlesConfig vacuumMistParticleInfo;
 
+	// HealingMist action
+	public static ForgeConfigSpec.IntValue healingMistDuration;
+	public static ParticlesConfig healingMistParticleInfo;
+	
 	// SpawnStairs projectile action
 	public static ForgeConfigSpec.IntValue spawnStairsDuration;
 
@@ -883,6 +888,14 @@ public class ModConfiguration {
 		vacuumMistParticleInfo = getInstance(COMMON_BUILDER, "effect", 10, 20, 0.3, 0.75, 0.75, 0.75);
 		COMMON_BUILDER.pop();
 
+		// HealingMist
+		name = HealingMist.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		healingMistDuration = COMMON_BUILDER.comment("Duration in game ticks.").defineInRange("duration", 200, 0,
+				Integer.MAX_VALUE);
+		healingMistParticleInfo = getInstance(COMMON_BUILDER, "effect", 5, 20, 0.3, 0.75, 0.0, 0.0);
+		COMMON_BUILDER.pop();
+		
 		// SpawnCreeperArmy
 		name = SpawnCreeperArmy.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1262,12 +1275,16 @@ public class ModConfiguration {
 		// LavaSpiralMistBook
 		name = LavaSpiralMistBook.ITEM_NAME;
 		lavaSpiralMistBook = getInstance(COMMON_BUILDER, name,
-				"Creates an expanding spiral of temporary lava blocks centered on where the caster is placed.", 10);
+				"Creates an expanding spiral of temporary lava blocks centered on where the caster is placed.", 100);
 
 		// VacuumMistBook
 		name = VacuumMistBook.ITEM_NAME;
 		vacuumMistBook = getInstance(COMMON_BUILDER, name, "Creates a cloud of vacuum which pull mobs into it.", 100);
 
+		// HealingMistBook
+		name = HealingMistBook.ITEM_NAME;
+		healingMistBook = getInstance(COMMON_BUILDER, name, "It creates a cloud of healing that heal nearby friends and foes.", 100);
+		
 		// SpawnCreeperArmyBook
 		name = SpawnCreeperArmyBook.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
