@@ -98,7 +98,7 @@ public class DefaultDuration implements Duration {
 			return;
 
 		// update of present
-		if (optRemovalCallback.isPresent()) {
+		if (optUpdateCallback.isPresent()) {
 			Consumer<String> cUpdateCallback = optUpdateCallback.get();
 			cUpdateCallback.accept(id);			
 		}

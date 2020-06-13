@@ -291,6 +291,9 @@ public class ModConfiguration {
 
 	// LavaSpiralMistBook
 	public static ItemConfig lavaSpiralMistBook;
+	public static ItemConfig rainbownizeBook;
+	public static ItemConfig naturalizeBook;
+	
 	public static ItemConfig vacuumMistBook;
 
 	// SpawnCreeperArmyBook
@@ -323,8 +326,6 @@ public class ModConfiguration {
 
 	// BuildMineBook
 	public static ItemConfig buildMineBook;
-	public static ItemConfig rainbownizeBook;
-	public static ItemConfig naturalizeBook;
 	
 	// Inventory items..
 	public static InventoryItemConfig charmBeastIdolInventoryItem;

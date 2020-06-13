@@ -1,9 +1,6 @@
 package bassebombecraft.item.action.mist.block;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.ModConstants.BLOCK_EFFECT_FREQUENCY;
-import static bassebombecraft.ModConstants.PARTICLE_RENDERING_FREQUENCY;
 import static bassebombecraft.config.ModConfiguration.genericBlockSpiralFillMistSpiralSize;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
@@ -12,7 +9,8 @@ import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
 
-import bassebombecraft.event.frequency.FrequencyRepository;
+import bassebombecraft.event.job.Job;
+import bassebombecraft.event.job.JobRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.item.action.RightClickedItemAction;
@@ -20,7 +18,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -33,30 +30,95 @@ import net.minecraft.world.World;
 public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 
 	/**
+	 * Implementation of {@linkplain Job}.
+	 */
+	class GenericBlockSpiralFillMistJob implements Job {
+
+		/**
+		 * Spiral counter. Exclude the centre of the spiral
+		 */
+		int spiralCounter = 1;
+
+		/**
+		 * Global centre of the spiral.
+		 */
+		BlockPos spiralCenter;
+
+		/**
+		 * Current position in the mist.
+		 */
+		BlockPos mistPosition;
+
+		/**
+		 * World object.
+		 */
+		World world;
+
+		/**
+		 * Constructor.
+		 * 
+		 * @param spiralCenter global centre of the spiral.
+		 * @param world        world object.
+		 */
+		public GenericBlockSpiralFillMistJob(BlockPos spiralCenter, World world) {
+			this.spiralCenter = spiralCenter;
+			this.world = world;
+		}
+
+		@Override
+		public void update() {
+			updateMistPosition();
+			render();
+			strategy.applyEffectToBlock(mistPosition, world);
+		}
+
+		@Override
+		public void terminate() {
+			// NO-OP
+		}
+
+		/**
+		 * Update current position in the spiral.
+		 */
+		void updateMistPosition() {
+
+			// exit if entire spiral is processed
+			if (spiralCounter >= spiralCoordinates.size())
+				return;
+
+			// get next spiral coordinate
+			BlockPos spiralCoord = spiralCoordinates.get(spiralCounter);
+
+			// calculate ground coordinates
+			int x = spiralCenter.getX() + spiralCoord.getX();
+			int y = spiralCenter.getY();
+			int z = spiralCenter.getZ() + spiralCoord.getZ();
+			BlockPos groundCandidate = new BlockPos(x, y, z);
+
+			// locate ground block
+			mistPosition = locateGroundBlockPos(groundCandidate, ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK, world);
+
+			spiralCounter++;
+		}
+
+		/**
+		 * Render mist in world.
+		 */
+		void render() {
+			// iterate over rendering info's
+			for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
+
+				// send particle rendering info to client
+				ParticleRendering particle = getInstance(mistPosition, info);
+				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+			}
+		}
+	}
+
+	/**
 	 * Action identifier.
 	 */
 	public static final String NAME = GenericBlockSpiralFillMist.class.getSimpleName();
-
-	/**
-	 * Ticks counter.
-	 */
-	@Deprecated
-	int ticksCounter = 0;
-
-	/**
-	 * Invoking entity.
-	 */
-	LivingEntity entity;
-
-	/**
-	 * Invoking entity look unit vector.
-	 */
-	Vec3d entityLook;
-
-	/**
-	 * Defines whether behaviour is active.
-	 */
-	boolean isActive = false;
 
 	/**
 	 * Mist strategy.
@@ -67,21 +129,6 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	 * Spiral coordinates.
 	 */
 	List<BlockPos> spiralCoordinates;
-
-	/**
-	 * Spiral counter.
-	 */
-	int spiralCounter;
-
-	/**
-	 * Global centre of the spiral.
-	 */
-	BlockPos spiralCenter;
-
-	/**
-	 * Current position in the mist.
-	 */
-	BlockPos mistPosition;
 
 	/**
 	 * Spiral size.
@@ -103,119 +150,22 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 
 	@Override
 	public void onRightClick(World world, LivingEntity entity) {
-		this.entity = entity;
-		isActive = true;
-		ticksCounter = 0;
-		initializeMistPostition(world, entity);
+
+		// get ID for invocation
+		String id = new StringBuilder().append(entity.getEntityString()).append(strategy.toString()).toString();
+
+		// create job
+		BlockPos spiralCenter = new BlockPos(entity);
+		GenericBlockSpiralFillMistJob job = new GenericBlockSpiralFillMistJob(spiralCenter, world);
+
+		// register job
+		JobRepository jobRepository = getProxy().getServerJobRepository();
+		jobRepository.add(id, strategy.getEffectDuration(), job);
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		try {
-
-			// exit if mist isn't active
-			if (!isActive())
-				return;
-
-			// render mist if frequency is active
-			FrequencyRepository repository = getProxy().getServerFrequencyRepository();
-			if (repository.isActive(PARTICLE_RENDERING_FREQUENCY))
-				render(worldIn);
-
-			// update effect if frequency is active
-			if (repository.isActive(BLOCK_EFFECT_FREQUENCY))
-				applyEffect(worldIn);
-
-			// disable if duration is completed
-			if (ticksCounter > strategy.getEffectDuration()) {
-				isActive = false;
-				entity = null;
-				return;
-			}
-
-			ticksCounter++;
-
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
-		}
-	}
-
-	/**
-	 * Returns true if behaviour is active.
-	 * 
-	 * @return true if behaviour is active.
-	 */
-	boolean isActive() {
-		return isActive;
-	}
-
-	/**
-	 * Initialize mist position.
-	 * 
-	 * Mist is calculated as a spiral.
-	 * 
-	 * @param world  world object.
-	 * @param entity entity object
-	 */
-	void initializeMistPostition(World world, LivingEntity entity) {
-		spiralCounter = strategy.getSpiralOffset();
-		spiralCenter = new BlockPos(entity);
-	}
-
-	/**
-	 * Apply effect to block.
-	 * 
-	 * @param world world object
-	 */
-	void applyEffect(World world) {
-		strategy.applyEffectToBlock(mistPosition, world);
-	}
-
-	/**
-	 * Render mist in world.
-	 * 
-	 * @param world world object.
-	 */
-	void render(World world) {
-		try {
-			updateMistPosition(world);
-
-			// iterate over rendering info's
-			for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
-
-				// send particle rendering info to client
-				ParticleRendering particle = getInstance(mistPosition, info);
-				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
-			}
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
-		}
-	}
-
-	/**
-	 * Update mist positions.
-	 * 
-	 * @param world world object.
-	 */
-	void updateMistPosition(World world) {
-
-		// exit if entire spiral is processed
-		if (spiralCounter >= spiralCoordinates.size())
-			return;
-
-		// get next spiral coordinate
-		BlockPos spiralCoord = spiralCoordinates.get(spiralCounter);
-
-		// calculate ground coordinates
-		int x = spiralCenter.getX() + spiralCoord.getX();
-		int y = spiralCenter.getY();
-		int z = spiralCenter.getZ() + spiralCoord.getZ();
-		BlockPos groundCandidate = new BlockPos(x, y, z);
-
-		// locate ground block
-		mistPosition = locateGroundBlockPos(groundCandidate, ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK, world);
-
-		spiralCounter++;
+	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
+		// NO-OP, update is done in the job
 	}
 
 }
