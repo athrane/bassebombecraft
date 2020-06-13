@@ -9,6 +9,8 @@ import net.minecraft.util.math.BlockPos;
 /**
  * Implementation of the {@linkplain Operator2} interface which updates the
  * result port as successful if the spiral isn't completed.
+ * 
+ * WARNING: This operator is STATEFULL.
  */
 public class IsSpiralNotCompleted2 implements Operator2 {
 
