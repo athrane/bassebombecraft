@@ -1,8 +1,8 @@
 package bassebombecraft.item.action.inventory;
 
+import static bassebombecraft.config.ModConfiguration.addHealingEffectAmplifier;
+import static bassebombecraft.config.ModConfiguration.addHealingEffectDuration;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
-
-import java.util.function.Supplier;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -33,14 +33,11 @@ public class AddHealingEffect implements InventoryItemActionStrategy {
 	int amplifier;
 
 	/**
-	 * AddHealingEffect constructor
-	 * 
-	 * @param splDuration  duration as a potion effect.
-	 * @param splAmplifier amplifier as a potion effect.
+	 * Constructor
 	 */
-	public AddHealingEffect(Supplier<Integer> splDuration, Supplier<Integer> splAmplifier) {
-		duration = splDuration.get();
-		amplifier = splAmplifier.get();
+	public AddHealingEffect() {
+		duration = addHealingEffectDuration.get();
+		amplifier = addHealingEffectAmplifier.get();
 	}
 
 	@Override
@@ -69,5 +66,5 @@ public class AddHealingEffect implements InventoryItemActionStrategy {
 	EffectInstance createEffect() {
 		return new EffectInstance(Effects.REGENERATION, duration, amplifier);
 	}
-	
+
 }

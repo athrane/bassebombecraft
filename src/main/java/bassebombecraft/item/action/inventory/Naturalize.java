@@ -1,14 +1,12 @@
 package bassebombecraft.item.action.inventory;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.config.ModConfiguration.naturalizeSpiralSize;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.createFlowerDirective;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
-import java.util.Random;
-import java.util.function.Supplier;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
@@ -57,11 +55,9 @@ public class Naturalize implements InventoryItemActionStrategy {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param splSpiralSize Spiral size, measured in rotations around the centre.
 	 */
-	public Naturalize(Supplier<Integer> splSpiralSize) {
-		spiralSize = splSpiralSize.get();
+	public Naturalize() {
+		spiralSize = naturalizeSpiralSize.get();
 
 		// calculate spiral
 		spiralCoordinates = GeometryUtils.calculateSpiral(spiralSize, spiralSize);
@@ -79,7 +75,6 @@ public class Naturalize implements InventoryItemActionStrategy {
 
 	@Override
 	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
-		Random random = getBassebombeCraft().getRandom();
 
 		// calculate position
 		BlockPos targetPosition = calculatePostion(target);

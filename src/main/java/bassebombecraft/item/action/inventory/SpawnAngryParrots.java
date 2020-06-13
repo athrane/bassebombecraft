@@ -1,5 +1,7 @@
 package bassebombecraft.item.action.inventory;
 
+import static bassebombecraft.config.ModConfiguration.spawnAngryParrotsDamage;
+import static bassebombecraft.config.ModConfiguration.spawnAngryParrotsMovementSpeed;
 import static bassebombecraft.entity.EntityUtils.isTypeParrotEntity;
 import static bassebombecraft.entity.EntityUtils.resolveTarget;
 import static bassebombecraft.entity.EntityUtils.setAttribute;
@@ -9,7 +11,6 @@ import static net.minecraft.entity.SharedMonsterAttributes.FLYING_SPEED;
 import static net.minecraft.entity.SharedMonsterAttributes.MOVEMENT_SPEED;
 
 import java.util.Random;
-import java.util.function.Supplier;
 
 import bassebombecraft.BassebombeCraft;
 import net.minecraft.entity.Entity;
@@ -47,14 +48,11 @@ public class SpawnAngryParrots implements InventoryItemActionStrategy {
 	final double movementSpeed;
 
 	/**
-	 * SpawnAngryParrots constructor.
-	 * 
-	 * @param splDamage        parrot attack damage.
-	 * @param splMovementSpeed bee movement damage.
+	 * Constructor.
 	 */
-	public SpawnAngryParrots(Supplier<Integer> splDamage, Supplier<Double> splMovementSpeed) {
-		damage = splDamage.get();
-		movementSpeed = splMovementSpeed.get();
+	public SpawnAngryParrots() {
+		damage = spawnAngryParrotsDamage.get();
+		movementSpeed = spawnAngryParrotsMovementSpeed.get();
 	}
 
 	@Override

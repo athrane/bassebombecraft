@@ -1,6 +1,8 @@
 package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.ModConstants.REFLECT_EFFECT;
+import static bassebombecraft.config.ModConfiguration.addReflectEffectAmplifier;
+import static bassebombecraft.config.ModConfiguration.addReflectEffectDuration;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 
 import java.util.function.Supplier;
@@ -33,14 +35,11 @@ public class AddReflectEffect implements InventoryItemActionStrategy {
 	int amplifier;
 
 	/**
-	 * AddReflectEffect constructor
-	 * 
-	 * @param splDuration  duration as a potion effect.
-	 * @param splAmplifier amplifier as a potion effect.
+	 * Constructor
 	 */
-	public AddReflectEffect(Supplier<Integer> splDuration, Supplier<Integer> splAmplifier) {
-		duration = splDuration.get();
-		amplifier = splAmplifier.get();
+	public AddReflectEffect() {
+		duration = addReflectEffectDuration.get();
+		amplifier = addReflectEffectAmplifier.get();
 	}
 
 	@Override

@@ -3,17 +3,16 @@ package bassebombecraft.item.action.inventory;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.block.BlockUtils.selectPinkColoredWool;
+import static bassebombecraft.config.ModConfiguration.pinkynizeSpiralSize;
+import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.calculateSpiral;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
-
-import static bassebombecraft.geom.BlockDirective.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -59,11 +58,9 @@ public class Pinkynize implements InventoryItemActionStrategy {
 
 	/**
 	 * Constructor
-	 * 
-	 * @param splSpiralSize Spiral size, measured in rotations around the centre.
 	 */
-	public Pinkynize(Supplier<Integer> splSpiralSize) {
-		spiralSize = splSpiralSize.get();
+	public Pinkynize() {
+		spiralSize = pinkynizeSpiralSize.get();
 
 		// calculate spiral
 		spiralCoordinates = calculateSpiral(spiralSize, spiralSize);
