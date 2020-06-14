@@ -1,5 +1,7 @@
 package bassebombecraft.operator;
 
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import net.minecraft.entity.LivingEntity;
@@ -14,15 +16,20 @@ public class DefaultPorts implements Ports {
 	LivingEntity livingEntity;
 
 	/**
-	 * Block position instance.
+	 * Block position instance #1.
 	 */
-	BlockPos blockPos;
+	BlockPos blockPos1;
+
+	/**
+	 * Block position instance #2.
+	 */
+	BlockPos blockPos2;
 
 	/**
 	 * World object.
 	 */
 	World world;
-	
+
 	/**
 	 * {@linkplain LivingEntity} supplier.
 	 */
@@ -34,12 +41,38 @@ public class DefaultPorts implements Ports {
 	boolean result;
 
 	/**
+	 * integer counter. Initially set to 0.
+	 */
+	int counter;
+
+	/**
+	 * Block position #1 getter.
+	 */
+	Function<Ports, BlockPos> fnGetBlockPos1 = p -> p.getBlockPosition1();
+
+	/**
+	 * Block position #1 setter.
+	 */	
+	BiConsumer<Ports, BlockPos> bcSetBlockPos1 = (Ports p, BlockPos bp) -> p.setBlockPosition1(bp);
+	
+	/**
+	 * Block position #2 getter.
+	 */
+	Function<Ports, BlockPos> fnGetBlockPos2 = p -> p.getBlockPosition2();
+
+	/**
+	 * Block position #2 setter.
+	 */	
+	BiConsumer<Ports, BlockPos> bcSetBlockPos2 = (Ports p, BlockPos bp) -> p.setBlockPosition2(bp);
+				
+	/**
 	 * Constructor
 	 */
 	DefaultPorts() {
 		this.result = true;
+		this.counter = 0;
 	}
-	
+
 	/**
 	 * Constructor
 	 * 
@@ -57,27 +90,57 @@ public class DefaultPorts implements Ports {
 	 */
 	DefaultPorts(BlockPos pos) {
 		this();
-		this.blockPos = pos;
+		this.blockPos1 = pos;
 	}
-	
+
 	@Override
 	public Supplier<LivingEntity> getSplLivingEntity() {
 		return splLivingEntity;
 	}
-	
+
 	@Override
 	public LivingEntity getLivingEntity() {
 		return livingEntity;
 	}
-		
+
 	@Override
-	public void setBlockPosition(BlockPos pos) {
-		this.blockPos = pos;
+	public void setBlockPosition1(BlockPos pos) {
+		this.blockPos1 = pos;
 	}
 
 	@Override
-	public BlockPos getBlockPosition() {
-		return blockPos;
+	public BlockPos getBlockPosition1() {
+		return blockPos1;
+	}
+
+	@Override
+	public Function<Ports, BlockPos> getFnGetBlockPosition1() {
+		return fnGetBlockPos1;
+	}
+	
+	@Override
+	public BiConsumer<Ports, BlockPos> getBcSetBlockPosition1() {
+		return bcSetBlockPos1;
+	}
+
+	@Override
+	public void setBlockPosition2(BlockPos pos) {
+		this.blockPos2 = pos;
+	}
+	
+	@Override
+	public BlockPos getBlockPosition2() {
+		return blockPos2;
+	}
+
+	@Override
+	public Function<Ports, BlockPos> getFnGetBlockPosition2() {
+		return fnGetBlockPos2;
+	}
+
+	@Override
+	public BiConsumer<Ports, BlockPos> getBcSetBlockPosition2() {
+		return bcSetBlockPos2;
 	}
 	
 	@Override
@@ -92,17 +155,33 @@ public class DefaultPorts implements Ports {
 
 	@Override
 	public void setResultAsSucces() {
-		this.result = true;		
+		this.result = true;
 	}
 
 	@Override
 	public void setResultAsFailed() {
-		this.result = false;				
+		this.result = false;
 	}
 
 	@Override
 	public boolean getResult() {
 		return result;
+	}
+
+	@Override
+	public void setCounter(int value) {
+		this.counter = value;
+	}
+
+	@Override
+	public int getCounter() {
+		return counter;
+	}
+
+	@Override
+	public int incrementCounter() {
+		counter++;
+		return counter;
 	}
 
 	/**
@@ -113,10 +192,10 @@ public class DefaultPorts implements Ports {
 	public static Ports getInstance() {
 		return new DefaultPorts();
 	}
-	
+
 	/**
 	 * Factory method.
-	 *  
+	 * 
 	 * @param entity living entity.
 	 * 
 	 * @return ports.
@@ -127,7 +206,7 @@ public class DefaultPorts implements Ports {
 
 	/**
 	 * Factory method.
-	 *  
+	 * 
 	 * @param pos block position.
 	 * 
 	 * @return ports.

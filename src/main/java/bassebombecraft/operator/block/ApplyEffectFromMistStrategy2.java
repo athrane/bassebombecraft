@@ -1,4 +1,4 @@
-package bassebombecraft.operator.block.mist;
+package bassebombecraft.operator.block;
 
 import java.util.function.Function;
 
@@ -27,8 +27,7 @@ public class ApplyEffectFromMistStrategy2 implements Operator2 {
 	 * Constructor.
 	 * 
 	 * @param strategy   mist strategy to invoke.
-	 * @param fnBlockPos function to get block position where stratweg should be
-	 *                   invoked.
+	 * @param fnBlockPos function to get block position where strategy is invoked.
 	 */
 	public ApplyEffectFromMistStrategy2(BlockMistActionStrategy strategy, Function<Ports, BlockPos> fnBlockPos) {
 		this.strategy = strategy;

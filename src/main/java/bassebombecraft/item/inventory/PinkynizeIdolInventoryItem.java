@@ -1,9 +1,6 @@
 package bassebombecraft.item.inventory;
 
 import static bassebombecraft.config.ModConfiguration.pinkynizeIdolInventoryItem;
-import static bassebombecraft.config.ModConfiguration.pinkynizeSpiralSize;
-
-import java.util.function.Supplier;
 
 import bassebombecraft.item.action.inventory.Pinkynize;
 

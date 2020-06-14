@@ -12,7 +12,8 @@ import net.minecraft.util.math.BlockPos;
  * 
  * WARNING: This operator is STATEFULL.
  */
-public class IsSpiralNotCompleted2 implements Operator2 {
+@Deprecated
+public class IsSpiralNotCompleted2SF implements Operator2 {
 
 	/**
 	 * Spiral counter. Exclude the centre of the spiral
@@ -30,7 +31,7 @@ public class IsSpiralNotCompleted2 implements Operator2 {
 	 * @param spiralCoordinates list of coordinates which constitutes the spiral.
 	 * @param center            centre of the spiral.
 	 */
-	public IsSpiralNotCompleted2(List<BlockPos> spiralCoordinates) {
+	public IsSpiralNotCompleted2SF(List<BlockPos> spiralCoordinates) {
 		this.spiralCoordinates = spiralCoordinates;
 	}
 

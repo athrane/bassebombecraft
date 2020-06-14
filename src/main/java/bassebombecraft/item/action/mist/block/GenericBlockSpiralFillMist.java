@@ -4,19 +4,20 @@ import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.config.ModConfiguration.genericBlockSpiralFillMistSpiralSize;
 import static bassebombecraft.geom.GeometryUtils.calculateSpiral;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
-import static bassebombecraft.operator.Operators2.run;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 import bassebombecraft.event.job.Job;
 import bassebombecraft.item.action.RightClickedItemAction;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import bassebombecraft.operator.block.mist.ApplyEffectFromMistStrategy2;
-import bassebombecraft.operator.block.mist.CalculateSpiralPosition2;
+import bassebombecraft.operator.block.ApplyEffectFromMistStrategy2;
+import bassebombecraft.operator.block.CalculateSpiralPosition2;
 import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
-import bassebombecraft.operator.conditional.IsSpiralNotCompleted2;
+import bassebombecraft.operator.counter.SingleLoopIncreasingCounter2;
+import static bassebombecraft.operator.job.ExecuteOperatorAsJob.getInstance;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -31,45 +32,6 @@ import net.minecraft.world.World;
  * {@linkplain BlockMistActionStrategy}.
  */
 public class GenericBlockSpiralFillMist implements RightClickedItemAction {
-
-	/**
-	 * Implementation of {@linkplain Job}.
-	 */
-	class GenericBlockSpiralFillMistJob implements Job {
-
-		/**
-		 * World object.
-		 */
-		World world;
-
-		/**
-		 * Operator ports.
-		 */
-		Ports ports;
-
-		/**
-		 * Operators for the job.
-		 */
-		Operator2[] ops;
-
-		/**
-		 * Constructor.
-		 * 
-		 * @param world world object.
-		 * @param ops   stateful operators for the job.
-		 */
-		public GenericBlockSpiralFillMistJob(World world, Operator2[] ops) {
-			this.world = world;
-			this.ops = ops;
-			this.ports = getInstance();
-		}
-
-		@Override
-		public void update() {
-			ports.setWorld(world);
-			run(ports, ops);
-		}
-	}
 
 	/**
 	 * Action identifier.
@@ -105,18 +67,31 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	@Override
 	public void onRightClick(World world, LivingEntity entity) {
 
-		// get spiral centre
-		BlockPos center = new BlockPos(entity);
+		// create ports
+		Ports ports = getInstance();
+		ports.setWorld(world);
+
+		// set counter to exclude centre of spiral
+		ports.setCounter(0);
+
+		// set spiral centre
+		ports.setBlockPosition1(new BlockPos(entity));
+		
+		// create functions for accessing the ports:
+		// 1) ports.blockpos #1 is used for the static spiral center.
+		// 2) ports.blockpos #2 is used for the calculated spiral block.
+		Function<Ports, BlockPos> fnGetCenter = ports.getFnGetBlockPosition1();		
+		BiConsumer<Ports, BlockPos> bcSetSpiralPos = ports.getBcSetBlockPosition2();		
+		Function<Ports, BlockPos> fnGetSpiralPos = ports.getFnGetBlockPosition2();
 
 		// create spiral operator
-		Function<Ports, BlockPos> fnBlockPos = p -> p.getBlockPosition();
-		Operator2[] ops = new Operator2[] { new IsSpiralNotCompleted2(spiralCoordinates),
-				new CalculateSpiralPosition2(spiralCoordinates, center),
-				new ApplyEffectFromMistStrategy2(strategy, fnBlockPos),
-				new AddParticlesFromPosAtClient2(strategy.getRenderingInfos(), fnBlockPos) };
+		Operator2[] ops = new Operator2[] { new SingleLoopIncreasingCounter2(spiralCoordinates.size()-1),
+				new CalculateSpiralPosition2(spiralCoordinates, fnGetCenter, bcSetSpiralPos),
+				new ApplyEffectFromMistStrategy2(strategy, fnGetSpiralPos),
+				new AddParticlesFromPosAtClient2(strategy.getRenderingInfos(), fnGetSpiralPos) };
 
 		// create and register job
-		GenericBlockSpiralFillMistJob job = new GenericBlockSpiralFillMistJob(world, ops);
+		Job job = getInstance(ports, ops);
 		String id = new StringBuilder().append(entity.getEntityString()).append(strategy.toString()).toString();
 		getProxy().getServerJobRepository().add(id, strategy.getEffectDuration(), job);
 	}
