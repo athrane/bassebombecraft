@@ -3,7 +3,11 @@ package bassebombecraft.item.action.mist.block;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.config.ModConfiguration.genericBlockSpiralFillMistSpiralSize;
 import static bassebombecraft.geom.GeometryUtils.calculateSpiral;
+import static bassebombecraft.operator.DefaultPorts.getBcSetBlockPosition2;
+import static bassebombecraft.operator.DefaultPorts.getFnGetBlockPosition1;
+import static bassebombecraft.operator.DefaultPorts.getFnGetBlockPosition2;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.operator.job.ExecuteOperatorAsJob.getInstance;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -17,7 +21,6 @@ import bassebombecraft.operator.block.ApplyEffectFromMistStrategy2;
 import bassebombecraft.operator.block.CalculateSpiralPosition2;
 import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
 import bassebombecraft.operator.counter.SingleLoopIncreasingCounter2;
-import static bassebombecraft.operator.job.ExecuteOperatorAsJob.getInstance;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -54,6 +57,11 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	int spiralSize;
 
 	/**
+	 * Operators for creation of spiral.
+	 */
+	Operator2[] ops;
+
+	/**
 	 * GenericBlockMist constructor.
 	 * 
 	 * @param strategy mist strategy.
@@ -62,6 +70,19 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 		this.strategy = strategy;
 		this.spiralSize = genericBlockSpiralFillMistSpiralSize.get();
 		this.spiralCoordinates = calculateSpiral(spiralSize, spiralSize);
+
+		// create functions for accessing the ports:
+		// 1) ports.blockpos #1 is used for the static spiral center.
+		// 2) ports.blockpos #2 is used for the calculated spiral block.
+		Function<Ports, BlockPos> fnGetCenter = getFnGetBlockPosition1();
+		BiConsumer<Ports, BlockPos> bcSetSpiralPos = getBcSetBlockPosition2();
+		Function<Ports, BlockPos> fnGetSpiralPos = getFnGetBlockPosition2();
+		
+		// create operators
+		ops = new Operator2[] { new SingleLoopIncreasingCounter2(spiralCoordinates.size() - 1),
+				new CalculateSpiralPosition2(spiralCoordinates, fnGetCenter, bcSetSpiralPos),
+				new ApplyEffectFromMistStrategy2(strategy, fnGetSpiralPos),
+				new AddParticlesFromPosAtClient2(strategy.getRenderingInfos(), fnGetSpiralPos) };
 	}
 
 	@Override
@@ -76,19 +97,6 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 
 		// set spiral centre
 		ports.setBlockPosition1(new BlockPos(entity));
-		
-		// create functions for accessing the ports:
-		// 1) ports.blockpos #1 is used for the static spiral center.
-		// 2) ports.blockpos #2 is used for the calculated spiral block.
-		Function<Ports, BlockPos> fnGetCenter = ports.getFnGetBlockPosition1();		
-		BiConsumer<Ports, BlockPos> bcSetSpiralPos = ports.getBcSetBlockPosition2();		
-		Function<Ports, BlockPos> fnGetSpiralPos = ports.getFnGetBlockPosition2();
-
-		// create spiral operator
-		Operator2[] ops = new Operator2[] { new SingleLoopIncreasingCounter2(spiralCoordinates.size()-1),
-				new CalculateSpiralPosition2(spiralCoordinates, fnGetCenter, bcSetSpiralPos),
-				new ApplyEffectFromMistStrategy2(strategy, fnGetSpiralPos),
-				new AddParticlesFromPosAtClient2(strategy.getRenderingInfos(), fnGetSpiralPos) };
 
 		// create and register job
 		Job job = getInstance(ports, ops);

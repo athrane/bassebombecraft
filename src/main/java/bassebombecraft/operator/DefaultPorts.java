@@ -48,22 +48,22 @@ public class DefaultPorts implements Ports {
 	/**
 	 * Block position #1 getter.
 	 */
-	Function<Ports, BlockPos> fnGetBlockPos1 = p -> p.getBlockPosition1();
+	static Function<Ports, BlockPos> fnGetBlockPos1 = p -> p.getBlockPosition1();
 
 	/**
 	 * Block position #1 setter.
 	 */	
-	BiConsumer<Ports, BlockPos> bcSetBlockPos1 = (Ports p, BlockPos bp) -> p.setBlockPosition1(bp);
+	static BiConsumer<Ports, BlockPos> bcSetBlockPos1 = (Ports p, BlockPos bp) -> p.setBlockPosition1(bp);
 	
 	/**
 	 * Block position #2 getter.
 	 */
-	Function<Ports, BlockPos> fnGetBlockPos2 = p -> p.getBlockPosition2();
+	static Function<Ports, BlockPos> fnGetBlockPos2 = p -> p.getBlockPosition2();
 
 	/**
 	 * Block position #2 setter.
 	 */	
-	BiConsumer<Ports, BlockPos> bcSetBlockPos2 = (Ports p, BlockPos bp) -> p.setBlockPosition2(bp);
+	static BiConsumer<Ports, BlockPos> bcSetBlockPos2 = (Ports p, BlockPos bp) -> p.setBlockPosition2(bp);
 				
 	/**
 	 * Constructor
@@ -113,15 +113,6 @@ public class DefaultPorts implements Ports {
 		return blockPos1;
 	}
 
-	@Override
-	public Function<Ports, BlockPos> getFnGetBlockPosition1() {
-		return fnGetBlockPos1;
-	}
-	
-	@Override
-	public BiConsumer<Ports, BlockPos> getBcSetBlockPosition1() {
-		return bcSetBlockPos1;
-	}
 
 	@Override
 	public void setBlockPosition2(BlockPos pos) {
@@ -131,16 +122,6 @@ public class DefaultPorts implements Ports {
 	@Override
 	public BlockPos getBlockPosition2() {
 		return blockPos2;
-	}
-
-	@Override
-	public Function<Ports, BlockPos> getFnGetBlockPosition2() {
-		return fnGetBlockPos2;
-	}
-
-	@Override
-	public BiConsumer<Ports, BlockPos> getBcSetBlockPosition2() {
-		return bcSetBlockPos2;
 	}
 	
 	@Override
@@ -184,6 +165,22 @@ public class DefaultPorts implements Ports {
 		return counter;
 	}
 
+	public static Function<Ports, BlockPos> getFnGetBlockPosition1() {
+		return fnGetBlockPos1;
+	}
+	
+	public static BiConsumer<Ports, BlockPos> getBcSetBlockPosition1() {
+		return bcSetBlockPos1;
+	}
+
+	public static Function<Ports, BlockPos> getFnGetBlockPosition2() {
+		return fnGetBlockPos2;
+	}
+	
+	public static BiConsumer<Ports, BlockPos> getBcSetBlockPosition2() {
+		return bcSetBlockPos2;
+	}
+		
 	/**
 	 * Factory method.
 	 * 
