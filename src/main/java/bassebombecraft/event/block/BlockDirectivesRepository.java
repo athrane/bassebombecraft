@@ -28,11 +28,11 @@ public interface BlockDirectivesRepository {
 	public void addAll(List<BlockDirective> directives);
 
 	/**
-	 * Returns true of repository contains more directives.
+	 * Returns true if repository is empty.
 	 * 
-	 * @return true of repository contains more directives.
+	 * @return true if repository is empty.
 	 */
-	public boolean containsDirectives();
+	public boolean isEmpty();
 
 	/**
 	 * Return next directive. If repository doesn't contain any directives then

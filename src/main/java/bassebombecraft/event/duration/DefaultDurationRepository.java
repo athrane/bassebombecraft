@@ -3,6 +3,7 @@ package bassebombecraft.event.duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 /**
  * Default implementation of the {@linkplain DurationRepository} interface.
@@ -21,19 +22,30 @@ public class DefaultDurationRepository implements DurationRepository {
 
 		// step 1: update objects and identify expired objects
 		List<String> expired = new ArrayList<String>();
-		durableObjects.forEachKey(10, k -> {
+		durableObjects.forEachKey(1, k -> {
 
-			// update
+			// get duration and update
 			Duration state = durableObjects.get(k);
 			state.update();
 
-			// remove if expired
-			if (isExpired(k))
+			// handle expired duration
+			if (state.isExpired()) {
+
+				// invoke callback if registered
+				state.notifyOfExpiry();
+
+				// register for removal
 				expired.add(k);
+			}
 		});
 
 		// step 2: remove expired objects
-		expired.forEach(k -> durableObjects.remove(k));
+		expired.forEach(k -> {
+
+			// remove if key hasn't been removed already by some other thread
+			if (k != null)
+				durableObjects.remove(k);
+		});
 	}
 
 	@Override
@@ -43,6 +55,28 @@ public class DefaultDurationRepository implements DurationRepository {
 
 		Duration state = DefaultDuration.getInstance(duration, id);
 		durableObjects.put(id, state);
+	}
+
+	@Override
+	public void add(String id, int duration, Consumer<String> cRemovalCallback) {
+		if (durableObjects.containsKey(id))
+			return;
+
+		Duration state = DefaultDuration.getInstance(duration, id, cRemovalCallback);
+		durableObjects.put(id, state);
+	}
+		
+	@Override
+	public void add(String id, int duration, Consumer<String> cUpdateCallback, Consumer<String> cRemovalCallback) {
+		if (durableObjects.containsKey(id))
+			return;
+		Duration state = DefaultDuration.getInstance(duration, id, cUpdateCallback, cRemovalCallback);
+		durableObjects.put(id, state);		
+	}
+
+	@Override
+	public void remove(String id) {
+		durableObjects.remove(id);
 	}
 
 	@Override

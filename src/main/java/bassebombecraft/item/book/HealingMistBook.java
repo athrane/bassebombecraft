@@ -1,6 +1,7 @@
 package bassebombecraft.item.book;
 
-import bassebombecraft.item.action.mist.entity.EntityMistActionStrategy;
+import static bassebombecraft.config.ModConfiguration.healingMistBook;
+
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.action.mist.entity.HealingMist;
 
@@ -9,10 +10,9 @@ import bassebombecraft.item.action.mist.entity.HealingMist;
  */
 public class HealingMistBook extends GenericRightClickedBook {
 
-	public static final String ITEM_NAME = "HealingMistBook";
-	static final EntityMistActionStrategy STRATEGY = new HealingMist();	
-	
+	public static final String ITEM_NAME = HealingMistBook.class.getSimpleName();
+
 	public HealingMistBook() {
-		super(ITEM_NAME, new GenericEntityMist(STRATEGY));
+		super(ITEM_NAME, healingMistBook, new GenericEntityMist(new HealingMist()));
 	}
 }

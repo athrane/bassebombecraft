@@ -1,8 +1,8 @@
 package bassebombecraft.item.action.inventory;
 
+import static bassebombecraft.config.ModConfiguration.addBlindingEffectAmplifier;
+import static bassebombecraft.config.ModConfiguration.addBlindingEffectDuration;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
-
-import java.util.function.Supplier;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -25,23 +25,20 @@ public class AddBlindingEffect implements InventoryItemActionStrategy {
 	 * Effect duration.
 	 */
 	int duration;
-	
+
 	/**
 	 * Effect amplifier.
 	 */
 	int amplifier;
-	
+
 	/**
-	 * AddBlindingEffect constructor
-	 * 
-	 * @param splDuration  duration as a potion effect.
-	 * @param splAmplifier amplifier as a potion effect.
+	 * Constructor
 	 */
-	public AddBlindingEffect(Supplier<Integer> splDuration, Supplier<Integer> splAmplifier) {
-		duration = splDuration.get();
-		amplifier = splAmplifier.get();
+	public AddBlindingEffect() {
+		duration = addBlindingEffectDuration.get();
+		amplifier = addBlindingEffectAmplifier.get();
 	}
-	
+
 	@Override
 	public boolean applyOnlyIfSelected() {
 		return true;

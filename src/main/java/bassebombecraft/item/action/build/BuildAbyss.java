@@ -1,19 +1,18 @@
 package bassebombecraft.item.action.build;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.DONT_HARVEST;
+
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.player.PlayerUtils.calculatePlayerFeetPosititionAsInt;
-import static bassebombecraft.player.PlayerUtils.getPlayerDirection;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
 import static bassebombecraft.structure.ChildStructure.createWaterStructure;
 
 import java.util.List;
-import java.util.Random;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.item.action.BlockClickedItemAction;
-import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
 import net.minecraft.entity.Entity;
@@ -37,35 +36,13 @@ public class BuildAbyss implements BlockClickedItemAction {
 	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
 	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;
 
-	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
-
-	/**
-	 * Random generator.
-	 */
-	Random random = new Random();
-
 	/**
 	 * Ticks exists since first marker was set.
 	 */
 	int ticksExisted = 0;
 
-	/**
-	 * Process block directives repository.
-	 */
-	BlockDirectivesRepository repository;
-
-	/**
-	 * CreateRoad constructor.
-	 */
-	public BuildAbyss() {
-		super();
-		repository = getBassebombeCraft().getBlockDirectivesRepository();
-	}
-
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
-		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
-			return DIDNT_USED_ITEM;
 
 		// calculate structure
 		Structure structure = createStructure();
@@ -74,15 +51,13 @@ public class BuildAbyss implements BlockClickedItemAction {
 		PlayerEntity player = context.getPlayer();
 		int yOffset = calculatePlayerFeetPosititionAsInt(player);
 
-		// get player direction
-		PlayerDirection playerDirection = getPlayerDirection(player);
-
 		// calculate set of block directives
 		BlockPos pos = context.getPos();
 		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
-		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
+		List<BlockDirective> directives = calculateBlockDirectives(offset, player, structure, DONT_HARVEST);
 
 		// add directives
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 		repository.addAll(directives);
 
 		return USED_ITEM;

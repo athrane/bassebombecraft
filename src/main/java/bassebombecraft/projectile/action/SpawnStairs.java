@@ -1,5 +1,6 @@
 package bassebombecraft.projectile.action;
 
+import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 import static bassebombecraft.entity.EntityUtils.calculateEntityFeetPosititionAsInt;
 import static bassebombecraft.entity.EntityUtils.getPlayerDirection;
@@ -41,7 +42,7 @@ public class SpawnStairs implements ProjectileAction {
 	 * Action identifier.
 	 */
 	public static final String NAME = SpawnStairs.class.getSimpleName();
-	
+
 	/**
 	 * duration of stairs.
 	 */
@@ -96,11 +97,12 @@ public class SpawnStairs implements ProjectileAction {
 
 		// calculate set of block directives
 		BlockPos offset = targetPosition;
-		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, composite);
+		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, composite, DONT_HARVEST,
+				world);
 
 		// set blocks
 		for (BlockDirective directive : directives) {
-			setTemporaryBlock(world, directive, duration);
+			setTemporaryBlock(directive, duration);
 		}
 
 	}

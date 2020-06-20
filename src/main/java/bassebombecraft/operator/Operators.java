@@ -1,8 +1,9 @@
 package bassebombecraft.operator;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+
 import java.util.function.Supplier;
 
-import bassebombecraft.BassebombeCraft;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -171,7 +172,7 @@ public class Operators {
 		try {
 			operator.run();
 		} catch (Exception e) {
-			BassebombeCraft.getBassebombeCraft().reportAndLogException(e);
+			getBassebombeCraft().reportAndLogException(e);
 		} finally {
 			reset();
 		}
@@ -189,7 +190,7 @@ public class Operators {
 		try {
 			operator.run();
 		} catch (Exception e) {
-			BassebombeCraft.getBassebombeCraft().reportAndLogException(e);
+			getBassebombeCraft().reportAndLogException(e);
 		} finally {
 			reset();
 		}
@@ -207,7 +208,7 @@ public class Operators {
 		try {
 			operator.run();
 		} catch (Exception e) {
-			BassebombeCraft.getBassebombeCraft().reportAndLogException(e);
+			getBassebombeCraft().reportAndLogException(e);
 		} finally {
 			reset();
 		}
@@ -225,7 +226,7 @@ public class Operators {
 		try {
 			operator.run();
 		} catch (Exception e) {
-			BassebombeCraft.getBassebombeCraft().reportAndLogException(e);
+			getBassebombeCraft().reportAndLogException(e);
 		} finally {
 			reset();
 		}
@@ -241,7 +242,7 @@ public class Operators {
 		try {
 			operator.run();
 		} catch (Exception e) {
-			BassebombeCraft.getBassebombeCraft().reportAndLogException(e);
+			getBassebombeCraft().reportAndLogException(e);
 		} finally {
 			reset();
 		}

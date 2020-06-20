@@ -1,9 +1,9 @@
 package bassebombecraft.item.action.inventory;
 
+import static bassebombecraft.config.ModConfiguration.addMobsLevitationEffectAmplifier;
+import static bassebombecraft.config.ModConfiguration.addMobsLevitationEffectDuration;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static net.minecraft.potion.Effects.LEVITATION;
-
-import java.util.function.Supplier;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -33,14 +33,11 @@ public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 	int amplifier;
 
 	/**
-	 * AddMobsLevitationEffect constructor
-	 * 
-	 * @param splDuration  duration as a potion effect.
-	 * @param splAmplifier amplifier as a potion effect.
+	 * Constructor
 	 */
-	public AddMobsLevitationEffect(Supplier<Integer> splDuration, Supplier<Integer> splAmplifier) {
-		duration = splDuration.get();
-		amplifier = splAmplifier.get();
+	public AddMobsLevitationEffect() {
+		duration = addMobsLevitationEffectDuration.get();
+		amplifier = addMobsLevitationEffectAmplifier.get();
 	}
 
 	@Override
@@ -71,5 +68,5 @@ public class AddMobsLevitationEffect implements InventoryItemActionStrategy {
 	EffectInstance createEffect() {
 		return new EffectInstance(LEVITATION, duration, amplifier);
 	}
-	
+
 }

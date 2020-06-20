@@ -4,9 +4,15 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.MODID;
 import static net.minecraftforge.fml.network.NetworkRegistry.newSimpleChannel;
 
+import bassebombecraft.event.particle.ParticleRendering;
+import bassebombecraft.network.packet.AddCharm;
 import bassebombecraft.network.packet.AddEffect;
+import bassebombecraft.network.packet.AddParticleRendering;
 import bassebombecraft.network.packet.RemoveEffect;
+import bassebombecraft.network.packet.RemoveParticleRendering;
+import bassebombecraft.proxy.Proxy;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.ResourceLocation;
@@ -16,8 +22,10 @@ import net.minecraftforge.fml.network.simple.SimpleChannel;
 /**
  * Helper class for managing {@linkplain SimpleChannel}.
  * 
- * Inspirational links:
- * https://mcforge.readthedocs.io/en/latest/networking/simpleimpl/
+ * The helper is used at SERVER side. Access to the repository is supported via
+ * sided proxy, i.e.{@linkplain Proxy}.
+ * 
+ * Links: https://mcforge.readthedocs.io/en/latest/networking/simpleimpl/
  * https://wiki.mcjty.eu/modding/index.php?title=Tut14_Ep10
  * https://www.minecraftforge.net/forum/topic/71901-1142-solved-how-do-i-send-packets-to-the-client/
  */
@@ -31,7 +39,7 @@ public class NetworkChannelHelper {
 	/**
 	 * Network protocol version.
 	 */
-	static final String PROTOCOL_VERSION = "1";
+	static final String NETWORK_PROTOCOL_VERSION = "1";
 
 	/**
 	 * Network channel.
@@ -42,15 +50,21 @@ public class NetworkChannelHelper {
 	 * No-arg constructor.
 	 */
 	public NetworkChannelHelper() {
-		channel = newSimpleChannel(CHANNEL_NAME, () -> PROTOCOL_VERSION, PROTOCOL_VERSION::equals,
-				PROTOCOL_VERSION::equals);
+		channel = newSimpleChannel(CHANNEL_NAME, () -> NETWORK_PROTOCOL_VERSION, NETWORK_PROTOCOL_VERSION::equals,
+				NETWORK_PROTOCOL_VERSION::equals);
 
 		// define index for message registration
 		int msgIndex = 0;
 
 		// register messages
 		channel.registerMessage(msgIndex++, AddEffect.class, AddEffect::encode, AddEffect::new, AddEffect::handle);
-		channel.registerMessage(msgIndex++, RemoveEffect.class, RemoveEffect::encode, RemoveEffect::new, RemoveEffect::handle);		
+		channel.registerMessage(msgIndex++, RemoveEffect.class, RemoveEffect::encode, RemoveEffect::new,
+				RemoveEffect::handle);
+		channel.registerMessage(msgIndex++, AddParticleRendering.class, AddParticleRendering::encode,
+				AddParticleRendering::new, AddParticleRendering::handle);
+		channel.registerMessage(msgIndex++, RemoveParticleRendering.class, RemoveParticleRendering::encode,
+				RemoveParticleRendering::new, RemoveParticleRendering::handle);
+		channel.registerMessage(msgIndex++, AddCharm.class, AddCharm::encode, AddCharm::new, AddCharm::handle);		
 	}
 
 	/**
@@ -80,5 +94,47 @@ public class NetworkChannelHelper {
 			getBassebombeCraft().reportAndLogException(e);
 		}
 	}
-	
+
+	/**
+	 * Send {@linkplain AddParticleRendering} network packet from server to client.
+	 * 
+	 * @param rendering particle rendering directive.
+	 */
+	public void sendAddParticleRenderingPacket(ParticleRendering rendering) {
+		try {
+			channel.send(PacketDistributor.ALL.noArg(), new AddParticleRendering(rendering));
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
+	}
+
+	/**
+	 * Send {@linkplain RemoveParticleRendering} network packet from server to
+	 * client.
+	 * 
+	 * @param rendering particle rendering directive.
+	 */
+	public void sendRemoveParticleRenderingPacket(ParticleRendering rendering) {
+		try {
+			channel.send(PacketDistributor.ALL.noArg(), new RemoveParticleRendering(rendering));
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
+	}
+
+	/**
+	 * Send {@linkplain AddCharm} network packet from server to client.
+	 * 
+	 * Charm is removed at client side by duration repository.
+	 * 
+	 * @param entity charmed mob.
+	 */
+	public void sendAddCharmPacket(MobEntity entity) {
+		try {
+			channel.send(PacketDistributor.ALL.noArg(), new AddCharm(entity));
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
+	}
+
 }

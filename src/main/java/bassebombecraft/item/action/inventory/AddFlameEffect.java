@@ -1,6 +1,6 @@
 package bassebombecraft.item.action.inventory;
 
-import java.util.function.Supplier;
+import static bassebombecraft.config.ModConfiguration.addFlameEffectDuration;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -23,12 +23,10 @@ public class AddFlameEffect implements InventoryItemActionStrategy {
 	int duration;
 
 	/**
-	 * AddFlameEffect constructor
-	 * 
-	 * @param splDuration duration as a potion effect.
+	 * Constructor
 	 */
-	public AddFlameEffect(Supplier<Integer> splDuration) {
-		duration = splDuration.get();
+	public AddFlameEffect() {
+		duration = addFlameEffectDuration.get();
 	}
 
 	@Override

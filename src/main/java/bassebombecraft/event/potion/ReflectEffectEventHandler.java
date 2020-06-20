@@ -8,6 +8,7 @@ import java.util.Optional;
 import bassebombecraft.operator.Operator;
 import bassebombecraft.operator.Operators;
 import bassebombecraft.operator.conditional.IfEffectIsActive;
+import bassebombecraft.operator.conditional.IfWorldAtServerSide;
 import bassebombecraft.operator.event.ReflectMobDamageAmplified;
 import bassebombecraft.potion.effect.ReflectEffect;
 import net.minecraft.entity.LivingEntity;
@@ -20,6 +21,8 @@ import net.minecraftforge.fml.common.Mod;
  * Event handler for the reflect potion effect.
  * 
  * Logic for the {@linkplain ReflectEffect}.
+ * 
+ * The handler only executes events SERVER side. 
  */
 @Mod.EventBusSubscriber
 public class ReflectEffectEventHandler {
@@ -37,7 +40,8 @@ public class ReflectEffectEventHandler {
 	static {
 		ops = new Operators();
 		Operator reflectOp = new ReflectMobDamageAmplified(ops.getSplLivingDamageEvent(), ops.getSplEffectInstance());
-		Operator ifOp = new IfEffectIsActive(ops.getSplLivingEntity(), reflectOp, REFLECT_EFFECT);
+		Operator ifOp2 = new IfEffectIsActive(ops.getSplLivingEntity(), reflectOp, REFLECT_EFFECT);
+		Operator ifOp = new IfWorldAtServerSide(ops.getSplLivingEntity(), ifOp2); ;				
 		ops.setOperator(ifOp);
 	}
 

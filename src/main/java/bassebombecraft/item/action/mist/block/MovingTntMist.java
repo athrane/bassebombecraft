@@ -1,7 +1,8 @@
 package bassebombecraft.item.action.mist.block;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.geom.BlockDirective.getInstance;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
@@ -14,8 +15,8 @@ import net.minecraft.world.World;
 
 /**
  * Implementation of {@linkplain MistActionStrategy} for construction of mist
- * actions. This class builds a mist which spawns TNT blocks when the mist
- * moves away from the invoking entity/player.
+ * actions. This class builds a mist which spawns TNT blocks when the mist moves
+ * away from the invoking entity/player.
  */
 public class MovingTntMist implements BlockMistActionStrategy {
 
@@ -38,32 +39,22 @@ public class MovingTntMist implements BlockMistActionStrategy {
 	 * TNT counter
 	 */
 	int counter = 0;
-	
-	/**
-	 * Process block directives repository.
-	 */
-	BlockDirectivesRepository repository;
-	
-	/**
-	 * MovingTntMist constructor.
-	 */
-	public MovingTntMist() {
-		repository = getBassebombeCraft().getBlockDirectivesRepository();
-	}
 
 	@Override
-	public void applyEffectToBlock(BlockPos target, World world) {				
+	public void applyEffectToBlock(BlockPos target, World world) {
 		counter++;
 		counter = counter % MOD_VALUE;
-				
-		if(counter == 0) {
-			BlockDirective directive = new BlockDirective(target, Blocks.REDSTONE_BLOCK, DONT_HARVEST);
-			repository.add(directive);			
+
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
+
+		if (counter == 0) {
+			BlockDirective directive = getInstance(target, Blocks.REDSTONE_BLOCK, DONT_HARVEST, world);
+			repository.add(directive);
 			return;
-		} 
-		
-		BlockDirective directive = new BlockDirective(target, Blocks.TNT, DONT_HARVEST);
-		repository.add(directive);		
+		}
+
+		BlockDirective directive = getInstance(target, Blocks.TNT, DONT_HARVEST, world);
+		repository.add(directive);
 	}
 
 	@Override
@@ -75,7 +66,7 @@ public class MovingTntMist implements BlockMistActionStrategy {
 	public boolean isOneShootEffect() {
 		return false;
 	}
-	
+
 	@Override
 	public int getNumberMists() {
 		return 1;
@@ -90,11 +81,10 @@ public class MovingTntMist implements BlockMistActionStrategy {
 	public ParticleRenderingInfo[] getRenderingInfos() {
 		return INFOS;
 	}
-	
+
 	@Override
 	public int getSpiralOffset() {
 		return 0;
-	}	
-	
+	}
 
 }

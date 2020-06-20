@@ -2,6 +2,7 @@ package bassebombecraft.entity.ai;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
+import static bassebombecraft.event.charm.CharmedMob.IS_EXPIRED;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
 import static net.minecraft.entity.ai.goal.Goal.Flag.MOVE;
@@ -20,12 +21,13 @@ import com.google.common.collect.Sets;
 import bassebombecraft.BassebombeCraft;
 import bassebombecraft.entity.EntityUtils;
 import bassebombecraft.entity.ai.goal.AttackInRangeGoal;
-import bassebombecraft.entity.ai.goal.SelfdestructWhenTargetDiesGoal;
 import bassebombecraft.entity.ai.goal.ChargeTowardsGoal;
 import bassebombecraft.entity.ai.goal.CommanderControlledTargeting;
 import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.entity.ai.goal.FollowEntityGoal;
+import bassebombecraft.entity.ai.goal.SelfdestructWhenTargetDiesGoal;
+import bassebombecraft.event.duration.DurationRepository;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -62,12 +64,12 @@ public class AiUtils {
 	 * movement speed towards player.
 	 */
 	static final double AI_MOVE_SPEED = 1.5D;
-	
+
 	/**
 	 * Entity minimum distance to player.
 	 */
-	static final float AI_MIN_DIST = 6.0F; 
-	
+	static final float AI_MIN_DIST = 6.0F;
+
 	/**
 	 * Entity maximum distance to player.
 	 */
@@ -75,10 +77,9 @@ public class AiUtils {
 
 	/**
 	 * Minimum charge distance for parrots.
-	 */	
+	 */
 	static final int AI_MIN_CHARGE_DISTANCE = 1;
-	
-	
+
 	/**
 	 * Logger.
 	 */
@@ -261,7 +262,7 @@ public class AiUtils {
 	 * @param target entity that entity will attack.
 	 * @param entity damage.
 	 */
-	public static void buildChargingAi(MobEntity entity, LivingEntity target, float damage ) {
+	public static void buildChargingAi(MobEntity entity, LivingEntity target, float damage) {
 
 		// set goals
 		GoalSelector selector = entity.goalSelector;
@@ -272,7 +273,7 @@ public class AiUtils {
 		GoalSelector targetSelector = entity.targetSelector;
 		targetSelector.addGoal(1, new SelfdestructWhenTargetDiesGoal(entity, target));
 	}
-	
+
 	/**
 	 * Build AI for Creeper army.
 	 * 
@@ -420,5 +421,29 @@ public class AiUtils {
 	public static void setMutexFlagsforMovementGoal(Goal goal) {
 		goal.setMutexFlags(EnumSet.of(MOVE, LOOK));
 	}
-	
+
+	/**
+	 * Get charm duration of charm mob.
+	 * 
+	 * @param id         ID of charmed mob. ID is Entity.getEntityId() as a string.
+	 * @param repository duration repository to perform query in.
+	 * 
+	 * @return charm duration of charm mob.
+	 */
+	public static int getCharmDuration(String id, DurationRepository repository) {
+		try {
+			// return zero if expired
+			if (repository.isExpired(id))
+				return IS_EXPIRED;
+
+			return repository.get(id);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+
+			// return zero as expired
+			return IS_EXPIRED;
+		}
+	}
+
 }

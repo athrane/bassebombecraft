@@ -1,6 +1,7 @@
 package bassebombecraft.entity.ai.goal;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.entity.EntityUtils.hasTarget;
 import static bassebombecraft.entity.EntityUtils.selfDestruct;
 import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
@@ -8,7 +9,7 @@ import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
 import java.util.EnumSet;
 import java.util.Optional;
 
-import bassebombecraft.event.entity.target.TargetedEntitiesRepository;
+import bassebombecraft.event.entity.target.TargetRepository;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
@@ -51,42 +52,53 @@ public class CommandersTargetGoal extends Goal {
 
 	@Override
 	public boolean shouldExecute() {
+		try {
+			// exit if commander is dead
+			if (!commander.isAlive()) {
+				selfDestruct(entity);
+				return false;
+			}
 
-		// exit if commander is dead
-		if (!commander.isAlive()) {
-			selfDestruct(entity);
+			// stop goal execution if no target is defined for commander
+			if (!hasTarget(commander))
+				return false;
+
+			// get target
+			TargetRepository repository = getProxy().getServerTargetRepository();
+			Optional<LivingEntity> optTarget = repository.getFirst(commander);
+
+			// exit if target isn't defined (anymore)
+			if (!optTarget.isPresent())
+				return false;
+
+			// continue goal execution if target is alive
+			return (optTarget.get().isAlive());
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+
+			// don't execute since we had an error
 			return false;
 		}
-
-		// stop goal execution if no target is defined for commander
-		if (!hasTarget(commander))
-			return false;
-
-		// get target
-		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
-		Optional<LivingEntity> optTarget = repository.getFirst(commander);
-
-		// exit if target isn't defined (anymore)
-		if (!optTarget.isPresent())
-			return false;
-
-		// continue goal execution if target is alive
-		return (optTarget.get().isAlive());
 	}
 
 	@Override
 	public void tick() {
+		try {
+			// get target
+			TargetRepository repository = getProxy().getServerTargetRepository();
+			Optional<LivingEntity> optTarget = repository.getFirst(commander);
 
-		// get target
-		TargetedEntitiesRepository repository = getBassebombeCraft().getTargetedEntitiesRepository();
-		Optional<LivingEntity> optTarget = repository.getFirst(commander);
+			// exit if target isn't defined (anymore)
+			if (!optTarget.isPresent())
+				return;
 
-		// exit if target isn't defined (anymore)
-		if (!optTarget.isPresent())
-			return;
+			// update target
+			entity.setAttackTarget(optTarget.get());
 
-		// update target
-		entity.setAttackTarget(optTarget.get());
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 	@Override

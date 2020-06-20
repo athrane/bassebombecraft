@@ -2,7 +2,6 @@ package bassebombecraft.player;
 
 import java.util.Optional;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -102,8 +101,9 @@ public class PlayerUtils {
 	 */
 	public static boolean isTypePlayerEntity(Entity entity) {
 		Optional<Entity> oe = Optional.ofNullable(entity);
-		if (oe.isPresent())
+		if (oe.isPresent()) {
 			return oe.get() instanceof PlayerEntity;
+		}
 		return false;
 	}
 
@@ -207,15 +207,6 @@ public class PlayerUtils {
 	}
 
 	/**
-	 * Get player UID at client side.
-	 * 
-	 * @return player UID.
-	 */
-	public static String getClientSidePlayerUId() {
-		return Minecraft.getInstance().getSession().getUsername();
-	}
-
-	/**
 	 * Calculate player position
 	 * 
 	 * @param player       player
@@ -228,31 +219,6 @@ public class PlayerUtils {
 		double doubleY = player.lastTickPosY + (player.getPosY() - player.lastTickPosY) * partialTicks;
 		double doubleZ = player.lastTickPosZ + (player.getPosZ() - player.lastTickPosZ) * partialTicks;
 		return new Vec3d(doubleX, doubleY, doubleZ);
-	}
-
-	/**
-	 * Returns true if player is defined in Minecraft client.
-	 * 
-	 * @return true if player is defined in Minecraft client.
-	 */
-	public static boolean isClientSidePlayerDefined() {
-		Minecraft mcClient = Minecraft.getInstance();
-		if (mcClient == null)
-			return false;
-		return (mcClient.player != null);
-	}
-
-	/**
-	 * Returns player from Minecraft client.
-	 * 
-	 * @return player from Minecraft client.
-	 */
-	
-	public static PlayerEntity getClientSidePlayer() {
-		if (!isClientSidePlayerDefined())
-			return null;
-		Minecraft mcClient = Minecraft.getInstance();
-		return mcClient.player;
 	}
 
 }

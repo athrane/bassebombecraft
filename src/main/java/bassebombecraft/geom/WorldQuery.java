@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 /**
  * Interface for querying about the world.
  */
+@Deprecated
 public interface WorldQuery {
 
 	/**
@@ -29,18 +30,4 @@ public interface WorldQuery {
 	 * @return game world.
 	 */
 	World getWorld();
-
-	/**
-	 * return true if world is located at client side.
-	 * 
-	 * @return true if world is located at client side.
-	 */
-	boolean isWorldAtClientSide();
-
-	/**
-	 * Returns true if blocks processed by item should be harvested.
-	 *  
-	 * @return true if blocks processed by item should be harvested.
-	 */
-	boolean harvestBlocks();
 }

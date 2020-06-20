@@ -1,10 +1,6 @@
 package bassebombecraft.item.inventory;
 
-import static bassebombecraft.config.ModConfiguration.addLevitationEffectAmplifier;
-import static bassebombecraft.config.ModConfiguration.addLevitationEffectDuration;
 import static bassebombecraft.config.ModConfiguration.levitationIdolInventoryItem;
-
-import java.util.function.Supplier;
 
 import bassebombecraft.item.action.inventory.AddLevitationEffect;
 
@@ -15,10 +11,7 @@ public class LevitationIdolInventoryItem extends GenericInventoryItem {
 
 	public static final String ITEM_NAME = LevitationIdolInventoryItem.class.getSimpleName();
 
-	static Supplier<Integer> splDuration = () -> addLevitationEffectDuration.get();
-	static Supplier<Integer> splAmplifier = () -> addLevitationEffectAmplifier.get();
-
 	public LevitationIdolInventoryItem() {
-		super(ITEM_NAME, levitationIdolInventoryItem, new AddLevitationEffect(splDuration, splAmplifier));
+		super(ITEM_NAME, levitationIdolInventoryItem, new AddLevitationEffect());
 	}
 }

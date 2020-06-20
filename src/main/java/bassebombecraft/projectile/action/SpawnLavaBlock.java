@@ -1,6 +1,5 @@
 package bassebombecraft.projectile.action;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.block.BlockUtils.calculatePosition;
 import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 import static bassebombecraft.projectile.ProjectileUtils.isBlockHit;
@@ -9,7 +8,6 @@ import static bassebombecraft.projectile.ProjectileUtils.isTypeBlockRayTraceResu
 import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 import static net.minecraft.block.Blocks.LAVA;
 
-import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -29,8 +27,6 @@ import net.minecraft.world.World;
 public class SpawnLavaBlock implements ProjectileAction {
 
 	static final int DURATION = 400;
-
-	static TemporaryBlockRepository tempBlockRepository = getBassebombeCraft().getTemporaryBlockRepository();
 
 	@Override
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
@@ -62,7 +58,7 @@ public class SpawnLavaBlock implements ProjectileAction {
 		// get entity
 		Entity entity = ((EntityRayTraceResult) result).getEntity();
 
-		// spawn temporary ice block under around the hit mob
+		// spawn temporary lava block under around the hit mob
 		AxisAlignedBB aabb = entity.getBoundingBox();
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);

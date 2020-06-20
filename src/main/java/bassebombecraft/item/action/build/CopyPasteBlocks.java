@@ -1,7 +1,11 @@
 package bassebombecraft.item.action.build;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ModConfiguration.copyPasteBlocksCaptureOnCopy;
+import static bassebombecraft.config.ModConfiguration.copyPasteBlocksParticleInfo;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.geom.GeometryUtils.calculateDegreesFromPlayerDirection;
 import static bassebombecraft.geom.GeometryUtils.captureRectangle;
@@ -14,12 +18,10 @@ import static bassebombecraft.player.PlayerUtils.sendChatMessageToPlayer;
 
 import java.util.List;
 
-import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.DefaultParticleRendering;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.WorldQuery;
 import bassebombecraft.geom.WorldQueryImpl;
@@ -113,16 +115,6 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	List<BlockDirective> capturedBlocks;
 
 	/**
-	 * Process block directives repository.
-	 */
-	BlockDirectivesRepository directivesRepository;
-
-	/**
-	 * Particle rendering repository. Client side.
-	 */
-	ParticleRenderingRepository particleRepository;
-
-	/**
 	 * Particle for rendering of the first marker.
 	 */
 	ParticleRendering firstMarkerParticle;
@@ -141,14 +133,13 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * CopyPasteBlocks constructor.
 	 */
 	public CopyPasteBlocks() {
-		infos = createFromConfig(ModConfiguration.copyPasteBlocksParticleInfo);
-		captureOnCopy = ModConfiguration.copyPasteBlocksCaptureOnCopy.get();
-		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
-		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
+		infos = createFromConfig(copyPasteBlocksParticleInfo);
+		captureOnCopy = copyPasteBlocksCaptureOnCopy.get();
 	}
 
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
+
 		// create world query
 		BlockPos pos = context.getPos();
 		PlayerEntity player = context.getPlayer();
@@ -160,15 +151,13 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		// calculate Y offset in structure
 		int yOffset = calculatePlayerFeetPosititionAsInt(player);
 
-		// get player direction
-		PlayerDirection playerDirection = getPlayerDirection(player);
-
 		// calculate list of block directives
 		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
-		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
+		List<BlockDirective> directives = calculateBlockDirectives(offset, player, structure, DONT_HARVEST);
 
 		// add directives
-		directivesRepository.addAll(directives);
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
+		repository.addAll(directives);
 
 		return USED_ITEM;
 	}
@@ -262,23 +251,23 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * ground block and it isn't identical to the first or second marker.
 	 * 
 	 * @param isGroundBlock boolean to indicate if invoked block is a ground block.
-	 * @param pos           trigger position.
-	 * @param playerIn      player object.
+	 * @param position           trigger position.
+	 * @param player        player object.
 	 * @return
 	 */
-	boolean isLegalTrigger(boolean isGroundBlock, BlockPos trigger, PlayerEntity playerIn) {
+	boolean isLegalTrigger(boolean isGroundBlock, BlockPos trigger, PlayerEntity player) {
 		if (!isGroundBlock)
 			return false;
 
 		// exit if first marker is selected
 		if (firstMarker.equals(trigger)) {
-			sendChatMessageToPlayer(playerIn, "First marker isn't a legal target position.");
+			sendChatMessageToPlayer(player, "First marker isn't a legal target position.");
 			return false;
 		}
 
 		// exit if first marker is selected
 		if (secondMarker.equals(trigger)) {
-			sendChatMessageToPlayer(playerIn, "Second marker isn't a legal target position.");
+			sendChatMessageToPlayer(player, "Second marker isn't a legal target position.");
 			return false;
 		}
 
@@ -301,28 +290,33 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	/**
 	 * Register first marker.
 	 * 
-	 * @param pos      marker position.
-	 * @param playerIn player object.
+	 * @param pos    marker position.
+	 * @param player player object.
 	 */
-	void registerFirstMarker(BlockPos pos, PlayerEntity playerIn) {
-		firstMarker = pos;
+	void registerFirstMarker(BlockPos pos, PlayerEntity player) {
+		try {
+			firstMarker = pos;
 
-		// get player rotation
-		PlayerDirection playerDirection = PlayerUtils.getPlayerDirection(playerIn);
+			// get player rotation
+			PlayerDirection playerDirection = PlayerUtils.getPlayerDirection(player);
 
-		// Hack: if player direction is east or west
-		// then modify rotation 180 degrees
-		if (playerDirection == PlayerDirection.East) {
-			playerDirection = PlayerDirection.West;
-		} else if (playerDirection == PlayerDirection.West) {
-			playerDirection = PlayerDirection.East;
+			// Hack: if player direction is east or west
+			// then modify rotation 180 degrees
+			if (playerDirection == PlayerDirection.East) {
+				playerDirection = PlayerDirection.West;
+			} else if (playerDirection == PlayerDirection.West) {
+				playerDirection = PlayerDirection.East;
+			}
+
+			rotationDegrees = calculateDegreesFromPlayerDirection(playerDirection);
+
+			// send particle rendering info to client
+			firstMarkerParticle = DefaultParticleRendering.getInstance(pos, infos[FIRST_INDEX]);
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(firstMarkerParticle);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
 		}
-
-		rotationDegrees = calculateDegreesFromPlayerDirection(playerDirection);
-
-		// register with repository for rendering
-		firstMarkerParticle = DefaultParticleRendering.getInstance(pos, infos[FIRST_INDEX]);
-		particleRepository.add(firstMarkerParticle);
 	}
 
 	/**
@@ -331,11 +325,16 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * @param pos marker position.
 	 */
 	void registerSecondMarker(BlockPos pos) {
-		secondMarker = pos;
+		try {
+			secondMarker = pos;
 
-		// register with repository for rendering
-		secondMarkerParticle = DefaultParticleRendering.getInstance(pos, infos[FIRST_INDEX]);
-		particleRepository.add(secondMarkerParticle);
+			// send particle rendering info to client
+			secondMarkerParticle = DefaultParticleRendering.getInstance(pos, infos[FIRST_INDEX]);
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(firstMarkerParticle);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 	/**
@@ -364,7 +363,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		}
 
 		// capture
-		capturedBlocks = captureRectangle(captureOffset, captureSize, worldQuery);
+		capturedBlocks = captureRectangle(captureOffset, captureSize, worldQuery.getWorld());
 
 		// translate
 		BlockPos translation = calculateTranslationVector(captureOffset, captureSize, playerDirection);
@@ -522,8 +521,12 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * Clear rendering of particles.
 	 */
 	void clearRendering() {
-		particleRepository.remove(firstMarkerParticle);
-		particleRepository.remove(secondMarkerParticle);
+		try {
+			getProxy().getNetworkChannel().sendRemoveParticleRenderingPacket(firstMarkerParticle);
+			getProxy().getNetworkChannel().sendRemoveParticleRenderingPacket(secondMarkerParticle);
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 }

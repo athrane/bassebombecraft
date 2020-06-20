@@ -8,7 +8,7 @@ import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 import static bassebombecraft.config.ConfigUtils.resolveTooltip;
 import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
-import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
+import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import java.util.List;
 
@@ -40,11 +40,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class GenericNullItem extends Item {
 
 	/**
-	 * Item properties which places item in tab.
-	 */
-	public static final Properties ITEM_PROPERTIES = new Item.Properties().group(getItemGroup());
-
-	/**
 	 * Item action.
 	 */
 	RightClickedItemAction action;
@@ -66,7 +61,7 @@ public class GenericNullItem extends Item {
 	 * @param action item action object which is invoked when item is right clicked.
 	 */
 	public GenericNullItem(String name, RightClickedItemAction action) {
-		super(ITEM_PROPERTIES);
+		super(new Item.Properties().group(getItemGroup()));
 		doCommonItemInitialization(this, name);
 
 		this.action = action;
@@ -85,7 +80,7 @@ public class GenericNullItem extends Item {
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
 		// exit if invoked at client side
-		if (isWorldAtClientSide(worldIn)) {
+		if (isLogicalClient(worldIn)) {
 			return super.onItemRightClick(worldIn, playerIn, handIn);
 		}
 
@@ -104,6 +99,11 @@ public class GenericNullItem extends Item {
 
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		
+		// only update the action at server side since we updates the world
+		if (isLogicalClient(worldIn))
+			return;
+		
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 

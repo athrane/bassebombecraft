@@ -1,6 +1,11 @@
 package bassebombecraft.projectile.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.config.ModConfiguration.spawnKittenArmyAge;
+import static bassebombecraft.config.ModConfiguration.spawnKittenArmyEntities;
+import static bassebombecraft.config.ModConfiguration.spawnKittenArmyNames;
+import static bassebombecraft.config.ModConfiguration.spawnKittenArmySpawnArea;
 import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
 import static bassebombecraft.entity.ai.AiUtils.buildKittenArmyAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
@@ -9,8 +14,6 @@ import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import java.util.List;
 import java.util.Random;
 
-import bassebombecraft.config.ModConfiguration;
-import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.CatEntity;
@@ -59,53 +62,56 @@ public class SpawnKittenArmy implements ProjectileAction {
 	 * SpawnKittenArmy constructor
 	 */
 	public SpawnKittenArmy() {
-		age = ModConfiguration.spawnKittenArmyAge.get();
-		kittens = ModConfiguration.spawnKittenArmyEntities.get();
-		spawnSize = ModConfiguration.spawnKittenArmySpawnArea.get();
-		names = ModConfiguration.spawnKittenArmyNames.get();
+		age = spawnKittenArmyAge.get();
+		kittens = spawnKittenArmyEntities.get();
+		spawnSize = spawnKittenArmySpawnArea.get();
+		names = spawnKittenArmyNames.get();
 	}
 
 	@Override
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
-		for (int i = 0; i < kittens; i++) {
+		try {
+			for (int i = 0; i < kittens; i++) {
 
-			// create cat
-			CatEntity entity = EntityType.CAT.create(world);
+				// create cat
+				CatEntity entity = EntityType.CAT.create(world);
 
-			// set age
-			if (i == 0)
-				entity.setGrowingAge(1);
-			else
-				entity.setGrowingAge(age);
+				// set age
+				if (i == 0)
+					entity.setGrowingAge(1);
+				else
+					entity.setGrowingAge(age);
 
-			// set owner
-			LivingEntity owner = projectile.getThrower();
+				// set owner
+				LivingEntity owner = projectile.getThrower();
 
-			// set tamed by player
-			if (isTypePlayerEntity(owner)) {
-				PlayerEntity player = (PlayerEntity) owner;
-				entity.setTamedBy(player);
+				// set tamed by player
+				if (isTypePlayerEntity(owner)) {
+					PlayerEntity player = (PlayerEntity) owner;
+					entity.setTamedBy(player);
+				}
+
+				// calculate random spawn position
+				setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnSize, entity);
+
+				// add entity to team
+				getProxy().getServerTeamRepository().add(owner, entity);
+
+				// set AI
+				clearAllAiGoals(entity);
+				buildKittenArmyAi(entity, owner);
+
+				// set name
+				Random random = getBassebombeCraft().getRandom();
+				ITextComponent name = new StringTextComponent(getKittenName(random, i));
+				entity.setCustomName(name);
+				entity.setCustomNameVisible(true);
+
+				// spawn
+				world.addEntity(entity);
 			}
-
-			// calculate random spawn position
-			setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnSize, entity);
-
-			// add entity to team
-			TeamRepository teamRepository = getBassebombeCraft().getTeamRepository();
-			teamRepository.add(owner, entity);
-
-			// set AI
-			clearAllAiGoals(entity);
-			buildKittenArmyAi(entity, owner);
-
-			// set name
-			Random random = getBassebombeCraft().getRandom();
-			ITextComponent name = new StringTextComponent(getKittenName(random, i));
-			entity.setCustomName(name);
-			entity.setCustomNameVisible(true);
-
-			// spawn
-			world.addEntity(entity);
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
 		}
 	}
 

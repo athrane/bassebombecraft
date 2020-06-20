@@ -10,7 +10,7 @@ import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
 import static bassebombecraft.player.PlayerUtils.isItemHeldInOffHand;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
-import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
+import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import java.util.List;
 
@@ -19,7 +19,6 @@ import javax.annotation.Nullable;
 import bassebombecraft.config.InventoryItemConfig;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -46,19 +45,9 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class GenericInventoryItem extends Item {
 
 	/**
-	 * Item properties which places item in tab.
-	 */
-	public static final Properties ITEM_PROPERTIES = new Item.Properties().group(getItemGroup());
-
-	/**
 	 * Item strategy.
 	 */
 	InventoryItemActionStrategy strategy;
-
-	/**
-	 * Particle repository.
-	 */
-	ParticleRenderingRepository particleRepository;
 
 	/**
 	 * Idol item cooldown value.
@@ -81,17 +70,16 @@ public class GenericInventoryItem extends Item {
 	int range;
 
 	/**
-	 * GenericInventoryItem constructor.
+	 * Constructor.
 	 * 
 	 * @param name     item name.
 	 * @param config   inventory item configuration.
 	 * @param strategy inventory item strategy.
 	 */
 	public GenericInventoryItem(String name, InventoryItemConfig config, InventoryItemActionStrategy strategy) {
-		super(ITEM_PROPERTIES);
+		super(new Item.Properties().group(getItemGroup()));
 		doCommonItemInitialization(this, name);
 		this.strategy = strategy;
-		particleRepository = getBassebombeCraft().getParticleRenderingRepository();
 		infos = createFromConfig(config.particles);
 		coolDown = config.cooldown.get();
 		tooltip = config.tooltip.get();
@@ -102,7 +90,7 @@ public class GenericInventoryItem extends Item {
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 
 		// only apply the action at server side since we updates the world
-		if (isWorldAtClientSide(worldIn))
+		if (isLogicalClient(worldIn))
 			return;
 
 		// exit if item isn't in hotbar
@@ -178,12 +166,11 @@ public class GenericInventoryItem extends Item {
 	 * @param invokingEntity entity object
 	 */
 	void applyEffect(World world, LivingEntity invokingEntity) {
-		int aoeRange = getRange();
 
 		// get entities within AABB
-		AxisAlignedBB aabb = new AxisAlignedBB(invokingEntity.getPosX() - aoeRange, invokingEntity.getPosY() - aoeRange,
-				invokingEntity.getPosZ() - aoeRange, invokingEntity.getPosX() + aoeRange,
-				invokingEntity.getPosY() + aoeRange, invokingEntity.getPosZ() + aoeRange);
+		AxisAlignedBB aabb = new AxisAlignedBB(invokingEntity.getPosX() - range, invokingEntity.getPosY() - range,
+				invokingEntity.getPosZ() - range, invokingEntity.getPosX() + range, invokingEntity.getPosY() + range,
+				invokingEntity.getPosZ() + range);
 		List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class, aabb);
 
 		for (LivingEntity foundEntity : entities) {
@@ -191,11 +178,10 @@ public class GenericInventoryItem extends Item {
 			// determine if target is invoker
 			boolean isInvoker = hasIdenticalUniqueID(invokingEntity, foundEntity);
 
-			// apply effect
+			// apply and render effect
 			if (strategy.shouldApplyEffect(foundEntity, isInvoker)) {
-				strategy.applyEffect(foundEntity, world, invokingEntity);
 
-				// render effect
+				strategy.applyEffect(foundEntity, world, invokingEntity);
 				renderEffect(foundEntity.getPositionVector());
 			}
 		}
@@ -207,43 +193,19 @@ public class GenericInventoryItem extends Item {
 	 * @param position effect position.
 	 */
 	void renderEffect(Vec3d position) {
+		try {
+			// create position
+			BlockPos pos = new BlockPos(position);
 
-		// register particle for rendering
-		BlockPos pos = new BlockPos(position);
-
-		// iterate over rendering info's
-		for (ParticleRenderingInfo info : getRenderingInfos()) {
-			ParticleRendering particle = getInstance(pos, info);
-			particleRepository.add(particle);
+			// iterate over rendering info's
+			for (ParticleRenderingInfo info : infos) {
+				// send particle rendering info to client
+				ParticleRendering particle = getInstance(pos, info);
+				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+			}
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
 		}
-	}
-
-	/**
-	 * Get rendering infos.
-	 * 
-	 * if rendering field is defined then use field. Otherwise use infos from
-	 * strategy, which is deprecated.
-	 * 
-	 * @return rendering infos.
-	 */
-	ParticleRenderingInfo[] getRenderingInfos() {
-		if (infos != null)
-			return infos;
-		return null;
-	}
-
-	/**
-	 * Return range.
-	 * 
-	 * if range field is defined then use field. Otherwise use range from strategy,
-	 * which is deprecated.
-	 * 
-	 * @return effect range.
-	 */
-	int getRange() {
-		if (range != Integer.MIN_VALUE)
-			return range;
-		return Integer.MIN_VALUE;
 	}
 
 	@OnlyIn(Dist.CLIENT)

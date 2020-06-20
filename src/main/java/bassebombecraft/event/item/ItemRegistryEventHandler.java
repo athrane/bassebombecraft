@@ -75,6 +75,7 @@ import bassebombecraft.item.inventory.DecreaseSizeIdolInventoryItem;
 import bassebombecraft.item.inventory.EggProjectileIdolInventoryItem;
 import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
+import bassebombecraft.item.inventory.RemoveBlockSpiralIdolInventoryItem;
 import bassebombecraft.item.inventory.IncreaseSizeIdolInventoryItem;
 import bassebombecraft.item.inventory.KillerBeesIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
@@ -140,7 +141,7 @@ public class ItemRegistryEventHandler {
 			new MobsLevitationIdolInventoryItem(), new PlayerAggroIdolInventoryItem(),
 			new AngryParrotsIdolInventoryItem(), new ReflectIdolInventoryItem(), new KillerBeesIdolInventoryItem(),
 			new WarPigsIdolInventoryItem(), new DecreaseSizeIdolInventoryItem(), new IncreaseSizeIdolInventoryItem(),
-			new RespawnIdolInventoryItem() };
+			new RespawnIdolInventoryItem(), new RemoveBlockSpiralIdolInventoryItem() };
 
 	/**
 	 * The set of baton items.

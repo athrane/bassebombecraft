@@ -5,6 +5,19 @@ BasseBombeCraft is a Minecraft mod focusing on magical books, idols and potions.
 
 More gameplay information can be found on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/bassebombecraft).
 
+# Downloads
+
+## Files
+
+The mod can be downloaded from [CurseForge](https://www.curseforge.com/minecraft/mc-mods/bassebombecraft).
+and from [GitHub](https://github.com/athrane/bassebombecraft/releases).
+
+## Docker image
+
+A Docker image is created with a Minecraft server and the server version of the mod. 
+The image is derived from the [itzg/minecraft-server](https://github.com/itzg/docker-minecraft-server) image. 
+The image is published to DockerHub by the name: [bassebombecraft/minecraft](https://hub.docker.com/r/bassebombecraft/minecraft).
+
 # Reviews
 
 Mod reviews from Youtube:
@@ -30,19 +43,8 @@ Mod reviews from Youtube:
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=athrane_bassebombecraft&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=athrane_bassebombecraft)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=athrane_bassebombecraft&metric=ncloc)](https://sonarcloud.io/dashboard?id=athrane_bassebombecraft)
 
-# Repo branches
-The repository has several branches:
-- A development branch for each releases:
-[dev-1.31](https://github.com/athrane/bassebombecraft/tree/dev-1.31),
-[dev-1.32](https://github.com/athrane/bassebombecraft/tree/dev-1.32), etc.
-- Master branch: [master](https://github.com/athrane/bassebombecraft/tree/master)
+# Technical stuff
 
-# Shadowing of 3. party libraries
+The technical aspects of the mod are documented on the project
+[Wiki](https://github.com/athrane/bassebombecraft/wiki).
 
-In order to support usage of the mod on a server, then mod uses the [Gradle Shadow plugin](https://imperceptiblethoughts.com/shadow/) 
-to include these 3. party libraries within the generated jar file:
-* Apache HTTP components / httpcore 
-* Apache HTTP components / httpclient
-* Apache Commons Logging 
-
-See Issue #693 for additional information.

@@ -40,7 +40,7 @@ public class TemplateUtils {
 	public static ResourceLocation save(World world, BlockPos offset, BlockPos size) {
 
 		// exit if at client side
-		if (WorldUtils.isWorldAtClientSide(world))
+		if (WorldUtils.isLogicalClient(world))
 			return null;
 
 		String templateName = new StringBuilder().append(MODID).append("-").append(VERSION).append("-")
@@ -73,7 +73,7 @@ public class TemplateUtils {
 	public static void load(World world, String name, BlockPos offset) {
 
 		// exit if at client side
-		if (WorldUtils.isWorldAtClientSide(world))
+		if (WorldUtils.isLogicalClient(world))
 			return;
 
 		// get template manager

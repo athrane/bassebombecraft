@@ -1,11 +1,11 @@
 package bassebombecraft.item.action.build;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ModConstants.HARVEST;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.player.PlayerUtils.calculatePlayerFeetPosititionAsInt;
-import static bassebombecraft.player.PlayerUtils.getPlayerDirection;
 import static bassebombecraft.player.PlayerUtils.isBelowPlayerYPosition;
-import static bassebombecraft.structure.ChildStructure.*;
+import static bassebombecraft.structure.ChildStructure.createAirStructure;
 import static bassebombecraft.structure.CompositeStructure.getInstance;
 
 import java.util.List;
@@ -13,7 +13,6 @@ import java.util.List;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.item.action.BlockClickedItemAction;
-import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
 import net.minecraft.entity.Entity;
@@ -53,17 +52,8 @@ public class BuildSmallHole implements BlockClickedItemAction {
 	 */
 	static final BlockPos VERTICAL_SIZE = new BlockPos(3, 3, 1);
 
-	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
-
-	/**
-	 * Ticks exists since first marker was set.
-	 */
-	int ticksExisted = 0;
-
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
-		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
-			return DIDNT_USED_ITEM;
 
 		// calculate if selected block is a ground block
 		BlockPos pos = context.getPos();
@@ -80,15 +70,12 @@ public class BuildSmallHole implements BlockClickedItemAction {
 		// calculate Y offset in structure
 		int yOffset = calculatePlayerFeetPosititionAsInt(player);
 
-		// get player direction
-		PlayerDirection playerDirection = getPlayerDirection(player);
-
 		// calculate set of block directives
 		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
-		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
+		List<BlockDirective> directives = calculateBlockDirectives(offset, player, structure, HARVEST);
 
 		// add directives
-		BlockDirectivesRepository repository = getBassebombeCraft().getBlockDirectivesRepository();
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 		repository.addAll(directives);
 
 		return USED_ITEM;

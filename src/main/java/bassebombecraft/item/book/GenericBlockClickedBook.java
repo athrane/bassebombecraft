@@ -8,7 +8,7 @@ import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 import static bassebombecraft.config.ConfigUtils.resolveTooltip;
 import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
-import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
+import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import java.util.List;
 
@@ -39,11 +39,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class GenericBlockClickedBook extends Item {
 
 	/**
-	 * Item properties which places item in tab.
-	 */
-	public static final Properties ITEM_PROPERTIES = new Item.Properties().group(getItemGroup());
-
-	/**
 	 * Item action.
 	 */
 	BlockClickedItemAction action;
@@ -66,7 +61,7 @@ public class GenericBlockClickedBook extends Item {
 	 *               with this item.
 	 */
 	public GenericBlockClickedBook(String name, BlockClickedItemAction action) {
-		super(ITEM_PROPERTIES);
+		super(new Item.Properties().group(getItemGroup()));
 		doCommonItemInitialization(this, name);
 
 		this.action = action;
@@ -85,7 +80,7 @@ public class GenericBlockClickedBook extends Item {
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
 		// exit if invoked at client side
-		if (isWorldAtClientSide(context.getWorld())) {
+		if (isLogicalClient(context.getWorld())) {
 			return super.onItemUse(context);
 		}
 
@@ -102,6 +97,11 @@ public class GenericBlockClickedBook extends Item {
 
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		
+		// only update the action at server side since we updates the world
+		if (isLogicalClient(worldIn))
+			return;
+		
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 

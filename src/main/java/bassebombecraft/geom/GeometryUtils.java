@@ -1,13 +1,14 @@
 package bassebombecraft.geom;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
-import static bassebombecraft.ModConstants.HARVEST;
 import static bassebombecraft.ModConstants.ORIGIN_BLOCK_POS;
 import static bassebombecraft.block.BlockUtils.containsAirBlocksOnly;
 import static bassebombecraft.block.BlockUtils.getBlockFromPosition;
 import static bassebombecraft.block.BlockUtils.getBlockStateFromPosition;
 import static bassebombecraft.block.BlockUtils.rotateBlockStateWithFacingProperty;
 import static bassebombecraft.geom.BlockDirective.getInstance;
+import static bassebombecraft.player.PlayerUtils.getPlayerDirection;
 import static net.minecraft.block.Blocks.ALLIUM;
 import static net.minecraft.block.Blocks.AZURE_BLUET;
 import static net.minecraft.block.Blocks.BLUE_ORCHID;
@@ -63,14 +64,14 @@ public class GeometryUtils {
 	 * The block directive is configured not to harvest the target block when
 	 * processed.
 	 * 
-	 * @param blocks     stream of {@linkplain BlockPos} to capture.
-	 * @param worldQuery world query object.
+	 * @param blocks   stream of {@linkplain BlockPos} to capture.
+	 * @param world    world where block information is queried.
 	 * 
-	 * @param result     list of captured {@linkplain BlockDirective}.
+	 * @param opResult list of captured {@linkplain BlockDirective}.
 	 */
-	public static List<BlockDirective> captureBlockDirectives(Stream<BlockPos> blocks, WorldQuery worldQuery) {
-		return blocks.map(p -> getInstance(p, getBlockFromPosition(p, worldQuery),
-				getBlockStateFromPosition(p, worldQuery), DONT_HARVEST)).collect(Collectors.toList());
+	public static List<BlockDirective> captureBlockDirectives(Stream<BlockPos> blocks, World world) {
+		return blocks.map(p -> getInstance(p, getBlockFromPosition(p, world), getBlockStateFromPosition(p, world),
+				DONT_HARVEST, world)).collect(Collectors.toList());
 	}
 
 	/**
@@ -79,19 +80,38 @@ public class GeometryUtils {
 	 * 
 	 * Block and block state are created individually for each block position.
 	 * 
-	 * The block directive is configured to harvest the target block when processed.
+	 * @param blocks     stream of {@linkplain BlockPos} to create block directives
+	 *                   from.
+	 * @param block      block to create all block directives with.
+	 * @param blockState block state to create all block directives with.
+	 * @param harvest    define whether existing blocks should be harvested.
+	 * @param player     player which initiated the creation of the blocks
+	 * 
+	 * @return result list of calculated {@linkplain BlockDirective}.
+	 */
+	public static List<BlockDirective> calculateBlockDirectives(Stream<BlockPos> blocks, Block block,
+			BlockState blockState, boolean harvest, PlayerEntity player) {
+		return blocks.map(p -> getInstance(p, block, blockState, harvest, player)).collect(Collectors.toList());
+	}
+
+	/**
+	 * Calculate block directives from set of blocks (to support creation of the
+	 * block in the game world).
+	 * 
+	 * Block and block state are created individually for each block position.
 	 * 
 	 * @param blocks     stream of {@linkplain BlockPos} to create block directives
 	 *                   from.
 	 * @param block      block to create all block directives with.
 	 * @param blockState block state to create all block directives with.
 	 * @param harvest    define whether existing blocks should be harvested.
+	 * @param world      world where block information is queried.
 	 * 
 	 * @return result list of calculated {@linkplain BlockDirective}.
 	 */
 	public static List<BlockDirective> calculateBlockDirectives(Stream<BlockPos> blocks, Block block,
-			BlockState blockState, boolean harvest) {
-		return blocks.map(p -> getInstance(p, block, blockState, harvest)).collect(Collectors.toList());
+			BlockState blockState, boolean harvest, World world) {
+		return blocks.map(p -> getInstance(p, block, blockState, harvest, world)).collect(Collectors.toList());
 	}
 
 	/**
@@ -119,10 +139,12 @@ public class GeometryUtils {
 			transform.transform(rotationPoint, 0, rotationPoint, 0, 1);
 
 			// create rotated directive
-			BlockPos RotatedPosition = new BlockPos((int) rotationPoint[0], sourceDirective.getBlockPosition().getY(),
+			BlockPos rotatedPosition = new BlockPos((int) rotationPoint[0], sourceDirective.getBlockPosition().getY(),
 					(int) rotationPoint[1]);
-			BlockDirective rotatedDirective = new BlockDirective(RotatedPosition, sourceDirective.block,
-					sourceDirective.harvest);
+			BlockDirective rotatedDirective = getInstance(sourceDirective, rotatedPosition);
+
+			getInstance(rotatedPosition, sourceDirective.getBlock(), sourceDirective.harvestBlock(),
+					sourceDirective.getWorld());
 
 			// add block state to rotated directive
 			BlockState sourceState = sourceDirective.getState();
@@ -177,17 +199,17 @@ public class GeometryUtils {
 	 * The rectangle (e.g. list of directives) is rotated depending on the player
 	 * direction.
 	 * 
-	 * @param offset          offset block position.
-	 * @param playerDirection player direction which controls the rotation of the
-	 *                        coordinates.
-	 * @param structure       structure which defines the local offset, size and
-	 *                        block characteristics of the created rectangle.
-	 * @param harvest         define whether existing blocks should be harvested.
+	 * @param offset    offset block position.
+	 * @param player    player which initiated the creation of the blocks
+	 * @param structure structure which defines the local offset, size and block
+	 *                  characteristics of the created rectangle.
+	 * @param harvest   define whether existing blocks should be harvested.
+	 * 
 	 * @return list of block directive (e.g. coordinates) for the blocks in the
 	 *         structure.
 	 */
-	private static List<BlockDirective> calculateBlockDirectivesFromChildStructure(BlockPos offset,
-			PlayerDirection playerDirection, Structure structure, boolean harvest) {
+	private static List<BlockDirective> calculateBlockDirectivesFromChildStructure(BlockPos offset, PlayerEntity player,
+			Structure structure, boolean harvest) {
 
 		// exit if structure is a composite
 		if (structure.isComposite())
@@ -203,7 +225,57 @@ public class GeometryUtils {
 
 		// calculate block directives
 		List<BlockDirective> directives = calculateBlockDirectives(blocks, structure.getBlock(),
-				structure.getBlockState(), harvest);
+				structure.getBlockState(), harvest, player);
+
+		// get player direction
+		PlayerDirection playerDirection = getPlayerDirection(player);
+
+		int rotationDegrees = calculateDegreesFromPlayerDirection(playerDirection);
+		List<BlockDirective> rotatedDirectives = rotateCoordinatesAroundYAxis(offset, rotationDegrees, directives);
+		return rotatedDirectives;
+	}
+
+	/**
+	 * Private method for calculation of list of {@linkplain BlockDirective} from a
+	 * child structure.
+	 * 
+	 * One block directive is added for each block position.
+	 * 
+	 * The rectangle is defined by a global offset (x,z,y) and dimensions (width,
+	 * height, depth).
+	 * 
+	 * The rectangle (e.g. list of directives) is rotated depending on the player
+	 * direction.
+	 * 
+	 * @param offset          offset block position.
+	 * @param playerDirection player direction which controls the rotation of the
+	 *                        coordinates.
+	 * @param structure       structure which defines the local offset, size and
+	 *                        block characteristics of the created rectangle.
+	 * @param harvest         define whether existing blocks should be harvested.
+	 * @param world           world where block directive are created.
+	 * 
+	 * @return list of block directive (e.g. coordinates) for the blocks in the
+	 *         structure.
+	 */
+	private static List<BlockDirective> calculateBlockDirectivesFromChildStructure(BlockPos offset,
+			PlayerDirection playerDirection, Structure structure, boolean harvest, World world) {
+
+		// exit if structure is a composite
+		if (structure.isComposite())
+			return new ArrayList<BlockDirective>();
+
+		// calculate block positions
+		BlockPos from = offset.add(structure.getOffsetX(), structure.getOffsetY(), structure.getOffsetZ());
+		int xTo = structure.getSizeX() - 1;
+		int yTo = structure.getSizeY() - 1;
+		int zTo = structure.getSizeZ() - 1;
+		BlockPos to = from.add(xTo, yTo, zTo);
+		Stream<BlockPos> blocks = BlockPos.getAllInBox(from, to);
+
+		// calculate block directives
+		List<BlockDirective> directives = calculateBlockDirectives(blocks, structure.getBlock(),
+				structure.getBlockState(), harvest, world);
 
 		int rotationDegrees = calculateDegreesFromPlayerDirection(playerDirection);
 		List<BlockDirective> rotatedDirectives = rotateCoordinatesAroundYAxis(offset, rotationDegrees, directives);
@@ -216,18 +288,28 @@ public class GeometryUtils {
 	 * 
 	 * The structure is rotated depending on player direction.
 	 * 
-	 * @param offset          global offset.
-	 * @param playerDirection player direction which controls the rotation of the
-	 *                        coordinates.
-	 * @param structure       structure which defines the size of the created
-	 *                        rectangle.
+	 * @param offset    global offset.
+	 * @param player    player which initiated the creation of the blocks
+	 * @param structure structure which defines the size of the created rectangle.
+	 * @param harvest   define whether existing blocks should be harvested.
 	 * 
 	 * @return list of block directives (e.g. coordinates) for the blocks in the
 	 *         structure.
 	 */
-	public static List<BlockDirective> calculateBlockDirectives(BlockPos offset, PlayerDirection playerDirection,
-			Structure structure) {
-		return calculateBlockDirectives(offset, playerDirection, structure, HARVEST);
+	public static List<BlockDirective> calculateBlockDirectives(BlockPos offset, PlayerEntity player,
+			Structure structure, boolean harvest) {
+
+		// handle child structure
+		if (!structure.isComposite()) {
+			return calculateBlockDirectivesFromChildStructure(offset, player, structure, harvest);
+		}
+
+		// handle composite structure
+		List<BlockDirective> compositeResult = new ArrayList<BlockDirective>();
+		for (Structure child : structure.getChildren()) {
+			compositeResult.addAll(calculateBlockDirectives(offset, player, child, harvest));
+		}
+		return compositeResult;
 	}
 
 	/**
@@ -242,22 +324,23 @@ public class GeometryUtils {
 	 * @param structure       structure which defines the size of the created
 	 *                        rectangle.
 	 * @param harvest         define whether existing blocks should be harvested.
+	 * @param world           world where blocks are captured from.
 	 * 
 	 * @return list of block directives (e.g. coordinates) for the blocks in the
 	 *         structure.
 	 */
 	public static List<BlockDirective> calculateBlockDirectives(BlockPos offset, PlayerDirection playerDirection,
-			Structure structure, boolean harvest) {
+			Structure structure, boolean harvest, World world) {
 
 		// handle child structure
 		if (!structure.isComposite()) {
-			return calculateBlockDirectivesFromChildStructure(offset, playerDirection, structure, harvest);
+			return calculateBlockDirectivesFromChildStructure(offset, playerDirection, structure, harvest, world);
 		}
 
 		// handle composite structure
 		List<BlockDirective> compositeResult = new ArrayList<BlockDirective>();
 		for (Structure child : structure.getChildren()) {
-			compositeResult.addAll(calculateBlockDirectives(offset, playerDirection, child, harvest));
+			compositeResult.addAll(calculateBlockDirectives(offset, playerDirection, child, harvest, world));
 		}
 		return compositeResult;
 	}
@@ -307,13 +390,13 @@ public class GeometryUtils {
 	 * The rectangle is defined by a global offset (x,z,y) and dimensions (width,
 	 * height, depth)
 	 * 
-	 * @param offset     capture offset.
-	 * @param size       capture size.
-	 * @param worldQuery world query object.
+	 * @param offset capture offset.
+	 * @param size   capture size.
+	 * @param world  world to capture the blocks from.
 	 * 
 	 * @return list of coordinates for the blocks in the structure.
 	 */
-	public static List<BlockDirective> captureRectangle(BlockPos offset, BlockPos size, WorldQuery worldQuery) {
+	public static List<BlockDirective> captureRectangle(BlockPos offset, BlockPos size, World world) {
 
 		List<BlockDirective> result = new ArrayList<BlockDirective>();
 		int yCounter = 0;
@@ -332,11 +415,11 @@ public class GeometryUtils {
 			Stream<BlockPos> blocks = BlockPos.getAllInBox(from, to);
 
 			// exit if blocks is of type air
-			if (containsAirBlocksOnly(blocks, worldQuery))
+			if (containsAirBlocksOnly(blocks, world))
 				return result;
 
 			// add blocks from this layer
-			result.addAll(captureBlockDirectives(blocks, worldQuery));
+			result.addAll(captureBlockDirectives(blocks, world));
 
 			// increase layer
 			yCounter++;
@@ -355,7 +438,7 @@ public class GeometryUtils {
 		List<BlockDirective> translated = new ArrayList<BlockDirective>();
 
 		for (BlockDirective directive : directives) {
-			BlockDirective translatedDirective = new BlockDirective(directive);
+			BlockDirective translatedDirective = getInstance(directive);
 			translatedDirective.translate(translationVector);
 			translated.add(translatedDirective);
 		}
@@ -469,12 +552,12 @@ public class GeometryUtils {
 	 * Creates block directive with flower.
 	 * 
 	 * @param position block position for flower.
-	 * @param random   random generator.
-	 * @return block directive with flower.
+	 * @param world    world where block directive is located.
 	 */
-	public static BlockDirective createFlowerDirective(BlockPos position, Random random) {
+	public static BlockDirective createFlowerDirective(BlockPos position, World world) {
+		Random random = getBassebombeCraft().getRandom();
 		Block blockType = selectFlower(random);
-		return new BlockDirective(position, blockType, DONT_HARVEST);
+		return getInstance(position, blockType, DONT_HARVEST, world);
 	}
 
 	/**

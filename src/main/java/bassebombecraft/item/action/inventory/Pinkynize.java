@@ -1,14 +1,15 @@
 package bassebombecraft.item.action.inventory;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.block.BlockUtils.selectPinkColoredWool;
+import static bassebombecraft.config.ModConfiguration.pinkynizeSpiralSize;
+import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.calculateSpiral;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
-import java.util.function.Supplier;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
@@ -36,11 +37,6 @@ public class Pinkynize implements InventoryItemActionStrategy {
 	final int spiralSize;
 
 	/**
-	 * Block directives repository
-	 */
-	BlockDirectivesRepository directivesRepository;
-
-	/**
 	 * Current color counter.
 	 */
 	int colorCounter = 0;
@@ -61,15 +57,10 @@ public class Pinkynize implements InventoryItemActionStrategy {
 	List<BlockPos> spiralCoordinates;
 
 	/**
-	 * Pinkynize constructor
-	 * 
-	 * @param splSpiralSize Spiral size, measured in rotations around the centre.
+	 * Constructor
 	 */
-	public Pinkynize(Supplier<Integer> splSpiralSize) {
-		spiralSize = splSpiralSize.get();
-
-		// get directives repository
-		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
+	public Pinkynize() {
+		spiralSize = pinkynizeSpiralSize.get();
 
 		// calculate spiral
 		spiralCoordinates = calculateSpiral(spiralSize, spiralSize);
@@ -97,12 +88,12 @@ public class Pinkynize implements InventoryItemActionStrategy {
 
 		// create wool block
 		BlockState woolBlock = selectPinkColoredWool(colorCounter);
-		BlockDirective directive = new BlockDirective(groundPosition, woolBlock.getBlock(), DONT_HARVEST);
+		BlockDirective directive = getInstance(groundPosition, woolBlock.getBlock(), DONT_HARVEST, world);
 		directive.setState(selectPinkColoredWool(colorCounter));
 
 		// create block
-		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
-		directivesRepository.add(directive);
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
+		repository.add(directive);
 	}
 
 	/**
@@ -148,5 +139,5 @@ public class Pinkynize implements InventoryItemActionStrategy {
 		spiralCounter = 0;
 		spiralCenter = new BlockPos(target);
 	}
-	
+
 }

@@ -13,11 +13,12 @@ import net.minecraftforge.fml.common.Mod;
 
 /**
  * Event handler for the decrease size potion effect.
- * 
- * Server side logic for the {@linkplain DecreaseSizeEffect}.
+ * Logic for the {@linkplain DecreaseSizeEffect}.
  * 
  * When {@linkplain PotionExpiryEvent} is received at server side then the
  * removal of the effect is sync'ed to the client side.
+ * 
+ * The handler only executes events SERVER side. 
  */
 @Mod.EventBusSubscriber
 public class DecreaseSizeEffectEventHandler {

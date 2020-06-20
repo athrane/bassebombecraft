@@ -1,8 +1,7 @@
 package bassebombecraft.item.action.inventory;
 
+import static bassebombecraft.config.ModConfiguration.addSaturationEffectDuration;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
-
-import java.util.function.Supplier;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -28,12 +27,10 @@ public class AddSaturationEffect implements InventoryItemActionStrategy {
 	int duration;
 
 	/**
-	 * AddSaturationEffect constructor
-	 * 
-	 * @param splDuration duration as a potion effect.
+	 * Constructor
 	 */
-	public AddSaturationEffect(Supplier<Integer> splDuration) {
-		duration = splDuration.get();
+	public AddSaturationEffect() {
+		duration = addSaturationEffectDuration.get();
 	}
 
 	@Override

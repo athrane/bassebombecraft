@@ -39,6 +39,7 @@ public interface TemporaryBlockRepository {
 	/**
 	 * Update block duration.
 	 */
+	@Deprecated
 	public void updateBlockDuration();
 
 }

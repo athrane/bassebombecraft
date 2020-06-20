@@ -11,7 +11,7 @@ import bassebombecraft.entity.commander.command.AttackNearestMobCommand;
 import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
 import bassebombecraft.entity.commander.command.DanceCommand;
 import bassebombecraft.entity.commander.command.NullCommand;
-import bassebombecraft.player.PlayerUtils;
+import static bassebombecraft.player.PlayerUtils.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
@@ -143,7 +143,7 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 		command = state.getCommand();
 
 		// if commander is player entity then send chat message
-		if (PlayerUtils.isTypePlayerEntity(entity)) {
+		if (isTypePlayerEntity(entity)) {
 
 			// type cast
 			PlayerEntity player = (PlayerEntity) entity;

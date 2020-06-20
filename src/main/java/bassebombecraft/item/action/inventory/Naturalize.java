@@ -1,13 +1,12 @@
 package bassebombecraft.item.action.inventory;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.config.ModConfiguration.naturalizeSpiralSize;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.createFlowerDirective;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
-import java.util.Random;
-import java.util.function.Supplier;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
@@ -40,11 +39,6 @@ public class Naturalize implements InventoryItemActionStrategy {
 	final int spiralSize;
 
 	/**
-	 * Block directives repository
-	 */
-	BlockDirectivesRepository directivesRepository;
-
-	/**
 	 * Spiral counter.
 	 */
 	int spiralCounter;
@@ -60,15 +54,10 @@ public class Naturalize implements InventoryItemActionStrategy {
 	List<BlockPos> spiralCoordinates;
 
 	/**
-	 * Naturalize constructor.
-	 * 
-	 * @param splSpiralSize Spiral size, measured in rotations around the centre.
+	 * Constructor.
 	 */
-	public Naturalize(Supplier<Integer> splSpiralSize) {
-		spiralSize = splSpiralSize.get();
-
-		// get directives repository
-		directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
+	public Naturalize() {
+		spiralSize = naturalizeSpiralSize.get();
 
 		// calculate spiral
 		spiralCoordinates = GeometryUtils.calculateSpiral(spiralSize, spiralSize);
@@ -86,7 +75,6 @@ public class Naturalize implements InventoryItemActionStrategy {
 
 	@Override
 	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
-		Random random = getBassebombeCraft().getRandom();
 
 		// calculate position
 		BlockPos targetPosition = calculatePostion(target);
@@ -96,10 +84,11 @@ public class Naturalize implements InventoryItemActionStrategy {
 
 		// create flower block
 		BlockPos flowerPos = groundPosition.up();
-		BlockDirective directive = createFlowerDirective(flowerPos, random);
+		BlockDirective directive = createFlowerDirective(flowerPos, world);
 
 		// create block
-		directivesRepository.add(directive);
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
+		repository.add(directive);
 	}
 
 	/**

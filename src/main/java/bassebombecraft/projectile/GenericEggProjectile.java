@@ -1,13 +1,13 @@
 package bassebombecraft.projectile;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
-import static bassebombecraft.world.WorldUtils.isWorldAtClientSide;
+import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.event.particle.ParticleRenderingRepository;
 import bassebombecraft.event.projectile.EntityTypeRegistryEventHandler;
 import bassebombecraft.projectile.action.NullAction;
 import bassebombecraft.projectile.action.ProjectileAction;
@@ -43,7 +43,7 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 
 	/**
 	 * Entity name.
-	 */		
+	 */
 	public static final String PROJECTILE_NAME = GenericEggProjectile.class.getSimpleName();
 
 	/**
@@ -97,21 +97,17 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 	@Override
 	protected void onImpact(RayTraceResult result) {
 
-		// get world
-		World world = this.getEntityWorld();
-
 		// exit if on client side
-		if (isWorldAtClientSide(world))
+		if (isLogicalClient(getEntityWorld()))
 			return;
 
 		try {
 			// execute behaviour
 			action.execute(this, world, result);
 
-			// add impact particle for rendering
+			// send particle rendering info (for impact particle) to client
 			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
-			ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
-			repository.add(particle);
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 
 			// remove this projectile
 			remove();
@@ -123,19 +119,16 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 
 	public void tick() {
 		super.tick();
-		
-		try {
-			// add particle for rendering
-			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
-			ParticleRenderingRepository repository = getBassebombeCraft().getParticleRenderingRepository();
-			repository.add(particle);
 
+		try {
+			// send particle rendering info to client
+			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
-		}		
+		}
 	}
-	
-	
+
 	@Override
 	protected Item getDefaultItem() {
 		return Items.EGG;

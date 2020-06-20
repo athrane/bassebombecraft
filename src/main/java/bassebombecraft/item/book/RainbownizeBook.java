@@ -1,6 +1,7 @@
 package bassebombecraft.item.book;
 
-import bassebombecraft.item.action.mist.block.BlockMistActionStrategy;
+import static bassebombecraft.config.ModConfiguration.rainbownizeBook;
+
 import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.block.RainbowSpiralMist;
 
@@ -9,10 +10,9 @@ import bassebombecraft.item.action.mist.block.RainbowSpiralMist;
  */
 public class RainbownizeBook extends GenericRightClickedBook {
 
-	public static final String ITEM_NAME = "RainbownizeBook";
-	static final BlockMistActionStrategy STRATEGY = new RainbowSpiralMist();
+	public static final String ITEM_NAME = RainbownizeBook.class.getSimpleName();
 
 	public RainbownizeBook() {
-		super(ITEM_NAME, new GenericBlockSpiralFillMist(STRATEGY));
+		super(ITEM_NAME, rainbownizeBook, new GenericBlockSpiralFillMist(new RainbowSpiralMist()));
 	}
 }

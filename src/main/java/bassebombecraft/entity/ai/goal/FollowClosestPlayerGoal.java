@@ -1,6 +1,7 @@
 package bassebombecraft.entity.ai.goal;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.AI_PATH_RECALC_UPDATE_FREQUENCY;
 import static bassebombecraft.ModConstants.AI_TARGET_WATCH_DIST;
 import static bassebombecraft.entity.EntityUtils.isMinimumDistanceReached;
@@ -82,15 +83,20 @@ public class FollowClosestPlayerGoal extends Goal {
 
 	@Override
 	public void tick() {
+		try {
 
-		// exit if frequency isn't active
-		FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
-		if (!repository.isActive(AI_PATH_RECALC_UPDATE_FREQUENCY))
-			return;
+			// exit if frequency isn't active
+			FrequencyRepository repository = getProxy().getServerFrequencyRepository();
+			if (!repository.isActive(AI_PATH_RECALC_UPDATE_FREQUENCY))
+				return;
 
-		// move towards
-		PathNavigator navigator = entity.getNavigator();
-		navigator.tryMoveToEntityLiving(closestPlayer, movementSpeed);
+			// move towards
+			PathNavigator navigator = entity.getNavigator();
+			navigator.tryMoveToEntityLiving(closestPlayer, movementSpeed);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 	@Override

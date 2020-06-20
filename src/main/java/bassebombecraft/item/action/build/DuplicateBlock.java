@@ -1,12 +1,13 @@
 package bassebombecraft.item.action.build;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ModConstants.HARVEST;
 import static bassebombecraft.block.BlockUtils.getBlockFromPosition;
 import static bassebombecraft.block.BlockUtils.getBlockStateFromPosition;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.geom.GeometryUtils.calculateYOffsetFromBlock;
 import static bassebombecraft.player.PlayerUtils.calculatePlayerFeetPosititionAsInt;
-import static bassebombecraft.player.PlayerUtils.getPlayerDirection;
 
 import java.util.List;
 import java.util.Random;
@@ -16,7 +17,6 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.WorldQuery;
 import bassebombecraft.geom.WorldQueryImpl;
 import bassebombecraft.item.action.BlockClickedItemAction;
-import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
@@ -40,8 +40,6 @@ public class DuplicateBlock implements BlockClickedItemAction {
 	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
 	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;
 
-	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
-
 	static final int X_SIZE = 3;
 	static final int Y_SIZE = 1;
 	static final int Z_SIZE = 10;
@@ -49,60 +47,35 @@ public class DuplicateBlock implements BlockClickedItemAction {
 	static final int Y_OFFSET_DOWN = 0;
 	static final Structure NULL_STRUCTURE = new CompositeStructure();
 
-	/**
-	 * Random generator.
-	 */
-	Random random = new Random();
-
-	/**
-	 * Ticks exists since first marker was set.
-	 */
-	int ticksExisted = 0;
-
-	/**
-	 * Process block directives repository.
-	 */
-	BlockDirectivesRepository repository;
-
-	/**
-	 * DuplicateBlock constructor.
-	 */
-	public DuplicateBlock() {
-		super();
-		repository = getBassebombeCraft().getBlockDirectivesRepository();
-	}
-
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
-		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
-			return DIDNT_USED_ITEM;
 
 		// create world query
 		PlayerEntity player = context.getPlayer();
-		BlockPos pos = context.getPos();		
+		BlockPos pos = context.getPos();
 		WorldQueryImpl worldQuery = new WorldQueryImpl(player, pos);
 
-		// calculate structure
+		// get world
 		World world = context.getWorld();
+
+		// calculate structure
 		Block sourceBlock = getBlockFromPosition(worldQuery.getTargetBlockPosition(), world);
 		Structure structure = createDuplicatedBlock(sourceBlock, worldQuery);
 
 		// calculate Y offset in structure
 		int yOffset = calculatePlayerFeetPosititionAsInt(player);
 
-		// get player direction
-		PlayerDirection playerDirection = getPlayerDirection(player);
-
 		// calculate set of block directives
 		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
-		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
+		List<BlockDirective> directives = calculateBlockDirectives(offset, player, structure, HARVEST);
 
 		// add directives
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 		repository.addAll(directives);
 
-		return USED_ITEM;		
+		return USED_ITEM;
 	}
-	
+
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		// NO-OP
@@ -136,7 +109,7 @@ public class DuplicateBlock implements BlockClickedItemAction {
 		}
 
 		// create regular variant
-		BlockState blockState = getBlockStateFromPosition(blockPosition, worldQuery);
+		BlockState blockState = getBlockStateFromPosition(blockPosition, worldQuery.getWorld());
 		composite.add(new ChildStructure(offset, size, sourceBlock, blockState));
 		return composite;
 	}
@@ -147,6 +120,7 @@ public class DuplicateBlock implements BlockClickedItemAction {
 	 * @return true if TNT variant of duplicated block should be created.
 	 */
 	boolean createTntVariant() {
+		Random random = getBassebombeCraft().getRandom();
 		int randomValue = random.nextInt(25);
 		return (randomValue == 0);
 	}

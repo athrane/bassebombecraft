@@ -1,6 +1,7 @@
 package bassebombecraft.item.action.command;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.item.action.RightClickedItemAction;
@@ -9,8 +10,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 
 /**
@@ -19,26 +18,27 @@ import net.minecraft.world.World;
  */
 public class CommandMobs implements RightClickedItemAction {
 
-	static final SoundEvent SOUND = SoundEvents.ENTITY_EVOKER_CAST_SPELL;
-
 	@Override
 	public void onRightClick(World world, LivingEntity entity) {
+		try {
+			// get repository
+			MobCommanderRepository repository = getProxy().getServerMobCommanderRepository();
 
-		// get repository
-		MobCommanderRepository repository = getBassebombeCraft().getMobCommanderRepository();
+			// exit if not a player
+			if (!PlayerUtils.isTypePlayerEntity(entity))
+				return;
 
-		// exit if not a player
-		if (!PlayerUtils.isTypePlayerEntity(entity))
-			return;
+			// typecast
+			PlayerEntity player = (PlayerEntity) entity;
 
-		// typecast
-		PlayerEntity player = (PlayerEntity) entity;
+			// register player
+			repository.register(player);
 
-		// register player
-		repository.register(player);
-
-		// cycle command
-		repository.cycle(player);
+			// cycle command
+			repository.cycle(player);
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 	@Override

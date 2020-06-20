@@ -1,9 +1,9 @@
 package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.ModConstants.AGGRO_MOB_EFFECT;
+import static bassebombecraft.config.ModConfiguration.addAggroMobEffectAmplifier;
+import static bassebombecraft.config.ModConfiguration.addAggroMobEffectDuration;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
-
-import java.util.function.Supplier;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -12,8 +12,8 @@ import net.minecraft.world.World;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
- * of inventory item actions. This class makes adds a aggro mob effect to
- * nearby entities.
+ * of inventory item actions. This class makes adds a aggro mob effect to nearby
+ * entities.
  */
 public class AddAggroMobEffect implements InventoryItemActionStrategy {
 
@@ -34,13 +34,10 @@ public class AddAggroMobEffect implements InventoryItemActionStrategy {
 
 	/**
 	 * Constructor
-	 * 
-	 * @param splDuration  duration as a potion effect.
-	 * @param splAmplifier amplifier as a potion effect.
 	 */
-	public AddAggroMobEffect(Supplier<Integer> splDuration, Supplier<Integer> splAmplifier) {
-		duration = splDuration.get();
-		amplifier = splAmplifier.get();
+	public AddAggroMobEffect() {
+		duration = addAggroMobEffectDuration.get();
+		amplifier = addAggroMobEffectAmplifier.get();
 	}
 
 	@Override

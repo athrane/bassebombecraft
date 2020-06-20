@@ -2,10 +2,9 @@ package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ModConfiguration.lavaSpiralMistDuration;
+import static bassebombecraft.config.ModConfiguration.lavaSpiralMistParticleInfo;
 
-import java.util.function.Supplier;
-
-import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -26,11 +25,6 @@ public class LavaSpiralMist implements BlockMistActionStrategy {
 	public static final String NAME = LavaSpiralMist.class.getSimpleName();
 
 	/**
-	 * Don't harvest processed blocks.
-	 */
-	static final boolean DONT_HARVEST = false;
-
-	/**
 	 * Particle rendering info
 	 */
 	ParticleRenderingInfo[] infos;
@@ -41,13 +35,11 @@ public class LavaSpiralMist implements BlockMistActionStrategy {
 	int duration;
 
 	/**
-	 * LavaSpiralMist constructor.
-	 *
-	 * @param splDuration effect duration.
+	 * Constructor.
 	 */
-	public LavaSpiralMist(Supplier<Integer> splDuration) {
-		infos = createFromConfig(ModConfiguration.lavaSpiralMistParticleInfo);
-		duration = splDuration.get();
+	public LavaSpiralMist() {
+		infos = createFromConfig(lavaSpiralMistParticleInfo);
+		duration = lavaSpiralMistDuration.get();
 	}
 
 	@Override

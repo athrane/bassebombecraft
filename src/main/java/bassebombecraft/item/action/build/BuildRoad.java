@@ -1,10 +1,10 @@
 package bassebombecraft.item.action.build;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.*;
+import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.ModConstants.UNITY_BLOCK_SIZE;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.player.PlayerUtils.calculatePlayerFeetPosititionAsInt;
-import static bassebombecraft.player.PlayerUtils.getPlayerDirection;
 import static bassebombecraft.player.PlayerUtils.isBelowPlayerYPosition;
 
 import java.util.List;
@@ -13,7 +13,6 @@ import java.util.Random;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.item.action.BlockClickedItemAction;
-import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
@@ -35,8 +34,6 @@ public class BuildRoad implements BlockClickedItemAction {
 	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
 	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;
 
-	static final int STATE_UPDATE_FREQUENCY = 1; // Measured in ticks
-
 	private static final int MAX_ROAD_SEGMENTS = 3;
 	static final int X_SIZE = 3;
 	static final int Y_SIZE = 1;
@@ -45,37 +42,12 @@ public class BuildRoad implements BlockClickedItemAction {
 	static final int Y_OFFSET_DOWN = 0;
 	static final Structure NULL_STRUCTURE = new CompositeStructure();
 
-	/**
-	 * Random generator.
-	 */
-	Random random = new Random();
-
-	/**
-	 * Ticks exists since first marker was set.
-	 */
-	int ticksExisted = 0;
-
-	/**
-	 * Process block directives repository.
-	 */
-	BlockDirectivesRepository repository;
-
-	/**
-	 * CreateRoad constructor.
-	 */
-	public BuildRoad() {
-		super();
-		repository = getBassebombeCraft().getBlockDirectivesRepository();
-	}
-
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
-		if (ticksExisted % STATE_UPDATE_FREQUENCY != 0)
-			return DIDNT_USED_ITEM;
 
 		// calculate if selected block is a ground block
 		BlockPos pos = context.getPos();
-		PlayerEntity player = context.getPlayer();		
+		PlayerEntity player = context.getPlayer();
 		boolean isGroundBlock = isBelowPlayerYPosition(pos.getY(), player);
 
 		// calculate structure
@@ -88,21 +60,20 @@ public class BuildRoad implements BlockClickedItemAction {
 		// calculate Y offset in structure
 		int yOffset = calculatePlayerFeetPosititionAsInt(player);
 
-		// get player direction
-		PlayerDirection playerDirection = getPlayerDirection(player);
-
 		// calculate set of block directives
 		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
-		List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, structure);
+		List<BlockDirective> directives = calculateBlockDirectives(offset, player, structure, DONT_HARVEST);
 
 		// add directives
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 		repository.addAll(directives);
 
-		return USED_ITEM;		
+		return USED_ITEM;
 	}
 
 	@Override
 	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+		// NO-OP
 	}
 
 	/**
@@ -152,6 +123,7 @@ public class BuildRoad implements BlockClickedItemAction {
 	int calculateDisplacement(int index, int displacement) {
 		if (index == 0)
 			return X_OFFSET;
+		Random random = getBassebombeCraft().getRandom();
 		int displacementRandom = random.nextInt(3);
 		if (displacementRandom == 1)
 			return displacement + 1;

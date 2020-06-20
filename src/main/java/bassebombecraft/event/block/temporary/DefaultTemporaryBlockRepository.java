@@ -76,15 +76,15 @@ public class DefaultTemporaryBlockRepository implements TemporaryBlockRepository
 		synchronized (tempBlocks) {
 
 			for (Iterator<TemporaryBlock> it = tempBlocks.iterator(); it.hasNext();) {
-				TemporaryBlock particle = it.next();
+				TemporaryBlock tempBlock = it.next();
 
 				// update
-				particle.updateDuration();
+				tempBlock.updateDuration();
 
 				// remove for rendering if expired
-				if (particle.isExpired()) {
+				if (tempBlock.isExpired()) {
 					it.remove();
-					directives.add(particle.getFinalBlock());
+					directives.add(tempBlock.getFinalBlock());
 				}
 				
 			}

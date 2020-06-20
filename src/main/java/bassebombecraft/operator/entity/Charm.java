@@ -1,6 +1,6 @@
 package bassebombecraft.operator.entity;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;
 import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
 import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
@@ -15,8 +15,8 @@ import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 
 /**
- * Implementation of the {@linkplain Operator} interface which charm the
- * entity which has been hit.
+ * Implementation of the {@linkplain Operator} interface which charm the entity
+ * which has been hit.
  */
 public class Charm implements Operator {
 
@@ -48,7 +48,6 @@ public class Charm implements Operator {
 
 	@Override
 	public void run() {
-
 		// get entity
 		LivingEntity livingEntity = splEntity.get();
 
@@ -74,7 +73,7 @@ public class Charm implements Operator {
 		MobEntity mobEntity = (MobEntity) entity;
 
 		// register mob as charmed
-		getBassebombeCraft().getCharmedMobsRepository().add(mobEntity, livingEntity);
+		getProxy().getServerCharmedMobsRepository().add(mobEntity, livingEntity);
 	}
 
 }

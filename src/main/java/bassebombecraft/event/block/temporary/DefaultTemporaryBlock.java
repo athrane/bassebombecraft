@@ -50,7 +50,7 @@ public class DefaultTemporaryBlock implements TemporaryBlock {
 	}
 
 	/**
-	 * Factory method for creation of a temporary block.
+	 * Factory method.
 	 * 
 	 * @param duration
 	 *            duration of the temporary block.

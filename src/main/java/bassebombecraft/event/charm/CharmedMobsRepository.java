@@ -1,12 +1,22 @@
 package bassebombecraft.event.charm;
 
-import java.util.Collection;
+import java.util.stream.Stream;
 
+import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
+import bassebombecraft.proxy.Proxy;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 
 /**
  * Interface for repository for handling charmed mobs.
+ * 
+ * The repository is used at both SERVER and CLIENT side. Access to the
+ * repository is supported via sided proxy, i.e.{@linkplain Proxy}.
+ * 
+ * The SERVER side implementation {@linkplain ServerCharmedMobsRepository} will
+ * implement the actual charm logic . The CLIENT side implementation
+ * {@linkplain ClientCharmedMobsRepository }will only implement logic to
+ * support rendering.
  */
 public interface CharmedMobsRepository {
 
@@ -21,32 +31,47 @@ public interface CharmedMobsRepository {
 	/**
 	 * Remove mob.
 	 * 
-	 * @param entity mob which is removed.
+	 * @param id ID of entity which is removed. The ID is read from
+	 *           {@linkplain Entity.getEntityId()}.
+	 */
+	public void remove(String id);
+
+	/**
+	 * Remove mob.
+	 * 
+	 * @param entity entity to remove.
 	 */
 	public void remove(MobEntity entity);
 
 	/**
-	 * Update charm.
+	 * Returns true if mob is already charmed.
 	 * 
-	 * If duration is expired then mob is removed.
-	 * 
-	 * @param entity mob which is charmed.
+	 * @param id ID of entity to query for. The ID is read from
+	 *           {@linkplain Entity.getEntityId()}.
+	 * @return true if mob is already charmed.
 	 */
-	public void update(MobEntity entity);
+	public boolean contains(String id);
 
 	/**
 	 * Returns true if mob is already charmed.
 	 * 
-	 * @param entity mob to query.
+	 * @param entity entity to query for.
+	 * 
 	 * @return true if mob is already charmed.
 	 */
 	public boolean contains(MobEntity entity);
 
 	/**
-	 * Get charmed mobs. Iteration must be take place in synchronized section.
+	 * Get charmed mobs.
 	 * 
-	 * @return collection of charmed mobs
+	 * @return stream of charmed mobs..
 	 */
-	public Collection<CharmedMob> get();
+	public Stream<CharmedMob> get();
 
+	/**
+	 * Get number of mobs charmed.
+	 * 
+	 * @return number of mobs charmed.
+	 */
+	public int size();
 }

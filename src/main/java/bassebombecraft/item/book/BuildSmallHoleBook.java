@@ -7,7 +7,7 @@ import bassebombecraft.item.action.build.BuildSmallHole;
  */
 public class BuildSmallHoleBook extends GenericBlockClickedBook {
 
-	public static final String ITEM_NAME = "BuildSmallHoleBook";
+	public static final String ITEM_NAME = BuildSmallHoleBook.class.getSimpleName();
 
 	public BuildSmallHoleBook() {
 		super(ITEM_NAME, new BuildSmallHole());

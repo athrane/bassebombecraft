@@ -1,7 +1,8 @@
 package bassebombecraft.item.action.mist.block;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.geom.BlockDirective.getInstance;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
@@ -41,14 +42,14 @@ public class MovingRainbowMist implements BlockMistActionStrategy {
 	public void applyEffectToBlock(BlockPos target, World world) {
 		colorCounter++;
 
-		// create flower block
+		// create rainbow block
 		BlockState blockstate = selectWoolColor();
-		BlockDirective directive = new BlockDirective(target, blockstate.getBlock(), DONT_HARVEST);
+		BlockDirective directive = getInstance(target, blockstate.getBlock(), DONT_HARVEST, world);
 		directive.setState(blockstate);
 
 		// create temporary block
-		BlockDirectivesRepository directivesRepository = getBassebombeCraft().getBlockDirectivesRepository();
-		directivesRepository.add(directive);
+		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
+		repository.add(directive);
 	}
 
 	/**
@@ -81,7 +82,6 @@ public class MovingRainbowMist implements BlockMistActionStrategy {
 			return Blocks.WHITE_WOOL.getDefaultState();
 
 		}
-
 	}
 
 	@Override

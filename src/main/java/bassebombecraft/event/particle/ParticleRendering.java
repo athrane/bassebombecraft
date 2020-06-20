@@ -11,6 +11,13 @@ import net.minecraft.util.math.BlockPos;
 public interface ParticleRendering {
 
 	/**
+	 * Get Id used to register particle rendering.
+	 * 
+	 * @return id used to register particle rendering.
+	 */
+	String getId();
+
+	/**
 	 * Get position where particles should be rendered.
 	 * 
 	 * @return position where particles should be rendered.
@@ -30,18 +37,6 @@ public interface ParticleRendering {
 	 * @return number of particle instances to render per update.
 	 */
 	int getNumber();
-
-	/**
-	 * Update duration of particle.
-	 */
-	void updateDuration();
-
-	/**
-	 * Return true if particle duration is expired.
-	 * 
-	 * @return true if particle duration is expired.
-	 */
-	boolean isExpired();
 
 	/**
 	 * Return red color component.
@@ -71,10 +66,9 @@ public interface ParticleRendering {
 	float getBlueColorComponent(Random random);
 
 	/**
-	 * Return particle speed.
+	 * Return rendering info.
 	 * 
-	 * @return particle speed
+	 * @return rendering info.
 	 */
-	double getSpeed();
-
+	ParticleRenderingInfo getInfo();
 }

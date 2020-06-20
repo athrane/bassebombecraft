@@ -1,9 +1,8 @@
 package bassebombecraft.entity.ai.goal;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.AI_COMPANION_ATTACK_UPDATE_FREQUENCY;
-import static bassebombecraft.config.ModConfiguration.vacuumMistDuration;
-import static bassebombecraft.config.ModConfiguration.vacuumMistForce;
 import static bassebombecraft.entity.EntityUtils.getNullableTarget;
 import static bassebombecraft.entity.EntityUtils.getTarget;
 import static bassebombecraft.entity.EntityUtils.hasTarget;
@@ -16,14 +15,13 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import bassebombecraft.event.frequency.FrequencyRepository;
-import bassebombecraft.item.action.ShootGenericEggProjectile;
 import bassebombecraft.item.action.RightClickedItemAction;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootCreeperCannon;
+import bassebombecraft.item.action.ShootGenericEggProjectile;
 import bassebombecraft.item.action.ShootLargeFireball;
 import bassebombecraft.item.action.ShootMultipleArrows;
 import bassebombecraft.item.action.ShootSmallFireball;
@@ -73,9 +71,7 @@ public class CompanionAttack extends Goal {
 	static final ProjectileAction MOB_HOLE_PROJECTILE_ACTION = new DigMobHole();
 	static final ProjectileAction FLAMING_CHICKEN_PROJECTILE_ACTION = new SpawnFlamingChicken();
 
-	static Supplier<Integer> splDuration = () -> vacuumMistDuration.get();
-	static Supplier<Integer> splForce = () -> vacuumMistForce.get();
-	static final EntityMistActionStrategy SPAWN_VACUUM_MIST_PROJECTILE_ACTION = new VacuumMist(splDuration, splForce);
+	static final EntityMistActionStrategy SPAWN_VACUUM_MIST_PROJECTILE_ACTION = new VacuumMist();
 
 	static final EntityMistActionStrategy TOXIC_MIST_STRATEGY = new ToxicMist();
 	static final EntityMistActionStrategy LIGHTNING_MIST_STRATEGY = new LightningBoltMist();
@@ -172,7 +168,7 @@ public class CompanionAttack extends Goal {
 		try {
 
 			// exit if frequency isn't active
-			FrequencyRepository repository = getBassebombeCraft().getFrequencyRepository();
+			FrequencyRepository repository = getProxy().getServerFrequencyRepository();
 			if (!repository.isActive(AI_COMPANION_ATTACK_UPDATE_FREQUENCY))
 				return;
 
