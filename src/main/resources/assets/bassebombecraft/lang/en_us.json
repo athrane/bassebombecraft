@@ -119,6 +119,7 @@
     "item.bassebombecraft.decreasesizeidolinventoryitem": "Micropsia Idol",
     "item.bassebombecraft.increasesizeidolinventoryitem": "Macropsia Idol",
     "item.bassebombecraft.respawnidolinventoryitem": "Respawn Idol",
+    "item.bassebombecraft.removeblockspiralidolinventoryitem": "Excavation Idol",
 
     "_comment": "blocks",
     "block.bassebombecraft.randombookblock": "Block of Random Books",

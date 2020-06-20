@@ -2,6 +2,7 @@ package bassebombecraft.block;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.ModConstants.NULL_TILE_ENTITY;
 import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
@@ -33,9 +34,9 @@ import net.minecraft.world.World;
 public class BlockUtils {
 
 	/**
-	 * Don't harvest temporary block.
+	 * Send block change to clients.
 	 */
-	public static final boolean DONT_HARVEST = false;
+	static final int SEND_CHANGE_CLIENTS = 2;
 
 	/**
 	 * Number of rainbow wool colors.
@@ -88,7 +89,7 @@ public class BlockUtils {
 		}
 
 		// set block state
-		world.setBlockState(blockPosition, blockDirective.getState());
+		world.setBlockState(blockPosition, blockDirective.getState(), SEND_CHANGE_CLIENTS);
 	}
 
 	/**
@@ -391,6 +392,19 @@ public class BlockUtils {
 		if (oe.isPresent())
 			return oe.get() instanceof BlockDirective;
 		return false;
+	}
+
+	/**
+	 * Return true if block is a water block.
+	 * 
+	 * @param position block position
+	 * @param world    world object.
+	 * 
+	 * @return true if block is a water block.
+	 */
+	public static boolean hasWater(BlockPos position, World world) {
+		BlockState state = world.getBlockState(position);
+		return (state.getBlock() == Blocks.WATER);
 	}
 
 }

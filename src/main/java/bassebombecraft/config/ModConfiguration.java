@@ -121,6 +121,7 @@ import bassebombecraft.item.inventory.RainIdolInventoryItem;
 import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
 import bassebombecraft.item.inventory.ReaperIdolInventoryItem;
 import bassebombecraft.item.inventory.ReflectIdolInventoryItem;
+import bassebombecraft.item.inventory.RemoveBlockSpiralIdolInventoryItem;
 import bassebombecraft.item.inventory.RespawnIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
@@ -294,7 +295,7 @@ public class ModConfiguration {
 	public static ItemConfig lavaSpiralMistBook;
 	public static ItemConfig rainbownizeBook;
 	public static ItemConfig naturalizeBook;
-	
+
 	public static ItemConfig vacuumMistBook;
 	public static ItemConfig healingMistBook;
 
@@ -327,7 +328,7 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue copyPasteBlocksBookCooldown;
 
 	public static ItemConfig buildMineBook;
-	
+
 	// Inventory items..
 	public static InventoryItemConfig charmBeastIdolInventoryItem;
 	public static InventoryItemConfig levitationIdolInventoryItem;
@@ -357,6 +358,13 @@ public class ModConfiguration {
 	public static InventoryItemConfig decreaseSizeIdolInventoryItem;
 	public static InventoryItemConfig increaseSizeIdolInventoryItem;
 	public static InventoryItemConfig respawnIdolInventoryItem;
+	public static InventoryItemConfig removeBlockSpiralIdolInventoryItem;
+
+	/**
+	 * Properties for {@linkplain RemoveBlockSpiralIdolInventoryItem}.
+	 */
+	public static ForgeConfigSpec.IntValue removeBlockSpiralIdolInventoryItemSpiralSize;
+	public static ParticlesConfig removeBlockSpiralIdolInventoryItemParticleInfo;
 
 	// Actions..
 
@@ -414,7 +422,7 @@ public class ModConfiguration {
 	// NaturalizeSpiralMist action
 	public static ForgeConfigSpec.IntValue naturalizeSpiralMistDuration;
 	public static ParticlesConfig naturalizeSpiralMistParticleInfo;
-	
+
 	// VacuumMist action
 	public static ForgeConfigSpec.IntValue vacuumMistDuration;
 	public static ForgeConfigSpec.IntValue vacuumMistForce;
@@ -423,7 +431,7 @@ public class ModConfiguration {
 	// HealingMist action
 	public static ForgeConfigSpec.IntValue healingMistDuration;
 	public static ParticlesConfig healingMistParticleInfo;
-	
+
 	// SpawnStairs projectile action
 	public static ForgeConfigSpec.IntValue spawnStairsDuration;
 
@@ -865,19 +873,19 @@ public class ModConfiguration {
 		// RainbowSpiralMist
 		name = RainbowSpiralMist.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		rainbowSpiralMistDuration = COMMON_BUILDER.comment("Duration in game ticks.").defineInRange("duration", 9*9*3, 0,
-				Integer.MAX_VALUE);
+		rainbowSpiralMistDuration = COMMON_BUILDER.comment("Duration in game ticks.").defineInRange("duration",
+				9 * 9 * 3, 0, Integer.MAX_VALUE);
 		rainbowSpiralMistParticleInfo = getInstance(COMMON_BUILDER, "heart", 1, 10, 0.2, 0.75, 0.75, 0.75);
 		COMMON_BUILDER.pop();
 
 		// NaturalizeSpiralMist
 		name = NaturalizeSpiralMist.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		naturalizeSpiralMistDuration = COMMON_BUILDER.comment("Duration in game ticks.").defineInRange("duration", 9*9*3, 0,
-				Integer.MAX_VALUE);
+		naturalizeSpiralMistDuration = COMMON_BUILDER.comment("Duration in game ticks.").defineInRange("duration",
+				9 * 9 * 3, 0, Integer.MAX_VALUE);
 		naturalizeSpiralMistParticleInfo = getInstance(COMMON_BUILDER, "effect", 1, 10, 0.2, 0.75, 0.75, 0.75);
 		COMMON_BUILDER.pop();
-		
+
 		// VacuumMist
 		name = VacuumMist.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -895,7 +903,7 @@ public class ModConfiguration {
 				Integer.MAX_VALUE);
 		healingMistParticleInfo = getInstance(COMMON_BUILDER, "effect", 5, 20, 0.3, 0.75, 0.0, 0.0);
 		COMMON_BUILDER.pop();
-		
+
 		// SpawnCreeperArmy
 		name = SpawnCreeperArmy.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -973,13 +981,6 @@ public class ModConfiguration {
 				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// Pinkynize
-		name = Pinkynize.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		pinkynizeSpiralSize = COMMON_BUILDER.comment("Spiral size, measured in rotations around the centre.")
-				.defineInRange("spiralSize", 5, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
 		// AddMobsPrimingEffect
 		name = AddMobsPrimingEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1028,14 +1029,21 @@ public class ModConfiguration {
 		name = Naturalize.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		naturalizeSpiralSize = COMMON_BUILDER.comment("Spiral size, measured in rotations around the centre.")
-				.defineInRange("spiralSize", 20, 0, Integer.MAX_VALUE);
+				.defineInRange("spiralSize", 10, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		// Rainbownize
 		name = Rainbownize.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		rainbownizeSpiralSize = COMMON_BUILDER.comment("Spiral size, measured in rotations around the centre.")
-				.defineInRange("spiralSize", 20, 0, Integer.MAX_VALUE);
+				.defineInRange("spiralSize", 10, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// Pinkynize
+		name = Pinkynize.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		pinkynizeSpiralSize = COMMON_BUILDER.comment("Spiral size, measured in rotations around the centre.")
+				.defineInRange("spiralSize", 10, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		// AddSaturationEffect
@@ -1144,8 +1152,17 @@ public class ModConfiguration {
 				0, 5);
 		respawnSpawnArea = COMMON_BUILDER.comment("Size of spawn areas around the dead entity.")
 				.defineInRange("SpawnArea ", 5, 0, 10);
-
 		COMMON_BUILDER.pop();
+
+		
+		// RemoveBlockSpiralIdolInventoryItem
+		name = RemoveBlockSpiralIdolInventoryItem.ITEM_NAME;		
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		removeBlockSpiralIdolInventoryItemSpiralSize = COMMON_BUILDER
+				.comment("Spiral size, measured in rotations around the centre.")
+				.defineInRange("spiralSize", 5, 0, Integer.MAX_VALUE);
+		removeBlockSpiralIdolInventoryItemParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 5, 10, 0.3, 1.0, 1.0, 1.0);
+		COMMON_BUILDER.pop();		
 	}
 
 	/**
@@ -1283,8 +1300,9 @@ public class ModConfiguration {
 
 		// HealingMistBook
 		name = HealingMistBook.ITEM_NAME;
-		healingMistBook = getInstance(COMMON_BUILDER, name, "It creates a cloud of healing that heal nearby friends and foes.", 100);
-		
+		healingMistBook = getInstance(COMMON_BUILDER, name,
+				"It creates a cloud of healing that heal nearby friends and foes.", 100);
+
 		// SpawnCreeperArmyBook
 		name = SpawnCreeperArmyBook.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1365,9 +1383,7 @@ public class ModConfiguration {
 		// NaturalizeBook
 		name = NaturalizeBook.ITEM_NAME;
 		naturalizeBook = getInstance(COMMON_BUILDER, name,
-				"Right-click to create an expanding spiral of flowers around the caster.",
-				25);
-		
+				"Right-click to create an expanding spiral of flowers around the caster.", 25);
 	}
 
 	/**
@@ -1563,6 +1579,14 @@ public class ModConfiguration {
 		respawnIdolInventoryItem = getInstance(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will curse nearby mobs with a spectral curse. When a cursed mob dies any number of spectres will respawn.",
 				25, 5, splParticles);
+
+		// RemoveBlockSpiralIdolInventoryItem
+		name = RemoveBlockSpiralIdolInventoryItem.ITEM_NAME;
+		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1.0, 1.0, 0.4, 0.7);
+		removeBlockSpiralIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
+				"Equip in either hand to activate. The idol will remove blocks in an expandinf spiral.", 5,
+				splParticles);
+		
 	}
 
 	/**

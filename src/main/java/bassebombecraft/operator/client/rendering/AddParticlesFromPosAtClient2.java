@@ -33,7 +33,7 @@ public class AddParticlesFromPosAtClient2 implements Operator2 {
 	 * Constructor.
 	 * 
 	 * @param particles  particle rendering infos.
-	 * @param fnBlockPos function to get block position where particles should
+	 * @param fnBlockPos function to get block position where particles should be
 	 *                   rendered.
 	 */
 	public AddParticlesFromPosAtClient2(ParticleRenderingInfo[] infos, Function<Ports, BlockPos> fnBlockPos) {

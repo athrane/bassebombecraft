@@ -39,8 +39,6 @@ public class NaturalizeSpiralMist implements BlockMistActionStrategy {
 	 */
 	int duration;
 
-	int colorCounter = 0;
-
 	/**
 	 * Constructor.
 	 */
@@ -48,10 +46,9 @@ public class NaturalizeSpiralMist implements BlockMistActionStrategy {
 		infos = createFromConfig(naturalizeSpiralMistParticleInfo);
 		duration = naturalizeSpiralMistDuration.get();
 	}
-	
+
 	@Override
 	public void applyEffectToBlock(BlockPos target, World world) {
-		colorCounter++;
 
 		// create dirt block
 		BlockDirective directive = getInstance(target, GRASS_BLOCK, DONT_HARVEST, world);

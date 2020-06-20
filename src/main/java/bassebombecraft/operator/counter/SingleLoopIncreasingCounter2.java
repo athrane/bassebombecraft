@@ -4,13 +4,17 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 
 /**
- * Implementation of the {@linkplain Operator2} interface implements a counter.
+ * Implementation of the {@linkplain Operator2} interface which implements a
+ * counter.
  * 
  * The counter is increasing to and including the max value. When the max value
  * is reached then it isn't increased further.
  * 
- * When the counter hasn't reached the max value, the result port is updated as
+ * If the counter hasn't reached the max value, the result port is updated as
  * successful to support conditional execution of other sequential operators.
+ * 
+ * If the counter has reached the max value, the result port is updated as
+ * unsuccessful.
  * 
  * The state of the counter is maintained in the {@linkplain Ports} using its
  * counter.

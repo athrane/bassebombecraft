@@ -1,6 +1,7 @@
 package bassebombecraft.operator.block;
 
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
+import static bassebombecraft.geom.GeometryUtils.calculateSpiral;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import net.minecraft.world.World;
 public class CalculateSpiralPosition2 implements Operator2 {
 
 	/**
-	 * Spiral coordinates.
+	 * list of coordinates which constitutes the spiral.
 	 */
 	List<BlockPos> spiralCoordinates;
 
@@ -40,16 +41,15 @@ public class CalculateSpiralPosition2 implements Operator2 {
 	/**
 	 * Constructor.
 	 * 
-	 * @param spiralCoordinates list of coordinates which constitutes the spiral.
-	 * @param fnGetBlockPos     function to get the centre of the spiral.
-	 * @param bcSetBlockPos     function to set next calculate position in the
-	 *                          spiral.
+	 * @param spiralSize    size of the spiral.
+	 * @param fnGetBlockPos function to get the centre of the spiral.
+	 * @param bcSetBlockPos function to set next calculate position in the spiral.
 	 */
-	public CalculateSpiralPosition2(List<BlockPos> spiralCoordinates, Function<Ports, BlockPos> fnGetBlockPos,
+	public CalculateSpiralPosition2(int spiralSize, Function<Ports, BlockPos> fnGetBlockPos,
 			BiConsumer<Ports, BlockPos> bcSetBlockPos) {
-		this.spiralCoordinates = spiralCoordinates;
 		this.fnGetBlockPos = fnGetBlockPos;
 		this.bcSetBlockPos = bcSetBlockPos;
+		this.spiralCoordinates = calculateSpiral(spiralSize, spiralSize);
 	}
 
 	@Override
@@ -65,13 +65,13 @@ public class CalculateSpiralPosition2 implements Operator2 {
 		int x = center.getX() + spiralCoord.getX();
 		int y = center.getY();
 		int z = center.getZ() + spiralCoord.getZ();
-		BlockPos groundCandidate = new BlockPos(x, y, z);
+		BlockPos candidate = new BlockPos(x, y, z);
 
 		// get world
 		World world = ports.getWorld();
 
 		// locate ground block
-		BlockPos position = locateGroundBlockPos(groundCandidate, ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK, world);
+		BlockPos position = locateGroundBlockPos(candidate, ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK, world);
 
 		// add spiral position to ports
 		bcSetBlockPos.accept(ports, position);

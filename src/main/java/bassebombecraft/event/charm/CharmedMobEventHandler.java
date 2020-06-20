@@ -3,11 +3,13 @@ package bassebombecraft.event.charm;
 import static bassebombecraft.ModConstants.CHARM_PARTICLE_RENDERING_FREQUENCY;
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.config.ModConfiguration.charmedMobParticles;
+import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
 
 import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.network.packet.AddParticleRendering;
 import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.client.rendering.AddParticlesFromEntityAtClient2;
 import bassebombecraft.operator.conditional.IsEntityIsCharmed2;
 import bassebombecraft.operator.conditional.IsEntityOfType2;
@@ -48,12 +50,14 @@ public class CharmedMobEventHandler {
 
 	@SubscribeEvent
 	static public void handleLivingUpdateEvent(LivingUpdateEvent event) {
-		run(event.getEntityLiving(), particlesOps);
+		Ports ports = getInstance().setLivingEntity(event.getEntityLiving());
+		run(ports, particlesOps);
 	}
 
 	@SubscribeEvent
 	public static void handleLivingDeathEvent(LivingDeathEvent event) {
-		run(event.getEntityLiving(), uncharmOps);
+		Ports ports = getInstance().setLivingEntity(event.getEntityLiving());		
+		run(ports, uncharmOps);
 	}
 
 }

@@ -14,11 +14,6 @@ import net.minecraft.world.World;
 public class ExecuteOperatorOnTarget implements InventoryItemActionStrategy {
 
 	/**
-	 * Action identifier.
-	 */
-	public static final String NAME = ExecuteOperatorOnTarget.class.getSimpleName();
-
-	/**
 	 * Operator execution.
 	 */
 	Operators operators;

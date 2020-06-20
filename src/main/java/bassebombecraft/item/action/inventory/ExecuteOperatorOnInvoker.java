@@ -1,6 +1,9 @@
 package bassebombecraft.item.action.inventory;
 
-import bassebombecraft.operator.Operators;
+import static bassebombecraft.operator.Operators2.run;
+
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
@@ -10,26 +13,30 @@ import net.minecraft.world.World;
  * embedded operators.
  * 
  * Strategy is invoked when target is invoker.
+ * 
+ * The ports is updated with the world and the invoker entity.
  */
 public class ExecuteOperatorOnInvoker implements InventoryItemActionStrategy {
 
 	/**
-	 * Action identifier.
+	 * Operator ports.
 	 */
-	public static final String NAME = ExecuteOperatorOnInvoker.class.getSimpleName();
+	Ports ports;
 
 	/**
-	 * Operator execution.
+	 * Operators.
 	 */
-	Operators operators;
+	Operator2[] ops;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param operators operators to execute.
+	 * @param ports ports used by operators.
+	 * @param ops   operators executed by the job.
 	 */
-	public ExecuteOperatorOnInvoker(Operators operators) {
-		this.operators = operators;
+	public ExecuteOperatorOnInvoker(Ports ports, Operator2[] ops) {
+		this.ops = ops;
+		this.ports = ports;
 	}
 
 	@Override
@@ -44,7 +51,9 @@ public class ExecuteOperatorOnInvoker implements InventoryItemActionStrategy {
 
 	@Override
 	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
-		operators.run(invoker, target);
+		ports.setLivingEntity(invoker);
+		ports.setWorld(world);
+		run(ports, ops);
 	}
 
 }

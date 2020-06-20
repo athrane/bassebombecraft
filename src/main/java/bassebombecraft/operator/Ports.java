@@ -19,21 +19,33 @@ public interface Ports {
 	Supplier<LivingEntity> getSplLivingEntity();
 
 	/**
-	 * Get {@linkplain LivingEntity}.
+	 * Get {@linkplain LivingEntity} #1.
 	 * 
-	 * @return living entity.
+	 * @return living entity #1.
 	 */
 	LivingEntity getLivingEntity();
 
 	/**
-	 * Set result of operator execution as a success.
+	 * Set {@linkplain LivingEntity} #1.
+	 * 
+	 * @return ports.
+	 * 
 	 */
-	void setResultAsSucces();
+	Ports setLivingEntity(LivingEntity entity);
+	
+	/**
+	 * Set result of operator execution as a success.
+	 * 
+	 * @return ports.
+	 */
+	Ports setResultAsSucces();
 
 	/**
 	 * Set result of operator execution as a failed.
+	 * 
+	 * @return ports.
 	 */
-	void setResultAsFailed();
+	Ports setResultAsFailed();
 
 	/**
 	 * Get result of operation execution.
@@ -41,28 +53,28 @@ public interface Ports {
 	boolean getResult();
 
 	/**
-	 * Set block position #1.
+	 * Set {@linkplain BlockPos} #1.
 	 * 
 	 * @param pos block position.
 	 */
 	void setBlockPosition1(BlockPos pos);
 
 	/**
-	 * Return block position #1.
+	 * Return {@linkplain BlockPos} #1.
 	 * 
 	 * @return block position.
 	 */
 	BlockPos getBlockPosition1();
 
 	/**
-	 * Set block position #2.
+	 * Set {@linkplain BlockPos} #2.
 	 * 
 	 * @param pos block position.
 	 */
 	void setBlockPosition2(BlockPos pos);
 
 	/**
-	 * Return block position #2.
+	 * Return {@linkplain BlockPos} #2.
 	 * 
 	 * @return block position.
 	 */
@@ -80,14 +92,16 @@ public interface Ports {
 	 * 
 	 * @param world world object.
 	 */
-	void setWorld(World world);
+	Ports setWorld(World world);
 
 	/**
 	 * Set counter value.
 	 * 
 	 * @param value value to set a counter.
+	 * 
+	 * @return ports.
 	 */
-	void setCounter(int value);
+	Ports setCounter(int value);
 
 	/**
 	 * Return counter value.

@@ -14,7 +14,7 @@ import bassebombecraft.operator.Ports;
  * operators.
  *
  */
-public class ExecuteOperatorAsJob implements Job {
+public class ExecuteOperatorAsJob2 implements Job {
 
 	/**
 	 * Operator ports.
@@ -32,7 +32,7 @@ public class ExecuteOperatorAsJob implements Job {
 	 * @param ports ports used by operators.
 	 * @param ops   operators executed by the job.
 	 */
-	ExecuteOperatorAsJob(Ports ports, Operator2[] ops) {
+	ExecuteOperatorAsJob2(Ports ports, Operator2[] ops) {
 		this.ops = ops;
 		this.ports = ports;
 	}
@@ -51,7 +51,7 @@ public class ExecuteOperatorAsJob implements Job {
 	 * @return ports.
 	 */
 	public static Job getInstance(Ports ports, Operator2[] ops) {
-		return new ExecuteOperatorAsJob(ports, ops);
+		return new ExecuteOperatorAsJob2(ports, ops);
 	}
 
 }

@@ -102,6 +102,12 @@ public class DefaultPorts implements Ports {
 	public LivingEntity getLivingEntity() {
 		return livingEntity;
 	}
+	
+	@Override
+	public Ports setLivingEntity(LivingEntity entity) {
+		this.livingEntity = entity;		
+		return this;
+	}
 
 	@Override
 	public void setBlockPosition1(BlockPos pos) {
@@ -130,18 +136,21 @@ public class DefaultPorts implements Ports {
 	}
 
 	@Override
-	public void setWorld(World world) {
+	public Ports setWorld(World world) {
 		this.world = world;
+		return this;
 	}
 
 	@Override
-	public void setResultAsSucces() {
+	public Ports setResultAsSucces() {
 		this.result = true;
+		return this;		
 	}
 
 	@Override
-	public void setResultAsFailed() {
+	public Ports setResultAsFailed() {
 		this.result = false;
+		return this;		
 	}
 
 	@Override
@@ -150,8 +159,9 @@ public class DefaultPorts implements Ports {
 	}
 
 	@Override
-	public void setCounter(int value) {
+	public Ports setCounter(int value) {
 		this.counter = value;
+		return this;		
 	}
 
 	@Override
