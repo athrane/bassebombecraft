@@ -565,6 +565,8 @@ public class RenderingUtils {
 		fontRenderer.renderString(text, x, y, TEXT_COLOR, DROP_SHADOW, positionMatrix, buffer, IS_TRANSPARENT,
 				TEXT_EFFECT, PACKED_LIGHT);
 		matrixStack.pop();
+		
+		
 	}
 
 	/**
@@ -572,6 +574,7 @@ public class RenderingUtils {
 	 * 
 	 * @param aabb AABB to render.
 	 */
+	@Deprecated
 	public static void renderWireframeBox(AxisAlignedBB aabb) {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuffer();
@@ -622,6 +625,7 @@ public class RenderingUtils {
 	 * 
 	 * @param aabb AABB to render.
 	 */
+	@Deprecated
 	public static void renderSolidBox(AxisAlignedBB aabb) {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuffer();

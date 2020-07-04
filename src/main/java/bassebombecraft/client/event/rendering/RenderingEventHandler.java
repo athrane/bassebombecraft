@@ -13,7 +13,6 @@ import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 import bassebombecraft.client.player.ClientPlayerUtils;
 import bassebombecraft.client.rendering.DefaultBuildMineRenderer;
 import bassebombecraft.client.rendering.DefaultCharmedRenderer;
-import bassebombecraft.client.rendering.DefaultLookAtBlockRenderer;
 import bassebombecraft.client.rendering.DefaultTeamRenderer;
 import bassebombecraft.client.rendering.EntityRenderer;
 import bassebombecraft.client.rendering.RenderingInfo;
@@ -28,6 +27,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 /**
  * Event handler for additional rendering.
  */
+@Deprecated
 public class RenderingEventHandler {
 
 	/**
@@ -44,11 +44,6 @@ public class RenderingEventHandler {
 	 * Renderer for rendering charmed mobs in the HUD Item.
 	 */
 	static final EntityRenderer charmedRenderer = new DefaultCharmedRenderer();
-
-	/**
-	 * Renderer for rendering the block looked at by the player.
-	 */
-	static final EntityRenderer lookedAtBlockRenderer = new DefaultLookAtBlockRenderer();
 
 	/**
 	 * Renderer for rendering construction of the mine in the build mine book.
@@ -119,11 +114,6 @@ public class RenderingEventHandler {
 
 			// create rendering info
 			RenderingInfo info = getInstance(event.getPartialTicks(), event.getTarget());
-
-			// render if HUD item is in hotbar
-			if (isItemInHotbar(player, HUD_ITEM)) {
-				lookedAtBlockRenderer.render(player, info);
-			}
 
 			// render if build mine book is in hand
 			if (isItemHeldInEitherHands(player, BUILD_MINE_BOOK)) {

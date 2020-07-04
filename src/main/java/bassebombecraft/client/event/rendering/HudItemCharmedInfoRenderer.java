@@ -16,6 +16,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import bassebombecraft.event.charm.CharmedMob;
 import bassebombecraft.event.charm.CharmedMobsRepository;
+import bassebombecraft.item.basic.HudItem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.entity.LivingEntity;
@@ -23,9 +24,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 /**
- * Rendering charmed information in the HUD item.
+ * Rendering charmed information in the {@linkplain HudItem}.
  */
-public class CharmedInfoRenderer {
+public class HudItemCharmedInfoRenderer {
 
 	/**
 	 * HUD text x position.

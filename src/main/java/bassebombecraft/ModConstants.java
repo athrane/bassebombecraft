@@ -35,6 +35,7 @@ import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.MobProjectileEffect;
 import bassebombecraft.potion.effect.ReceiveAggroEffect;
 import bassebombecraft.potion.effect.ReflectEffect;
+import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.potion.Effect;
@@ -330,16 +331,28 @@ public class ModConstants {
 	public static final float TEXT_SCALE = 0.02F;
 
 	/**
+	 * Rendering: Text scale for rendering of billboard text in
+	 * HUD item in the {@linkplain RenderTextBillboard2} class.
+	 */
+	public static final float TEXT_SCALE_2 = 0.0007F;
+	
+	/**
 	 * Rendering: Text color.
 	 */
 	public static final int TEXT_COLOR = 0x00C000;
 
 	/**
-	 * Rendering_ Text translation along Z-axis for rendering of billboard text in
+	 * Rendering: Text translation along Z-axis for rendering of billboard text in
 	 * HUD item in the {@linkplain TeamInfoRenderer} class.
 	 */
 	public static final int TEXT_Z_TRANSLATION = 200;
 
+	/**
+	 * Rendering: Text translation along Z-axis for rendering of billboard text in
+	 * HUD item in the {@linkplain RenderTextBillboard2} class.
+	 */
+	public static final int TEXT_Z_TRANSLATION_2 = 100;
+	
 	/**
 	 * Rendering: Text color for {@linkplain BuildMineBook} in
 	 * {@linkplain DefaultBuildMineRenderer}.
@@ -376,6 +389,11 @@ public class ModConstants {
 	 */
 	public static final BlockMode RAYTRACE_OUTLINE = RayTraceContext.BlockMode.OUTLINE;
 
+	/**
+	 * HUD Item: Line color.
+	 */
+	public static final Vector4f HUD_LINE_COLOR = new Vector4f(0, 0.75F, 0, 1);
+	
 	/**
 	 * Defines should be effect only.
 	 */

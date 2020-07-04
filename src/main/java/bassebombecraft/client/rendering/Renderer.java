@@ -6,6 +6,7 @@ import net.minecraft.util.math.Vec3d;
 /**
  * Interface for rendering stuff.
  */
+@Deprecated
 public interface Renderer {
 
 	/**

@@ -15,8 +15,8 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import bassebombecraft.client.event.rendering.rendertype.OverlayLines;
 import bassebombecraft.client.rendering.RenderingUtils;
+import bassebombecraft.client.rendering.rendertype.OverlayLines;
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

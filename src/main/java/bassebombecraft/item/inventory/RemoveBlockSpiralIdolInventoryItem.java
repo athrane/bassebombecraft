@@ -32,6 +32,9 @@ public class RemoveBlockSpiralIdolInventoryItem extends GenericInventoryItem {
 
 	public static final String ITEM_NAME = RemoveBlockSpiralIdolInventoryItem.class.getSimpleName();
 
+	/**
+	 * Create operators.
+	 */
 	static Supplier<Operator2[]> splOp = () -> {
 
 		// Read configuration values

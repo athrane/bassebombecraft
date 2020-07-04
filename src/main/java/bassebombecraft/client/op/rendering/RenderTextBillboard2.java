@@ -1,0 +1,124 @@
+package bassebombecraft.client.op.rendering;
+
+import static bassebombecraft.ModConstants.TEXT_COLOR;
+import static bassebombecraft.ModConstants.TEXT_SCALE_2;
+import static bassebombecraft.ModConstants.TEXT_Z_TRANSLATION;
+import static bassebombecraft.client.rendering.RenderingUtils.oscillate;
+
+import java.util.function.Function;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
+
+/**
+ * Implementation of the {@linkplain Operator2} interface which renders a text
+ * billboard.
+ * 
+ * Supports rendering of billboard text in the renderer instances handling
+ * processing the {@linkplain RenderWorldLastEvent}.
+ */
+public class RenderTextBillboard2 implements Operator2 {
+
+	/**
+	 * Packed light
+	 */
+	static final int PACKED_LIGHT = 0xf000f0;
+
+	/**
+	 * Some text effect.
+	 */
+	static final int TEXT_EFFECT = 0;
+
+	/**
+	 * Text isn't rendered transparent.
+	 */
+	static final boolean IS_TRANSPARENT = false;
+
+	/**
+	 * Render text with no drop shadow.
+	 */
+	static final boolean DROP_SHADOW = false;
+
+	/**
+	 * oscillate max value.
+	 */
+	float oscillateMax;
+	
+	/**
+	 * Function get message to render.
+	 */
+	Function<Ports, String> fnGetString;
+
+	/**
+	 * X coordinate for placement of billboard.
+	 */
+	int x;
+
+	/**
+	 * Y coordinate for placement of billboard.
+	 */
+	int y;
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param oscillateMax oscillate max value
+	 * @param fnGetString function to get message.
+	 * @param x           x coordinate for placement of billboard.
+	 * @param y           y coordinate for placement of billboard.
+	 */
+	public RenderTextBillboard2(float oscillateMax, Function<Ports, String> fnGetString, int x, int y) {
+		this.oscillateMax = oscillateMax;		
+		this.fnGetString = fnGetString;
+		this.x = x;
+		this.y = y;
+	}
+	
+	@Override
+	public Ports run(Ports ports) {
+
+		// get render buffer
+		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+		// IVertexBuilder builder = buffer.getBuffer(OverlayLines.OVERLAY_LINES);
+
+		// get rendering engine
+		EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
+		FontRenderer fontRenderer = renderManager.getFontRenderer();
+
+		// push matrix
+		MatrixStack matrixStack = ports.getMatrixStack();
+		matrixStack.push();
+
+		// setup matrix
+		matrixStack.scale(TEXT_SCALE_2, TEXT_SCALE_2, TEXT_SCALE_2);
+		matrixStack.rotate(renderManager.getCameraOrientation());
+		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
+		double zTranslation = TEXT_Z_TRANSLATION + oscillate(0, oscillateMax);
+		matrixStack.translate(0, 0, zTranslation);
+
+		// render message
+		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		String message = fnGetString.apply(ports);
+		fontRenderer.renderString(message, x, y, TEXT_COLOR, DROP_SHADOW, positionMatrix, buffer, IS_TRANSPARENT,
+				TEXT_EFFECT, PACKED_LIGHT);
+
+		// restore matrix
+		matrixStack.pop();
+
+		// Rendering bug, see: https://wiki.mcjty.eu/modding/index.php?title=Tut15_Ep15
+		// RenderSystem.disableDepthTest();
+		// buffer.finish(OverlayLines.OVERLAY_LINES);
+
+		return ports;
+	}
+
+}

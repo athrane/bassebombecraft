@@ -15,9 +15,10 @@ import org.apache.logging.log4j.Logger;
 import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
 import bassebombecraft.client.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.client.event.particle.ParticleRenderingRepository;
-import bassebombecraft.client.event.rendering.CharmedInfoRenderer;
 import bassebombecraft.client.event.rendering.DecoyRenderer;
 import bassebombecraft.client.event.rendering.DecreaseSizeEffectRenderer;
+import bassebombecraft.client.event.rendering.HudItemCharmedInfoRenderer;
+import bassebombecraft.client.event.rendering.HudItemHighlightedBlockRenderer;
 import bassebombecraft.client.event.rendering.IncreaseSizeEffectRenderer;
 import bassebombecraft.client.event.rendering.RenderingEventHandler;
 import bassebombecraft.client.event.rendering.RespawnedRenderer;
@@ -79,7 +80,7 @@ public class ClientProxy implements Proxy {
 	 * Job repository.
 	 */
 	JobRepository jobRepository;
-	
+
 	/**
 	 * Particle rendering repository.
 	 */
@@ -140,7 +141,7 @@ public class ClientProxy implements Proxy {
 
 		// initialise job repository
 		jobRepository = DefaultJobReposiory.getInstance();
-		
+
 		// Initialise particle rendering repository
 		particleRepository = DefaultParticleRenderingRepository.getInstance();
 
@@ -272,6 +273,7 @@ public class ClientProxy implements Proxy {
 		// EVENT_BUS.addListener(DebugRenderer_StrangeSize::render);
 		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPre);
 		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPost);
+		// EVENT_BUS.addListener(DebugRenderer_WorldLastEvent_GuiLines::render);
 
 		// register renderer classes
 		EVENT_BUS.addListener(RenderingEventHandler::handleRenderGameOverlayEvent);
@@ -279,7 +281,8 @@ public class ClientProxy implements Proxy {
 		EVENT_BUS.addListener(RenderingEventHandler::handleHighlightBlock);
 		// EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
 		// EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
-		EVENT_BUS.addListener(CharmedInfoRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(HudItemCharmedInfoRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(HudItemHighlightedBlockRenderer::handleHighlightBlockEvent);
 		// EVENT_BUS.addListener(TeamEnityRenderer::handleRenderLivingEvent);
 		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPre);
 		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPost);
@@ -320,7 +323,7 @@ public class ClientProxy implements Proxy {
 	public JobRepository getServerJobRepository() {
 		return jobRepository;
 	}
-	
+
 	@Override
 	public ParticleRenderingRepository getClientParticleRenderingRepository() throws UnsupportedOperationException {
 		return particleRepository;

@@ -1,8 +1,9 @@
 package bassebombecraft.operator;
 
-import java.util.function.Supplier;
+import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -10,13 +11,6 @@ import net.minecraft.world.World;
  * Ports which provides input and output from operators.
  */
 public interface Ports {
-
-	/**
-	 * Get {@linkplain LivingEntity} supplier.
-	 * 
-	 * @return entity supplier.
-	 */
-	Supplier<LivingEntity> getSplLivingEntity();
 
 	/**
 	 * Get {@linkplain LivingEntity} #1.
@@ -32,7 +26,7 @@ public interface Ports {
 	 * 
 	 */
 	Ports setLivingEntity(LivingEntity entity);
-	
+
 	/**
 	 * Set result of operator execution as a success.
 	 * 
@@ -81,6 +75,34 @@ public interface Ports {
 	BlockPos getBlockPosition2();
 
 	/**
+	 * Get string #1.
+	 * 
+	 * @return string #1 .
+	 */
+	String getString1();
+
+	/**
+	 * Set string  #1.
+	 * 
+	 * @return ports.
+	 */
+	Ports setString1(String value);
+
+	/**
+	 * Get string #2.
+	 * 
+	 * @return string #2 .
+	 */
+	String getString2();
+
+	/**
+	 * Set string #2.
+	 * 
+	 * @return ports.
+	 */
+	Ports setString2(String value);
+	
+	/**
 	 * Return world.
 	 * 
 	 * @return world.
@@ -116,4 +138,37 @@ public interface Ports {
 	 * @return counter value.
 	 */
 	int incrementCounter();
+
+	/**
+	 * Get AABB.
+	 * 
+	 * @return AABB.
+	 */
+	AxisAlignedBB getAabb();
+
+	/**
+	 * Set AABB.
+	 * 
+	 * @param aabb AABB to set.
+	 *
+	 * @return ports.
+	 */
+	Ports setAabb(AxisAlignedBB aabb);
+
+	/**
+	 * Get matrix stack.
+	 * 
+	 * @return matrix stack.
+	 */
+	MatrixStack getMatrixStack();
+
+	/**
+	 * Set matrix stack .
+	 * 
+	 * @param ms matrix stack.
+	 * 
+	 * @return ports.
+	 */
+	Ports setMatrixStack(MatrixStack ms);
+
 }
