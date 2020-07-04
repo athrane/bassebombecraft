@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
 import bassebombecraft.client.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.client.event.particle.ParticleRenderingRepository;
+import bassebombecraft.client.event.rendering.BuildMineBookRenderer;
 import bassebombecraft.client.event.rendering.DecoyRenderer;
 import bassebombecraft.client.event.rendering.DecreaseSizeEffectRenderer;
 import bassebombecraft.client.event.rendering.HudItemCharmedInfoRenderer;
@@ -283,6 +284,7 @@ public class ClientProxy implements Proxy {
 		// EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
 		EVENT_BUS.addListener(HudItemCharmedInfoRenderer::handleRenderWorldLastEvent);
 		EVENT_BUS.addListener(HudItemHighlightedBlockRenderer::handleHighlightBlockEvent);
+		EVENT_BUS.addListener(BuildMineBookRenderer::handleHighlightBlockEvent);
 		// EVENT_BUS.addListener(TeamEnityRenderer::handleRenderLivingEvent);
 		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPre);
 		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPost);
