@@ -69,18 +69,48 @@ public class RenderTextBillboard2 implements Operator2 {
 	int y;
 
 	/**
+	 * Text color.
+	 */
+	int textColor;
+
+	/**
 	 * Constructor.
 	 * 
-	 * @param oscillateMax oscillate max value
+	 * @param fnGetString function to get message.
+	 * @param x           x coordinate for placement of billboard.
+	 * @param y           y coordinate for placement of billboard.
+	 */
+	public RenderTextBillboard2(Function<Ports, String> fnGetString, int x, int y) {
+		this(fnGetString, x, y, 0);
+	}
+
+	/**
+	 * Constructor.
+	 * 
 	 * @param fnGetString  function to get message.
 	 * @param x            x coordinate for placement of billboard.
 	 * @param y            y coordinate for placement of billboard.
+	 * @param oscillateMax oscillate max value
 	 */
-	public RenderTextBillboard2(float oscillateMax, Function<Ports, String> fnGetString, int x, int y) {
-		this.oscillateMax = oscillateMax;
+	public RenderTextBillboard2(Function<Ports, String> fnGetString, int x, int y, float oscillateMax) {
+		this(fnGetString, x, y, oscillateMax, TEXT_COLOR);
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param fnGetString  function to get message.
+	 * @param x            x coordinate for placement of billboard.
+	 * @param y            y coordinate for placement of billboard.
+	 * @param oscillateMax oscillate max value
+	 * @param textColor    text color.
+	 */
+	public RenderTextBillboard2(Function<Ports, String> fnGetString, int x, int y, float oscillateMax, int textColor) {
 		this.fnGetString = fnGetString;
 		this.x = x;
 		this.y = y;
+		this.oscillateMax = oscillateMax;
+		this.textColor = textColor;
 	}
 
 	@Override
@@ -108,7 +138,7 @@ public class RenderTextBillboard2 implements Operator2 {
 		// render message
 		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
 		String message = fnGetString.apply(ports);
-		fontRenderer.renderString(message, x, y, TEXT_COLOR, DROP_SHADOW, positionMatrix, buffer, IS_TRANSPARENT,
+		fontRenderer.renderString(message, x, y, textColor, DROP_SHADOW, positionMatrix, buffer, IS_TRANSPARENT,
 				TEXT_EFFECT, PACKED_LIGHT);
 
 		// restore matrix

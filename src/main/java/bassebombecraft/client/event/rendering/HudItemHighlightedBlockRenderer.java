@@ -43,15 +43,15 @@ public class HudItemHighlightedBlockRenderer {
 	/**
 	 * Highlighted text oscillation value.
 	 */
-	static final float TEXT_OSCILLIATION = 50F;
+	static final float TEXT_OSCILLIATION = 25F;
 
 	/**
 	 * Create operators.
 	 */
 	static Supplier<Operator2[]> splOp = () -> {
 		Operator2[] ops = { new RenderWireframeBoundingBox2(AABB_OSCILLIATION, HUD_LINE_COLOR, OVERLAY_LINES),
-				new RenderTextBillboard2(TEXT_OSCILLIATION, getFnGetString1(), -5, 0),
-				new RenderTextBillboard2(TEXT_OSCILLIATION, getFnGetString2(), -5, -5) };
+				new RenderTextBillboard2(getFnGetString1(), -5, 0, TEXT_OSCILLIATION),
+				new RenderTextBillboard2(getFnGetString2(), -5, -10, TEXT_OSCILLIATION) };
 		return ops;
 	};
 

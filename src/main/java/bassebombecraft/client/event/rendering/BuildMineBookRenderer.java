@@ -1,6 +1,7 @@
 package bassebombecraft.client.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ClientModConstants.BUILDMINEBOOK_TEXT_COLOR;
 import static bassebombecraft.ClientModConstants.HUD_LINE_COLOR;
 import static bassebombecraft.ModConstants.BUILD_MINE_BOOK;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
@@ -40,14 +41,14 @@ public class BuildMineBookRenderer {
 	/**
 	 * Highlighted text oscillation value.
 	 */
-	static final float TEXT_OSCILLIATION = 50F;
+	static final float TEXT_OSCILLIATION = 25F;
 
 	/**
 	 * Create operators.
 	 */
 	static Supplier<Operator2[]> splOp = () -> {
 		Operator2[] ops = { new RenderWireframeBoundingBox2(AABB_OSCILLIATION, HUD_LINE_COLOR, OVERLAY_LINES),
-				new RenderTextBillboard2(TEXT_OSCILLIATION, getFnGetString1(), -5, -5) };
+				new RenderTextBillboard2(getFnGetString1(), -5, -20, TEXT_OSCILLIATION, BUILDMINEBOOK_TEXT_COLOR) };
 		return ops;
 	};
 

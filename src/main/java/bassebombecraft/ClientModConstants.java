@@ -52,4 +52,10 @@ public class ClientModConstants {
 	 */
 	public static final float TEXT_SCALE_2 = 0.0007F;
 
+	/**
+	 * Rendering: Text color for {@linkplain BuildMineBook} in
+	 * {@linkplain BuildMineBookRenderer}.
+	 */
+	public static final int BUILDMINEBOOK_TEXT_COLOR = 0xC0C000;
+
 }
