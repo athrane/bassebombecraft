@@ -1,6 +1,7 @@
 package bassebombecraft.client.rendering;
 
-import static bassebombecraft.ModConstants.TEXT_SCALE;
+import static bassebombecraft.ClientModConstants.TEXT_COLOR;
+import static bassebombecraft.ClientModConstants.TEXT_SCALE;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
 
@@ -8,7 +9,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import static bassebombecraft.ClientModConstants.*;
 import bassebombecraft.client.rendering.rendertype.OverlayLines;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -93,8 +93,7 @@ public class DebugRenderer_Highlightblock {
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
 		matrixStack.translate(0, 0, 100);
 		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
-		fontrenderer.renderString(text, x, y, TEXT_COLOR, false, positionMatrix, buffer, false, 0,
-				0xf000f0);
+		fontrenderer.renderString(text, x, y, TEXT_COLOR, false, positionMatrix, buffer, false, 0, 0xf000f0);
 		matrixStack.pop();
 
 	}

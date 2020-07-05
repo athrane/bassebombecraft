@@ -39,9 +39,6 @@ import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceContext.BlockMode;
-import net.minecraft.util.math.RayTraceContext.FluidMode;
 
 /**
  * Mod constants.
@@ -323,11 +320,6 @@ public class ModConstants {
 	public static final float EQUILATERAL_TRIANGLE_HEIGHT = 0.866F;
 
 	/**
-	 * Rendering: Text scale
-	 */
-	public static final float TEXT_SCALE = 0.02F;
-
-	/**
 	 * HUD item: Team target label.
 	 */
 	public static final String TARGET_LABEL = "Target";
@@ -341,21 +333,6 @@ public class ModConstants {
 	 * HUD Item: Number of targets to render.
 	 */
 	public static final int TEAM_MEMBERS_TO_RENDER = 7;
-
-	/**
-	 * HUD Item: Ray trace range in blocks.
-	 */
-	public static final double RAYTRACE_RANGE = 20;
-
-	/**
-	 * HUD Item: Ray trace mode for fluids.
-	 */
-	public static final FluidMode RAYTRACE_FLUIDS = RayTraceContext.FluidMode.ANY;
-
-	/**
-	 * HUD Item: Ray trace mode for blocks.
-	 */
-	public static final BlockMode RAYTRACE_OUTLINE = RayTraceContext.BlockMode.OUTLINE;
 
 	/**
 	 * Defines should be effect only.

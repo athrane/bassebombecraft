@@ -1,9 +1,9 @@
 package bassebombecraft.client.rendering;
 
 import static bassebombecraft.ClientModConstants.TEXT_BILLBOARD_ROTATION;
+import static bassebombecraft.ClientModConstants.TEXT_SCALE;
 import static bassebombecraft.ModConstants.BILLBOARD_LINE_WIDTH;
 import static bassebombecraft.ModConstants.EQUILATERAL_TRIANGLE_HEIGHT;
-import static bassebombecraft.ModConstants.TEXT_SCALE;
 
 import java.time.Instant;
 

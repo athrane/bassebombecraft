@@ -63,4 +63,9 @@ public class ClientModConstants {
 	 */
 	public static final int TEXT_COLOR = 0x00C000;
 
+	/**
+	 * Rendering: Text scale
+	 */
+	public static final float TEXT_SCALE = 0.02F;
+
 }

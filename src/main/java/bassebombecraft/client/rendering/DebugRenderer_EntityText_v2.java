@@ -1,11 +1,11 @@
 package bassebombecraft.client.rendering;
 
-import static bassebombecraft.ModConstants.TEXT_SCALE;
+import static bassebombecraft.ClientModConstants.TEXT_COLOR;
+import static bassebombecraft.ClientModConstants.TEXT_SCALE;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import static bassebombecraft.ClientModConstants.*;
 import bassebombecraft.client.rendering.rendertype.OverlayLines;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

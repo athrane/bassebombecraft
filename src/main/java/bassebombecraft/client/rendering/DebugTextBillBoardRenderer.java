@@ -9,6 +9,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import bassebombecraft.BassebombeCraft;
 import bassebombecraft.ClientModConstants;
+import bassebombecraft.ClientModConstants.TEXT_SCALE;
 import bassebombecraft.player.PlayerUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ActiveRenderInfo;
@@ -177,7 +178,7 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 		RenderSystem.translated(textTranslation.x, textTranslation.y, textTranslation.z);
 
 		// scale text
-		RenderSystem.scaled(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
+		RenderSystem.scaled(ClientModConstants.TEXT_SCALE, ClientModConstants.TEXT_SCALE, ClientModConstants.TEXT_SCALE);
 
 		// draw
 		mc.fontRenderer.drawString(text, 0, 0, ClientModConstants.TEXT_COLOR);
@@ -340,7 +341,7 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 		GlStateManager.translated(textTranslation.x, textTranslation.y, textTranslation.z);
 
 		// scale text
-		GlStateManager.scalef(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
+		GlStateManager.scalef(ClientModConstants.TEXT_SCALE, ClientModConstants.TEXT_SCALE, ClientModConstants.TEXT_SCALE);
 
 		// add billboard rotation for text readability
 		GlStateManager.rotatef(TEXT_BILLBOARD_ROTATION.getW(), TEXT_BILLBOARD_ROTATION.getX(),

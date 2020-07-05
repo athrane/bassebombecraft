@@ -1,7 +1,7 @@
 package bassebombecraft.client.rendering;
 
 import static bassebombecraft.ClientModConstants.TEXT_COLOR;
-import static bassebombecraft.ModConstants.TEXT_SCALE;
+import static bassebombecraft.ClientModConstants.TEXT_SCALE;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
