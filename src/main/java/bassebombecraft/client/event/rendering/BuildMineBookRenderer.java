@@ -1,8 +1,8 @@
 package bassebombecraft.client.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ClientModConstants.HUD_LINE_COLOR;
 import static bassebombecraft.ModConstants.BUILD_MINE_BOOK;
-import static bassebombecraft.ModConstants.HUD_LINE_COLOR;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
 import static bassebombecraft.client.rendering.rendertype.OverlayLines.OVERLAY_LINES;

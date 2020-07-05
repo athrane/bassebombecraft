@@ -35,7 +35,6 @@ import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.MobProjectileEffect;
 import bassebombecraft.potion.effect.ReceiveAggroEffect;
 import bassebombecraft.potion.effect.ReflectEffect;
-import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.potion.Effect;
@@ -388,11 +387,6 @@ public class ModConstants {
 	 * HUD Item: Ray trace mode for blocks.
 	 */
 	public static final BlockMode RAYTRACE_OUTLINE = RayTraceContext.BlockMode.OUTLINE;
-
-	/**
-	 * HUD Item: Line color.
-	 */
-	public static final Vector4f HUD_LINE_COLOR = new Vector4f(0, 0.75F, 0, 1);
 
 	/**
 	 * Defines should be effect only.

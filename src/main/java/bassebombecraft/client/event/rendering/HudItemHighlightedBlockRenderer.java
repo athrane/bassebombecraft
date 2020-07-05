@@ -1,8 +1,8 @@
 package bassebombecraft.client.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ClientModConstants.HUD_LINE_COLOR;
 import static bassebombecraft.ModConstants.HUD_ITEM;
-import static bassebombecraft.ModConstants.HUD_LINE_COLOR;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
 import static bassebombecraft.client.rendering.rendertype.OverlayLines.OVERLAY_LINES;
@@ -104,14 +104,14 @@ public class HudItemHighlightedBlockRenderer {
 		String message = blockstate.getBlock().getNameTextComponent().getUnformattedComponentText();
 
 		// get aabb center
-		Vec3d aabbCenter = aabb.getCenter();	
-		
+		Vec3d aabbCenter = aabb.getCenter();
+
 		// setup operator and execute
 		Ports ports = getInstance();
 		ports.setAabb(aabb);
 		ports.setMatrixStack(event.getMatrix());
 		ports.setString1(message);
-		ports.setString2(aabbCenter.toString());		
+		ports.setString2(aabbCenter.toString());
 		run(ports, splOp.get());
 
 	}
