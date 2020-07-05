@@ -12,11 +12,12 @@ import net.minecraft.world.World;
  * Implementation of {@linkplain InventoryItemActionStrategy} which executes
  * embedded operators.
  * 
- * Strategy is invoked when target is invoker.
+ * Strategy is invoked when target isn't invoker.
  * 
- * The ports is updated with the world and the invoker entity.
+ * The ports is updated with the world the invoker entity and the target
+ * entity..
  */
-public class ExecuteOperatorOnInvoker implements InventoryItemActionStrategy {
+public class ExecuteOperatorOnTarget2 implements InventoryItemActionStrategy {
 
 	/**
 	 * Operator ports.
@@ -32,9 +33,9 @@ public class ExecuteOperatorOnInvoker implements InventoryItemActionStrategy {
 	 * Constructor.
 	 * 
 	 * @param ports ports used by operators.
-	 * @param ops   operators executed by the job.
+	 * @param ops   operators executed by the strategy.
 	 */
-	public ExecuteOperatorOnInvoker(Ports ports, Operator2[] ops) {
+	public ExecuteOperatorOnTarget2(Ports ports, Operator2[] ops) {
 		this.ops = ops;
 		this.ports = ports;
 	}
@@ -46,12 +47,13 @@ public class ExecuteOperatorOnInvoker implements InventoryItemActionStrategy {
 
 	@Override
 	public boolean shouldApplyEffect(Entity target, boolean targetIsInvoker) {
-		return (targetIsInvoker);
+		return (!targetIsInvoker);
 	}
 
 	@Override
 	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
-		ports.setLivingEntity(invoker);
+		ports.setLivingEntity1(invoker);
+		ports.setLivingEntity2(target);
 		ports.setWorld(world);
 		run(ports, ops);
 	}

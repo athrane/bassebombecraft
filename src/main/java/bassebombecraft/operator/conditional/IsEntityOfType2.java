@@ -27,7 +27,7 @@ public class IsEntityOfType2 implements Operator2 {
 
 	@Override
 	public Ports run(Ports ports) {
-		if (isType(ports.getLivingEntity(), type))
+		if (isType(ports.getLivingEntity1(), type))
 			ports.setResultAsSucces();
 		else
 			ports.setResultAsFailed();

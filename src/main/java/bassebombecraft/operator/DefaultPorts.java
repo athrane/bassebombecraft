@@ -13,10 +13,15 @@ import net.minecraft.world.World;
 public class DefaultPorts implements Ports {
 
 	/**
-	 * Living entity instance.
+	 * Living entity instance #1.
 	 */
-	LivingEntity livingEntity;
+	LivingEntity livingEntity1;
 
+	/**
+	 * Living entity instance #2.
+	 */
+	LivingEntity livingEntity2;
+	
 	/**
 	 * Block position instance #1.
 	 */
@@ -62,6 +67,26 @@ public class DefaultPorts implements Ports {
 	 */
 	MatrixStack matrixStack;
 
+	/**
+	 * Living entity #1 getter.
+	 */
+	static Function<Ports, LivingEntity> fnGetLivingEntity1 = p -> p.getLivingEntity1();
+
+	/**
+	 * Living entity #1 setter.
+	 */
+	static BiConsumer<Ports, LivingEntity> bcSetLivingEntity1 = (Ports p, LivingEntity le) -> p.setLivingEntity1(le);
+
+	/**
+	 * Living entity #2 getter.
+	 */
+	static Function<Ports, LivingEntity> fnGetLivingEntity2 = p -> p.getLivingEntity2();
+
+	/**
+	 * Living entity #2 setter.
+	 */
+	static BiConsumer<Ports, LivingEntity> bcSetLivingEntity2 = (Ports p, LivingEntity le) -> p.setLivingEntity2(le);
+	
 	/**
 	 * Block position #1 getter.
 	 */
@@ -111,13 +136,25 @@ public class DefaultPorts implements Ports {
 	}
 
 	@Override
-	public LivingEntity getLivingEntity() {
-		return livingEntity;
+	public LivingEntity getLivingEntity1() {
+		return livingEntity1;
 	}
 
 	@Override
-	public Ports setLivingEntity(LivingEntity entity) {
-		this.livingEntity = entity;
+	public Ports setLivingEntity1(LivingEntity entity) {
+		this.livingEntity1 = entity;
+		return this;
+	}
+
+	
+	@Override
+	public LivingEntity getLivingEntity2() {
+		return livingEntity2;
+	}
+
+	@Override
+	public Ports setLivingEntity2(LivingEntity entity) {
+		this.livingEntity2 = entity;
 		return this;
 	}
 
@@ -230,6 +267,22 @@ public class DefaultPorts implements Ports {
 		return this;
 	}
 
+	public static Function<Ports, LivingEntity> getFnGetLivingEntity1() {
+		return fnGetLivingEntity1;
+	}
+
+	public static BiConsumer<Ports, LivingEntity> getBcSetLivingEntity1() {
+		return bcSetLivingEntity1;
+	}
+
+	public static Function<Ports, LivingEntity> getFnGetLivingEntity2() {
+		return fnGetLivingEntity2;
+	}
+
+	public static BiConsumer<Ports, LivingEntity> getBcSetLivingEntity2() {
+		return bcSetLivingEntity2;
+	}
+	
 	public static Function<Ports, BlockPos> getFnGetBlockPosition1() {
 		return fnGetBlockPos1;
 	}
@@ -279,7 +332,7 @@ public class DefaultPorts implements Ports {
 	 * @return ports.
 	 */
 	public static Ports getInstance(LivingEntity livingEntity) {
-		return new DefaultPorts().setLivingEntity(livingEntity);
+		return new DefaultPorts().setLivingEntity1(livingEntity);
 	}
 
 	/**

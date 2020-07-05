@@ -13,6 +13,8 @@ import net.minecraft.entity.MobEntity;
  * {@linkplain ServerCharmedMobsRepository}.
  * 
  * Sets the result port to true if removal succeeds.
+ * 
+ * The charm is removed from living entity #1 in the ports.
  */
 public class RemoveCharm2 implements Operator2 {
 
@@ -20,7 +22,7 @@ public class RemoveCharm2 implements Operator2 {
 	public Ports run(Ports ports) {
 		
 		// remove from repository
-		MobEntity mobEntity = (MobEntity) ports.getLivingEntity();
+		MobEntity mobEntity = (MobEntity) ports.getLivingEntity1();
 		getProxy().getServerCharmedMobsRepository().remove(mobEntity);
 
 		// update result port

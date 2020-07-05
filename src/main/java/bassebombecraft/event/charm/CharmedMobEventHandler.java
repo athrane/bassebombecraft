@@ -50,13 +50,13 @@ public class CharmedMobEventHandler {
 
 	@SubscribeEvent
 	static public void handleLivingUpdateEvent(LivingUpdateEvent event) {
-		Ports ports = getInstance().setLivingEntity(event.getEntityLiving());
+		Ports ports = getInstance().setLivingEntity1(event.getEntityLiving());
 		run(ports, particlesOps);
 	}
 
 	@SubscribeEvent
 	public static void handleLivingDeathEvent(LivingDeathEvent event) {
-		Ports ports = getInstance().setLivingEntity(event.getEntityLiving());		
+		Ports ports = getInstance().setLivingEntity1(event.getEntityLiving());		
 		run(ports, uncharmOps);
 	}
 

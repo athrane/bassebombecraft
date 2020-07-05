@@ -14,7 +14,7 @@ public class IsWorldAtServerSide2 implements Operator2 {
 
 	@Override
 	public Ports run(Ports ports) {
-		if (isLogicalServer(ports.getLivingEntity()))
+		if (isLogicalServer(ports.getLivingEntity1()))
 			ports.setResultAsSucces();
 		else
 			ports.setResultAsFailed();

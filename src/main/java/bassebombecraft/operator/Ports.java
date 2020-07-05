@@ -13,21 +13,6 @@ import net.minecraft.world.World;
 public interface Ports {
 
 	/**
-	 * Get {@linkplain LivingEntity} #1.
-	 * 
-	 * @return living entity #1.
-	 */
-	LivingEntity getLivingEntity();
-
-	/**
-	 * Set {@linkplain LivingEntity} #1.
-	 * 
-	 * @return ports.
-	 * 
-	 */
-	Ports setLivingEntity(LivingEntity entity);
-
-	/**
 	 * Set result of operator execution as a success.
 	 * 
 	 * @return ports.
@@ -46,6 +31,36 @@ public interface Ports {
 	 */
 	boolean getResult();
 
+	/**
+	 * Get {@linkplain LivingEntity} #1.
+	 * 
+	 * @return living entity #1.
+	 */
+	LivingEntity getLivingEntity1();
+
+	/**
+	 * Set {@linkplain LivingEntity} #1.
+	 * 
+	 * @return ports.
+	 * 
+	 */
+	Ports setLivingEntity1(LivingEntity entity);
+
+	/**
+	 * Get {@linkplain LivingEntity} #2.
+	 * 
+	 * @return living entity #2.
+	 */
+	LivingEntity getLivingEntity2();
+
+	/**
+	 * Set {@linkplain LivingEntity} #2.
+	 * 
+	 * @return ports.
+	 * 
+	 */
+	Ports setLivingEntity2(LivingEntity entity);
+	
 	/**
 	 * Set {@linkplain BlockPos} #1.
 	 * 

@@ -14,7 +14,7 @@ import net.minecraft.util.math.BlockPos;
  * Implementation of the {@linkplain Operator2} interface which adds particles
  * at client side.
  * 
- * The particles are added at the ports position.
+ * The particles are added from living entity #1 from the ports.
  */
 public class AddParticlesFromEntityAtClient2 implements Operator2 {
 
@@ -36,7 +36,7 @@ public class AddParticlesFromEntityAtClient2 implements Operator2 {
 	public Ports run(Ports ports) {
 
 		// get entity
-		LivingEntity entity = ports.getLivingEntity();
+		LivingEntity entity = ports.getLivingEntity1();
 
 		// get entity position
 		BlockPos pos = entity.getPosition();

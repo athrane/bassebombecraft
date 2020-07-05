@@ -15,7 +15,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.item.action.inventory.ExecuteOperatorOnInvoker;
+import bassebombecraft.item.action.inventory.ExecuteOperatorOnInvoker2;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.block.CalculateSpiralPosition2;
@@ -52,7 +52,7 @@ public class RemoveBlockSpiralIdolInventoryItem extends GenericInventoryItem {
 		 * 
 		 * 3) ports.blockpos#2 is used for the calculated spiral block.
 		 */
-		Function<Ports, BlockPos> fnGetInvokerPos = p -> p.getLivingEntity().getPosition();
+		Function<Ports, BlockPos> fnGetInvokerPos = p -> p.getLivingEntity1().getPosition();
 		Function<Ports, BlockPos> fnGetCenter = getFnGetBlockPosition1();
 		BiConsumer<Ports, BlockPos> bcSetCenter = getBcSetBlockPosition1();
 		Function<Ports, BlockPos> fnGetSpiralPos = getFnGetBlockPosition2();
@@ -66,6 +66,6 @@ public class RemoveBlockSpiralIdolInventoryItem extends GenericInventoryItem {
 	};
 
 	public RemoveBlockSpiralIdolInventoryItem() {
-		super(ITEM_NAME, removeBlockSpiralIdolInventoryItem, new ExecuteOperatorOnInvoker(getInstance(), splOp.get()));
+		super(ITEM_NAME, removeBlockSpiralIdolInventoryItem, new ExecuteOperatorOnInvoker2(getInstance(), splOp.get()));
 	}
 }
