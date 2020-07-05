@@ -58,4 +58,9 @@ public class ClientModConstants {
 	 */
 	public static final int BUILDMINEBOOK_TEXT_COLOR = 0xC0C000;
 
+	/**
+	 * Rendering: Text color.
+	 */
+	public static final int TEXT_COLOR = 0x00C000;
+
 }

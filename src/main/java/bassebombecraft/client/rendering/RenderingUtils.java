@@ -3,7 +3,6 @@ package bassebombecraft.client.rendering;
 import static bassebombecraft.ClientModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.BILLBOARD_LINE_WIDTH;
 import static bassebombecraft.ModConstants.EQUILATERAL_TRIANGLE_HEIGHT;
-import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEXT_SCALE;
 
 import java.time.Instant;
@@ -373,7 +372,7 @@ public class RenderingUtils {
 	 */
 	@Deprecated
 	public static void renderTextBillboard(Vec3d playerPos, Vec3d entityPos, String text, Vector4f rotation) {
-		renderTextBillboard(playerPos, entityPos, text, rotation, TEXT_COLOR);
+		renderTextBillboard(playerPos, entityPos, text, rotation, ClientModConstants.TEXT_COLOR);
 	}
 
 	/**
@@ -450,7 +449,7 @@ public class RenderingUtils {
 		RenderSystem.rotatef(180, 0, 0, 1);
 
 		// draw
-		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
+		mc.fontRenderer.drawString(text, 0, 0, ClientModConstants.TEXT_COLOR);
 
 		resetBillboardRendering();
 	}
@@ -487,7 +486,7 @@ public class RenderingUtils {
 		RenderSystem.rotatef(180, 0, 0, 1);
 
 		// draw
-		mcClient.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
+		mcClient.fontRenderer.drawString(text, 0, 0, ClientModConstants.TEXT_COLOR);
 
 		resetBillboardRendering();
 	}
@@ -534,7 +533,7 @@ public class RenderingUtils {
 				TEXT_BILLBOARD_ROTATION.getY(), TEXT_BILLBOARD_ROTATION.getZ());
 
 		// draw
-		mcClient.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
+		mcClient.fontRenderer.drawString(text, 0, 0, ClientModConstants.TEXT_COLOR);
 
 		resetBillboardRendering();
 	}
@@ -563,11 +562,10 @@ public class RenderingUtils {
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
 		matrixStack.translate(0, 0, ClientModConstants.TEXT_Z_TRANSLATION);
 		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
-		fontRenderer.renderString(text, x, y, TEXT_COLOR, DROP_SHADOW, positionMatrix, buffer, IS_TRANSPARENT,
-				TEXT_EFFECT, PACKED_LIGHT);
+		fontRenderer.renderString(text, x, y, ClientModConstants.TEXT_COLOR, DROP_SHADOW, positionMatrix, buffer,
+				IS_TRANSPARENT, TEXT_EFFECT, PACKED_LIGHT);
 		matrixStack.pop();
-		
-		
+
 	}
 
 	/**

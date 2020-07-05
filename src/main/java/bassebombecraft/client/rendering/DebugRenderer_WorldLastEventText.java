@@ -1,10 +1,10 @@
 package bassebombecraft.client.rendering;
 
-import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEXT_SCALE;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import static bassebombecraft.ClientModConstants.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -26,13 +26,13 @@ public class DebugRenderer_WorldLastEventText {
 	static void showMobs(MatrixStack matrixStack) {
 		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
 
-		renderText_default(matrixStack, buffer, 0, -10, "(0,-10)");		
+		renderText_default(matrixStack, buffer, 0, -10, "(0,-10)");
 		renderText_default(matrixStack, buffer, 0, 0, "(0,0)");
 		renderText_default(matrixStack, buffer, 0, 10, "(0,10)");
 		renderText_default(matrixStack, buffer, 0, 20, "(0,20)");
 		renderText_default(matrixStack, buffer, 0, 40, "(0,40)");
 		renderText_default(matrixStack, buffer, 20, 0, "(20,0)");
-		renderText_default(matrixStack, buffer, -20, 0, "(-20,0)");		
+		renderText_default(matrixStack, buffer, -20, 0, "(-20,0)");
 	}
 
 	/**
@@ -48,7 +48,8 @@ public class DebugRenderer_WorldLastEventText {
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
 		matrixStack.translate(0, 0, 200);
 		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
-		fontrenderer.renderString(text, x, y, TEXT_COLOR, false, positionMatrix, buffer, false, 0, 0xf000f0);
+		fontrenderer.renderString(text, x, y, TEXT_COLOR, false, positionMatrix, buffer, false, 0,
+				0xf000f0);
 		matrixStack.pop();
 	}
 

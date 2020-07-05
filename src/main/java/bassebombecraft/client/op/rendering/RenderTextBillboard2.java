@@ -1,8 +1,8 @@
 package bassebombecraft.client.op.rendering;
 
+import static bassebombecraft.ClientModConstants.TEXT_COLOR;
 import static bassebombecraft.ClientModConstants.TEXT_SCALE_2;
 import static bassebombecraft.ClientModConstants.TEXT_Z_TRANSLATION;
-import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.client.rendering.RenderingUtils.oscillate;
 
 import java.util.function.Function;

@@ -328,11 +328,6 @@ public class ModConstants {
 	public static final float TEXT_SCALE = 0.02F;
 
 	/**
-	 * Rendering: Text color.
-	 */
-	public static final int TEXT_COLOR = 0x00C000;
-
-	/**
 	 * HUD item: Team target label.
 	 */
 	public static final String TARGET_LABEL = "Target";
