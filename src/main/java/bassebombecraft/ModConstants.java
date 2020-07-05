@@ -10,8 +10,6 @@ import static bassebombecraft.config.ModConfiguration.primedCreeperCannonProject
 import static bassebombecraft.config.ModConfiguration.primedCreeperCannonProjectileEffectForce;
 
 import bassebombecraft.client.event.particle.ParticleRenderingEventHandler;
-import bassebombecraft.client.event.rendering.TeamInfoRenderer;
-import bassebombecraft.client.op.rendering.RenderTextBillboard2;
 import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
@@ -330,27 +328,9 @@ public class ModConstants {
 	public static final float TEXT_SCALE = 0.02F;
 
 	/**
-	 * Rendering: Text scale for rendering of billboard text in HUD item in the
-	 * {@linkplain RenderTextBillboard2} class.
-	 */
-	public static final float TEXT_SCALE_2 = 0.0007F;
-
-	/**
 	 * Rendering: Text color.
 	 */
 	public static final int TEXT_COLOR = 0x00C000;
-
-	/**
-	 * Rendering: Text translation along Z-axis for rendering of billboard text in
-	 * HUD item in the {@linkplain TeamInfoRenderer} class.
-	 */
-	public static final int TEXT_Z_TRANSLATION = 200;
-
-	/**
-	 * Rendering: Text translation along Z-axis for rendering of billboard text in
-	 * HUD item in the {@linkplain RenderTextBillboard2} class.
-	 */
-	public static final int TEXT_Z_TRANSLATION_2 = 100;
 
 	/**
 	 * Rendering: Text color for {@linkplain BuildMineBook} in

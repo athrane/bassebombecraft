@@ -5,7 +5,6 @@ import static bassebombecraft.ModConstants.BILLBOARD_LINE_WIDTH;
 import static bassebombecraft.ModConstants.EQUILATERAL_TRIANGLE_HEIGHT;
 import static bassebombecraft.ModConstants.TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEXT_SCALE;
-import static bassebombecraft.ModConstants.TEXT_Z_TRANSLATION;
 
 import java.time.Instant;
 
@@ -15,6 +14,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import bassebombecraft.ClientModConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.ActiveRenderInfo;
@@ -551,6 +551,7 @@ public class RenderingUtils {
 	 * @param x           y coordinate for text placement.
 	 * @param text        text to render.
 	 */
+	@Deprecated
 	public static void renderBillboardText(MatrixStack matrixStack, IRenderTypeBuffer buffer, float x, float y,
 			String text) {
 		EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
@@ -560,7 +561,7 @@ public class RenderingUtils {
 		matrixStack.scale(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 		matrixStack.rotate(renderManager.getCameraOrientation());
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
-		matrixStack.translate(0, 0, TEXT_Z_TRANSLATION);
+		matrixStack.translate(0, 0, ClientModConstants.TEXT_Z_TRANSLATION);
 		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
 		fontRenderer.renderString(text, x, y, TEXT_COLOR, DROP_SHADOW, positionMatrix, buffer, IS_TRANSPARENT,
 				TEXT_EFFECT, PACKED_LIGHT);

@@ -2,6 +2,7 @@ package bassebombecraft;
 
 import bassebombecraft.client.event.rendering.BuildMineBookRenderer;
 import bassebombecraft.client.event.rendering.HudItemHighlightedBlockRenderer;
+import bassebombecraft.client.op.rendering.RenderTextBillboard2;
 import bassebombecraft.item.book.BuildMineBook;
 import net.minecraft.client.renderer.Vector4f;
 
@@ -38,5 +39,17 @@ public class ClientModConstants {
 	 * {@linkplain HudItemHighlightedBlockRenderer} class.
 	 */
 	public static final Vector4f HUD_LINE_COLOR = new Vector4f(0, 0.75F, 0, 1);
+
+	/**
+	 * Rendering: Text translation along Z-axis for rendering of billboard text in
+	 * HUD item in the {@linkplain RenderTextBillboard2} and {@linkplain RenderingUtils}class.
+	 */
+	public static final int TEXT_Z_TRANSLATION = 200;
+
+	/**
+	 * Rendering: Text scale for rendering of billboard text in HUD item in the
+	 * {@linkplain RenderTextBillboard2} class.
+	 */
+	public static final float TEXT_SCALE_2 = 0.0007F;
 
 }

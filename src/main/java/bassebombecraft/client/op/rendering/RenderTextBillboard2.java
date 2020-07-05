@@ -1,8 +1,8 @@
 package bassebombecraft.client.op.rendering;
 
+import static bassebombecraft.ClientModConstants.TEXT_SCALE_2;
+import static bassebombecraft.ClientModConstants.TEXT_Z_TRANSLATION;
 import static bassebombecraft.ModConstants.TEXT_COLOR;
-import static bassebombecraft.ModConstants.TEXT_SCALE_2;
-import static bassebombecraft.ModConstants.TEXT_Z_TRANSLATION;
 import static bassebombecraft.client.rendering.RenderingUtils.oscillate;
 
 import java.util.function.Function;
@@ -52,7 +52,7 @@ public class RenderTextBillboard2 implements Operator2 {
 	 * oscillate max value.
 	 */
 	float oscillateMax;
-	
+
 	/**
 	 * Function get message to render.
 	 */
@@ -72,17 +72,17 @@ public class RenderTextBillboard2 implements Operator2 {
 	 * Constructor.
 	 * 
 	 * @param oscillateMax oscillate max value
-	 * @param fnGetString function to get message.
-	 * @param x           x coordinate for placement of billboard.
-	 * @param y           y coordinate for placement of billboard.
+	 * @param fnGetString  function to get message.
+	 * @param x            x coordinate for placement of billboard.
+	 * @param y            y coordinate for placement of billboard.
 	 */
 	public RenderTextBillboard2(float oscillateMax, Function<Ports, String> fnGetString, int x, int y) {
-		this.oscillateMax = oscillateMax;		
+		this.oscillateMax = oscillateMax;
 		this.fnGetString = fnGetString;
 		this.x = x;
 		this.y = y;
 	}
-	
+
 	@Override
 	public Ports run(Ports ports) {
 
