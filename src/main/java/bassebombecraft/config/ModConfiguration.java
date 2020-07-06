@@ -30,6 +30,7 @@ import org.apache.logging.log4j.Logger;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 
+import bassebombecraft.ModConstants;
 import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
 import bassebombecraft.entity.commander.command.AttackNearestMobCommand;
 import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
@@ -175,6 +176,11 @@ public class ModConfiguration {
 	 */
 	public static ParticlesConfig charmedMobParticles;
 
+	/**
+	 * Disable mod welcome message.
+	 */
+	public static ForgeConfigSpec.BooleanValue enableWelcomeMessage;	
+	
 	// Basic item properties
 	public static ForgeConfigSpec.IntValue basicItemDefaultCooldown;
 	public static ForgeConfigSpec.ConfigValue<String> basicItemDefaultTooltip;
@@ -570,17 +576,23 @@ public class ModConfiguration {
 	}
 
 	/**
-	 * Define general settings for repositories and event handlers etc.
+	 * Define general settings for the mod, repositories and event handlers etc.
 	 */
 	static void setupGeneralConfig() {
 
+		String name = ModConstants.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		enableWelcomeMessage = COMMON_BUILDER
+				.comment("Defines if MOD welcome message is enabled when mod is loaded.")
+				.define("enableWelcomeMessage", true);
+		COMMON_BUILDER.pop();
+		
 		/**
 		 * Charmed mob properties used by repositories
 		 * {@linkplain ServerCharmedMobsRepository} and
 		 * {@linkplain ClientCharmedMobsRepository}.
 		 */
-		String name = CHARMED_MOB_NAME;
-		;
+		name = CHARMED_MOB_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		charmDuration = COMMON_BUILDER.comment("Charm duration (in game ticks).").defineInRange("charmDuration", 1000,
 				0, Integer.MAX_VALUE);
@@ -593,7 +605,7 @@ public class ModConfiguration {
 		name = CHARMED_MOB_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		charmedMobParticles = getInstance(COMMON_BUILDER, "heart", 1, 10, 0.1, 1.0, 1.0, 1.0);
-		COMMON_BUILDER.pop();
+		COMMON_BUILDER.pop();		
 	}
 
 	/**
@@ -1584,7 +1596,7 @@ public class ModConfiguration {
 		name = RemoveBlockSpiralIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1.0, 1.0, 0.4, 0.7);
 		removeBlockSpiralIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol will remove blocks in an expandinf spiral.", 5,
+				"Equip in either hand to activate. The idol will remove blocks in an expanding spiral.", 5,
 				splParticles);
 		
 	}
