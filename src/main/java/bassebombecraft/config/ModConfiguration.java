@@ -129,7 +129,7 @@ import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
 import bassebombecraft.operator.entity.Respawn;
 import bassebombecraft.operator.entity.SpawnDecoy;
 import bassebombecraft.operator.entity.SpawnKillerBee;
-import bassebombecraft.operator.entity.SpawnWarPig;
+import bassebombecraft.operator.entity.SpawnWarPig2;
 import bassebombecraft.potion.effect.AggroMobEffect;
 import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
@@ -179,8 +179,8 @@ public class ModConfiguration {
 	/**
 	 * Disable mod welcome message.
 	 */
-	public static ForgeConfigSpec.BooleanValue enableWelcomeMessage;	
-	
+	public static ForgeConfigSpec.BooleanValue enableWelcomeMessage;
+
 	// Basic item properties
 	public static ForgeConfigSpec.IntValue basicItemDefaultCooldown;
 	public static ForgeConfigSpec.ConfigValue<String> basicItemDefaultTooltip;
@@ -582,11 +582,10 @@ public class ModConfiguration {
 
 		String name = ModConstants.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		enableWelcomeMessage = COMMON_BUILDER
-				.comment("Defines if MOD welcome message is enabled when mod is loaded.")
+		enableWelcomeMessage = COMMON_BUILDER.comment("Defines if MOD welcome message is enabled when mod is loaded.")
 				.define("enableWelcomeMessage", true);
 		COMMON_BUILDER.pop();
-		
+
 		/**
 		 * Charmed mob properties used by repositories
 		 * {@linkplain ServerCharmedMobsRepository} and
@@ -605,7 +604,7 @@ public class ModConfiguration {
 		name = CHARMED_MOB_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		charmedMobParticles = getInstance(COMMON_BUILDER, "heart", 1, 10, 0.1, 1.0, 1.0, 1.0);
-		COMMON_BUILDER.pop();		
+		COMMON_BUILDER.pop();
 	}
 
 	/**
@@ -1108,8 +1107,10 @@ public class ModConfiguration {
 				0, 5.0D);
 		COMMON_BUILDER.pop();
 
-		// SpawnWarPig
-		name = SpawnWarPig.NAME;
+		/**
+		 * Configuration for the {@linkplain SpawnWarPig2} operator.
+		 */
+		name = SpawnWarPig2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnWarPigDamage = COMMON_BUILDER.comment("Pig damage.").defineInRange("damage", 2, 0, Integer.MAX_VALUE);
 		spawnWarPigMovementSpeed = COMMON_BUILDER.comment("Pig movement speed.").defineInRange("movementSpeed", 0.75D,
@@ -1166,15 +1167,15 @@ public class ModConfiguration {
 				.defineInRange("SpawnArea ", 5, 0, 10);
 		COMMON_BUILDER.pop();
 
-		
 		// RemoveBlockSpiralIdolInventoryItem
-		name = RemoveBlockSpiralIdolInventoryItem.ITEM_NAME;		
+		name = RemoveBlockSpiralIdolInventoryItem.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		removeBlockSpiralIdolInventoryItemSpiralSize = COMMON_BUILDER
 				.comment("Spiral size, measured in rotations around the centre.")
 				.defineInRange("spiralSize", 5, 0, Integer.MAX_VALUE);
-		removeBlockSpiralIdolInventoryItemParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 5, 10, 0.3, 1.0, 1.0, 1.0);
-		COMMON_BUILDER.pop();		
+		removeBlockSpiralIdolInventoryItemParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 5, 10, 0.3, 1.0,
+				1.0, 1.0);
+		COMMON_BUILDER.pop();
 	}
 
 	/**
@@ -1598,7 +1599,7 @@ public class ModConfiguration {
 		removeBlockSpiralIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will remove blocks in an expanding spiral.", 5,
 				splParticles);
-		
+
 	}
 
 	/**

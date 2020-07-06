@@ -16,6 +16,15 @@ import net.minecraft.entity.LivingEntity;
 
 /**
  * Meteor idol implementation.
+ * 
+ * These functions are used to access the ports:
+ * 
+ * 1) ports.livingentity#1 is used for the invoker.
+ * 
+ * 2) ports.livingentity#2 is used for the target.
+ * 
+ * NB: the entities in the ports is updated by the
+ * {@linkplain ExecuteOperatorOnTarget2} class.
  */
 public class MeteorIdolInventoryItem extends GenericInventoryItem {
 
@@ -25,16 +34,6 @@ public class MeteorIdolInventoryItem extends GenericInventoryItem {
 	 * Create operators.
 	 */
 	static Supplier<Operator2[]> splOp = () -> {
-
-		/**
-		 * create functions for accessing the ports:
-		 * 
-		 * 1) ports.livingentity#1 is used for the invoker.
-		 * 
-		 * 2) ports.livingentity#2 is used for the target.
-		 * 
-		 * NB: the ports is updated by the ExecuteOperatorOnInvoker2.
-		 */
 		Function<Ports, LivingEntity> fnGetInvoker = getFnGetLivingEntity1();
 		Function<Ports, LivingEntity> fnGetTarget = getFnGetLivingEntity2();
 		Operator2[] ops = new Operator2[] { new ShootMeteor2(fnGetInvoker, fnGetTarget) };
