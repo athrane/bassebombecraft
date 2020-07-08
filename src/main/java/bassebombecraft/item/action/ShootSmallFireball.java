@@ -24,12 +24,15 @@ public class ShootSmallFireball implements RightClickedItemAction {
 
 	@Override
 	public void onRightClick(World world, LivingEntity entity) {
-		Vec3d v3 = entity.getLook(1);
+		Vec3d lookVector = entity.getLook(1);
 
 		SmallFireballEntity projectile = EntityType.SMALL_FIREBALL.create(world);
 		projectile.setPosition(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
-		projectile.setMotion(v3);
-
+		projectile.setMotion(lookVector);
+		projectile.accelerationX = lookVector.x;
+		projectile.accelerationY = lookVector.y;
+		projectile.accelerationZ = lookVector.z;
+		
 		// add spawn sound
 		Random random = getBassebombeCraft().getRandom();
 		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);

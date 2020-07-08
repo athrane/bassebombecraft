@@ -14,8 +14,8 @@ import net.minecraft.world.World;
  * 
  * Strategy is invoked when target isn't invoker.
  * 
- * The ports is updated with the world the invoker entity and the target
- * entity..
+ * The ports is updated with the world, the invoker entity and the target
+ * entity.
  */
 public class ExecuteOperatorOnTarget2 implements InventoryItemActionStrategy {
 
@@ -36,8 +36,8 @@ public class ExecuteOperatorOnTarget2 implements InventoryItemActionStrategy {
 	 * @param ops   operators executed by the strategy.
 	 */
 	public ExecuteOperatorOnTarget2(Ports ports, Operator2[] ops) {
-		this.ops = ops;
 		this.ports = ports;
+		this.ops = ops;
 	}
 
 	@Override

@@ -39,7 +39,7 @@ public class Operators2 {
 	 */
 	public static Ports run(Ports ports, Operator2... operators) {
 		for (Operator2 op : operators) {
-			Operators2.run(ports, op);
+			run(ports, op);
 			if (!ports.getResult())
 				break;
 		}
