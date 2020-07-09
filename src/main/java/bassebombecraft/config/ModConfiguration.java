@@ -40,7 +40,6 @@ import bassebombecraft.event.charm.ServerCharmedMobsRepository;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
-import bassebombecraft.item.action.ShootSmallFireballRing;
 import bassebombecraft.item.action.build.CopyPasteBlocks;
 import bassebombecraft.item.action.inventory.AddAggroMobEffect;
 import bassebombecraft.item.action.inventory.AddAggroPlayerEffect;
@@ -87,7 +86,6 @@ import bassebombecraft.item.book.RainbownizeBook;
 import bassebombecraft.item.book.ReceiveAggroBook;
 import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
-import bassebombecraft.item.book.SmallFireballRingBook;
 import bassebombecraft.item.book.SpawnCreeperArmyBook;
 import bassebombecraft.item.book.SpawnFlamingChickenBook;
 import bassebombecraft.item.book.SpawnGuardianBook;
@@ -127,6 +125,7 @@ import bassebombecraft.item.inventory.RespawnIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
 import bassebombecraft.operator.entity.Respawn;
+import bassebombecraft.operator.entity.ShootFireballRing2;
 import bassebombecraft.operator.entity.SpawnDecoy;
 import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig2;
@@ -258,12 +257,7 @@ public class ModConfiguration {
 	// SmallFireballBook
 	public static ItemConfig smallFireballBook;
 	public static ItemConfig largeFireballBook;
-
-	// SmallFireballRingBook
-	public static ForgeConfigSpec.ConfigValue<String> smallFireballRingBookTooltip;
-	public static ForgeConfigSpec.IntValue smallFireballRingBookCooldown;
-
-	// LingeringFlameBook
+	public static ItemConfig smallFireballRingBook;
 	public static ItemConfig lingeringFlameBook;
 	public static ItemConfig lingeringFuryBook;
 	public static ItemConfig toxicMistBook;
@@ -373,9 +367,6 @@ public class ModConfiguration {
 	public static ParticlesConfig removeBlockSpiralIdolInventoryItemParticleInfo;
 
 	// Actions..
-
-	// ShootFireballRing projectile action
-	public static ForgeConfigSpec.IntValue shootSmallFireballRingFireballs;
 
 	// ShootBaconBazooka projectile action
 	public static ForgeConfigSpec.IntValue shootBaconBazookaProjectileAge;
@@ -502,15 +493,21 @@ public class ModConfiguration {
 
 	// Operators..
 
-	// Spawn killer bee operator
+	/**
+	 * Properties for {@linkplain SpawnKillerBee} operator.
+	 */
 	public static ForgeConfigSpec.IntValue spawnKillerBeeDamage;
 	public static ForgeConfigSpec.DoubleValue spawnKillerBeeMovementSpeed;
 
-	// Spawn war pig operator
+	/**
+	 * Properties for {@linkplain SpawnWarPig2} operator.
+	 */
 	public static ForgeConfigSpec.IntValue spawnWarPigDamage;
 	public static ForgeConfigSpec.DoubleValue spawnWarPigMovementSpeed;
 
-	// Spawn decoy operator
+	/**
+	 * Properties for {@linkplain SpawnDecoy} operator.
+	 */
 	public static ForgeConfigSpec.IntValue spawnDecoyMaxHealth;
 	public static ForgeConfigSpec.DoubleValue spawnDecoyKnockBackResistance;
 
@@ -526,10 +523,17 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue receiveAggroEffectDuration;
 	public static ForgeConfigSpec.IntValue receiveAggroEffectAmplifier;
 
-	// Respawn operator
+	/**
+	 * Properties for {@linkplain Respawn} operator.
+	 */
 	public static ForgeConfigSpec.IntValue respawnMinEntities;
 	public static ForgeConfigSpec.IntValue respawnMaxEntities;
 	public static ForgeConfigSpec.IntValue respawnSpawnArea;
+
+	/**
+	 * Properties for {@linkplain ShootFireballRing2} operator.
+	 */
+	public static ForgeConfigSpec.IntValue shootSmallFireballRingFireballs;
 
 	static {
 
@@ -803,15 +807,8 @@ public class ModConfiguration {
 	 */
 	static void setupActionsConfig() {
 
-		// ShootSmallFireballRing
-		String name = ShootSmallFireballRing.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		shootSmallFireballRingFireballs = COMMON_BUILDER.comment("Number of fireballs spawned in 360 degrees circle.")
-				.defineInRange("number", 16, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
 		// ShootBaconBazooka
-		name = ShootBaconBazooka.NAME;
+		String name = ShootBaconBazooka.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		shootBaconBazookaProjectileAge = COMMON_BUILDER.comment("Projectile entity age.").defineInRange("number", -1, 0,
 				Integer.MAX_VALUE);
@@ -1099,7 +1096,9 @@ public class ModConfiguration {
 	 */
 	static void setupOperatorConfig() {
 
-		// SpawnKillerBee
+		/**
+		 * Configuration for the {@linkplain SpawnKillerBee} operator.
+		 */
 		String name = SpawnKillerBee.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnKillerBeeDamage = COMMON_BUILDER.comment("Bee damage.").defineInRange("damage", 2, 0, Integer.MAX_VALUE);
@@ -1137,7 +1136,9 @@ public class ModConfiguration {
 				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// SpawnDecoy
+		/**
+		 * Configuration for the {@linkplain SpawnKillerBee} operator.
+		 */
 		name = SpawnDecoy.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnDecoyMaxHealth = COMMON_BUILDER.comment("Decoy max health.").defineInRange("maxHealth", 200, 0,
@@ -1146,7 +1147,10 @@ public class ModConfiguration {
 				.defineInRange("knockbackResistance ", 1.0D, 0, 1.0D);
 		COMMON_BUILDER.pop();
 
-		// Receive aggro effect for the DecoyBook class
+		/**
+		 * Configuration for the {@linkplain ReceiveAggroEffect} effect for the
+		 * {@linkplain DecoyBook} item.
+		 */
 		name = ReceiveAggroEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		receiveAggroEffectAmplifier = COMMON_BUILDER
@@ -1156,7 +1160,9 @@ public class ModConfiguration {
 				.defineInRange("duration", 500, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// Respawn
+		/**
+		 * Configuration for the {@linkplain Respawn} operator.
+		 */
 		name = Respawn.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		respawnMinEntities = COMMON_BUILDER.comment("Min. number of entities spawned.").defineInRange("minEntities", 5,
@@ -1168,6 +1174,9 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		// RemoveBlockSpiralIdolInventoryItem
+		/**
+		 * Configuration for the {@linkplain RemoveBlockSpiralIdolInventoryItem} item.
+		 */
 		name = RemoveBlockSpiralIdolInventoryItem.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		removeBlockSpiralIdolInventoryItemSpiralSize = COMMON_BUILDER
@@ -1176,6 +1185,16 @@ public class ModConfiguration {
 		removeBlockSpiralIdolInventoryItemParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 5, 10, 0.3, 1.0,
 				1.0, 1.0);
 		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain ShootFireballRing2} operator.
+		 */
+		name = ShootFireballRing2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		shootSmallFireballRingFireballs = COMMON_BUILDER.comment("Number of fireballs spawned in 360 degrees circle.")
+				.defineInRange("number", 16, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
 	}
 
 	/**
@@ -1202,14 +1221,12 @@ public class ModConfiguration {
 		largeFireballBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to shoot a large fireball that is hurled at foes.", 25);
 
-		// SmallFireballRingBook
-		name = SmallFireballRingBook.ITEM_NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		smallFireballRingBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
-				"Right-click to shot a ring of small fireballs outwards.");
-		smallFireballRingBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.")
-				.defineInRange("cooldown", 50, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
+		/**
+		 * Configuration for the {@linkplain SmallFireballRingBook} item.
+		 */
+		name = LargeFireballBook.ITEM_NAME;
+		smallFireballRingBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to shot a ring of small fireballs outwards.", 50);
 
 		// LingeringFlameBook
 		name = LingeringFlameBook.ITEM_NAME;

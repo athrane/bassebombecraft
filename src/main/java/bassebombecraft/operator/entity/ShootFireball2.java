@@ -17,6 +17,11 @@ import net.minecraft.world.World;
 public class ShootFireball2 implements Operator2 {
 
 	/**
+	 * Acceleration modifier.
+	 */
+	static final double ACCELERATION_MODIFIER = 0.5D;
+	
+	/**
 	 * Function to get invoker entity.
 	 */
 	Function<Ports, LivingEntity> fnGetInvoker;
@@ -40,7 +45,7 @@ public class ShootFireball2 implements Operator2 {
 		World world = ports.getWorld();
 
 		// calculate acceleration
-		Vec3d accelerationVector = invoker.getLook(1).scale(0.5D);
+		Vec3d accelerationVector = invoker.getLook(1).scale(ACCELERATION_MODIFIER);
 
 		// create and spawn projectile
 		SmallFireballEntity projectile = EntityType.SMALL_FIREBALL.create(world);
