@@ -27,7 +27,6 @@ import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.ShootGenericEggProjectile;
 import bassebombecraft.item.action.ShootLargeFireball;
 import bassebombecraft.item.action.ShootMultipleArrows;
-import bassebombecraft.item.action.ShootWitherSkull;
 import bassebombecraft.item.action.mist.entity.EntityMistActionStrategy;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.action.mist.entity.LightningBoltMist;
@@ -37,6 +36,7 @@ import bassebombecraft.operator.DefaultPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.entity.ShootFireball2;
+import bassebombecraft.operator.entity.ShootWitherSkull2;
 import bassebombecraft.operator.item.action.ExecuteOperatorAsAction2;
 import bassebombecraft.projectile.action.DigMobHole;
 import bassebombecraft.projectile.action.EmitHorizontalForce;
@@ -249,6 +249,15 @@ public class CompanionAttack extends Goal {
 	};
 
 	/**
+	 * Create operators.
+	 */
+	static Supplier<Operator2[]> splWitherSkullOp = () -> {
+		Function<Ports, LivingEntity> fnGetInvoker = getFnGetLivingEntity1();
+		Operator2[] ops = new Operator2[] { new ShootWitherSkull2(fnGetInvoker) };
+		return ops;
+	};
+
+	/**
 	 * Initialise list of long range actions.
 	 * 
 	 * @return list of long range actions.
@@ -257,7 +266,7 @@ public class CompanionAttack extends Goal {
 		List<RightClickedItemAction> actions = new ArrayList<RightClickedItemAction>();
 		actions.add(ExecuteOperatorAsAction2.getInstance(DefaultPorts.getInstance(), splFireballOp.get()));
 		actions.add(new ShootLargeFireball());
-		actions.add(new ShootWitherSkull());
+		actions.add(ExecuteOperatorAsAction2.getInstance(DefaultPorts.getInstance(), splWitherSkullOp.get()));
 		actions.add(new ShootMultipleArrows());
 		actions.add(new ShootBaconBazooka());
 		actions.add(new ShootCreeperCannon(ISNT_PRIMED));
