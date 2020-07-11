@@ -11,7 +11,7 @@ import bassebombecraft.operator.projectile.ShootArrow2;
 import bassebombecraft.operator.projectile.formation.TrifurcatedProjectileFormation2;
 
 /**
- * Book of mutiple arrows implementation.
+ * Book of multiple arrows implementation.
  */
 public class MultipleArrowsBook extends GenericRightClickedBook2 {
 
