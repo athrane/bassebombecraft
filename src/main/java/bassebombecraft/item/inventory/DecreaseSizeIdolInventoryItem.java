@@ -12,6 +12,7 @@ import bassebombecraft.item.action.inventory.ExecuteOperatorOnTarget;
 import bassebombecraft.operator.Operator;
 import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.Operators;
+import bassebombecraft.operator.Sequence;
 import bassebombecraft.operator.conditional.IfEntityIsntType;
 import bassebombecraft.operator.entity.potion.effect.AddEffect;
 import bassebombecraft.operator.entity.potion.effect.AddEffectAtClient;
@@ -31,7 +32,7 @@ public class DecreaseSizeIdolInventoryItem extends GenericInventoryItem {
 		Operators ops = new Operators();
 		AddEffect addOp = new AddEffect(ops.getSplTargetEntity(), DECREASE_SIZE_EFFECT, splDuration, splAmplifier);
 		AddEffectAtClient addOp2 = new AddEffectAtClient(ops.getSplTargetEntity(), addOp.getSplEffectInstance());
-		Sequence2 seqOp = new Sequence2(addOp, addOp2);
+		Sequence seqOp = new Sequence(addOp, addOp2);
 		Operator ifOp = new IfEntityIsntType(ops.getSplTargetEntity(), seqOp, PlayerEntity.class);
 		ops.setOperator(ifOp);
 		return ops;

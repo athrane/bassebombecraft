@@ -26,18 +26,18 @@ public class ExecuteOperatorAsAction2 implements RightClickedItemAction {
 	Ports ports;
 
 	/**
-	 * Operators for the job.
+	 * Operators executed as action..
 	 */
-	Operator2[] ops;
+	Operator2 op;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param ports ports used by operators.
-	 * @param ops   operators executed by the action.
+	 * @param op    operator executed by the action.
 	 */
-	ExecuteOperatorAsAction2(Ports ports, Operator2[] ops) {
-		this.ops = ops;
+	ExecuteOperatorAsAction2(Ports ports, Operator2 op) {
+		this.op = op;
 		this.ports = ports;
 	}
 
@@ -45,7 +45,7 @@ public class ExecuteOperatorAsAction2 implements RightClickedItemAction {
 	public void onRightClick(World world, LivingEntity entity) {
 		ports.setWorld(world);
 		ports.setLivingEntity1(entity);
-		run(ports, ops);
+		run(ports, op);
 	}
 
 	@Override
@@ -57,12 +57,12 @@ public class ExecuteOperatorAsAction2 implements RightClickedItemAction {
 	 * Factory method.
 	 * 
 	 * @param ports ports used by operators.
-	 * @param ops   operators executed by the action.
+	 * @param op    operator executed by the action.
 	 * 
 	 * @return action.
 	 */
-	public static RightClickedItemAction getInstance(Ports ports, Operator2[] ops) {
-		return new ExecuteOperatorAsAction2(ports, ops);
+	public static RightClickedItemAction getInstance(Ports ports, Operator2 op) {
+		return new ExecuteOperatorAsAction2(ports, op);
 	}
 
 }

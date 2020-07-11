@@ -7,7 +7,6 @@ import static bassebombecraft.entity.EntityUtils.getNullableTarget;
 import static bassebombecraft.entity.EntityUtils.getTarget;
 import static bassebombecraft.entity.EntityUtils.hasTarget;
 import static bassebombecraft.entity.ai.goal.DefaultObservationRepository.getInstance;
-import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 import static java.util.Optional.ofNullable;
 import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
 
@@ -16,8 +15,6 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import bassebombecraft.event.frequency.FrequencyRepository;
@@ -25,7 +22,6 @@ import bassebombecraft.item.action.RightClickedItemAction;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.ShootGenericEggProjectile;
-import bassebombecraft.item.action.ShootLargeFireball;
 import bassebombecraft.item.action.ShootMultipleArrows;
 import bassebombecraft.item.action.mist.entity.EntityMistActionStrategy;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
@@ -33,11 +29,10 @@ import bassebombecraft.item.action.mist.entity.LightningBoltMist;
 import bassebombecraft.item.action.mist.entity.ToxicMist;
 import bassebombecraft.item.action.mist.entity.VacuumMist;
 import bassebombecraft.operator.DefaultPorts;
-import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.Ports;
-import bassebombecraft.operator.entity.ShootFireball2;
-import bassebombecraft.operator.entity.ShootWitherSkull2;
 import bassebombecraft.operator.item.action.ExecuteOperatorAsAction2;
+import bassebombecraft.operator.projectile.ShootFireball2;
+import bassebombecraft.operator.projectile.ShootLargeFireball2;
+import bassebombecraft.operator.projectile.ShootWitherSkull2;
 import bassebombecraft.projectile.action.DigMobHole;
 import bassebombecraft.projectile.action.EmitHorizontalForce;
 import bassebombecraft.projectile.action.EmitVerticalForce;
@@ -240,33 +235,15 @@ public class CompanionAttack extends Goal {
 	}
 
 	/**
-	 * Create operators.
-	 */
-	static Supplier<Operator2[]> splFireballOp = () -> {
-		Function<Ports, LivingEntity> fnGetInvoker = getFnGetLivingEntity1();
-		Operator2[] ops = new Operator2[] { new ShootFireball2(fnGetInvoker) };
-		return ops;
-	};
-
-	/**
-	 * Create operators.
-	 */
-	static Supplier<Operator2[]> splWitherSkullOp = () -> {
-		Function<Ports, LivingEntity> fnGetInvoker = getFnGetLivingEntity1();
-		Operator2[] ops = new Operator2[] { new ShootWitherSkull2(fnGetInvoker) };
-		return ops;
-	};
-
-	/**
 	 * Initialise list of long range actions.
 	 * 
 	 * @return list of long range actions.
 	 */
 	static List<RightClickedItemAction> initializeLongRangeActions() {
 		List<RightClickedItemAction> actions = new ArrayList<RightClickedItemAction>();
-		actions.add(ExecuteOperatorAsAction2.getInstance(DefaultPorts.getInstance(), splFireballOp.get()));
-		actions.add(new ShootLargeFireball());
-		actions.add(ExecuteOperatorAsAction2.getInstance(DefaultPorts.getInstance(), splWitherSkullOp.get()));
+		actions.add(ExecuteOperatorAsAction2.getInstance(DefaultPorts.getInstance(), new ShootFireball2()));
+		actions.add(ExecuteOperatorAsAction2.getInstance(DefaultPorts.getInstance(), new ShootLargeFireball2()));
+		actions.add(ExecuteOperatorAsAction2.getInstance(DefaultPorts.getInstance(), new ShootWitherSkull2()));
 		actions.add(new ShootMultipleArrows());
 		actions.add(new ShootBaconBazooka());
 		actions.add(new ShootCreeperCannon(ISNT_PRIMED));

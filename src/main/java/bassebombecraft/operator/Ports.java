@@ -5,6 +5,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -60,34 +61,34 @@ public interface Ports {
 	 * 
 	 */
 	Ports setLivingEntity2(LivingEntity entity);
-	
-	/**
-	 * Set {@linkplain BlockPos} #1.
-	 * 
-	 * @param pos block position.
-	 */
-	void setBlockPosition1(BlockPos pos);
 
 	/**
 	 * Return {@linkplain BlockPos} #1.
 	 * 
-	 * @return block position.
+	 * @return block position #1.
 	 */
 	BlockPos getBlockPosition1();
-
+	
 	/**
-	 * Set {@linkplain BlockPos} #2.
+	 * Set {@linkplain BlockPos} #1.
 	 * 
-	 * @param pos block position.
+	 * @param pos block position #1.
 	 */
-	void setBlockPosition2(BlockPos pos);
+	void setBlockPosition1(BlockPos pos);
 
 	/**
 	 * Return {@linkplain BlockPos} #2.
 	 * 
-	 * @return block position.
+	 * @return block position #2.
 	 */
 	BlockPos getBlockPosition2();
+	
+	/**
+	 * Set {@linkplain BlockPos} #2.
+	 * 
+	 * @param pos block position #2.
+	 */
+	void setBlockPosition2(BlockPos pos);
 
 	/**
 	 * Get string #1.
@@ -116,6 +117,48 @@ public interface Ports {
 	 * @return ports.
 	 */
 	Ports setString2(String value);
+
+	/**
+	 * Return {@linkplain Vec3d} #1.
+	 * 
+	 * @return vector #1.
+	 */
+	Vec3d getVector1();
+	
+	/**
+	 * Set {@linkplain Vec3d} #1.
+	 * 
+	 * @param vec vector #1.
+	 */
+	Ports setVector1(Vec3d vec);
+
+	/**
+	 * Return {@linkplain Vec3d[]} #1.
+	 * 
+	 * @return vector array #1.
+	 */
+	Vec3d[] getVectors1();
+	
+	/**
+	 * Set {@linkplain Vec3d[]} #1.
+	 * 
+	 * @param vec vector array #1.
+	 */
+	Ports setVectors1(Vec3d vec[]);
+	
+	/**
+	 * Return {@linkplain Operator2} #1.
+	 * 
+	 * @return operator #1.
+	 */
+	Operator2 getOperator1();
+	
+	/**
+	 * Set {@linkplain Operator2} #1.
+	 * 
+	 * @param op operator #1.
+	 */
+	Ports setOperator1(Operator2 op);
 	
 	/**
 	 * Return world.

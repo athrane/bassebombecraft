@@ -80,6 +80,7 @@ import bassebombecraft.item.book.LargeFireballBook;
 import bassebombecraft.item.book.LavaSpiralMistBook;
 import bassebombecraft.item.book.LingeringFlameBook;
 import bassebombecraft.item.book.LingeringFuryBook;
+import bassebombecraft.item.book.MultipleArrowsBook;
 import bassebombecraft.item.book.NaturalizeBook;
 import bassebombecraft.item.book.PrimedCreeperCannonBook;
 import bassebombecraft.item.book.RainbownizeBook;
@@ -95,6 +96,7 @@ import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
+import bassebombecraft.item.composite.CompositeMagic;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
@@ -125,10 +127,10 @@ import bassebombecraft.item.inventory.RespawnIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
 import bassebombecraft.operator.entity.Respawn;
-import bassebombecraft.operator.entity.ShootFireballRing2;
 import bassebombecraft.operator.entity.SpawnDecoy;
 import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig2;
+import bassebombecraft.operator.projectile.formation.ProjectileRingFormation2;
 import bassebombecraft.potion.effect.AggroMobEffect;
 import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
@@ -250,11 +252,10 @@ public class ModConfiguration {
 
 	// Books..
 
-	// MobCommandersBaton
-	public static ForgeConfigSpec.ConfigValue<String> mobCommandersBatonTooltip;
-	public static ForgeConfigSpec.IntValue mobCommandersBatonCooldown;
+	public static ItemConfig mobCommandersBaton;
+	public static ItemConfig compositeMagic;
 
-	// SmallFireballBook
+	public static ItemConfig multipleArrowsBook;	
 	public static ItemConfig smallFireballBook;
 	public static ItemConfig largeFireballBook;
 	public static ItemConfig smallFireballRingBook;
@@ -531,9 +532,9 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue respawnSpawnArea;
 
 	/**
-	 * Properties for {@linkplain ShootFireballRing2} operator.
+	 * Properties for {@linkplain ProjectileRingFormation2} operator.
 	 */
-	public static ForgeConfigSpec.IntValue shootSmallFireballRingFireballs;
+	public static ForgeConfigSpec.IntValue projectileRingFormationNumberProjectiles;
 
 	static {
 
@@ -1173,7 +1174,6 @@ public class ModConfiguration {
 				.defineInRange("SpawnArea ", 5, 0, 10);
 		COMMON_BUILDER.pop();
 
-		// RemoveBlockSpiralIdolInventoryItem
 		/**
 		 * Configuration for the {@linkplain RemoveBlockSpiralIdolInventoryItem} item.
 		 */
@@ -1187,12 +1187,12 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain ShootFireballRing2} operator.
+		 * Configuration for the {@linkplain ShootProjectileRing2} operator.
 		 */
-		name = ShootFireballRing2.NAME;
+		name = ProjectileRingFormation2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		shootSmallFireballRingFireballs = COMMON_BUILDER.comment("Number of fireballs spawned in 360 degrees circle.")
-				.defineInRange("number", 16, 0, Integer.MAX_VALUE);
+		projectileRingFormationNumberProjectiles = COMMON_BUILDER.comment("Number of projectile spawned in 360 degrees circle.")
+				.defineInRange("number", 8, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 	}
@@ -1202,16 +1202,33 @@ public class ModConfiguration {
 	 */
 	static void setupBooksConfig() {
 
-		// MobCommandersBaton
+		/**
+		 * Configuration for the {@linkplain MobCommandersBaton} item.
+		 */
 		String name = MobCommandersBaton.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		mobCommandersBatonTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
-				"Right-click to issue commands to charmed and commanded mobs.");
-		mobCommandersBatonCooldown = COMMON_BUILDER.comment("Game ticks between item activation.")
-				.defineInRange("cooldown", 25, 0, Integer.MAX_VALUE);
+		mobCommandersBaton = getInstance(COMMON_BUILDER, name,
+				"Right-click to issue commands to charmed and commanded mobs.", 25);
 		COMMON_BUILDER.pop();
 
-		// SmallFireballBook
+		/**
+		 * Configuration for the {@linkplain CompositeMagic} item.
+		 */
+		name = CompositeMagic.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		compositeMagic = getInstance(COMMON_BUILDER, name, "Right-click to activate configured magic.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain MultipleArrowsBook} item.
+		 */
+		name = MultipleArrowsBook.ITEM_NAME;
+		multipleArrowsBook = getInstance(COMMON_BUILDER, name, "Right-click to shoot multiple arrows at foes.",
+				50);
+		
+		/**
+		 * Configuration for the {@linkplain SmallFireballBook} item.
+		 */
 		name = SmallFireballBook.ITEM_NAME;
 		smallFireballBook = getInstance(COMMON_BUILDER, name, "Right-click to shoot a fireball that is hurled at foes.",
 				25);
@@ -1226,7 +1243,7 @@ public class ModConfiguration {
 		 */
 		name = LargeFireballBook.ITEM_NAME;
 		smallFireballRingBook = getInstance(COMMON_BUILDER, name,
-				"Right-click to shot a ring of small fireballs outwards.", 50);
+				"Right-click to shot a ring of small fireballs outwards.", 100);
 
 		// LingeringFlameBook
 		name = LingeringFlameBook.ITEM_NAME;

@@ -19,6 +19,7 @@ import net.minecraft.world.World;
  * Implementation of the {@linkplain RightClickedItemAction} which shoots five
  * arrows.
  */
+@Deprecated
 public class ShootMultipleArrows implements RightClickedItemAction {
 
 	static final SoundEvent SOUND = SoundEvents.ENTITY_SKELETON_SHOOT;

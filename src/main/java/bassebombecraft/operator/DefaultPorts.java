@@ -8,30 +8,31 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class DefaultPorts implements Ports {
 
 	/**
-	 * Living entity instance #1.
+	 * Living entity #1.
 	 */
 	LivingEntity livingEntity1;
 
 	/**
-	 * Living entity instance #2.
+	 * Living entity #2.
 	 */
 	LivingEntity livingEntity2;
 	
 	/**
-	 * Block position instance #1.
+	 * Block position #1.
 	 */
 	BlockPos blockPos1;
 
 	/**
-	 * Block position instance #2.
+	 * Block position #2.
 	 */
 	BlockPos blockPos2;
-
+	
 	/**
 	 * String #1.
 	 */
@@ -41,6 +42,21 @@ public class DefaultPorts implements Ports {
 	 * String #2.
 	 */
 	String string2;
+
+	/**
+	 * Vector #1.
+	 */
+	Vec3d vector1;
+
+	/**
+	 * Vector array #1.
+	 */
+	Vec3d[] vectors1;
+	
+	/**
+	 * Operator #1.
+	 */
+	Operator2 op1;
 	
 	/**
 	 * World object.
@@ -106,7 +122,7 @@ public class DefaultPorts implements Ports {
 	 * Block position #2 setter.
 	 */
 	static BiConsumer<Ports, BlockPos> bcSetBlockPos2 = (Ports p, BlockPos bp) -> p.setBlockPosition2(bp);
-
+	
 	/**
 	 * String #1 getter.
 	 */
@@ -126,6 +142,36 @@ public class DefaultPorts implements Ports {
 	 * String #2 setter.
 	 */
 	static BiConsumer<Ports, String> bcSetString2 = (Ports p, String s) -> p.setString2(s);
+
+	/**
+	 * Vector #1 getter.
+	 */
+	static Function<Ports, Vec3d> fnGetVector1 = p -> p.getVector1();
+
+	/**
+	 * Vector array #1 setter.
+	 */
+	static BiConsumer<Ports, Vec3d[]> bcSetVectors1 = (Ports p, Vec3d[] v) -> p.setVectors1(v);
+
+	/**
+	 * Vector array #1 getter.
+	 */
+	static Function<Ports, Vec3d[]> fnGetVectors1 = p -> p.getVectors1();
+
+	/**
+	 * Vector #1 setter.
+	 */
+	static BiConsumer<Ports, Vec3d> bcSetVector1 = (Ports p, Vec3d v) -> p.setVector1(v);
+	
+	/**
+	 * Operator #1 getter.
+	 */
+	static Function<Ports, Operator2> fnGetOperator1 = p -> p.getOperator1();
+
+	/**
+	 * Operator #1 setter.
+	 */
+	static BiConsumer<Ports, Operator2> bcSetOperator1 = (Ports p, Operator2 op) -> p.setOperator1(op);
 	
 	/**
 	 * Constructor
@@ -177,10 +223,10 @@ public class DefaultPorts implements Ports {
 	public BlockPos getBlockPosition2() {
 		return blockPos2;
 	}
-
+	
 	@Override
 	public String getString1() {
-		return this.string1;
+		return string1;
 	}
 
 	@Override
@@ -199,7 +245,40 @@ public class DefaultPorts implements Ports {
 		this.string2 = value;
 		return this;
 	}
+
+	@Override
+	public Vec3d getVector1() {
+		return vector1;
+	}
 	
+	@Override
+	public Ports setVector1(Vec3d vec) {
+		this.vector1 = vec;
+		return this;
+	}
+
+	@Override
+	public Vec3d[] getVectors1() {
+		return vectors1;
+	}
+	
+	@Override
+	public Ports setVectors1(Vec3d[] vec) {
+		this.vectors1 = vec;
+		return this;
+	}
+	
+	@Override
+	public Operator2 getOperator1() {
+		return op1;
+	}
+
+	@Override
+	public Ports setOperator1(Operator2 op) {
+		this.op1 = op;
+		return this;
+	}
+
 	@Override
 	public World getWorld() {
 		return world;
@@ -294,11 +373,11 @@ public class DefaultPorts implements Ports {
 	public static Function<Ports, BlockPos> getFnGetBlockPosition2() {
 		return fnGetBlockPos2;
 	}
-
+	
 	public static BiConsumer<Ports, BlockPos> getBcSetBlockPosition2() {
 		return bcSetBlockPos2;
 	}
-
+	
 	public static Function<Ports, String> getFnGetString1() {
 		return fnGetString1;
 	}
@@ -313,6 +392,30 @@ public class DefaultPorts implements Ports {
 
 	public static BiConsumer<Ports, String> getBcSetString2() {
 		return bcSetString2;
+	}
+
+	public static Function<Ports, Vec3d> getFnGetVector1() {
+		return fnGetVector1;
+	}
+
+	public static BiConsumer<Ports, Vec3d> getBcSetVector1() {
+		return bcSetVector1;
+	}
+
+	public static Function<Ports, Vec3d[]> getFnGetVectors1() {
+		return fnGetVectors1;
+	}
+
+	public static BiConsumer<Ports, Vec3d[]> getBcSetVectors1() {
+		return bcSetVectors1;
+	}
+	
+	public static Function<Ports, Operator2> getFnGetOperator1() {
+		return fnGetOperator1;
+	}
+
+	public static BiConsumer<Ports, Operator2> getBcSetOperator1() {
+		return bcSetOperator1;
 	}
 	
 	/**

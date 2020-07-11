@@ -1,4 +1,4 @@
-package bassebombecraft.item.book;
+package bassebombecraft.item.composite;
 
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
@@ -31,15 +31,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
- * Generic Book implementation for execution of operators using
- * {@linkplain Operator2}.
+ * Generic item implementation for execution composite logic.
  * 
- * The operators are applied when the item is right clicked.
- * 
- * The ports is updated with the world and the invoker entity when item is right
- * clicked.
+ * The logic are applied when the item is right clicked.
  **/
-public class GenericRightClickedBook2 extends Item {
+public class GenericCompositeLogicItem extends Item {
 
 	/**
 	 * Operator ports.
@@ -47,9 +43,9 @@ public class GenericRightClickedBook2 extends Item {
 	Ports ports;
 
 	/**
-	 * Operator.
+	 * Operators.
 	 */
-	Operator2 op;
+	Operator2[] ops;
 
 	/**
 	 * Book item cooldown value.
@@ -66,15 +62,13 @@ public class GenericRightClickedBook2 extends Item {
 	 * 
 	 * @param name   item name.
 	 * @param config item configuration.
-	 * @param ports  ports used by operators.
-	 * @param op    operator executed when item is right clicked.
 	 */
-	public GenericRightClickedBook2(String name, ItemConfig config, Ports ports, Operator2 op) {
+	public GenericCompositeLogicItem(String name, ItemConfig config) {
 		super(new Item.Properties().group(getItemGroup()));
 		doCommonItemInitialization(this, name);
 
 		this.ports = ports;
-		this.op = op;
+		this.ops = ops;
 
 		// get cooldown and tooltip
 		coolDown = config.cooldown.get();
@@ -104,7 +98,7 @@ public class GenericRightClickedBook2 extends Item {
 		// execute operators
 		ports.setLivingEntity1(playerIn);
 		ports.setWorld(worldIn);
-		run(ports, op);
+		run(ports, ops);
 
 		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
 	}
