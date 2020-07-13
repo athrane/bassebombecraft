@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Sequence2;
-import bassebombecraft.operator.projectile.ShootWitherSkull2;
+import bassebombecraft.operator.projectile.WitherSkullProjectile2;
 import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
 
 /**
@@ -22,7 +22,7 @@ public class WitherSkullBook extends GenericRightClickedBook2 {
 	 */
 	static Supplier<Operator2> splOps = () -> {
 		Operator2 formationOp = new SingleProjectileFormation2();
-		Operator2 projectileOp = new ShootWitherSkull2();
+		Operator2 projectileOp = new WitherSkullProjectile2();
 		return new Sequence2(formationOp, projectileOp);
 	};
 

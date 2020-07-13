@@ -97,6 +97,14 @@ import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
 import bassebombecraft.item.composite.CompositeMagic;
+import bassebombecraft.item.composite.projectile.ArrowProjectileItem;
+import bassebombecraft.item.composite.projectile.FireballProjectileItem;
+import bassebombecraft.item.composite.projectile.LargeFireballProjectileItem;
+import bassebombecraft.item.composite.projectile.WitherSkullProjectileItem;
+import bassebombecraft.item.composite.projectile.formation.CircleProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.FrontAndBackProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.SingleProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectileFormationItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
@@ -130,7 +138,7 @@ import bassebombecraft.operator.entity.Respawn;
 import bassebombecraft.operator.entity.SpawnDecoy;
 import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig2;
-import bassebombecraft.operator.projectile.formation.ProjectileRingFormation2;
+import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
 import bassebombecraft.potion.effect.AggroMobEffect;
 import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
@@ -253,9 +261,8 @@ public class ModConfiguration {
 	// Books..
 
 	public static ItemConfig mobCommandersBaton;
-	public static ItemConfig compositeMagic;
 
-	public static ItemConfig multipleArrowsBook;	
+	public static ItemConfig multipleArrowsBook;
 	public static ItemConfig smallFireballBook;
 	public static ItemConfig largeFireballBook;
 	public static ItemConfig smallFireballRingBook;
@@ -366,6 +373,18 @@ public class ModConfiguration {
 	 */
 	public static ForgeConfigSpec.IntValue removeBlockSpiralIdolInventoryItemSpiralSize;
 	public static ParticlesConfig removeBlockSpiralIdolInventoryItemParticleInfo;
+
+	// Composite magic items..
+
+	public static ItemConfig compositeMagic;
+	public static ItemConfig singleProjectileFormationItem;
+	public static ItemConfig circleProjectileFormationItem;
+	public static ItemConfig trifurcatedProjectileFormationItem;
+	public static ItemConfig frontAndBackProjectileFormationItem;
+	public static ItemConfig fireballProjectileItem;
+	public static ItemConfig largeFireballProjectileItem;
+	public static ItemConfig arrowProjectileItem;
+	public static ItemConfig witherSkullProjectileItem;
 
 	// Actions..
 
@@ -532,9 +551,9 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue respawnSpawnArea;
 
 	/**
-	 * Properties for {@linkplain ProjectileRingFormation2} operator.
+	 * Properties for {@linkplain CircleProjectileFormation2} operator.
 	 */
-	public static ForgeConfigSpec.IntValue projectileRingFormationNumberProjectiles;
+	public static ForgeConfigSpec.IntValue circleProjectileFormationNumberProjectiles;
 
 	static {
 
@@ -574,6 +593,10 @@ public class ModConfiguration {
 
 		COMMON_BUILDER.comment("Inventory item settings").push("InventoryItems");
 		setupInventoryItemsConfig();
+		COMMON_BUILDER.pop();
+
+		COMMON_BUILDER.comment("Composite item settings").push("CompositeItems");
+		setupCompositeItemsConfig();
 		COMMON_BUILDER.pop();
 
 		// do build
@@ -1189,9 +1212,10 @@ public class ModConfiguration {
 		/**
 		 * Configuration for the {@linkplain ShootProjectileRing2} operator.
 		 */
-		name = ProjectileRingFormation2.NAME;
+		name = CircleProjectileFormation2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		projectileRingFormationNumberProjectiles = COMMON_BUILDER.comment("Number of projectile spawned in 360 degrees circle.")
+		circleProjectileFormationNumberProjectiles = COMMON_BUILDER
+				.comment("Number of projectile spawned in 360 degrees circle.")
 				.defineInRange("number", 8, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
@@ -1212,20 +1236,11 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain CompositeMagic} item.
-		 */
-		name = CompositeMagic.ITEM_NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		compositeMagic = getInstance(COMMON_BUILDER, name, "Right-click to activate configured magic.", 25);
-		COMMON_BUILDER.pop();
-
-		/**
 		 * Configuration for the {@linkplain MultipleArrowsBook} item.
 		 */
 		name = MultipleArrowsBook.ITEM_NAME;
-		multipleArrowsBook = getInstance(COMMON_BUILDER, name, "Right-click to shoot multiple arrows at foes.",
-				50);
-		
+		multipleArrowsBook = getInstance(COMMON_BUILDER, name, "Right-click to shoot multiple arrows at foes.", 50);
+
 		/**
 		 * Configuration for the {@linkplain SmallFireballBook} item.
 		 */
@@ -1634,6 +1649,89 @@ public class ModConfiguration {
 				"Equip in either hand to activate. The idol will remove blocks in an expanding spiral.", 5,
 				splParticles);
 
+	}
+
+	/**
+	 * Define configuration for composite magic items.
+	 */
+	static void setupCompositeItemsConfig() {
+
+		/**
+		 * Configuration for the {@linkplain CompositeMagic} item.
+		 */
+		String name = CompositeMagic.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		compositeMagic = getInstance(COMMON_BUILDER, name, "Right-click to activate configured magic.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain SingleProjectileFormationItem} item.
+		 */
+		name = SingleProjectileFormationItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		singleProjectileFormationItem = getInstance(COMMON_BUILDER, name,
+				"Cast a single projectile in front of the caster.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain CircleProjectileFormationItem} item.
+		 */
+		name = CircleProjectileFormationItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		circleProjectileFormationItem = getInstance(COMMON_BUILDER, name,
+				"Cast projectiles in a circle formation around the caster.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain TrifurcatedProjectileFormationItem} item.
+		 */
+		name = TrifurcatedProjectileFormationItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		trifurcatedProjectileFormationItem = getInstance(COMMON_BUILDER, name,
+				"Cast 3 projectiles in a trifurcated formation in front of the caster.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain FrontAndBackProjectileFormationItem} item.
+		 */
+		name = FrontAndBackProjectileFormationItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		frontAndBackProjectileFormationItem = getInstance(COMMON_BUILDER, name,
+				"Cast 2 projectiles. One projectile in front and one in back of the caster.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain FireballProjectileItem} item.
+		 */
+		name = FireballProjectileItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		fireballProjectileItem = getInstance(COMMON_BUILDER, name, "Fireball projectile.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain LargeFireballProjectileItem} item.
+		 */
+		name = LargeFireballProjectileItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		largeFireballProjectileItem = getInstance(COMMON_BUILDER, name, "Large fireball projectile.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain ArrowProjectileItem} item.
+		 */
+		name = ArrowProjectileItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		arrowProjectileItem = getInstance(COMMON_BUILDER, name, "Arrow projectile.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain WitherSkullProjectileItem} item.
+		 */
+		name = WitherSkullProjectileItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		witherSkullProjectileItem = getInstance(COMMON_BUILDER, name, "Wither skull projectile.", 25);
+		COMMON_BUILDER.pop();
+		
 	}
 
 	/**

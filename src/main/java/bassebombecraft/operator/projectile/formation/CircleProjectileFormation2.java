@@ -1,6 +1,6 @@
 package bassebombecraft.operator.projectile.formation;
 
-import static bassebombecraft.config.ModConfiguration.projectileRingFormationNumberProjectiles;
+import static bassebombecraft.config.ModConfiguration.circleProjectileFormationNumberProjectiles;
 import static bassebombecraft.operator.DefaultPorts.getBcSetVectors1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 
@@ -16,12 +16,12 @@ import net.minecraft.util.math.Vec3d;
  * Implementation of the {@linkplain Operator2} interface which shoots
  * projectiles in a ring formation.
  */
-public class ProjectileRingFormation2 implements Operator2 {
+public class CircleProjectileFormation2 implements Operator2 {
 
 	/**
 	 * Operator identifier.
 	 */
-	public static final String NAME = ProjectileRingFormation2.class.getSimpleName();
+	public static final String NAME = CircleProjectileFormation2.class.getSimpleName();
 
 	/**
 	 * Acceleration modifier.
@@ -59,11 +59,11 @@ public class ProjectileRingFormation2 implements Operator2 {
 	 * @param fnGetInvoker function to get invoker entity.
 	 * @param bcSetVectors function to set vector array
 	 */
-	public ProjectileRingFormation2(Function<Ports, LivingEntity> fnGetInvoker,
+	public CircleProjectileFormation2(Function<Ports, LivingEntity> fnGetInvoker,
 			BiConsumer<Ports, Vec3d[]> bcSetVectors) {
 		this.fnGetInvoker = fnGetInvoker;
 		this.bcSetVectors = bcSetVectors;
-		number = projectileRingFormationNumberProjectiles.get();
+		number = circleProjectileFormationNumberProjectiles.get();
 		this.vectorArray = new Vec3d[number];
 	}
 
@@ -74,7 +74,7 @@ public class ProjectileRingFormation2 implements Operator2 {
 	 * 
 	 * Instance is configured with vectors array #1 as orientation vectors from ports.
 	 */
-	public ProjectileRingFormation2() {
+	public CircleProjectileFormation2() {
 		this(getFnGetLivingEntity1(), getBcSetVectors1());
 	}
 

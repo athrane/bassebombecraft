@@ -66,6 +66,15 @@ import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.book.WitherMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
+import bassebombecraft.item.composite.CompositeMagic;
+import bassebombecraft.item.composite.projectile.ArrowProjectileItem;
+import bassebombecraft.item.composite.projectile.FireballProjectileItem;
+import bassebombecraft.item.composite.projectile.LargeFireballProjectileItem;
+import bassebombecraft.item.composite.projectile.WitherSkullProjectileItem;
+import bassebombecraft.item.composite.projectile.formation.CircleProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.FrontAndBackProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.SingleProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectileFormationItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
@@ -75,7 +84,6 @@ import bassebombecraft.item.inventory.DecreaseSizeIdolInventoryItem;
 import bassebombecraft.item.inventory.EggProjectileIdolInventoryItem;
 import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
-import bassebombecraft.item.inventory.RemoveBlockSpiralIdolInventoryItem;
 import bassebombecraft.item.inventory.IncreaseSizeIdolInventoryItem;
 import bassebombecraft.item.inventory.KillerBeesIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
@@ -92,6 +100,7 @@ import bassebombecraft.item.inventory.RainIdolInventoryItem;
 import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
 import bassebombecraft.item.inventory.ReaperIdolInventoryItem;
 import bassebombecraft.item.inventory.ReflectIdolInventoryItem;
+import bassebombecraft.item.inventory.RemoveBlockSpiralIdolInventoryItem;
 import bassebombecraft.item.inventory.RespawnIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
@@ -154,6 +163,14 @@ public class ItemRegistryEventHandler {
 	static Item[] basicItems = { new TerminatorEyeItem(), HUD_ITEM };
 
 	/**
+	 * The set of composite items.
+	 */
+	static Item[] compositeItems = { new CompositeMagic(), new SingleProjectileFormationItem(),
+			new CircleProjectileFormationItem(), new TrifurcatedProjectileFormationItem(),
+			new FrontAndBackProjectileFormationItem(), new FireballProjectileItem(), new LargeFireballProjectileItem(),
+			new ArrowProjectileItem(), new WitherSkullProjectileItem() };
+
+	/**
 	 * Handle {@linkplain RegistryEvent.Register<Item>} event to register items with
 	 * forge.
 	 * 
@@ -166,6 +183,7 @@ public class ItemRegistryEventHandler {
 		registry.registerAll(inventoryItems);
 		registry.registerAll(batonItems);
 		registry.registerAll(basicItems);
+		registry.registerAll(compositeItems);
 	}
 
 	/**

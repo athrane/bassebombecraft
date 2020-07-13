@@ -3,14 +3,17 @@ package bassebombecraft.item.composite;
 import static bassebombecraft.config.ModConfiguration.compositeMagic;
 
 /**
- * Composite magic.
+ * Composite magic item.
  */
 public class CompositeMagic extends GenericCompositeLogicItem {
 
-	public static final String ITEM_NAME = CompositeMagic.class.getSimpleName();
+	/**
+	 * Item identifier.
+	 */	
+	public static final String NAME = CompositeMagic.class.getSimpleName();
 
 	public CompositeMagic() {
-		super(ITEM_NAME, compositeMagic);
+		super(NAME, compositeMagic);
 	}
 
 }

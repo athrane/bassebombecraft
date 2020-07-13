@@ -128,7 +128,18 @@
     "item.bassebombecraft.terminatoreyeitem": "Terminator Eye",
     "item.bassebombecraft.huditem": "BasseBombeCraft tactical heads up display (HUD)",
     "item.bassebombecraft.mobcommandersbaton": "Krenko's Command Baton",
-    
+
+        "_comment": "composite items",
+    "item.bassebombecraft.compositemagic": "Necromantic composite",
+    "item.bassebombecraft.singleprojectileformationitem": "Single Projectile Formation",
+    "item.bassebombecraft.circleprojectileformationitem": "Circle Projectile Formation",
+    "item.bassebombecraft.trifurcatedprojectileformationitem": "Trifurcated Projectile Formation",
+    "item.bassebombecraft.frontandbackprojectileformationitem": "Front and Back Projectile Formation",
+    "item.bassebombecraft.fireballprojectileitem": "Fireball Projectile",
+    "item.bassebombecraft.largefireballprojectileitem": "Large Fireball Projectile",    
+    "item.bassebombecraft.arrowprojectileitem": "Arrow Projectile",    
+    "item.bassebombecraft.witherskullprojectileitem": "Wither Skull Projectile",    
+        
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",
     "effect.bassebombecraft.aggromobeffect": "Aggro mob",

@@ -1,5 +1,7 @@
 package bassebombecraft.operator;
 
+import java.util.Arrays;
+
 /**
  * Implementation of the {@linkplain Operator2} interface which executes two
  * embedded operators in sequence.
@@ -26,4 +28,9 @@ public class Sequence2 implements Operator2 {
 		return ports;
 	}
 
+	@Override
+	public String toString() {
+		return "Sequence2 [ops=" + Arrays.toString(ops) + "]";
+	}
+	
 }

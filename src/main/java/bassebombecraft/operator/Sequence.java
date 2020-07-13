@@ -6,7 +6,10 @@ import java.util.List;
 /**
  * Implementation of the {@linkplain Operator} interface which executes the
  * embedded operators in sequence.
+ * 
+ * @deprecated Replace with version 2 of the framework and use {@linkplain Sequence2}.
  */
+@Deprecated
 public class Sequence implements Operator {
 
 	/**
