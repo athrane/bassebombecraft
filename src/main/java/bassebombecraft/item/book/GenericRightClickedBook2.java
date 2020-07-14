@@ -68,14 +68,14 @@ public class GenericRightClickedBook2 extends Item {
 	 * @param name   item name.
 	 * @param config item configuration.
 	 * @param ports  ports used by operators.
-	 * @param op     operator executed when item is right clicked.
+	 * @param operator     operator executed when item is right clicked.
 	 */
-	public GenericRightClickedBook2(String name, ItemConfig config, Ports ports, Operator2 op) {
+	public GenericRightClickedBook2(String name, ItemConfig config, Ports ports, Operator2 operator) {
 		super(new Item.Properties().group(getItemGroup()));
 		doCommonItemInitialization(this, name);
 
 		this.ports = ports;
-		this.operator = op;
+		this.operator = operator;
 
 		// get cooldown and tooltip
 		coolDown = config.cooldown.get();
@@ -88,33 +88,33 @@ public class GenericRightClickedBook2 extends Item {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
 
 		// exit if invoked at client side
-		if (isLogicalClient(worldIn)) {
-			return super.onItemRightClick(worldIn, playerIn, handIn);
+		if (isLogicalClient(world)) {
+			return super.onItemRightClick(world, player, hand);
 		}
 
 		// post analytics
-		getProxy().postItemUsage(this.getRegistryName().toString(), playerIn.getGameProfile().getName());
+		getProxy().postItemUsage(this.getRegistryName().toString(), player.getGameProfile().getName());
 
 		// add cooldown
-		CooldownTracker tracker = playerIn.getCooldownTracker();
+		CooldownTracker tracker = player.getCooldownTracker();
 		tracker.setCooldown(this, coolDown);
 
-		// execute operators
-		ports.setLivingEntity1(playerIn);
-		ports.setWorld(worldIn);
+		// execute operator
+		ports.setLivingEntity1(player);
+		ports.setWorld(world);
 		run(ports, operator);
 
-		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
+		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, player.getHeldItem(hand));
 	}
 
 	@Override
-	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
 
 		// only update the action at server side since we updates the world
-		if (isLogicalClient(worldIn))
+		if (isLogicalClient(world))
 			return;
 
 		// NO-OP
