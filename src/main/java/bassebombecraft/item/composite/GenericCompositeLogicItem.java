@@ -2,6 +2,7 @@ package bassebombecraft.item.composite;
 
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ModConstants.COMPOSITE_MAX_SIZE;
 import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
@@ -11,7 +12,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import static bassebombecraft.ModConstants.*;
 import bassebombecraft.config.ItemConfig;
 import bassebombecraft.operator.DefaultPorts;
 import bassebombecraft.operator.Operator2;
@@ -43,7 +43,7 @@ public class GenericCompositeLogicItem extends Item {
 	/**
 	 * Item signature.
 	 */
-	Item[] signatures = new Item[SIGNATURE_SIZE];
+	Item[] signatures = new Item[COMPOSITE_MAX_SIZE];
 
 	/**
 	 * Operator ports.
@@ -101,12 +101,16 @@ public class GenericCompositeLogicItem extends Item {
 
 		// skip configuration if inventory dons't contain composites
 		int inventoryIndex = findInventoryComposites(player);
+
 		if (isInventoryContainingComposites(inventoryIndex)) {
 
-			// configure
-			boolean hasSignatureChanged = hasSignatureChanged(player, inventoryIndex);
-			if (hasSignatureChanged)
-				configureState(player, inventoryIndex);
+			// calculate composite length
+			int compositeLength = calculateCompositeLength(player, inventoryIndex);
+			compositeLength = Math.min(compositeLength, COMPOSITE_MAX_SIZE);
+
+			// configure operators
+			if (hasSignatureChanged(player, inventoryIndex, compositeLength))
+				configureOperators(player, inventoryIndex, compositeLength);
 		}
 
 		// execute operators
@@ -118,10 +122,13 @@ public class GenericCompositeLogicItem extends Item {
 	}
 
 	/**
-	 * Scan the inventory for composite items. Returns index of the first occurrence
-	 * of a composite item. Return -1 if no composite items is found.
+	 * Scan the inventory for composite items.
 	 * 
-	 * @param inventory player inventor
+	 * Returns index of the first occurrence of a composite item.
+	 * 
+	 * Return -1 if no composite items is found.
+	 * 
+	 * @param inventory player inventory.
 	 * 
 	 * @return Returns index of the first occurrence of a composite item. Return -1
 	 *         if no composite items is found.
@@ -136,13 +143,9 @@ public class GenericCompositeLogicItem extends Item {
 			if (inventoryStack.isEmpty())
 				continue;
 
-			// get item
-			Item inventoryItem = inventoryStack.getItem();
-
 			// exit loop if composite item
-			if (inventoryItem instanceof GenericCompositeNullItem)
+			if (isCompositeItem(player, index))
 				return index;
-
 		}
 
 		// no composite values where found
@@ -152,7 +155,7 @@ public class GenericCompositeLogicItem extends Item {
 	/**
 	 * Returns true if inventory contain a composite item, i.e. index isn't -1.
 	 * 
-	 * @param inventoryIndex
+	 * @param index inventory index.
 	 * 
 	 * @return true if inventory contain a composite item, i.e. index isn't -1.
 	 */
@@ -161,32 +164,77 @@ public class GenericCompositeLogicItem extends Item {
 	}
 
 	/**
-	 * Calculate if signature of composite has changed.
+	 * Returns true if item in inventory slot is a composite item.
 	 * 
 	 * @param player player whose inventory is processed.
-	 * @param index  inventory index for first composite item.
+	 * @param index  inventory index to test for composite item.
+	 * 
+	 * @return true if item in inventory slot is a composite item.
+	 */
+	boolean isCompositeItem(PlayerEntity player, int index) {
+		PlayerInventory inventory = player.inventory;
+
+		// get inventory item
+		ItemStack inventoryStack = inventory.getStackInSlot(index);
+		Item inventoryItem = inventoryStack.getItem();
+
+		// add operator for current slot
+		return (inventoryItem instanceof GenericCompositeNullItem);
+	}
+
+	/**
+	 * Calculate the length of the composite.
+	 * 
+	 * The length is computed from the sequence of connected
+	 * 
+	 * @param player         player whose inventory is processed.
+	 * @param inventoryIndex inventory index for first composite item.
+	 * 
+	 * @return length of the composite.
+	 */
+	int calculateCompositeLength(PlayerEntity player, int inventoryIndex) {
+		PlayerInventory inventory = player.inventory;
+		int length = 0;
+
+		for (int index = inventoryIndex; index < inventory.getSizeInventory(); index++) {
+
+			// exit loop if not a composite item
+			if (!isCompositeItem(player, index))
+				return length;
+
+			// update length
+			length++;
+		}
+
+		return length;
+	}
+
+	/**
+	 * Calculate if signature of composite has changed.
+	 * 
+	 * @param player         player whose inventory is processed.
+	 * @param inventoryIndex inventory index for first composite item.
+	 * @param length         length of the composite in the inventory.
 	 * 
 	 * @return true if signature of composites has changed.
 	 */
-	boolean hasSignatureChanged(PlayerEntity player, int index) {
+	boolean hasSignatureChanged(PlayerEntity player, int inventoryIndex, int length) {
 		boolean retval = false;
 
-		for (int signatureIndex = 0; signatureIndex < SIGNATURE_SIZE; signatureIndex++) {
+		for (int index = 0; index < length; index++) {
 
 			// determine if signature is changed
-			boolean hasChanged = hasSignatureChangedAtSlot(player, index, signatureIndex);
+			boolean hasChanged = hasSignatureChangedAtSlot(player, inventoryIndex + index, index);
 
+			// if changed then update state and signature
 			if (hasChanged) {
-				
-				// update signature if changed				
-				updateSignatureAtSlot(player, index, signatureIndex);
 
-				// update state				
-				retval = true;				
+				// update signature if changed
+				updateSignatureAtSlot(player, inventoryIndex, index);
+
+				// update state
+				retval = true;
 			}
-
-			// update inventory index
-			index++;
 		}
 
 		return retval;
@@ -217,16 +265,10 @@ public class GenericCompositeLogicItem extends Item {
 			return true;
 		}
 
-		// get hashes
+		// get and compare hashes
 		int signatureHash = signatureItem.hashCode();
 		int inventoryItemHash = inventoryItem.hashCode();
-
-		if (signatureHash == inventoryItemHash)
-			return false;
-
-		// set signature
-		signatures[signatureIndex] = inventoryItem;
-		return true;
+		return (!(signatureHash == inventoryItemHash));
 	}
 
 	/**
@@ -246,44 +288,43 @@ public class GenericCompositeLogicItem extends Item {
 	/**
 	 * Configure state of composites.
 	 * 
-	 * @param player player whose inventory is processed.
-	 * @param index  inventory index for first composite item.
+	 * @param player         player whose inventory is processed.
+	 * @param inventoryIndex inventory index for first composite item.
+	 * @param length         length of the composite in the inventory.
 	 */
-	void configureState(PlayerEntity player, int index) {
-		PlayerInventory inventory = player.inventory;
-
+	void configureOperators(PlayerEntity player, int inventoryIndex, int length) {
 		ArrayList<Operator2> opList = new ArrayList<Operator2>();
 
-		// configure operators
-		configureOperator(inventory, opList, index);
-		configureOperator(inventory, opList, index + 1);
-		configureOperator(inventory, opList, index + 2);
+		for (int index = 0; index < length; index++) {
+			configureOperator(player, opList, inventoryIndex + index);
+		}
 
 		// create array
-		Operator2[] opArray = opList.toArray(new Operator2[2]);
+		Operator2[] opArray = opList.toArray(new Operator2[length]);
 
 		// create sequence operator
 		this.ops = new Sequence2(opArray);
-
 	}
 
 	/**
+	 * Configure operator.
 	 * 
-	 * @param inventory
-	 * @param opList
-	 * @param index
+	 * @param player player whose inventory is processed.
+	 * @param opList list of operators where operator is added to.
+	 * @param index  inventory index for composite item.
 	 */
-	void configureOperator(PlayerInventory inventory, ArrayList<Operator2> opList, int index) {
+	void configureOperator(PlayerEntity player, ArrayList<Operator2> opList, int index) {
+		PlayerInventory inventory = player.inventory;
 
-		// get hotbar item
-		ItemStack hotbarSlot = inventory.getStackInSlot(index);
-		Item hotbarItem = hotbarSlot.getItem();
+		// get inventory item
+		ItemStack inventoryStack = inventory.getStackInSlot(index);
+		Item inventoryItem = inventoryStack.getItem();
 
 		// add operator for current slot
-		if (hotbarItem instanceof GenericCompositeNullItem) {
+		if (inventoryItem instanceof GenericCompositeNullItem) {
 
 			// type cast
-			GenericCompositeNullItem compositeNullItem = (GenericCompositeNullItem) hotbarItem;
+			GenericCompositeNullItem compositeNullItem = (GenericCompositeNullItem) inventoryItem;
 
 			// add operator
 			Operator2 operator = compositeNullItem.createOperator();

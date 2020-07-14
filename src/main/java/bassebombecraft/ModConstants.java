@@ -494,8 +494,8 @@ public class ModConstants {
 			1.0D, 0.0D, 1.0D)).setShouldWatch(true);
 
 	/**
-	 * Size of composite magic signature. Used in {@linkplain CompositeMagic}.
+	 * Maximum size composite magic. Used in {@linkplain CompositeMagic}.
 	 */
-	public static final int SIGNATURE_SIZE = 3;
+	public static final int COMPOSITE_MAX_SIZE = 3;
 
 }
