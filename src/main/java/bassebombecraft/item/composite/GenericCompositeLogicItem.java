@@ -36,7 +36,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 /**
  * Generic item implementation for execution of composite logic.
  * 
- * The logic is applied when the item is right clicked.
+ * The composite logic is applied when the item is right clicked.
+ * 
+ * The used ports is reused for the duration of the item and updated for all
+ * invocations of the operator. The ports is updated with the world and the
+ * player entity when the item is right clicked.
  **/
 public class GenericCompositeLogicItem extends Item {
 
@@ -51,9 +55,9 @@ public class GenericCompositeLogicItem extends Item {
 	Ports ports;
 
 	/**
-	 * Operators.
+	 * Operator.
 	 */
-	Operator2 ops;
+	Operator2 operator;
 
 	/**
 	 * Book item cooldown value.
@@ -116,7 +120,7 @@ public class GenericCompositeLogicItem extends Item {
 		// execute operators
 		ports.setLivingEntity1(player);
 		ports.setWorld(world);
-		run(ports, ops);
+		run(ports, operator);
 
 		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, player.getHeldItem(hand));
 	}
@@ -303,7 +307,7 @@ public class GenericCompositeLogicItem extends Item {
 		Operator2[] opArray = opList.toArray(new Operator2[length]);
 
 		// create sequence operator
-		this.ops = new Sequence2(opArray);
+		this.operator = new Sequence2(opArray);
 	}
 
 	/**
@@ -337,7 +341,7 @@ public class GenericCompositeLogicItem extends Item {
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
 			ITooltipFlag flagIn) {
 		String message = new StringBuilder().append(this.tooltip).append(" (hc=").append(this.hashCode())
-				.append(" ,op=").append(this.ops).append(")").toString();
+				.append(" ,op=").append(this.operator).append(")").toString();
 		ITextComponent text = new TranslationTextComponent(TextFormatting.GREEN + message);
 		tooltip.add(text);
 	}

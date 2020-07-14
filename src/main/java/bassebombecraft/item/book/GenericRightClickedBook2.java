@@ -31,13 +31,14 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
- * Generic Book implementation for execution of operators using
- * {@linkplain Operator2}.
+ * Generic book implementation for execution of embedded operator implementing
+ * the {@linkplain Operator2} interface.
  * 
- * The operators are applied when the item is right clicked.
+ * The operator is applied when the item is right clicked.
  * 
- * The ports is updated with the world and the invoker entity when item is right
- * clicked.
+ * The used ports is reused for the duration of the item and updated for all
+ * invocations of the operator. The ports is updated with the world and the
+ * invoker entity when the item is right clicked.
  **/
 public class GenericRightClickedBook2 extends Item {
 
@@ -49,7 +50,7 @@ public class GenericRightClickedBook2 extends Item {
 	/**
 	 * Operator.
 	 */
-	Operator2 op;
+	Operator2 operator;
 
 	/**
 	 * Book item cooldown value.
@@ -67,14 +68,14 @@ public class GenericRightClickedBook2 extends Item {
 	 * @param name   item name.
 	 * @param config item configuration.
 	 * @param ports  ports used by operators.
-	 * @param op    operator executed when item is right clicked.
+	 * @param op     operator executed when item is right clicked.
 	 */
 	public GenericRightClickedBook2(String name, ItemConfig config, Ports ports, Operator2 op) {
 		super(new Item.Properties().group(getItemGroup()));
 		doCommonItemInitialization(this, name);
 
 		this.ports = ports;
-		this.op = op;
+		this.operator = op;
 
 		// get cooldown and tooltip
 		coolDown = config.cooldown.get();
@@ -104,7 +105,7 @@ public class GenericRightClickedBook2 extends Item {
 		// execute operators
 		ports.setLivingEntity1(playerIn);
 		ports.setWorld(worldIn);
-		run(ports, op);
+		run(ports, operator);
 
 		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
 	}

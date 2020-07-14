@@ -26,7 +26,7 @@ public class ExecuteOperatorAsAction2 implements RightClickedItemAction {
 	Ports ports;
 
 	/**
-	 * Operators executed as action..
+	 * Operators executed as action.
 	 */
 	Operator2 op;
 
