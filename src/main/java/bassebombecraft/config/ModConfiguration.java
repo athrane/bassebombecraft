@@ -1705,7 +1705,7 @@ public class ModConfiguration {
 		 */
 		name = FireballProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		fireballProjectileItem = getInstance(COMMON_BUILDER, name, "Fireball projectile.", 25);
+		fireballProjectileItem = getInstance(COMMON_BUILDER, name, "A small ball of fire, almost like one of Hermione flames. It will explode modestly on impact.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -1713,7 +1713,7 @@ public class ModConfiguration {
 		 */
 		name = LargeFireballProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		largeFireballProjectileItem = getInstance(COMMON_BUILDER, name, "Large fireball projectile.", 25);
+		largeFireballProjectileItem = getInstance(COMMON_BUILDER, name, "Burning and fiery. It will explode violently on impact.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -1721,7 +1721,7 @@ public class ModConfiguration {
 		 */
 		name = ArrowProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		arrowProjectileItem = getInstance(COMMON_BUILDER, name, "Arrow projectile.", 25);
+		arrowProjectileItem = getInstance(COMMON_BUILDER, name, "Somewhat true to its aim.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -1729,7 +1729,7 @@ public class ModConfiguration {
 		 */
 		name = WitherSkullProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		witherSkullProjectileItem = getInstance(COMMON_BUILDER, name, "Wither skull projectile.", 25);
+		witherSkullProjectileItem = getInstance(COMMON_BUILDER, name, "A scary wither skull. It will explode modestly on impact.", 25);
 		COMMON_BUILDER.pop();
 		
 	}
