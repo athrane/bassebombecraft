@@ -23,11 +23,16 @@ public class TrifurcatedProjectileFormation2 implements Operator2 {
 	 * Operator identifier.
 	 */
 	public static final String NAME = TrifurcatedProjectileFormation2.class.getSimpleName();
+
+	/**
+	 * Rotation angle.
+	 */
+	static final int ROTATE_DEGREES_M1 = -15;
 		
 	/**
 	 * Rotation angle.
 	 */	
-	static final int ROTATE_DEGREES = 10;
+	static final int ROTATE_DEGREES_1 = 15;
 	
 	/**
 	 * Acceleration modifier.
@@ -85,8 +90,8 @@ public class TrifurcatedProjectileFormation2 implements Operator2 {
 
 		// update array
 		vectorArray[0] = orientation;
-		vectorArray[1] = rotateUnitVectorAroundYAxisAtOrigin(ROTATE_DEGREES, orientation);
-		vectorArray[2] = rotateUnitVectorAroundYAxisAtOrigin(-ROTATE_DEGREES, orientation);
+		vectorArray[1] = rotateUnitVectorAroundYAxisAtOrigin(ROTATE_DEGREES_M1, orientation);
+		vectorArray[2] = rotateUnitVectorAroundYAxisAtOrigin(ROTATE_DEGREES_1, orientation);
 		
 		// store vector array in ports
 		bcSetVectors.accept(ports, vectorArray);
