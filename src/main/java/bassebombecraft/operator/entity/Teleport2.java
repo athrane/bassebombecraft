@@ -1,7 +1,8 @@
 package bassebombecraft.operator.entity;
 
 import static bassebombecraft.block.BlockUtils.calculatePosition;
-import static bassebombecraft.operator.DefaultPorts.*;
+import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
+import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
 import static bassebombecraft.projectile.ProjectileUtils.isBlockHit;
 import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
 import static bassebombecraft.projectile.ProjectileUtils.isNothingHit;
@@ -56,12 +57,10 @@ public class Teleport2 implements Operator2 {
 	 * 
 	 * Instance is configured with living entity #1 as invoker from ports.
 	 * 
-	 * Instance is configured with ray tracing result #1 from
-	 * ports.
-	 * 
+	 * Instance is configured with ray tracing result #1 from ports.
 	 */
 	public Teleport2() {
-		this(getFnGetLivingEntity1(), getFnGetRayTraceResult1() );
+		this(getFnGetLivingEntity1(), getFnGetRayTraceResult1());
 	}
 
 	@Override

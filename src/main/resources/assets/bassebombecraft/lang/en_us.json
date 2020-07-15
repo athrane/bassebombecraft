@@ -135,10 +135,12 @@
     "item.bassebombecraft.circleprojectileformationitem": "Circle Projectile Formation",
     "item.bassebombecraft.trifurcatedprojectileformationitem": "Trifurcated Projectile Formation",
     "item.bassebombecraft.frontandbackprojectileformationitem": "Front and Back Projectile Formation",
+
     "item.bassebombecraft.fireballprojectileitem": "Fireball Projectile",
     "item.bassebombecraft.largefireballprojectileitem": "Large Fireball Projectile",    
     "item.bassebombecraft.arrowprojectileitem": "Arrow Projectile",    
     "item.bassebombecraft.witherskullprojectileitem": "Wither Skull Projectile",    
+    "item.bassebombecraft.teleportprojectileitem": "Teleport Projectile",    
         
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",

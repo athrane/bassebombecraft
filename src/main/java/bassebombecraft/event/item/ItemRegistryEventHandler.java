@@ -70,6 +70,7 @@ import bassebombecraft.item.composite.CompositeMagic;
 import bassebombecraft.item.composite.projectile.ArrowProjectileItem;
 import bassebombecraft.item.composite.projectile.FireballProjectileItem;
 import bassebombecraft.item.composite.projectile.LargeFireballProjectileItem;
+import bassebombecraft.item.composite.projectile.TeleportProjectileItem;
 import bassebombecraft.item.composite.projectile.WitherSkullProjectileItem;
 import bassebombecraft.item.composite.projectile.formation.CircleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.FrontAndBackProjectileFormationItem;
@@ -168,7 +169,7 @@ public class ItemRegistryEventHandler {
 	static Item[] compositeItems = { new CompositeMagic(), new SingleProjectileFormationItem(),
 			new CircleProjectileFormationItem(), new TrifurcatedProjectileFormationItem(),
 			new FrontAndBackProjectileFormationItem(), new FireballProjectileItem(), new LargeFireballProjectileItem(),
-			new ArrowProjectileItem(), new WitherSkullProjectileItem() };
+			new ArrowProjectileItem(), new WitherSkullProjectileItem(), new TeleportProjectileItem() };
 
 	/**
 	 * Handle {@linkplain RegistryEvent.Register<Item>} event to register items with
