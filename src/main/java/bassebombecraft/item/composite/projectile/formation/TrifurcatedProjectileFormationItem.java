@@ -1,6 +1,7 @@
 package bassebombecraft.item.composite.projectile.formation;
 
-import bassebombecraft.config.ModConfiguration;
+import static bassebombecraft.config.ModConfiguration.trifurcatedProjectileFormationItem;
+
 import bassebombecraft.item.composite.GenericCompositeNullItem;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.projectile.formation.TrifurcatedProjectileFormation2;
@@ -19,7 +20,7 @@ public class TrifurcatedProjectileFormationItem extends GenericCompositeNullItem
 	 * Constructor.
 	 */
 	public TrifurcatedProjectileFormationItem() {
-		super(NAME, ModConfiguration.trifurcatedProjectileFormationItem);
+		super(NAME, trifurcatedProjectileFormationItem);
 	}
 
 	@Override

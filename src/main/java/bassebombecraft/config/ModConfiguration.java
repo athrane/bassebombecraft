@@ -1276,7 +1276,7 @@ public class ModConfiguration {
 
 		// WitherSkullBook
 		name = WitherSkullBook.ITEM_NAME;
-		witherSkullBook = getInstance(COMMON_BUILDER, name, "Creates a Wither Skull that is hurled at foes.", 25);
+		witherSkullBook = getInstance(COMMON_BUILDER, name, "Right-click to summon a wither skull that is hurled at foes.", 25);
 
 		// BaconBazookaBook
 		name = BaconBazookaBook.ITEM_NAME;
@@ -1354,16 +1354,16 @@ public class ModConfiguration {
 		// LavaSpiralMistBook
 		name = LavaSpiralMistBook.ITEM_NAME;
 		lavaSpiralMistBook = getInstance(COMMON_BUILDER, name,
-				"Creates an expanding spiral of temporary lava blocks centered on where the caster is placed.", 100);
+				"Right-click to create an expanding spiral of temporary lava blocks centered on where the caster is placed.", 100);
 
 		// VacuumMistBook
 		name = VacuumMistBook.ITEM_NAME;
-		vacuumMistBook = getInstance(COMMON_BUILDER, name, "Creates a cloud of vacuum which pull mobs into it.", 100);
+		vacuumMistBook = getInstance(COMMON_BUILDER, name, "Right-click to create a cloud of vacuum which pull mobs into it.", 100);
 
 		// HealingMistBook
 		name = HealingMistBook.ITEM_NAME;
 		healingMistBook = getInstance(COMMON_BUILDER, name,
-				"It creates a cloud of healing that heal nearby friends and foes.", 100);
+				"Right-click to create a cloud of healing that heal nearby friends and foes.", 100);
 
 		// SpawnCreeperArmyBook
 		name = SpawnCreeperArmyBook.ITEM_NAME;
@@ -1670,7 +1670,7 @@ public class ModConfiguration {
 		name = SingleProjectileFormationItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		singleProjectileFormationItem = getInstance(COMMON_BUILDER, name,
-				"Cast a single projectile in front of the caster.", 25);
+				"A cryptic illustration of a formation. Cast a single projectile in front of the caster.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -1679,7 +1679,7 @@ public class ModConfiguration {
 		name = CircleProjectileFormationItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		circleProjectileFormationItem = getInstance(COMMON_BUILDER, name,
-				"Cast projectiles in a circle formation around the caster.", 25);
+				"A cryptic illustration of a formation. Cast projectiles in a circle formation around the caster.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -1688,7 +1688,7 @@ public class ModConfiguration {
 		name = TrifurcatedProjectileFormationItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		trifurcatedProjectileFormationItem = getInstance(COMMON_BUILDER, name,
-				"Cast 3 projectiles in a trifurcated formation in front of the caster.", 25);
+				"A cryptic illustration of a formation. Cast 3 projectiles in a trifurcated formation in front of the caster.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -1697,7 +1697,7 @@ public class ModConfiguration {
 		name = FrontAndBackProjectileFormationItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		frontAndBackProjectileFormationItem = getInstance(COMMON_BUILDER, name,
-				"Cast 2 projectiles. One projectile in front and one in back of the caster.", 25);
+				"A cryptic illustration of a formation. Cast 2 projectiles. One projectile in front and one in back of the caster.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -1705,7 +1705,7 @@ public class ModConfiguration {
 		 */
 		name = FireballProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		fireballProjectileItem = getInstance(COMMON_BUILDER, name, "A small ball of fire, almost like one of Hermione flames. It will explode modestly on impact.", 25);
+		fireballProjectileItem = getInstance(COMMON_BUILDER, name, "A runic image of a tiny fireball, almost like one of Hermione's flames. It will explode gently on impact.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -1713,7 +1713,7 @@ public class ModConfiguration {
 		 */
 		name = LargeFireballProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		largeFireballProjectileItem = getInstance(COMMON_BUILDER, name, "Burning and fiery. It will explode violently on impact.", 25);
+		largeFireballProjectileItem = getInstance(COMMON_BUILDER, name, "A runic image of a fiery fireball eager to be summoned. It will explode violently on impact.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -1721,7 +1721,7 @@ public class ModConfiguration {
 		 */
 		name = ArrowProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		arrowProjectileItem = getInstance(COMMON_BUILDER, name, "Somewhat true to its aim.", 25);
+		arrowProjectileItem = getInstance(COMMON_BUILDER, name, "A runic image of an arrow. Somewhat true to its aim.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -1729,7 +1729,7 @@ public class ModConfiguration {
 		 */
 		name = WitherSkullProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		witherSkullProjectileItem = getInstance(COMMON_BUILDER, name, "A scary wither skull. It will explode modestly on impact.", 25);
+		witherSkullProjectileItem = getInstance(COMMON_BUILDER, name, "A runic image of a scary wither skull. It will explode on impact.", 25);
 		COMMON_BUILDER.pop();
 		
 	}

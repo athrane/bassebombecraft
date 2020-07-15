@@ -1,6 +1,7 @@
 package bassebombecraft.item.composite.projectile;
 
-import bassebombecraft.config.ModConfiguration;
+import static bassebombecraft.config.ModConfiguration.witherSkullProjectileItem;
+
 import bassebombecraft.item.composite.GenericCompositeNullItem;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.projectile.ShootWitherSkullProjectile2;
@@ -19,7 +20,7 @@ public class WitherSkullProjectileItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public WitherSkullProjectileItem() {
-		super(NAME, ModConfiguration.decoyBook);
+		super(NAME, witherSkullProjectileItem);
 	}
 
 	@Override

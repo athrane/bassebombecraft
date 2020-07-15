@@ -1,6 +1,7 @@
 package bassebombecraft.item.composite.projectile.formation;
 
-import bassebombecraft.config.ModConfiguration;
+import static bassebombecraft.config.ModConfiguration.circleProjectileFormationItem;
+
 import bassebombecraft.item.composite.GenericCompositeNullItem;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
@@ -19,7 +20,7 @@ public class CircleProjectileFormationItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public CircleProjectileFormationItem() {
-		super(NAME, ModConfiguration.circleProjectileFormationItem);
+		super(NAME, circleProjectileFormationItem);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package bassebombecraft.item.composite.projectile;
 
-import bassebombecraft.config.ModConfiguration;
+import static bassebombecraft.config.ModConfiguration.fireballProjectileItem;
+
 import bassebombecraft.item.composite.GenericCompositeNullItem;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.projectile.ShootFireballProjectile2;
@@ -19,7 +20,7 @@ public class FireballProjectileItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public FireballProjectileItem() {
-		super(NAME, ModConfiguration.fireballProjectileItem);
+		super(NAME, fireballProjectileItem);
 	}
 
 	@Override
