@@ -8,6 +8,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -63,6 +64,11 @@ public class DefaultPorts implements Ports {
 	 */
 	World world;
 
+	/**
+	 * Ray trace result #1.
+	 */
+	RayTraceResult rayTraceResult1;
+	
 	/**
 	 * Result of operator execution.
 	 */
@@ -149,6 +155,11 @@ public class DefaultPorts implements Ports {
 	static Function<Ports, Vec3d> fnGetVector1 = p -> p.getVector1();
 
 	/**
+	 * Vector #1 setter.
+	 */
+	static BiConsumer<Ports, Vec3d> bcSetVector1 = (Ports p, Vec3d v) -> p.setVector1(v);
+	
+	/**
 	 * Vector array #1 setter.
 	 */
 	static BiConsumer<Ports, Vec3d[]> bcSetVectors1 = (Ports p, Vec3d[] v) -> p.setVectors1(v);
@@ -157,11 +168,6 @@ public class DefaultPorts implements Ports {
 	 * Vector array #1 getter.
 	 */
 	static Function<Ports, Vec3d[]> fnGetVectors1 = p -> p.getVectors1();
-
-	/**
-	 * Vector #1 setter.
-	 */
-	static BiConsumer<Ports, Vec3d> bcSetVector1 = (Ports p, Vec3d v) -> p.setVector1(v);
 	
 	/**
 	 * Operator #1 getter.
@@ -172,6 +178,16 @@ public class DefaultPorts implements Ports {
 	 * Operator #1 setter.
 	 */
 	static BiConsumer<Ports, Operator2> bcSetOperator1 = (Ports p, Operator2 op) -> p.setOperator1(op);
+
+	/**
+	 * Ray trace result #1 getter.
+	 */
+	static Function<Ports, RayTraceResult> fnGetRayTraceResult1 = p -> p.getRayTraceResult1();
+
+	/**
+	 * Ray trace result #1 setter.
+	 */
+	static BiConsumer<Ports, RayTraceResult> bcSetRayTraceResult1 = (Ports p, RayTraceResult r) -> p.setRayTraceResult1(r);
 	
 	/**
 	 * Constructor
@@ -276,6 +292,18 @@ public class DefaultPorts implements Ports {
 	@Override
 	public Ports setOperator1(Operator2 op) {
 		this.op1 = op;
+		return this;
+	}
+
+	
+	@Override
+	public RayTraceResult getRayTraceResult1() {
+		return rayTraceResult1;
+	}
+
+	@Override
+	public Ports setRayTraceResult1(RayTraceResult rtr) {
+		this.rayTraceResult1 = rtr;
 		return this;
 	}
 
@@ -416,6 +444,14 @@ public class DefaultPorts implements Ports {
 
 	public static BiConsumer<Ports, Operator2> getBcSetOperator1() {
 		return bcSetOperator1;
+	}
+
+	public static Function<Ports, RayTraceResult> getFnGetRayTraceResult1() {
+		return fnGetRayTraceResult1;
+	}
+
+	public static BiConsumer<Ports, RayTraceResult> getBcSetRayTraceResult1() {
+		return bcSetRayTraceResult1;
 	}
 	
 	/**

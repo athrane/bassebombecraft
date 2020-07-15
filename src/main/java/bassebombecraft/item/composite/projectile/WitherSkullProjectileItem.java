@@ -3,7 +3,7 @@ package bassebombecraft.item.composite.projectile;
 import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.item.composite.GenericCompositeNullItem;
 import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.projectile.WitherSkullProjectile2;
+import bassebombecraft.operator.projectile.ShootWitherSkullProjectile2;
 
 /**
  * Wither skull projectile item.
@@ -24,7 +24,7 @@ public class WitherSkullProjectileItem extends GenericCompositeNullItem {
 
 	@Override
 	public Operator2 createOperator() {
-		return new WitherSkullProjectile2();
+		return new ShootWitherSkullProjectile2();
 	}
 
 }

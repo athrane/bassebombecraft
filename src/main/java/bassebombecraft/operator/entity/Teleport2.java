@@ -1,15 +1,17 @@
 package bassebombecraft.operator.entity;
 
 import static bassebombecraft.block.BlockUtils.calculatePosition;
+import static bassebombecraft.operator.DefaultPorts.*;
 import static bassebombecraft.projectile.ProjectileUtils.isBlockHit;
 import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
 import static bassebombecraft.projectile.ProjectileUtils.isNothingHit;
 import static bassebombecraft.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
 import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 
-import java.util.function.Supplier;
+import java.util.function.Function;
 
-import bassebombecraft.operator.Operator;
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.BlockPos;
@@ -18,49 +20,62 @@ import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 
 /**
- * Implementation of the {@linkplain Operator} interface which teleports the
+ * Implementation of the {@linkplain Operator2} interface which teleports the
  * entity to hit block / entity.
  */
-public class Teleport implements Operator {
+public class Teleport2 implements Operator2 {
 
 	/**
 	 * Operator identifier.
 	 */
-	public static final String NAME = Teleport.class.getSimpleName();
+	public static final String NAME = Teleport2.class.getSimpleName();
 
 	/**
-	 * Entity supplier.
+	 * Function to get invoker entity.
 	 */
-	Supplier<LivingEntity> splEntity;
+	Function<Ports, LivingEntity> fnGetInvoker;
 
 	/**
-	 * RayTraceResult supplier.
+	 * Function to get ray trace result.
 	 */
-	Supplier<RayTraceResult> splRayTraceResult;
+	Function<Ports, RayTraceResult> fnGetRayTraceResult;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param splEntity         invoker entity supplier.
-	 * @param splRayTraceResult projectile ray trace result.
+	 * @param fnGetInvoker      function to get invoker entity.
+	 * @param splRayTraceResult function to get ray trace result.
 	 */
-	public Teleport(Supplier<LivingEntity> splEntity, Supplier<RayTraceResult> splRayTraceResult) {
-		this.splEntity = splEntity;
-		this.splRayTraceResult = splRayTraceResult;
+	public Teleport2(Function<Ports, LivingEntity> fnGetInvoker, Function<Ports, RayTraceResult> fnGetRayTraceResult) {
+		this.fnGetInvoker = fnGetInvoker;
+		this.fnGetRayTraceResult = fnGetRayTraceResult;
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * Instance is configured with living entity #1 as invoker from ports.
+	 * 
+	 * Instance is configured with ray tracing result #1 from
+	 * ports.
+	 * 
+	 */
+	public Teleport2() {
+		this(getFnGetLivingEntity1(), getFnGetRayTraceResult1() );
 	}
 
 	@Override
-	public void run() {
+	public Ports run(Ports ports) {
 
-		// get entity
-		LivingEntity livingEntity = splEntity.get();
+		// get invoker
+		LivingEntity invoker = fnGetInvoker.apply(ports);
 
 		// get ray trace result
-		RayTraceResult result = splRayTraceResult.get();
+		RayTraceResult result = fnGetRayTraceResult.apply(ports);
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
-			return;
+			return ports;
 
 		// declare
 		BlockPos teleportPosition = null;
@@ -70,7 +85,7 @@ public class Teleport implements Operator {
 
 			// exit if result isn't entity ray trace result;
 			if (!isTypeEntityRayTraceResult(result))
-				return;
+				return ports;
 
 			// get entity
 			Entity entity = ((EntityRayTraceResult) result).getEntity();
@@ -84,7 +99,7 @@ public class Teleport implements Operator {
 
 			// exit if result isn't entity ray trace result
 			if (!isTypeBlockRayTraceResult(result))
-				return;
+				return ports;
 
 			// type cast
 			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
@@ -94,7 +109,9 @@ public class Teleport implements Operator {
 		}
 
 		// teleport
-		livingEntity.setPositionAndUpdate(teleportPosition.getX(), teleportPosition.getY(), teleportPosition.getZ());
+		invoker.setPositionAndUpdate(teleportPosition.getX(), teleportPosition.getY(), teleportPosition.getZ());
+
+		return ports;
 	}
 
 }

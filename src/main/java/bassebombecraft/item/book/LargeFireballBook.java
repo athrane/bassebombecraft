@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Sequence2;
-import bassebombecraft.operator.projectile.LargeFireballProjectile2;
+import bassebombecraft.operator.projectile.ShootLargeFireballProjectile2;
 import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
 
 /**
@@ -20,13 +20,13 @@ public class LargeFireballBook extends GenericRightClickedBook2 {
 	/**
 	 * Create operators.
 	 */
-	static Supplier<Operator2> splOps = () -> {
+	static Supplier<Operator2> splOp = () -> {
 		Operator2 formationOp = new SingleProjectileFormation2();
-		Operator2 projectileOp = new LargeFireballProjectile2();
+		Operator2 projectileOp = new ShootLargeFireballProjectile2();
 		return new Sequence2(formationOp, projectileOp);
 	};
 
 	public LargeFireballBook() {
-		super(ITEM_NAME, largeFireballBook, getInstance(), splOps.get());
+		super(ITEM_NAME, largeFireballBook, getInstance(), splOp.get());
 	}
 }

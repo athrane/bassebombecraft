@@ -4,7 +4,7 @@ import static bassebombecraft.config.ModConfiguration.largeFireballProjectileIte
 
 import bassebombecraft.item.composite.GenericCompositeNullItem;
 import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.projectile.LargeFireballProjectile2;
+import bassebombecraft.operator.projectile.ShootLargeFireballProjectile2;
 
 /**
  * Large fireball projectile item.
@@ -25,7 +25,7 @@ public class LargeFireballProjectileItem extends GenericCompositeNullItem {
 
 	@Override
 	public Operator2 createOperator() {
-		return new LargeFireballProjectile2();
+		return new ShootLargeFireballProjectile2();
 	}
 
 }

@@ -32,10 +32,10 @@ import bassebombecraft.operator.DefaultPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.item.action.ExecuteOperatorAsAction2;
-import bassebombecraft.operator.projectile.ArrowProjectile2;
-import bassebombecraft.operator.projectile.FireballProjectile2;
-import bassebombecraft.operator.projectile.LargeFireballProjectile2;
-import bassebombecraft.operator.projectile.WitherSkullProjectile2;
+import bassebombecraft.operator.projectile.ShootArrowProjectile2;
+import bassebombecraft.operator.projectile.ShootFireballProjectile2;
+import bassebombecraft.operator.projectile.ShootLargeFireballProjectile2;
+import bassebombecraft.operator.projectile.ShootWitherSkullProjectile2;
 import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
 import bassebombecraft.operator.projectile.formation.TrifurcatedProjectileFormation2;
 import bassebombecraft.projectile.action.DigMobHole;
@@ -244,7 +244,7 @@ public class CompanionAttack extends Goal {
 	 */
 	static Supplier<Operator2> splLargeFireballOps = () -> {
 		Operator2 formationOp = new SingleProjectileFormation2();
-		Operator2 projectileOp = new LargeFireballProjectile2();
+		Operator2 projectileOp = new ShootLargeFireballProjectile2();
 		return new Sequence2(formationOp, projectileOp);
 	};
 
@@ -253,7 +253,7 @@ public class CompanionAttack extends Goal {
 	 */
 	static Supplier<Operator2> splFireballOps = () -> {
 		Operator2 formationOp = new SingleProjectileFormation2();
-		Operator2 projectileOp = new FireballProjectile2();
+		Operator2 projectileOp = new ShootFireballProjectile2();
 		return new Sequence2(formationOp, projectileOp);
 	};
 
@@ -262,7 +262,7 @@ public class CompanionAttack extends Goal {
 	 */
 	static Supplier<Operator2> splWitherSkullOps = () -> {
 		Operator2 formationOp = new SingleProjectileFormation2();
-		Operator2 projectileOp = new WitherSkullProjectile2();
+		Operator2 projectileOp = new ShootWitherSkullProjectile2();
 		return new Sequence2(formationOp, projectileOp);
 	};
 
@@ -271,7 +271,7 @@ public class CompanionAttack extends Goal {
 	 */
 	static Supplier<Operator2> splArrowsOps = () -> {
 		Operator2 formationOp = new TrifurcatedProjectileFormation2();
-		Operator2 projectileOp = new ArrowProjectile2();
+		Operator2 projectileOp = new ShootArrowProjectile2();
 		return new Sequence2(formationOp, projectileOp);
 	};
 

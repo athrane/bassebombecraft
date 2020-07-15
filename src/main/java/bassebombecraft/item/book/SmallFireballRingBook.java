@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Sequence2;
-import bassebombecraft.operator.projectile.FireballProjectile2;
+import bassebombecraft.operator.projectile.ShootFireballProjectile2;
 import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
 
 /**
@@ -20,13 +20,13 @@ public class SmallFireballRingBook extends GenericRightClickedBook2 {
 	/**
 	 * Create operators.
 	 */
-	static Supplier<Operator2> splOps = () -> {
+	static Supplier<Operator2> splOp = () -> {
 		Operator2 formationOp = new CircleProjectileFormation2();
-		Operator2 projectileOp = new FireballProjectile2();
+		Operator2 projectileOp = new ShootFireballProjectile2();
 		return new Sequence2(formationOp, projectileOp);
 	};
 
 	public SmallFireballRingBook() {
-		super(ITEM_NAME, smallFireballRingBook, getInstance(), splOps.get());
+		super(ITEM_NAME, smallFireballRingBook, getInstance(), splOp.get());
 	}
 }

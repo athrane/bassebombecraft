@@ -4,7 +4,7 @@ import static bassebombecraft.config.ModConfiguration.arrowProjectileItem;
 
 import bassebombecraft.item.composite.GenericCompositeNullItem;
 import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.projectile.ArrowProjectile2;
+import bassebombecraft.operator.projectile.ShootArrowProjectile2;
 
 /**
  * Arrow projectile item.
@@ -25,7 +25,7 @@ public class ArrowProjectileItem extends GenericCompositeNullItem {
 
 	@Override
 	public Operator2 createOperator() {
-		return new ArrowProjectile2();
+		return new ShootArrowProjectile2();
 	}
 
 }

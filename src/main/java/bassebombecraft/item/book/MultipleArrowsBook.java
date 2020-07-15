@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Sequence2;
-import bassebombecraft.operator.projectile.ArrowProjectile2;
+import bassebombecraft.operator.projectile.ShootArrowProjectile2;
 import bassebombecraft.operator.projectile.formation.TrifurcatedProjectileFormation2;
 
 /**
@@ -20,13 +20,13 @@ public class MultipleArrowsBook extends GenericRightClickedBook2 {
 	/**
 	 * Create operators.
 	 */
-	static Supplier<Operator2> splOps = () -> {
+	static Supplier<Operator2> splOp = () -> {
 		Operator2 formationOp = new TrifurcatedProjectileFormation2();
-		Operator2 projectileOp = new ArrowProjectile2();
+		Operator2 projectileOp = new ShootArrowProjectile2();
 		return new Sequence2(formationOp, projectileOp);
 	};
 
 	public MultipleArrowsBook() {
-		super(ITEM_NAME, multipleArrowsBook, getInstance(), splOps.get());
+		super(ITEM_NAME, multipleArrowsBook, getInstance(), splOp.get());
 	}
 }

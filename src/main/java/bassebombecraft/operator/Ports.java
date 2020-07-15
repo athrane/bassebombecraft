@@ -5,6 +5,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -159,6 +160,20 @@ public interface Ports {
 	 * @param op operator #1.
 	 */
 	Ports setOperator1(Operator2 op);
+
+	/**
+	 * Return {@linkplain RayTraceResult} #1.
+	 * 
+	 * @return ray trace result #1.
+	 */
+	RayTraceResult getRayTraceResult1();
+	
+	/**
+	 * Set {@linkplain RayTraceResult} #1.
+	 * 
+	 * @param rtr ray trace result #1.
+	 */
+	Ports setRayTraceResult1(RayTraceResult rtr);
 	
 	/**
 	 * Return world.

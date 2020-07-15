@@ -14,10 +14,10 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain Operator2} interface which shoots wither
- * skull projectile(s) from the invoker position.
+ * Implementation of the {@linkplain Operator2} interface which shoots small
+ * fireball projectile(s) from the invoker position.
  */
-public class WitherSkullProjectile2 implements Operator2 {
+public class ShootFireballProjectile2 implements Operator2 {
 
 	/**
 	 * Function to get invoker entity.
@@ -35,7 +35,7 @@ public class WitherSkullProjectile2 implements Operator2 {
 	 * @param fnGetInvoker      function to get invoker entity.
 	 * @param fnGetOrientation function to get orientation vectors.
 	 */
-	public WitherSkullProjectile2(Function<Ports, LivingEntity> fnGetInvoker, Function<Ports, Vec3d[]> fnGetOrientation) {
+	public ShootFireballProjectile2(Function<Ports, LivingEntity> fnGetInvoker, Function<Ports, Vec3d[]> fnGetOrientation) {
 		this.fnGetInvoker = fnGetInvoker;
 		this.fnGetOrientation = fnGetOrientation;
 	}
@@ -45,10 +45,9 @@ public class WitherSkullProjectile2 implements Operator2 {
 	 * 
 	 * Instance is configured with living entity #1 as invoker from ports.
 	 * 
-	 * Instance is configured with vector array #1 as orientation vector from
-	 * ports.
+	 * Instance is configured with vector array #1 as orientation vector from ports.
 	 */
-	public WitherSkullProjectile2() {
+	public ShootFireballProjectile2() {
 		this(getFnGetLivingEntity1(), getFnGetVectors1());
 	}
 
@@ -67,7 +66,7 @@ public class WitherSkullProjectile2 implements Operator2 {
 		for (Vec3d orientation : vectors) {
 
 			// create and spawn projectile
-			DamagingProjectileEntity projectile = EntityType.WITHER_SKULL.create(world);
+			DamagingProjectileEntity projectile = EntityType.SMALL_FIREBALL.create(world);
 			projectile.setPosition(invoker.getPosX(), invoker.getPosY() + invoker.getEyeHeight(), invoker.getPosZ());
 			projectile.setMotion(orientation);
 

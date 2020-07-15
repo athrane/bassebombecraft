@@ -3,7 +3,7 @@ package bassebombecraft.item.composite.projectile;
 import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.item.composite.GenericCompositeNullItem;
 import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.projectile.FireballProjectile2;
+import bassebombecraft.operator.projectile.ShootFireballProjectile2;
 
 /**
  * Fireball projectile item.
@@ -24,7 +24,7 @@ public class FireballProjectileItem extends GenericCompositeNullItem {
 
 	@Override
 	public Operator2 createOperator() {
-		return new FireballProjectile2();
+		return new ShootFireballProjectile2();
 	}
 
 }

@@ -17,7 +17,7 @@ import net.minecraft.world.World;
  * Implementation of the {@linkplain Operator2} interface which shoots large
  * fireball(s) from the invoker position.
  */
-public class LargeFireballProjectile2 implements Operator2 {
+public class ShootLargeFireballProjectile2 implements Operator2 {
 
 	/**
 	 * Function to get invoker entity.
@@ -35,7 +35,7 @@ public class LargeFireballProjectile2 implements Operator2 {
 	 * @param fnGetInvoker      function to get invoker entity.
 	 * @param fnGetOrientation function to get orientation vectors.
 	 */
-	public LargeFireballProjectile2(Function<Ports, LivingEntity> fnGetInvoker, Function<Ports, Vec3d[]> fnGetOrientation) {
+	public ShootLargeFireballProjectile2(Function<Ports, LivingEntity> fnGetInvoker, Function<Ports, Vec3d[]> fnGetOrientation) {
 		this.fnGetInvoker = fnGetInvoker;
 		this.fnGetOrientation = fnGetOrientation;
 	}
@@ -48,7 +48,7 @@ public class LargeFireballProjectile2 implements Operator2 {
 	 * Instance is configured with vector array #1 as orientation vector from
 	 * ports.
 	 */
-	public LargeFireballProjectile2() {
+	public ShootLargeFireballProjectile2() {
 		this(getFnGetLivingEntity1(), getFnGetVectors1());
 	}
 
