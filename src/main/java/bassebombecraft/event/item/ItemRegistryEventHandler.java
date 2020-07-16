@@ -74,6 +74,7 @@ import bassebombecraft.item.composite.projectile.TeleportProjectileItem;
 import bassebombecraft.item.composite.projectile.WitherSkullProjectileItem;
 import bassebombecraft.item.composite.projectile.formation.CircleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.FrontAndBackProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.RandomSingleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.SingleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectileFormationItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
@@ -167,9 +168,10 @@ public class ItemRegistryEventHandler {
 	 * The set of composite items.
 	 */
 	static Item[] compositeItems = { new CompositeMagic(), new SingleProjectileFormationItem(),
-			new CircleProjectileFormationItem(), new TrifurcatedProjectileFormationItem(),
-			new FrontAndBackProjectileFormationItem(), new FireballProjectileItem(), new LargeFireballProjectileItem(),
-			new ArrowProjectileItem(), new WitherSkullProjectileItem(), new TeleportProjectileItem() };
+			new RandomSingleProjectileFormationItem(), new CircleProjectileFormationItem(),
+			new TrifurcatedProjectileFormationItem(), new FrontAndBackProjectileFormationItem(),
+			new FireballProjectileItem(), new LargeFireballProjectileItem(), new ArrowProjectileItem(),
+			new WitherSkullProjectileItem(), new TeleportProjectileItem() };
 
 	/**
 	 * Handle {@linkplain RegistryEvent.Register<Item>} event to register items with
