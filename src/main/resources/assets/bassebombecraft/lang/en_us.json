@@ -132,6 +132,7 @@
         "_comment": "composite items",
     "item.bassebombecraft.compositemagic": "Necromantic composite",
     "item.bassebombecraft.singleprojectileformationitem": "Single Projectile Formation",
+    "item.bassebombecraft.randomsingleprojectileformationitem": "Random Single Projectile Formation",
     "item.bassebombecraft.circleprojectileformationitem": "Circle Projectile Formation",
     "item.bassebombecraft.trifurcatedprojectileformationitem": "Trifurcated Projectile Formation",
     "item.bassebombecraft.frontandbackprojectileformationitem": "Front and Back Projectile Formation",

@@ -170,8 +170,6 @@ public class GeometryUtils {
 	/**
 	 * Rotate unit vector coordinates around the Y axis at origin.
 	 * 
-	 * @param offset offset block position containing the X and Z coordinate to
-	 *               rotate around.
 	 * @param angle  angle to rotate coordinates.
 	 * @param vector vector which is rotated.
 	 * 

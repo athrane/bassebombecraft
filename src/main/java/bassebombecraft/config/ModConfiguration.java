@@ -104,6 +104,7 @@ import bassebombecraft.item.composite.projectile.TeleportProjectileItem;
 import bassebombecraft.item.composite.projectile.WitherSkullProjectileItem;
 import bassebombecraft.item.composite.projectile.formation.CircleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.FrontAndBackProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.RandomSingleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.SingleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectileFormationItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
@@ -379,6 +380,7 @@ public class ModConfiguration {
 
 	public static ItemConfig compositeMagic;
 	public static ItemConfig singleProjectileFormationItem;
+	public static ItemConfig randomSingleProjectileFormationItem;
 	public static ItemConfig circleProjectileFormationItem;
 	public static ItemConfig trifurcatedProjectileFormationItem;
 	public static ItemConfig frontAndBackProjectileFormationItem;
@@ -1678,6 +1680,15 @@ public class ModConfiguration {
 				"A cryptic illustration of a formation. Cast a single projectile in front of the caster.", 25);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the {@linkplain RandomSingleProjectileFormationItem} item.
+		 */
+		name = RandomSingleProjectileFormationItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		randomSingleProjectileFormationItem = getInstance(COMMON_BUILDER, name,
+				"A cryptic illustration of a formation. Cast a single projectile in any direction around the caster.", 25);
+		COMMON_BUILDER.pop();
+		
 		/**
 		 * Configuration for the {@linkplain CircleProjectileFormationItem} item.
 		 */
