@@ -142,6 +142,8 @@
     "item.bassebombecraft.arrowprojectileitem": "Arrow Projectile",    
     "item.bassebombecraft.witherskullprojectileitem": "Wither Skull Projectile",    
     "item.bassebombecraft.teleportprojectileitem": "Teleport Projectile",    
+
+    "item.bassebombecraft.projectileformationrandommodifieritem": "Projectile Formation Random Modifier",
         
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",

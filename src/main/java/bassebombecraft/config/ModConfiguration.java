@@ -107,6 +107,7 @@ import bassebombecraft.item.composite.projectile.formation.FrontAndBackProjectil
 import bassebombecraft.item.composite.projectile.formation.RandomSingleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.SingleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.modifier.ProjectileFormationRandomModifierItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
@@ -389,7 +390,8 @@ public class ModConfiguration {
 	public static ItemConfig arrowProjectileItem;
 	public static ItemConfig witherSkullProjectileItem;
 	public static ItemConfig teleportProjectileItem;
-	
+	public static ItemConfig projectileFormationRandomModifierItem;
+
 	// Actions..
 
 	// ShootBaconBazooka projectile action
@@ -1686,9 +1688,10 @@ public class ModConfiguration {
 		name = RandomSingleProjectileFormationItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		randomSingleProjectileFormationItem = getInstance(COMMON_BUILDER, name,
-				"A cryptic illustration of a formation. Cast a single projectile in any direction around the caster.", 25);
+				"A cryptic illustration of a formation. Cast a single projectile in any direction around the caster.",
+				25);
 		COMMON_BUILDER.pop();
-		
+
 		/**
 		 * Configuration for the {@linkplain CircleProjectileFormationItem} item.
 		 */
@@ -1714,7 +1717,7 @@ public class ModConfiguration {
 		name = FrontAndBackProjectileFormationItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		frontAndBackProjectileFormationItem = getInstance(COMMON_BUILDER, name,
-				"A cryptic illustration of a formation. Cast 2 projectiles. One projectile in front and one in back of the caster.",
+				"A cryptic illustration of a formation. Cast 2 projectiles. One projectile is cast in front and one from the back of the caster.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -1763,6 +1766,17 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		teleportProjectileItem = getInstance(COMMON_BUILDER, name,
 				"A runic image of an egg with strange abilities. If the egg hits a mob then the mob will be teleported somewhere. If the egg hits a block then the caster will be teleported to the point of impact.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain ProjectileFormationRandomModifierItem}
+		 * item.
+		 */
+		name = ProjectileFormationRandomModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		projectileFormationRandomModifierItem = getInstance(COMMON_BUILDER, name,
+				"A fiendish image of the falsification of a projectile formation. All paths of the projectiles are randomized around the vertical axis.",
 				25);
 		COMMON_BUILDER.pop();
 

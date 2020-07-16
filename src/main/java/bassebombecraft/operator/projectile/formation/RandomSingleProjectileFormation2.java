@@ -21,6 +21,11 @@ import net.minecraft.util.math.Vec3d;
 public class RandomSingleProjectileFormation2 implements Operator2 {
 
 	/**
+	 * Degrees for randomisation of projectile.
+	 */
+	static final int DEGREES_360 = 360;
+
+	/**
 	 * Operator identifier.
 	 */
 	public static final String NAME = RandomSingleProjectileFormation2.class.getSimpleName();
@@ -78,9 +83,9 @@ public class RandomSingleProjectileFormation2 implements Operator2 {
 		// calculate orientation
 		Vec3d orientation = invoker.getLook(1).scale(ACCELERATION_MODIFIER);
 
-		// calculate angle random
+		// calculate random angle
 		Random random = getBassebombeCraft().getRandom();
-		double angle = random.nextInt(360);
+		double angle = random.nextInt(DEGREES_360);
 		
 		// update array
 		vectorArray[0] = rotateUnitVectorAroundYAxisAtOrigin(angle, orientation);

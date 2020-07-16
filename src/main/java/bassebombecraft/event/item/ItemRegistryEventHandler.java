@@ -77,6 +77,7 @@ import bassebombecraft.item.composite.projectile.formation.FrontAndBackProjectil
 import bassebombecraft.item.composite.projectile.formation.RandomSingleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.SingleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.modifier.ProjectileFormationRandomModifierItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
@@ -171,7 +172,7 @@ public class ItemRegistryEventHandler {
 			new RandomSingleProjectileFormationItem(), new CircleProjectileFormationItem(),
 			new TrifurcatedProjectileFormationItem(), new FrontAndBackProjectileFormationItem(),
 			new FireballProjectileItem(), new LargeFireballProjectileItem(), new ArrowProjectileItem(),
-			new WitherSkullProjectileItem(), new TeleportProjectileItem() };
+			new WitherSkullProjectileItem(), new TeleportProjectileItem(), new ProjectileFormationRandomModifierItem() };
 
 	/**
 	 * Handle {@linkplain RegistryEvent.Register<Item>} event to register items with
