@@ -107,7 +107,7 @@ import bassebombecraft.item.composite.projectile.formation.FrontAndBackProjectil
 import bassebombecraft.item.composite.projectile.formation.RandomSingleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.SingleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectileFormationItem;
-import bassebombecraft.item.composite.projectile.modifier.ProjectileFormationRandomModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.RandomProjectileFormationModifierItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
@@ -390,7 +390,7 @@ public class ModConfiguration {
 	public static ItemConfig arrowProjectileItem;
 	public static ItemConfig witherSkullProjectileItem;
 	public static ItemConfig teleportProjectileItem;
-	public static ItemConfig projectileFormationRandomModifierItem;
+	public static ItemConfig randomProjectileFormationModifierItem;
 
 	// Actions..
 
@@ -1773,9 +1773,9 @@ public class ModConfiguration {
 		 * Configuration for the {@linkplain ProjectileFormationRandomModifierItem}
 		 * item.
 		 */
-		name = ProjectileFormationRandomModifierItem.NAME;
+		name = RandomProjectileFormationModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		projectileFormationRandomModifierItem = getInstance(COMMON_BUILDER, name,
+		randomProjectileFormationModifierItem = getInstance(COMMON_BUILDER, name,
 				"A fiendish image of the falsification of a projectile formation. All paths of the projectiles are randomized around the vertical axis.",
 				25);
 		COMMON_BUILDER.pop();

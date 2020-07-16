@@ -142,7 +142,7 @@
     "item.bassebombecraft.witherskullprojectileitem": "Projectile: Wither Skull",    
     "item.bassebombecraft.teleportprojectileitem": "Projectile: Teleport",    
 
-    "item.bassebombecraft.projectileformationrandommodifieritem": "Formation Modifier: Random",
+    "item.bassebombecraft.randomprojectileformationmodifieritem": "Formation Modifier: Random",
         
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",

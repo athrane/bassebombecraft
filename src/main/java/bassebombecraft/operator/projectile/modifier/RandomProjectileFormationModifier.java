@@ -17,7 +17,7 @@ import net.minecraft.util.math.Vec3d;
  * Implementation of the {@linkplain Operator2} interface which modifies a set
  * of projectile vectors by rotating them randomly around the Y-axis.
  */
-public class ProjectileFormationRandomModifier implements Operator2 {
+public class RandomProjectileFormationModifier implements Operator2 {
 
 	/**
 	 * Degrees for randomisation of projectile.
@@ -40,7 +40,7 @@ public class ProjectileFormationRandomModifier implements Operator2 {
 	 * @param fnGetOrientation function to get orientation vectors.
 	 * @param fnGetOrientation function to set orientation vectors.
 	 */
-	public ProjectileFormationRandomModifier(Function<Ports, Vec3d[]> fnGetOrientation,
+	public RandomProjectileFormationModifier(Function<Ports, Vec3d[]> fnGetOrientation,
 			BiConsumer<Ports, Vec3d[]> bcSetOrientation) {
 		this.fnGetOrientation = fnGetOrientation;
 		this.bcSetOrientation = bcSetOrientation;
@@ -51,7 +51,7 @@ public class ProjectileFormationRandomModifier implements Operator2 {
 	 * 
 	 * Instance is configured with vector array #1 as orientation vector from ports.
 	 */
-	public ProjectileFormationRandomModifier() {
+	public RandomProjectileFormationModifier() {
 		this(getFnGetVectors1(), getBcSetVectors1());
 	}
 
