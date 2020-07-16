@@ -1688,7 +1688,7 @@ public class ModConfiguration {
 		name = RandomSingleProjectileFormationItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		randomSingleProjectileFormationItem = getInstance(COMMON_BUILDER, name,
-				"A cryptic illustration of a formation. Cast a single projectile in any direction around the caster.",
+				"A cryptic illustration of a formation. Cast a single projectile in a random direction around the caster.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -1765,7 +1765,7 @@ public class ModConfiguration {
 		name = TeleportProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		teleportProjectileItem = getInstance(COMMON_BUILDER, name,
-				"A runic image of an egg with strange abilities. If the egg hits a mob then the mob will be teleported somewhere. If the egg hits a block then the caster will be teleported to the point of impact.",
+				"A runic image of an egg with strange abilities. If the egg hits a mob then the caster will be teleported to the mob. If the egg hits a block then the conjurer will be teleported to the point of impact.",
 				25);
 		COMMON_BUILDER.pop();
 
