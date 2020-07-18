@@ -100,14 +100,14 @@ import bassebombecraft.item.composite.CompositeMagic;
 import bassebombecraft.item.composite.projectile.ArrowProjectileItem;
 import bassebombecraft.item.composite.projectile.FireballProjectileItem;
 import bassebombecraft.item.composite.projectile.LargeFireballProjectileItem;
-import bassebombecraft.item.composite.projectile.TeleportProjectileItem;
 import bassebombecraft.item.composite.projectile.WitherSkullProjectileItem;
 import bassebombecraft.item.composite.projectile.formation.CircleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.FrontAndBackProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.RandomSingleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.SingleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectileFormationItem;
-import bassebombecraft.item.composite.projectile.modifier.RandomProjectileFormationModifierItem;
+import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
@@ -389,8 +389,8 @@ public class ModConfiguration {
 	public static ItemConfig largeFireballProjectileItem;
 	public static ItemConfig arrowProjectileItem;
 	public static ItemConfig witherSkullProjectileItem;
-	public static ItemConfig teleportProjectileItem;
 	public static ItemConfig randomProjectileFormationModifierItem;
+	public static ItemConfig teleportInvokerProjectileModifierItem;
 
 	// Actions..
 
@@ -1760,23 +1760,24 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain TeleportProjectileItem} item.
-		 */
-		name = TeleportProjectileItem.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		teleportProjectileItem = getInstance(COMMON_BUILDER, name,
-				"A runic image of an egg with strange abilities. If the egg hits a mob then the caster will be teleported to the mob. If the egg hits a block then the conjurer will be teleported to the point of impact.",
-				25);
-		COMMON_BUILDER.pop();
-
-		/**
 		 * Configuration for the {@linkplain ProjectileFormationRandomModifierItem}
 		 * item.
 		 */
 		name = RandomProjectileFormationModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		randomProjectileFormationModifierItem = getInstance(COMMON_BUILDER, name,
-				"A fiendish image of the falsification of a projectile formation. All paths of the projectiles are randomized around the vertical axis.",
+				"A fiendish image of the modification of a projectile formation. All paths of the projectiles are randomized around the vertical axis of the caster.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain TeleportInvokerProjectileModifierItem}
+		 * item.
+		 */
+		name = TeleportInvokerProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		teleportInvokerProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. When the projectile hits a mob then the caster will be teleported to the mob. If the projectile hits a block then the caster will be teleported to the point of impact.",
 				25);
 		COMMON_BUILDER.pop();
 

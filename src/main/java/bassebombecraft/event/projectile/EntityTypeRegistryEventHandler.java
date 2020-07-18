@@ -29,8 +29,8 @@ public class EntityTypeRegistryEventHandler {
 						.build(GenericEggProjectile.PROJECTILE_NAME)
 						.setRegistryName(MODID, GenericEggProjectile.PROJECTILE_NAME));
 
-		event.getRegistry().register(
-				EntityType.Builder.<OperatorEggProjectile>create(OperatorEggProjectile::new, MISC)
+		event.getRegistry()
+				.register(EntityType.Builder.<OperatorEggProjectile>create(OperatorEggProjectile::new, MISC)
 						.build(OperatorEggProjectile.PROJECTILE_NAME)
 						.setRegistryName(MODID, OperatorEggProjectile.PROJECTILE_NAME));
 

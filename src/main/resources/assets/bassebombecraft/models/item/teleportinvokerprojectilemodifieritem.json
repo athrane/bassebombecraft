@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:item/teleportprojectileitem"
+        "layer0": "bassebombecraft:item/teleportinvokerprojectilemodifieritem"
     },
  	"display": {
         "thirdperson_righthand": {

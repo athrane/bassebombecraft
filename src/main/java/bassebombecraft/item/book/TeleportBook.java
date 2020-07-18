@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Sequence2;
-import bassebombecraft.operator.entity.Teleport2;
+import bassebombecraft.operator.entity.TeleportInvoker2;
 import bassebombecraft.operator.projectile.ShootOperatorEggProjectile2;
 import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
 
@@ -22,7 +22,7 @@ public class TeleportBook extends GenericRightClickedBook2 {
 	 * Create operators.
 	 */
 	static Supplier<Operator2> splOp = () -> {
-		Operator2 projectileLogicOp = new Teleport2();
+		Operator2 projectileLogicOp = new TeleportInvoker2();
 		Operator2 formationOp = new SingleProjectileFormation2();
 		Operator2 projectileOp = new ShootOperatorEggProjectile2(projectileLogicOp);
 		return new Sequence2(formationOp, projectileOp);

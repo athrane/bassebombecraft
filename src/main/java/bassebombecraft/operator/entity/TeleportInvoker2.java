@@ -22,14 +22,9 @@ import net.minecraft.util.math.RayTraceResult;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which teleports the
- * entity to hit block / entity.
+ * invoker entity to hit block / entity.
  */
-public class Teleport2 implements Operator2 {
-
-	/**
-	 * Operator identifier.
-	 */
-	public static final String NAME = Teleport2.class.getSimpleName();
+public class TeleportInvoker2 implements Operator2 {
 
 	/**
 	 * Function to get invoker entity.
@@ -47,7 +42,7 @@ public class Teleport2 implements Operator2 {
 	 * @param fnGetInvoker      function to get invoker entity.
 	 * @param splRayTraceResult function to get ray trace result.
 	 */
-	public Teleport2(Function<Ports, LivingEntity> fnGetInvoker, Function<Ports, RayTraceResult> fnGetRayTraceResult) {
+	public TeleportInvoker2(Function<Ports, LivingEntity> fnGetInvoker, Function<Ports, RayTraceResult> fnGetRayTraceResult) {
 		this.fnGetInvoker = fnGetInvoker;
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 	}
@@ -59,7 +54,7 @@ public class Teleport2 implements Operator2 {
 	 * 
 	 * Instance is configured with ray tracing result #1 from ports.
 	 */
-	public Teleport2() {
+	public TeleportInvoker2() {
 		this(getFnGetLivingEntity1(), getFnGetRayTraceResult1());
 	}
 

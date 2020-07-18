@@ -1,4 +1,4 @@
-package bassebombecraft.operator.projectile;
+package bassebombecraft.operator.projectile.egg;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
@@ -27,8 +27,7 @@ import net.minecraft.util.math.RayTraceResult;
  * 
  * The ports is created on projectile impact.
  * 
- * The ports is configured with the ray tracing result (from the impact event),
- * the thrower entity and the world.
+ * The ports is configured with the ray tracing result (from the impact event) and the thrower entity.
  */
 public class OperatorEggProjectile2 extends ProjectileItemEntity {
 

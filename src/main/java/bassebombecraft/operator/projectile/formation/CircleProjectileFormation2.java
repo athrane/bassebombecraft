@@ -46,7 +46,7 @@ public class CircleProjectileFormation2 implements Operator2 {
 	/**
 	 * Array to store acceleration vectors.
 	 */
-	Vec3d[] vectorArray;
+	Vec3d[] vectors;
 
 	/**
 	 * Number of fireballs in ring.
@@ -64,7 +64,7 @@ public class CircleProjectileFormation2 implements Operator2 {
 		this.fnGetInvoker = fnGetInvoker;
 		this.bcSetVectors = bcSetVectors;
 		number = circleProjectileFormationNumberProjectiles.get();
-		this.vectorArray = new Vec3d[number];
+		this.vectors = new Vec3d[number];
 	}
 
 	/**
@@ -91,11 +91,11 @@ public class CircleProjectileFormation2 implements Operator2 {
 			double yaw = (index * displacement) * 0.017453292F;
 			Vec3d orientation = INITIAL_VECTOR.rotateYaw((float) yaw);
 
-			vectorArray[index] = orientation;
+			vectors[index] = orientation;
 		}
 
 		// store vector array in ports
-		bcSetVectors.accept(ports, vectorArray);
+		bcSetVectors.accept(ports, vectors);
 		
 		return ports;
 	}

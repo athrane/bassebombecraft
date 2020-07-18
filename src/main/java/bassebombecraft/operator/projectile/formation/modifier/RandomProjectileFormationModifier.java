@@ -1,4 +1,4 @@
-package bassebombecraft.operator.projectile.modifier;
+package bassebombecraft.operator.projectile.formation.modifier;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.geom.GeometryUtils.rotateUnitVectorAroundYAxisAtOrigin;
@@ -66,6 +66,7 @@ public class RandomProjectileFormationModifier implements Operator2 {
 
 		// create index
 		int index = 0;
+		
 		for (Vec3d orientation : vectors) {
 
 			// calculate random angle

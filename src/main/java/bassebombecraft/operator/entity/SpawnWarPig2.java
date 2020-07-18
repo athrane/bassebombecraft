@@ -78,7 +78,7 @@ public class SpawnWarPig2 implements Operator2 {
 		LivingEntity target = fnGetTarget.apply(ports);
 
 		// get world
-		World world = ports.getWorld();
+		World world = invoker.getEntityWorld();
 
 		// create entity
 		Random random = getBassebombeCraft().getRandom();

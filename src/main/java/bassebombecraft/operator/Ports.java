@@ -2,6 +2,7 @@ package bassebombecraft.operator;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -69,13 +70,13 @@ public interface Ports {
 	 * @return block position #1.
 	 */
 	BlockPos getBlockPosition1();
-	
+
 	/**
 	 * Set {@linkplain BlockPos} #1.
 	 * 
 	 * @param pos block position #1.
 	 */
-	void setBlockPosition1(BlockPos pos);
+	Ports setBlockPosition1(BlockPos pos);
 
 	/**
 	 * Return {@linkplain BlockPos} #2.
@@ -83,13 +84,13 @@ public interface Ports {
 	 * @return block position #2.
 	 */
 	BlockPos getBlockPosition2();
-	
+
 	/**
 	 * Set {@linkplain BlockPos} #2.
 	 * 
 	 * @param pos block position #2.
 	 */
-	void setBlockPosition2(BlockPos pos);
+	Ports setBlockPosition2(BlockPos pos);
 
 	/**
 	 * Get string #1.
@@ -99,7 +100,7 @@ public interface Ports {
 	String getString1();
 
 	/**
-	 * Set string  #1.
+	 * Set string #1.
 	 * 
 	 * @return ports.
 	 */
@@ -125,7 +126,7 @@ public interface Ports {
 	 * @return vector #1.
 	 */
 	Vec3d getVector1();
-	
+
 	/**
 	 * Set {@linkplain Vec3d} #1.
 	 * 
@@ -139,42 +140,56 @@ public interface Ports {
 	 * @return vector array #1.
 	 */
 	Vec3d[] getVectors1();
-	
+
 	/**
 	 * Set {@linkplain Vec3d[]} #1.
 	 * 
 	 * @param vec vector array #1.
 	 */
-	Ports setVectors1(Vec3d vec[]);
-	
-	/**
-	 * Return {@linkplain Operator2} #1.
-	 * 
-	 * @return operator #1.
-	 */
-	Operator2 getOperator1();
-	
-	/**
-	 * Set {@linkplain Operator2} #1.
-	 * 
-	 * @param op operator #1.
-	 */
-	Ports setOperator1(Operator2 op);
+	Ports setVectors1(Vec3d[] vec);
 
+	/**
+	 * Return {@linkplain Entity} #1.
+	 * 
+	 * @return entity #1.
+	 */
+	Entity getEntity1();
+
+	/**
+	 * Set {@linkplain Entity} #1.
+	 * 
+	 * @param entity entity #1.
+	 */
+	Ports setEntity1(Entity entity);
+
+	/**
+	 * Return {@linkplain Entity[]} #1.
+	 * 
+	 * @return entity array #1.
+	 */
+	Entity[] getEntities1();
+
+	/**
+	 * Set {@linkplain Entity[]} #1.
+	 * 
+	 * @param entities entity array #1.
+	 */
+	Ports setEntities1(Entity[] entities);
+	
 	/**
 	 * Return {@linkplain RayTraceResult} #1.
 	 * 
 	 * @return ray trace result #1.
 	 */
 	RayTraceResult getRayTraceResult1();
-	
+
 	/**
 	 * Set {@linkplain RayTraceResult} #1.
 	 * 
-	 * @param rtr ray trace result #1.
+	 * @param result ray trace result #1.
 	 */
-	Ports setRayTraceResult1(RayTraceResult rtr);
-	
+	Ports setRayTraceResult1(RayTraceResult result);
+
 	/**
 	 * Return world.
 	 * 

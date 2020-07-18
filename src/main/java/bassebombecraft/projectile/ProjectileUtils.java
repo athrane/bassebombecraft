@@ -1,8 +1,19 @@
 package bassebombecraft.projectile;
 
+import java.util.Optional;
+
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.entity.projectile.DamagingProjectileEntity;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraftforge.event.entity.ProjectileImpactEvent;
+import net.minecraftforge.event.entity.ProjectileImpactEvent.Arrow;
+import net.minecraftforge.event.entity.ProjectileImpactEvent.Fireball;
+import net.minecraftforge.event.entity.ProjectileImpactEvent.Throwable;
 
 /**
  * Utility class for projectile calculations.
@@ -19,9 +30,9 @@ public class ProjectileUtils {
 	public static boolean isBlockHit(RayTraceResult result) {
 		if (result == null)
 			return false;
-	    return (result.getType() == RayTraceResult.Type.BLOCK);
+		return (result.getType() == RayTraceResult.Type.BLOCK);
 	}
-	
+
 	/**
 	 * Return true if entity was hit by ray trace result.
 	 * 
@@ -32,7 +43,7 @@ public class ProjectileUtils {
 	public static boolean isEntityHit(RayTraceResult result) {
 		if (result == null)
 			return false;
-	    return (result.getType() == RayTraceResult.Type.ENTITY);
+		return (result.getType() == RayTraceResult.Type.ENTITY);
 	}
 
 	/**
@@ -45,9 +56,9 @@ public class ProjectileUtils {
 	public static boolean isNothingHit(RayTraceResult result) {
 		if (result == null)
 			return false;
-	    return (result.getType() == RayTraceResult.Type.MISS);
+		return (result.getType() == RayTraceResult.Type.MISS);
 	}
-	
+
 	/**
 	 * Return true if ray trace result a {@linkplain EntityRayTraceResult}.
 	 * 
@@ -73,5 +84,54 @@ public class ProjectileUtils {
 			return false;
 		return result instanceof BlockRayTraceResult;
 	}
-	
+
+	/**
+	 * Resolve invoker entity from projectile impact event
+	 * {@linkplain ProjectileImpactEvent}.
+	 * 
+	 * @param event event to resolve projectile invoker from.
+	 * 
+	 * @return return the invoker entity as a {@linkplain LivingEntity}. If the
+	 *         invoker can't be resolved as a living entity then a the returned
+	 *         optional is empty.
+	 */
+	public static Optional<LivingEntity> resolveInvoker(ProjectileImpactEvent event) {
+
+		// resolve invoker from arrow projectile
+		if (event instanceof ProjectileImpactEvent.Arrow) {
+
+			// type cast event and get invoker
+			Arrow arrowEvent = (ProjectileImpactEvent.Arrow) event;
+			AbstractArrowEntity arrowProjectile = arrowEvent.getArrow();
+			Entity invoker = arrowProjectile.getShooter();
+
+			// return invoker as LivingEntity
+			if (invoker instanceof LivingEntity)
+				return Optional.of((LivingEntity) invoker);
+			else
+				return Optional.empty();
+		}
+
+		// resolve invoker from fireball projectile
+		if (event instanceof ProjectileImpactEvent.Fireball) {
+
+			// type cast event and get invoker
+			Fireball fireballEvent = (ProjectileImpactEvent.Fireball) event;
+			DamagingProjectileEntity fireballProjectile = fireballEvent.getFireball();
+			return Optional.of(fireballProjectile.shootingEntity);
+		}
+
+		// resolve invoker from throwable projectile
+		if (event instanceof ProjectileImpactEvent.Throwable) {
+
+			// type cast event and get invoker
+			Throwable throwableEvent = (ProjectileImpactEvent.Throwable) event;
+			ThrowableEntity throwableProjectile = throwableEvent.getThrowable();
+			return Optional.of(throwableProjectile.getThrower());
+		}
+
+		// return unhandled case
+		return Optional.empty();
+	}
+
 }

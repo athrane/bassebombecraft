@@ -47,7 +47,7 @@ public class ShootMeteor2 implements Operator2 {
 		LivingEntity target = fnGetTarget.apply(ports);
 
 		// get world
-		World world = ports.getWorld();
+		World world = invoker.getEntityWorld();
 
 		// calculate position
 		double posX = target.getPosX() + (random.nextInt(10) - 5);

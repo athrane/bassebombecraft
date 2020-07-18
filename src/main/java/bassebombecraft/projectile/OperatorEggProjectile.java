@@ -10,7 +10,7 @@ import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.event.projectile.EntityTypeRegistryEventHandler;
 import bassebombecraft.operator.Operators;
-import bassebombecraft.operator.projectile.OperatorEggProjectile2;
+import bassebombecraft.operator.projectile.egg.OperatorEggProjectile2;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileItemEntity;
