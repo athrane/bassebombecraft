@@ -145,6 +145,7 @@
     "item.bassebombecraft.randomprojectileformationmodifieritem": "Formation Modifier: Random",
     
     "item.bassebombecraft.teleportinvokerprojectilemodifieritem": "Projectile Modifier: Teleport Player",        
+    "item.bassebombecraft.teleportmobprojectilemodifieritem": "Projectile Modifier: Teleport Mob",            
         
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",

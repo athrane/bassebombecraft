@@ -19,7 +19,7 @@ import net.minecraftforge.event.entity.ProjectileImpactEvent;
  * The tag is processed by the event handler
  * {@linkplain ProjectileModifierEventHandler} which received
  * {@linkplain ProjectileImpactEvent} and scans for projectile tages and
- * executes the configured logic for a projectile modifier.
+ * executes the configured operator for a projectile modifier.
  */
 public class TagProjectileWithProjectileModifier implements Operator2 {
 

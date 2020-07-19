@@ -62,7 +62,7 @@ public class ShootOperatorEggProjectile2 extends GenericShootProjectile2 {
 	 * 
 	 * Instance is configured with vector array #1 as orientation vector from ports.
 	 * 
-	 * Instance sets created projecties as entity arry #1 in the ports.
+	 * Instance sets created projectiles as entity array #1 in the ports.
 	 * 
 	 * @param operator operator which is executed on impact.
 	 */

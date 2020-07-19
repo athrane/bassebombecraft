@@ -27,6 +27,11 @@ import net.minecraft.util.math.RayTraceResult;
 public class TeleportInvoker2 implements Operator2 {
 
 	/**
+	 * Operator identifier.
+	 */
+	public static final String NAME = TeleportInvoker2.class.getSimpleName();
+	
+	/**
 	 * Function to get invoker entity.
 	 */
 	Function<Ports, LivingEntity> fnGetInvoker;

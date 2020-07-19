@@ -108,6 +108,7 @@ import bassebombecraft.item.composite.projectile.formation.SingleProjectileForma
 import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
@@ -391,7 +392,7 @@ public class ModConfiguration {
 	public static ItemConfig witherSkullProjectileItem;
 	public static ItemConfig randomProjectileFormationModifierItem;
 	public static ItemConfig teleportInvokerProjectileModifierItem;
-
+	public static ItemConfig teleportMobProjectileModifierItem;
 	// Actions..
 
 	// ShootBaconBazooka projectile action
@@ -1781,6 +1782,17 @@ public class ModConfiguration {
 				25);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the {@linkplain TeleportMobProjectileModifierItem}
+		 * item.
+		 */
+		name = TeleportMobProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		teleportMobProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. When the projectile hits a mob then the mob will be teleported to a random location. If the projectile hits a block then nothing happens.",
+				25);
+		COMMON_BUILDER.pop();
+						
 	}
 
 	/**
