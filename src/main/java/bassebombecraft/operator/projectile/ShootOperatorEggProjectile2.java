@@ -76,7 +76,6 @@ public class ShootOperatorEggProjectile2 extends GenericShootProjectile2 {
 		projectile.setPosition(invoker.getPosX(), invoker.getPosY() + invoker.getEyeHeight(), invoker.getPosZ());
 		float velocity = PROJECTILE_FORCE * (float) orientation.length();
 		projectile.shoot(orientation.getX(), orientation.getY(), orientation.getZ(), velocity, PROJECTILE_INACCURACY);
-
 		return projectile;
 	}
 
