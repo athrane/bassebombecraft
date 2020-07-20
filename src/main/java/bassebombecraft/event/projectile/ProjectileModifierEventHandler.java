@@ -9,7 +9,9 @@ import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import java.util.Optional;
 import java.util.Set;
 
+import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.entity.Charm2;
 import bassebombecraft.operator.entity.TeleportInvoker2;
 import bassebombecraft.operator.entity.TeleportMob2;
 import net.minecraft.entity.Entity;
@@ -29,13 +31,18 @@ public class ProjectileModifierEventHandler {
 	/**
 	 * Teleport invoker operator.
 	 */
-	static final TeleportInvoker2 TELEPORT_INVOKER_OPERATOR = new TeleportInvoker2();
+	static final Operator2 TELEPORT_INVOKER_OPERATOR = new TeleportInvoker2();
 
 	/**
 	 * Teleport mob operator.
 	 */
-	static final TeleportMob2 TELEPORT_MOB_OPERATOR = new TeleportMob2();
+	static final Operator2 TELEPORT_MOB_OPERATOR = new TeleportMob2();
 
+	/**
+	 * Charm mob operator.
+	 */
+	static final Operator2 CHARM_OPERATOR = new Charm2();
+	
 	@SubscribeEvent
 	static public void handleProjectileImpactEvent(ProjectileImpactEvent event) {
 		try {
@@ -52,12 +59,16 @@ public class ProjectileModifierEventHandler {
 
 			// handle: teleport invoker
 			if (tags.contains(TeleportInvoker2.NAME))
-				handleTeleportInvoker(event);
+				teleportInvoker(event);
 
 			// handle: teleport invoker
 			if (tags.contains(TeleportMob2.NAME))
-				handleTeleportMob(event);
+				teleportMob(event);
 
+			// handle: char,
+			if (tags.contains(Charm2.NAME))
+				charm(event);
+			
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
@@ -68,7 +79,7 @@ public class ProjectileModifierEventHandler {
 	 * 
 	 * @param event projectile impact event.
 	 */
-	static void handleTeleportInvoker(ProjectileImpactEvent event) {
+	static void teleportInvoker(ProjectileImpactEvent event) {
 
 		// exit if invoker couldn't be resolved
 		Optional<LivingEntity> optInvoker = resolveInvoker(event);
@@ -89,7 +100,7 @@ public class ProjectileModifierEventHandler {
 	 * 
 	 * @param event projectile impact event.
 	 */
-	static void handleTeleportMob(ProjectileImpactEvent event) {
+	static void teleportMob(ProjectileImpactEvent event) {
 
 		// create ports
 		Ports ports = getInstance();
@@ -99,4 +110,25 @@ public class ProjectileModifierEventHandler {
 		run(ports, TELEPORT_MOB_OPERATOR);
 	}
 
+	/**
+	 * Execute charm operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void charm(ProjectileImpactEvent event) {
+
+		// exit if invoker couldn't be resolved
+		Optional<LivingEntity> optInvoker = resolveInvoker(event);
+		if (!optInvoker.isPresent())
+			return;
+		
+		// create ports
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setLivingEntity1(optInvoker.get());
+
+		// execute
+		run(ports, CHARM_OPERATOR);
+	}
+	
 }

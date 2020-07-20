@@ -107,6 +107,7 @@ import bassebombecraft.item.composite.projectile.formation.RandomSingleProjectil
 import bassebombecraft.item.composite.projectile.formation.SingleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
@@ -393,6 +394,8 @@ public class ModConfiguration {
 	public static ItemConfig randomProjectileFormationModifierItem;
 	public static ItemConfig teleportInvokerProjectileModifierItem;
 	public static ItemConfig teleportMobProjectileModifierItem;
+	public static ItemConfig charmProjectileModifierItem;
+	
 	// Actions..
 
 	// ShootBaconBazooka projectile action
@@ -1789,10 +1792,21 @@ public class ModConfiguration {
 		name = TeleportMobProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		teleportMobProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits a mob then the mob will be teleported to a random location. If the projectile hits a block then nothing happens.",
+				"A mythical image of the modification of a projectile. When the projectile hits a mob then the mob will be teleported to a random location.",
 				25);
 		COMMON_BUILDER.pop();
-						
+
+		/**
+		 * Configuration for the {@linkplain CharmProjectileModifierItem}
+		 * item.
+		 */
+		name = CharmProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		charmProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. When the projectile hits a mob then the mob will be charmed and be commanded by the caster.",
+				25);
+		COMMON_BUILDER.pop();
+		
 	}
 
 	/**

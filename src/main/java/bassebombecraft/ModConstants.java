@@ -496,6 +496,6 @@ public class ModConstants {
 	/**
 	 * Maximum size composite magic. Used in {@linkplain CompositeMagic}.
 	 */
-	public static final int COMPOSITE_MAX_SIZE = 3;
+	public static final int COMPOSITE_MAX_SIZE = 5;
 
 }

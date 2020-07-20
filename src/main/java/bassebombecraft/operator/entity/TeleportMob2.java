@@ -22,7 +22,7 @@ import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 
 /**
- * Implementation of the {@linkplain Operator2} interface which teleports a hot
+ * Implementation of the {@linkplain Operator2} interface which teleports a hit
  * mob to a random location.
  */
 public class TeleportMob2 implements Operator2 {
