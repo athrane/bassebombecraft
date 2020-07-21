@@ -25,19 +25,19 @@ public class ExecuteOperatorOnTarget2 implements InventoryItemActionStrategy {
 	Ports ports;
 
 	/**
-	 * Operators.
+	 * Operator.
 	 */
-	Operator2[] ops;
+	Operator2 operator;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param ports ports used by operators.
-	 * @param ops   operators executed by the strategy.
+	 * @param operator   operator executed by the strategy.
 	 */
-	public ExecuteOperatorOnTarget2(Ports ports, Operator2[] ops) {
+	public ExecuteOperatorOnTarget2(Ports ports, Operator2 operator) {
 		this.ports = ports;
-		this.ops = ops;
+		this.operator = operator;
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class ExecuteOperatorOnTarget2 implements InventoryItemActionStrategy {
 		ports.setLivingEntity1(invoker);
 		ports.setLivingEntity2(target);
 		ports.setWorld(world);
-		run(ports, ops);
+		run(ports, operator);
 	}
 
 }

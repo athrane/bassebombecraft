@@ -108,6 +108,7 @@ import bassebombecraft.item.composite.projectile.formation.SingleProjectileForma
 import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
@@ -395,7 +396,8 @@ public class ModConfiguration {
 	public static ItemConfig teleportInvokerProjectileModifierItem;
 	public static ItemConfig teleportMobProjectileModifierItem;
 	public static ItemConfig charmProjectileModifierItem;
-	
+	public static ItemConfig meteorProjectileModifierItem;
+
 	// Actions..
 
 	// ShootBaconBazooka projectile action
@@ -1786,8 +1788,7 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain TeleportMobProjectileModifierItem}
-		 * item.
+		 * Configuration for the {@linkplain TeleportMobProjectileModifierItem} item.
 		 */
 		name = TeleportMobProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1797,8 +1798,7 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain CharmProjectileModifierItem}
-		 * item.
+		 * Configuration for the {@linkplain CharmProjectileModifierItem} item.
 		 */
 		name = CharmProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1806,7 +1806,17 @@ public class ModConfiguration {
 				"A mythical image of the modification of a projectile. When the projectile hits a mob then the mob will be charmed and be commanded by the caster.",
 				25);
 		COMMON_BUILDER.pop();
-		
+
+		/**
+		 * Configuration for the {@linkplain MeteorProjectileModifierItem} item.
+		 */
+		name = MeteorProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		meteorProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. When the projectile hits a mob then a meteor will come from the sky.",
+				25);
+		COMMON_BUILDER.pop();
+
 	}
 
 	/**

@@ -1,30 +1,16 @@
 package bassebombecraft.item.inventory;
 
 import static bassebombecraft.config.ModConfiguration.meteorIdolInventoryItem;
-import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
-import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity2;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 import bassebombecraft.item.action.inventory.ExecuteOperatorOnTarget2;
 import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.entity.ShootMeteor2;
-import net.minecraft.entity.LivingEntity;
 
 /**
  * Meteor idol implementation.
- * 
- * These functions are used to access the ports:
- * 
- * 1) ports.livingentity#1 is used for the invoker.
- * 
- * 2) ports.livingentity#2 is used for the target.
- * 
- * NB: the entities in the ports is updated by the
- * {@linkplain ExecuteOperatorOnTarget2} class.
  */
 public class MeteorIdolInventoryItem extends GenericInventoryItem {
 
@@ -33,11 +19,8 @@ public class MeteorIdolInventoryItem extends GenericInventoryItem {
 	/**
 	 * Create operators.
 	 */
-	static Supplier<Operator2[]> splOp = () -> {
-		Function<Ports, LivingEntity> fnGetInvoker = getFnGetLivingEntity1();
-		Function<Ports, LivingEntity> fnGetTarget = getFnGetLivingEntity2();
-		Operator2[] ops = new Operator2[] { new ShootMeteor2(fnGetInvoker, fnGetTarget) };
-		return ops;
+	static Supplier<Operator2> splOp = () -> {
+		return new ShootMeteor2();
 	};
 
 	public MeteorIdolInventoryItem() {

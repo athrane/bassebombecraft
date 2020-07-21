@@ -1,4 +1,4 @@
-package bassebombecraft.operator.entity;
+package bassebombecraft.operator.entity.raytraceresult;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;

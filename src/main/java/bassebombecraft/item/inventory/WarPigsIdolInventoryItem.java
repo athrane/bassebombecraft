@@ -11,6 +11,7 @@ import java.util.function.Supplier;
 import bassebombecraft.item.action.inventory.ExecuteOperatorOnTarget2;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.conditional.IsEntityOfType2;
 import bassebombecraft.operator.conditional.IsNot2;
 import bassebombecraft.operator.entity.SpawnWarPig2;
@@ -27,12 +28,11 @@ public class WarPigsIdolInventoryItem extends GenericInventoryItem {
 	/**
 	 * Create operators.
 	 */
-	static Supplier<Operator2[]> splOp = () -> {
+	static Supplier<Operator2> splOp = () -> {
 		Function<Ports, LivingEntity> fnGetInvoker = getFnGetLivingEntity1();
-		Function<Ports, LivingEntity> fnGetTarget = getFnGetLivingEntity2();
-		Operator2[] ops = new Operator2[] { new IsNot2(new IsEntityOfType2(fnGetTarget, PigEntity.class)),
-				new SpawnWarPig2(fnGetInvoker, fnGetTarget) };
-		return ops;
+		Function<Ports, LivingEntity> fnGetTarget = getFnGetLivingEntity2();		
+		return new Sequence2( new IsNot2(new IsEntityOfType2(fnGetTarget, PigEntity.class)),
+				new SpawnWarPig2(fnGetInvoker, fnGetTarget) );
 	};
 
 	public WarPigsIdolInventoryItem() {

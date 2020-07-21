@@ -1,6 +1,8 @@
 package bassebombecraft.operator.entity;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
+import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity2;
 
 import java.util.Random;
 import java.util.function.Function;
@@ -16,6 +18,11 @@ import net.minecraft.world.World;
  * at target entity.
  */
 public class ShootMeteor2 implements Operator2 {
+
+	/**
+	 * Operator identifier.
+	 */
+	public static final String NAME = ShootMeteor2.class.getSimpleName();
 
 	/**
 	 * Function to get invoker entity.
@@ -36,6 +43,17 @@ public class ShootMeteor2 implements Operator2 {
 	public ShootMeteor2(Function<Ports, LivingEntity> fnGetInvoker, Function<Ports, LivingEntity> fnGetTarget) {
 		this.fnGetInvoker = fnGetInvoker;
 		this.fnGetTarget = fnGetTarget;
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * Instance is configured with living entity #1 as invoker from ports.
+	 * 
+	 * Instance is configured with living entity #2 as target from ports.
+	 */
+	public ShootMeteor2() {
+		this(getFnGetLivingEntity1(), getFnGetLivingEntity2());
 	}
 
 	@Override

@@ -11,26 +11,26 @@ public class Sequence2 implements Operator2 {
 	/**
 	 * Embedded operators.
 	 */
-	Operator2[] ops;
+	Operator2[] operators;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param ops embedded operators which are executed in sequence
+	 * @param operators embedded operators which are executed in sequence
 	 */
-	public Sequence2(Operator2... ops) {
-		this.ops = ops;
+	public Sequence2(Operator2... operators) {
+		this.operators = operators;
 	}
 
 	@Override
 	public Ports run(Ports ports) {
-		Operators2.run(ports, ops);
+		Operators2.run(ports, operators);
 		return ports;
 	}
 
 	@Override
 	public String toString() {
-		return "Sequence2 [ops=" + Arrays.toString(ops) + "]";
+		return "Sequence2 [operator=" + Arrays.toString(operators) + "]";
 	}
 	
 }

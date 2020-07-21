@@ -1,4 +1,4 @@
-package bassebombecraft.operator.entity;
+package bassebombecraft.operator.entity.raytraceresult;
 
 import static bassebombecraft.block.BlockUtils.calculatePosition;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;

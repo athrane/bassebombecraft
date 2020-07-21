@@ -1,4 +1,4 @@
-package bassebombecraft.operator.entity;
+package bassebombecraft.operator.entity.raytraceresult;
 
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
