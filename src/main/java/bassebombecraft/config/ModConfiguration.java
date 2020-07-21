@@ -106,6 +106,7 @@ import bassebombecraft.item.composite.projectile.formation.FrontAndBackProjectil
 import bassebombecraft.item.composite.projectile.formation.RandomSingleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.SingleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.modifier.InaccuracyProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
@@ -388,11 +389,15 @@ public class ModConfiguration {
 	public static ItemConfig circleProjectileFormationItem;
 	public static ItemConfig trifurcatedProjectileFormationItem;
 	public static ItemConfig frontAndBackProjectileFormationItem;
+	
 	public static ItemConfig fireballProjectileItem;
 	public static ItemConfig largeFireballProjectileItem;
 	public static ItemConfig arrowProjectileItem;
 	public static ItemConfig witherSkullProjectileItem;
+	
 	public static ItemConfig randomProjectileFormationModifierItem;
+	public static ItemConfig inaccuracyProjectileFormationModifierItem;
+	
 	public static ItemConfig teleportInvokerProjectileModifierItem;
 	public static ItemConfig teleportMobProjectileModifierItem;
 	public static ItemConfig charmProjectileModifierItem;
@@ -1766,7 +1771,7 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain ProjectileFormationRandomModifierItem}
+		 * Configuration for the {@linkplain RandomProjectileFormationModifierItem}
 		 * item.
 		 */
 		name = RandomProjectileFormationModifierItem.NAME;
@@ -1776,6 +1781,17 @@ public class ModConfiguration {
 				25);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the {@linkplain InaccuracyProjectileFormationModifierItem}
+		 * item.
+		 */
+		name = InaccuracyProjectileFormationModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		inaccuracyProjectileFormationModifierItem = getInstance(COMMON_BUILDER, name,
+				"A fiendish image of the modification of a projectile formation. All paths of the projectiles are made more inaccurate.",
+				25);
+		COMMON_BUILDER.pop();
+		
 		/**
 		 * Configuration for the {@linkplain TeleportInvokerProjectileModifierItem}
 		 * item.

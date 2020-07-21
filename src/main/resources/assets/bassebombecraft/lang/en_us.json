@@ -143,6 +143,7 @@
     "item.bassebombecraft.teleportprojectileitem": "Projectile: Teleport",    
 
     "item.bassebombecraft.randomprojectileformationmodifieritem": "Formation Modifier: Random",
+    "item.bassebombecraft.inaccuracyprojectileformationmodifieritem": "Formation Modifier: Inaccuracy",
     
     "item.bassebombecraft.teleportinvokerprojectilemodifieritem": "Projectile Modifier: Teleport Player",        
     "item.bassebombecraft.teleportmobprojectilemodifieritem": "Projectile Modifier: Teleport Mob",            
