@@ -62,6 +62,17 @@ public class ProjectileModifierEventHandler {
 
 	/**
 	 * Create meteor operator.
+	 * 
+	 * The reason for not using the no-arg constructor for {@linkplain ShootMeteor2}
+	 * is that it by default gets the target entity as living entity #2 from the
+	 * ports.
+	 * 
+	 * But the event handler currently only sets the invoker (in the living entity
+	 * #1 port) and the ray race result (in the ray trace result #1 port) from the
+	 * event.
+	 * 
+	 * In order for {@linkplain ShootMeteor2} to resolve the target entity from the
+	 * ray trace result then its constructor is invoked with adapted functions.
 	 */
 	static Supplier<Operator2> splMeteorOp = () -> {
 		Function<Ports, LivingEntity> fnGetInvoker = getFnGetLivingEntity1();
@@ -95,8 +106,7 @@ public class ProjectileModifierEventHandler {
 		Function<Ports, LivingEntity> fnGetTarget = getFnGetLivingEntity2();
 		BiConsumer<Ports, EffectInstance> bcSetEffectInstance = getBcSetEffectInstance1();
 		return new Sequence2(new SpawnDecoy2(), new AddEffect2(fnGetTarget, bcSetEffectInstance, RECEIVE_AGGRO_EFFECT,
-				receiveAggroEffectDuration.get(), receiveAggroEffectAmplifier.get())
-		);
+				receiveAggroEffectDuration.get(), receiveAggroEffectAmplifier.get()));
 	};
 
 	/**

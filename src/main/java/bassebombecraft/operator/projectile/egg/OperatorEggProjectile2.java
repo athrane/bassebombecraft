@@ -77,7 +77,6 @@ public class OperatorEggProjectile2 extends ProjectileItemEntity {
 			Ports ports = DefaultPorts.getInstance();
 			ports.setRayTraceResult1(result);
 			ports.setLivingEntity1(this.getThrower());
-			ports.setWorld(this.getEntityWorld());
 
 			// execute operator
 			Operators2.run(ports, operator);
