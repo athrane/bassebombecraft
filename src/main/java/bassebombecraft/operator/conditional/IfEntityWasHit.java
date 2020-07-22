@@ -12,7 +12,10 @@ import net.minecraft.util.math.RayTraceResult;
 /**
  * Implementation of the {@linkplain Operator} interface which executes the
  * embedded operator if a entity was hit by ray trace result.
+ * 
+ * @deprecated Replace usage with {@linkplain IsLivingEntityHitInRaytraceResult2}
  */
+@Deprecated
 public class IfEntityWasHit implements Operator {
 
 	/**

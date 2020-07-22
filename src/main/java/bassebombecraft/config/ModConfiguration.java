@@ -109,6 +109,7 @@ import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectile
 import bassebombecraft.item.composite.projectile.formation.modifier.InaccuracyProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
@@ -145,6 +146,7 @@ import bassebombecraft.operator.entity.Respawn;
 import bassebombecraft.operator.entity.SpawnDecoy;
 import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
 import bassebombecraft.potion.effect.AggroMobEffect;
 import bassebombecraft.potion.effect.AggroPlayerEffect;
@@ -389,19 +391,20 @@ public class ModConfiguration {
 	public static ItemConfig circleProjectileFormationItem;
 	public static ItemConfig trifurcatedProjectileFormationItem;
 	public static ItemConfig frontAndBackProjectileFormationItem;
-	
+
 	public static ItemConfig fireballProjectileItem;
 	public static ItemConfig largeFireballProjectileItem;
 	public static ItemConfig arrowProjectileItem;
 	public static ItemConfig witherSkullProjectileItem;
-	
+
 	public static ItemConfig randomProjectileFormationModifierItem;
 	public static ItemConfig inaccuracyProjectileFormationModifierItem;
-	
+
 	public static ItemConfig teleportInvokerProjectileModifierItem;
 	public static ItemConfig teleportMobProjectileModifierItem;
 	public static ItemConfig charmProjectileModifierItem;
 	public static ItemConfig meteorProjectileModifierItem;
+	public static ItemConfig decoyProjectileModifierItem;
 
 	// Actions..
 
@@ -543,7 +546,7 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.DoubleValue spawnWarPigMovementSpeed;
 
 	/**
-	 * Properties for {@linkplain SpawnDecoy} operator.
+	 * Properties for {@linkplain SpawnDecoy} and {@linkplain SpawnDecoy2} operator.
 	 */
 	public static ForgeConfigSpec.IntValue spawnDecoyMaxHealth;
 	public static ForgeConfigSpec.DoubleValue spawnDecoyKnockBackResistance;
@@ -1178,7 +1181,8 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain SpawnKillerBee} operator.
+		 * Configuration for the {@linkplain SpawnDecoy} and {@linkplain SpawnDecoy2}
+		 * operator.
 		 */
 		name = SpawnDecoy.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1791,7 +1795,7 @@ public class ModConfiguration {
 				"A fiendish image of the modification of a projectile formation. All paths of the projectiles are made more inaccurate.",
 				25);
 		COMMON_BUILDER.pop();
-		
+
 		/**
 		 * Configuration for the {@linkplain TeleportInvokerProjectileModifierItem}
 		 * item.
@@ -1830,6 +1834,16 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		meteorProjectileModifierItem = getInstance(COMMON_BUILDER, name,
 				"A mythical image of the modification of a projectile. When the projectile hits a mob then a meteor will come from the sky.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain DecoyProjectileModifierItem} item.
+		 */
+		name = DecoyProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		decoyProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. When the projectile hits something a decoy will be spawned. All mobs in the vicinity will aggro the poor thing.",
 				25);
 		COMMON_BUILDER.pop();
 

@@ -411,7 +411,7 @@ public class ModConstants {
 	public static final Effect AGGRO_MOB_EFFECT = new AggroMobEffect();
 
 	/**
-	 * Receive mob aggro effect, used by {@linkplain MobsAggroIdolInventoryItem}.
+	 * Receive mob aggro effect, used by {@linkplain MobsAggroIdolInventoryItem} and {@linkplain ProjectileModifierEventHandler}.
 	 */
 	public static final Effect RECEIVE_AGGRO_EFFECT = new ReceiveAggroEffect();
 

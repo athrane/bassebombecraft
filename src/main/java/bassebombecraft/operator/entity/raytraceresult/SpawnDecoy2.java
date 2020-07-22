@@ -1,11 +1,12 @@
-package bassebombecraft.operator.entity;
+package bassebombecraft.operator.entity.raytraceresult;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.DECOY;
 import static bassebombecraft.block.BlockUtils.calculatePosition;
 import static bassebombecraft.config.ModConfiguration.spawnDecoyKnockBackResistance;
 import static bassebombecraft.config.ModConfiguration.spawnDecoyMaxHealth;
 import static bassebombecraft.entity.EntityUtils.setAttribute;
+import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
+import static bassebombecraft.operator.DefaultPorts.*;
 import static bassebombecraft.projectile.ProjectileUtils.isBlockHit;
 import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
 import static bassebombecraft.projectile.ProjectileUtils.isNothingHit;
@@ -15,16 +16,15 @@ import static net.minecraft.entity.SharedMonsterAttributes.KNOCKBACK_RESISTANCE;
 import static net.minecraft.entity.SharedMonsterAttributes.MAX_HEALTH;
 import static net.minecraft.entity.SharedMonsterAttributes.MOVEMENT_SPEED;
 
-import java.util.Random;
-import java.util.function.Supplier;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
-import bassebombecraft.operator.Operator;
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.PandaEntity;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -32,65 +32,70 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain Operator} interface which spawn a decoy (2D
- * Panda). The entity is spawned at the hit entity or block .
+ * Implementation of the {@linkplain Operator2} interface which spawn a decoy
+ * (2D Panda). The decoy is spawned at the hit entity or block .
  */
-@Deprecated
-public class SpawnDecoy implements Operator {
+public class SpawnDecoy2 implements Operator2 {
 
 	/**
 	 * Operator identifier.
 	 */
-	public static final String NAME = SpawnDecoy.class.getSimpleName();
+	public static final String NAME = SpawnDecoy2.class.getSimpleName();
 
 	/**
-	 * Spawn sound.
+	 * Function to get invoker entity.
 	 */
-	static final SoundEvent SOUND = SoundEvents.ENTITY_DOLPHIN_PLAY;
+	Function<Ports, LivingEntity> fnGetInvoker;
 
 	/**
-	 * LivingEntity (for outbound port).
+	 * Function to get ray trace result.
 	 */
-	LivingEntity livingEntity;
+	Function<Ports, RayTraceResult> fnGetRayTraceResult;
 
 	/**
-	 * Entity supplier.
+	 * Function to set decoy entity (at ports).
 	 */
-	Supplier<LivingEntity> splEntity;
-
-	/**
-	 * RayTraceResult supplier.
-	 */
-	Supplier<RayTraceResult> splRayTraceResult;
-
-	/**
-	 * {@linkplain LivingEntity} supplier (for outbound port).
-	 */
-	Supplier<LivingEntity> splLivingEntity = () -> livingEntity;
+	BiConsumer<Ports, LivingEntity> bcSetDecoy;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param splEntity         invoker entity supplier.
-	 * @param splRayTraceResult projectile ray trace result.
+	 * @param fnGetInvoker        function to get invoker entity.
+	 * @param fnGetRayTraceResult function to get ray trace result.
+	 * @param bcSetDecoy          function to set decoy entity.
 	 */
-	public SpawnDecoy(Supplier<LivingEntity> splEntity, Supplier<RayTraceResult> splRayTraceResult) {
-		this.splEntity = splEntity;
-		this.splRayTraceResult = splRayTraceResult;
+	public SpawnDecoy2(Function<Ports, LivingEntity> fnGetInvoker,
+			Function<Ports, RayTraceResult> fnGetRayTraceResult, BiConsumer<Ports, LivingEntity> bcSetDecoy) {
+		this.fnGetInvoker = fnGetInvoker;
+		this.fnGetRayTraceResult = fnGetRayTraceResult;
+		this.bcSetDecoy = bcSetDecoy;
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * Instance is configured with living entity #1 as invoker from ports.
+	 * 
+	 * Instance is configured with ray tracing result #1 from ports.
+	 * 
+	 * Instance is configured to set created decoy as living entity #2 in the ports.
+	 */
+	public SpawnDecoy2() {
+		this(getFnGetLivingEntity1(), getFnGetRayTraceResult1(), getBcSetLivingEntity2());
 	}
 
 	@Override
-	public void run() {
+	public Ports run(Ports ports) {
 
-		// get entity
-		LivingEntity livingEntity = splEntity.get();
+		// get invoker
+		LivingEntity invoker = fnGetInvoker.apply(ports);
 
 		// get ray trace result
-		RayTraceResult result = splRayTraceResult.get();
+		RayTraceResult result = fnGetRayTraceResult.apply(ports);
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
-			return;
+			return ports;
 
 		// declare
 		BlockPos spawnPosition = null;
@@ -100,7 +105,7 @@ public class SpawnDecoy implements Operator {
 
 			// exit if result isn't entity ray trace result;
 			if (!isTypeEntityRayTraceResult(result))
-				return;
+				return ports;
 
 			// get entity
 			Entity entity = ((EntityRayTraceResult) result).getEntity();
@@ -114,7 +119,7 @@ public class SpawnDecoy implements Operator {
 
 			// exit if result isn't entity ray trace result
 			if (!isTypeBlockRayTraceResult(result))
-				return;
+				return ports;
 
 			// type cast
 			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
@@ -124,12 +129,12 @@ public class SpawnDecoy implements Operator {
 		}
 
 		// get world
-		World world = livingEntity.world;
+		World world = invoker.getEntityWorld();
 
 		// create entity
 		PandaEntity entity = EntityType.PANDA.create(world);
 		entity.setLocationAndAngles(spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getZ(),
-				livingEntity.rotationYaw, livingEntity.rotationPitch);
+				invoker.rotationYaw, invoker.rotationPitch);
 
 		// set entity attributes
 		setAttribute(entity, MOVEMENT_SPEED, 0);
@@ -139,26 +144,13 @@ public class SpawnDecoy implements Operator {
 
 		// AI not set
 
-		// add spawn sound
-		Random random = getBassebombeCraft().getRandom();
-		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
-
 		// spawn
 		world.addEntity(entity);
 
-		// set entity for outbound port
-		this.livingEntity = entity;
-	}
-
-	/**
-	 * Get {@linkplain LivingEntity} supplier.
-	 * 
-	 * Defines an outbound port.
-	 * 
-	 * @return living entity supplier.
-	 */
-	public Supplier<LivingEntity> getSplLivingEntity() {
-		return splLivingEntity;
+		// store decoy entity
+		bcSetDecoy.accept(ports, entity);
+		
+		return ports;
 	}
 
 }

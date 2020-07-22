@@ -79,6 +79,7 @@ import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectile
 import bassebombecraft.item.composite.projectile.formation.modifier.InaccuracyProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
@@ -179,7 +180,7 @@ public class ItemRegistryEventHandler {
 			new WitherSkullProjectileItem(), new RandomProjectileFormationModifierItem(),
 			new InaccuracyProjectileFormationModifierItem(), new TeleportInvokerProjectileModifierItem(),
 			new TeleportMobProjectileModifierItem(), new CharmProjectileModifierItem(),
-			new MeteorProjectileModifierItem() };
+			new MeteorProjectileModifierItem(), new DecoyProjectileModifierItem() };
 
 	/**
 	 * Handle {@linkplain RegistryEvent.Register<Item>} event to register items with

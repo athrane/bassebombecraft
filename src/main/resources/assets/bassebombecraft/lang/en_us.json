@@ -140,7 +140,6 @@
     "item.bassebombecraft.largefireballprojectileitem": "Projectile: Large Fireball",    
     "item.bassebombecraft.arrowprojectileitem": "Projectile: Arrow",    
     "item.bassebombecraft.witherskullprojectileitem": "Projectile: Wither Skull",    
-    "item.bassebombecraft.teleportprojectileitem": "Projectile: Teleport",    
 
     "item.bassebombecraft.randomprojectileformationmodifieritem": "Formation Modifier: Random",
     "item.bassebombecraft.inaccuracyprojectileformationmodifieritem": "Formation Modifier: Inaccuracy",
@@ -149,6 +148,7 @@
     "item.bassebombecraft.teleportmobprojectilemodifieritem": "Projectile Modifier: Teleport Mob",            
     "item.bassebombecraft.charmprojectilemodifieritem": "Projectile Modifier: Charm",            
     "item.bassebombecraft.meteorprojectilemodifieritem": "Projectile Modifier: Meteor",            
+    "item.bassebombecraft.decoyprojectilemodifieritem": "Projectile Modifier: Decoy",            
                 
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",

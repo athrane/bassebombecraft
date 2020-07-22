@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -190,6 +191,20 @@ public interface Ports {
 	 */
 	Ports setRayTraceResult1(RayTraceResult result);
 
+	/**
+	 * Return {@linkplain EffectInstance} #1.
+	 * 
+	 * @return effect instance #1.
+	 */
+	EffectInstance getEffectInstance1();
+
+	/**
+	 * Set {@linkplain EffectInstance} #1.
+	 * 
+	 * @param result effect instance #1.
+	 */
+	Ports setEffectInstance1(EffectInstance instance);
+		
 	/**
 	 * Return world.
 	 * 

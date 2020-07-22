@@ -7,6 +7,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -64,6 +65,11 @@ public class DefaultPorts implements Ports {
 	 * Entity array #1.
 	 */
 	Entity[] entities1;
+
+	/**
+	 * Effect instance #1.
+	 */
+	EffectInstance effectInstance1;
 
 	/**
 	 * World object.
@@ -207,6 +213,17 @@ public class DefaultPorts implements Ports {
 			.setRayTraceResult1(r);
 
 	/**
+	 * Effect instance #1 getter.
+	 */
+	static Function<Ports, EffectInstance> fnGetEffecInstance1 = p -> p.getEffectInstance1();
+
+	/**
+	 * Effect instance #1 setter.
+	 */
+	static BiConsumer<Ports, EffectInstance> bcSetEffectInstance1 = (Ports p, EffectInstance i) -> p
+			.setEffectInstance1(i);
+
+	/**
 	 * Constructor
 	 */
 	DefaultPorts() {
@@ -332,6 +349,18 @@ public class DefaultPorts implements Ports {
 	@Override
 	public Ports setRayTraceResult1(RayTraceResult rtr) {
 		this.rayTraceResult1 = rtr;
+		return this;
+	}
+
+	
+	@Override
+	public EffectInstance getEffectInstance1() {
+		return effectInstance1;
+	}
+
+	@Override
+	public Ports setEffectInstance1(EffectInstance instance) {
+		this.effectInstance1 = instance;
 		return this;
 	}
 
@@ -490,6 +519,14 @@ public class DefaultPorts implements Ports {
 		return bcSetRayTraceResult1;
 	}
 
+	public static Function<Ports, EffectInstance> getFnEffectInstance1() {
+		return fnGetEffecInstance1;
+	}
+
+	public static BiConsumer<Ports, EffectInstance> getBcSetEffectInstance1() {
+		return bcSetEffectInstance1;
+	}
+	
 	/**
 	 * Factory method.
 	 * 
