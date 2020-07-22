@@ -18,6 +18,7 @@ import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.entity.potion.effect.AddEffect2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.projectile.ShootOperatorEggProjectile2;
+import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 
@@ -44,12 +45,15 @@ public class DecoyBook extends GenericRightClickedBook2 {
 	static Supplier<Operator2> splOp = () -> {
 		Function<Ports, LivingEntity> fnGetTarget = getFnGetLivingEntity2();
 		BiConsumer<Ports, EffectInstance> bcSetEffectInstance = getBcSetEffectInstance1();
-		return new Sequence2(new SpawnDecoy2(), new AddEffect2(fnGetTarget, bcSetEffectInstance, RECEIVE_AGGRO_EFFECT,
-				receiveAggroEffectDuration.get(), receiveAggroEffectAmplifier.get()));
+		Operator2 projectileLogicOp = new Sequence2(new SpawnDecoy2(), new AddEffect2(fnGetTarget, bcSetEffectInstance,
+				RECEIVE_AGGRO_EFFECT, receiveAggroEffectDuration.get(), receiveAggroEffectAmplifier.get()));
+		Operator2 formationOp = new SingleProjectileFormation2();
+		Operator2 projectileOp = new ShootOperatorEggProjectile2(projectileLogicOp);
+		return new Sequence2(formationOp, projectileOp);
 	};
 
 	public DecoyBook() {
-		super(ITEM_NAME, decoyBook, getInstance(), new ShootOperatorEggProjectile2(splOp.get()));
+		super(ITEM_NAME, decoyBook, getInstance(), splOp.get());
 	}
 
 }

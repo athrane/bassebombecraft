@@ -144,7 +144,6 @@ import bassebombecraft.item.inventory.RespawnIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
 import bassebombecraft.operator.entity.Respawn;
-import bassebombecraft.operator.entity.SpawnDecoy;
 import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
@@ -1186,10 +1185,9 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain SpawnDecoy} and {@linkplain SpawnDecoy2}
-		 * operator.
+		 * Configuration for the {@linkplain SpawnDecoy2} operator.
 		 */
-		name = SpawnDecoy.NAME;
+		name = SpawnDecoy2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnDecoyMaxHealth = COMMON_BUILDER.comment("Decoy max health.").defineInRange("maxHealth", 200, 0,
 				Integer.MAX_VALUE);
