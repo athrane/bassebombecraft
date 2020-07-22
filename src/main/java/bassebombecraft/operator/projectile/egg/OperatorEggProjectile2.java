@@ -8,7 +8,9 @@ import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
+import bassebombecraft.event.projectile.EntityTypeRegistryEventHandler;
 import bassebombecraft.operator.DefaultPorts;
+import bassebombecraft.operator.NullOp2;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Operators2;
 import bassebombecraft.operator.Ports;
@@ -20,6 +22,7 @@ import net.minecraft.item.Items;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.World;
 
 /**
  * Generic projectile implementation which executes embedded operator
@@ -63,6 +66,22 @@ public class OperatorEggProjectile2 extends ProjectileItemEntity {
 		super(EntityType.EGG, entity, entity.getEntityWorld());
 		this.operator = operator;
 	}
+
+	/**
+	 * Constructor
+	 * 
+	 * Supports initialization in class {@linkplain EntityTypeRegistryEventHandler}.
+	 * 
+	 * Initialises entity with null behaviour.
+	 * 
+	 * @param type  entity type.
+	 * @param world world.
+	 */
+	public OperatorEggProjectile2(EntityType<? extends ProjectileItemEntity> type, World world) {
+		super(type, world);
+		this.operator = new NullOp2();
+	}
+	
 
 	@Override
 	protected void onImpact(RayTraceResult result) {
