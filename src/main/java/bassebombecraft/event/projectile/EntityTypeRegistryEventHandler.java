@@ -5,7 +5,6 @@ import static net.minecraft.entity.EntityClassification.MISC;
 
 import bassebombecraft.operator.projectile.egg.OperatorEggProjectile2;
 import bassebombecraft.projectile.GenericEggProjectile;
-import bassebombecraft.projectile.OperatorEggProjectile;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -31,15 +30,10 @@ public class EntityTypeRegistryEventHandler {
 						.setRegistryName(MODID, GenericEggProjectile.PROJECTILE_NAME));
 
 		event.getRegistry()
-				.register(EntityType.Builder.<OperatorEggProjectile>create(OperatorEggProjectile::new, MISC)
-						.build(OperatorEggProjectile.PROJECTILE_NAME)
-						.setRegistryName(MODID, OperatorEggProjectile.PROJECTILE_NAME));
+				.register(EntityType.Builder.<OperatorEggProjectile2>create(OperatorEggProjectile2::new, MISC)
+						.build(OperatorEggProjectile2.PROJECTILE_NAME)
+						.setRegistryName(MODID, OperatorEggProjectile2.PROJECTILE_NAME));
 
-		event.getRegistry()
-		.register(EntityType.Builder.<OperatorEggProjectile2>create(OperatorEggProjectile2::new, MISC)
-				.build(OperatorEggProjectile2.PROJECTILE_NAME)
-				.setRegistryName(MODID, OperatorEggProjectile2.PROJECTILE_NAME));
-		
 	}
 
 }
