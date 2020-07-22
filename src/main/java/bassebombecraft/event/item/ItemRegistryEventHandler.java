@@ -68,6 +68,7 @@ import bassebombecraft.item.book.WitherMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
 import bassebombecraft.item.composite.CompositeMagic;
 import bassebombecraft.item.composite.projectile.ArrowProjectileItem;
+import bassebombecraft.item.composite.projectile.EggProjectileItem;
 import bassebombecraft.item.composite.projectile.FireballProjectileItem;
 import bassebombecraft.item.composite.projectile.LargeFireballProjectileItem;
 import bassebombecraft.item.composite.projectile.WitherSkullProjectileItem;
@@ -177,7 +178,7 @@ public class ItemRegistryEventHandler {
 			new RandomSingleProjectileFormationItem(), new CircleProjectileFormationItem(),
 			new TrifurcatedProjectileFormationItem(), new FrontAndBackProjectileFormationItem(),
 			new FireballProjectileItem(), new LargeFireballProjectileItem(), new ArrowProjectileItem(),
-			new WitherSkullProjectileItem(), new RandomProjectileFormationModifierItem(),
+			new WitherSkullProjectileItem(), new EggProjectileItem(), new RandomProjectileFormationModifierItem(),
 			new InaccuracyProjectileFormationModifierItem(), new TeleportInvokerProjectileModifierItem(),
 			new TeleportMobProjectileModifierItem(), new CharmProjectileModifierItem(),
 			new MeteorProjectileModifierItem(), new DecoyProjectileModifierItem() };

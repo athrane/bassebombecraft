@@ -99,6 +99,7 @@ import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
 import bassebombecraft.item.composite.CompositeMagic;
 import bassebombecraft.item.composite.projectile.ArrowProjectileItem;
+import bassebombecraft.item.composite.projectile.EggProjectileItem;
 import bassebombecraft.item.composite.projectile.FireballProjectileItem;
 import bassebombecraft.item.composite.projectile.LargeFireballProjectileItem;
 import bassebombecraft.item.composite.projectile.WitherSkullProjectileItem;
@@ -396,6 +397,7 @@ public class ModConfiguration {
 	public static ItemConfig largeFireballProjectileItem;
 	public static ItemConfig arrowProjectileItem;
 	public static ItemConfig witherSkullProjectileItem;
+	public static ItemConfig eggProjectileItem;
 
 	public static ItemConfig randomProjectileFormationModifierItem;
 	public static ItemConfig inaccuracyProjectileFormationModifierItem;
@@ -1778,13 +1780,22 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
+		 * Configuration for the {@linkplain EggProjectileItem} item.
+		 */
+		name = EggProjectileItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		eggProjectileItem = getInstance(COMMON_BUILDER, name,
+				"A runic image of an egg. The egg can on very rare occasions contain several surprises. But most likely it is just an empty shell.", 25);
+		COMMON_BUILDER.pop();
+		
+		/**
 		 * Configuration for the {@linkplain RandomProjectileFormationModifierItem}
 		 * item.
 		 */
 		name = RandomProjectileFormationModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		randomProjectileFormationModifierItem = getInstance(COMMON_BUILDER, name,
-				"A fiendish image of the modification of a projectile formation. All paths of the projectiles are randomized around the vertical axis of the caster.",
+				"A fiendish image of the modification of a projectile formation. All projectile paths are randomized around the vertical axis of the caster.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -1795,7 +1806,7 @@ public class ModConfiguration {
 		name = InaccuracyProjectileFormationModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		inaccuracyProjectileFormationModifierItem = getInstance(COMMON_BUILDER, name,
-				"A fiendish image of the modification of a projectile formation. All paths of the projectiles are made more inaccurate.",
+				"A fiendish image of the modification of a projectile formation. All projectile paths are made somewhat more inaccurate.",
 				25);
 		COMMON_BUILDER.pop();
 

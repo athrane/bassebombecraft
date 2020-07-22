@@ -140,7 +140,8 @@
     "item.bassebombecraft.largefireballprojectileitem": "Projectile: Large Fireball",    
     "item.bassebombecraft.arrowprojectileitem": "Projectile: Arrow",    
     "item.bassebombecraft.witherskullprojectileitem": "Projectile: Wither Skull",    
-
+    "item.bassebombecraft.eggprojectileitem": "Projectile: Egg",    
+    
     "item.bassebombecraft.randomprojectileformationmodifieritem": "Formation Modifier: Random",
     "item.bassebombecraft.inaccuracyprojectileformationmodifieritem": "Formation Modifier: Inaccuracy",
     
