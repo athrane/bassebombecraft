@@ -37,6 +37,7 @@ import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
 import bassebombecraft.entity.commander.command.DanceCommand;
 import bassebombecraft.event.charm.CharmedMobEventHandler;
 import bassebombecraft.event.charm.ServerCharmedMobsRepository;
+import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
@@ -559,7 +560,11 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue increaseSizeEffectDuration;
 	public static ForgeConfigSpec.IntValue increaseSizeEffectAmplifier;
 
-	// Receive aggro effect operator
+	/**
+	 * Properties for {@linkplain ReceiveAggroEffect} effect which is used by the
+	 * operators in {@linkplain ReceiveAggroBook}, {@linkplain DecoyBook} and
+	 * {@linkplain ProjectileModifierEventHandler}.
+	 */
 	public static ForgeConfigSpec.IntValue receiveAggroEffectDuration;
 	public static ForgeConfigSpec.IntValue receiveAggroEffectAmplifier;
 

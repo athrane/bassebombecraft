@@ -96,11 +96,6 @@ public class ProjectileModifierEventHandler {
 		BiConsumer<Ports, EffectInstance> bcSetEffectInstance = getBcSetEffectInstance1();
 		return new Sequence2(new SpawnDecoy2(), new AddEffect2(fnGetTarget, bcSetEffectInstance, RECEIVE_AGGRO_EFFECT,
 				receiveAggroEffectDuration.get(), receiveAggroEffectAmplifier.get())
-
-		// TODO: AddEffectAtClient be used as well?
-		// AddEffectAtClient addOp2 = new AddEffectAtClient(ops.getSplTargetEntity(),
-		// addOp.getSplEffectInstance());
-
 		);
 	};
 
