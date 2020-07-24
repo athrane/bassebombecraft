@@ -150,6 +150,7 @@
     "item.bassebombecraft.charmprojectilemodifieritem": "Projectile Modifier: Charm",            
     "item.bassebombecraft.meteorprojectilemodifieritem": "Projectile Modifier: Meteor",            
     "item.bassebombecraft.decoyprojectilemodifieritem": "Projectile Modifier: Decoy",            
+    "item.bassebombecraft.explodeprojectilemodifieritem": "Projectile Modifier: Explode",                            
                 
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",

@@ -22,6 +22,7 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.conditional.IsLivingEntityHitInRaytraceResult2;
+import bassebombecraft.operator.entity.Explode2;
 import bassebombecraft.operator.entity.ShootMeteor2;
 import bassebombecraft.operator.entity.potion.effect.AddEffect2;
 import bassebombecraft.operator.entity.raytraceresult.Charm2;
@@ -31,9 +32,11 @@ import bassebombecraft.operator.entity.raytraceresult.TeleportMob2;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -114,6 +117,12 @@ public class ProjectileModifierEventHandler {
 	 */
 	static final Operator2 DECOY_OPERATOR = splDecoyOp.get();
 
+	/**
+	 * Spawn decoy operator.
+	 */
+	static final Operator2 EXPLODE_OPERATOR = new Explode2();
+
+	
 	@SubscribeEvent
 	static public void handleProjectileImpactEvent(ProjectileImpactEvent event) {
 		try {
@@ -151,6 +160,40 @@ public class ProjectileModifierEventHandler {
 			// handle: decoy
 			if (tags.contains(SpawnDecoy2.NAME))
 				spawnDecoy(event);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
+	}
+
+	@SubscribeEvent
+	static public void handleLivingDeathEvent(LivingDeathEvent event) {
+		try {
+
+			// exit if handler is executed at client side
+			if (isLogicalClient(event.getEntity()))
+				return;
+
+			// get damage source
+			DamageSource source = event.getSource();
+
+			// get immediate source, i.e. some projectile
+			Entity immediateSource = source.getImmediateSource();
+
+			// exit if immediate source isn't defined
+			if (immediateSource == null)
+				return;
+
+			// get tags
+			Set<String> tags = immediateSource.getTags();
+
+			// exit if no tags is defined
+			if (tags.isEmpty())
+				return;
+
+			// handle: teleport invoker
+			if (tags.contains(Explode2.NAME))
+				explode(event);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -254,6 +297,21 @@ public class ProjectileModifierEventHandler {
 
 		// execute
 		run(ports, DECOY_OPERATOR);
+	}
+
+	/**
+	 * Execute explode operator.
+	 * 
+	 * @param event living death event.
+	 */
+	static void explode(LivingDeathEvent event) {
+
+		// create ports
+		Ports ports = getInstance();
+		ports.setEntity1(event.getEntity());
+
+		// execute
+		run(ports, EXPLODE_OPERATOR);
 	}
 
 }

@@ -112,6 +112,7 @@ import bassebombecraft.item.composite.projectile.formation.modifier.InaccuracyPr
 import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.ExplodeProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
@@ -144,6 +145,7 @@ import bassebombecraft.item.inventory.RemoveBlockSpiralIdolInventoryItem;
 import bassebombecraft.item.inventory.RespawnIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
+import bassebombecraft.operator.entity.Explode2;
 import bassebombecraft.operator.entity.Respawn;
 import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig2;
@@ -407,6 +409,7 @@ public class ModConfiguration {
 	public static ItemConfig charmProjectileModifierItem;
 	public static ItemConfig meteorProjectileModifierItem;
 	public static ItemConfig decoyProjectileModifierItem;
+	public static ItemConfig explodeProjectileModifierItem;
 
 	// Actions..
 
@@ -581,6 +584,11 @@ public class ModConfiguration {
 	 */
 	public static ForgeConfigSpec.IntValue circleProjectileFormationNumberProjectiles;
 
+	/**
+	 * Properties for {@linkplain Explode2} operator.
+	 */
+	public static ForgeConfigSpec.DoubleValue explodeMinExplosionRadius;
+	
 	static {
 
 		// build general section
@@ -1236,7 +1244,7 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain ShootProjectileRing2} operator.
+		 * Configuration for the {@linkplain CircleProjectileFormation2} operator.
 		 */
 		name = CircleProjectileFormation2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1245,6 +1253,15 @@ public class ModConfiguration {
 				.defineInRange("number", 8, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the {@linkplain Explode2} operator.
+		 */
+		name = Explode2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		explodeMinExplosionRadius = COMMON_BUILDER.comment("Minimum explosion radius.").defineInRange("minimumExplosionRadius",
+						2.0D, 0, 100);
+		COMMON_BUILDER.pop();
+		
 	}
 
 	/**
@@ -1861,6 +1878,18 @@ public class ModConfiguration {
 				25);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the {@linkplain ExplodeProjectileModifierItem} item.
+		 */
+		name = ExplodeProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		explodeProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. When a mob is killed it will explode dealing damage to nearby mobs. The explosion radius is based on the size if the killed mob.",
+				25);
+		COMMON_BUILDER.pop();
+		
+				
+		
 	}
 
 	/**
