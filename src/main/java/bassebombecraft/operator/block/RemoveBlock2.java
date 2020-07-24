@@ -36,7 +36,7 @@ public class RemoveBlock2 implements Operator2 {
 	 * Constructor.
 	 * 
 	 * @param fnBlockPos function to get block position where block should be
-	 *                   placed.
+	 *                   removed.
 	 * @param fnGetWorld function to get world.
 	 */
 	public RemoveBlock2(Function<Ports, BlockPos> fnGetBlockPos, Function<Ports, World> fnGetWorld) {
@@ -48,7 +48,7 @@ public class RemoveBlock2 implements Operator2 {
 	 * Constructor.
 	 * 
 	 * Instance is configured with block position #1 (as position where block should
-	 * be placed) from ports.
+	 * be removed) from ports.
 	 * 
 	 * Instance is configured with world #1 from ports.
 	 */

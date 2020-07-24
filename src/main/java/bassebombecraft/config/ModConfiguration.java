@@ -112,6 +112,7 @@ import bassebombecraft.item.composite.projectile.formation.modifier.InaccuracyPr
 import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
@@ -410,6 +411,7 @@ public class ModConfiguration {
 	public static ItemConfig meteorProjectileModifierItem;
 	public static ItemConfig decoyProjectileModifierItem;
 	public static ItemConfig explodeProjectileModifierItem;
+	public static ItemConfig digMobHoleProjectileModifierItem;
 
 	// Actions..
 
@@ -588,7 +590,7 @@ public class ModConfiguration {
 	 * Properties for {@linkplain Explode2} operator.
 	 */
 	public static ForgeConfigSpec.DoubleValue explodeMinExplosionRadius;
-	
+
 	static {
 
 		// build general section
@@ -900,7 +902,9 @@ public class ModConfiguration {
 				.defineInRange("spawnDisplacement", 2, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// DigMobHole
+		/**
+		 * Configuration for the {@linkplain DigMobHole} action and the {@linkplain DigMobHole2} operator.
+		 */
 		name = DigMobHole.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		digMobHoleNoHitHoleDepth = COMMON_BUILDER.comment("No-hit, hole depth (Z) in blocks.")
@@ -1258,10 +1262,10 @@ public class ModConfiguration {
 		 */
 		name = Explode2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		explodeMinExplosionRadius = COMMON_BUILDER.comment("Minimum explosion radius.").defineInRange("minimumExplosionRadius",
-						2.0D, 0, 100);
+		explodeMinExplosionRadius = COMMON_BUILDER.comment("Minimum explosion radius.")
+				.defineInRange("minimumExplosionRadius", 2.0D, 0, 100);
 		COMMON_BUILDER.pop();
-		
+
 	}
 
 	/**
@@ -1802,9 +1806,10 @@ public class ModConfiguration {
 		name = EggProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		eggProjectileItem = getInstance(COMMON_BUILDER, name,
-				"A runic image of an egg. The egg can on very rare occasions contain several surprises. But most likely it is just an empty shell.", 25);
+				"A runic image of an egg. The egg can on very rare occasions contain several surprises. But most likely it is just an empty shell.",
+				25);
 		COMMON_BUILDER.pop();
-		
+
 		/**
 		 * Configuration for the {@linkplain RandomProjectileFormationModifierItem}
 		 * item.
@@ -1887,9 +1892,17 @@ public class ModConfiguration {
 				"A mythical image of the modification of a projectile. When a mob is killed it will explode dealing damage to nearby mobs. The explosion radius is based on the size if the killed mob.",
 				25);
 		COMMON_BUILDER.pop();
-		
-				
-		
+
+		/**
+		 * Configuration for the {@linkplain BuildSmallHoleProjectileModifierItem} item.
+		 */
+		name = DigMobHoleProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		digMobHoleProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. If a creature is hit then an inconvenient hole is digged beneath the unfortunate individual.",
+				25);
+		COMMON_BUILDER.pop();
+
 	}
 
 	/**

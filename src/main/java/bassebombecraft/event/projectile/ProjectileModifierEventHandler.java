@@ -26,6 +26,7 @@ import bassebombecraft.operator.entity.Explode2;
 import bassebombecraft.operator.entity.ShootMeteor2;
 import bassebombecraft.operator.entity.potion.effect.AddEffect2;
 import bassebombecraft.operator.entity.raytraceresult.Charm2;
+import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportMob2;
@@ -118,9 +119,14 @@ public class ProjectileModifierEventHandler {
 	static final Operator2 DECOY_OPERATOR = splDecoyOp.get();
 
 	/**
-	 * Spawn decoy operator.
+	 * Explode operator.
 	 */
 	static final Operator2 EXPLODE_OPERATOR = new Explode2();
+
+	/**
+	 * Dig mob hole operator.
+	 */
+	static final Operator2 DIGMOBHOLE_OPERATOR = new DigMobHole2();
 
 	
 	@SubscribeEvent
@@ -161,6 +167,10 @@ public class ProjectileModifierEventHandler {
 			if (tags.contains(SpawnDecoy2.NAME))
 				spawnDecoy(event);
 
+			// handle: dig mob hole
+			if (tags.contains(DigMobHole2.NAME))
+				digMobHole(event);
+			
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
@@ -299,6 +309,22 @@ public class ProjectileModifierEventHandler {
 		run(ports, DECOY_OPERATOR);
 	}
 
+	/**
+	 * Dig mob hole operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void digMobHole(ProjectileImpactEvent event) {
+
+		// create ports
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setWorld(event.getEntity().getEntityWorld());
+
+		// execute
+		run(ports, DIGMOBHOLE_OPERATOR);
+	}
+			
 	/**
 	 * Execute explode operator.
 	 * 
