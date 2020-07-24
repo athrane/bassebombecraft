@@ -3,6 +3,8 @@ package bassebombecraft.operator.block;
 import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK;
 import static bassebombecraft.geom.GeometryUtils.calculateSpiral;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
+import static bassebombecraft.operator.DefaultPorts.getFnGetBlockPosition1;
+import static bassebombecraft.operator.DefaultPorts.*;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -39,19 +41,41 @@ public class CalculateSpiralPosition2 implements Operator2 {
 	BiConsumer<Ports, BlockPos> bcSetBlockPos;
 
 	/**
+	 * Function to get world from ports.
+	 */
+	Function<Ports, World> fnGetWorld; 	
+	
+	/**
 	 * Constructor.
 	 * 
 	 * @param spiralSize    size of the spiral.
 	 * @param fnGetBlockPos function to get the centre of the spiral.
 	 * @param bcSetBlockPos function to set next calculate position in the spiral.
+	 * @param fnGetWorld function to get world.                   
 	 */
 	public CalculateSpiralPosition2(int spiralSize, Function<Ports, BlockPos> fnGetBlockPos,
-			BiConsumer<Ports, BlockPos> bcSetBlockPos) {
+			BiConsumer<Ports, BlockPos> bcSetBlockPos, Function<Ports, World> fnGetWorld) {
 		this.fnGetBlockPos = fnGetBlockPos;
 		this.bcSetBlockPos = bcSetBlockPos;
-		this.spiralCoordinates = calculateSpiral(spiralSize, spiralSize);
+		this.fnGetWorld = fnGetWorld;		
+		this.spiralCoordinates = calculateSpiral(spiralSize, spiralSize);		
 	}
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param spiralSize    size of the spiral.
+	 * 
+	 * Instance is configured with block position #1 (as the centre of the spiral) from ports.
+	 * 
+	 * Instance is configured to set block position #2 (next calculate position in the spiral) from ports.
+	 * 
+	 * Instance is configured with world #1 from ports.
+	 */
+	public CalculateSpiralPosition2(int spiralSize) {
+		this(spiralSize, getFnGetBlockPosition1(), getBcSetBlockPosition2(), getFnWorld1());
+	}
+	
 	@Override
 	public Ports run(Ports ports) {
 
@@ -68,7 +92,7 @@ public class CalculateSpiralPosition2 implements Operator2 {
 		BlockPos candidate = new BlockPos(x, y, z);
 
 		// get world
-		World world = ports.getWorld();
+		World world = fnGetWorld.apply(ports);
 
 		// locate ground block
 		BlockPos position = locateGroundBlockPos(candidate, ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK, world);

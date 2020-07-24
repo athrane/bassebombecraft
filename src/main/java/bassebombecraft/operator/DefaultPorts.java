@@ -224,6 +224,17 @@ public class DefaultPorts implements Ports {
 			.setEffectInstance1(i);
 
 	/**
+	 * World #1 getter.
+	 */
+	static Function<Ports, World> fnGetWorld1 = p -> p.getWorld();
+
+	/**
+	 * World #1 setter.
+	 */
+	static BiConsumer<Ports, World> bcSetWorld1 = (Ports p, World w) -> p
+			.setWorld(w);
+	
+	/**
 	 * Constructor
 	 */
 	DefaultPorts() {
@@ -525,6 +536,14 @@ public class DefaultPorts implements Ports {
 
 	public static BiConsumer<Ports, EffectInstance> getBcSetEffectInstance1() {
 		return bcSetEffectInstance1;
+	}
+
+	public static Function<Ports, World> getFnWorld1() {
+		return fnGetWorld1;
+	}
+
+	public static BiConsumer<Ports, World> getBcSetWorld1() {
+		return bcSetWorld1;
 	}
 	
 	/**

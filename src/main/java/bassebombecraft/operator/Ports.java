@@ -12,7 +12,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
- * Ports which provides input and output from operators.
+ * Colloection of ports which provides input and output from operators.
  */
 public interface Ports {
 

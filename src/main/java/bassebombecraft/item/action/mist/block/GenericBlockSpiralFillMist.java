@@ -5,6 +5,7 @@ import static bassebombecraft.config.ModConfiguration.genericBlockSpiralFillMist
 import static bassebombecraft.operator.DefaultPorts.getBcSetBlockPosition2;
 import static bassebombecraft.operator.DefaultPorts.getFnGetBlockPosition1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetBlockPosition2;
+import static bassebombecraft.operator.DefaultPorts.getFnWorld1;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 
 import java.util.function.BiConsumer;
@@ -80,10 +81,11 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 		Function<Ports, BlockPos> fnGetCenter = getFnGetBlockPosition1();
 		BiConsumer<Ports, BlockPos> bcSetSpiralPos = getBcSetBlockPosition2();
 		Function<Ports, BlockPos> fnGetSpiralPos = getFnGetBlockPosition2();
+		Function<Ports, World> fnGetWorld = getFnWorld1();
 
 		// create operators
 		spiralOp = new Sequence2(new SingleLoopIncreasingCounter2(numberSpiralBlocks - 1),
-				new CalculateSpiralPosition2(spiralSize, fnGetCenter, bcSetSpiralPos),
+				new CalculateSpiralPosition2(spiralSize, fnGetCenter, bcSetSpiralPos, fnGetWorld),
 				new ApplyEffectFromMistStrategy2(strategy, fnGetSpiralPos),
 				new AddParticlesFromPosAtClient2(strategy.getRenderingInfos(), fnGetSpiralPos));
 	}

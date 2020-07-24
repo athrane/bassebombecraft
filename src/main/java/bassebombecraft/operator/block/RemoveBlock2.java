@@ -3,6 +3,8 @@ package bassebombecraft.operator.block;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.geom.BlockDirective.getInstance;
+import static bassebombecraft.operator.DefaultPorts.getFnGetBlockPosition1;
+import static bassebombecraft.operator.DefaultPorts.getFnWorld1;
 
 import java.util.function.Function;
 
@@ -26,22 +28,42 @@ public class RemoveBlock2 implements Operator2 {
 	Function<Ports, BlockPos> fnGetBlockPos;
 
 	/**
+	 * Function to get world from ports.
+	 */
+	Function<Ports, World> fnGetWorld;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param fnBlockPos function to get block position where block should be
 	 *                   placed.
+	 * @param fnGetWorld function to get world.
 	 */
-	public RemoveBlock2(Function<Ports, BlockPos> fnGetBlockPos) {
+	public RemoveBlock2(Function<Ports, BlockPos> fnGetBlockPos, Function<Ports, World> fnGetWorld) {
 		this.fnGetBlockPos = fnGetBlockPos;
+		this.fnGetWorld = fnGetWorld;
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * Instance is configured with block position #1 (as position where block should
+	 * be placed) from ports.
+	 * 
+	 * Instance is configured with world #1 from ports.
+	 */
+	public RemoveBlock2() {
+		this(getFnGetBlockPosition1(), getFnWorld1());
 	}
 
 	@Override
 	public Ports run(Ports ports) {
+
 		// get position
 		BlockPos groundPosition = fnGetBlockPos.apply(ports);
 
 		// get world
-		World world = ports.getWorld();
+		World world = fnGetWorld.apply(ports);
 
 		// remove block
 		BlockDirective directive = getInstance(groundPosition, Blocks.AIR, DONT_HARVEST, world);

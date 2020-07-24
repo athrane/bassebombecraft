@@ -8,6 +8,7 @@ import static bassebombecraft.operator.DefaultPorts.getBcSetBlockPosition1;
 import static bassebombecraft.operator.DefaultPorts.getBcSetBlockPosition2;
 import static bassebombecraft.operator.DefaultPorts.getFnGetBlockPosition1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetBlockPosition2;
+import static bassebombecraft.operator.DefaultPorts.getFnWorld1;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 
 import java.util.function.BiConsumer;
@@ -24,6 +25,7 @@ import bassebombecraft.operator.block.ResetSpiralOnMovement2;
 import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
 import bassebombecraft.operator.counter.SingleLoopIncreasingCounter2;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 /**
  * Remove block spiral idol implementation.
@@ -57,11 +59,12 @@ public class RemoveBlockSpiralIdolInventoryItem extends GenericInventoryItem {
 		BiConsumer<Ports, BlockPos> bcSetCenter = getBcSetBlockPosition1();
 		Function<Ports, BlockPos> fnGetSpiralPos = getFnGetBlockPosition2();
 		BiConsumer<Ports, BlockPos> bcSetSpiralPos = getBcSetBlockPosition2();
+		Function<Ports, World> fnGetWorld = getFnWorld1();
 
 		Operator2[] ops = new Operator2[] { new ResetSpiralOnMovement2(1, fnGetInvokerPos, fnGetCenter, bcSetCenter),
 				new SingleLoopIncreasingCounter2(numberSpiralBlocks - 1),
-				new CalculateSpiralPosition2(spiralSize, fnGetCenter, bcSetSpiralPos), new RemoveBlock2(fnGetSpiralPos),
-				new AddParticlesFromPosAtClient2(infos, fnGetSpiralPos) };
+				new CalculateSpiralPosition2(spiralSize, fnGetCenter, bcSetSpiralPos, fnGetWorld),
+				new RemoveBlock2(fnGetSpiralPos, fnGetWorld), new AddParticlesFromPosAtClient2(infos, fnGetSpiralPos) };
 		return ops;
 	};
 
