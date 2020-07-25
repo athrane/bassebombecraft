@@ -308,10 +308,7 @@ public class ModConfiguration {
 	public static ItemConfig beastmasterBook;
 	public static ItemConfig decoyBook;
 	public static ItemConfig receiveAggroBook;
-
-	// DigMobHoleBook
-	public static ForgeConfigSpec.ConfigValue<String> digMobHoleBookTooltip;
-	public static ForgeConfigSpec.IntValue digMobHoleBookCooldown;
+	public static ItemConfig digMobHoleBook;
 
 	public static ItemConfig lavaSpiralMistBook;
 	public static ItemConfig rainbownizeBook;
@@ -903,7 +900,8 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain DigMobHole} action and the {@linkplain DigMobHole2} operator.
+		 * Configuration for the {@linkplain DigMobHole} action and the
+		 * {@linkplain DigMobHole2} operator.
 		 */
 		name = DigMobHole.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1390,14 +1388,14 @@ public class ModConfiguration {
 				"Right-click to shoot projectile. If the projectile hits a target mob then all mobs in the vicinity will aggro the hit target mob.",
 				100);
 
+		/**
+		 * Configuration for the {@linkplain DigMobHoleBook} item.
+		 */
 		// DigMobHoleBook
 		name = DigMobHoleBook.ITEM_NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		digMobHoleBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
-				"Right-click to shoot a projectile. If a creature is hit then an inconvenient hole is digged beneath the hit individual.");
-		digMobHoleBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.").defineInRange("cooldown",
-				25, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
+		digMobHoleBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to shoot a projectile. If a creature is hit then an inconvenient hole is digged beneath the unfortunate individual.",
+				25);
 
 		// LavaSpiralMistBook
 		name = LavaSpiralMistBook.ITEM_NAME;
