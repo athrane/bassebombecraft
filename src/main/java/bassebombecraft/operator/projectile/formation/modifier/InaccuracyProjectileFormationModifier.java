@@ -65,13 +65,15 @@ public class InaccuracyProjectileFormationModifier implements Operator2 {
 		// create new array
 		Vec3d[] randomised = new Vec3d[vectors.length];
 
+		// get random
+		Random random = getBassebombeCraft().getRandom();
+		
 		// create index
 		int index = 0;
 		
 		for (Vec3d orientation : vectors) {
 
 			// calculate random angle
-			Random random = getBassebombeCraft().getRandom();
 			double angle = random.nextInt(DEGREES_5 * 2) - DEGREES_5;
 			randomised[index] = rotateUnitVectorAroundYAxisAtOrigin(angle, orientation);
 

@@ -29,6 +29,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderLivingEvent.Pre;
+import static bassebombecraft.geom.GeometryUtils.oscillate;
 
 /**
  * Rendering team member information in the HUD item.
@@ -81,7 +82,7 @@ public class TeamEnityRenderer {
 		renderText(matrixStack, buffer, 0, -10, getFirstRunningAiGoalName(entity));
 		renderText(matrixStack, buffer, 0, -20, getFirstRunningAiTargetGoalName(entity));
 
-		float w = (float) RenderingUtils.oscillate(-10, 10);
+		float w = (float) oscillate(-10, 10);
 		matrixStack.push();
 		matrixStack.translate(0, height, 0);
 		matrixStack.rotate(Vector3f.YP.rotationDegrees(180));

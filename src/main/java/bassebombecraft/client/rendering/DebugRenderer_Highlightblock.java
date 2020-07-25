@@ -24,6 +24,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawHighlightEvent.HighlightBlock;
+import static bassebombecraft.geom.GeometryUtils.oscillate;
 
 /**
  * https://wiki.mcjty.eu/modding/index.php?title=Tut15_Ep15
@@ -50,7 +51,7 @@ public class DebugRenderer_Highlightblock {
 		BlockRayTraceResult blockResult = (BlockRayTraceResult) event.getTarget();
 		BlockPos blockPos = blockResult.getPos();
 		AxisAlignedBB aabb = new AxisAlignedBB(blockPos);
-		double w = RenderingUtils.oscillate(0, 0.02F);
+		double w = oscillate(0, 0.02F);
 		aabb = aabb.grow(w);
 
 		Vec3d projectedView = Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getProjectedView();

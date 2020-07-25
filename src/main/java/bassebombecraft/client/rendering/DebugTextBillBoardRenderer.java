@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
+import static bassebombecraft.geom.GeometryUtils.oscillate;
 
 /**
  * Implementation of the {@linkplain EntityRenderer} for debug rendering af
@@ -168,7 +169,7 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 
 		// set up billboard rotation
 		// setupBillboardRotation();
-		float w = (float) RenderingUtils.oscillate(0, 20);
+		float w = (float) oscillate(0, 20);
 		RenderSystem.rotatef(180, 0, 1, 0);
 		RenderSystem.rotatef(180 + w, 0, 0, 1);
 
@@ -217,7 +218,7 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 		// setupBillboardRotation();
 		RenderSystem.rotatef(180, 0, 1, 0);
 
-		float z = (float) RenderingUtils.oscillate(0.1F, 0.2F);
+		float z = (float) oscillate(0.1F, 0.2F);
 		RenderSystem.translated(0, 0, 0.1);
 
 		// scale text
@@ -268,7 +269,7 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 		// set up billboard rotation
 		// setupBillboardRotation();
 
-		float w = (float) RenderingUtils.oscillate(0, 180);
+		float w = (float) oscillate(0, 180);
 		RenderSystem.rotatef(180, 0, 1, 0);
 
 		// translation of text relative to view direction.
@@ -329,7 +330,7 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 		// set up billboard rotation
 		// setupBillboardRotation();
 
-		float w = (float) RenderingUtils.oscillate(0, 180);
+		float w = (float) oscillate(0, 180);
 		RenderSystem.rotatef(180, 0, 1, 0);
 		// RenderSystem.rotatef(w - 180, 0, 1, 0);
 		// RenderSystem.rotatef(info.getYaw() +w - 180, 0, 1, 0);

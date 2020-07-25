@@ -5,8 +5,6 @@ import static bassebombecraft.ClientModConstants.TEXT_SCALE;
 import static bassebombecraft.ModConstants.BILLBOARD_LINE_WIDTH;
 import static bassebombecraft.ModConstants.EQUILATERAL_TRIANGLE_HEIGHT;
 
-import java.time.Instant;
-
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -796,33 +794,6 @@ public class RenderingUtils {
 		bufferBuilder.pos(start.x, start.y, start.z).endVertex();
 		bufferBuilder.pos(end.x, end.y, end.z).endVertex();
 		tessellator.draw();
-	}
-
-	/**
-	 * Oscillate value.
-	 * 
-	 * @param min
-	 * @param max
-	 * 
-	 * @return oscillated value between min and max.
-	 */
-	public static double oscillate(float min, float max) {
-		long time = Instant.now().toEpochMilli() / 10;
-		return min + (Math.sin(Math.toRadians(time)) + 1) / 2 * (max - min);
-	}
-
-	/**
-	 * Oscillate value.
-	 * 
-	 * @param timeDelta value added to time.
-	 * @param min
-	 * @param max
-	 * 
-	 * @return oscillated value between min and max.
-	 */
-	public static double oscillate(long timeDelta, float min, float max) {
-		long time = (Instant.now().toEpochMilli() / 10) + timeDelta;
-		return min + (Math.sin(Math.toRadians(time)) + 1) / 2 * (max - min);
 	}
 
 }

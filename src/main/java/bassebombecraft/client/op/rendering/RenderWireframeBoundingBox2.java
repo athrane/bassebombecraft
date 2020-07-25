@@ -1,6 +1,6 @@
 package bassebombecraft.client.op.rendering;
 
-import static bassebombecraft.client.rendering.RenderingUtils.oscillate;
+import static bassebombecraft.geom.GeometryUtils.oscillate;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;

@@ -110,6 +110,7 @@ import bassebombecraft.item.composite.projectile.formation.SingleProjectileForma
 import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.modifier.InaccuracyProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
+import bassebombecraft.item.composite.projectile.formation.modifier.OscillatingRotation180DProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
@@ -401,6 +402,7 @@ public class ModConfiguration {
 
 	public static ItemConfig randomProjectileFormationModifierItem;
 	public static ItemConfig inaccuracyProjectileFormationModifierItem;
+	public static ItemConfig oscillatingRotation180DProjectileFormationModifierItem;
 
 	public static ItemConfig teleportInvokerProjectileModifierItem;
 	public static ItemConfig teleportMobProjectileModifierItem;
@@ -1826,10 +1828,21 @@ public class ModConfiguration {
 		name = InaccuracyProjectileFormationModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		inaccuracyProjectileFormationModifierItem = getInstance(COMMON_BUILDER, name,
-				"A fiendish image of the modification of a projectile formation. All projectile paths are made somewhat more inaccurate.",
+				"A fiendish image of the modification of a projectile formation. All projectile paths are made somewhat more inaccurate. Inaccuracy is [-5..5] degrees.",
 				25);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the {@linkplain rotation180ProjectileFormationModifierItem}
+		 * item.
+		 */
+		name = OscillatingRotation180DProjectileFormationModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		oscillatingRotation180DProjectileFormationModifierItem = getInstance(COMMON_BUILDER, name,
+				"A fiendish image of the modification of a projectile formation. All projectile paths are oscillating [-90..90] degrees from the casters POV around vertical axis of the caster.",
+				25);
+		COMMON_BUILDER.pop();
+		
 		/**
 		 * Configuration for the {@linkplain TeleportInvokerProjectileModifierItem}
 		 * item.

@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import static bassebombecraft.geom.GeometryUtils.oscillate;
 
 /**
  * https://wiki.mcjty.eu/modding/index.php?title=Tut15_Ep15
@@ -40,7 +41,7 @@ public class DebugRenderer_EntityText_v3 {
 		EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
 		FontRenderer fontrenderer = renderManager.getFontRenderer();
 
-		float w = (float) RenderingUtils.oscillate(0, 360);
+		float w = (float) oscillate(0, 360);
 
 		matrixStack.push();
 		matrixStack.scale(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);

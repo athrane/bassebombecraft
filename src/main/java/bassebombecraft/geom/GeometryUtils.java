@@ -23,6 +23,7 @@ import static net.minecraft.block.Blocks.RED_TULIP;
 import static net.minecraft.block.Blocks.WHITE_TULIP;
 
 import java.awt.geom.AffineTransform;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -625,4 +626,44 @@ public class GeometryUtils {
 		return MathHelper.sqrt(calculateDistanceSq(pos1, pos2));
 	}
 
+	/**
+	 * Oscillate value.
+	 * 
+	 * @param min minimum value.
+	 * @param max maximum value.
+	 * 
+	 * @return oscillated value between min and max.
+	 */
+	public static double oscillate(float min, float max) {
+		long time = Instant.now().toEpochMilli() / 10;
+		return min + (Math.sin(Math.toRadians(time)) + 1) / 2 * (max - min);
+	}
+
+	/**
+	 * Oscillate value.
+	 * 
+	 * @param timeDelta value added to time.
+	 * @param min minimum value.
+	 * @param max maximum value.
+	 * 
+	 * @return oscillated value between min and max.
+	 */
+	public static double oscillateWithDeltaTime(long timeDelta, float min, float max) {
+		long time = (Instant.now().toEpochMilli() / 10) + timeDelta;
+		return min + (Math.sin(Math.toRadians(time)) + 1) / 2 * (max - min);
+	}
+
+	/**
+	 * Oscillate value.
+	 * 
+	 * @param time time value.
+	 * @param min minimum value.
+	 * @param max maximum value.
+	 * 
+	 * @return oscillated value between min and max.
+	 */
+	public static double oscillateWithFixedTime(long time, float min, float max) {
+		return min + (Math.sin(Math.toRadians(time)) + 1) / 2 * (max - min);
+	}
+	
 }

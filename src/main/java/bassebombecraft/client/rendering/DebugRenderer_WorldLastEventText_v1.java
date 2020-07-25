@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import static bassebombecraft.geom.GeometryUtils.oscillate;
 
 /**
  * https://wiki.mcjty.eu/modding/index.php?title=Tut15_Ep15
@@ -42,7 +43,7 @@ public class DebugRenderer_WorldLastEventText_v1 {
 		EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
 		FontRenderer fontrenderer = renderManager.getFontRenderer();
 
-		double w = RenderingUtils.oscillate(0, 100);
+		double w = oscillate(0, 100);
 
 		matrixStack.push();
 		matrixStack.scale(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
