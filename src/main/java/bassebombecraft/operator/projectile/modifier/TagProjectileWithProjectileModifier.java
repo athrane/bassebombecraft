@@ -37,6 +37,7 @@ public class TagProjectileWithProjectileModifier implements Operator2 {
 	 * Constructor.
 	 * 
 	 * @param fnGetProjectiles function to get projectiles.
+	 * @param fnGetTag function to get tag.
 	 */
 	public TagProjectileWithProjectileModifier(Function<Ports, Entity[]> fnGetProjectiles,
 			Function<Ports, String> fnGetTag) {
