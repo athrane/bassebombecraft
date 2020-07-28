@@ -12,6 +12,8 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import bassebombecraft.BassebombeCraft;
+import static bassebombecraft.ModConstants.*;
 import bassebombecraft.config.ItemConfig;
 import bassebombecraft.operator.DefaultPorts;
 import bassebombecraft.operator.Operator2;
@@ -45,6 +47,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class GenericCompositeLogicItem extends Item {
 
 	/**
+	 * Name of item prefixes.
+	 */
+	static final String ITEM_NAME_PREFIX = MODID+":";
+
+	/**
 	 * Item signature.
 	 */
 	Item[] signatures = new Item[COMPOSITE_MAX_SIZE];
@@ -58,6 +65,11 @@ public class GenericCompositeLogicItem extends Item {
 	 * Operator.
 	 */
 	Operator2 operator;
+
+	/**
+	 * Composite name.
+	 */
+	String compositeName;
 
 	/**
 	 * Book item cooldown value.
@@ -96,16 +108,12 @@ public class GenericCompositeLogicItem extends Item {
 			return super.onItemRightClick(world, player, hand);
 		}
 
-		// post analytics
-		getProxy().postItemUsage(this.getRegistryName().toString(), player.getGameProfile().getName());
-
 		// add cooldown
 		CooldownTracker tracker = player.getCooldownTracker();
 		tracker.setCooldown(this, coolDown);
 
 		// skip configuration if inventory dons't contain composites
 		int inventoryIndex = findInventoryComposites(player);
-
 		if (isInventoryContainingComposites(inventoryIndex)) {
 
 			// calculate composite length
@@ -113,10 +121,16 @@ public class GenericCompositeLogicItem extends Item {
 			compositeLength = Math.min(compositeLength, COMPOSITE_MAX_SIZE);
 
 			// configure operators
-			if (hasSignatureChanged(player, inventoryIndex, compositeLength))
+			if (hasSignatureChanged(player, inventoryIndex, compositeLength)) {
 				configureOperators(player, inventoryIndex, compositeLength);
+				createCompositeName(player, inventoryIndex, compositeLength);
+			}
 		}
 
+		// post analytics
+		getProxy().postItemUsage(this.compositeName, player.getGameProfile().getName());
+		BassebombeCraft.getBassebombeCraft().getLogger().debug(compositeName);
+		
 		// execute operators
 		ports.setLivingEntity1(player);
 		ports.setWorld(world);
@@ -295,6 +309,8 @@ public class GenericCompositeLogicItem extends Item {
 	 * @param player         player whose inventory is processed.
 	 * @param inventoryIndex inventory index for first composite item.
 	 * @param length         length of the composite in the inventory.
+	 * 
+	 * @return array containing the operators in the composite.
 	 */
 	void configureOperators(PlayerEntity player, int inventoryIndex, int length) {
 		ArrayList<Operator2> opList = new ArrayList<Operator2>();
@@ -324,16 +340,43 @@ public class GenericCompositeLogicItem extends Item {
 		ItemStack inventoryStack = inventory.getStackInSlot(index);
 		Item inventoryItem = inventoryStack.getItem();
 
-		// add operator for current slot
-		if (inventoryItem instanceof GenericCompositeNullItem) {
+		// type cast
+		GenericCompositeNullItem compositeNullItem = (GenericCompositeNullItem) inventoryItem;
 
-			// type cast
-			GenericCompositeNullItem compositeNullItem = (GenericCompositeNullItem) inventoryItem;
+		// add operator
+		Operator2 operator = compositeNullItem.createOperator();
+		opList.add(operator);
+	}
 
-			// add operator
-			Operator2 operator = compositeNullItem.createOperator();
-			opList.add(operator);
+	/**
+	 * Create name for current composite.
+	 * 
+	 * @param player         player whose inventory is processed.
+	 * @param inventoryIndex inventory index for first composite item.
+	 * @param length         length of the composite in the inventory.
+	 * 
+	 * @return array containing the operators in the composite.
+	 */
+	void createCompositeName(PlayerEntity player, int inventoryIndex, int length) {
+		PlayerInventory inventory = player.inventory;
+
+		StringBuilder name = new StringBuilder();
+		name.append(this.getRegistryName().toString());
+		
+		for (int index = 0; index < length; index++) {
+
+			// get inventory item
+			ItemStack inventoryStack = inventory.getStackInSlot(index);
+			Item inventoryItem = inventoryStack.getItem();
+			name.append("-");
+			
+			// get name without mod prefix
+			String itemName = inventoryItem.getRegistryName().toString();			
+			String removedPrefixName = itemName.substring(ITEM_NAME_PREFIX.length());
+			name.append(removedPrefixName);
 		}
+				
+		this.compositeName = name.toString();
 	}
 
 	@OnlyIn(Dist.CLIENT)
