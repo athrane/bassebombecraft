@@ -3,6 +3,7 @@ package bassebombecraft.item.composite;
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.COMPOSITE_MAX_SIZE;
+import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
@@ -12,8 +13,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import bassebombecraft.BassebombeCraft;
-import static bassebombecraft.ModConstants.*;
 import bassebombecraft.config.ItemConfig;
 import bassebombecraft.operator.DefaultPorts;
 import bassebombecraft.operator.Operator2;
@@ -49,7 +48,7 @@ public class GenericCompositeLogicItem extends Item {
 	/**
 	 * Name of item prefixes.
 	 */
-	static final String ITEM_NAME_PREFIX = MODID+":";
+	static final String ITEM_NAME_PREFIX = MODID + ":";
 
 	/**
 	 * Item signature.
@@ -129,8 +128,7 @@ public class GenericCompositeLogicItem extends Item {
 
 		// post analytics
 		getProxy().postItemUsage(this.compositeName, player.getGameProfile().getName());
-		BassebombeCraft.getBassebombeCraft().getLogger().debug(compositeName);
-		
+
 		// execute operators
 		ports.setLivingEntity1(player);
 		ports.setWorld(world);
@@ -362,20 +360,20 @@ public class GenericCompositeLogicItem extends Item {
 
 		StringBuilder name = new StringBuilder();
 		name.append(this.getRegistryName().toString());
-		
+
 		for (int index = 0; index < length; index++) {
 
 			// get inventory item
 			ItemStack inventoryStack = inventory.getStackInSlot(index);
 			Item inventoryItem = inventoryStack.getItem();
 			name.append("-");
-			
+
 			// get name without mod prefix
-			String itemName = inventoryItem.getRegistryName().toString();			
+			String itemName = inventoryItem.getRegistryName().toString();
 			String removedPrefixName = itemName.substring(ITEM_NAME_PREFIX.length());
 			name.append(removedPrefixName);
 		}
-				
+
 		this.compositeName = name.toString();
 	}
 
