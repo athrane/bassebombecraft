@@ -39,10 +39,10 @@ public class OperatorEggProjectile2 extends ProjectileItemEntity {
 	static final float R = 1.0F;
 	static final float G = 1.0F;
 	static final float B = 1.0F;
-	static final int PARTICLE_NUMBER = 5;
+	static final int PARTICLE_NUMBER = 2;
 	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.INSTANT_EFFECT;
-	static final int PARTICLE_DURATION = 20; // Measured in world ticks
-	static final double PARTICLE_SPEED = 0.3;
+	static final int PARTICLE_DURATION = 5; // Measured in world ticks
+	static final double PARTICLE_SPEED = 0.1;
 	static final ParticleRenderingInfo PARTICLE_INFO = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R,
 			G, B, PARTICLE_SPEED);
 
