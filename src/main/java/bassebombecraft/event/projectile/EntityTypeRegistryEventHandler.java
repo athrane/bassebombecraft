@@ -4,35 +4,41 @@ import static bassebombecraft.ModConstants.MODID;
 import static net.minecraft.entity.EntityClassification.MISC;
 
 import bassebombecraft.operator.projectile.egg.OperatorEggProjectile2;
+import bassebombecraft.projectile.CompositeProjectileEntity;
 import bassebombecraft.projectile.GenericEggProjectile;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.IForgeRegistry;
 
 /**
- * Class for initializing projectiles.
+ * Event handler for registration of entity types, projectiles.
  */
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EntityTypeRegistryEventHandler {
 
 	/**
-	 * Initialize projectile.
+	 * Handle {@linkplain RegistryEvent.Register<EntityType<?>>} event to register
+	 * entity types with forge.
 	 * 
 	 * @param event register entity event.
 	 */
 	@SubscribeEvent
-	public void handleEvent(RegistryEvent.Register<EntityType<?>> event) {
+	public static void handleRegisterEntityType(RegistryEvent.Register<EntityType<?>> event) {
+		IForgeRegistry<EntityType<?>> registry = event.getRegistry();
 
-		event.getRegistry()
-				.register(EntityType.Builder.<GenericEggProjectile>create(GenericEggProjectile::new, MISC)
-						.build(GenericEggProjectile.PROJECTILE_NAME)
-						.setRegistryName(MODID, GenericEggProjectile.PROJECTILE_NAME));
+		String name = GenericEggProjectile.NAME.toLowerCase();
+		registry.register(EntityType.Builder.<GenericEggProjectile>create(GenericEggProjectile::new, MISC).build(name)
+				.setRegistryName(MODID, name));
 
-		event.getRegistry()
-				.register(EntityType.Builder.<OperatorEggProjectile2>create(OperatorEggProjectile2::new, MISC)
-						.build(OperatorEggProjectile2.PROJECTILE_NAME)
-						.setRegistryName(MODID, OperatorEggProjectile2.PROJECTILE_NAME));
+		name = OperatorEggProjectile2.NAME.toLowerCase();
+		registry.register(EntityType.Builder.<OperatorEggProjectile2>create(OperatorEggProjectile2::new, MISC)
+				.build(name).setRegistryName(MODID, name));
+
+		name = CompositeProjectileEntity.NAME.toLowerCase();
+		registry.register(EntityType.Builder.<CompositeProjectileEntity>create(CompositeProjectileEntity::new, MISC)
+				.build(name).setRegistryName(MODID, name));
 
 	}
 
