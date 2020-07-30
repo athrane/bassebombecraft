@@ -49,7 +49,7 @@ public class OperatorEggProjectile2 extends ProjectileItemEntity {
 	/**
 	 * Entity identifier.
 	 */
-	public static final String PROJECTILE_NAME = OperatorEggProjectile2.class.getSimpleName();
+	public static final String NAME = OperatorEggProjectile2.class.getSimpleName();
 
 	/**
 	 * Operator.

@@ -14,6 +14,7 @@ import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
 import bassebombecraft.event.charm.CharmedMobEventHandler;
+import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
@@ -80,6 +81,11 @@ public class ModConstants {
 	 * Configuration file name.
 	 */
 	public static final String INTERNAL_TOML_CONFIG_FILE_NAME = MODID + "-common" + CONFIG_FILE_TOML_POSTFIX;
+
+	/**
+	 * Texture path.
+	 */
+	public static final String TEXTURE_PATH = "textures/entity/";
 
 	/**
 	 * Version check URL.
@@ -411,7 +417,8 @@ public class ModConstants {
 	public static final Effect AGGRO_MOB_EFFECT = new AggroMobEffect();
 
 	/**
-	 * Receive mob aggro effect, used by {@linkplain MobsAggroIdolInventoryItem} and {@linkplain ProjectileModifierEventHandler}.
+	 * Receive mob aggro effect, used by {@linkplain MobsAggroIdolInventoryItem} and
+	 * {@linkplain ProjectileModifierEventHandler}.
 	 */
 	public static final Effect RECEIVE_AGGRO_EFFECT = new ReceiveAggroEffect();
 

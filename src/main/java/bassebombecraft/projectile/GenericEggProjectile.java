@@ -44,7 +44,7 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 	/**
 	 * Entity name.
 	 */
-	public static final String PROJECTILE_NAME = GenericEggProjectile.class.getSimpleName();
+	public static final String NAME = GenericEggProjectile.class.getSimpleName();
 
 	/**
 	 * Action, initial null.

@@ -5,6 +5,7 @@ import static bassebombecraft.config.ModConfiguration.eggProjectileItem;
 import bassebombecraft.item.composite.GenericCompositeNullItem;
 import bassebombecraft.operator.NullOp2;
 import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.projectile.ShootCompositieProjectile2;
 import bassebombecraft.operator.projectile.ShootOperatorEggProjectile2;
 
 /**
@@ -26,7 +27,7 @@ public class EggProjectileItem extends GenericCompositeNullItem {
 
 	@Override
 	public Operator2 createOperator() {
-		return new ShootOperatorEggProjectile2(new NullOp2());
+		return new ShootCompositieProjectile2();
 	}
 
 }
