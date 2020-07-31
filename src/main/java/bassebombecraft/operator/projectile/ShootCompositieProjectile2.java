@@ -21,8 +21,10 @@ public class ShootCompositieProjectile2 extends GenericShootProjectile2 {
 	/**
 	 * Projectile force.
 	 */
-	static final float PROJECTILE_FORCE = 15F;
+	//static final float PROJECTILE_FORCE = 15F;
+	static final float PROJECTILE_FORCE = 2F;
 
+	
 	@Override
 	Entity createProjectile(LivingEntity invoker, Vec3d orientation) {
 

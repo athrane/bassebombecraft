@@ -3,10 +3,8 @@ package bassebombecraft.item.composite.projectile;
 import static bassebombecraft.config.ModConfiguration.eggProjectileItem;
 
 import bassebombecraft.item.composite.GenericCompositeNullItem;
-import bassebombecraft.operator.NullOp2;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.projectile.ShootCompositieProjectile2;
-import bassebombecraft.operator.projectile.ShootOperatorEggProjectile2;
 
 /**
  * Egg projectile item.
