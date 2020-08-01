@@ -23,7 +23,9 @@ import net.minecraft.util.math.MathHelper;
  */
 public class CompositeProjectileEntityRenderer extends EntityRenderer<CompositeProjectileEntity> {
 
-	// static final float SCALE = 0.05625F;
+	/**
+	 * Projectile scale.
+	 */
 	static final float SCALE = 0.05F;
 
 	/**
@@ -73,6 +75,21 @@ public class CompositeProjectileEntityRenderer extends EntityRenderer<CompositeP
 		super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
 	}
 
+	/**
+	 * 
+	 * @param matrix4f
+	 * @param matrix3f
+	 * @param vertexBuilder
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param u
+	 * @param v
+	 * @param normalX
+	 * @param normalZ
+	 * @param normalY
+	 * @param lightmapUV
+	 */
 	public void drawTexture(Matrix4f matrix4f, Matrix3f matrix3f, IVertexBuilder vertexBuilder, int x, int y, int z,
 			float u, float v, int normalX, int normalZ, int normalY, int lightmapUV) {
 

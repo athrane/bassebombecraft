@@ -118,6 +118,7 @@ import bassebombecraft.item.composite.projectile.modifier.ExplodeProjectileModif
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.path.RandomProjectilePathItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
@@ -404,6 +405,8 @@ public class ModConfiguration {
 	public static ItemConfig inaccuracyProjectileFormationModifierItem;
 	public static ItemConfig oscillatingRotation180DProjectileFormationModifierItem;
 
+	public static ItemConfig randomProjectilePathItem;
+	
 	public static ItemConfig teleportInvokerProjectileModifierItem;
 	public static ItemConfig teleportMobProjectileModifierItem;
 	public static ItemConfig charmProjectileModifierItem;
@@ -411,7 +414,7 @@ public class ModConfiguration {
 	public static ItemConfig decoyProjectileModifierItem;
 	public static ItemConfig explodeProjectileModifierItem;
 	public static ItemConfig digMobHoleProjectileModifierItem;
-
+	
 	// Actions..
 
 	// ShootBaconBazooka projectile action
@@ -1842,6 +1845,16 @@ public class ModConfiguration {
 				"A fiendish image of the modification of a projectile formation. All projectile paths are oscillating [-90..90] degrees from the casters POV around vertical axis of the caster.",
 				25);
 		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain RandomPathProjectileModifierItem} item.
+		 */
+		name = RandomProjectilePathItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		randomProjectilePathItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. The projectile will follow a random path.",
+				25);
+		COMMON_BUILDER.pop();
 		
 		/**
 		 * Configuration for the {@linkplain TeleportInvokerProjectileModifierItem}
@@ -1905,7 +1918,7 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain BuildSmallHoleProjectileModifierItem} item.
+		 * Configuration for the {@linkplain DigMobHoleProjectileModifierItem} item.
 		 */
 		name = DigMobHoleProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1913,7 +1926,7 @@ public class ModConfiguration {
 				"A mythical image of the modification of a projectile. If a creature is hit then an inconvenient hole is digged beneath the unfortunate individual.",
 				25);
 		COMMON_BUILDER.pop();
-
+		
 	}
 
 	/**

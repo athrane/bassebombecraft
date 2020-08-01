@@ -72,7 +72,8 @@ public class CircleProjectileFormation2 implements Operator2 {
 	 * 
 	 * Instance is configured with living entity #1 as invoker from ports.
 	 * 
-	 * Instance is configured with vectors array #1 as orientation vectors from ports.
+	 * Instance is configured with vectors array #1 as orientation vectors from
+	 * ports.
 	 */
 	public CircleProjectileFormation2() {
 		this(getFnGetLivingEntity1(), getBcSetVectors1());
@@ -83,20 +84,20 @@ public class CircleProjectileFormation2 implements Operator2 {
 		int displacement = 360 / number;
 
 		// get invoker
-		//LivingEntity invoker = fnGetInvoker.apply(ports);
+		// LivingEntity invoker = fnGetInvoker.apply(ports);
 
 		for (int index = 0; index < number; index++) {
 
 			// calculate acceleration
-			double yaw = (index * displacement) * 0.017453292F;
-			Vec3d orientation = INITIAL_VECTOR.rotateYaw((float) yaw);
+			double angleRadians = Math.toRadians(index * displacement);
+			Vec3d orientation = INITIAL_VECTOR.rotateYaw((float) angleRadians);
 
 			vectors[index] = orientation;
 		}
 
 		// store vector array in ports
 		bcSetVectors.accept(ports, vectors);
-		
+
 		return ports;
 	}
 

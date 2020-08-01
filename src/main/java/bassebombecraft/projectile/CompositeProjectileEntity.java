@@ -1,7 +1,14 @@
 package bassebombecraft.projectile;
 
+import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.operator.Operators2.run;
+
+import java.util.Set;
 import java.util.UUID;
 
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.projectile.path.RandomProjectilePath;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IProjectile;
@@ -19,7 +26,9 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 /**
+ * Prototype projectile
  * 
+ * TODO: Add description.
  */
 public class CompositeProjectileEntity extends Entity implements IProjectile {
 
@@ -64,12 +73,17 @@ public class CompositeProjectileEntity extends Entity implements IProjectile {
 
 	@Override
 	public void shoot(double x, double y, double z, float velocity, float inaccuracy) {
+
+		// add noise
+		// TODO: determine should noise be remove?
 		Vec3d vec3d = (new Vec3d(x, y, z)).normalize()
 				.add(this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy,
 						this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy,
 						this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy)
 				.scale(velocity);
 		this.setMotion(vec3d);
+
+		// calculate yaw and pitch for projectile
 		float f = MathHelper.sqrt(horizontalMag(vec3d));
 		this.rotationYaw = (float) (MathHelper.atan2(vec3d.x, vec3d.z) * (double) (180F / (float) Math.PI));
 		this.rotationPitch = (float) (MathHelper.atan2(vec3d.y, f) * (double) (180F / (float) Math.PI));
@@ -81,6 +95,7 @@ public class CompositeProjectileEntity extends Entity implements IProjectile {
 	public void tick() {
 		super.tick();
 
+		// calculate if collision with block or entitys
 		RayTraceResult rayTraceResult = ProjectileHelper.rayTrace(this,
 				this.getBoundingBox().expand(this.getMotion()).grow(1),
 				entity -> !entity.isSpectator() && entity.canBeCollidedWith() && entity != this.invoker,
@@ -89,6 +104,7 @@ public class CompositeProjectileEntity extends Entity implements IProjectile {
 		if (rayTraceResult.getType() != RayTraceResult.Type.MISS) {
 
 			// TOOD: logic on hit entity
+
 			if (rayTraceResult.getType() == RayTraceResult.Type.ENTITY) {
 
 				Entity entityHit = ((EntityRayTraceResult) rayTraceResult).getEntity();
@@ -103,21 +119,71 @@ public class CompositeProjectileEntity extends Entity implements IProjectile {
 
 		}
 
+		// process projectile modifiers
+		processModifiers();
+
+		// Update motion and postion
+		updateMotion();
+	}
+
+	/**
+	 * Process defined projectile modifiers.
+	 */
+	void processModifiers() {
+
+		// get tags
+		Set<String> tags = this.getTags();
+
+		// exit if no tags is defined
+		if (tags.isEmpty())
+			return;
+
+		// handle: teleport invoker
+		if (tags.contains(RandomProjectilePath.NAME))
+			calculateRandomPath();
+
+	}
+
+	/**
+	 * Execute random path operator.
+	 */
+	void calculateRandomPath() {
+
+		Operator2 operator = new RandomProjectilePath();
+
+		// create ports
+		Ports ports = getInstance();
+		ports.setEntity1(this);
+
+		// execute
+		run(ports, operator);
+	}
+
+	/**
+	 * Update motion and position of the projectile.
+	 */
+	void updateMotion() {
 		Vec3d motionVec = this.getMotion();
 		Vec3d positionVec = this.getPositionVec();
 
+		// calculate motion drag
+		// TODO: Add as property
 		float motionScale = this.isInWater() ? getWaterDrag() : getAirDrag();
 
+		// calculate motion and position
 		Vec3d nextMotionVec = motionVec.scale(motionScale);
 		Vec3d nextPositionVec = motionVec.add(positionVec);
 
+		// update motion and position
 		this.setMotion(nextMotionVec.getX(), nextMotionVec.getY() - this.getGravity(), nextMotionVec.getZ());
 		this.setPosition(nextPositionVec.getX(), nextPositionVec.getY(), nextPositionVec.getZ());
 	}
 
 	@Override
 	protected void registerData() {
-		// TODO Auto-generated method stub
+		// NO-OP
+
+		// TODO: investigate this method
 	}
 
 	@Override

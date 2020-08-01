@@ -25,6 +25,9 @@ public class EggProjectileItem extends GenericCompositeNullItem {
 
 	@Override
 	public Operator2 createOperator() {
+		
+		// TODO: Change back to correct projectile
+		
 		return new ShootCompositieProjectile2();
 	}
 

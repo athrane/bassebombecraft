@@ -1,4 +1,4 @@
-package bassebombecraft.operator.projectile.modifier;
+package bassebombecraft.operator.projectile.path;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
@@ -11,28 +11,31 @@ import java.util.function.Function;
 
 import bassebombecraft.entity.EntityDistanceSorter;
 import bassebombecraft.event.job.Job;
-import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.job.ExecuteOperatorAsJob2;
+import bassebombecraft.projectile.CompositeProjectileEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.event.entity.ProjectileImpactEvent;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which adds a tag to a
  * projectile.
  * 
- * The tag is processed by the event handler
- * {@linkplain ProjectileModifierEventHandler} which received
- * {@linkplain ProjectileImpactEvent} and scans for projectile tages and
- * executes the configured operator for a projectile modifier.
+ * The tag is processed within the projectile
+ * {@linkplain CompositeProjectileEntity} which and scans for projectile tages
+ * and executes the configured operator for a projectile modifier.
+ * 
+ * TODO: Write description...
+ * 
+ * @deprecated Prototype to be deleted
  */
-public class RandomPathProjectileModifier implements Operator2 {
+@Deprecated
+public class PROTOTPYEProjectileModifier implements Operator2 {
 
 	/**
 	 * Function to get projectiles.
@@ -44,7 +47,7 @@ public class RandomPathProjectileModifier implements Operator2 {
 	 * 
 	 * @param fnGetProjectiles function to get projectiles.
 	 */
-	public RandomPathProjectileModifier(Function<Ports, Entity[]> fnGetProjectiles) {
+	public PROTOTPYEProjectileModifier(Function<Ports, Entity[]> fnGetProjectiles) {
 		this.fnGetProjectiles = fnGetProjectiles;
 	}
 
@@ -53,7 +56,7 @@ public class RandomPathProjectileModifier implements Operator2 {
 	 * 
 	 * Instance is configured with vector array #1 as orientation vector from ports.
 	 */
-	public RandomPathProjectileModifier() {
+	public PROTOTPYEProjectileModifier() {
 		this(getFnGetEntities1());
 	}
 
@@ -76,9 +79,10 @@ public class RandomPathProjectileModifier implements Operator2 {
 			// get closest mob
 			LivingEntity target = findTargetMob(projectile);
 			getBassebombeCraft().getLogger().debug("target=" + target);
-			
+
 			// skip job creation if no targets
-			if (target == null) continue;
+			if (target == null)
+				continue;
 
 			// create job id
 			String id = new StringBuilder().append(projectile.hashCode()).toString();
@@ -87,7 +91,7 @@ public class RandomPathProjectileModifier implements Operator2 {
 			Ports jobPorts = getInstance();
 			jobPorts.setEntity1(projectile);
 			jobPorts.setLivingEntity1(target);
-			
+
 			jobPorts.setString1(id);
 
 			// create job
@@ -154,7 +158,7 @@ public class RandomPathProjectileModifier implements Operator2 {
 			}
 
 			// get target
-			LivingEntity target = ports.getLivingEntity1();			
+			LivingEntity target = ports.getLivingEntity1();
 			getBassebombeCraft().getLogger().debug("target=" + target);
 
 			// calculate vector to target
@@ -163,7 +167,8 @@ public class RandomPathProjectileModifier implements Operator2 {
 			Vec3d normalizedProjectileMotionVector = projectileMotionVector.normalize();
 			getBassebombeCraft().getLogger().debug("projectile position=" + projectilePosition);
 			getBassebombeCraft().getLogger().debug("projectile motion vector=" + projectileMotionVector);
-			getBassebombeCraft().getLogger().debug("normalized projectile motion vector=" + normalizedProjectileMotionVector);
+			getBassebombeCraft().getLogger()
+					.debug("normalized projectile motion vector=" + normalizedProjectileMotionVector);
 
 			// calculate direction (to - from)
 			Vec3d targetPosition = target.getPositionVector();
@@ -180,30 +185,30 @@ public class RandomPathProjectileModifier implements Operator2 {
 			double angleRadians = Math.acos(dotValue);
 			double angle = Math.toDegrees(angleRadians);
 			getBassebombeCraft().getLogger().debug("angle=" + angle);
-			
-			float f1 = MathHelper.sqrt(Entity.horizontalMag(projectileMotionVector));			
-	        float rotationYaw = (float)(MathHelper.atan2(projectileMotionVector.x, projectileMotionVector.z) * (double)(180F / (float)Math.PI));
-	        float rotationPitch = (float)(MathHelper.atan2(projectileMotionVector.y, f1) * (double)(180F / (float)Math.PI));
-			getBassebombeCraft().getLogger().debug("rotationYaw =" + rotationYaw );
-			getBassebombeCraft().getLogger().debug("rotationPitch =" + rotationPitch );
-			
+
+			float f1 = MathHelper.sqrt(Entity.horizontalMag(projectileMotionVector));
+			float rotationYaw = (float) (MathHelper.atan2(projectileMotionVector.x, projectileMotionVector.z)
+					* (double) (180F / (float) Math.PI));
+			float rotationPitch = (float) (MathHelper.atan2(projectileMotionVector.y, f1)
+					* (double) (180F / (float) Math.PI));
+			getBassebombeCraft().getLogger().debug("rotationYaw =" + rotationYaw);
+			getBassebombeCraft().getLogger().debug("rotationPitch =" + rotationPitch);
+
 			// rotate motion vector
 			Vec3d rotatedMotionVector = projectileMotionVector.rotateYaw((float) -angle);
 			getBassebombeCraft().getLogger().debug("rotatedMotionVector=" + rotatedMotionVector);
 
-			
-	        Vec3d newMotionVector = projectileMotionVector.scale(0.5F);
-	        Vec3d newPositionVector = projectileMotionVector.add(projectilePosition);
-	        getBassebombeCraft().getLogger().debug("newMotionVector=" + newMotionVector);
-	        getBassebombeCraft().getLogger().debug("newPositionVector=" + newPositionVector);
+			Vec3d newMotionVector = projectileMotionVector.scale(0.5F);
+			Vec3d newPositionVector = projectileMotionVector.add(projectilePosition);
+			getBassebombeCraft().getLogger().debug("newMotionVector=" + newMotionVector);
+			getBassebombeCraft().getLogger().debug("newPositionVector=" + newPositionVector);
 
-	        		
-			//projectile.setMotion(rotatedMotionVector);
-			//projectile.setMotion(normalizedDirectionVector.scale(0.25F));
+			// projectile.setMotion(rotatedMotionVector);
+			// projectile.setMotion(normalizedDirectionVector.scale(0.25F));
 
-	        projectile.setMotion(newMotionVector);
-	        projectile.setPosition(newPositionVector.getX(), newPositionVector.getY(), newPositionVector.getZ());									
-			
+			projectile.setMotion(newMotionVector);
+			projectile.setPosition(newPositionVector.getX(), newPositionVector.getY(), newPositionVector.getZ());
+
 			// projectileMotion
 			// http://www.theappguruz.com/blog/create-homing-missiles-in-game-unity-tutorial
 			// https://github.com/Brackeys/Homing-Missile/issues/1
