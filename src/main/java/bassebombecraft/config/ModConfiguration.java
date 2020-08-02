@@ -1977,7 +1977,6 @@ public class ModConfiguration {
 		 */
 		String name = GenericProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-
 		genericProjectileEntityProjectileDuration = COMMON_BUILDER.comment("Duration of projectiles in game ticks.")
 				.defineInRange("duration", 125, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();

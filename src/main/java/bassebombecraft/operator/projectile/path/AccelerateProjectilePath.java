@@ -30,12 +30,7 @@ public class AccelerateProjectilePath implements Operator2 {
 	 * Function to get proectile entity.
 	 */
 	Function<Ports, Entity> fnGetProjectile;
-	
-	/**
-	 * Acceleration.
-	 */
-	Double acceleration;
-	
+		
 	/**
 	 * Constructor.
 	 * 
@@ -43,7 +38,6 @@ public class AccelerateProjectilePath implements Operator2 {
 	 */
 	public AccelerateProjectilePath(Function<Ports, Entity> fnGetProjectile) {
 		this.fnGetProjectile = fnGetProjectile;
-		acceleration = accelerateProjectilePathAcceleration.get();
 	}
 
 	/**
@@ -72,7 +66,7 @@ public class AccelerateProjectilePath implements Operator2 {
 		double length = motionVector.length();
 
 		// calculate target motion
-		double targetLength = length * acceleration;
+		double targetLength = length * accelerateProjectilePathAcceleration.get();
 		Vec3d newMotionVector = motionVector.normalize().scale(targetLength);
 
 		// update motion

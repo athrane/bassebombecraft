@@ -1,6 +1,7 @@
 package bassebombecraft.projectile;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.config.ModConfiguration.genericProjectileEntityProjectileDuration;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.world.WorldUtils.isLogicalServer;
@@ -9,7 +10,6 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-import static bassebombecraft.config.ModConfiguration.*;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
@@ -84,7 +84,7 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 	public GenericProjectileEntity(EntityType<?> type, World world) {
 		super(type, world);
 		duration = genericProjectileEntityProjectileDuration.get();
-		initialiseDuration();		
+		initialiseDuration();
 	}
 
 	/**

@@ -11,13 +11,13 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
 import bassebombecraft.operator.projectile.path.RandomProjectilePath;
-import bassebombecraft.projectile.CompositeProjectileEntity;
+import bassebombecraft.projectile.GenericProjectileEntity;
 import net.minecraft.entity.Entity;
 
 /**
  * Random projectile path item.
  * 
- * The tagged projectile is processed in {@linkplain CompositeProjectileEntity}
+ * The tagged projectile is processed in {@linkplain GenericProjectileEntity}
  * where the {@linkplain RandomProjectilePath} operator is executed.
  */
 public class RandomProjectilePathItem extends GenericCompositeNullItem {
