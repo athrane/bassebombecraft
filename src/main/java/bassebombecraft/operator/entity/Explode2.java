@@ -5,7 +5,7 @@ import static net.minecraft.world.Explosion.Mode.DESTROY;
 
 import java.util.function.Function;
 
-import bassebombecraft.config.ModConfiguration;
+import static bassebombecraft.config.ModConfiguration.*;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
@@ -41,13 +41,13 @@ public class Explode2 implements Operator2 {
 	 */
 	public Explode2(Function<Ports, Entity> fnGetTarget) {
 		this.fnGetTarget = fnGetTarget;
-		minExplosionRadius = ModConfiguration.explodeMinExplosionRadius.get();
+		minExplosionRadius = explodeMinExplosionRadius.get();
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * Instance is configured with living entity #1 as target from ports.
+	 * Instance is configured with entity #1 as target from ports.
 	 */
 	public Explode2() {
 		this(getFnGetEntity1());

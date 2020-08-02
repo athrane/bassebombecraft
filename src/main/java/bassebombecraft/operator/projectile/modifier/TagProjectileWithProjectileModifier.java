@@ -61,14 +61,10 @@ public class TagProjectileWithProjectileModifier implements Operator2 {
 
 		// get tag
 		String tag = fnGetTag.apply(ports);
-		
-		// exit if tag is undefined
 		if(tag == null || tag.isEmpty())return ports;
 		
 		// get projectiles
 		Entity[] projectiles = fnGetProjectiles.apply(ports);
-
-		// exit if projectiles are undefined
 		if(projectiles == null || projectiles.length == 0)return ports;
 		
 		// tag projectiles		

@@ -118,6 +118,7 @@ import bassebombecraft.item.composite.projectile.modifier.ExplodeProjectileModif
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.RandomProjectilePathItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
@@ -154,6 +155,7 @@ import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
+import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.potion.effect.AggroMobEffect;
 import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
@@ -406,6 +408,7 @@ public class ModConfiguration {
 	public static ItemConfig oscillatingRotation180DProjectileFormationModifierItem;
 
 	public static ItemConfig randomProjectilePathItem;
+	public static ItemConfig accelerateProjectilePathItem;
 	
 	public static ItemConfig teleportInvokerProjectileModifierItem;
 	public static ItemConfig teleportMobProjectileModifierItem;
@@ -593,6 +596,11 @@ public class ModConfiguration {
 	 */
 	public static ForgeConfigSpec.DoubleValue explodeMinExplosionRadius;
 
+	/**
+	 * Properties for {@linkplain AccelerateProjectilePath} operator.
+	 */
+	public static ForgeConfigSpec.DoubleValue accelerateProjectilePathAcceleration;
+	
 	static {
 
 		// build general section
@@ -1269,6 +1277,15 @@ public class ModConfiguration {
 				.defineInRange("minimumExplosionRadius", 2.0D, 0, 100);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the {@linkplain AccelerateProjectilePath} operator.
+		 */
+		name = AccelerateProjectilePath.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		accelerateProjectilePathAcceleration = COMMON_BUILDER.comment("Acceleration increase per game turn.")
+				.defineInRange("acceleration", 1.3D, 0, 10);
+		COMMON_BUILDER.pop();
+		
 	}
 
 	/**
@@ -1836,7 +1853,7 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain rotation180ProjectileFormationModifierItem}
+		 * Configuration for the {@linkplain OscillatingRotation180DProjectileFormationModifierItem}
 		 * item.
 		 */
 		name = OscillatingRotation180DProjectileFormationModifierItem.NAME;
@@ -1853,6 +1870,16 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		randomProjectilePathItem = getInstance(COMMON_BUILDER, name,
 				"A mythical image of the modification of a projectile. The projectile will follow a random path.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain AccelerateProjectilePathItem} item.
+		 */
+		name = AccelerateProjectilePathItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		accelerateProjectilePathItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. The projectile continue to accelerate along its path.",
 				25);
 		COMMON_BUILDER.pop();
 		

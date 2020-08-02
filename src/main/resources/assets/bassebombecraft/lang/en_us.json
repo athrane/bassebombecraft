@@ -147,6 +147,7 @@
     "item.bassebombecraft.oscillatingrotation180dprojectileformationmodifieritem": "Formation Modifier: Oscillation 180",
 
     "item.bassebombecraft.randomprojectilepathitem": "Projectile Path: Random",                            
+    "item.bassebombecraft.accelerateprojectilepathitem": "Projectile Path: Accelerate",                            
     
     "item.bassebombecraft.teleportinvokerprojectilemodifieritem": "Projectile Modifier: Teleport Player",        
     "item.bassebombecraft.teleportmobprojectilemodifieritem": "Projectile Modifier: Teleport Mob",            

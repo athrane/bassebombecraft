@@ -87,6 +87,7 @@ import bassebombecraft.item.composite.projectile.modifier.ExplodeProjectileModif
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.RandomProjectilePathItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
@@ -187,7 +188,7 @@ public class ItemRegistryEventHandler {
 			new OscillatingRotation180DProjectileFormationModifierItem(), new TeleportInvokerProjectileModifierItem(),
 			new TeleportMobProjectileModifierItem(), new CharmProjectileModifierItem(),
 			new MeteorProjectileModifierItem(), new DecoyProjectileModifierItem(), new ExplodeProjectileModifierItem(),
-			new DigMobHoleProjectileModifierItem(), new RandomProjectilePathItem() };
+			new DigMobHoleProjectileModifierItem(), new RandomProjectilePathItem(), new AccelerateProjectilePathItem() };
 
 	/**
 	 * Handle {@linkplain RegistryEvent.Register<Item>} event to register items with

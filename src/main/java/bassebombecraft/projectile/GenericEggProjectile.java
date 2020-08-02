@@ -23,7 +23,10 @@ import net.minecraft.world.World;
 
 /**
  * Projectile which executes operator on impact.
+ * 
+ * @deprecated Replace with {@linkplain GenericProjectileEntity}.
  */
+@Deprecated
 public class GenericEggProjectile extends ProjectileItemEntity {
 
 	/**
