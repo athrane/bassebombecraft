@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import static bassebombecraft.config.ModConfiguration.*;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
@@ -52,10 +53,8 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 
 	/**
 	 * Projectile duration.
-	 * 
-	 * TODO: add to configuration.
 	 */
-	static final int DURATION = 100;
+	int duration;
 
 	/**
 	 * Invoker UUID.
@@ -84,7 +83,8 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 	 */
 	public GenericProjectileEntity(EntityType<?> type, World world) {
 		super(type, world);
-		initialiseDuration();
+		duration = genericProjectileEntityProjectileDuration.get();
+		initialiseDuration();		
 	}
 
 	/**
@@ -139,8 +139,7 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 			repository = getProxy().getClientDurationRepository();
 
 		// add duration
-		repository.add(getUniqueID().toString(), DURATION, cRemovalCallback);
-
+		repository.add(getUniqueID().toString(), duration, cRemovalCallback);
 	}
 
 	@Override

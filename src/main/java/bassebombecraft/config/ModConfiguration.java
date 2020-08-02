@@ -109,8 +109,8 @@ import bassebombecraft.item.composite.projectile.formation.RandomSingleProjectil
 import bassebombecraft.item.composite.projectile.formation.SingleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.modifier.InaccuracyProjectileFormationModifierItem;
-import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.formation.modifier.OscillatingRotation180DProjectileFormationModifierItem;
+import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
@@ -161,6 +161,7 @@ import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.ReceiveAggroEffect;
+import bassebombecraft.projectile.GenericProjectileEntity;
 import bassebombecraft.projectile.action.DigMobHole;
 import bassebombecraft.projectile.action.SpawnCreeperArmy;
 import bassebombecraft.projectile.action.SpawnKittenArmy;
@@ -185,6 +186,11 @@ public class ModConfiguration {
 	 */
 	public static ForgeConfigSpec COMMON_CONFIG;
 
+	/**
+	 * Disable mod welcome message.
+	 */
+	public static ForgeConfigSpec.BooleanValue enableWelcomeMessage;
+
 	// Repositories..
 
 	/**
@@ -201,11 +207,6 @@ public class ModConfiguration {
 	 * {@linkplain CharmedMobEventHandler}.
 	 */
 	public static ParticlesConfig charmedMobParticles;
-
-	/**
-	 * Disable mod welcome message.
-	 */
-	public static ForgeConfigSpec.BooleanValue enableWelcomeMessage;
 
 	// Basic item properties
 	public static ForgeConfigSpec.IntValue basicItemDefaultCooldown;
@@ -409,7 +410,7 @@ public class ModConfiguration {
 
 	public static ItemConfig randomProjectilePathItem;
 	public static ItemConfig accelerateProjectilePathItem;
-	
+
 	public static ItemConfig teleportInvokerProjectileModifierItem;
 	public static ItemConfig teleportMobProjectileModifierItem;
 	public static ItemConfig charmProjectileModifierItem;
@@ -417,7 +418,7 @@ public class ModConfiguration {
 	public static ItemConfig decoyProjectileModifierItem;
 	public static ItemConfig explodeProjectileModifierItem;
 	public static ItemConfig digMobHoleProjectileModifierItem;
-	
+
 	// Actions..
 
 	// ShootBaconBazooka projectile action
@@ -600,7 +601,14 @@ public class ModConfiguration {
 	 * Properties for {@linkplain AccelerateProjectilePath} operator.
 	 */
 	public static ForgeConfigSpec.DoubleValue accelerateProjectilePathAcceleration;
-	
+
+	// Entities..
+
+	/**
+	 * Properties for {@linkplain GenericProjectileEntity} operator.
+	 */
+	public static ForgeConfigSpec.IntValue genericProjectileEntityProjectileDuration;
+
 	static {
 
 		// build general section
@@ -643,6 +651,10 @@ public class ModConfiguration {
 
 		COMMON_BUILDER.comment("Composite item settings").push("CompositeItems");
 		setupCompositeItemsConfig();
+		COMMON_BUILDER.pop();
+
+		COMMON_BUILDER.comment("Entity settings").push("Entities");
+		setupEntitiesConfig();
 		COMMON_BUILDER.pop();
 
 		// do build
@@ -1285,7 +1297,7 @@ public class ModConfiguration {
 		accelerateProjectilePathAcceleration = COMMON_BUILDER.comment("Acceleration increase per game turn.")
 				.defineInRange("acceleration", 1.3D, 0, 10);
 		COMMON_BUILDER.pop();
-		
+
 	}
 
 	/**
@@ -1853,8 +1865,8 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain OscillatingRotation180DProjectileFormationModifierItem}
-		 * item.
+		 * Configuration for the
+		 * {@linkplain OscillatingRotation180DProjectileFormationModifierItem} item.
 		 */
 		name = OscillatingRotation180DProjectileFormationModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1869,8 +1881,7 @@ public class ModConfiguration {
 		name = RandomProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		randomProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. The projectile will follow a random path.",
-				25);
+				"A mythical image of the modification of a projectile. The projectile will follow a random path.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -1882,7 +1893,7 @@ public class ModConfiguration {
 				"A mythical image of the modification of a projectile. The projectile continue to accelerate along its path.",
 				25);
 		COMMON_BUILDER.pop();
-		
+
 		/**
 		 * Configuration for the {@linkplain TeleportInvokerProjectileModifierItem}
 		 * item.
@@ -1953,7 +1964,23 @@ public class ModConfiguration {
 				"A mythical image of the modification of a projectile. If a creature is hit then an inconvenient hole is digged beneath the unfortunate individual.",
 				25);
 		COMMON_BUILDER.pop();
-		
+
+	}
+
+	/**
+	 * Define configuration for entities.
+	 */
+	static void setupEntitiesConfig() {
+
+		/**
+		 * Configuration for the {@linkplain GenericProjectileEntity} entity.
+		 */
+		String name = GenericProjectileEntity.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+
+		genericProjectileEntityProjectileDuration = COMMON_BUILDER.comment("Duration of projectiles in game ticks.")
+				.defineInRange("duration", 125, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
 	}
 
 	/**
