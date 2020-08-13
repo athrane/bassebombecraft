@@ -89,6 +89,8 @@ import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProject
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.RandomProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.SineProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.ZigZagProjectilePathItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
@@ -182,13 +184,14 @@ public class ItemRegistryEventHandler {
 	static Item[] compositeItems = { new CompositeMagic(), new SingleProjectileFormationItem(),
 			new RandomSingleProjectileFormationItem(), new CircleProjectileFormationItem(),
 			new TrifurcatedProjectileFormationItem(), new FrontAndBackProjectileFormationItem(),
-			new FireballProjectileItem(), new LargeFireballProjectileItem(), new ArrowProjectileItem(),
-			new WitherSkullProjectileItem(), new EggProjectileItem(), new RandomProjectileFormationModifierItem(),
-			new InaccuracyProjectileFormationModifierItem(),
-			new OscillatingRotation180DProjectileFormationModifierItem(), new TeleportInvokerProjectileModifierItem(),
+			new RandomProjectileFormationModifierItem(), new InaccuracyProjectileFormationModifierItem(),
+			new OscillatingRotation180DProjectileFormationModifierItem(), new FireballProjectileItem(),
+			new LargeFireballProjectileItem(), new ArrowProjectileItem(), new WitherSkullProjectileItem(),
+			new EggProjectileItem(), new RandomProjectilePathItem(), new AccelerateProjectilePathItem(),
+			new ZigZagProjectilePathItem(), new SineProjectilePathItem(), new TeleportInvokerProjectileModifierItem(),
 			new TeleportMobProjectileModifierItem(), new CharmProjectileModifierItem(),
 			new MeteorProjectileModifierItem(), new DecoyProjectileModifierItem(), new ExplodeProjectileModifierItem(),
-			new DigMobHoleProjectileModifierItem(), new RandomProjectilePathItem(), new AccelerateProjectilePathItem() };
+			new DigMobHoleProjectileModifierItem() };
 
 	/**
 	 * Handle {@linkplain RegistryEvent.Register<Item>} event to register items with

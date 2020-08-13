@@ -10,11 +10,14 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.RandomProjectilePath;
+import bassebombecraft.operator.projectile.path.SineProjectilePath;
+import bassebombecraft.operator.projectile.path.ZigZagProjectilePath;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IProjectile;
@@ -52,6 +55,16 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 	static final Operator2 ACCELERATE_PATH_OPERATOR = new AccelerateProjectilePath();
 
 	/**
+	 * Zig Zag projectile path operator.
+	 */
+	static final Operator2 ZIGZAG_PATH_OPERATOR = new ZigZagProjectilePath();
+
+	/**
+	 * Sine projectile path operator.
+	 */
+	static final Operator2 SINE_PATH_OPERATOR = new SineProjectilePath();
+	
+	/**
 	 * Projectile duration.
 	 */
 	int duration;
@@ -76,6 +89,13 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 	Consumer<String> cRemovalCallback = id -> remove();
 
 	/**
+	 * Projectile moddifier ports.
+	 * 
+	 * The ports is defined as a field to reuse it across update ticks.
+	 */
+	Ports projectileModifierPorts;
+
+	/**
 	 * Constructor
 	 * 
 	 * @param type  entity type.
@@ -84,6 +104,7 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 	public GenericProjectileEntity(EntityType<?> type, World world) {
 		super(type, world);
 		duration = genericProjectileEntityProjectileDuration.get();
+		projectileModifierPorts = getInstance();
 		initialiseDuration();
 	}
 
@@ -146,8 +167,6 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 	public void tick() {
 		super.tick();
 
-		// update life
-
 		// calculate if collision with block or entitys
 		RayTraceResult rayTraceResult = ProjectileHelper.rayTrace(this,
 				this.getBoundingBox().expand(this.getMotion()).grow(1),
@@ -179,6 +198,9 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 		updateMotion();
 
 		// TODO: Add particles..
+
+		// update ports counter
+		projectileModifierPorts.incrementCounter();
 	}
 
 	/**
@@ -193,41 +215,58 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 		if (tags.isEmpty())
 			return;
 
-		// handle: teleport invoker
+		// handle: random path
 		if (tags.contains(RandomProjectilePath.NAME))
 			calculateRandomPath();
 
-		// handle: teleport invoker
+		// handle: accelerate
 		if (tags.contains(AccelerateProjectilePath.NAME))
 			calculateAccelerationPath();
+
+		// handle: zig zag
+		if (tags.contains(ZigZagProjectilePath.NAME))
+			calculateZigZagPath();
+		
+		// handle: sine 
+		if (tags.contains(SineProjectilePath.NAME))
+			calculateSinePath();
+		
 	}
 
 	/**
-	 * Execute random path operator.
+	 * Execute random path modifier operator.
 	 */
 	void calculateRandomPath() {
-
-		// create ports
-		Ports ports = getInstance();
-		ports.setEntity1(this);
-
-		// execute
-		run(ports, RANDOM_PATH_OPERATOR);
+		projectileModifierPorts.setEntity1(this);
+		run(projectileModifierPorts, RANDOM_PATH_OPERATOR);
 	}
 
 	/**
-	 * Execute acceleration path operator.
+	 * Execute acceleration path modifier operator.
 	 */
 	void calculateAccelerationPath() {
-
-		// create ports
-		Ports ports = getInstance();
-		ports.setEntity1(this);
-
-		// execute
-		run(ports, ACCELERATE_PATH_OPERATOR);
+		projectileModifierPorts.setEntity1(this);
+		run(projectileModifierPorts, ACCELERATE_PATH_OPERATOR);
 	}
 
+	/**
+	 * Execute zig zag path modifier operator.
+	 */
+	void calculateZigZagPath() {
+		projectileModifierPorts.setEntity1(this);
+		run(projectileModifierPorts, ZIGZAG_PATH_OPERATOR);
+	}
+
+	/**
+	 * Execute sine path modifier operator.
+	 */
+	void calculateSinePath() {
+		BassebombeCraft.getBassebombeCraft().getLogger().debug("calculateSinePath");
+
+		projectileModifierPorts.setEntity1(this);
+		run(projectileModifierPorts, SINE_PATH_OPERATOR);
+	}
+	
 	/**
 	 * Update motion and position of the projectile.
 	 */

@@ -120,6 +120,8 @@ import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProject
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.RandomProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.SineProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.ZigZagProjectilePathItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
@@ -410,6 +412,8 @@ public class ModConfiguration {
 
 	public static ItemConfig randomProjectilePathItem;
 	public static ItemConfig accelerateProjectilePathItem;
+	public static ItemConfig zigZagProjectilePathItem;
+	public static ItemConfig sineProjectilePathItem;
 
 	public static ItemConfig teleportInvokerProjectileModifierItem;
 	public static ItemConfig teleportMobProjectileModifierItem;
@@ -1882,6 +1886,24 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		randomProjectilePathItem = getInstance(COMMON_BUILDER, name,
 				"A mythical image of the modification of a projectile. The projectile will follow a random path.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain ZigZagProjectilePathItem} item.
+		 */
+		name = ZigZagProjectilePathItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		zigZagProjectilePathItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. The projectile will follow a zig zag path.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain SineProjectilePathItem} item.
+		 */
+		name = SineProjectilePathItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		sineProjectilePathItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. The projectile will follow a sine wave path.", 25);
 		COMMON_BUILDER.pop();
 
 		/**

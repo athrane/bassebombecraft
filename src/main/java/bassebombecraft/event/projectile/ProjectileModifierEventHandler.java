@@ -222,12 +222,9 @@ public class ProjectileModifierEventHandler {
 		if (!optInvoker.isPresent())
 			return;
 
-		// create ports
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
 		ports.setLivingEntity1(optInvoker.get());
-
-		// execute
 		run(ports, TELEPORT_INVOKER_OPERATOR);
 	}
 
@@ -237,12 +234,8 @@ public class ProjectileModifierEventHandler {
 	 * @param event projectile impact event.
 	 */
 	static void teleportMob(ProjectileImpactEvent event) {
-
-		// create ports
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-
-		// execute
 		run(ports, TELEPORT_MOB_OPERATOR);
 	}
 
@@ -258,12 +251,9 @@ public class ProjectileModifierEventHandler {
 		if (!optInvoker.isPresent())
 			return;
 
-		// create ports
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
 		ports.setLivingEntity1(optInvoker.get());
-
-		// execute
 		run(ports, CHARM_OPERATOR);
 	}
 
@@ -279,12 +269,9 @@ public class ProjectileModifierEventHandler {
 		if (!optInvoker.isPresent())
 			return;
 
-		// create ports
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
 		ports.setLivingEntity1(optInvoker.get());
-
-		// execute
 		run(ports, METEOR_OPERATOR);
 	}
 
@@ -300,12 +287,9 @@ public class ProjectileModifierEventHandler {
 		if (!optInvoker.isPresent())
 			return;
 
-		// create ports
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
 		ports.setLivingEntity1(optInvoker.get());
-
-		// execute
 		run(ports, DECOY_OPERATOR);
 	}
 
@@ -315,13 +299,9 @@ public class ProjectileModifierEventHandler {
 	 * @param event projectile impact event.
 	 */
 	static void digMobHole(ProjectileImpactEvent event) {
-
-		// create ports
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
 		ports.setWorld(event.getEntity().getEntityWorld());
-
-		// execute
 		run(ports, DIGMOBHOLE_OPERATOR);
 	}
 			
@@ -331,12 +311,8 @@ public class ProjectileModifierEventHandler {
 	 * @param event living death event.
 	 */
 	static void explode(LivingDeathEvent event) {
-
-		// create ports
 		Ports ports = getInstance();
 		ports.setEntity1(event.getEntity());
-
-		// execute
 		run(ports, EXPLODE_OPERATOR);
 	}
 
