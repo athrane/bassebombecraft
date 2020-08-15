@@ -23,7 +23,7 @@ import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.book.BuildMineBook;
-import bassebombecraft.item.composite.CompositeMagic;
+import bassebombecraft.item.composite.CompositeMagicItem;
 import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
 import bassebombecraft.potion.effect.AggroMobEffect;
@@ -501,7 +501,7 @@ public class ModConstants {
 			1.0D, 0.0D, 1.0D)).setShouldWatch(true);
 
 	/**
-	 * Maximum size composite magic. Used in {@linkplain CompositeMagic}.
+	 * Maximum size composite magic. Used in {@linkplain CompositeMagicItem}.
 	 */
 	public static final int COMPOSITE_MAX_SIZE = 5;
 

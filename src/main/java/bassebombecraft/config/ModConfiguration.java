@@ -97,7 +97,7 @@ import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
-import bassebombecraft.item.composite.CompositeMagic;
+import bassebombecraft.item.composite.CompositeMagicItem;
 import bassebombecraft.item.composite.projectile.ArrowProjectileItem;
 import bassebombecraft.item.composite.projectile.EggProjectileItem;
 import bassebombecraft.item.composite.projectile.FireballProjectileItem;
@@ -393,7 +393,7 @@ public class ModConfiguration {
 
 	// Composite magic items..
 
-	public static ItemConfig compositeMagic;
+	public static ItemConfig compositeMagicItem;
 	public static ItemConfig singleProjectileFormationItem;
 	public static ItemConfig randomSingleProjectileFormationItem;
 	public static ItemConfig circleProjectileFormationItem;
@@ -1743,12 +1743,12 @@ public class ModConfiguration {
 	static void setupCompositeItemsConfig() {
 
 		/**
-		 * Configuration for the {@linkplain CompositeMagic} item.
+		 * Configuration for the {@linkplain CompositeMagicItem} item.
 		 */
-		String name = CompositeMagic.NAME;
+		String name = CompositeMagicItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		compositeMagic = getInstance(COMMON_BUILDER, name,
-				"Equip item (fx in the off hand slot). Right-click to activate configured magic. Configure magic but placing composite magic items in the inventory or hotbar. The first connected sequence of items in the one used by the item.",
+		compositeMagicItem = getInstance(COMMON_BUILDER, name,
+				"Equip item (e.g. in the off hand slot). Right-click to activate configured magic. Configure magic but placing composite magic items in the inventory or the hotbar. The first connected sequence of items is used by the item. Add or remove items to reconfigure the magic.",
 				25);
 		COMMON_BUILDER.pop();
 

@@ -66,7 +66,7 @@ import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.book.WitherMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
-import bassebombecraft.item.composite.CompositeMagic;
+import bassebombecraft.item.composite.CompositeMagicItem;
 import bassebombecraft.item.composite.projectile.ArrowProjectileItem;
 import bassebombecraft.item.composite.projectile.EggProjectileItem;
 import bassebombecraft.item.composite.projectile.FireballProjectileItem;
@@ -181,7 +181,7 @@ public class ItemRegistryEventHandler {
 	/**
 	 * The set of composite items.
 	 */
-	static Item[] compositeItems = { new CompositeMagic(), new SingleProjectileFormationItem(),
+	static Item[] compositeItems = { new CompositeMagicItem(), new SingleProjectileFormationItem(),
 			new RandomSingleProjectileFormationItem(), new CircleProjectileFormationItem(),
 			new TrifurcatedProjectileFormationItem(), new FrontAndBackProjectileFormationItem(),
 			new RandomProjectileFormationModifierItem(), new InaccuracyProjectileFormationModifierItem(),
