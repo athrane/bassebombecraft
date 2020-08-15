@@ -130,6 +130,13 @@ public class ProjectileUtils {
 			return Optional.of(throwableProjectile.getThrower());
 		}
 
+		// resolve invoker from GenericProjectileEntity
+		Entity projectile = event.getEntity();
+		if(projectile instanceof GenericProjectileEntity) {			
+			GenericProjectileEntity genericProjectile = (GenericProjectileEntity) projectile;
+			return Optional.of(genericProjectile.getThrower());
+		}
+				
 		// return unhandled case
 		return Optional.empty();
 	}

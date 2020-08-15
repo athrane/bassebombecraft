@@ -4,11 +4,15 @@ import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.config.ModConfiguration.genericProjectileEntityProjectileDuration;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
+import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static bassebombecraft.world.WorldUtils.isLogicalServer;
+import static net.minecraft.entity.projectile.ProjectileHelper.rayTrace;
+import static net.minecraftforge.event.ForgeEventFactory.onProjectileImpact;
 
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.duration.DurationRepository;
@@ -22,9 +26,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ProjectileHelper;
+import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
@@ -63,7 +70,7 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 	 * Sine projectile path operator.
 	 */
 	static final Operator2 SINE_PATH_OPERATOR = new SineProjectilePath();
-	
+
 	/**
 	 * Projectile duration.
 	 */
@@ -167,35 +174,18 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 	public void tick() {
 		super.tick();
 
-		// calculate if collision with block or entitys
-		RayTraceResult rayTraceResult = ProjectileHelper.rayTrace(this,
-				this.getBoundingBox().expand(this.getMotion()).grow(1),
-				entity -> !entity.isSpectator() && entity.canBeCollidedWith() && entity != this.invoker,
-				RayTraceContext.BlockMode.COLLIDER, true);
+		// calculate collision with block or entity
+		RayTraceResult result = calculateCollision();
 
-		if (rayTraceResult.getType() != RayTraceResult.Type.MISS) {
-
-			// TOOD: logic on hit entity
-
-			if (rayTraceResult.getType() == RayTraceResult.Type.ENTITY) {
-
-				Entity entityHit = ((EntityRayTraceResult) rayTraceResult).getEntity();
-
-				if (entityHit.getUniqueID().equals(this.invokerUUID))
-					return;
-
-				// TODO: add damage xxxx.damageCollection().causeDamage(this, entityHit);
-			}
-			if (!this.world.isRemote())
-				this.remove();
-
-		}
+		// if hit then process collision
+		if (result.getType() != RayTraceResult.Type.MISS)
+			onImpact(result);
 
 		// process projectile modifiers
-		processModifiers();
+		processCompositeModifiers();
 
-		// Update motion and postion
-		updateMotion();
+		// Update motion and position
+		updateMotionAndPosition();
 
 		// TODO: Add particles..
 
@@ -204,9 +194,72 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 	}
 
 	/**
-	 * Process defined projectile modifiers.
+	 * Process project collision.
+	 * 
+	 * @param result ray trace result with collision information.
 	 */
-	void processModifiers() {
+	void onImpact(RayTraceResult result) {
+
+		// exit if on client side
+		if (isLogicalClient(getEntityWorld()))
+			return;
+
+		// post forge impact event
+		boolean isCancelled = onProjectileImpact(this, result);
+
+		// exit if event was cancelled
+		if (isCancelled)
+			return;
+
+		// process hit entity
+		if (result.getType() == RayTraceResult.Type.ENTITY) {
+
+			// get hit entity
+			Entity entity = ((EntityRayTraceResult) result).getEntity();
+
+			// TODO: should invoker be immune to projectile hits?
+			if (entity.getUniqueID().equals(this.invokerUUID))
+				return;
+
+			// TODO: add damage xxxx.damageCollection().causeDamage(this, entityHit);
+		}
+
+		// process hit block
+		if (result.getType() == RayTraceResult.Type.BLOCK) {
+
+			// get hit block
+			BlockPos pos = ((BlockRayTraceResult) result).getPos();
+		}
+
+		// TODO: this must be made condition to support drilling projectiles
+		// remove particle from server world
+		this.remove();
+	}
+
+	/**
+	 * Calculate collision.
+	 * 
+	 * Implementation inspired by the tick() method in {@linkplain ThrowableEntity}.
+	 * 
+	 * @return ray trace result with block or entity collision.
+	 */
+	RayTraceResult calculateCollision() {
+
+		// get AABB for collision
+		AxisAlignedBB aabb = this.getBoundingBox().expand(this.getMotion()).grow(1);
+
+		// define filter
+		Predicate<Entity> filter = entity -> !entity.isSpectator() && entity.canBeCollidedWith()
+				&& entity != this.invoker;
+
+		// ray trace for collision
+		return rayTrace(this, aabb, filter, RayTraceContext.BlockMode.COLLIDER, true);
+	}
+
+	/**
+	 * Process defined composite projectile modifiers.
+	 */
+	void processCompositeModifiers() {
 
 		// get tags
 		Set<String> tags = this.getTags();
@@ -226,11 +279,11 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 		// handle: zig zag
 		if (tags.contains(ZigZagProjectilePath.NAME))
 			calculateZigZagPath();
-		
-		// handle: sine 
+
+		// handle: sine
 		if (tags.contains(SineProjectilePath.NAME))
 			calculateSinePath();
-		
+
 	}
 
 	/**
@@ -266,11 +319,11 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 		projectileModifierPorts.setEntity1(this);
 		run(projectileModifierPorts, SINE_PATH_OPERATOR);
 	}
-	
+
 	/**
 	 * Update motion and position of the projectile.
 	 */
-	void updateMotion() {
+	void updateMotionAndPosition() {
 		Vec3d motionVec = this.getMotion();
 		Vec3d positionVec = this.getPositionVec();
 
@@ -293,8 +346,7 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 	@Override
 	protected void registerData() {
 		// NO-OP
-
-		// TODO: investigate this method
+		// TODO: investigate this method, see implementation in ProjectileItemEntity
 	}
 
 	@Override
@@ -314,6 +366,10 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 	@Override
 	public IPacket<?> createSpawnPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
+	}
+
+	public LivingEntity getThrower() {
+		return this.invoker;
 	}
 
 	float getWaterDrag() {
