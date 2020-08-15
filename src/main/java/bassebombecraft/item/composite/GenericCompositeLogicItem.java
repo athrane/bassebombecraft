@@ -381,9 +381,7 @@ public class GenericCompositeLogicItem extends Item {
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
 			ITooltipFlag flagIn) {
-		String message = new StringBuilder().append(this.tooltip).append(" (hc=").append(this.hashCode())
-				.append(" ,op=").append(this.operator).append(")").toString();
-		ITextComponent text = new TranslationTextComponent(TextFormatting.GREEN + message);
+		ITextComponent text = new TranslationTextComponent(TextFormatting.GREEN + this.tooltip);
 		tooltip.add(text);
 	}
 

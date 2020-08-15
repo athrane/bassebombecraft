@@ -1747,7 +1747,9 @@ public class ModConfiguration {
 		 */
 		String name = CompositeMagic.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		compositeMagic = getInstance(COMMON_BUILDER, name, "Right-click to activate configured magic.", 25);
+		compositeMagic = getInstance(COMMON_BUILDER, name,
+				"Equip item (fx in the off hand slot). Right-click to activate configured magic. Configure magic but placing composite magic items in the inventory or hotbar. The first connected sequence of items in the one used by the item.",
+				25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -1903,7 +1905,8 @@ public class ModConfiguration {
 		name = SineProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		sineProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. The projectile will follow a sine wave path.", 25);
+				"A mythical image of the modification of a projectile. The projectile will follow a sine wave path.",
+				25);
 		COMMON_BUILDER.pop();
 
 		/**
