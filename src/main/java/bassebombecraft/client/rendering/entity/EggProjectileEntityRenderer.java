@@ -5,7 +5,7 @@ import static bassebombecraft.client.rendering.RenderingUtils.createTextureResou
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import bassebombecraft.entity.projectile.CompositeProjectileEntity;
+import bassebombecraft.entity.projectile.EggProjectileEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Matrix3f;
 import net.minecraft.client.renderer.Matrix4f;
@@ -18,10 +18,9 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 
 /**
- * Client side renderer for projectile {@linkplain CompositeProjectileEntity}.
+ * Client side renderer for projectile {@linkplain EggProjectileEntity}.
  */
-@Deprecated
-public class CompositeProjectileEntityRenderer extends EntityRenderer<CompositeProjectileEntity> {
+public class EggProjectileEntityRenderer extends EntityRenderer<EggProjectileEntity> {
 
 	/**
 	 * Projectile scale.
@@ -31,19 +30,19 @@ public class CompositeProjectileEntityRenderer extends EntityRenderer<CompositeP
 	/**
 	 * Path to texture.
 	 */
-	static final ResourceLocation TEXTURE = createTextureResourceLocation(CompositeProjectileEntity.class);
+	static final ResourceLocation TEXTURE = createTextureResourceLocation(EggProjectileEntity.class);
 
 	/**
 	 * Constructor
 	 * 
 	 * @param renderManager render manager.
 	 */
-	public CompositeProjectileEntityRenderer(EntityRendererManager renderManager) {
+	public EggProjectileEntityRenderer(EntityRendererManager renderManager) {
 		super(renderManager);
 	}
 
 	@Override
-	public void render(CompositeProjectileEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn,
+	public void render(EggProjectileEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStackIn,
 			IRenderTypeBuffer bufferIn, int packedLightIn) {
 
 		matrixStackIn.push();
@@ -100,12 +99,12 @@ public class CompositeProjectileEntityRenderer extends EntityRenderer<CompositeP
 	}
 
 	@Override
-	protected int getBlockLight(CompositeProjectileEntity entityIn, float partialTicks) {
+	protected int getBlockLight(EggProjectileEntity entityIn, float partialTicks) {
 		return 15;
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(CompositeProjectileEntity entity) {
+	public ResourceLocation getEntityTexture(EggProjectileEntity entity) {
 		return TEXTURE;
 	}
 

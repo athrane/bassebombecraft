@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import bassebombecraft.entity.EntityDistanceSorter;
-import bassebombecraft.entity.projectile.CompositeProjectileEntity;
+import bassebombecraft.entity.projectile.EggProjectileEntity;
 import bassebombecraft.event.job.Job;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
@@ -27,7 +27,7 @@ import net.minecraft.util.math.Vec3d;
  * projectile.
  * 
  * The tag is processed within the projectile
- * {@linkplain CompositeProjectileEntity} which and scans for projectile tages
+ * {@linkplain EggProjectileEntity} which and scans for projectile tages
  * and executes the configured operator for a projectile modifier.
  * 
  * TODO: Write description...

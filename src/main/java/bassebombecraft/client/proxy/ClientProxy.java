@@ -5,7 +5,7 @@ import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlaye
 import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startSession;
-import static bassebombecraft.event.projectile.RegisteredEntityTypes.COMPOSITE_PROJECTILE;
+import static bassebombecraft.event.projectile.RegisteredEntityTypes.EGG_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.LIGHTNING_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.LLAMA_PROJECTILE;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
@@ -26,7 +26,7 @@ import bassebombecraft.client.event.rendering.HudItemHighlightedBlockRenderer;
 import bassebombecraft.client.event.rendering.IncreaseSizeEffectRenderer;
 import bassebombecraft.client.event.rendering.RenderingEventHandler;
 import bassebombecraft.client.event.rendering.RespawnedRenderer;
-import bassebombecraft.client.rendering.entity.CompositeProjectileEntityRenderer;
+import bassebombecraft.client.rendering.entity.EggProjectileEntityRenderer;
 import bassebombecraft.client.rendering.entity.LightningProjectileEntityRenderer;
 import bassebombecraft.client.rendering.entity.LlamaProjectileEntityRenderer;
 import bassebombecraft.config.VersionUtils;
@@ -303,7 +303,7 @@ public class ClientProxy implements Proxy {
 		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPost);
 
 		// register entity rendering
-		RenderingRegistry.registerEntityRenderingHandler(COMPOSITE_PROJECTILE, CompositeProjectileEntityRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(EGG_PROJECTILE, EggProjectileEntityRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(LLAMA_PROJECTILE, LlamaProjectileEntityRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(LIGHTNING_PROJECTILE, LightningProjectileEntityRenderer::new);
 	}

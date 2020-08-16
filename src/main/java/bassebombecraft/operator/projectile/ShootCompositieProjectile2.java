@@ -1,8 +1,8 @@
 package bassebombecraft.operator.projectile;
 
-import static bassebombecraft.event.projectile.RegisteredEntityTypes.COMPOSITE_PROJECTILE;
+import static bassebombecraft.event.projectile.RegisteredEntityTypes.EGG_PROJECTILE;
 
-import bassebombecraft.entity.projectile.CompositeProjectileEntity;
+import bassebombecraft.entity.projectile.EggProjectileEntity;
 import bassebombecraft.operator.Operator2;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -30,7 +30,7 @@ public class ShootCompositieProjectile2 extends GenericShootProjectile2 {
 	Entity createProjectile(LivingEntity invoker, Vec3d orientation) {
 
 		World world = invoker.getEntityWorld();
-		CompositeProjectileEntity projectile = new CompositeProjectileEntity(COMPOSITE_PROJECTILE, invoker, world);
+		EggProjectileEntity projectile = new EggProjectileEntity(EGG_PROJECTILE, invoker, world);
 		projectile.setPosition(invoker.getPosX(), invoker.getPosY() + invoker.getEyeHeight(), invoker.getPosZ());
 		float velocity = PROJECTILE_FORCE * (float) orientation.length();
 		projectile.shoot(orientation.getX(), orientation.getY(), orientation.getZ(), velocity, PROJECTILE_INACCURACY);

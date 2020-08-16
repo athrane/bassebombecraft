@@ -401,12 +401,12 @@ public class ModConfiguration {
 	public static ItemConfig trifurcatedProjectileFormationItem;
 	public static ItemConfig frontAndBackProjectileFormationItem;
 
+	public static ItemConfig eggProjectileItem;	
 	public static ItemConfig llamaProjectileItem;
 	public static ItemConfig lightningProjectileItem;	
 	public static ItemConfig largeFireballProjectileItem;
 	public static ItemConfig arrowProjectileItem;
 	public static ItemConfig witherSkullProjectileItem;
-	public static ItemConfig eggProjectileItem;
 
 	public static ItemConfig randomProjectileFormationModifierItem;
 	public static ItemConfig inaccuracyProjectileFormationModifierItem;
@@ -1803,6 +1803,16 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
+		 * Configuration for the {@linkplain EggProjectileItem} item.
+		 */
+		name = EggProjectileItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		eggProjectileItem = getInstance(COMMON_BUILDER, name,
+				"A runic image of an egg. The egg can on very rare occasions contain several surprises. But most likely it is just an empty shell.",
+				25);
+		COMMON_BUILDER.pop();
+		
+		/**
 		 * Configuration for the {@linkplain LlamaProjectileItem} item.
 		 */
 		name = LlamaProjectileItem.NAME;
@@ -1848,16 +1858,6 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		witherSkullProjectileItem = getInstance(COMMON_BUILDER, name,
 				"A runic image of a scary wither skull. The skull will explode on impact.", 25);
-		COMMON_BUILDER.pop();
-
-		/**
-		 * Configuration for the {@linkplain EggProjectileItem} item.
-		 */
-		name = EggProjectileItem.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		eggProjectileItem = getInstance(COMMON_BUILDER, name,
-				"A runic image of an egg. The egg can on very rare occasions contain several surprises. But most likely it is just an empty shell.",
-				25);
 		COMMON_BUILDER.pop();
 
 		/**
