@@ -4,7 +4,7 @@ import static bassebombecraft.config.ModConfiguration.eggProjectileItem;
 
 import bassebombecraft.item.composite.GenericCompositeNullItem;
 import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.projectile.ShootCompositieProjectile2;
+import bassebombecraft.operator.projectile.ShootEggProjectile2;
 
 /**
  * Egg projectile item.
@@ -28,7 +28,7 @@ public class EggProjectileItem extends GenericCompositeNullItem {
 		
 		// TODO: Change back to correct projectile
 		
-		return new ShootCompositieProjectile2();
+		return new ShootEggProjectile2();
 	}
 
 }

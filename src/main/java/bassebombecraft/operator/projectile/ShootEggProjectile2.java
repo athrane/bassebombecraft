@@ -10,10 +10,10 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain Operator2} interface which shoots arrow
- * projectile(s) from the invoker position.
+ * Implementation of the {@linkplain Operator2} interface which shoots composite
+ * egg projectile(s) from the invoker position.
  */
-public class ShootCompositieProjectile2 extends GenericShootProjectile2 {
+public class ShootEggProjectile2 extends GenericShootProjectile2 {
 
 	/**
 	 * Projectile inaccuracy.
