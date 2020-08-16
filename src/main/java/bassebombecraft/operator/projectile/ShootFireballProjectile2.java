@@ -10,6 +10,8 @@ import net.minecraft.util.math.Vec3d;
 /**
  * Implementation of the {@linkplain Operator2} interface which shoots small
  * fireball projectile(s) from the invoker position.
+ * 
+ * 
  */
 public class ShootFireballProjectile2 extends GenericShootProjectile2 {
 

@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.function.Function;
 
 import bassebombecraft.entity.EntityDistanceSorter;
+import bassebombecraft.entity.projectile.CompositeProjectileEntity;
 import bassebombecraft.event.job.Job;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.job.ExecuteOperatorAsJob2;
-import bassebombecraft.projectile.CompositeProjectileEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;

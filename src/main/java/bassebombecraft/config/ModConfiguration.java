@@ -35,6 +35,7 @@ import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
 import bassebombecraft.entity.commander.command.AttackNearestMobCommand;
 import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
 import bassebombecraft.entity.commander.command.DanceCommand;
+import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.event.charm.CharmedMobEventHandler;
 import bassebombecraft.event.charm.ServerCharmedMobsRepository;
 import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
@@ -100,7 +101,7 @@ import bassebombecraft.item.book.WitherSkullBook;
 import bassebombecraft.item.composite.CompositeMagicItem;
 import bassebombecraft.item.composite.projectile.ArrowProjectileItem;
 import bassebombecraft.item.composite.projectile.EggProjectileItem;
-import bassebombecraft.item.composite.projectile.FireballProjectileItem;
+import bassebombecraft.item.composite.projectile.LlamaProjectileItem;
 import bassebombecraft.item.composite.projectile.LargeFireballProjectileItem;
 import bassebombecraft.item.composite.projectile.WitherSkullProjectileItem;
 import bassebombecraft.item.composite.projectile.formation.CircleProjectileFormationItem;
@@ -163,7 +164,6 @@ import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.ReceiveAggroEffect;
-import bassebombecraft.projectile.GenericProjectileEntity;
 import bassebombecraft.projectile.action.DigMobHole;
 import bassebombecraft.projectile.action.SpawnCreeperArmy;
 import bassebombecraft.projectile.action.SpawnKittenArmy;
@@ -400,7 +400,7 @@ public class ModConfiguration {
 	public static ItemConfig trifurcatedProjectileFormationItem;
 	public static ItemConfig frontAndBackProjectileFormationItem;
 
-	public static ItemConfig fireballProjectileItem;
+	public static ItemConfig llamaProjectileItem;
 	public static ItemConfig largeFireballProjectileItem;
 	public static ItemConfig arrowProjectileItem;
 	public static ItemConfig witherSkullProjectileItem;
@@ -609,7 +609,7 @@ public class ModConfiguration {
 	// Entities..
 
 	/**
-	 * Properties for {@linkplain GenericProjectileEntity} operator.
+	 * Properties for {@linkplain GenericCompositeProjectileEntity} operator.
 	 */
 	public static ForgeConfigSpec.IntValue genericProjectileEntityProjectileDuration;
 
@@ -1801,12 +1801,12 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain FireballProjectileItem} item.
+		 * Configuration for the {@linkplain LlamaProjectileItem} item.
 		 */
-		name = FireballProjectileItem.NAME;
+		name = LlamaProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		fireballProjectileItem = getInstance(COMMON_BUILDER, name,
-				"A runic image of a tiny fireball, almost like one of Hermione's flames. It will explode gently on impact.",
+		llamaProjectileItem = getInstance(COMMON_BUILDER, name,
+				"A runic image of a llama , almost like something from a psychedelic shooter. It flies with a good speed and cause high damage on impact.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2000,7 +2000,7 @@ public class ModConfiguration {
 		/**
 		 * Configuration for the {@linkplain GenericProjectileEntity} entity.
 		 */
-		String name = GenericProjectileEntity.NAME;
+		String name = GenericCompositeProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		genericProjectileEntityProjectileDuration = COMMON_BUILDER.comment("Duration of projectiles in game ticks.")
 				.defineInRange("duration", 125, 0, Integer.MAX_VALUE);

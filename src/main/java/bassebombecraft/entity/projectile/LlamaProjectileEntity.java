@@ -1,20 +1,18 @@
-package bassebombecraft.projectile;
+package bassebombecraft.entity.projectile;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 
 /**
- * Prototype projectile
- * 
- * TODO: Add description.
+ * Llama projectile for composite magic.
  */
-public class CompositeProjectileEntity extends GenericProjectileEntity {
+public class LlamaProjectileEntity extends GenericCompositeProjectileEntity {
 
 	/**
 	 * Entity identifier.
 	 */
-	public static final String NAME = CompositeProjectileEntity.class.getSimpleName();
+	public static final String NAME = LlamaProjectileEntity.class.getSimpleName();
 
 	/**
 	 * Constructor
@@ -22,7 +20,7 @@ public class CompositeProjectileEntity extends GenericProjectileEntity {
 	 * @param type  entity type.
 	 * @param world world object.
 	 */
-	public CompositeProjectileEntity(EntityType<?> type, World world) {
+	public LlamaProjectileEntity(EntityType<?> type, World world) {
 		super(type, world);
 	}
 
@@ -33,7 +31,7 @@ public class CompositeProjectileEntity extends GenericProjectileEntity {
 	 * @param invoker projectile invoker.
 	 * @param world   world object.
 	 */
-	public CompositeProjectileEntity(EntityType<?> type, LivingEntity invoker, World world) {
+	public LlamaProjectileEntity(EntityType<?> type, LivingEntity invoker, World world) {
 		super(type, invoker, world);
 	}
 

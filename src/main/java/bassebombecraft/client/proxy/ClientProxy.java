@@ -24,6 +24,7 @@ import bassebombecraft.client.event.rendering.IncreaseSizeEffectRenderer;
 import bassebombecraft.client.event.rendering.RenderingEventHandler;
 import bassebombecraft.client.event.rendering.RespawnedRenderer;
 import bassebombecraft.client.rendering.entity.CompositeProjectileEntityRenderer;
+import bassebombecraft.client.rendering.entity.LlamaProjectileEntityRenderer;
 import bassebombecraft.config.VersionUtils;
 import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;
@@ -301,6 +302,9 @@ public class ClientProxy implements Proxy {
 		// register entity rendering
 		RenderingRegistry.registerEntityRenderingHandler(RegisteredEntityTypes.COMPOSITE_PROJECTILE,
 				CompositeProjectileEntityRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(RegisteredEntityTypes.LLAMA_PROJECTILE,
+				LlamaProjectileEntityRenderer::new);
+
 	}
 
 	@Override

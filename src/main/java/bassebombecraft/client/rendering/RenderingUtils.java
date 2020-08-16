@@ -4,6 +4,8 @@ import static bassebombecraft.ClientModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ClientModConstants.TEXT_SCALE;
 import static bassebombecraft.ModConstants.BILLBOARD_LINE_WIDTH;
 import static bassebombecraft.ModConstants.EQUILATERAL_TRIANGLE_HEIGHT;
+import static bassebombecraft.ModConstants.MODID;
+import static bassebombecraft.ModConstants.TEXTURE_PATH;
 
 import org.lwjgl.opengl.GL11;
 
@@ -23,6 +25,7 @@ import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -794,6 +797,19 @@ public class RenderingUtils {
 		bufferBuilder.pos(start.x, start.y, start.z).endVertex();
 		bufferBuilder.pos(end.x, end.y, end.z).endVertex();
 		tessellator.draw();
+	}
+
+	/**
+	 * Create texture resource location for projectile entity.
+	 * 
+	 * @param projectileEntity class name of projectile entity.
+	 * 
+	 * @return texture resource location for projectile entity.
+	 */
+	public static ResourceLocation createTextureResourceLocation(Class<?> projectileEntity) {
+		String textureName = new StringBuilder().append(TEXTURE_PATH)
+				.append(projectileEntity.getSimpleName().toLowerCase()).append(".png").toString();
+		return new ResourceLocation(MODID, textureName);
 	}
 
 }

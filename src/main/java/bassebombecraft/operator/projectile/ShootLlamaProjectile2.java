@@ -1,8 +1,9 @@
 package bassebombecraft.operator.projectile;
 
-import static bassebombecraft.event.projectile.RegisteredEntityTypes.COMPOSITE_PROJECTILE;
+import static bassebombecraft.event.projectile.RegisteredEntityTypes.LLAMA_PROJECTILE;
 
-import bassebombecraft.entity.projectile.CompositeProjectileEntity;
+import bassebombecraft.entity.projectile.LlamaProjectileEntity;
+import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.operator.Operator2;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -10,10 +11,10 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain Operator2} interface which shoots arrow
- * projectile(s) from the invoker position.
+ * Implementation of the {@linkplain Operator2} interface which shoots composite
+ * llama projectile(s) from the invoker position.
  */
-public class ShootCompositieProjectile2 extends GenericShootProjectile2 {
+public class ShootLlamaProjectile2 extends GenericShootProjectile2 {
 
 	/**
 	 * Projectile inaccuracy.
@@ -30,7 +31,7 @@ public class ShootCompositieProjectile2 extends GenericShootProjectile2 {
 	Entity createProjectile(LivingEntity invoker, Vec3d orientation) {
 
 		World world = invoker.getEntityWorld();
-		CompositeProjectileEntity projectile = new CompositeProjectileEntity(COMPOSITE_PROJECTILE, invoker, world);
+		GenericCompositeProjectileEntity projectile = new LlamaProjectileEntity(LLAMA_PROJECTILE, invoker, world);
 		projectile.setPosition(invoker.getPosX(), invoker.getPosY() + invoker.getEyeHeight(), invoker.getPosZ());
 		float velocity = PROJECTILE_FORCE * (float) orientation.length();
 		projectile.shoot(orientation.getX(), orientation.getY(), orientation.getZ(), velocity, PROJECTILE_INACCURACY);

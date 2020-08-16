@@ -1,7 +1,7 @@
 package bassebombecraft.projectile.action;
 
-import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
-import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;

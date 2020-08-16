@@ -6,18 +6,18 @@ import static bassebombecraft.operator.DefaultPorts.getFnGetEntities1;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.item.composite.GenericCompositeNullItem;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
 import bassebombecraft.operator.projectile.path.ZigZagProjectilePath;
-import bassebombecraft.projectile.GenericProjectileEntity;
 import net.minecraft.entity.Entity;
 
 /**
  * Zig zag projectile path item.
  * 
- * The tagged projectile is processed in {@linkplain GenericProjectileEntity}
+ * The tagged projectile is processed in {@linkplain GenericCompositeProjectileEntity}
  * where the {@linkplain ZigZagProjectilePath} operator is executed.
  */
 public class ZigZagProjectilePathItem extends GenericCompositeNullItem {

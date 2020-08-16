@@ -2,10 +2,10 @@ package bassebombecraft.operator.entity.raytraceresult;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
-import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
-import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 
 import java.util.function.Function;
 

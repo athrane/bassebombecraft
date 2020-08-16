@@ -3,9 +3,10 @@ package bassebombecraft.event.projectile;
 import static bassebombecraft.ModConstants.MODID;
 import static net.minecraft.entity.EntityClassification.MISC;
 
+import bassebombecraft.entity.projectile.CompositeProjectileEntity;
+import bassebombecraft.entity.projectile.LlamaProjectileEntity;
+import bassebombecraft.entity.projectile.GenericEggProjectile;
 import bassebombecraft.operator.projectile.egg.OperatorEggProjectile2;
-import bassebombecraft.projectile.CompositeProjectileEntity;
-import bassebombecraft.projectile.GenericEggProjectile;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -38,6 +39,10 @@ public class EntityTypeRegistryEventHandler {
 
 		name = CompositeProjectileEntity.NAME.toLowerCase();
 		registry.register(EntityType.Builder.<CompositeProjectileEntity>create(CompositeProjectileEntity::new, MISC)
+				.build(name).setRegistryName(MODID, name));
+
+		name = LlamaProjectileEntity.NAME.toLowerCase();
+		registry.register(EntityType.Builder.<LlamaProjectileEntity>create(LlamaProjectileEntity::new, MISC)
 				.build(name).setRegistryName(MODID, name));
 
 	}

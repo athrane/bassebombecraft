@@ -1,4 +1,4 @@
-package bassebombecraft.projectile;
+package bassebombecraft.entity.projectile;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.config.ModConfiguration.genericProjectileEntityProjectileDuration;
@@ -14,7 +14,6 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
@@ -43,13 +42,15 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 /**
  * Generic projectile implementation to support composite items.
+ * 
+ * this is a super class for actual projectile implementations.
  */
-public class GenericProjectileEntity extends Entity implements IProjectile {
+public class GenericCompositeProjectileEntity extends Entity implements IProjectile {
 
 	/**
 	 * Entity identifier.
 	 */
-	public static final String NAME = GenericProjectileEntity.class.getSimpleName();
+	public static final String NAME = GenericCompositeProjectileEntity.class.getSimpleName();
 
 	/**
 	 * Random projectile path operator.
@@ -108,7 +109,7 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 	 * @param type  entity type.
 	 * @param world world object.
 	 */
-	public GenericProjectileEntity(EntityType<?> type, World world) {
+	public GenericCompositeProjectileEntity(EntityType<?> type, World world) {
 		super(type, world);
 		duration = genericProjectileEntityProjectileDuration.get();
 		projectileModifierPorts = getInstance();
@@ -122,7 +123,7 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 	 * @param invoker projectile invoker.
 	 * @param world   world object.
 	 */
-	public GenericProjectileEntity(EntityType<?> type, LivingEntity invoker, World world) {
+	public GenericCompositeProjectileEntity(EntityType<?> type, LivingEntity invoker, World world) {
 		this(type, world);
 		this.setPosition(invoker.getPosX(), invoker.getPosYEye() - 0.1, invoker.getPosZ());
 		this.invokerUUID = invoker.getUniqueID();
@@ -314,8 +315,6 @@ public class GenericProjectileEntity extends Entity implements IProjectile {
 	 * Execute sine path modifier operator.
 	 */
 	void calculateSinePath() {
-		BassebombeCraft.getBassebombeCraft().getLogger().debug("calculateSinePath");
-
 		projectileModifierPorts.setEntity1(this);
 		run(projectileModifierPorts, SINE_PATH_OPERATOR);
 	}

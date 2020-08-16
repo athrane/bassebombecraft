@@ -2,11 +2,10 @@ package bassebombecraft.projectile.action;
 
 import static bassebombecraft.block.BlockUtils.calculatePosition;
 import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
-import static bassebombecraft.projectile.ProjectileUtils.isBlockHit;
-import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
-import static bassebombecraft.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
-import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
-
+import static bassebombecraft.entity.projectile.ProjectileUtils.isBlockHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 import static net.minecraft.block.Blocks.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ThrowableEntity;

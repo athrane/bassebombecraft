@@ -1,4 +1,4 @@
-package bassebombecraft.projectile;
+package bassebombecraft.entity.projectile;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
@@ -24,7 +24,7 @@ import net.minecraft.world.World;
 /**
  * Projectile which executes operator on impact.
  * 
- * @deprecated Replace with {@linkplain GenericProjectileEntity}.
+ * @deprecated Replace with {@linkplain GenericCompositeProjectileEntity}.
  */
 @Deprecated
 public class GenericEggProjectile extends ProjectileItemEntity {

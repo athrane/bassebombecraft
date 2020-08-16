@@ -1,8 +1,8 @@
 package bassebombecraft.operator.conditional;
 
-import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
-import static bassebombecraft.projectile.ProjectileUtils.isNothingHit;
-import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isNothingHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 
 import java.util.function.Supplier;
 

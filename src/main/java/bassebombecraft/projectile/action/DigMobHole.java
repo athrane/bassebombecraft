@@ -7,13 +7,13 @@ import static bassebombecraft.config.ModConfiguration.digMobHoleHeightExpansion;
 import static bassebombecraft.config.ModConfiguration.digMobHoleNoHitHoleDepth;
 import static bassebombecraft.config.ModConfiguration.digMobHoleNoHitHoleHeight;
 import static bassebombecraft.config.ModConfiguration.digMobHoleNoHitHoleWidth;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isBlockHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.player.PlayerDirection.South;
-import static bassebombecraft.projectile.ProjectileUtils.isBlockHit;
-import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
-import static bassebombecraft.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
-import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
 import static net.minecraft.block.Blocks.AIR;
 

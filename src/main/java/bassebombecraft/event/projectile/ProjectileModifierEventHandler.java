@@ -4,12 +4,12 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.RECEIVE_AGGRO_EFFECT;
 import static bassebombecraft.config.ModConfiguration.receiveAggroEffectAmplifier;
 import static bassebombecraft.config.ModConfiguration.receiveAggroEffectDuration;
+import static bassebombecraft.entity.projectile.ProjectileUtils.resolveInvoker;
 import static bassebombecraft.operator.DefaultPorts.getBcSetEffectInstance1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity2;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
-import static bassebombecraft.projectile.ProjectileUtils.resolveInvoker;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import java.util.Optional;

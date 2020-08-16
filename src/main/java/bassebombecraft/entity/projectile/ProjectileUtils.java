@@ -1,4 +1,4 @@
-package bassebombecraft.projectile;
+package bassebombecraft.entity.projectile;
 
 import java.util.Optional;
 
@@ -132,8 +132,8 @@ public class ProjectileUtils {
 
 		// resolve invoker from GenericProjectileEntity
 		Entity projectile = event.getEntity();
-		if(projectile instanceof GenericProjectileEntity) {			
-			GenericProjectileEntity genericProjectile = (GenericProjectileEntity) projectile;
+		if(projectile instanceof GenericCompositeProjectileEntity) {			
+			GenericCompositeProjectileEntity genericProjectile = (GenericCompositeProjectileEntity) projectile;
 			return Optional.of(genericProjectile.getThrower());
 		}
 				

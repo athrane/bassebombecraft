@@ -1,9 +1,9 @@
 package bassebombecraft.operator.conditional;
 
 import static bassebombecraft.entity.EntityUtils.*;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
-import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
-import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 
 import java.util.function.Function;
 

@@ -1,7 +1,9 @@
 package bassebombecraft.event.projectile;
 
 import static bassebombecraft.ModConstants.*;
-import bassebombecraft.projectile.CompositeProjectileEntity;
+
+import bassebombecraft.entity.projectile.CompositeProjectileEntity;
+import bassebombecraft.entity.projectile.LlamaProjectileEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.registries.ObjectHolder;
 
@@ -18,5 +20,11 @@ public class RegisteredEntityTypes {
 	 */
 	@ObjectHolder("compositeprojectileentity")
 	public static final EntityType<CompositeProjectileEntity> COMPOSITE_PROJECTILE = null;
+
+	/**
+	 * Object holder for {@linkplain LlamaProjectileEntity}.
+	 */
+	@ObjectHolder("llamaprojectileentity")
+	public static final EntityType<LlamaProjectileEntity> LLAMA_PROJECTILE = null;
 	
 }
