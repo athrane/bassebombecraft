@@ -6,6 +6,7 @@ import static net.minecraft.entity.EntityClassification.MISC;
 import bassebombecraft.entity.projectile.CompositeProjectileEntity;
 import bassebombecraft.entity.projectile.LlamaProjectileEntity;
 import bassebombecraft.entity.projectile.GenericEggProjectile;
+import bassebombecraft.entity.projectile.LightningProjectileEntity;
 import bassebombecraft.operator.projectile.egg.OperatorEggProjectile2;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.event.RegistryEvent;
@@ -45,6 +46,10 @@ public class EntityTypeRegistryEventHandler {
 		registry.register(EntityType.Builder.<LlamaProjectileEntity>create(LlamaProjectileEntity::new, MISC)
 				.build(name).setRegistryName(MODID, name));
 
+		name = LightningProjectileEntity.NAME.toLowerCase();
+		registry.register(EntityType.Builder.<LightningProjectileEntity>create(LightningProjectileEntity::new, MISC)
+				.build(name).setRegistryName(MODID, name));
+		
 	}
 
 }

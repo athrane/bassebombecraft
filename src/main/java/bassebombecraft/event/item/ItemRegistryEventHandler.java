@@ -68,6 +68,7 @@ import bassebombecraft.item.book.WitherMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
 import bassebombecraft.item.composite.CompositeMagicItem;
 import bassebombecraft.item.composite.projectile.EggProjectileItem;
+import bassebombecraft.item.composite.projectile.LightningProjectileItem;
 import bassebombecraft.item.composite.projectile.LlamaProjectileItem;
 import bassebombecraft.item.composite.projectile.formation.CircleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.FrontAndBackProjectileFormationItem;
@@ -183,7 +184,7 @@ public class ItemRegistryEventHandler {
 			new TrifurcatedProjectileFormationItem(), new FrontAndBackProjectileFormationItem(),
 			new RandomProjectileFormationModifierItem(), new InaccuracyProjectileFormationModifierItem(),
 			new OscillatingRotation180DProjectileFormationModifierItem(), new LlamaProjectileItem(),
-			new EggProjectileItem(), new RandomProjectilePathItem(), new AccelerateProjectilePathItem(),
+			new EggProjectileItem(), new LightningProjectileItem(), new RandomProjectilePathItem(), new AccelerateProjectilePathItem(),
 			new ZigZagProjectilePathItem(), new SineProjectilePathItem(), new TeleportInvokerProjectileModifierItem(),
 			new TeleportMobProjectileModifierItem(), new CharmProjectileModifierItem(),
 			new MeteorProjectileModifierItem(), new DecoyProjectileModifierItem(), new ExplodeProjectileModifierItem(),

@@ -103,6 +103,7 @@ import bassebombecraft.item.composite.projectile.ArrowProjectileItem;
 import bassebombecraft.item.composite.projectile.EggProjectileItem;
 import bassebombecraft.item.composite.projectile.LlamaProjectileItem;
 import bassebombecraft.item.composite.projectile.LargeFireballProjectileItem;
+import bassebombecraft.item.composite.projectile.LightningProjectileItem;
 import bassebombecraft.item.composite.projectile.WitherSkullProjectileItem;
 import bassebombecraft.item.composite.projectile.formation.CircleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.FrontAndBackProjectileFormationItem;
@@ -401,6 +402,7 @@ public class ModConfiguration {
 	public static ItemConfig frontAndBackProjectileFormationItem;
 
 	public static ItemConfig llamaProjectileItem;
+	public static ItemConfig lightningProjectileItem;	
 	public static ItemConfig largeFireballProjectileItem;
 	public static ItemConfig arrowProjectileItem;
 	public static ItemConfig witherSkullProjectileItem;
@@ -1806,10 +1808,20 @@ public class ModConfiguration {
 		name = LlamaProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		llamaProjectileItem = getInstance(COMMON_BUILDER, name,
-				"A runic image of a llama , almost like something from a psychedelic shooter. It flies with a good speed and cause high damage on impact.",
+				"A runic image of a llama , almost like something from a psychedelic shooter. It has medium speed and cause high damage on impact.",
 				25);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the {@linkplain LightningProjectileItem} item.
+		 */
+		name = LightningProjectileItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		lightningProjectileItem = getInstance(COMMON_BUILDER, name,
+				"A runic image of a lightning. It is quick but doesn't do much damage on impact.",
+				25);
+		COMMON_BUILDER.pop();
+		
 		/**
 		 * Configuration for the {@linkplain LargeFireballProjectileItem} item.
 		 */

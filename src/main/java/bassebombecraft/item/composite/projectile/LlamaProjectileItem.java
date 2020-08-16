@@ -7,7 +7,7 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.projectile.ShootLlamaProjectile2;
 
 /**
- * Llama Fireball projectile item.
+ * Llama projectile item.
  */
 public class LlamaProjectileItem extends GenericCompositeNullItem {
 

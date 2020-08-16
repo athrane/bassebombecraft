@@ -5,6 +5,9 @@ import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlaye
 import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startSession;
+import static bassebombecraft.event.projectile.RegisteredEntityTypes.COMPOSITE_PROJECTILE;
+import static bassebombecraft.event.projectile.RegisteredEntityTypes.LIGHTNING_PROJECTILE;
+import static bassebombecraft.event.projectile.RegisteredEntityTypes.LLAMA_PROJECTILE;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 import java.io.PrintWriter;
@@ -24,6 +27,7 @@ import bassebombecraft.client.event.rendering.IncreaseSizeEffectRenderer;
 import bassebombecraft.client.event.rendering.RenderingEventHandler;
 import bassebombecraft.client.event.rendering.RespawnedRenderer;
 import bassebombecraft.client.rendering.entity.CompositeProjectileEntityRenderer;
+import bassebombecraft.client.rendering.entity.LightningProjectileEntityRenderer;
 import bassebombecraft.client.rendering.entity.LlamaProjectileEntityRenderer;
 import bassebombecraft.config.VersionUtils;
 import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
@@ -44,7 +48,6 @@ import bassebombecraft.event.frequency.DefaultFrequencyRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.job.DefaultJobReposiory;
 import bassebombecraft.event.job.JobRepository;
-import bassebombecraft.event.projectile.RegisteredEntityTypes;
 import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.proxy.Proxy;
 import net.minecraftforge.api.distmarker.Dist;
@@ -300,11 +303,9 @@ public class ClientProxy implements Proxy {
 		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPost);
 
 		// register entity rendering
-		RenderingRegistry.registerEntityRenderingHandler(RegisteredEntityTypes.COMPOSITE_PROJECTILE,
-				CompositeProjectileEntityRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(RegisteredEntityTypes.LLAMA_PROJECTILE,
-				LlamaProjectileEntityRenderer::new);
-
+		RenderingRegistry.registerEntityRenderingHandler(COMPOSITE_PROJECTILE, CompositeProjectileEntityRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(LLAMA_PROJECTILE, LlamaProjectileEntityRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(LIGHTNING_PROJECTILE, LightningProjectileEntityRenderer::new);
 	}
 
 	@Override
