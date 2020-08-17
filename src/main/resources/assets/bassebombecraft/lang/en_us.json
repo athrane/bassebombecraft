@@ -130,7 +130,8 @@
     "item.bassebombecraft.mobcommandersbaton": "Krenko's Command Baton",
 
         "_comment": "composite items",
-    "item.bassebombecraft.compositemagicitem": "Skull of a Fragmented Necromancer",        
+    "item.bassebombecraft.compositemagicitem": "Skull of a Fragmented Necromancer",
+            
     "item.bassebombecraft.singleprojectileformationitem": "Projectile Formation: Single",
     "item.bassebombecraft.randomsingleprojectileformationitem": "Projectile Formation: Single Random",
     "item.bassebombecraft.circleprojectileformationitem": "Projectile Formation: Circle",

@@ -19,6 +19,7 @@ import static bassebombecraft.config.InventoryItemConfig.getInstanceWithNoRange;
 import static bassebombecraft.config.ItemConfig.getInstance;
 import static bassebombecraft.config.ParticlesConfig.getInstance;
 import static net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR;
+import static bassebombecraft.config.ProjectileEntityConfig.getInstance;
 
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -35,7 +36,10 @@ import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
 import bassebombecraft.entity.commander.command.AttackNearestMobCommand;
 import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
 import bassebombecraft.entity.commander.command.DanceCommand;
+import bassebombecraft.entity.projectile.EggProjectileEntity;
 import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
+import bassebombecraft.entity.projectile.LightningProjectileEntity;
+import bassebombecraft.entity.projectile.LlamaProjectileEntity;
 import bassebombecraft.event.charm.CharmedMobEventHandler;
 import bassebombecraft.event.charm.ServerCharmedMobsRepository;
 import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
@@ -404,6 +408,10 @@ public class ModConfiguration {
 	public static ItemConfig lightningProjectileItem;
 	public static ItemConfig witherSkullProjectileItem;
 
+	public static ProjectileEntityConfig eggProjectileEntity;
+	public static ProjectileEntityConfig llamaProjectileEntity;
+	public static ProjectileEntityConfig lightningProjectileEntity;
+	
 	public static ItemConfig randomProjectileFormationModifierItem;
 	public static ItemConfig inaccuracyProjectileFormationModifierItem;
 	public static ItemConfig oscillatingRotation180DProjectileFormationModifierItem;
@@ -1835,7 +1843,7 @@ public class ModConfiguration {
 		witherSkullProjectileItem = getInstance(COMMON_BUILDER, name,
 				"A runic image of a scary wither skull. The skull will explode on impact.", 25);
 		COMMON_BUILDER.pop();
-
+		
 		/**
 		 * Configuration for the {@linkplain RandomProjectileFormationModifierItem}
 		 * item.
@@ -1993,6 +2001,33 @@ public class ModConfiguration {
 		genericProjectileEntityProjectileDuration = COMMON_BUILDER.comment("Duration of projectiles in game ticks.")
 				.defineInRange("duration", 125, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain EggProjectileEntity} item.
+		 */
+		name = EggProjectileEntity.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		Supplier<ParticlesConfig> splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1, 0.0, 0.0, 1.0);
+		eggProjectileEntity = getInstance(COMMON_BUILDER, name, 1.0D, 2.0D, 1.0D, splParticles);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain LlamaProjectileEntity} item.
+		 */
+		name = LlamaProjectileEntity.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1, 0.0, 0.0, 1.0);
+		llamaProjectileEntity = getInstance(COMMON_BUILDER, name, 1.0D, 7.0D, 10.0D, splParticles);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain LightningProjectileEntity} item.
+		 */
+		name = LightningProjectileEntity.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1, 0.0, 0.0, 1.0);
+		lightningProjectileEntity = getInstance(COMMON_BUILDER, name, 1.0D, 4.0D, 20.0D, splParticles);
+		COMMON_BUILDER.pop();		
 	}
 
 	/**

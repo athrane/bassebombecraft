@@ -1,5 +1,7 @@
 package bassebombecraft.entity.projectile;
 
+import static bassebombecraft.config.ModConfiguration.llamaProjectileEntity;
+
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
@@ -21,7 +23,7 @@ public class LlamaProjectileEntity extends GenericCompositeProjectileEntity {
 	 * @param world world object.
 	 */
 	public LlamaProjectileEntity(EntityType<?> type, World world) {
-		super(type, world);
+		super(type, world, llamaProjectileEntity);
 	}
 
 	/**
@@ -29,10 +31,9 @@ public class LlamaProjectileEntity extends GenericCompositeProjectileEntity {
 	 * 
 	 * @param type    entity type.
 	 * @param invoker projectile invoker.
-	 * @param world   world object.
 	 */
-	public LlamaProjectileEntity(EntityType<?> type, LivingEntity invoker, World world) {
-		super(type, invoker, world);
+	public LlamaProjectileEntity(EntityType<?> type, LivingEntity invoker) {
+		super(type, invoker, llamaProjectileEntity);
 	}
 
 }

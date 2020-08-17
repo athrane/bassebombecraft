@@ -14,6 +14,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import bassebombecraft.config.ProjectileEntityConfig;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
@@ -97,20 +98,27 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	Consumer<String> cRemovalCallback = id -> remove();
 
 	/**
-	 * Projectile moddifier ports.
+	 * Projectile modifier ports.
 	 * 
 	 * The ports is defined as a field to reuse it across update ticks.
 	 */
 	Ports projectileModifierPorts;
 
 	/**
+	 * Projectile entity configuration.
+	 */
+	ProjectileEntityConfig projectileConfig;
+
+	/**
 	 * Constructor
 	 * 
-	 * @param type  entity type.
-	 * @param world world object.
+	 * @param type   entity type.
+	 * @param world  world object.
+	 * @param config projectile entity configuration.
 	 */
-	public GenericCompositeProjectileEntity(EntityType<?> type, World world) {
+	public GenericCompositeProjectileEntity(EntityType<?> type, World world, ProjectileEntityConfig config) {
 		super(type, world);
+		this.projectileConfig = config;
 		duration = genericProjectileEntityProjectileDuration.get();
 		projectileModifierPorts = getInstance();
 		initialiseDuration();
@@ -122,9 +130,10 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * @param type    entity type.
 	 * @param invoker projectile invoker.
 	 * @param world   world object.
+	 * @param config  projectile entity configuration.
 	 */
-	public GenericCompositeProjectileEntity(EntityType<?> type, LivingEntity invoker, World world) {
-		this(type, world);
+	public GenericCompositeProjectileEntity(EntityType<?> type, LivingEntity invoker, ProjectileEntityConfig config) {
+		this(type, invoker.getEntityWorld(), config);
 		this.setPosition(invoker.getPosX(), invoker.getPosYEye() - 0.1, invoker.getPosZ());
 		this.invokerUUID = invoker.getUniqueID();
 		this.invoker = invoker;
@@ -133,13 +142,13 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	@Override
 	public void shoot(double x, double y, double z, float velocity, float inaccuracy) {
 
-		// add noise
-		// TODO: eliminate inaccuracy
+		// calculate motion with inaccuracy
 		/**
-		 * Vec3d vec3d = (new Vec3d(x, y, z)).normalize() .add(this.rand.nextGaussian()
-		 * * (double) 0.0075F * (double) inaccuracy, this.rand.nextGaussian() * (double)
-		 * 0.0075F * (double) inaccuracy, this.rand.nextGaussian() * (double) 0.0075F *
-		 * (double) inaccuracy) .scale(velocity);
+		 * double inaccuracy = projectileConfig.inaccuracy.get(); Vec3d vec3d = (new
+		 * Vec3d(x, y, z)).normalize() .add(rand.nextGaussian() * (double) 0.0075F *
+		 * inaccuracy, rand.nextGaussian() * (double) 0.0075F * inaccuracy,
+		 * rand.nextGaussian() * (double) 0.0075F * inaccuracy) .scale(velocity);
+		 * this.setMotion(vec3d);
 		 **/
 
 		// calculate motion
@@ -153,6 +162,20 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		this.rotationPitch = (float) (MathHelper.atan2(motionVector.y, f) * (double) (180F / (float) Math.PI));
 		this.prevRotationYaw = this.rotationYaw;
 		this.prevRotationPitch = this.rotationPitch;
+	}
+
+	/**
+	 * Helper function for shooting projectile using the configuration properties of
+	 * the projectile.
+	 * 
+	 * @param orientation orientation vector for direction of projectile.
+	 */
+	public void doShoot(Vec3d orientation) {
+		setPosition(invoker.getPosX(), invoker.getPosY() + invoker.getEyeHeight(), invoker.getPosZ());
+		double force = projectileConfig.force.get();
+		double inaccuracy = projectileConfig.inaccuracy.get();
+		double velocity = force * orientation.length();
+		shoot(orientation.getX(), orientation.getY(), orientation.getZ(), (float) velocity, (float) inaccuracy);
 	}
 
 	/**
@@ -383,4 +406,12 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		return 0.01f;
 	}
 
+	/**
+	 * Returns the projectile configuration.
+	 * 
+	 * @return the projectile configuration
+	 */
+	public ProjectileEntityConfig getConfiguration() {
+		return projectileConfig;
+	}
 }
