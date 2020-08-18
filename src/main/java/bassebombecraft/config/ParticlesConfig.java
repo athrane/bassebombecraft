@@ -40,8 +40,6 @@ public class ParticlesConfig {
 				Integer.MAX_VALUE);
 		this.duration = builder.comment("Duration of the particles in game ticks.").defineInRange("duration", duration,
 				0, Integer.MAX_VALUE);
-		this.duration = builder.comment("Duration of the particles in game ticks.").defineInRange("duration", duration,
-				0, Integer.MAX_VALUE);
 		this.speed = builder.comment("Speed of the spawned particles.").defineInRange("speed", speed, 0,
 				Double.MAX_VALUE);
 		this.r = builder.comment("R-component of particle RGB color.").defineInRange("r", r, 0, 1);

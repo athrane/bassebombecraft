@@ -34,7 +34,7 @@ public class ProjectileEntityConfig {
 		this.inaccuracy = builder.comment("Projectile inaccuracy when fired.").defineInRange("inaccuracy", inaccuracy,
 				0, Double.MAX_VALUE);
 		this.force = builder.comment("Projectile force when fired.").defineInRange("force", force, 0, Double.MAX_VALUE);
-		this.damage = builder.comment("Projectile damage when hitting a mob.").defineInRange("force", force, 0,
+		this.damage = builder.comment("Projectile damage when hitting a mob.").defineInRange("damage", damage, 0,
 				Double.MAX_VALUE);
 		this.particles = supplier.get();
 		builder.pop();

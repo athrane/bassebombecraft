@@ -142,17 +142,12 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	@Override
 	public void shoot(double x, double y, double z, float velocity, float inaccuracy) {
 
-		// calculate motion with inaccuracy
-		/**
-		 * double inaccuracy = projectileConfig.inaccuracy.get(); Vec3d vec3d = (new
-		 * Vec3d(x, y, z)).normalize() .add(rand.nextGaussian() * (double) 0.0075F *
-		 * inaccuracy, rand.nextGaussian() * (double) 0.0075F * inaccuracy,
-		 * rand.nextGaussian() * (double) 0.0075F * inaccuracy) .scale(velocity);
-		 * this.setMotion(vec3d);
-		 **/
-
 		// calculate motion
-		Vec3d motionVector = new Vec3d(x, y, z).normalize().scale(velocity);
+		Vec3d motionVector = (new Vec3d(x, y, z)).normalize()
+				.add(this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy,
+						this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy,
+						this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy)
+				.scale((double) velocity);
 		this.setMotion(motionVector);
 
 		// calculate yaw and pitch for projectile
@@ -165,8 +160,8 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	}
 
 	/**
-	 * Helper function for shooting projectile using the configuration properties of
-	 * the projectile.
+	 * Helper function for shooting the projectile using the configuration
+	 * properties of the projectile.
 	 * 
 	 * @param orientation orientation vector for direction of projectile.
 	 */

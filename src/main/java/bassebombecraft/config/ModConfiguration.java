@@ -18,8 +18,8 @@ import static bassebombecraft.config.InventoryItemConfig.getInstance;
 import static bassebombecraft.config.InventoryItemConfig.getInstanceWithNoRange;
 import static bassebombecraft.config.ItemConfig.getInstance;
 import static bassebombecraft.config.ParticlesConfig.getInstance;
-import static net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR;
 import static bassebombecraft.config.ProjectileEntityConfig.getInstance;
+import static net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR;
 
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -411,7 +411,7 @@ public class ModConfiguration {
 	public static ProjectileEntityConfig eggProjectileEntity;
 	public static ProjectileEntityConfig llamaProjectileEntity;
 	public static ProjectileEntityConfig lightningProjectileEntity;
-	
+
 	public static ItemConfig randomProjectileFormationModifierItem;
 	public static ItemConfig inaccuracyProjectileFormationModifierItem;
 	public static ItemConfig oscillatingRotation180DProjectileFormationModifierItem;
@@ -1843,7 +1843,7 @@ public class ModConfiguration {
 		witherSkullProjectileItem = getInstance(COMMON_BUILDER, name,
 				"A runic image of a scary wither skull. The skull will explode on impact.", 25);
 		COMMON_BUILDER.pop();
-		
+
 		/**
 		 * Configuration for the {@linkplain RandomProjectileFormationModifierItem}
 		 * item.
@@ -2008,7 +2008,7 @@ public class ModConfiguration {
 		name = EggProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		Supplier<ParticlesConfig> splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1, 0.0, 0.0, 1.0);
-		eggProjectileEntity = getInstance(COMMON_BUILDER, name, 1.0D, 2.0D, 1.0D, splParticles);
+		eggProjectileEntity = getInstance(COMMON_BUILDER, name, 0.0D, 2.0D, 1.0D, splParticles);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2017,7 +2017,7 @@ public class ModConfiguration {
 		name = LlamaProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1, 0.0, 0.0, 1.0);
-		llamaProjectileEntity = getInstance(COMMON_BUILDER, name, 1.0D, 7.0D, 10.0D, splParticles);
+		llamaProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 7.0D, 10.0D, splParticles);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2026,8 +2026,8 @@ public class ModConfiguration {
 		name = LightningProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1, 0.0, 0.0, 1.0);
-		lightningProjectileEntity = getInstance(COMMON_BUILDER, name, 1.0D, 4.0D, 20.0D, splParticles);
-		COMMON_BUILDER.pop();		
+		lightningProjectileEntity = getInstance(COMMON_BUILDER, name, 10.0D, 4.0D, 20.0D, splParticles);
+		COMMON_BUILDER.pop();
 	}
 
 	/**
