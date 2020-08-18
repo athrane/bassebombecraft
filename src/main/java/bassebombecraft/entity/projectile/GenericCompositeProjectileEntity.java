@@ -29,6 +29,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -234,13 +235,10 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		if (result.getType() == RayTraceResult.Type.ENTITY) {
 
 			// get hit entity
-			Entity entity = ((EntityRayTraceResult) result).getEntity();
+			Entity target = ((EntityRayTraceResult) result).getEntity();
 
-			// TODO: should invoker be immune to projectile hits?
-			if (entity.getUniqueID().equals(this.invokerUUID))
-				return;
-
-			// TODO: add damage xxxx.damageCollection().causeDamage(this, entityHit);
+			// add damage
+			addEntityDamage(target);
 		}
 
 		// process hit block
@@ -253,6 +251,22 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		// TODO: this must be made condition to support drilling projectiles
 		// remove particle from server world
 		this.remove();
+	}
+
+	/**
+	 * Add damage to hit entity.
+	 * 
+	 * @param target hit target entity.
+	 */
+	void addEntityDamage(Entity target) {
+
+		// TODO: should invoker be immune to projectile hits?
+		if (target.getUniqueID().equals(this.invokerUUID))
+			return;
+		
+		double amount = projectileConfig.damage.get();
+		DamageSource source = DamageSource.causeIndirectMagicDamage(this, invoker);
+		target.attackEntityFrom(source, (float) amount);
 	}
 
 	/**

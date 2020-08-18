@@ -2017,7 +2017,7 @@ public class ModConfiguration {
 		name = LlamaProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1, 0.0, 0.0, 1.0);
-		llamaProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 7.0D, 10.0D, splParticles);
+		llamaProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 7.0D, 5.0D, splParticles);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2026,7 +2026,7 @@ public class ModConfiguration {
 		name = LightningProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1, 0.0, 0.0, 1.0);
-		lightningProjectileEntity = getInstance(COMMON_BUILDER, name, 10.0D, 4.0D, 20.0D, splParticles);
+		lightningProjectileEntity = getInstance(COMMON_BUILDER, name, 10.0D, 4.0D, 10.0D, splParticles);
 		COMMON_BUILDER.pop();
 	}
 
