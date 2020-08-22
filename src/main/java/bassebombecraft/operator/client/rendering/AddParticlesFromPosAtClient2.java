@@ -2,6 +2,7 @@ package bassebombecraft.operator.client.rendering;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
+import static bassebombecraft.operator.DefaultPorts.getFnGetBlockPosition1;
 
 import java.util.function.Function;
 
@@ -39,6 +40,18 @@ public class AddParticlesFromPosAtClient2 implements Operator2 {
 	public AddParticlesFromPosAtClient2(ParticleRenderingInfo[] infos, Function<Ports, BlockPos> fnBlockPos) {
 		this.infos = infos;
 		this.fnBlockPos = fnBlockPos;
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param particles particle rendering infos.
+	 * 
+	 *                  Instance is configured with block position #1 as particle
+	 *                  spawn position from ports.
+	 */
+	public AddParticlesFromPosAtClient2(ParticleRenderingInfo[] infos) {
+		this(infos, getFnGetBlockPosition1());
 	}
 
 	@Override

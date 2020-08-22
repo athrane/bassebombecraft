@@ -1,6 +1,8 @@
 package bassebombecraft.entity.projectile;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.config.ModConfiguration.genericProjectileEntityProjectileDuration;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
@@ -16,8 +18,10 @@ import java.util.function.Predicate;
 
 import bassebombecraft.config.ProjectileEntityConfig;
 import bassebombecraft.event.duration.DurationRepository;
+import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.RandomProjectilePath;
 import bassebombecraft.operator.projectile.path.SineProjectilePath;
@@ -106,9 +110,26 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	Ports projectileModifierPorts;
 
 	/**
+	 * Projectile particle rendering ports.
+	 * 
+	 * The ports is defined as a field to reuse it across update ticks.
+	 */
+	Ports addParticlesPorts;
+
+	/**
 	 * Projectile entity configuration.
 	 */
 	ProjectileEntityConfig projectileConfig;
+
+	/**
+	 * Particle info for rendering.
+	 */
+	ParticleRenderingInfo[] infos;
+
+	/**
+	 * Client side projectile generator operator.
+	 */
+	Operator2 addParticlesOp;
 
 	/**
 	 * Constructor
@@ -119,9 +140,12 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 */
 	public GenericCompositeProjectileEntity(EntityType<?> type, World world, ProjectileEntityConfig config) {
 		super(type, world);
-		this.projectileConfig = config;
+		projectileConfig = config;
+		infos = createFromConfig(projectileConfig.particles);
+		addParticlesOp = new AddParticlesFromPosAtClient2(infos);
 		duration = genericProjectileEntityProjectileDuration.get();
 		projectileModifierPorts = getInstance();
+		addParticlesPorts = getInstance();
 		initialiseDuration();
 	}
 
@@ -193,24 +217,29 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	@Override
 	public void tick() {
 		super.tick();
+		try {
+			// calculate collision with block or entity
+			RayTraceResult result = calculateCollision();
 
-		// calculate collision with block or entity
-		RayTraceResult result = calculateCollision();
+			// if hit then process collision
+			if (result.getType() != RayTraceResult.Type.MISS)
+				onImpact(result);
 
-		// if hit then process collision
-		if (result.getType() != RayTraceResult.Type.MISS)
-			onImpact(result);
+			// process projectile modifiers
+			processCompositeModifiers();
 
-		// process projectile modifiers
-		processCompositeModifiers();
+			// Update motion and position
+			updateMotionAndPosition();
 
-		// Update motion and position
-		updateMotionAndPosition();
+			// send particle rendering info to client
+			addParticles();
 
-		// TODO: Add particles..
+			// update ports counter
+			projectileModifierPorts.incrementCounter();
 
-		// update ports counter
-		projectileModifierPorts.incrementCounter();
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 	/**
@@ -263,7 +292,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		// TODO: should invoker be immune to projectile hits?
 		if (target.getUniqueID().equals(this.invokerUUID))
 			return;
-		
+
 		double amount = projectileConfig.damage.get();
 		DamageSource source = DamageSource.causeIndirectMagicDamage(this, invoker);
 		target.attackEntityFrom(source, (float) amount);
@@ -402,7 +431,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	public LivingEntity getThrower() {
 		return this.invoker;
 	}
-
+	
 	float getWaterDrag() {
 		return 0.6f;
 	}
@@ -423,4 +452,13 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	public ProjectileEntityConfig getConfiguration() {
 		return projectileConfig;
 	}
+	
+	/**
+	 * Add particle on update tick.
+	 */
+	void addParticles() {
+		addParticlesPorts.setBlockPosition1(getPosition());
+		run(addParticlesPorts, addParticlesOp);
+	}
+	
 }
