@@ -1,6 +1,7 @@
 package bassebombecraft.client.proxy;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.client.particles.RegisteredParticles.PARTICLES;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayerUId;
 import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
@@ -51,6 +52,7 @@ import bassebombecraft.event.job.JobRepository;
 import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.proxy.Proxy;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 /**
@@ -376,6 +378,13 @@ public class ClientProxy implements Proxy {
 	@Override
 	public TargetRepository getServerTargetRepository() {
 		return targetRepository;
+	}
+
+	@Override
+	public void doDeferredRegistration(IEventBus modEventBus) {
+
+		// register particles
+		PARTICLES.register(modEventBus);
 	}
 
 }

@@ -19,7 +19,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
 
-import bassebombecraft.client.particles.RegisteredParticles;
 import bassebombecraft.client.proxy.ClientProxy;
 import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.item.ItemRegistryEventHandler;
@@ -110,13 +109,13 @@ public class BassebombeCraft {
 
 		// get event bus
 		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-		
+
 		// Register event handler for FMLClientSetupEvent event on the mod event bus
 		// The event handler initialises the client renders
 		modEventBus.addListener(clientSetupEventHandler);
-		
-		// register particles if on client side ....
-		RegisteredParticles.PARTICLES.register(modEventBus);
+
+		// do deferred registration of particles
+		proxy.doDeferredRegistration(modEventBus);
 	}
 
 	@SubscribeEvent

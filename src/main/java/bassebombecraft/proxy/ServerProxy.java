@@ -34,6 +34,7 @@ import bassebombecraft.event.job.JobRepository;
 import bassebombecraft.network.NetworkChannelHelper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.IEventBus;
 
 /**
  * Implementation of the {@linkplain Proxy} interface for the physical server.
@@ -321,4 +322,9 @@ public class ServerProxy implements Proxy {
 		return targetRepository;
 	}
 
+	@Override
+	public void doDeferredRegistration(IEventBus modEventBus) {
+		// NO-OP for now.
+	}
+	
 }
