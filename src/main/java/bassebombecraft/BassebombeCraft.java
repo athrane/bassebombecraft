@@ -19,6 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
 
+import bassebombecraft.client.particles.RegisteredParticles;
 import bassebombecraft.client.proxy.ClientProxy;
 import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.item.ItemRegistryEventHandler;
@@ -29,6 +30,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -106,9 +108,15 @@ public class BassebombeCraft {
 			throw e;
 		}
 
+		// get event bus
+		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+		
 		// Register event handler for FMLClientSetupEvent event on the mod event bus
 		// The event handler initialises the client renders
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(clientSetupEventHandler);
+		modEventBus.addListener(clientSetupEventHandler);
+		
+		// register particles if on client side ....
+		RegisteredParticles.PARTICLES.register(modEventBus);
 	}
 
 	@SubscribeEvent

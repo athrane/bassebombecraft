@@ -49,7 +49,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 /**
  * Generic projectile implementation to support composite items.
  * 
- * this is a super class for actual projectile implementations.
+ * This is a super class for actual projectile implementations.
  */
 public class GenericCompositeProjectileEntity extends Entity implements IProjectile {
 
