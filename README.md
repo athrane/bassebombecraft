@@ -22,7 +22,7 @@ The image is published to DockerHub by the name: [bassebombecraft/minecraft](htt
 
 The mod can be configured using the configuration named `bassebombecraft-common.toml`.
 
-## Disabling welcome messages
+## Disabling the welcome message
 
 The welcome message can be disabled by setting the `enableWelcomeMessage` property to `false` in the configuration file:
 
