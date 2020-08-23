@@ -20,7 +20,7 @@ The image is published to DockerHub by the name: [bassebombecraft/minecraft](htt
 
 # Configuration
 
-The mod maintains its configuration in the configuration named `bassebombecraft-common.toml`.
+The mod maintains its configuration in the configuration file named `bassebombecraft-common.toml`.
 
 ## Disabling the welcome message
 
