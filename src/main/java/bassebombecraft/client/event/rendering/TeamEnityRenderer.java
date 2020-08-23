@@ -2,9 +2,9 @@ package bassebombecraft.client.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ClientModConstants.TEXT_COLOR;
+import static bassebombecraft.ClientModConstants.TEXT_SCALE;
 import static bassebombecraft.ModConstants.HUD_ITEM;
-import static bassebombecraft.ModConstants.TEXT_COLOR;
-import static bassebombecraft.ModConstants.TEXT_SCALE;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
 import static bassebombecraft.entity.ai.AiUtils.getFirstRunningAiGoalName;
@@ -15,8 +15,8 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import bassebombecraft.client.event.rendering.rendertype.OverlayLines;
 import bassebombecraft.client.rendering.RenderingUtils;
+import bassebombecraft.client.rendering.rendertype.OverlayLines;
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -29,6 +29,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderLivingEvent.Pre;
+import static bassebombecraft.geom.GeometryUtils.oscillate;
 
 /**
  * Rendering team member information in the HUD item.
@@ -81,7 +82,7 @@ public class TeamEnityRenderer {
 		renderText(matrixStack, buffer, 0, -10, getFirstRunningAiGoalName(entity));
 		renderText(matrixStack, buffer, 0, -20, getFirstRunningAiTargetGoalName(entity));
 
-		float w = (float) RenderingUtils.oscillate(-10, 10);
+		float w = (float) oscillate(-10, 10);
 		matrixStack.push();
 		matrixStack.translate(0, height, 0);
 		matrixStack.rotate(Vector3f.YP.rotationDegrees(180));

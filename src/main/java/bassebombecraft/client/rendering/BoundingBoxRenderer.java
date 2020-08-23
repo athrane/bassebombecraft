@@ -5,6 +5,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 /**
  * Interface for rendering a single bounding box.
  */
+@Deprecated
 public interface BoundingBoxRenderer {
 
 	/**

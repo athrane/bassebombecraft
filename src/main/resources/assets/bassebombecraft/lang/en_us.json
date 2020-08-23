@@ -96,7 +96,7 @@
     "item.bassebombecraft.angelidolinventoryitem": "Angel Idol",
     "item.bassebombecraft.levitationidolinventoryitem": "Estatic Flight Idol",
     "item.bassebombecraft.mobslevitationidolinventoryitem": "Ascensional Ecstasy Idol",
-    "item.bassebombecraft.lightningBoltidolinventoryitem": "Pikachu Idol",
+    "item.bassebombecraft.lightningboltidolinventoryitem": "Pikachu Idol",
     "item.bassebombecraft.floweridolinventoryitem": "Naturalize Idol",
     "item.bassebombecraft.flameblastidolinventoryitem": "Flameblast Dragon Idol",
     "item.bassebombecraft.charmbeastidolinventoryitem": "Beast Charm Idol",
@@ -126,9 +126,40 @@
 
     "_comment": "basic items",
     "item.bassebombecraft.terminatoreyeitem": "Terminator Eye",
-    "item.bassebombecraft.huditem": "BasseBombeCraft tactical heads up display (HUD)",
+    "item.bassebombecraft.huditem": "BasseBombeCraft Tactical Heads Up Display (HUD)",
     "item.bassebombecraft.mobcommandersbaton": "Krenko's Command Baton",
-    
+
+        "_comment": "composite items",
+    "item.bassebombecraft.compositemagicitem": "Skull of a Resurrected Necromancer",
+            
+    "item.bassebombecraft.singleprojectileformationitem": "Projectile Formation: Single",
+    "item.bassebombecraft.randomsingleprojectileformationitem": "Projectile Formation: Single Random",
+    "item.bassebombecraft.circleprojectileformationitem": "Projectile Formation: Circle",
+    "item.bassebombecraft.trifurcatedprojectileformationitem": "Projectile Formation: Trifurcated",
+    "item.bassebombecraft.frontandbackprojectileformationitem": "Projectile Formation: Front and Back",
+
+    "item.bassebombecraft.eggprojectileitem": "Projectile: Egg",    
+    "item.bassebombecraft.llamaprojectileitem": "Projectile: Llama",
+    "item.bassebombecraft.lightningprojectileitem": "Projectile: Lightning",
+    "item.bassebombecraft.skullprojectileitem": "Projectile: Heavy Skull",
+
+    "item.bassebombecraft.randomprojectileformationmodifieritem": "Formation Modifier: Random",
+    "item.bassebombecraft.inaccuracyprojectileformationmodifieritem": "Formation Modifier: Inaccuracy",
+    "item.bassebombecraft.oscillatingrotation180dprojectileformationmodifieritem": "Formation Modifier: Oscillation 180",
+
+    "item.bassebombecraft.randomprojectilepathitem": "Projectile Path: Random",                            
+    "item.bassebombecraft.accelerateprojectilepathitem": "Projectile Path: Accelerate",                            
+    "item.bassebombecraft.zigzagprojectilepathitem": "Projectile Path: Zig Zag",                            
+    "item.bassebombecraft.sineprojectilepathitem": "Projectile Path: Sine",                                
+                              
+    "item.bassebombecraft.teleportinvokerprojectilemodifieritem": "Projectile Modifier: Teleport Player",        
+    "item.bassebombecraft.teleportmobprojectilemodifieritem": "Projectile Modifier: Teleport Mob",            
+    "item.bassebombecraft.charmprojectilemodifieritem": "Projectile Modifier: Charm",            
+    "item.bassebombecraft.meteorprojectilemodifieritem": "Projectile Modifier: Meteor",            
+    "item.bassebombecraft.decoyprojectilemodifieritem": "Projectile Modifier: Decoy",            
+    "item.bassebombecraft.explodeprojectilemodifieritem": "Projectile Modifier: Killed Mob Explode",                            
+    "item.bassebombecraft.digmobholeprojectilemodifieritem": "Projectile Modifier: Inconvenient Hole",                            
+                
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",
     "effect.bassebombecraft.aggromobeffect": "Aggro mob",

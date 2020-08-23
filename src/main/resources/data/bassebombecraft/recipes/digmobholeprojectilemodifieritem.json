@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:prismarine_crystals"
+		},		
+		{
+			"item": "minecraft:iron_shovel"
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:digmobholeprojectilemodifieritem"
+	}
+}

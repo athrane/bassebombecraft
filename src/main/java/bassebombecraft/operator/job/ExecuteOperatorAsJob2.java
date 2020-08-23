@@ -7,12 +7,10 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 
 /**
- * Implementation of the {@linkplain Job} interface which executes operators as
- * job on each update.
+ * Implementation of the {@linkplain Job} interface which executes an embedded
+ * operator as a job on each update.
  * 
- * The used ports is reused (and thus updated) for all invocations of the
- * operators.
- *
+ * The ports is reused for all invocations of the job (and thus the operator).
  */
 public class ExecuteOperatorAsJob2 implements Job {
 
@@ -22,36 +20,24 @@ public class ExecuteOperatorAsJob2 implements Job {
 	Ports ports;
 
 	/**
-	 * Operators for the job.
+	 * Operator for the job.
 	 */
-	Operator2[] ops;
+	Operator2 operator;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param ports ports used by operators.
-	 * @param ops   operators executed by the job.
+	 * @param ports ports used by operator.
+	 * @param operator   operators executed by the job.
 	 */
-	ExecuteOperatorAsJob2(Ports ports, Operator2[] ops) {
-		this.ops = ops;
+	public ExecuteOperatorAsJob2(Ports ports, Operator2 operator) {
+		this.operator = operator;
 		this.ports = ports;
 	}
 
 	@Override
 	public void update() {
-		run(ports, ops);
-	}
-
-	/**
-	 * Factory method.
-	 * 
-	 * @param ports ports used by operators.
-	 * @param ops   operators executed by the job.
-	 * 
-	 * @return ports.
-	 */
-	public static Job getInstance(Ports ports, Operator2[] ops) {
-		return new ExecuteOperatorAsJob2(ports, ops);
+		run(ports, operator);
 	}
 
 }

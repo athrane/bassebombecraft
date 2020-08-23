@@ -1,37 +1,36 @@
 package bassebombecraft.operator;
 
+import java.util.Arrays;
+
 /**
- * Implementation of the {@linkplain Operator} interface which executes two
+ * Implementation of the {@linkplain Operator2} interface which executes two
  * embedded operators in sequence.
  */
-@Deprecated
-public class Sequence2 implements Operator {
+public class Sequence2 implements Operator2 {
 
 	/**
-	 * Embedded operator #1.
+	 * Embedded operators.
 	 */
-	Operator operator1;
-
-	/**
-	 * Embedded operator #2.
-	 */
-	Operator operator2;
+	Operator2[] operators;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param operator1 embedded operator which is executed first.
-	 * @param operator2 embedded operator which is executed second.
+	 * @param operators embedded operators which are executed in sequence
 	 */
-	public Sequence2(Operator operator1, Operator operator2) {
-		this.operator1 = operator1;
-		this.operator2 = operator2;
+	public Sequence2(Operator2... operators) {
+		this.operators = operators;
 	}
 
 	@Override
-	public void run() {
-		operator1.run();
-		operator2.run();
+	public Ports run(Ports ports) {
+		Operators2.run(ports, operators);
+		return ports;
 	}
 
+	@Override
+	public String toString() {
+		return "Sequence2 [operator=" + Arrays.toString(operators) + "]";
+	}
+	
 }

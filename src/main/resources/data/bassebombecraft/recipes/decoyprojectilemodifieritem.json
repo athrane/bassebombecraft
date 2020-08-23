@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:prismarine_crystals"
+		},
+		{
+			"item": "minecraft:emerald"
+		},
+		{
+			"item": "minecraft:bamboo"
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:decoyprojectilemodifieritem"
+	}
+}

@@ -1,0 +1,20 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "bassebombecraft:trifurcatedprojectileformationitem"
+		},
+		{
+			"item": "bassebombecraft:trifurcatedprojectileformationitem"
+		},		
+		{
+			"item": "bassebombecraft:frontandbackprojectileformationitem"
+		},		
+		{
+			"item": "minecraft:prismarine_crystals"
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:circleprojectileformationitem"
+	}
+}

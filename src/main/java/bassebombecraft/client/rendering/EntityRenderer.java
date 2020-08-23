@@ -5,6 +5,7 @@ import net.minecraft.entity.LivingEntity;
 /**
  * Interface for rendering a single entity.
  */
+@Deprecated
 public interface EntityRenderer {
 
 	/**

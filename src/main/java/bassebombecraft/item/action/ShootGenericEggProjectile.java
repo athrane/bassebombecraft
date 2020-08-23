@@ -3,7 +3,8 @@ package bassebombecraft.item.action;
 import java.util.Random;
 
 import static bassebombecraft.BassebombeCraft.*;
-import bassebombecraft.projectile.GenericEggProjectile;
+
+import bassebombecraft.entity.projectile.GenericEggProjectile;
 import bassebombecraft.projectile.action.ProjectileAction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

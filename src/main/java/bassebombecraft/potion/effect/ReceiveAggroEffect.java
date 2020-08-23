@@ -80,7 +80,7 @@ public class ReceiveAggroEffect extends Effect {
 		discardSelfFilter.set(entity);
 
 		// get list of mobs
-		AxisAlignedBB aabb = entity.getBoundingBox().expand(arreaOfEffect, arreaOfEffect, arreaOfEffect);
+		AxisAlignedBB aabb = entity.getBoundingBox().grow(arreaOfEffect, arreaOfEffect, arreaOfEffect);
 		List<LivingEntity> targebtList = entity.world.getEntitiesWithinAABB(LivingEntity.class, aabb,
 				discardSelfFilter);
 

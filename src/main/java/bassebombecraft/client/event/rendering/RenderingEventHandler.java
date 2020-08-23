@@ -1,19 +1,14 @@
 package bassebombecraft.client.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.ModConstants.BUILD_MINE_BOOK;
 import static bassebombecraft.ModConstants.HUD_ITEM;
-import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
 import static bassebombecraft.client.rendering.DefaultRenderingInfo.getInstance;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
-import static bassebombecraft.player.PlayerUtils.isItemHeldInEitherHands;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 
 import bassebombecraft.client.player.ClientPlayerUtils;
-import bassebombecraft.client.rendering.DefaultBuildMineRenderer;
 import bassebombecraft.client.rendering.DefaultCharmedRenderer;
-import bassebombecraft.client.rendering.DefaultLookAtBlockRenderer;
 import bassebombecraft.client.rendering.DefaultTeamRenderer;
 import bassebombecraft.client.rendering.EntityRenderer;
 import bassebombecraft.client.rendering.RenderingInfo;
@@ -28,6 +23,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 /**
  * Event handler for additional rendering.
  */
+@Deprecated
 public class RenderingEventHandler {
 
 	/**
@@ -44,16 +40,6 @@ public class RenderingEventHandler {
 	 * Renderer for rendering charmed mobs in the HUD Item.
 	 */
 	static final EntityRenderer charmedRenderer = new DefaultCharmedRenderer();
-
-	/**
-	 * Renderer for rendering the block looked at by the player.
-	 */
-	static final EntityRenderer lookedAtBlockRenderer = new DefaultLookAtBlockRenderer();
-
-	/**
-	 * Renderer for rendering construction of the mine in the build mine book.
-	 */
-	static final EntityRenderer buildMineRenderer = new DefaultBuildMineRenderer();
 
 	public static void handleRenderGameOverlayEvent(RenderGameOverlayEvent event) {
 
@@ -107,32 +93,7 @@ public class RenderingEventHandler {
 	}
 
 	public static void handleHighlightBlock(HighlightBlock event) {
-
-		// exit if player is undefined
-		if (!isClientSidePlayerDefined())
-			return;
-
-		// get player
-		PlayerEntity player = getClientSidePlayer();
-
-		try {
-
-			// create rendering info
-			RenderingInfo info = getInstance(event.getPartialTicks(), event.getTarget());
-
-			// render if HUD item is in hotbar
-			if (isItemInHotbar(player, HUD_ITEM)) {
-				lookedAtBlockRenderer.render(player, info);
-			}
-
-			// render if build mine book is in hand
-			if (isItemHeldInEitherHands(player, BUILD_MINE_BOOK)) {
-				buildMineRenderer.render(player, info);
-			}
-
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
-		}
+		// NO-OP
 	}
 
 	/**

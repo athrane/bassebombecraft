@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "bassebombecraft:singleprojectileformationitem"
+		},
+		{
+			"item": "minecraft:rotten_flesh"
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:randomsingleprojectileformationitem"
+	}
+}

@@ -16,7 +16,11 @@ import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
 /**
  * Class for execution of operator.
+ * 
+ * @deprecated Version 1 of the operator framework should be replaced with
+ *             version 2, {@linkplain Operators2}.
  */
+@Deprecated
 public class Operators {
 
 	/**

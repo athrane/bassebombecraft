@@ -18,6 +18,7 @@ import static bassebombecraft.config.InventoryItemConfig.getInstance;
 import static bassebombecraft.config.InventoryItemConfig.getInstanceWithNoRange;
 import static bassebombecraft.config.ItemConfig.getInstance;
 import static bassebombecraft.config.ParticlesConfig.getInstance;
+import static bassebombecraft.config.ProjectileEntityConfig.getInstance;
 import static net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR;
 
 import java.nio.file.Path;
@@ -30,16 +31,21 @@ import org.apache.logging.log4j.Logger;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 
+import bassebombecraft.ModConstants;
 import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
 import bassebombecraft.entity.commander.command.AttackNearestMobCommand;
 import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
 import bassebombecraft.entity.commander.command.DanceCommand;
+import bassebombecraft.entity.projectile.EggProjectileEntity;
+import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
+import bassebombecraft.entity.projectile.LightningProjectileEntity;
+import bassebombecraft.entity.projectile.LlamaProjectileEntity;
 import bassebombecraft.event.charm.CharmedMobEventHandler;
 import bassebombecraft.event.charm.ServerCharmedMobsRepository;
+import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
-import bassebombecraft.item.action.ShootSmallFireballRing;
 import bassebombecraft.item.action.build.CopyPasteBlocks;
 import bassebombecraft.item.action.inventory.AddAggroMobEffect;
 import bassebombecraft.item.action.inventory.AddAggroPlayerEffect;
@@ -80,13 +86,13 @@ import bassebombecraft.item.book.LargeFireballBook;
 import bassebombecraft.item.book.LavaSpiralMistBook;
 import bassebombecraft.item.book.LingeringFlameBook;
 import bassebombecraft.item.book.LingeringFuryBook;
+import bassebombecraft.item.book.MultipleArrowsBook;
 import bassebombecraft.item.book.NaturalizeBook;
 import bassebombecraft.item.book.PrimedCreeperCannonBook;
 import bassebombecraft.item.book.RainbownizeBook;
 import bassebombecraft.item.book.ReceiveAggroBook;
 import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
-import bassebombecraft.item.book.SmallFireballRingBook;
 import bassebombecraft.item.book.SpawnCreeperArmyBook;
 import bassebombecraft.item.book.SpawnFlamingChickenBook;
 import bassebombecraft.item.book.SpawnGuardianBook;
@@ -96,6 +102,30 @@ import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
+import bassebombecraft.item.composite.CompositeMagicItem;
+import bassebombecraft.item.composite.projectile.EggProjectileItem;
+import bassebombecraft.item.composite.projectile.LightningProjectileItem;
+import bassebombecraft.item.composite.projectile.LlamaProjectileItem;
+import bassebombecraft.item.composite.projectile.WitherSkullProjectileItem;
+import bassebombecraft.item.composite.projectile.formation.CircleProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.FrontAndBackProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.RandomSingleProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.SingleProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.modifier.InaccuracyProjectileFormationModifierItem;
+import bassebombecraft.item.composite.projectile.formation.modifier.OscillatingRotation180DProjectileFormationModifierItem;
+import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.ExplodeProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.RandomProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.SineProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.ZigZagProjectilePathItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
@@ -125,10 +155,13 @@ import bassebombecraft.item.inventory.RemoveBlockSpiralIdolInventoryItem;
 import bassebombecraft.item.inventory.RespawnIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
+import bassebombecraft.operator.entity.Explode2;
 import bassebombecraft.operator.entity.Respawn;
-import bassebombecraft.operator.entity.SpawnDecoy;
 import bassebombecraft.operator.entity.SpawnKillerBee;
-import bassebombecraft.operator.entity.SpawnWarPig;
+import bassebombecraft.operator.entity.SpawnWarPig2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
+import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
+import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.potion.effect.AggroMobEffect;
 import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
@@ -157,6 +190,11 @@ public class ModConfiguration {
 	 * Common configuration for the mod.
 	 */
 	public static ForgeConfigSpec COMMON_CONFIG;
+
+	/**
+	 * Disable mod welcome message.
+	 */
+	public static ForgeConfigSpec.BooleanValue enableWelcomeMessage;
 
 	// Repositories..
 
@@ -245,19 +283,12 @@ public class ModConfiguration {
 
 	// Books..
 
-	// MobCommandersBaton
-	public static ForgeConfigSpec.ConfigValue<String> mobCommandersBatonTooltip;
-	public static ForgeConfigSpec.IntValue mobCommandersBatonCooldown;
+	public static ItemConfig mobCommandersBaton;
 
-	// SmallFireballBook
+	public static ItemConfig multipleArrowsBook;
 	public static ItemConfig smallFireballBook;
 	public static ItemConfig largeFireballBook;
-
-	// SmallFireballRingBook
-	public static ForgeConfigSpec.ConfigValue<String> smallFireballRingBookTooltip;
-	public static ForgeConfigSpec.IntValue smallFireballRingBookCooldown;
-
-	// LingeringFlameBook
+	public static ItemConfig smallFireballRingBook;
 	public static ItemConfig lingeringFlameBook;
 	public static ItemConfig lingeringFuryBook;
 	public static ItemConfig toxicMistBook;
@@ -287,10 +318,7 @@ public class ModConfiguration {
 	public static ItemConfig beastmasterBook;
 	public static ItemConfig decoyBook;
 	public static ItemConfig receiveAggroBook;
-
-	// DigMobHoleBook
-	public static ForgeConfigSpec.ConfigValue<String> digMobHoleBookTooltip;
-	public static ForgeConfigSpec.IntValue digMobHoleBookCooldown;
+	public static ItemConfig digMobHoleBook;
 
 	public static ItemConfig lavaSpiralMistBook;
 	public static ItemConfig rainbownizeBook;
@@ -366,10 +394,42 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue removeBlockSpiralIdolInventoryItemSpiralSize;
 	public static ParticlesConfig removeBlockSpiralIdolInventoryItemParticleInfo;
 
-	// Actions..
+	// Composite magic items..
 
-	// ShootFireballRing projectile action
-	public static ForgeConfigSpec.IntValue shootSmallFireballRingFireballs;
+	public static ItemConfig compositeMagicItem;
+	public static ItemConfig singleProjectileFormationItem;
+	public static ItemConfig randomSingleProjectileFormationItem;
+	public static ItemConfig circleProjectileFormationItem;
+	public static ItemConfig trifurcatedProjectileFormationItem;
+	public static ItemConfig frontAndBackProjectileFormationItem;
+
+	public static ItemConfig eggProjectileItem;
+	public static ItemConfig llamaProjectileItem;
+	public static ItemConfig lightningProjectileItem;
+	public static ItemConfig witherSkullProjectileItem;
+
+	public static ProjectileEntityConfig eggProjectileEntity;
+	public static ProjectileEntityConfig llamaProjectileEntity;
+	public static ProjectileEntityConfig lightningProjectileEntity;
+
+	public static ItemConfig randomProjectileFormationModifierItem;
+	public static ItemConfig inaccuracyProjectileFormationModifierItem;
+	public static ItemConfig oscillatingRotation180DProjectileFormationModifierItem;
+
+	public static ItemConfig randomProjectilePathItem;
+	public static ItemConfig accelerateProjectilePathItem;
+	public static ItemConfig zigZagProjectilePathItem;
+	public static ItemConfig sineProjectilePathItem;
+
+	public static ItemConfig teleportInvokerProjectileModifierItem;
+	public static ItemConfig teleportMobProjectileModifierItem;
+	public static ItemConfig charmProjectileModifierItem;
+	public static ItemConfig meteorProjectileModifierItem;
+	public static ItemConfig decoyProjectileModifierItem;
+	public static ItemConfig explodeProjectileModifierItem;
+	public static ItemConfig digMobHoleProjectileModifierItem;
+
+	// Actions..
 
 	// ShootBaconBazooka projectile action
 	public static ForgeConfigSpec.IntValue shootBaconBazookaProjectileAge;
@@ -496,15 +556,21 @@ public class ModConfiguration {
 
 	// Operators..
 
-	// Spawn killer bee operator
+	/**
+	 * Properties for {@linkplain SpawnKillerBee} operator.
+	 */
 	public static ForgeConfigSpec.IntValue spawnKillerBeeDamage;
 	public static ForgeConfigSpec.DoubleValue spawnKillerBeeMovementSpeed;
 
-	// Spawn war pig operator
+	/**
+	 * Properties for {@linkplain SpawnWarPig2} operator.
+	 */
 	public static ForgeConfigSpec.IntValue spawnWarPigDamage;
 	public static ForgeConfigSpec.DoubleValue spawnWarPigMovementSpeed;
 
-	// Spawn decoy operator
+	/**
+	 * Properties for {@linkplain SpawnDecoy} and {@linkplain SpawnDecoy2} operator.
+	 */
 	public static ForgeConfigSpec.IntValue spawnDecoyMaxHealth;
 	public static ForgeConfigSpec.DoubleValue spawnDecoyKnockBackResistance;
 
@@ -516,14 +582,42 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue increaseSizeEffectDuration;
 	public static ForgeConfigSpec.IntValue increaseSizeEffectAmplifier;
 
-	// Receive aggro effect operator
+	/**
+	 * Properties for {@linkplain ReceiveAggroEffect} effect which is used by the
+	 * operators in {@linkplain ReceiveAggroBook}, {@linkplain DecoyBook} and
+	 * {@linkplain ProjectileModifierEventHandler}.
+	 */
 	public static ForgeConfigSpec.IntValue receiveAggroEffectDuration;
 	public static ForgeConfigSpec.IntValue receiveAggroEffectAmplifier;
 
-	// Respawn operator
+	/**
+	 * Properties for {@linkplain Respawn} operator.
+	 */
 	public static ForgeConfigSpec.IntValue respawnMinEntities;
 	public static ForgeConfigSpec.IntValue respawnMaxEntities;
 	public static ForgeConfigSpec.IntValue respawnSpawnArea;
+
+	/**
+	 * Properties for {@linkplain CircleProjectileFormation2} operator.
+	 */
+	public static ForgeConfigSpec.IntValue circleProjectileFormationNumberProjectiles;
+
+	/**
+	 * Properties for {@linkplain Explode2} operator.
+	 */
+	public static ForgeConfigSpec.DoubleValue explodeMinExplosionRadius;
+
+	/**
+	 * Properties for {@linkplain AccelerateProjectilePath} operator.
+	 */
+	public static ForgeConfigSpec.DoubleValue accelerateProjectilePathAcceleration;
+
+	// Entities..
+
+	/**
+	 * Properties for {@linkplain GenericCompositeProjectileEntity} operator.
+	 */
+	public static ForgeConfigSpec.IntValue genericProjectileEntityProjectileDuration;
 
 	static {
 
@@ -565,22 +659,35 @@ public class ModConfiguration {
 		setupInventoryItemsConfig();
 		COMMON_BUILDER.pop();
 
+		COMMON_BUILDER.comment("Composite item settings").push("CompositeItems");
+		setupCompositeItemsConfig();
+		COMMON_BUILDER.pop();
+
+		COMMON_BUILDER.comment("Entity settings").push("Entities");
+		setupEntitiesConfig();
+		COMMON_BUILDER.pop();
+
 		// do build
 		COMMON_CONFIG = COMMON_BUILDER.build();
 	}
 
 	/**
-	 * Define general settings for repositories and event handlers etc.
+	 * Define general settings for the mod, repositories and event handlers etc.
 	 */
 	static void setupGeneralConfig() {
+
+		String name = ModConstants.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		enableWelcomeMessage = COMMON_BUILDER.comment("Defines if MOD welcome message is enabled when mod is loaded.")
+				.define("enableWelcomeMessage", true);
+		COMMON_BUILDER.pop();
 
 		/**
 		 * Charmed mob properties used by repositories
 		 * {@linkplain ServerCharmedMobsRepository} and
 		 * {@linkplain ClientCharmedMobsRepository}.
 		 */
-		String name = CHARMED_MOB_NAME;
-		;
+		name = CHARMED_MOB_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		charmDuration = COMMON_BUILDER.comment("Charm duration (in game ticks).").defineInRange("charmDuration", 1000,
 				0, Integer.MAX_VALUE);
@@ -792,15 +899,8 @@ public class ModConfiguration {
 	 */
 	static void setupActionsConfig() {
 
-		// ShootSmallFireballRing
-		String name = ShootSmallFireballRing.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		shootSmallFireballRingFireballs = COMMON_BUILDER.comment("Number of fireballs spawned in 360 degrees circle.")
-				.defineInRange("number", 16, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
 		// ShootBaconBazooka
-		name = ShootBaconBazooka.NAME;
+		String name = ShootBaconBazooka.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		shootBaconBazookaProjectileAge = COMMON_BUILDER.comment("Projectile entity age.").defineInRange("number", -1, 0,
 				Integer.MAX_VALUE);
@@ -834,7 +934,10 @@ public class ModConfiguration {
 				.defineInRange("spawnDisplacement", 2, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// DigMobHole
+		/**
+		 * Configuration for the {@linkplain DigMobHole} action and the
+		 * {@linkplain DigMobHole2} operator.
+		 */
 		name = DigMobHole.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		digMobHoleNoHitHoleDepth = COMMON_BUILDER.comment("No-hit, hole depth (Z) in blocks.")
@@ -1088,7 +1191,9 @@ public class ModConfiguration {
 	 */
 	static void setupOperatorConfig() {
 
-		// SpawnKillerBee
+		/**
+		 * Configuration for the {@linkplain SpawnKillerBee} operator.
+		 */
 		String name = SpawnKillerBee.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnKillerBeeDamage = COMMON_BUILDER.comment("Bee damage.").defineInRange("damage", 2, 0, Integer.MAX_VALUE);
@@ -1096,8 +1201,10 @@ public class ModConfiguration {
 				0, 5.0D);
 		COMMON_BUILDER.pop();
 
-		// SpawnWarPig
-		name = SpawnWarPig.NAME;
+		/**
+		 * Configuration for the {@linkplain SpawnWarPig2} operator.
+		 */
+		name = SpawnWarPig2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnWarPigDamage = COMMON_BUILDER.comment("Pig damage.").defineInRange("damage", 2, 0, Integer.MAX_VALUE);
 		spawnWarPigMovementSpeed = COMMON_BUILDER.comment("Pig movement speed.").defineInRange("movementSpeed", 0.75D,
@@ -1124,8 +1231,10 @@ public class ModConfiguration {
 				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// SpawnDecoy
-		name = SpawnDecoy.NAME;
+		/**
+		 * Configuration for the {@linkplain SpawnDecoy2} operator.
+		 */
+		name = SpawnDecoy2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnDecoyMaxHealth = COMMON_BUILDER.comment("Decoy max health.").defineInRange("maxHealth", 200, 0,
 				Integer.MAX_VALUE);
@@ -1133,7 +1242,10 @@ public class ModConfiguration {
 				.defineInRange("knockbackResistance ", 1.0D, 0, 1.0D);
 		COMMON_BUILDER.pop();
 
-		// Receive aggro effect for the DecoyBook class
+		/**
+		 * Configuration for the {@linkplain ReceiveAggroEffect} effect for the
+		 * {@linkplain DecoyBook} item.
+		 */
 		name = ReceiveAggroEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		receiveAggroEffectAmplifier = COMMON_BUILDER
@@ -1143,7 +1255,9 @@ public class ModConfiguration {
 				.defineInRange("duration", 500, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// Respawn
+		/**
+		 * Configuration for the {@linkplain Respawn} operator.
+		 */
 		name = Respawn.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		respawnMinEntities = COMMON_BUILDER.comment("Min. number of entities spawned.").defineInRange("minEntities", 5,
@@ -1154,15 +1268,46 @@ public class ModConfiguration {
 				.defineInRange("SpawnArea ", 5, 0, 10);
 		COMMON_BUILDER.pop();
 
-		
-		// RemoveBlockSpiralIdolInventoryItem
-		name = RemoveBlockSpiralIdolInventoryItem.ITEM_NAME;		
+		/**
+		 * Configuration for the {@linkplain RemoveBlockSpiralIdolInventoryItem} item.
+		 */
+		name = RemoveBlockSpiralIdolInventoryItem.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		removeBlockSpiralIdolInventoryItemSpiralSize = COMMON_BUILDER
 				.comment("Spiral size, measured in rotations around the centre.")
 				.defineInRange("spiralSize", 5, 0, Integer.MAX_VALUE);
-		removeBlockSpiralIdolInventoryItemParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 5, 10, 0.3, 1.0, 1.0, 1.0);
-		COMMON_BUILDER.pop();		
+		removeBlockSpiralIdolInventoryItemParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 5, 10, 0.3, 1.0,
+				1.0, 1.0);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain CircleProjectileFormation2} operator.
+		 */
+		name = CircleProjectileFormation2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		circleProjectileFormationNumberProjectiles = COMMON_BUILDER
+				.comment("Number of projectile spawned in 360 degrees circle.")
+				.defineInRange("number", 8, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain Explode2} operator.
+		 */
+		name = Explode2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		explodeMinExplosionRadius = COMMON_BUILDER.comment("Minimum explosion radius.")
+				.defineInRange("minimumExplosionRadius", 2.0D, 0, 100);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain AccelerateProjectilePath} operator.
+		 */
+		name = AccelerateProjectilePath.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		accelerateProjectilePathAcceleration = COMMON_BUILDER.comment("Acceleration increase per game turn.")
+				.defineInRange("acceleration", 1.3D, 0, 10);
+		COMMON_BUILDER.pop();
+
 	}
 
 	/**
@@ -1170,16 +1315,24 @@ public class ModConfiguration {
 	 */
 	static void setupBooksConfig() {
 
-		// MobCommandersBaton
+		/**
+		 * Configuration for the {@linkplain MobCommandersBaton} item.
+		 */
 		String name = MobCommandersBaton.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		mobCommandersBatonTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
-				"Right-click to issue commands to charmed and commanded mobs.");
-		mobCommandersBatonCooldown = COMMON_BUILDER.comment("Game ticks between item activation.")
-				.defineInRange("cooldown", 25, 0, Integer.MAX_VALUE);
+		mobCommandersBaton = getInstance(COMMON_BUILDER, name,
+				"Right-click to issue commands to charmed and commanded mobs.", 25);
 		COMMON_BUILDER.pop();
 
-		// SmallFireballBook
+		/**
+		 * Configuration for the {@linkplain MultipleArrowsBook} item.
+		 */
+		name = MultipleArrowsBook.ITEM_NAME;
+		multipleArrowsBook = getInstance(COMMON_BUILDER, name, "Right-click to shoot multiple arrows at foes.", 50);
+
+		/**
+		 * Configuration for the {@linkplain SmallFireballBook} item.
+		 */
 		name = SmallFireballBook.ITEM_NAME;
 		smallFireballBook = getInstance(COMMON_BUILDER, name, "Right-click to shoot a fireball that is hurled at foes.",
 				25);
@@ -1189,14 +1342,12 @@ public class ModConfiguration {
 		largeFireballBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to shoot a large fireball that is hurled at foes.", 25);
 
-		// SmallFireballRingBook
-		name = SmallFireballRingBook.ITEM_NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		smallFireballRingBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
-				"Right-click to shot a ring of small fireballs outwards.");
-		smallFireballRingBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.")
-				.defineInRange("cooldown", 50, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
+		/**
+		 * Configuration for the {@linkplain SmallFireballRingBook} item.
+		 */
+		name = LargeFireballBook.ITEM_NAME;
+		smallFireballRingBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to shot a ring of small fireballs outwards.", 100);
 
 		// LingeringFlameBook
 		name = LingeringFlameBook.ITEM_NAME;
@@ -1214,7 +1365,8 @@ public class ModConfiguration {
 
 		// WitherSkullBook
 		name = WitherSkullBook.ITEM_NAME;
-		witherSkullBook = getInstance(COMMON_BUILDER, name, "Creates a Wither Skull that is hurled at foes.", 25);
+		witherSkullBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to summon a wither skull that is hurled at foes.", 25);
 
 		// BaconBazookaBook
 		name = BaconBazookaBook.ITEM_NAME;
@@ -1280,28 +1432,30 @@ public class ModConfiguration {
 				"Right-click to shoot projectile. If the projectile hits a target mob then all mobs in the vicinity will aggro the hit target mob.",
 				100);
 
+		/**
+		 * Configuration for the {@linkplain DigMobHoleBook} item.
+		 */
 		// DigMobHoleBook
 		name = DigMobHoleBook.ITEM_NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		digMobHoleBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
-				"Right-click to shoot a projectile. If a creature is hit then an inconvenient hole is digged beneath the hit individual.");
-		digMobHoleBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.").defineInRange("cooldown",
-				25, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
+		digMobHoleBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to shoot a projectile. If a creature is hit then an inconvenient hole is digged beneath the unfortunate individual.",
+				25);
 
 		// LavaSpiralMistBook
 		name = LavaSpiralMistBook.ITEM_NAME;
 		lavaSpiralMistBook = getInstance(COMMON_BUILDER, name,
-				"Creates an expanding spiral of temporary lava blocks centered on where the caster is placed.", 100);
+				"Right-click to create an expanding spiral of temporary lava blocks centered on where the caster is placed.",
+				100);
 
 		// VacuumMistBook
 		name = VacuumMistBook.ITEM_NAME;
-		vacuumMistBook = getInstance(COMMON_BUILDER, name, "Creates a cloud of vacuum which pull mobs into it.", 100);
+		vacuumMistBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to create a cloud of vacuum which pull mobs into it.", 100);
 
 		// HealingMistBook
 		name = HealingMistBook.ITEM_NAME;
 		healingMistBook = getInstance(COMMON_BUILDER, name,
-				"It creates a cloud of healing that heal nearby friends and foes.", 100);
+				"Right-click to create a cloud of healing that heal nearby friends and foes.", 100);
 
 		// SpawnCreeperArmyBook
 		name = SpawnCreeperArmyBook.ITEM_NAME;
@@ -1584,9 +1738,297 @@ public class ModConfiguration {
 		name = RemoveBlockSpiralIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1.0, 1.0, 0.4, 0.7);
 		removeBlockSpiralIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol will remove blocks in an expandinf spiral.", 5,
+				"Equip in either hand to activate. The idol will remove blocks in an expanding spiral.", 5,
 				splParticles);
-		
+
+	}
+
+	/**
+	 * Define configuration for composite magic items.
+	 */
+	static void setupCompositeItemsConfig() {
+
+		/**
+		 * Configuration for the {@linkplain CompositeMagicItem} item.
+		 */
+		String name = CompositeMagicItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		compositeMagicItem = getInstance(COMMON_BUILDER, name,
+				"Equip item (e.g. in the off hand slot). Right-click to activate configured magic. Configure magic but placing composite magic items in the inventory or the hotbar. The first connected sequence of items is used by the item. Add or remove items to reconfigure the magic.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain SingleProjectileFormationItem} item.
+		 */
+		name = SingleProjectileFormationItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		singleProjectileFormationItem = getInstance(COMMON_BUILDER, name,
+				"A cryptic illustration of a formation. Cast a single projectile in front of the caster.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain RandomSingleProjectileFormationItem} item.
+		 */
+		name = RandomSingleProjectileFormationItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		randomSingleProjectileFormationItem = getInstance(COMMON_BUILDER, name,
+				"A cryptic illustration of a formation. Cast a single projectile in a random direction around the caster.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain CircleProjectileFormationItem} item.
+		 */
+		name = CircleProjectileFormationItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		circleProjectileFormationItem = getInstance(COMMON_BUILDER, name,
+				"A cryptic illustration of a formation. Cast projectiles in a circle formation around the caster.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain TrifurcatedProjectileFormationItem} item.
+		 */
+		name = TrifurcatedProjectileFormationItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		trifurcatedProjectileFormationItem = getInstance(COMMON_BUILDER, name,
+				"A cryptic illustration of a formation. Cast 3 projectiles in a trifurcated formation in front of the caster.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain FrontAndBackProjectileFormationItem} item.
+		 */
+		name = FrontAndBackProjectileFormationItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		frontAndBackProjectileFormationItem = getInstance(COMMON_BUILDER, name,
+				"A cryptic illustration of a formation. Cast 2 projectiles. One projectile is cast in front and one from the back of the caster.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain EggProjectileItem} item.
+		 */
+		name = EggProjectileItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		eggProjectileItem = getInstance(COMMON_BUILDER, name,
+				"A runic image of an egg. The egg can on very rare occasions contain several surprises. But most likely it is just an empty shell. It is slow and don't much damage on impact.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain LlamaProjectileItem} item.
+		 */
+		name = LlamaProjectileItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		llamaProjectileItem = getInstance(COMMON_BUILDER, name,
+				"A runic image of a llama , almost like something from a psychedelic shooter. It is quick but doesn't do much damage on impact.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain LightningProjectileItem} item.
+		 */
+		name = LightningProjectileItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		lightningProjectileItem = getInstance(COMMON_BUILDER, name,
+				"A runic image of a lightning. It has medium speed and cause high damage on impact.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain WitherSkullProjectileItem} item.
+		 */
+		name = WitherSkullProjectileItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		witherSkullProjectileItem = getInstance(COMMON_BUILDER, name,
+				"A runic image of a scary wither skull. The skull will explode on impact.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain RandomProjectileFormationModifierItem}
+		 * item.
+		 */
+		name = RandomProjectileFormationModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		randomProjectileFormationModifierItem = getInstance(COMMON_BUILDER, name,
+				"A fiendish image of the modification of a projectile formation. All projectile paths are randomized around the vertical axis of the caster.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain InaccuracyProjectileFormationModifierItem}
+		 * item.
+		 */
+		name = InaccuracyProjectileFormationModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		inaccuracyProjectileFormationModifierItem = getInstance(COMMON_BUILDER, name,
+				"A fiendish image of the modification of a projectile formation. All projectile paths are made somewhat more inaccurate. Inaccuracy is [-5..5] degrees.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the
+		 * {@linkplain OscillatingRotation180DProjectileFormationModifierItem} item.
+		 */
+		name = OscillatingRotation180DProjectileFormationModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		oscillatingRotation180DProjectileFormationModifierItem = getInstance(COMMON_BUILDER, name,
+				"A fiendish image of the modification of a projectile formation. All projectile paths are oscillating [-90..90] degrees from the casters POV around vertical axis of the caster.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain RandomPathProjectileModifierItem} item.
+		 */
+		name = RandomProjectilePathItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		randomProjectilePathItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. The projectile will follow a random path.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain ZigZagProjectilePathItem} item.
+		 */
+		name = ZigZagProjectilePathItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		zigZagProjectilePathItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. The projectile will follow a zig zag path.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain SineProjectilePathItem} item.
+		 */
+		name = SineProjectilePathItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		sineProjectilePathItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. The projectile will follow a sine wave path.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain AccelerateProjectilePathItem} item.
+		 */
+		name = AccelerateProjectilePathItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		accelerateProjectilePathItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. The projectile continue to accelerate along its path.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain TeleportInvokerProjectileModifierItem}
+		 * item.
+		 */
+		name = TeleportInvokerProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		teleportInvokerProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. When the projectile hits a mob then the caster will be teleported to the mob. If the projectile hits a block then the caster will be teleported to the point of impact.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain TeleportMobProjectileModifierItem} item.
+		 */
+		name = TeleportMobProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		teleportMobProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. When the projectile hits a mob then the mob will be teleported to a random location.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain CharmProjectileModifierItem} item.
+		 */
+		name = CharmProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		charmProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. When the projectile hits a mob then the mob will be charmed and be commanded by the caster.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain MeteorProjectileModifierItem} item.
+		 */
+		name = MeteorProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		meteorProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. When the projectile hits a mob then a meteor will come from the sky.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain DecoyProjectileModifierItem} item.
+		 */
+		name = DecoyProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		decoyProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. When the projectile hits something a decoy will be spawned. All mobs in the vicinity will aggro the poor thing.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain ExplodeProjectileModifierItem} item.
+		 */
+		name = ExplodeProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		explodeProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. When a mob is killed it will explode dealing damage to nearby mobs. The explosion radius is based on the size if the killed mob.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain DigMobHoleProjectileModifierItem} item.
+		 */
+		name = DigMobHoleProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		digMobHoleProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. If a creature is hit then an inconvenient hole is digged beneath the unfortunate individual.",
+				25);
+		COMMON_BUILDER.pop();
+
+	}
+
+	/**
+	 * Define configuration for entities.
+	 */
+	static void setupEntitiesConfig() {
+
+		/**
+		 * Configuration for the {@linkplain GenericProjectileEntity} entity.
+		 */
+		String name = GenericCompositeProjectileEntity.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		genericProjectileEntityProjectileDuration = COMMON_BUILDER.comment("Duration of projectiles in game ticks.")
+				.defineInRange("duration", 125, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain EggProjectileEntity} item.
+		 */
+		name = EggProjectileEntity.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		Supplier<ParticlesConfig> splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:chickenparticle", 1, 5, 0, 0.0, 0.0,
+				1.0);
+		eggProjectileEntity = getInstance(COMMON_BUILDER, name, 0.0D, 2.0D, 1.0D, splParticles);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain LlamaProjectileEntity} item.
+		 */
+		name = LlamaProjectileEntity.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:sparkparticle", 1, 5, 0, 0.0, 0.0, 1.0);
+		llamaProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 5.0D, splParticles);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain LightningProjectileEntity} item.
+		 */
+		name = LightningProjectileEntity.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:lightningparticle", 1, 5, 0, 0.0, 0.0, 1.0);
+		lightningProjectileEntity = getInstance(COMMON_BUILDER, name, 10.0D, 4.0D, 10.0D, splParticles);
+		COMMON_BUILDER.pop();
 	}
 
 	/**

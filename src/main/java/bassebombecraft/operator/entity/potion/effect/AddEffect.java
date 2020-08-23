@@ -11,7 +11,10 @@ import net.minecraft.potion.EffectInstance;
 /**
  * Implementation of the {@linkplain Operator} interface which adds an effect to
  * entity.
+ * 
+ * @deprecated Use {@linkplain AddEffect2} instead.
  */
+@Deprecated
 public class AddEffect implements Operator {
 
 	/**

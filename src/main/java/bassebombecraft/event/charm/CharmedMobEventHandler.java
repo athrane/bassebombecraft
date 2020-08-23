@@ -12,7 +12,7 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.client.rendering.AddParticlesFromEntityAtClient2;
 import bassebombecraft.operator.conditional.IsEntityIsCharmed2;
-import bassebombecraft.operator.conditional.IsEntityOfType2;
+import bassebombecraft.operator.conditional.IsEntity1OfType2;
 import bassebombecraft.operator.conditional.IsFrequencyIsActive2;
 import bassebombecraft.operator.conditional.IsWorldAtServerSide2;
 import bassebombecraft.operator.entity.RemoveCharm2;
@@ -39,24 +39,24 @@ public class CharmedMobEventHandler {
 	 * Operator for spawning particles for charmed mob.
 	 */
 	static Operator2[] particlesOps = { new IsWorldAtServerSide2(),
-			new IsFrequencyIsActive2(CHARM_PARTICLE_RENDERING_FREQUENCY), new IsEntityOfType2(MobEntity.class),
+			new IsFrequencyIsActive2(CHARM_PARTICLE_RENDERING_FREQUENCY), new IsEntity1OfType2(MobEntity.class),
 			new IsEntityIsCharmed2(), new AddParticlesFromEntityAtClient2(createFromConfig(charmedMobParticles)) };
 
 	/**
 	 * Operators for uncharm.
 	 */
-	static Operator2[] uncharmOps = { new IsWorldAtServerSide2(), new IsEntityOfType2(MobEntity.class),
+	static Operator2[] uncharmOps = { new IsWorldAtServerSide2(), new IsEntity1OfType2(MobEntity.class),
 			new RemoveCharm2() };
 
 	@SubscribeEvent
 	static public void handleLivingUpdateEvent(LivingUpdateEvent event) {
-		Ports ports = getInstance().setLivingEntity(event.getEntityLiving());
+		Ports ports = getInstance().setLivingEntity1(event.getEntityLiving());
 		run(ports, particlesOps);
 	}
 
 	@SubscribeEvent
 	public static void handleLivingDeathEvent(LivingDeathEvent event) {
-		Ports ports = getInstance().setLivingEntity(event.getEntityLiving());		
+		Ports ports = getInstance().setLivingEntity1(event.getEntityLiving());		
 		run(ports, uncharmOps);
 	}
 

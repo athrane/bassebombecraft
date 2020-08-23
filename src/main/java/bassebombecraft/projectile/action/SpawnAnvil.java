@@ -1,8 +1,8 @@
 package bassebombecraft.projectile.action;
 
 import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
-import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
-import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;

@@ -1,0 +1,15 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "bassebombecraft:zigzagprojectilepathitem"
+		},
+		{
+			"item": "minecraft:fermented_spider_eye"
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:sineprojectilepathitem"
+	}
+}
+

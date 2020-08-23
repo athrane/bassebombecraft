@@ -1,8 +1,8 @@
 package bassebombecraft.client.event.rendering;
 
 import static bassebombecraft.ModConstants.DECOY;
-import static bassebombecraft.client.rendering.RenderingUtils.oscillate;
 import static bassebombecraft.entity.EntityUtils.hasAttribute;
+import static bassebombecraft.geom.GeometryUtils.oscillateWithDeltaTime;
 import static net.minecraft.util.math.MathHelper.interpolateAngle;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -97,7 +97,7 @@ public class DecoyRenderer {
 	public static float calculateSize(float amplifier, LivingEntity entity) {
 		float scaledSize = (float) amplifier / 100.0F;
 		float scaledSizeFraction = scaledSize * 0.25F;
-		float sizeVariation = (float) oscillate(entity.hashCode(), 0, scaledSizeFraction);
+		float sizeVariation = (float) oscillateWithDeltaTime(entity.hashCode(), 0, scaledSizeFraction);
 		return scaledSize + sizeVariation;
 	}
 

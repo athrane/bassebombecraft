@@ -1,0 +1,21 @@
+	{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:fire_charge"
+		},
+		{
+			"item": "minecraft:chicken"
+		},
+		{
+			"item": "minecraft:chicken"
+		},
+		{
+			"item": "minecraft:chicken"
+		}
+		
+	],
+	"result": {
+		"item": "bassebombecraft:eggprojectileitem"
+	}
+}

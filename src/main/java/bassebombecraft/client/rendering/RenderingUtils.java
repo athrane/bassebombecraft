@@ -1,13 +1,11 @@
 package bassebombecraft.client.rendering;
 
 import static bassebombecraft.ClientModConstants.TEXT_BILLBOARD_ROTATION;
+import static bassebombecraft.ClientModConstants.TEXT_SCALE;
 import static bassebombecraft.ModConstants.BILLBOARD_LINE_WIDTH;
 import static bassebombecraft.ModConstants.EQUILATERAL_TRIANGLE_HEIGHT;
-import static bassebombecraft.ModConstants.TEXT_COLOR;
-import static bassebombecraft.ModConstants.TEXT_SCALE;
-import static bassebombecraft.ModConstants.TEXT_Z_TRANSLATION;
-
-import java.time.Instant;
+import static bassebombecraft.ModConstants.MODID;
+import static bassebombecraft.ModConstants.TEXTURE_PATH;
 
 import org.lwjgl.opengl.GL11;
 
@@ -15,6 +13,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import bassebombecraft.ClientModConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.ActiveRenderInfo;
@@ -26,6 +25,7 @@ import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -373,7 +373,7 @@ public class RenderingUtils {
 	 */
 	@Deprecated
 	public static void renderTextBillboard(Vec3d playerPos, Vec3d entityPos, String text, Vector4f rotation) {
-		renderTextBillboard(playerPos, entityPos, text, rotation, TEXT_COLOR);
+		renderTextBillboard(playerPos, entityPos, text, rotation, ClientModConstants.TEXT_COLOR);
 	}
 
 	/**
@@ -450,7 +450,7 @@ public class RenderingUtils {
 		RenderSystem.rotatef(180, 0, 0, 1);
 
 		// draw
-		mc.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
+		mc.fontRenderer.drawString(text, 0, 0, ClientModConstants.TEXT_COLOR);
 
 		resetBillboardRendering();
 	}
@@ -487,7 +487,7 @@ public class RenderingUtils {
 		RenderSystem.rotatef(180, 0, 0, 1);
 
 		// draw
-		mcClient.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
+		mcClient.fontRenderer.drawString(text, 0, 0, ClientModConstants.TEXT_COLOR);
 
 		resetBillboardRendering();
 	}
@@ -534,7 +534,7 @@ public class RenderingUtils {
 				TEXT_BILLBOARD_ROTATION.getY(), TEXT_BILLBOARD_ROTATION.getZ());
 
 		// draw
-		mcClient.fontRenderer.drawString(text, 0, 0, TEXT_COLOR);
+		mcClient.fontRenderer.drawString(text, 0, 0, ClientModConstants.TEXT_COLOR);
 
 		resetBillboardRendering();
 	}
@@ -551,6 +551,7 @@ public class RenderingUtils {
 	 * @param x           y coordinate for text placement.
 	 * @param text        text to render.
 	 */
+	@Deprecated
 	public static void renderBillboardText(MatrixStack matrixStack, IRenderTypeBuffer buffer, float x, float y,
 			String text) {
 		EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
@@ -560,11 +561,12 @@ public class RenderingUtils {
 		matrixStack.scale(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 		matrixStack.rotate(renderManager.getCameraOrientation());
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
-		matrixStack.translate(0, 0, TEXT_Z_TRANSLATION);
+		matrixStack.translate(0, 0, ClientModConstants.TEXT_Z_TRANSLATION);
 		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
-		fontRenderer.renderString(text, x, y, TEXT_COLOR, DROP_SHADOW, positionMatrix, buffer, IS_TRANSPARENT,
-				TEXT_EFFECT, PACKED_LIGHT);
+		fontRenderer.renderString(text, x, y, ClientModConstants.TEXT_COLOR, DROP_SHADOW, positionMatrix, buffer,
+				IS_TRANSPARENT, TEXT_EFFECT, PACKED_LIGHT);
 		matrixStack.pop();
+
 	}
 
 	/**
@@ -572,6 +574,7 @@ public class RenderingUtils {
 	 * 
 	 * @param aabb AABB to render.
 	 */
+	@Deprecated
 	public static void renderWireframeBox(AxisAlignedBB aabb) {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuffer();
@@ -622,6 +625,7 @@ public class RenderingUtils {
 	 * 
 	 * @param aabb AABB to render.
 	 */
+	@Deprecated
 	public static void renderSolidBox(AxisAlignedBB aabb) {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuffer();
@@ -796,30 +800,16 @@ public class RenderingUtils {
 	}
 
 	/**
-	 * Oscillate value.
+	 * Create texture resource location for projectile entity.
 	 * 
-	 * @param min
-	 * @param max
+	 * @param projectileEntity class name of projectile entity.
 	 * 
-	 * @return oscillated value between min and max.
+	 * @return texture resource location for projectile entity.
 	 */
-	public static double oscillate(float min, float max) {
-		long time = Instant.now().toEpochMilli() / 10;
-		return min + (Math.sin(Math.toRadians(time)) + 1) / 2 * (max - min);
-	}
-
-	/**
-	 * Oscillate value.
-	 * 
-	 * @param timeDelta value added to time.
-	 * @param min
-	 * @param max
-	 * 
-	 * @return oscillated value between min and max.
-	 */
-	public static double oscillate(long timeDelta, float min, float max) {
-		long time = (Instant.now().toEpochMilli() / 10) + timeDelta;
-		return min + (Math.sin(Math.toRadians(time)) + 1) / 2 * (max - min);
+	public static ResourceLocation createTextureResourceLocation(Class<?> projectileEntity) {
+		String textureName = new StringBuilder().append(TEXTURE_PATH)
+				.append(projectileEntity.getSimpleName().toLowerCase()).append(".png").toString();
+		return new ResourceLocation(MODID, textureName);
 	}
 
 }

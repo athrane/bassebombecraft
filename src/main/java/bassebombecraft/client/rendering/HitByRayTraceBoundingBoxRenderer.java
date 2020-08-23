@@ -1,7 +1,6 @@
 package bassebombecraft.client.rendering;
 
 import static bassebombecraft.client.rendering.RenderingUtils.completeSimpleRendering;
-import static bassebombecraft.client.rendering.RenderingUtils.oscillate;
 import static bassebombecraft.client.rendering.RenderingUtils.prepareSimpleRendering;
 import static bassebombecraft.client.rendering.RenderingUtils.renderSolidBoxBottom;
 import static bassebombecraft.client.rendering.RenderingUtils.renderSolidBoxEast;
@@ -9,6 +8,7 @@ import static bassebombecraft.client.rendering.RenderingUtils.renderSolidBoxNort
 import static bassebombecraft.client.rendering.RenderingUtils.renderSolidBoxSouth;
 import static bassebombecraft.client.rendering.RenderingUtils.renderSolidBoxTop;
 import static bassebombecraft.client.rendering.RenderingUtils.renderSolidBoxWest;
+import static bassebombecraft.geom.GeometryUtils.oscillate;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 

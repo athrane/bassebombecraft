@@ -29,6 +29,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -106,9 +107,15 @@ public class BassebombeCraft {
 			throw e;
 		}
 
+		// get event bus
+		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
 		// Register event handler for FMLClientSetupEvent event on the mod event bus
 		// The event handler initialises the client renders
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(clientSetupEventHandler);
+		modEventBus.addListener(clientSetupEventHandler);
+
+		// do deferred registration of particles
+		proxy.doDeferredRegistration(modEventBus);
 	}
 
 	@SubscribeEvent

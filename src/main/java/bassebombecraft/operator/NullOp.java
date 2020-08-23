@@ -5,12 +5,6 @@ package bassebombecraft.operator;
  */
 public class NullOp implements Operator {
 
-	/**
-	 * NullOp constructor.
-	 */
-	public NullOp() {
-	}
-
 	@Override
 	public void run() {
 		// NO-OP

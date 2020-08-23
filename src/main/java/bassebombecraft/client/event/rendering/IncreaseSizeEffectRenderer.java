@@ -1,7 +1,7 @@
 package bassebombecraft.client.event.rendering;
 
 import static bassebombecraft.ModConstants.INCREASE_SIZE_EFFECT;
-import static bassebombecraft.client.rendering.RenderingUtils.oscillate;
+import static bassebombecraft.geom.GeometryUtils.oscillateWithDeltaTime;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -75,7 +75,7 @@ public class IncreaseSizeEffectRenderer {
 	public static float calculateSize(float amplifier, LivingEntity entity) {
 		float scaledSize = (float) amplifier / 100.0F;
 		float scaledSizeFraction = scaledSize * 0.25F;
-		float sizeVariation = (float) oscillate(entity.hashCode(), 0, scaledSizeFraction);
+		float sizeVariation = (float) oscillateWithDeltaTime(entity.hashCode(), 0, scaledSizeFraction);
 		return scaledSize + sizeVariation;
 	}
 

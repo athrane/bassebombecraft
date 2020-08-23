@@ -1,8 +1,8 @@
 package bassebombecraft.operator.conditional;
 
-import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
-import static bassebombecraft.projectile.ProjectileUtils.isNothingHit;
-import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isNothingHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 
 import java.util.function.Supplier;
 
@@ -12,7 +12,10 @@ import net.minecraft.util.math.RayTraceResult;
 /**
  * Implementation of the {@linkplain Operator} interface which executes the
  * embedded operator if a entity was hit by ray trace result.
+ * 
+ * @deprecated Replace usage with {@linkplain IsLivingEntityHitInRaytraceResult2}
  */
+@Deprecated
 public class IfEntityWasHit implements Operator {
 
 	/**

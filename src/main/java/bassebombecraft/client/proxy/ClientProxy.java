@@ -1,10 +1,14 @@
 package bassebombecraft.client.proxy;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.client.particles.RegisteredParticles.PARTICLES;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayerUId;
 import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startSession;
+import static bassebombecraft.event.projectile.RegisteredEntityTypes.EGG_PROJECTILE;
+import static bassebombecraft.event.projectile.RegisteredEntityTypes.LIGHTNING_PROJECTILE;
+import static bassebombecraft.event.projectile.RegisteredEntityTypes.LLAMA_PROJECTILE;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 import java.io.PrintWriter;
@@ -15,12 +19,17 @@ import org.apache.logging.log4j.Logger;
 import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
 import bassebombecraft.client.event.particle.DefaultParticleRenderingRepository;
 import bassebombecraft.client.event.particle.ParticleRenderingRepository;
-import bassebombecraft.client.event.rendering.CharmedInfoRenderer;
+import bassebombecraft.client.event.rendering.BuildMineBookRenderer;
 import bassebombecraft.client.event.rendering.DecoyRenderer;
 import bassebombecraft.client.event.rendering.DecreaseSizeEffectRenderer;
+import bassebombecraft.client.event.rendering.HudItemCharmedInfoRenderer;
+import bassebombecraft.client.event.rendering.HudItemHighlightedBlockRenderer;
 import bassebombecraft.client.event.rendering.IncreaseSizeEffectRenderer;
 import bassebombecraft.client.event.rendering.RenderingEventHandler;
 import bassebombecraft.client.event.rendering.RespawnedRenderer;
+import bassebombecraft.client.rendering.entity.EggProjectileEntityRenderer;
+import bassebombecraft.client.rendering.entity.LightningProjectileEntityRenderer;
+import bassebombecraft.client.rendering.entity.LlamaProjectileEntityRenderer;
 import bassebombecraft.config.VersionUtils;
 import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;
@@ -43,6 +52,8 @@ import bassebombecraft.event.job.JobRepository;
 import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.proxy.Proxy;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 /**
  * Implementation of the {@linkplain Proxy} interface for the physical client.
@@ -79,7 +90,7 @@ public class ClientProxy implements Proxy {
 	 * Job repository.
 	 */
 	JobRepository jobRepository;
-	
+
 	/**
 	 * Particle rendering repository.
 	 */
@@ -140,7 +151,7 @@ public class ClientProxy implements Proxy {
 
 		// initialise job repository
 		jobRepository = DefaultJobReposiory.getInstance();
-		
+
 		// Initialise particle rendering repository
 		particleRepository = DefaultParticleRenderingRepository.getInstance();
 
@@ -272,6 +283,7 @@ public class ClientProxy implements Proxy {
 		// EVENT_BUS.addListener(DebugRenderer_StrangeSize::render);
 		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPre);
 		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPost);
+		// EVENT_BUS.addListener(DebugRenderer_WorldLastEvent_GuiLines::render);
 
 		// register renderer classes
 		EVENT_BUS.addListener(RenderingEventHandler::handleRenderGameOverlayEvent);
@@ -279,7 +291,9 @@ public class ClientProxy implements Proxy {
 		EVENT_BUS.addListener(RenderingEventHandler::handleHighlightBlock);
 		// EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
 		// EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
-		EVENT_BUS.addListener(CharmedInfoRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(HudItemCharmedInfoRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(HudItemHighlightedBlockRenderer::handleHighlightBlockEvent);
+		EVENT_BUS.addListener(BuildMineBookRenderer::handleHighlightBlockEvent);
 		// EVENT_BUS.addListener(TeamEnityRenderer::handleRenderLivingEvent);
 		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPre);
 		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPost);
@@ -289,6 +303,11 @@ public class ClientProxy implements Proxy {
 		EVENT_BUS.addListener(DecoyRenderer::handleRenderLivingEventPost);
 		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPre);
 		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPost);
+
+		// register entity rendering
+		RenderingRegistry.registerEntityRenderingHandler(EGG_PROJECTILE, EggProjectileEntityRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(LLAMA_PROJECTILE, LlamaProjectileEntityRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(LIGHTNING_PROJECTILE, LightningProjectileEntityRenderer::new);
 	}
 
 	@Override
@@ -320,7 +339,7 @@ public class ClientProxy implements Proxy {
 	public JobRepository getServerJobRepository() {
 		return jobRepository;
 	}
-	
+
 	@Override
 	public ParticleRenderingRepository getClientParticleRenderingRepository() throws UnsupportedOperationException {
 		return particleRepository;
@@ -359,6 +378,13 @@ public class ClientProxy implements Proxy {
 	@Override
 	public TargetRepository getServerTargetRepository() {
 		return targetRepository;
+	}
+
+	@Override
+	public void doDeferredRegistration(IEventBus modEventBus) {
+
+		// register particles
+		PARTICLES.register(modEventBus);
 	}
 
 }

@@ -11,8 +11,11 @@ import static bassebombecraft.ModConstants.GA_SESSION_END;
 import static bassebombecraft.ModConstants.GA_SESSION_START;
 import static bassebombecraft.ModConstants.GA_SOURCE;
 import static bassebombecraft.ModConstants.NAME;
+import static bassebombecraft.ModConstants.NUMBER_HTTP_THREADS;
 import static bassebombecraft.ModConstants.VERSION;
 import static bassebombecraft.ModConstants.VERSION_URL;
+import static bassebombecraft.config.ModConfiguration.enableWelcomeMessage;
+import static bassebombecraft.player.PlayerUtils.sendChatMessageToPlayer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,10 +44,8 @@ import org.apache.logging.log4j.Logger;
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
 
-import bassebombecraft.ModConstants;
 import bassebombecraft.config.http.HttpCallback;
 import bassebombecraft.config.http.HttpRequestHandler;
-import bassebombecraft.player.PlayerUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.versions.forge.ForgeVersion;
@@ -68,7 +69,7 @@ public class VersionUtils {
 	/**
 	 * Executor service.
 	 */
-	static ExecutorService executorService = Executors.newFixedThreadPool(ModConstants.NUMBER_HTTP_THREADS);
+	static ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_HTTP_THREADS);
 
 	/**
 	 * Future request service.
@@ -574,18 +575,21 @@ public class VersionUtils {
 
 				String message = "A newer version of BasseBombeCraft is available.";
 				logger.info(message);
-				PlayerUtils.sendChatMessageToPlayer(player, message);
+				if (enableWelcomeMessage.get())
+					sendChatMessageToPlayer(player, message);
 
 				message = "The newest version is: " + version;
 				logger.info(message);
-				PlayerUtils.sendChatMessageToPlayer(player, message);
+				if (enableWelcomeMessage.get())
+					sendChatMessageToPlayer(player, message);
 
 				return;
 			}
 
 			String message = "The most current version of BasseBombeCraft is used: " + version;
 			logger.info(message);
-			PlayerUtils.sendChatMessageToPlayer(player, message);
+			if (enableWelcomeMessage.get())
+				sendChatMessageToPlayer(player, message);
 
 		} catch (Exception e) {
 			logger.info("Failed to validate version due to exception:" + e.getMessage());

@@ -1,14 +1,21 @@
 package bassebombecraft.item.inventory;
 
 import static bassebombecraft.config.ModConfiguration.warPigsIdolInventoryItem;
+import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
+import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity2;
+import static bassebombecraft.operator.DefaultPorts.getInstance;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
-import bassebombecraft.item.action.inventory.ExecuteOperatorOnTarget;
-import bassebombecraft.operator.Operator;
-import bassebombecraft.operator.Operators;
-import bassebombecraft.operator.conditional.IfEntityIsntType;
-import bassebombecraft.operator.entity.SpawnWarPig;
+import bassebombecraft.item.action.inventory.ExecuteOperatorOnTarget2;
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.Sequence2;
+import bassebombecraft.operator.conditional.IsEntityOfType2;
+import bassebombecraft.operator.conditional.IsNot2;
+import bassebombecraft.operator.entity.SpawnWarPig2;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.PigEntity;
 
 /**
@@ -18,15 +25,17 @@ public class WarPigsIdolInventoryItem extends GenericInventoryItem {
 
 	public static final String ITEM_NAME = WarPigsIdolInventoryItem.class.getSimpleName();
 
-	static Supplier<Operators> splOp = () -> {
-		Operators ops = new Operators();
-		SpawnWarPig spawnOp = new SpawnWarPig(ops.getSplLivingEntity(), ops.getSplTargetEntity());
-		Operator ifOp = new IfEntityIsntType(ops.getSplTargetEntity(), spawnOp, PigEntity.class);
-		ops.setOperator(ifOp);
-		return ops;
+	/**
+	 * Create operators.
+	 */
+	static Supplier<Operator2> splOp = () -> {
+		Function<Ports, LivingEntity> fnGetInvoker = getFnGetLivingEntity1();
+		Function<Ports, LivingEntity> fnGetTarget = getFnGetLivingEntity2();		
+		return new Sequence2( new IsNot2(new IsEntityOfType2(fnGetTarget, PigEntity.class)),
+				new SpawnWarPig2(fnGetInvoker, fnGetTarget) );
 	};
 
 	public WarPigsIdolInventoryItem() {
-		super(ITEM_NAME, warPigsIdolInventoryItem, new ExecuteOperatorOnTarget(splOp.get()));
+		super(ITEM_NAME, warPigsIdolInventoryItem, new ExecuteOperatorOnTarget2(getInstance(), splOp.get()));
 	}
 }

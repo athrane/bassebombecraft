@@ -15,6 +15,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import bassebombecraft.event.frequency.FrequencyRepository;
@@ -22,15 +23,22 @@ import bassebombecraft.item.action.RightClickedItemAction;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.ShootGenericEggProjectile;
-import bassebombecraft.item.action.ShootLargeFireball;
-import bassebombecraft.item.action.ShootMultipleArrows;
-import bassebombecraft.item.action.ShootSmallFireball;
-import bassebombecraft.item.action.ShootWitherSkull;
 import bassebombecraft.item.action.mist.entity.EntityMistActionStrategy;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.action.mist.entity.LightningBoltMist;
 import bassebombecraft.item.action.mist.entity.ToxicMist;
 import bassebombecraft.item.action.mist.entity.VacuumMist;
+import bassebombecraft.operator.DefaultPorts;
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.Sequence2;
+import bassebombecraft.operator.item.action.ExecuteOperatorAsAction2;
+import bassebombecraft.operator.projectile.ShootArrowProjectile2;
+import bassebombecraft.operator.projectile.ShootFireballProjectile2;
+import bassebombecraft.operator.projectile.ShootLargeFireballProjectile2;
+import bassebombecraft.operator.projectile.ShootWitherSkullProjectile2;
+import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
+import bassebombecraft.operator.projectile.formation.TrifurcatedProjectileFormation2;
 import bassebombecraft.projectile.action.DigMobHole;
 import bassebombecraft.projectile.action.EmitHorizontalForce;
 import bassebombecraft.projectile.action.EmitVerticalForce;
@@ -84,6 +92,42 @@ public class CompanionAttack extends Goal {
 	 */
 	double entityMoveSpeed = 1.0D;
 
+	/**
+	 * Create operators.
+	 */
+	static Supplier<Operator2> splLargeFireballOps = () -> {
+		Operator2 formationOp = new SingleProjectileFormation2();
+		Operator2 projectileOp = new ShootLargeFireballProjectile2();
+		return new Sequence2(formationOp, projectileOp);
+	};
+
+	/**
+	 * Create operators.
+	 */
+	static Supplier<Operator2> splFireballOps = () -> {
+		Operator2 formationOp = new SingleProjectileFormation2();
+		Operator2 projectileOp = new ShootFireballProjectile2();
+		return new Sequence2(formationOp, projectileOp);
+	};
+
+	/**
+	 * Create operators.
+	 */
+	static Supplier<Operator2> splWitherSkullOps = () -> {
+		Operator2 formationOp = new SingleProjectileFormation2();
+		Operator2 projectileOp = new ShootWitherSkullProjectile2();
+		return new Sequence2(formationOp, projectileOp);
+	};
+
+	/**
+	 * Create operators.
+	 */
+	static Supplier<Operator2> splArrowsOps = () -> {
+		Operator2 formationOp = new TrifurcatedProjectileFormation2();
+		Operator2 projectileOp = new ShootArrowProjectile2();
+		return new Sequence2(formationOp, projectileOp);
+	};
+	
 	/**
 	 * List of long range actions.
 	 */
@@ -232,6 +276,7 @@ public class CompanionAttack extends Goal {
 		// getProxy().postAiObservation("Attack", observation);
 	}
 
+
 	/**
 	 * Initialise list of long range actions.
 	 * 
@@ -239,10 +284,16 @@ public class CompanionAttack extends Goal {
 	 */
 	static List<RightClickedItemAction> initializeLongRangeActions() {
 		List<RightClickedItemAction> actions = new ArrayList<RightClickedItemAction>();
-		actions.add(new ShootSmallFireball());
-		actions.add(new ShootLargeFireball());
-		actions.add(new ShootWitherSkull());
-		actions.add(new ShootMultipleArrows());
+		Ports ports1 = DefaultPorts.getInstance();		
+		Operator2 largeFireballOp = splLargeFireballOps.get();
+		
+		getBassebombeCraft().getLogger().debug("Ports="+ports1);
+		getBassebombeCraft().getLogger().debug("operator="+largeFireballOp);		
+		
+		actions.add(ExecuteOperatorAsAction2.getInstance(ports1, largeFireballOp));
+		actions.add(ExecuteOperatorAsAction2.getInstance(DefaultPorts.getInstance(), splFireballOps.get()));
+		actions.add(ExecuteOperatorAsAction2.getInstance(DefaultPorts.getInstance(), splWitherSkullOps.get()));
+		actions.add(ExecuteOperatorAsAction2.getInstance(DefaultPorts.getInstance(), splArrowsOps.get()));
 		actions.add(new ShootBaconBazooka());
 		actions.add(new ShootCreeperCannon(ISNT_PRIMED));
 		actions.add(new ShootGenericEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));

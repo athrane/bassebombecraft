@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "bassebombecraft:randomsingleprojectileformationitem"
+		},
+		{
+			"item": "minecraft:white_tulip"
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:accelerateprojectilepathitem"
+	}
+}

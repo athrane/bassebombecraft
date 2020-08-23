@@ -34,7 +34,7 @@ public class ParticleRenderingEventHandler {
 	@SubscribeEvent
 	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
 		try {
-			
+
 			// exit if player isn't defined
 			if (!isClientSidePlayerDefined())
 				return;

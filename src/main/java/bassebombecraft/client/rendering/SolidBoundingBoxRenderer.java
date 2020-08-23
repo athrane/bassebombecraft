@@ -1,9 +1,9 @@
 package bassebombecraft.client.rendering;
 
 import static bassebombecraft.client.rendering.RenderingUtils.completeSimpleRendering;
-import static bassebombecraft.client.rendering.RenderingUtils.oscillate;
 import static bassebombecraft.client.rendering.RenderingUtils.prepareSimpleRendering;
 import static bassebombecraft.client.rendering.RenderingUtils.renderSolidBox;
+import static bassebombecraft.geom.GeometryUtils.oscillate;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 

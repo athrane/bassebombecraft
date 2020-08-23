@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "bassebombecraft:singleprojectileformationitem"
+		},
+		{
+			"item": "bassebombecraft:randomsingleprojectileformationitem"
+		},		
+		{
+			"item": "minecraft:prismarine_crystals"
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:frontandbackprojectileformationitem"
+	}
+}

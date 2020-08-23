@@ -1,5 +1,6 @@
 package bassebombecraft.item.baton;
 
+import static bassebombecraft.config.ModConfiguration.*;
 import bassebombecraft.item.action.command.CommandMobs;
 import bassebombecraft.item.book.GenericRightClickedBook;
 
@@ -11,7 +12,7 @@ public class MobCommandersBaton extends GenericRightClickedBook {
 	public static final String ITEM_NAME = MobCommandersBaton.class.getSimpleName();
 
 	public MobCommandersBaton() {
-		super(ITEM_NAME, new CommandMobs());
+		super(ITEM_NAME, mobCommandersBaton, new CommandMobs());
 	}
 
 }

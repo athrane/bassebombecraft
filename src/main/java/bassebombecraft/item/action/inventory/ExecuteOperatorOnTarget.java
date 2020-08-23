@@ -11,6 +11,7 @@ import net.minecraft.world.World;
  * 
  * Strategy is invoked when target isn't invoker.
  */
+@Deprecated
 public class ExecuteOperatorOnTarget implements InventoryItemActionStrategy {
 
 	/**

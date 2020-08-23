@@ -18,6 +18,18 @@ A Docker image is created with a Minecraft server and the server version of the 
 The image is derived from the [itzg/minecraft-server](https://github.com/itzg/docker-minecraft-server) image. 
 The image is published to DockerHub by the name: [bassebombecraft/minecraft](https://hub.docker.com/r/bassebombecraft/minecraft).
 
+# Configuration
+
+The mod maintains its configuration in the configuration file named `bassebombecraft-common.toml`.
+
+## Disabling the welcome message
+
+The welcome message can be disabled by setting the `enableWelcomeMessage` property to `false` in the configuration file:
+
+    [General.BasseBombeCraft]
+	#Defines if MOD welcome message is enabled when mod is loaded.
+    enableWelcomeMessage = false
+
 # Reviews
 
 Mod reviews from Youtube:

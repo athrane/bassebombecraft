@@ -15,6 +15,7 @@ import bassebombecraft.event.job.JobRepository;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.network.NetworkChannelHelper;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.IEventBus;
 
 /**
  * Interface for mod proxy.
@@ -23,6 +24,11 @@ import net.minecraftforge.api.distmarker.Dist;
  * client. Physical side is determined by {@linkplain Dist}.
  */
 public interface Proxy {
+
+	/**
+	 * Perform deferred registration.
+	 */
+	public void doDeferredRegistration(IEventBus modEventBus);
 
 	/**
 	 * Initialize analytics.
@@ -164,7 +170,7 @@ public interface Proxy {
 	 * @return job repository.
 	 */
 	public JobRepository getServerJobRepository();
-	
+
 	/**
 	 * Get particle rendering repository.
 	 * 
@@ -295,5 +301,5 @@ public interface Proxy {
 	 * @return mob commander repository.
 	 */
 	public TargetRepository getServerTargetRepository();
-	
+
 }

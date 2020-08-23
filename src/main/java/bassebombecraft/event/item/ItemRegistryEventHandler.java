@@ -66,6 +66,29 @@ import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.book.WitherMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
+import bassebombecraft.item.composite.CompositeMagicItem;
+import bassebombecraft.item.composite.projectile.EggProjectileItem;
+import bassebombecraft.item.composite.projectile.LightningProjectileItem;
+import bassebombecraft.item.composite.projectile.LlamaProjectileItem;
+import bassebombecraft.item.composite.projectile.formation.CircleProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.FrontAndBackProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.RandomSingleProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.SingleProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectileFormationItem;
+import bassebombecraft.item.composite.projectile.formation.modifier.InaccuracyProjectileFormationModifierItem;
+import bassebombecraft.item.composite.projectile.formation.modifier.OscillatingRotation180DProjectileFormationModifierItem;
+import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.ExplodeProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.RandomProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.SineProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.ZigZagProjectilePathItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
 import bassebombecraft.item.inventory.BlindnessIdolInventoryItem;
@@ -75,7 +98,6 @@ import bassebombecraft.item.inventory.DecreaseSizeIdolInventoryItem;
 import bassebombecraft.item.inventory.EggProjectileIdolInventoryItem;
 import bassebombecraft.item.inventory.FlameBlastIdolInventoryItem;
 import bassebombecraft.item.inventory.FlowerIdolInventoryItem;
-import bassebombecraft.item.inventory.RemoveBlockSpiralIdolInventoryItem;
 import bassebombecraft.item.inventory.IncreaseSizeIdolInventoryItem;
 import bassebombecraft.item.inventory.KillerBeesIdolInventoryItem;
 import bassebombecraft.item.inventory.LevitationIdolInventoryItem;
@@ -92,6 +114,7 @@ import bassebombecraft.item.inventory.RainIdolInventoryItem;
 import bassebombecraft.item.inventory.RainbownizeIdolInventoryItem;
 import bassebombecraft.item.inventory.ReaperIdolInventoryItem;
 import bassebombecraft.item.inventory.ReflectIdolInventoryItem;
+import bassebombecraft.item.inventory.RemoveBlockSpiralIdolInventoryItem;
 import bassebombecraft.item.inventory.RespawnIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
@@ -154,18 +177,33 @@ public class ItemRegistryEventHandler {
 	static Item[] basicItems = { new TerminatorEyeItem(), HUD_ITEM };
 
 	/**
+	 * The set of composite items.
+	 */
+	static Item[] compositeItems = { new CompositeMagicItem(), new SingleProjectileFormationItem(),
+			new RandomSingleProjectileFormationItem(), new CircleProjectileFormationItem(),
+			new TrifurcatedProjectileFormationItem(), new FrontAndBackProjectileFormationItem(),
+			new RandomProjectileFormationModifierItem(), new InaccuracyProjectileFormationModifierItem(),
+			new OscillatingRotation180DProjectileFormationModifierItem(), new LlamaProjectileItem(),
+			new EggProjectileItem(), new LightningProjectileItem(), new RandomProjectilePathItem(), new AccelerateProjectilePathItem(),
+			new ZigZagProjectilePathItem(), new SineProjectilePathItem(), new TeleportInvokerProjectileModifierItem(),
+			new TeleportMobProjectileModifierItem(), new CharmProjectileModifierItem(),
+			new MeteorProjectileModifierItem(), new DecoyProjectileModifierItem(), new ExplodeProjectileModifierItem(),
+			new DigMobHoleProjectileModifierItem() };
+
+	/**
 	 * Handle {@linkplain RegistryEvent.Register<Item>} event to register items with
 	 * forge.
 	 * 
-	 * @param event to handle.
+	 * @param event register item event.
 	 */
 	@SubscribeEvent
-	public static void registerItems(RegistryEvent.Register<Item> event) {
+	public static void handleRegisterItem(RegistryEvent.Register<Item> event) {
 		IForgeRegistry<Item> registry = event.getRegistry();
 		registry.registerAll(bookItems);
 		registry.registerAll(inventoryItems);
 		registry.registerAll(batonItems);
 		registry.registerAll(basicItems);
+		registry.registerAll(compositeItems);
 	}
 
 	/**

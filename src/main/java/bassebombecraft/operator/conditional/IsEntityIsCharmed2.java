@@ -19,7 +19,7 @@ public class IsEntityIsCharmed2 implements Operator2 {
 	public Ports run(Ports ports) {
 		
 		// get entity
-		MobEntity mobEntity = (MobEntity) ports.getLivingEntity();
+		MobEntity mobEntity = (MobEntity) ports.getLivingEntity1();
 		
 		// get repository
 		CharmedMobsRepository repository = getProxy().getServerCharmedMobsRepository();

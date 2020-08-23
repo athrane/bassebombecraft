@@ -7,13 +7,13 @@ import static bassebombecraft.config.ModConfiguration.digMobHoleHeightExpansion;
 import static bassebombecraft.config.ModConfiguration.digMobHoleNoHitHoleDepth;
 import static bassebombecraft.config.ModConfiguration.digMobHoleNoHitHoleHeight;
 import static bassebombecraft.config.ModConfiguration.digMobHoleNoHitHoleWidth;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isBlockHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.player.PlayerDirection.South;
-import static bassebombecraft.projectile.ProjectileUtils.isBlockHit;
-import static bassebombecraft.projectile.ProjectileUtils.isEntityHit;
-import static bassebombecraft.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
-import static bassebombecraft.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
 import static net.minecraft.block.Blocks.AIR;
 
@@ -21,6 +21,7 @@ import java.util.List;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
+import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
 import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.CompositeStructure;
 import net.minecraft.entity.Entity;
@@ -37,7 +38,10 @@ import net.minecraft.world.World;
  * size of the entity hit box beneath the hit mob.
  * 
  * If a block is hit then a small hole is created where the projectile hit.
+ * 
+ * @deprecated Replace with {@linkplain DigMobHole2}.
  */
+@Deprecated
 public class DigMobHole implements ProjectileAction {
 
 	/**

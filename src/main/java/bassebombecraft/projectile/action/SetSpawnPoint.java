@@ -1,8 +1,8 @@
 package bassebombecraft.projectile.action;
 
 import static bassebombecraft.block.BlockUtils.calculatePosition;
+import static bassebombecraft.entity.projectile.ProjectileUtils.*;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
-import static bassebombecraft.projectile.ProjectileUtils.*;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

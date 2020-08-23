@@ -1,7 +1,7 @@
 package bassebombecraft.client.rendering;
 
-import static bassebombecraft.ModConstants.TEXT_COLOR;
-import static bassebombecraft.ModConstants.TEXT_SCALE;
+import static bassebombecraft.ClientModConstants.TEXT_COLOR;
+import static bassebombecraft.ClientModConstants.TEXT_SCALE;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -26,13 +26,13 @@ public class DebugRenderer_WorldLastEventText {
 	static void showMobs(MatrixStack matrixStack) {
 		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
 
-		renderText_default(matrixStack, buffer, 0, -10, "(0,-10)");		
+		renderText_default(matrixStack, buffer, 0, -10, "(0,-10)");
 		renderText_default(matrixStack, buffer, 0, 0, "(0,0)");
 		renderText_default(matrixStack, buffer, 0, 10, "(0,10)");
 		renderText_default(matrixStack, buffer, 0, 20, "(0,20)");
 		renderText_default(matrixStack, buffer, 0, 40, "(0,40)");
 		renderText_default(matrixStack, buffer, 20, 0, "(20,0)");
-		renderText_default(matrixStack, buffer, -20, 0, "(-20,0)");		
+		renderText_default(matrixStack, buffer, -20, 0, "(-20,0)");
 	}
 
 	/**

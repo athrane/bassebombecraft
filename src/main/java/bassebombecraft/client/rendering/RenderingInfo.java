@@ -5,6 +5,7 @@ import net.minecraft.util.math.RayTraceResult;
 /**
  * Interface for rendering info needed to render the HUD item.
  */
+@Deprecated
 public interface RenderingInfo {
 
 	/**

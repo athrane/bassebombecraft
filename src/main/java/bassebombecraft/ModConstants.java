@@ -10,12 +10,11 @@ import static bassebombecraft.config.ModConfiguration.primedCreeperCannonProject
 import static bassebombecraft.config.ModConfiguration.primedCreeperCannonProjectileEffectForce;
 
 import bassebombecraft.client.event.particle.ParticleRenderingEventHandler;
-import bassebombecraft.client.event.rendering.TeamInfoRenderer;
-import bassebombecraft.client.rendering.DefaultBuildMineRenderer;
 import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
 import bassebombecraft.event.charm.CharmedMobEventHandler;
+import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
@@ -24,6 +23,7 @@ import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.book.BuildMineBook;
+import bassebombecraft.item.composite.CompositeMagicItem;
 import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
 import bassebombecraft.potion.effect.AggroMobEffect;
@@ -41,9 +41,6 @@ import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceContext.BlockMode;
-import net.minecraft.util.math.RayTraceContext.FluidMode;
 
 /**
  * Mod constants.
@@ -63,7 +60,7 @@ public class ModConstants {
 	/**
 	 * Mod version.
 	 */
-	public static final String VERSION = "1.15.2-1.43";
+	public static final String VERSION = "1.15.2-1.44";
 
 	/**
 	 * In game tab name.
@@ -84,6 +81,11 @@ public class ModConstants {
 	 * Configuration file name.
 	 */
 	public static final String INTERNAL_TOML_CONFIG_FILE_NAME = MODID + "-common" + CONFIG_FILE_TOML_POSTFIX;
+
+	/**
+	 * Texture path.
+	 */
+	public static final String TEXTURE_PATH = "textures/entity/";
 
 	/**
 	 * Version check URL.
@@ -325,28 +327,6 @@ public class ModConstants {
 	public static final float EQUILATERAL_TRIANGLE_HEIGHT = 0.866F;
 
 	/**
-	 * Rendering: Text scale
-	 */
-	public static final float TEXT_SCALE = 0.02F;
-
-	/**
-	 * Rendering: Text color.
-	 */
-	public static final int TEXT_COLOR = 0x00C000;
-
-	/**
-	 * Rendering_ Text translation along Z-axis for rendering of billboard text in
-	 * HUD item in the {@linkplain TeamInfoRenderer} class.
-	 */
-	public static final int TEXT_Z_TRANSLATION = 200;
-
-	/**
-	 * Rendering: Text color for {@linkplain BuildMineBook} in
-	 * {@linkplain DefaultBuildMineRenderer}.
-	 */
-	public static final int BUILDMINEBOOK__TEXT_COLOR = 0xC0C000;
-
-	/**
 	 * HUD item: Team target label.
 	 */
 	public static final String TARGET_LABEL = "Target";
@@ -360,21 +340,6 @@ public class ModConstants {
 	 * HUD Item: Number of targets to render.
 	 */
 	public static final int TEAM_MEMBERS_TO_RENDER = 7;
-
-	/**
-	 * HUD Item: Ray trace range in blocks.
-	 */
-	public static final double RAYTRACE_RANGE = 20;
-
-	/**
-	 * HUD Item: Ray trace mode for fluids.
-	 */
-	public static final FluidMode RAYTRACE_FLUIDS = RayTraceContext.FluidMode.ANY;
-
-	/**
-	 * HUD Item: Ray trace mode for blocks.
-	 */
-	public static final BlockMode RAYTRACE_OUTLINE = RayTraceContext.BlockMode.OUTLINE;
 
 	/**
 	 * Defines should be effect only.
@@ -400,7 +365,7 @@ public class ModConstants {
 	 * harmed mob configuration identifier.
 	 */
 	public static final String CHARMED_MOB_NAME = "CharmedMob";
-	
+
 	/**
 	 * Week amplification potion name.
 	 */
@@ -452,7 +417,8 @@ public class ModConstants {
 	public static final Effect AGGRO_MOB_EFFECT = new AggroMobEffect();
 
 	/**
-	 * Receive mob aggro effect, used by {@linkplain MobsAggroIdolInventoryItem}.
+	 * Receive mob aggro effect, used by {@linkplain MobsAggroIdolInventoryItem} and
+	 * {@linkplain ProjectileModifierEventHandler}.
 	 */
 	public static final Effect RECEIVE_AGGRO_EFFECT = new ReceiveAggroEffect();
 
@@ -533,5 +499,10 @@ public class ModConstants {
 	 */
 	public static final IAttribute IS_RESPAWNED = (new RangedAttribute((IAttribute) null, "bassebombecraft.isrespawned",
 			1.0D, 0.0D, 1.0D)).setShouldWatch(true);
+
+	/**
+	 * Maximum size composite magic. Used in {@linkplain CompositeMagicItem}.
+	 */
+	public static final int COMPOSITE_MAX_SIZE = 5;
 
 }

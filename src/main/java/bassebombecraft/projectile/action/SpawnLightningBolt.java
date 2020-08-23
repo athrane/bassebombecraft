@@ -1,9 +1,9 @@
 package bassebombecraft.projectile.action;
 
 import static bassebombecraft.block.BlockUtils.calculatePosition;
-import static bassebombecraft.projectile.ProjectileUtils.isBlockHit;
-import static bassebombecraft.projectile.ProjectileUtils.isNothingHit;
-import static bassebombecraft.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isBlockHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isNothingHit;
+import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
 import static bassebombecraft.world.WorldUtils.addLightningAtBlockPos;
 
 import net.minecraft.entity.Entity;
