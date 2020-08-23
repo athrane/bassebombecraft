@@ -3,18 +3,15 @@ package bassebombecraft.config;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
-import java.util.Optional;
-
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
+import net.minecraftforge.registries.ForgeRegistries;
 
 /**
  * Configuration utility class.
@@ -30,19 +27,34 @@ public class ConfigUtils {
 	 * @return array with single {@linkplain ParticleRenderingInfo}.
 	 */
 	public static ParticleRenderingInfo[] createFromConfig(ParticlesConfig config) {
-		String particleTypeName = config.type.get();
-		ResourceLocation key2 = new ResourceLocation(particleTypeName.toLowerCase());
-		Optional<ParticleType<? extends IParticleData>> particleType = Registry.PARTICLE_TYPE.getValue(key2);
-		BasicParticleType castParticleType = (BasicParticleType) particleType.get(); // type cast
+		ParticleType<?> particleType = resolveParticleType(config);
+		BasicParticleType castParticleType = (BasicParticleType) particleType;
 		int number = config.number.get();
 		int duration = config.duration.get();
 		double colorR = config.r.get();
 		double colorG = config.g.get();
 		double colorB = config.b.get();
 		double speed = config.speed.get();
-		ParticleRenderingInfo mist = getInstance(castParticleType, number, duration, (float) colorR, (float) colorG,
+		ParticleRenderingInfo info = getInstance(castParticleType, number, duration, (float) colorR, (float) colorG,
 				(float) colorB, speed);
-		return new ParticleRenderingInfo[] { mist };
+		return new ParticleRenderingInfo[] { info };
+	}
+
+	/**
+	 * Resolve particle type from particle configuration object.
+	 * 
+	 * @param config particle configuration object.
+	 * 
+	 * @return particle type object.
+	 */
+	static ParticleType<?> resolveParticleType(ParticlesConfig config) {
+
+		// get particle type name
+		String name = config.type.get();
+
+		// resolve vanilla particle
+		ResourceLocation key2 = new ResourceLocation(name.toLowerCase());
+		return ForgeRegistries.PARTICLE_TYPES.getValue(key2);
 	}
 
 	/**

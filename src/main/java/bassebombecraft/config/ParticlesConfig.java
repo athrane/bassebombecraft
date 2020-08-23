@@ -34,7 +34,7 @@ public class ParticlesConfig {
 			double g, double b) {
 		builder.comment("Particles settings").push("Particles");
 		this.type = builder.comment(
-				"Particle type. Legal particle type names can be seen in the net.minecraft.particles.ParticleTypes class.")
+				"Particle type. Legal particle type names can be seen in the net.minecraft.particles.ParticleTypes class. Or as bassebombecraft particle in bassebombecraft.client.particles.RegisteredParticles")
 				.define("type", type);
 		this.number = builder.comment("Number of particle to spawn per update.").defineInRange("number", number, 0,
 				Integer.MAX_VALUE);

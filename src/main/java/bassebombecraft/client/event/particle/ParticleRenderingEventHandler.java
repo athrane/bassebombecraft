@@ -9,7 +9,6 @@ import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayer
 import java.util.Random;
 import java.util.stream.Stream;
 
-import bassebombecraft.client.particles.RegisteredParticles;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import net.minecraft.client.Minecraft;
@@ -35,7 +34,7 @@ public class ParticleRenderingEventHandler {
 	@SubscribeEvent
 	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
 		try {
-			
+
 			// exit if player isn't defined
 			if (!isClientSidePlayerDefined())
 				return;
@@ -113,8 +112,7 @@ public class ParticleRenderingEventHandler {
 		double y = particle.getPosition().getY() + 1;
 		double z = particle.getPosition().getZ() + 0.5D;
 
-		world.addParticle(RegisteredParticles.LIGHTNING_PARTICLE.get(), x, y, z, d0, d1, d2);
-		//world.addParticle(particle.getParticleType(), x, y, z, d0, d1, d2);
+		world.addParticle(particle.getParticleType(), x, y, z, d0, d1, d2);
 	}
 
 	/**

@@ -2026,7 +2026,7 @@ public class ModConfiguration {
 		 */
 		name = LightningProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		splParticles = () -> getInstance(COMMON_BUILDER, "enchanted_hit", 1, 5, 0, 0.0, 0.0, 1.0);
+		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:lightningparticle", 1, 5, 0, 0.0, 0.0, 1.0);
 		lightningProjectileEntity = getInstance(COMMON_BUILDER, name, 10.0D, 4.0D, 10.0D, splParticles);
 		COMMON_BUILDER.pop();
 	}
