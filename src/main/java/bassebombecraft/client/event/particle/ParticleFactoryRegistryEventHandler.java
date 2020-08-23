@@ -10,7 +10,6 @@ import bassebombecraft.client.particles.SparkParticle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -18,11 +17,9 @@ import net.minecraftforge.fml.common.Mod;
 /**
  * Event handler for registration of particle factories.
  * 
- * {@linkplain LightningParticle}
- * 
+ * The handler executes events CLIENT side.
  */
-@OnlyIn(Dist.CLIENT)
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(Dist.CLIENT)
 public class ParticleFactoryRegistryEventHandler {
 
 	/**
