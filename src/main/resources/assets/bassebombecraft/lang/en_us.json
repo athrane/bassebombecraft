@@ -130,7 +130,7 @@
     "item.bassebombecraft.mobcommandersbaton": "Krenko's Command Baton",
 
         "_comment": "composite items",
-    "item.bassebombecraft.compositemagicitem": "Skull of a Fragmented Necromancer",
+    "item.bassebombecraft.compositemagicitem": "Skull of a Resurrected Necromancer",
             
     "item.bassebombecraft.singleprojectileformationitem": "Projectile Formation: Single",
     "item.bassebombecraft.randomsingleprojectileformationitem": "Projectile Formation: Single Random",
@@ -157,7 +157,7 @@
     "item.bassebombecraft.charmprojectilemodifieritem": "Projectile Modifier: Charm",            
     "item.bassebombecraft.meteorprojectilemodifieritem": "Projectile Modifier: Meteor",            
     "item.bassebombecraft.decoyprojectilemodifieritem": "Projectile Modifier: Decoy",            
-    "item.bassebombecraft.explodeprojectilemodifieritem": "Projectile Modifier: Explode",                            
+    "item.bassebombecraft.explodeprojectilemodifieritem": "Projectile Modifier: Killed Mob Explode",                            
     "item.bassebombecraft.digmobholeprojectilemodifieritem": "Projectile Modifier: Inconvenient Hole",                            
                 
     "_comment": "effects",

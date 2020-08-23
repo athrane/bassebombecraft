@@ -1,0 +1,20 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "bassebombecraft:singleprojectileformationitem"
+		},
+		{
+			"item": "bassebombecraft:singleprojectileformationitem"
+		},		
+		{
+			"item": "bassebombecraft:randomsingleprojectileformationitem"
+		},		
+		{
+			"item": "minecraft:conduit"
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:circleprojectileformationitem"
+	}
+}
