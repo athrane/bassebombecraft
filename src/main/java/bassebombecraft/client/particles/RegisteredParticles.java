@@ -26,6 +26,19 @@ public class RegisteredParticles {
 	/**
 	 * Registry object for {@linkplain LightningParticle}.
 	 */
-	public static final RegistryObject<BasicParticleType> LIGHTNING_PARTICLE = PARTICLES.register(LightningParticle.NAME.toLowerCase(), ()-> new BasicParticleType(true));
-	
+	public static final RegistryObject<BasicParticleType> LIGHTNING_PARTICLE = PARTICLES
+			.register(LightningParticle.NAME.toLowerCase(), () -> new BasicParticleType(true));
+
+	/**
+	 * Registry object for {@linkplain SparkParticle}.
+	 */
+	public static final RegistryObject<BasicParticleType> SPARK_PARTICLE = PARTICLES
+			.register(SparkParticle.NAME.toLowerCase(), () -> new BasicParticleType(true));
+
+	/**
+	 * Registry object for {@linkplain ChickenParticle}.
+	 */
+	public static final RegistryObject<BasicParticleType> CHICKEN_PARTICLE = PARTICLES
+			.register(ChickenParticle.NAME.toLowerCase(), () -> new BasicParticleType(true));
+
 }
