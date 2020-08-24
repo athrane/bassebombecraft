@@ -4,6 +4,7 @@ import static bassebombecraft.client.particles.RegisteredParticles.CHICKEN_PARTI
 import static bassebombecraft.client.particles.RegisteredParticles.LIGHTNING_PARTICLE;
 import static bassebombecraft.client.particles.RegisteredParticles.SPARK_PARTICLE;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.client.particles.ChickenParticle;
 import bassebombecraft.client.particles.LightningParticle;
 import bassebombecraft.client.particles.SparkParticle;
@@ -18,8 +19,11 @@ import net.minecraftforge.fml.common.Mod;
  * Event handler for registration of particle factories.
  * 
  * The handler executes events CLIENT side.
+ * 
+ * This {@linkplain ParticleFactoryRegisterEvent} event is handled by the mod
+ * event bus, so the mod argument must defined in the annotation.
  */
-@Mod.EventBusSubscriber(Dist.CLIENT)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ParticleFactoryRegistryEventHandler {
 
 	/**
@@ -30,6 +34,8 @@ public class ParticleFactoryRegistryEventHandler {
 	 */
 	@SubscribeEvent
 	public static void handleParticleFactoryRegisterEvent(ParticleFactoryRegisterEvent event) {
+		BassebombeCraft.getBassebombeCraft().getLogger().debug("handleParticleFactoryRegisterEvent");
+
 		ParticleManager particles = Minecraft.getInstance().particles;
 
 		/**
