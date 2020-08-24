@@ -121,9 +121,6 @@
     "item.bassebombecraft.respawnidolinventoryitem": "Respawn Idol",
     "item.bassebombecraft.removeblockspiralidolinventoryitem": "Excavation Idol",
 
-    "_comment": "blocks",
-    "block.bassebombecraft.randombookblock": "Block of Random Books",
-
     "_comment": "basic items",
     "item.bassebombecraft.terminatoreyeitem": "Terminator Eye",
     "item.bassebombecraft.huditem": "BasseBombeCraft Tactical Heads Up Display (HUD)",
