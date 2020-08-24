@@ -4,10 +4,8 @@ import static bassebombecraft.ModConstants.MODID;
 import static net.minecraft.entity.EntityClassification.MISC;
 
 import bassebombecraft.entity.projectile.EggProjectileEntity;
-import bassebombecraft.entity.projectile.LlamaProjectileEntity;
-import bassebombecraft.entity.projectile.GenericEggProjectile;
 import bassebombecraft.entity.projectile.LightningProjectileEntity;
-import bassebombecraft.operator.projectile.egg.OperatorEggProjectile2;
+import bassebombecraft.entity.projectile.LlamaProjectileEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -30,28 +28,18 @@ public class EntityTypeRegistryEventHandler {
 	public static void handleRegisterEntityType(RegistryEvent.Register<EntityType<?>> event) {
 		IForgeRegistry<EntityType<?>> registry = event.getRegistry();
 
-		String name = GenericEggProjectile.NAME.toLowerCase();
-		registry.register(EntityType.Builder.<GenericEggProjectile>create(GenericEggProjectile::new, MISC).build(name)
+		String name = EggProjectileEntity.NAME.toLowerCase();
+		registry.register(EntityType.Builder.<EggProjectileEntity>create(EggProjectileEntity::new, MISC).build(name)
 				.setRegistryName(MODID, name));
 
-		name = OperatorEggProjectile2.NAME.toLowerCase();
-		registry.register(EntityType.Builder.<OperatorEggProjectile2>create(OperatorEggProjectile2::new, MISC)
-				.build(name).setRegistryName(MODID, name));
-
-		// projectile for composite magic
-		
-		name = EggProjectileEntity.NAME.toLowerCase();
-		registry.register(EntityType.Builder.<EggProjectileEntity>create(EggProjectileEntity::new, MISC)
-				.build(name).setRegistryName(MODID, name));
-
 		name = LlamaProjectileEntity.NAME.toLowerCase();
-		registry.register(EntityType.Builder.<LlamaProjectileEntity>create(LlamaProjectileEntity::new, MISC)
-				.build(name).setRegistryName(MODID, name));
+		registry.register(EntityType.Builder.<LlamaProjectileEntity>create(LlamaProjectileEntity::new, MISC).build(name)
+				.setRegistryName(MODID, name));
 
 		name = LightningProjectileEntity.NAME.toLowerCase();
 		registry.register(EntityType.Builder.<LightningProjectileEntity>create(LightningProjectileEntity::new, MISC)
 				.build(name).setRegistryName(MODID, name));
-		
+
 	}
 
 }
