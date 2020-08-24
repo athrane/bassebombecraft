@@ -5,8 +5,6 @@ import static net.minecraftforge.registries.ForgeRegistries.PARTICLE_TYPES;
 
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 
@@ -15,7 +13,6 @@ import net.minecraftforge.registries.DeferredRegister;
  * 
  * Entity types are registered in {@linkplain ParticleTypeRegistryEventHandler}.
  */
-@OnlyIn(Dist.CLIENT)
 public class RegisteredParticles {
 
 	/**

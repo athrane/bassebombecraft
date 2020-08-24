@@ -11,8 +11,8 @@ import bassebombecraft.network.packet.AddParticleRendering;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.client.rendering.AddParticlesFromEntityAtClient2;
-import bassebombecraft.operator.conditional.IsEntityIsCharmed2;
 import bassebombecraft.operator.conditional.IsEntity1OfType2;
+import bassebombecraft.operator.conditional.IsEntityIsCharmed2;
 import bassebombecraft.operator.conditional.IsFrequencyIsActive2;
 import bassebombecraft.operator.conditional.IsWorldAtServerSide2;
 import bassebombecraft.operator.entity.RemoveCharm2;
@@ -56,7 +56,7 @@ public class CharmedMobEventHandler {
 
 	@SubscribeEvent
 	public static void handleLivingDeathEvent(LivingDeathEvent event) {
-		Ports ports = getInstance().setLivingEntity1(event.getEntityLiving());		
+		Ports ports = getInstance().setLivingEntity1(event.getEntityLiving());
 		run(ports, uncharmOps);
 	}
 

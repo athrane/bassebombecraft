@@ -7,8 +7,6 @@ import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.SpriteTexturedParticle;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 /**
  * Chicken particle.
@@ -17,7 +15,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
  * 
  * The set of animation frame is defined in the the .json file.
  */
-@OnlyIn(Dist.CLIENT)
 public class ChickenParticle extends SpriteTexturedParticle {
 
 	/**
