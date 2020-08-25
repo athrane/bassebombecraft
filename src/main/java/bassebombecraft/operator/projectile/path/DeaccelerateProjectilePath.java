@@ -1,6 +1,6 @@
 package bassebombecraft.operator.projectile.path;
 
-import static bassebombecraft.config.ModConfiguration.accelerateProjectilePathAcceleration;
+import static bassebombecraft.config.ModConfiguration.deaccelerateProjectilePathAcceleration;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
 
 import java.util.function.Function;
@@ -11,20 +11,20 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
 /**
- * Implementation of the {@linkplain Operator2} interface which accelerate the
- * projectile alongs its path.
+ * Implementation of the {@linkplain Operator2} interface which de-accelerate
+ * the projectile alongs its path.
  * 
  * The projectile motion vector is updated.
  * 
- * The motion vector is stored with a different length to increase the speed of
+ * The motion vector is stored with a different length to decrease the speed of
  * the projectile.
  */
-public class AccelerateProjectilePath implements Operator2 {
+public class DeaccelerateProjectilePath implements Operator2 {
 
 	/**
 	 * Operator identifier.
 	 */
-	public static final String NAME = AccelerateProjectilePath.class.getSimpleName();
+	public static final String NAME = DeaccelerateProjectilePath.class.getSimpleName();
 
 	/**
 	 * Function to get proectile entity.
@@ -36,7 +36,7 @@ public class AccelerateProjectilePath implements Operator2 {
 	 * 
 	 * @param fnGetProjectile function to get projectile entity.
 	 */
-	public AccelerateProjectilePath(Function<Ports, Entity> fnGetProjectile) {
+	public DeaccelerateProjectilePath(Function<Ports, Entity> fnGetProjectile) {
 		this.fnGetProjectile = fnGetProjectile;
 	}
 
@@ -45,7 +45,7 @@ public class AccelerateProjectilePath implements Operator2 {
 	 * 
 	 * Instance is configured with entity #1 as projectile from ports.
 	 */
-	public AccelerateProjectilePath() {
+	public DeaccelerateProjectilePath() {
 		this(getFnGetEntity1());
 	}
 
@@ -66,7 +66,7 @@ public class AccelerateProjectilePath implements Operator2 {
 		double length = motionVector.length();
 
 		// calculate target motion
-		double targetLength = length * accelerateProjectilePathAcceleration.get();
+		double targetLength = length * deaccelerateProjectilePathAcceleration.get();
 		Vec3d newMotionVector = motionVector.normalize().scale(targetLength);
 
 		// update motion

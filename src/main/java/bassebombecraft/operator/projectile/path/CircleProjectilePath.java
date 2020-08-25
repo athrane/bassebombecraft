@@ -11,32 +11,17 @@ import net.minecraft.util.math.Vec3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which move the
- * projectile alongs its path in a zig zag pattern
+ * projectile in a circle around the caster..
  * 
  * The projectile motion vector is updated.
  */
-public class ZigZagProjectilePath implements Operator2 {
+public class CircleProjectilePath implements Operator2 {
 
 	/**
 	 * Operator identifier.
 	 */
-	public static final String NAME = ZigZagProjectilePath.class.getSimpleName();
+	public static final String NAME = CircleProjectilePath.class.getSimpleName();
 
-	/**
-	 * Period in ticks between changing angles.
-	 */
-	static final long PERIOD = 25;
-
-	/**
-	 * Square function amplitude.
-	 */
-	static final long AMPLITUDE = 1;
-
-	/**
-	 * Rotation when zig zaging.
-	 */
-	static final int ROTATION = 90;
-	
 	/**
 	 * Function to get projctile entity.
 	 */
@@ -47,7 +32,7 @@ public class ZigZagProjectilePath implements Operator2 {
 	 * 
 	 * @param fnGetProjectile function to get projectile entity.
 	 */
-	public ZigZagProjectilePath(Function<Ports, Entity> fnGetProjectile) {
+	public CircleProjectilePath(Function<Ports, Entity> fnGetProjectile) {
 		this.fnGetProjectile = fnGetProjectile;
 	}
 
@@ -58,7 +43,7 @@ public class ZigZagProjectilePath implements Operator2 {
 	 * 
 	 * The operator also uses the port counter.
 	 */
-	public ZigZagProjectilePath() {
+	public CircleProjectilePath() {
 		this(getFnGetEntity1());
 	}
 
@@ -103,37 +88,17 @@ public class ZigZagProjectilePath implements Operator2 {
 	 * @return angle for next rotation.
 	 */
 	double calculateAngle(long x) {
+			
+		// delay rotation to after n ticks		
+		if (x < 5)
+			return 0;
 
-		// tiny rotation if first tick
-		if (x == 0)
-			return -(ROTATION/2);
+		// make a sharp 90D turn
+		if (x == 5)
+			return 90;
 
-		double vx = squareWave(x);
-		double vxm1 = squareWave(x - 1);
-		
-		// no rotation if values are equal
-		if(vx == vxm1) return 0;
-		
-		// positive rotation
-		if (vx == AMPLITUDE)
-			return -ROTATION;
-
-		// negative rotation
-		return ROTATION;
-	}
-
-	/**
-	 * Calculate square wave.
-	 * 
-	 * @param x value to calculate wave from.
-	 * 
-	 * @return square wave value.
-	 */
-	long squareWave(long x) {
-		long value = (x % PERIOD);
-		if (value < (PERIOD/2))
-			return AMPLITUDE;		
-		return 0;
+		// do small rotations
+		return 7;
 	}
 
 }

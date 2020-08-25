@@ -123,8 +123,10 @@ import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifi
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.DeaccelerateProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.RandomProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.SineProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.CircleProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.ZigZagProjectilePathItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
@@ -162,6 +164,7 @@ import bassebombecraft.operator.entity.SpawnWarPig2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
+import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
 import bassebombecraft.potion.effect.AggroMobEffect;
 import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
@@ -418,8 +421,10 @@ public class ModConfiguration {
 
 	public static ItemConfig randomProjectilePathItem;
 	public static ItemConfig accelerateProjectilePathItem;
+	public static ItemConfig deaccelerateProjectilePathItem;
 	public static ItemConfig zigZagProjectilePathItem;
 	public static ItemConfig sineProjectilePathItem;
+	public static ItemConfig circleProjectilePathItem;
 
 	public static ItemConfig teleportInvokerProjectileModifierItem;
 	public static ItemConfig teleportMobProjectileModifierItem;
@@ -612,6 +617,11 @@ public class ModConfiguration {
 	 */
 	public static ForgeConfigSpec.DoubleValue accelerateProjectilePathAcceleration;
 
+	/**
+	 * Properties for {@linkplain DeaccelerateProjectilePath} operator.
+	 */
+	public static ForgeConfigSpec.DoubleValue deaccelerateProjectilePathAcceleration;
+	
 	// Entities..
 
 	/**
@@ -1304,10 +1314,18 @@ public class ModConfiguration {
 		 */
 		name = AccelerateProjectilePath.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		accelerateProjectilePathAcceleration = COMMON_BUILDER.comment("Acceleration increase per game turn.")
+		accelerateProjectilePathAcceleration = COMMON_BUILDER.comment("Acceleration increase per game tick.")
 				.defineInRange("acceleration", 1.3D, 0, 10);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the {@linkplain DeaccelerateProjectilePath} operator.
+		 */
+		name = DeaccelerateProjectilePath.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		deaccelerateProjectilePathAcceleration = COMMON_BUILDER.comment("Acceleration decrease per game tick.")
+				.defineInRange("acceleration", 0.9D, 0, 1);
+		COMMON_BUILDER.pop();		
 	}
 
 	/**
@@ -1911,7 +1929,27 @@ public class ModConfiguration {
 		name = AccelerateProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		accelerateProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. The projectile continue to accelerate along its path.",
+				"A mythical image of the modification of a projectile. The projectile will continue to accelerate along its path.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain DeaccelerateProjectilePathItem} item.
+		 */
+		name = DeaccelerateProjectilePathItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		deaccelerateProjectilePathItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. The projectile will continue to de-accelerate along its path.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain SpiralProjectilePathItem} item.
+		 */
+		name = CircleProjectilePathItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		circleProjectilePathItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. The projectile will move the projectile in a circle around the caster.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2007,8 +2045,8 @@ public class ModConfiguration {
 		 */
 		name = EggProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		Supplier<ParticlesConfig> splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:chickenparticle", 1, 5, 0, 0.0, 0.0,
-				1.0);
+		Supplier<ParticlesConfig> splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:chickenparticle", 1,
+				5, 0, 0.0, 0.0, 1.0);
 		eggProjectileEntity = getInstance(COMMON_BUILDER, name, 0.0D, 2.0D, 1.0D, splParticles);
 		COMMON_BUILDER.pop();
 

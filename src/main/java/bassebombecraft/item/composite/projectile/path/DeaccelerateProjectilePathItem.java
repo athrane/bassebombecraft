@@ -11,36 +11,36 @@ import bassebombecraft.item.composite.GenericCompositeNullItem;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
-import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
+import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
 import net.minecraft.entity.Entity;
 
 /**
- * Accelerate projectile path item.
+ * Deaccelerate projectile path item.
  * 
  * The tagged projectile is processed in
  * {@linkplain GenericCompositeProjectileEntity} where the
- * {@linkplain AccelerateProjectilePath} operator is executed.
+ * {@linkplain DeaccelerateProjectilePath} operator is executed.
  */
-public class AccelerateProjectilePathItem extends GenericCompositeNullItem {
+public class DeaccelerateProjectilePathItem extends GenericCompositeNullItem {
 
 	/**
 	 * Item identifier.
 	 */
-	public static final String NAME = AccelerateProjectilePathItem.class.getSimpleName();
+	public static final String NAME = DeaccelerateProjectilePathItem.class.getSimpleName();
 
 	/**
 	 * Create operators.
 	 */
 	static Supplier<Operator2> splOp = () -> {
 		Function<Ports, Entity[]> fnGetProjectiles = getFnGetEntities1();
-		Function<Ports, String> fnGetTag = p -> AccelerateProjectilePath.NAME;
+		Function<Ports, String> fnGetTag = p -> DeaccelerateProjectilePath.NAME;
 		return new TagProjectileWithProjectileModifier(fnGetProjectiles, fnGetTag);
 	};
 
 	/**
 	 * Constructor.
 	 */
-	public AccelerateProjectilePathItem() {
+	public DeaccelerateProjectilePathItem() {
 		super(NAME, accelerateProjectilePathItem);
 	}
 

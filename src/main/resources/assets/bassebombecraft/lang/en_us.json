@@ -146,8 +146,10 @@
 
     "item.bassebombecraft.randomprojectilepathitem": "Projectile Path: Random",                            
     "item.bassebombecraft.accelerateprojectilepathitem": "Projectile Path: Accelerate",                            
+    "item.bassebombecraft.deaccelerateprojectilepathitem": "Projectile Path: Deaccelerate",                                
     "item.bassebombecraft.zigzagprojectilepathitem": "Projectile Path: Zig Zag",                            
     "item.bassebombecraft.sineprojectilepathitem": "Projectile Path: Sine",                                
+    "item.bassebombecraft.circlespiralprojectilepathitem": "Projectile Path: Circle",                                
                               
     "item.bassebombecraft.teleportinvokerprojectilemodifieritem": "Projectile Modifier: Teleport Player",        
     "item.bassebombecraft.teleportmobprojectilemodifieritem": "Projectile Modifier: Teleport Mob",            
