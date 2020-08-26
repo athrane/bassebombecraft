@@ -4,7 +4,6 @@ import static bassebombecraft.client.particles.RegisteredParticles.CHICKEN_PARTI
 import static bassebombecraft.client.particles.RegisteredParticles.LIGHTNING_PARTICLE;
 import static bassebombecraft.client.particles.RegisteredParticles.SPARK_PARTICLE;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.client.particles.ChickenParticle;
 import bassebombecraft.client.particles.LightningParticle;
 import bassebombecraft.client.particles.SparkParticle;

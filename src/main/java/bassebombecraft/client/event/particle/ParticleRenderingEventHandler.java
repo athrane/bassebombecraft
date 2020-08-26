@@ -112,7 +112,13 @@ public class ParticleRenderingEventHandler {
 		double y = particle.getPosition().getY() + 1;
 		double z = particle.getPosition().getZ() + 0.5D;
 
-		world.addParticle(particle.getParticleType(), x, y, z, d0, d1, d2);
+		// add particle		
+		Minecraft mcClient = Minecraft.getInstance();
+		ParticleManager manager = mcClient.particles;
+		Particle spellParticle = manager.addParticle(particle.getParticleType(), x, y, z, d0, d1, d2);
+		
+		// set age		
+		spellParticle.setMaxAge(particle.getInfo().getDuration());		
 	}
 
 	/**
@@ -128,7 +134,7 @@ public class ParticleRenderingEventHandler {
 	 */
 	static void renderParticleWithCustomColor(World world, ParticleRendering particle) {
 		Random random = getBassebombeCraft().getRandom();
-
+		
 		double speed = particle.getInfo().getSpeed();
 		double d0 = calculateRandomSpeed(speed);
 		double d1 = calculateRandomSpeed(speed);
@@ -142,10 +148,14 @@ public class ParticleRenderingEventHandler {
 		double y = particle.getPosition().getY() + 1;
 		double z = particle.getPosition().getZ() + 0.5D;
 
+		// add particle
 		Minecraft mcClient = Minecraft.getInstance();
 		ParticleManager manager = mcClient.particles;
 		Particle spellParticle = manager.addParticle(ParticleTypes.EFFECT, x, y, z, d0, d1, d2);
+		
+		// set color and age
 		spellParticle.setColor(r, g, b);
+		spellParticle.setMaxAge(particle.getInfo().getDuration());				
 	}
 
 	/**
