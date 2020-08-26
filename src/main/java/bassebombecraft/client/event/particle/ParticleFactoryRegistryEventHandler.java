@@ -34,7 +34,6 @@ public class ParticleFactoryRegistryEventHandler {
 	 */
 	@SubscribeEvent
 	public static void handleParticleFactoryRegisterEvent(ParticleFactoryRegisterEvent event) {
-		BassebombeCraft.getBassebombeCraft().getLogger().debug("handleParticleFactoryRegisterEvent");
 
 		ParticleManager particles = Minecraft.getInstance().particles;
 
