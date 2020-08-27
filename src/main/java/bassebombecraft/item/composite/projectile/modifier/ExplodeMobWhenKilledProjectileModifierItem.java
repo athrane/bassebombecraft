@@ -1,6 +1,6 @@
 package bassebombecraft.item.composite.projectile.modifier;
 
-import static bassebombecraft.config.ModConfiguration.explodeProjectileModifierItem;
+import static bassebombecraft.config.ModConfiguration.explodeMobWhenKilledProjectileModifierItem;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntities1;
 
 import java.util.function.Function;
@@ -15,7 +15,7 @@ import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileM
 import net.minecraft.entity.Entity;
 
 /**
- * Explode projectile modifier item.
+ * Explode mob when killed projectile modifier item.
  * 
  * When a mob is killed by a projectile with this modifier then the mob explode
  * upon death.
@@ -24,12 +24,12 @@ import net.minecraft.entity.Entity;
  * {@linkplain ProjectileModifierEventHandler} where the {@linkplain Explode2}
  * operator is executed.
  */
-public class ExplodeProjectileModifierItem extends GenericCompositeNullItem {
+public class ExplodeMobWhenKilledProjectileModifierItem extends GenericCompositeNullItem {
 
 	/**
 	 * Item identifier.
 	 */
-	public static final String NAME = ExplodeProjectileModifierItem.class.getSimpleName();
+	public static final String NAME = ExplodeMobWhenKilledProjectileModifierItem.class.getSimpleName();
 
 	/**
 	 * Create operators.
@@ -43,8 +43,8 @@ public class ExplodeProjectileModifierItem extends GenericCompositeNullItem {
 	/**
 	 * Constructor.
 	 */
-	public ExplodeProjectileModifierItem() {
-		super(NAME, explodeProjectileModifierItem);
+	public ExplodeMobWhenKilledProjectileModifierItem() {
+		super(NAME, explodeMobWhenKilledProjectileModifierItem);
 	}
 
 	@Override

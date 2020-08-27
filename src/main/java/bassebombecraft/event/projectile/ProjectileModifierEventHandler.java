@@ -72,7 +72,7 @@ public class ProjectileModifierEventHandler {
 	 * ports.
 	 * 
 	 * But the event handler currently only sets the invoker (in the living entity
-	 * #1 port) and the ray race result (in the ray trace result #1 port) from the
+	 * #1 port) and the ray trace result (in the ray trace result #1 port) from the
 	 * event.
 	 * 
 	 * In order for {@linkplain ShootMeteor2} to resolve the target entity from the
@@ -201,7 +201,7 @@ public class ProjectileModifierEventHandler {
 			if (tags.isEmpty())
 				return;
 
-			// handle: teleport invoker
+			// handle: explode when killed
 			if (tags.contains(Explode2.NAME))
 				explode(event);
 

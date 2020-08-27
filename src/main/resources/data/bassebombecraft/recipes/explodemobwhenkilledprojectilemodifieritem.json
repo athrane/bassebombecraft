@@ -12,6 +12,6 @@
 		}
 	],
 	"result": {
-		"item": "bassebombecraft:explodeprojectilemodifieritem"
+		"item": "bassebombecraft:explodemobwhenkilledprojectilemodifieritem"
 	}
 }

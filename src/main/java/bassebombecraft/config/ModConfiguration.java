@@ -118,7 +118,7 @@ import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjec
 import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
-import bassebombecraft.item.composite.projectile.modifier.ExplodeProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.ExplodeMobWhenKilledProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
@@ -431,7 +431,7 @@ public class ModConfiguration {
 	public static ItemConfig charmProjectileModifierItem;
 	public static ItemConfig meteorProjectileModifierItem;
 	public static ItemConfig decoyProjectileModifierItem;
-	public static ItemConfig explodeProjectileModifierItem;
+	public static ItemConfig explodeMobWhenKilledProjectileModifierItem;
 	public static ItemConfig digMobHoleProjectileModifierItem;
 
 	// Actions..
@@ -2007,9 +2007,9 @@ public class ModConfiguration {
 		/**
 		 * Configuration for the {@linkplain ExplodeProjectileModifierItem} item.
 		 */
-		name = ExplodeProjectileModifierItem.NAME;
+		name = ExplodeMobWhenKilledProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		explodeProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+		explodeMobWhenKilledProjectileModifierItem = getInstance(COMMON_BUILDER, name,
 				"A mythical image of the modification of a projectile. When a mob is killed it will explode dealing damage to nearby mobs. The explosion radius is based on the size if the killed mob.",
 				25);
 		COMMON_BUILDER.pop();

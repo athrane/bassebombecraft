@@ -81,7 +81,7 @@ import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjec
 import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
-import bassebombecraft.item.composite.projectile.modifier.ExplodeProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.ExplodeMobWhenKilledProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
@@ -190,7 +190,7 @@ public class ItemRegistryEventHandler {
 			new AccelerateProjectilePathItem(), new DeaccelerateProjectilePathItem(), new ZigZagProjectilePathItem(),
 			new SineProjectilePathItem(), new CircleProjectilePathItem(), new TeleportInvokerProjectileModifierItem(),
 			new TeleportMobProjectileModifierItem(), new CharmProjectileModifierItem(),
-			new MeteorProjectileModifierItem(), new DecoyProjectileModifierItem(), new ExplodeProjectileModifierItem(),
+			new MeteorProjectileModifierItem(), new DecoyProjectileModifierItem(), new ExplodeMobWhenKilledProjectileModifierItem(),
 			new DigMobHoleProjectileModifierItem() };
 
 	/**

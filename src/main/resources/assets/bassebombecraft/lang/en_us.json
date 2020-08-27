@@ -156,7 +156,7 @@
     "item.bassebombecraft.charmprojectilemodifieritem": "Projectile Modifier: Charm",            
     "item.bassebombecraft.meteorprojectilemodifieritem": "Projectile Modifier: Meteor",            
     "item.bassebombecraft.decoyprojectilemodifieritem": "Projectile Modifier: Decoy",            
-    "item.bassebombecraft.explodeprojectilemodifieritem": "Projectile Modifier: Killed Mob Explode",                            
+    "item.bassebombecraft.explodemobwhenkilledprojectilemodifieritem": "Projectile Modifier: Mob Explodes When Killed",                            
     "item.bassebombecraft.digmobholeprojectilemodifieritem": "Projectile Modifier: Inconvenient Hole",                            
                 
     "_comment": "effects",
