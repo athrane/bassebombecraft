@@ -35,6 +35,13 @@ public class ChickenParticle extends SpriteTexturedParticle {
 			double ySpeedIn, double zSpeedIn, IAnimatedSprite spriteSet) {
 		super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
 		this.spriteSet = spriteSet;
+		
+		/**
+		// set speed
+		this.motionX = xSpeedIn * (Math.random() * 2.0D - 1.0D);
+	    this.motionY = ySpeedIn * (Math.random() * 2.0D - 1.0D);
+	    this.motionZ = zSpeedIn * (Math.random() * 2.0D - 1.0D);
+	    **/
 	}
 
 	@Override

@@ -2046,7 +2046,7 @@ public class ModConfiguration {
 		name = EggProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		Supplier<ParticlesConfig> splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:chickenparticle", 1,
-				5, 0, 0.0, 0.0, 1.0);
+				12, 0.05D, 0.0, 0.0, 1.0);
 		eggProjectileEntity = getInstance(COMMON_BUILDER, name, 0.0D, 2.0D, 1.0D, splParticles);
 		COMMON_BUILDER.pop();
 
@@ -2055,7 +2055,7 @@ public class ModConfiguration {
 		 */
 		name = LlamaProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:sparkparticle", 1, 5, 0, 0.0, 0.0, 1.0);
+		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:sparkparticle", 1, 27, 0.2D, 0.0, 0.0, 1.0);
 		llamaProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 5.0D, splParticles);
 		COMMON_BUILDER.pop();
 
@@ -2064,7 +2064,7 @@ public class ModConfiguration {
 		 */
 		name = LightningProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:lightningparticle", 1, 5, 0, 0.0, 0.0, 1.0);
+		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:lightningparticle", 1, 25, 0.2D, 0.0, 0.0, 1.0);
 		lightningProjectileEntity = getInstance(COMMON_BUILDER, name, 10.0D, 4.0D, 10.0D, splParticles);
 		COMMON_BUILDER.pop();
 	}

@@ -2,7 +2,7 @@ package bassebombecraft.client.event.particle;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.ModConstants.PARTICLE_RENDERING_FREQUENCY;
+import static bassebombecraft.ModConstants.PARTICLE_SPAWN_FREQUENCY;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
 
@@ -44,12 +44,6 @@ public class ParticleRenderingEventHandler {
 
 			// get world
 			World world = player.getEntityWorld();
-
-			// exit if particles shouldn't be rendered in this tick
-			// exit if frequency isn't active
-			FrequencyRepository frequencyRepository = getProxy().getClientFrequencyRepository();
-			if (!frequencyRepository.isActive(PARTICLE_RENDERING_FREQUENCY))
-				return;
 
 			// render particles
 			render(world);

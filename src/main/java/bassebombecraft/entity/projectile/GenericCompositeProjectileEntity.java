@@ -2,6 +2,7 @@ package bassebombecraft.entity.projectile;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ModConstants.PARTICLE_SPAWN_FREQUENCY;
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.config.ModConfiguration.genericProjectileEntityProjectileDuration;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
@@ -18,6 +19,7 @@ import java.util.function.Predicate;
 
 import bassebombecraft.config.ProjectileEntityConfig;
 import bassebombecraft.event.duration.DurationRepository;
+import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
@@ -492,6 +494,12 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * Add particle on update tick.
 	 */
 	void addParticles() {
+
+		// exit if particles shouldn't be spawned in this tick
+		FrequencyRepository frequencyRepository = getProxy().getClientFrequencyRepository();
+		if (!frequencyRepository.isActive(PARTICLE_SPAWN_FREQUENCY))
+			return;
+				
 		addParticlesPorts.setBlockPosition1(getPosition());
 		run(addParticlesPorts, addParticlesOp);
 	}
