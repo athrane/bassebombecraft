@@ -36,6 +36,7 @@ import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
 import bassebombecraft.entity.commander.command.AttackNearestMobCommand;
 import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
 import bassebombecraft.entity.commander.command.DanceCommand;
+import bassebombecraft.entity.projectile.CircleProjectileEntity;
 import bassebombecraft.entity.projectile.EggProjectileEntity;
 import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.entity.projectile.LightningProjectileEntity;
@@ -162,6 +163,7 @@ import bassebombecraft.operator.entity.Explode2;
 import bassebombecraft.operator.entity.Respawn;
 import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig2;
+import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
 import bassebombecraft.operator.entity.raytraceresult.ExplodeOnImpact2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
@@ -415,6 +417,7 @@ public class ModConfiguration {
 	public static ProjectileEntityConfig eggProjectileEntity;
 	public static ProjectileEntityConfig llamaProjectileEntity;
 	public static ProjectileEntityConfig lightningProjectileEntity;
+	public static ProjectileEntityConfig circleProjectileEntity;
 
 	public static ItemConfig randomProjectileFormationModifierItem;
 	public static ItemConfig inaccuracyProjectileFormationModifierItem;
@@ -945,6 +948,21 @@ public class ModConfiguration {
 		shootCreeperCannonSpawnDisplacement = COMMON_BUILDER
 				.comment("Projectile spawn displacement in blocks in front of the shooter.")
 				.defineInRange("spawnDisplacement", 2, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the the {@linkplain DigMobHole2} operator.
+		 */
+		name = DigMobHole2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		digMobHoleNoHitHoleDepth = COMMON_BUILDER.comment("No-hit, hole depth (Z) in blocks.")
+				.defineInRange("noHitHoleDepth", 2, 0, Integer.MAX_VALUE);
+		digMobHoleNoHitHoleHeight = COMMON_BUILDER.comment("No-hit, hole height (Y) in blocks.")
+				.defineInRange("noHitHoleHeight", 2, 0, Integer.MAX_VALUE);
+		digMobHoleNoHitHoleWidth = COMMON_BUILDER.comment("No-hit, hole width (X) in blocks.")
+				.defineInRange("noHitHoleWidth", 2, 0, Integer.MAX_VALUE);
+		digMobHoleHeightExpansion = COMMON_BUILDER.comment("Hole expansion in addition to entity bounding box.")
+				.defineInRange("heightExpansion", 1, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		// GenericBlockSpiralFillMist
@@ -2066,6 +2084,16 @@ public class ModConfiguration {
 				1.0);
 		lightningProjectileEntity = getInstance(COMMON_BUILDER, name, 10.0D, 4.0D, 10.0D, splParticles);
 		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain CircleProjectileEntity} item.
+		 */
+		name = CircleProjectileEntity.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:sparkparticle", 1, 27, 0.2D, 0.0, 0.0, 1.0);
+		circleProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 1.0D, splParticles);
+		COMMON_BUILDER.pop();
+
 	}
 
 	/**

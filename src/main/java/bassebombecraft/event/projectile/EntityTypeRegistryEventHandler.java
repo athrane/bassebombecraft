@@ -3,6 +3,7 @@ package bassebombecraft.event.projectile;
 import static bassebombecraft.ModConstants.MODID;
 import static net.minecraft.entity.EntityClassification.MISC;
 
+import bassebombecraft.entity.projectile.CircleProjectileEntity;
 import bassebombecraft.entity.projectile.EggProjectileEntity;
 import bassebombecraft.entity.projectile.LightningProjectileEntity;
 import bassebombecraft.entity.projectile.LlamaProjectileEntity;
@@ -40,6 +41,10 @@ public class EntityTypeRegistryEventHandler {
 		registry.register(EntityType.Builder.<LightningProjectileEntity>create(LightningProjectileEntity::new, MISC)
 				.build(name).setRegistryName(MODID, name));
 
+		name = CircleProjectileEntity.NAME.toLowerCase();
+		registry.register(EntityType.Builder.<CircleProjectileEntity>create(CircleProjectileEntity::new, MISC)
+				.build(name).setRegistryName(MODID, name));
+		
 	}
 
 }

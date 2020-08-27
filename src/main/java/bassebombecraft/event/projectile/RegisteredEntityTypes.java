@@ -2,6 +2,7 @@ package bassebombecraft.event.projectile;
 
 import static bassebombecraft.ModConstants.*;
 
+import bassebombecraft.entity.projectile.CircleProjectileEntity;
 import bassebombecraft.entity.projectile.EggProjectileEntity;
 import bassebombecraft.entity.projectile.LightningProjectileEntity;
 import bassebombecraft.entity.projectile.LlamaProjectileEntity;
@@ -33,5 +34,11 @@ public class RegisteredEntityTypes {
 	 */
 	@ObjectHolder("lightningprojectileentity")
 	public static final EntityType<LightningProjectileEntity> LIGHTNING_PROJECTILE = null;
+
+	/**
+	 * Object holder for {@linkplain LightningProjectileEntity}.
+	 */
+	@ObjectHolder("circleprojectileentity")
+	public static final EntityType<CircleProjectileEntity> CIRCLE_PROJECTILE = null;
 	
 }

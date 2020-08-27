@@ -6,6 +6,7 @@ import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlaye
 import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startSession;
+import static bassebombecraft.event.projectile.RegisteredEntityTypes.CIRCLE_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.EGG_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.LIGHTNING_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.LLAMA_PROJECTILE;
@@ -27,6 +28,7 @@ import bassebombecraft.client.event.rendering.HudItemHighlightedBlockRenderer;
 import bassebombecraft.client.event.rendering.IncreaseSizeEffectRenderer;
 import bassebombecraft.client.event.rendering.RenderingEventHandler;
 import bassebombecraft.client.event.rendering.RespawnedRenderer;
+import bassebombecraft.client.rendering.entity.CircleProjectileEntityRenderer;
 import bassebombecraft.client.rendering.entity.EggProjectileEntityRenderer;
 import bassebombecraft.client.rendering.entity.LightningProjectileEntityRenderer;
 import bassebombecraft.client.rendering.entity.LlamaProjectileEntityRenderer;
@@ -308,6 +310,7 @@ public class ClientProxy implements Proxy {
 		RenderingRegistry.registerEntityRenderingHandler(EGG_PROJECTILE, EggProjectileEntityRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(LLAMA_PROJECTILE, LlamaProjectileEntityRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(LIGHTNING_PROJECTILE, LightningProjectileEntityRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(CIRCLE_PROJECTILE, CircleProjectileEntityRenderer::new);
 	}
 
 	@Override
