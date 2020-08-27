@@ -124,10 +124,10 @@ import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifi
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.CircleProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.DeaccelerateProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.RandomProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.SineProjectilePathItem;
-import bassebombecraft.item.composite.projectile.path.CircleProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.ZigZagProjectilePathItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
@@ -162,6 +162,7 @@ import bassebombecraft.operator.entity.Explode2;
 import bassebombecraft.operator.entity.Respawn;
 import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig2;
+import bassebombecraft.operator.entity.raytraceresult.ExplodeOnImpact2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
@@ -171,7 +172,6 @@ import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.ReceiveAggroEffect;
-import bassebombecraft.projectile.action.DigMobHole;
 import bassebombecraft.projectile.action.SpawnCreeperArmy;
 import bassebombecraft.projectile.action.SpawnKittenArmy;
 import bassebombecraft.projectile.action.SpawnSkeletonArmy;
@@ -433,7 +433,7 @@ public class ModConfiguration {
 	public static ItemConfig meteorProjectileModifierItem;
 	public static ItemConfig decoyProjectileModifierItem;
 	public static ItemConfig explodeMobWhenKilledProjectileModifierItem;
-	public static ItemConfig explodeOnImpactProjectileModifierItem;	
+	public static ItemConfig explodeOnImpactProjectileModifierItem;
 	public static ItemConfig digMobHoleProjectileModifierItem;
 
 	// Actions..
@@ -610,10 +610,11 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue circleProjectileFormationNumberProjectiles;
 
 	/**
-	 * Properties for {@linkplain Explode2} and {@linkplain ExplodeOnImpact2} operator.
+	 * Properties for {@linkplain Explode2} and {@linkplain ExplodeOnImpact2}
+	 * operator.
 	 */
 	public static ForgeConfigSpec.DoubleValue explodeMinExplosionRadius;
-	
+
 	/**
 	 * Properties for {@linkplain AccelerateProjectilePath} operator.
 	 */
@@ -623,7 +624,7 @@ public class ModConfiguration {
 	 * Properties for {@linkplain DeaccelerateProjectilePath} operator.
 	 */
 	public static ForgeConfigSpec.DoubleValue deaccelerateProjectilePathAcceleration;
-	
+
 	// Entities..
 
 	/**
@@ -944,22 +945,6 @@ public class ModConfiguration {
 		shootCreeperCannonSpawnDisplacement = COMMON_BUILDER
 				.comment("Projectile spawn displacement in blocks in front of the shooter.")
 				.defineInRange("spawnDisplacement", 2, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
-		/**
-		 * Configuration for the {@linkplain DigMobHole} action and the
-		 * {@linkplain DigMobHole2} operator.
-		 */
-		name = DigMobHole.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		digMobHoleNoHitHoleDepth = COMMON_BUILDER.comment("No-hit, hole depth (Z) in blocks.")
-				.defineInRange("noHitHoleDepth", 2, 0, Integer.MAX_VALUE);
-		digMobHoleNoHitHoleHeight = COMMON_BUILDER.comment("No-hit, hole height (Y) in blocks.")
-				.defineInRange("noHitHoleHeight", 2, 0, Integer.MAX_VALUE);
-		digMobHoleNoHitHoleWidth = COMMON_BUILDER.comment("No-hit, hole width (X) in blocks.")
-				.defineInRange("noHitHoleWidth", 2, 0, Integer.MAX_VALUE);
-		digMobHoleHeightExpansion = COMMON_BUILDER.comment("Hole expansion in addition to entity bounding box.")
-				.defineInRange("heightExpansion", 1, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		// GenericBlockSpiralFillMist
@@ -1303,7 +1288,8 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain Explode2} and {@linkplain ExplodeOnImpact2} operator.
+		 * Configuration for the {@linkplain Explode2} and {@linkplain ExplodeOnImpact2}
+		 * operator.
 		 */
 		name = Explode2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1327,7 +1313,7 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		deaccelerateProjectilePathAcceleration = COMMON_BUILDER.comment("Acceleration decrease per game tick.")
 				.defineInRange("acceleration", 0.9D, 0, 1);
-		COMMON_BUILDER.pop();		
+		COMMON_BUILDER.pop();
 	}
 
 	/**
@@ -2017,15 +2003,15 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain ExplodeOnImpactProjectileModifierItem} item.
+		 * Configuration for the {@linkplain ExplodeOnImpactProjectileModifierItem}
+		 * item.
 		 */
 		name = ExplodeOnImpactProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		explodeOnImpactProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. Project will explode on impact.",
-				25);
+				"A mythical image of the modification of a projectile. Project will explode on impact.", 25);
 		COMMON_BUILDER.pop();
-		
+
 		/**
 		 * Configuration for the {@linkplain DigMobHoleProjectileModifierItem} item.
 		 */
@@ -2076,7 +2062,8 @@ public class ModConfiguration {
 		 */
 		name = LightningProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:lightningparticle", 1, 25, 0.2D, 0.0, 0.0, 1.0);
+		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:lightningparticle", 1, 25, 0.2D, 0.0, 0.0,
+				1.0);
 		lightningProjectileEntity = getInstance(COMMON_BUILDER, name, 10.0D, 4.0D, 10.0D, splParticles);
 		COMMON_BUILDER.pop();
 	}
