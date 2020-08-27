@@ -6,8 +6,8 @@ import static bassebombecraft.ModConstants.AI_COMPANION_ATTACK_UPDATE_FREQUENCY;
 import static bassebombecraft.entity.EntityUtils.getNullableTarget;
 import static bassebombecraft.entity.EntityUtils.getTarget;
 import static bassebombecraft.entity.EntityUtils.hasTarget;
-import static bassebombecraft.entity.ai.goal.DefaultObservationRepository.getInstance;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntities1;
+import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static java.util.Optional.ofNullable;
 import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
 
@@ -29,7 +29,6 @@ import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.action.mist.entity.LightningBoltMist;
 import bassebombecraft.item.action.mist.entity.ToxicMist;
 import bassebombecraft.item.action.mist.entity.VacuumMist;
-import bassebombecraft.operator.DefaultPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
@@ -38,7 +37,6 @@ import bassebombecraft.operator.projectile.ShootArrowProjectile2;
 import bassebombecraft.operator.projectile.ShootCircleProjectile2;
 import bassebombecraft.operator.projectile.ShootFireballProjectile2;
 import bassebombecraft.operator.projectile.ShootLargeFireballProjectile2;
-import bassebombecraft.operator.projectile.ShootLlamaProjectile2;
 import bassebombecraft.operator.projectile.ShootWitherSkullProjectile2;
 import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
 import bassebombecraft.operator.projectile.formation.TrifurcatedProjectileFormation2;
@@ -182,7 +180,7 @@ public class CompanionAttack extends Goal {
 		setMutexFlags(EnumSet.of(LOOK));
 
 		// create observation repository
-		observationRepository = getInstance(entity);
+		observationRepository = DefaultObservationRepository.getInstance(entity);
 
 	}
 
@@ -295,19 +293,16 @@ public class CompanionAttack extends Goal {
 	 */
 	static List<RightClickedItemAction> initializeLongRangeActions() {
 		List<RightClickedItemAction> actions = new ArrayList<RightClickedItemAction>();
-		/**
-		
-		actions.add(ExecuteOperatorAsAction2.getInstance(DefaultPorts.getInstance(), splLargeFireballOps.get()));
-		actions.add(ExecuteOperatorAsAction2.getInstance(DefaultPorts.getInstance(), splFireballOps.get()));
-		actions.add(ExecuteOperatorAsAction2.getInstance(DefaultPorts.getInstance(), splWitherSkullOps.get()));
-		actions.add(ExecuteOperatorAsAction2.getInstance(DefaultPorts.getInstance(), splArrowsOps.get()));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splLargeFireballOps.get()));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splFireballOps.get()));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splWitherSkullOps.get()));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splArrowsOps.get()));
 		actions.add(new ShootBaconBazooka());
 		actions.add(new ShootCreeperCannon(ISNT_PRIMED));
 		actions.add(new ShootGenericEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));
 		actions.add(new ShootGenericEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION));
 		actions.add(new ShootGenericEggProjectile(LIGHTNING_PROJECTILE_ACTION));
-		**/
-		actions.add(ExecuteOperatorAsAction2.getInstance(DefaultPorts.getInstance(), splDigMobHoleOps.get()));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splDigMobHoleOps.get()));
 		actions.add(new ShootGenericEggProjectile(FLAMING_CHICKEN_PROJECTILE_ACTION));
 		return actions;
 	}
@@ -319,7 +314,6 @@ public class CompanionAttack extends Goal {
 	 */
 	static List<RightClickedItemAction> initializeCloseRangeActions() {
 		List<RightClickedItemAction> actions = new ArrayList<RightClickedItemAction>();
-		/**
 		actions.add(new GenericEntityMist(TOXIC_MIST_STRATEGY));
 		actions.add(new ShootGenericEggProjectile(COWEB_PROJECTILE_ACTION));
 		actions.add(new ShootGenericEggProjectile(EMIT_FORCE_PROJECTILE_ACTION));
@@ -331,8 +325,7 @@ public class CompanionAttack extends Goal {
 		actions.add(new GenericEntityMist(SPAWN_VACUUM_MIST_PROJECTILE_ACTION));
 		actions.add(new ShootGenericEggProjectile(LIGHTNING_PROJECTILE_ACTION));
 		actions.add(new GenericEntityMist(LIGHTNING_MIST_STRATEGY));
-		**/
-		actions.add(ExecuteOperatorAsAction2.getInstance(DefaultPorts.getInstance(), splDigMobHoleOps.get()));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splDigMobHoleOps.get()));
 		return actions;
 	}
 
