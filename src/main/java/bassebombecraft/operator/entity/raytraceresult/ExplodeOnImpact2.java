@@ -55,11 +55,6 @@ public class ExplodeOnImpact2 implements Operator2 {
 	Function<Ports, World> fnGetWorld;
 
 	/**
-	 * Minimum explosion radius.
-	 */
-	double minExplosionRadius;
-
-	/**
 	 * Constructor.
 	 * 
 	 * @param splRayTraceResult function to get ray trace result.
@@ -68,7 +63,6 @@ public class ExplodeOnImpact2 implements Operator2 {
 	public ExplodeOnImpact2(Function<Ports, RayTraceResult> fnGetRayTraceResult, Function<Ports, World> fnGetWorld) {
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 		this.fnGetWorld = fnGetWorld;
-		minExplosionRadius = explodeMinExplosionRadius.get();
 	}
 
 	/**
@@ -111,6 +105,7 @@ public class ExplodeOnImpact2 implements Operator2 {
 			// calculate explosion radius
 			AxisAlignedBB aabb = entity.getBoundingBox();
 			float explosionRadius = (float) Math.max(aabb.getXSize(), aabb.getZSize());
+			double minExplosionRadius = explodeMinExplosionRadius.get();			
 			explosionRadius = (float) Math.max(explosionRadius, minExplosionRadius);
 
 			// create explosion
@@ -133,9 +128,9 @@ public class ExplodeOnImpact2 implements Operator2 {
 			BlockPos position = blockResult.getPos();
 
 			// create explosion
-			float explosionRadius = (float) minExplosionRadius;
-			world.createExplosion(NULL_ENTITY, position.getX(), position.getY(), position.getZ(), explosionRadius,
-					DESTROY);
+			double minExplosionRadius = explodeMinExplosionRadius.get();
+			world.createExplosion(NULL_ENTITY, position.getX(), position.getY(), position.getZ(),
+					(float) minExplosionRadius, DESTROY);
 		}
 
 		return ports;
