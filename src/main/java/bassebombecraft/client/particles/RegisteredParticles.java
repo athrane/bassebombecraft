@@ -38,4 +38,11 @@ public class RegisteredParticles {
 	public static final RegistryObject<BasicParticleType> CHICKEN_PARTICLE = PARTICLES
 			.register(ChickenParticle.NAME.toLowerCase(), () -> new BasicParticleType(true));
 
+	/**
+	 * Registry object for {@linkplain CircleParticle}.
+	 */
+	public static final RegistryObject<BasicParticleType> CIRCLE_PARTICLE = PARTICLES
+			.register(CircleParticle.NAME.toLowerCase(), () -> new BasicParticleType(true));
+	
+	
 }

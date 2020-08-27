@@ -1,10 +1,11 @@
 package bassebombecraft.client.event.particle;
 
-import static bassebombecraft.client.particles.RegisteredParticles.CHICKEN_PARTICLE;
+import static bassebombecraft.client.particles.RegisteredParticles.*;
 import static bassebombecraft.client.particles.RegisteredParticles.LIGHTNING_PARTICLE;
 import static bassebombecraft.client.particles.RegisteredParticles.SPARK_PARTICLE;
 
 import bassebombecraft.client.particles.ChickenParticle;
+import bassebombecraft.client.particles.CircleParticle;
 import bassebombecraft.client.particles.LightningParticle;
 import bassebombecraft.client.particles.SparkParticle;
 import net.minecraft.client.Minecraft;
@@ -51,6 +52,11 @@ public class ParticleFactoryRegistryEventHandler {
 		 */
 		particles.registerFactory(CHICKEN_PARTICLE.get(), sprite -> new ChickenParticle.Factory(sprite));
 
+		/**
+		 * Register factory for {@linkplain CircleParticle}.
+		 */
+		particles.registerFactory(CIRCLE_PARTICLE.get(), sprite -> new CircleParticle.Factory(sprite));
+		
 	}
 
 }
