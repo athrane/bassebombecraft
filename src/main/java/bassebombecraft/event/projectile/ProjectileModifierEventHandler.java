@@ -27,6 +27,7 @@ import bassebombecraft.operator.entity.ShootMeteor2;
 import bassebombecraft.operator.entity.potion.effect.AddEffect2;
 import bassebombecraft.operator.entity.raytraceresult.Charm2;
 import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
+import bassebombecraft.operator.entity.raytraceresult.ExplodeOnImpact2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportMob2;
@@ -124,6 +125,11 @@ public class ProjectileModifierEventHandler {
 	static final Operator2 EXPLODE_OPERATOR = new Explode2();
 
 	/**
+	 * Explode on impact operator.
+	 */
+	static final Operator2 EXPLODE_ON_IMPACT_OPERATOR = new ExplodeOnImpact2();
+	
+	/**
 	 * Dig mob hole operator.
 	 */
 	static final Operator2 DIGMOBHOLE_OPERATOR = new DigMobHole2();
@@ -155,21 +161,25 @@ public class ProjectileModifierEventHandler {
 			if (tags.contains(TeleportMob2.NAME))
 				teleportMob(event);
 
-			// handle: charm
+			// handle: charm mob
 			if (tags.contains(Charm2.NAME))
-				charm(event);
+				charmMob(event);
 
-			// handle: meteor
+			// handle: shoot meteor
 			if (tags.contains(ShootMeteor2.NAME))
 				shootMeteor(event);
 
-			// handle: decoy
+			// handle: spawn decoy
 			if (tags.contains(SpawnDecoy2.NAME))
 				spawnDecoy(event);
 
 			// handle: dig mob hole
 			if (tags.contains(DigMobHole2.NAME))
 				digMobHole(event);
+
+			// handle: explode on impact 
+			if (tags.contains(Explode2.NAME))
+				explodeOnImpact(event);
 			
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -203,7 +213,7 @@ public class ProjectileModifierEventHandler {
 
 			// handle: explode when killed
 			if (tags.contains(Explode2.NAME))
-				explode(event);
+				explodeMobWhenKilled(event);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -244,7 +254,7 @@ public class ProjectileModifierEventHandler {
 	 * 
 	 * @param event projectile impact event.
 	 */
-	static void charm(ProjectileImpactEvent event) {
+	static void charmMob(ProjectileImpactEvent event) {
 
 		// exit if invoker couldn't be resolved
 		Optional<LivingEntity> optInvoker = resolveInvoker(event);
@@ -310,10 +320,22 @@ public class ProjectileModifierEventHandler {
 	 * 
 	 * @param event living death event.
 	 */
-	static void explode(LivingDeathEvent event) {
+	static void explodeMobWhenKilled(LivingDeathEvent event) {
 		Ports ports = getInstance();
 		ports.setEntity1(event.getEntity());
 		run(ports, EXPLODE_OPERATOR);
 	}
 
+	/**
+	 * Execute explode operator.
+	 * 
+	 * @param event projectile impact death event.
+	 */
+	static void explodeOnImpact(ProjectileImpactEvent event) {
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setWorld(event.getEntity().getEntityWorld());
+		run(ports, EXPLODE_ON_IMPACT_OPERATOR);
+	}
+	
 }

@@ -119,6 +119,7 @@ import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifie
 import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeMobWhenKilledProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.ExplodeOnImpactProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
@@ -432,6 +433,7 @@ public class ModConfiguration {
 	public static ItemConfig meteorProjectileModifierItem;
 	public static ItemConfig decoyProjectileModifierItem;
 	public static ItemConfig explodeMobWhenKilledProjectileModifierItem;
+	public static ItemConfig explodeOnImpactProjectileModifierItem;	
 	public static ItemConfig digMobHoleProjectileModifierItem;
 
 	// Actions..
@@ -608,10 +610,10 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue circleProjectileFormationNumberProjectiles;
 
 	/**
-	 * Properties for {@linkplain Explode2} operator.
+	 * Properties for {@linkplain Explode2} and {@linkplain ExplodeOnImpact2} operator.
 	 */
 	public static ForgeConfigSpec.DoubleValue explodeMinExplosionRadius;
-
+	
 	/**
 	 * Properties for {@linkplain AccelerateProjectilePath} operator.
 	 */
@@ -1301,7 +1303,7 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain Explode2} operator.
+		 * Configuration for the {@linkplain Explode2} and {@linkplain ExplodeOnImpact2} operator.
 		 */
 		name = Explode2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -2010,10 +2012,20 @@ public class ModConfiguration {
 		name = ExplodeMobWhenKilledProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		explodeMobWhenKilledProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When a mob is killed it will explode dealing damage to nearby mobs. The explosion radius is based on the size if the killed mob.",
+				"A mythical image of the modification of a projectile. When a mob is killed it will explode dealing damage to nearby mobs. The explosion radius is based on the size of the killed mob.",
 				25);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the {@linkplain ExplodeOnImpactProjectileModifierItem} item.
+		 */
+		name = ExplodeOnImpactProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		explodeOnImpactProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. Project will explode on impact.",
+				25);
+		COMMON_BUILDER.pop();
+		
 		/**
 		 * Configuration for the {@linkplain DigMobHoleProjectileModifierItem} item.
 		 */
