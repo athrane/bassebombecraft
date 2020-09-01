@@ -6,6 +6,7 @@ import bassebombecraft.entity.projectile.CircleProjectileEntity;
 import bassebombecraft.entity.projectile.EggProjectileEntity;
 import bassebombecraft.entity.projectile.LightningProjectileEntity;
 import bassebombecraft.entity.projectile.LlamaProjectileEntity;
+import bassebombecraft.entity.projectile.SkullProjectileEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.registries.ObjectHolder;
 
@@ -36,9 +37,15 @@ public class RegisteredEntityTypes {
 	public static final EntityType<LightningProjectileEntity> LIGHTNING_PROJECTILE = null;
 
 	/**
-	 * Object holder for {@linkplain LightningProjectileEntity}.
+	 * Object holder for {@linkplain CircleProjectileEntity}.
 	 */
 	@ObjectHolder("circleprojectileentity")
 	public static final EntityType<CircleProjectileEntity> CIRCLE_PROJECTILE = null;
+
+	/**
+	 * Object holder for {@linkplain SkullProjectileEntity}.
+	 */
+	@ObjectHolder("skullprojectileentity")
+	public static final EntityType<SkullProjectileEntity> SKULL_PROJECTILE = null;
 	
 }

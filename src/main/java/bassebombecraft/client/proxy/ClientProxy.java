@@ -10,6 +10,7 @@ import static bassebombecraft.event.projectile.RegisteredEntityTypes.CIRCLE_PROJ
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.EGG_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.LIGHTNING_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.LLAMA_PROJECTILE;
+import static bassebombecraft.event.projectile.RegisteredEntityTypes.SKULL_PROJECTILE;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 import java.io.PrintWriter;
@@ -32,6 +33,7 @@ import bassebombecraft.client.rendering.entity.CircleProjectileEntityRenderer;
 import bassebombecraft.client.rendering.entity.EggProjectileEntityRenderer;
 import bassebombecraft.client.rendering.entity.LightningProjectileEntityRenderer;
 import bassebombecraft.client.rendering.entity.LlamaProjectileEntityRenderer;
+import bassebombecraft.client.rendering.entity.SkullProjectileEntityRenderer;
 import bassebombecraft.config.VersionUtils;
 import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;
@@ -311,6 +313,8 @@ public class ClientProxy implements Proxy {
 		RenderingRegistry.registerEntityRenderingHandler(LLAMA_PROJECTILE, LlamaProjectileEntityRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(LIGHTNING_PROJECTILE, LightningProjectileEntityRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(CIRCLE_PROJECTILE, CircleProjectileEntityRenderer::new);
+		RenderingRegistry.registerEntityRenderingHandler(SKULL_PROJECTILE, SkullProjectileEntityRenderer::new);
+		
 	}
 
 	@Override

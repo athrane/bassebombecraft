@@ -41,6 +41,7 @@ import bassebombecraft.entity.projectile.EggProjectileEntity;
 import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.entity.projectile.LightningProjectileEntity;
 import bassebombecraft.entity.projectile.LlamaProjectileEntity;
+import bassebombecraft.entity.projectile.SkullProjectileEntity;
 import bassebombecraft.event.charm.CharmedMobEventHandler;
 import bassebombecraft.event.charm.ServerCharmedMobsRepository;
 import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
@@ -418,6 +419,7 @@ public class ModConfiguration {
 	public static ProjectileEntityConfig llamaProjectileEntity;
 	public static ProjectileEntityConfig lightningProjectileEntity;
 	public static ProjectileEntityConfig circleProjectileEntity;
+	public static ProjectileEntityConfig skullProjectileEntity;
 
 	public static ItemConfig randomProjectileFormationModifierItem;
 	public static ItemConfig inaccuracyProjectileFormationModifierItem;
@@ -2094,6 +2096,15 @@ public class ModConfiguration {
 		circleProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 1.0D, splParticles);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the {@linkplain SkullProjectileEntity} item.
+		 */
+		name = SkullProjectileEntity.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:skullparticle", 1, 27, 0.2D, 0.0, 0.0, 1.0);
+		skullProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 1.0D, splParticles);
+		COMMON_BUILDER.pop();
+		
 	}
 
 	/**

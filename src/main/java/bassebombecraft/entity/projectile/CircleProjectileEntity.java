@@ -1,6 +1,6 @@
 package bassebombecraft.entity.projectile;
 
-import static bassebombecraft.config.ModConfiguration.*;
+import static bassebombecraft.config.ModConfiguration.circleProjectileEntity;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
