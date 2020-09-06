@@ -59,7 +59,7 @@ public class ParticleFactoryRegistryEventHandler {
 		particles.registerFactory(CIRCLE_PARTICLE.get(), sprite -> new CircleParticle.Factory(sprite));
 
 		/**
-		 * Register factory for {@linkplain CircleParticle}.
+		 * Register factory for {@linkplain SkullParticle}.
 		 */
 		particles.registerFactory(SKULL_PARTICLE.get(), sprite -> new SkullParticle.Factory(sprite));
 		

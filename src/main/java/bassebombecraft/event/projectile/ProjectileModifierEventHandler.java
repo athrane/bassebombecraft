@@ -28,6 +28,7 @@ import bassebombecraft.operator.entity.potion.effect.AddEffect2;
 import bassebombecraft.operator.entity.raytraceresult.Charm2;
 import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
 import bassebombecraft.operator.entity.raytraceresult.ExplodeOnImpact2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportMob2;
@@ -128,13 +129,17 @@ public class ProjectileModifierEventHandler {
 	 * Explode on impact operator.
 	 */
 	static final Operator2 EXPLODE_ON_IMPACT_OPERATOR = new ExplodeOnImpact2();
-	
+
 	/**
 	 * Dig mob hole operator.
 	 */
 	static final Operator2 DIGMOBHOLE_OPERATOR = new DigMobHole2();
 
-	
+	/**
+	 * Spawn cobweb operator.
+	 */
+	static final Operator2 COBWEB_OPERATOR = new SpawnCobweb2();
+
 	@SubscribeEvent
 	static public void handleProjectileImpactEvent(ProjectileImpactEvent event) {
 		try {
@@ -177,10 +182,14 @@ public class ProjectileModifierEventHandler {
 			if (tags.contains(DigMobHole2.NAME))
 				digMobHole(event);
 
-			// handle: explode on impact 
+			// handle: spawn cobweb
+			if (tags.contains(SpawnCobweb2.NAME))
+				spawnCobweb(event);
+
+			// handle: explode on impact
 			if (tags.contains(Explode2.NAME))
 				explodeOnImpact(event);
-			
+
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
@@ -304,7 +313,7 @@ public class ProjectileModifierEventHandler {
 	}
 
 	/**
-	 * Dig mob hole operator.
+	 * Execute dig mob hole operator.
 	 * 
 	 * @param event projectile impact event.
 	 */
@@ -314,7 +323,19 @@ public class ProjectileModifierEventHandler {
 		ports.setWorld(event.getEntity().getEntityWorld());
 		run(ports, DIGMOBHOLE_OPERATOR);
 	}
-			
+
+	/**
+	 * Execute spawn cobweb operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void spawnCobweb(ProjectileImpactEvent event) {
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setWorld(event.getEntity().getEntityWorld());
+		run(ports, COBWEB_OPERATOR);
+	}
+
 	/**
 	 * Execute explode operator.
 	 * 
@@ -337,5 +358,5 @@ public class ProjectileModifierEventHandler {
 		ports.setWorld(event.getEntity().getEntityWorld());
 		run(ports, EXPLODE_ON_IMPACT_OPERATOR);
 	}
-	
+
 }

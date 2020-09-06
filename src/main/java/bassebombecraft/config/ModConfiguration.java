@@ -79,6 +79,7 @@ import bassebombecraft.item.book.BeastmasterBook;
 import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.item.book.BuildStairsBook;
 import bassebombecraft.item.book.BuildTowerBook;
+import bassebombecraft.item.book.CobwebBook;
 import bassebombecraft.item.book.CopyPasteBlocksBook;
 import bassebombecraft.item.book.CreeperCannonBook;
 import bassebombecraft.item.book.DecoyBook;
@@ -123,6 +124,7 @@ import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileMo
 import bassebombecraft.item.composite.projectile.modifier.ExplodeMobWhenKilledProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeOnImpactProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.SpawnCobwebProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
@@ -166,6 +168,7 @@ import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig2;
 import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
 import bassebombecraft.operator.entity.raytraceresult.ExplodeOnImpact2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
@@ -326,6 +329,7 @@ public class ModConfiguration {
 	public static ItemConfig decoyBook;
 	public static ItemConfig receiveAggroBook;
 	public static ItemConfig digMobHoleBook;
+	public static ItemConfig cobwebBook;
 
 	public static ItemConfig lavaSpiralMistBook;
 	public static ItemConfig rainbownizeBook;
@@ -440,6 +444,7 @@ public class ModConfiguration {
 	public static ItemConfig explodeMobWhenKilledProjectileModifierItem;
 	public static ItemConfig explodeOnImpactProjectileModifierItem;
 	public static ItemConfig digMobHoleProjectileModifierItem;
+	public static ItemConfig spawnCobwebProjectileModifierItem;
 
 	// Actions..
 
@@ -470,12 +475,6 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue spawnKittenArmySpawnArea;
 	public static ForgeConfigSpec.IntValue spawnKittenArmyAge;
 	public static ForgeConfigSpec.ConfigValue<List<? extends String>> spawnKittenArmyNames;
-
-	// DigMobHole projectile action
-	public static ForgeConfigSpec.IntValue digMobHoleNoHitHoleDepth;
-	public static ForgeConfigSpec.IntValue digMobHoleNoHitHoleHeight;
-	public static ForgeConfigSpec.IntValue digMobHoleNoHitHoleWidth;
-	public static ForgeConfigSpec.IntValue digMobHoleHeightExpansion;
 
 	// GenericBlockSpiralFillMist action
 	public static ForgeConfigSpec.IntValue genericBlockSpiralFillMistSpiralSize;
@@ -568,6 +567,19 @@ public class ModConfiguration {
 
 	// Operators..
 
+	/**
+	 * Properties for {@linkplain DigMobHole2} operator.
+	 */
+	public static ForgeConfigSpec.IntValue digMobHoleNoHitHoleDepth;
+	public static ForgeConfigSpec.IntValue digMobHoleNoHitHoleHeight;
+	public static ForgeConfigSpec.IntValue digMobHoleNoHitHoleWidth;
+	public static ForgeConfigSpec.IntValue digMobHoleHeightExpansion;
+
+	/**
+	 * Properties for {@linkplain SpawnCobweb2} operator.
+	 */
+	public static ForgeConfigSpec.IntValue spawnCobwebDuration;
+	
 	/**
 	 * Properties for {@linkplain SpawnKillerBee} operator.
 	 */
@@ -967,6 +979,15 @@ public class ModConfiguration {
 				.defineInRange("heightExpansion", 1, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the the {@linkplain SpawnCobweb2} operator.
+		 */
+		name = SpawnCobweb2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnCobwebDuration = COMMON_BUILDER.comment("Duration of spawned cobweb.")
+				.defineInRange("cobwebDuration", 400, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+		
 		// GenericBlockSpiralFillMist
 		name = GenericBlockSpiralFillMist.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1461,12 +1482,19 @@ public class ModConfiguration {
 		/**
 		 * Configuration for the {@linkplain DigMobHoleBook} item.
 		 */
-		// DigMobHoleBook
 		name = DigMobHoleBook.ITEM_NAME;
 		digMobHoleBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to shoot a projectile. If a creature is hit then an inconvenient hole is digged beneath the unfortunate individual.",
 				25);
 
+		/**
+		 * Configuration for the {@linkplain CobwebBook} item.
+		 */
+		name = CobwebBook.ITEM_NAME;
+		cobwebBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to shoot a projectile. If a creature is hit then an sticky cobweb is spawned to capture the mob.",
+				25);
+		
 		// LavaSpiralMistBook
 		name = LavaSpiralMistBook.ITEM_NAME;
 		lavaSpiralMistBook = getInstance(COMMON_BUILDER, name,
@@ -2042,6 +2070,16 @@ public class ModConfiguration {
 				25);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the {@linkplain SpawnCobwebProjectileModifierItem} item.
+		 */
+		name = SpawnCobwebProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnCobwebProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. If a creature is hit then a sticky cobweb is spawned around the unfortunate mob.",
+				25);
+		COMMON_BUILDER.pop();
+		
 	}
 
 	/**

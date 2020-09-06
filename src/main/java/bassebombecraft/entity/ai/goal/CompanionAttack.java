@@ -32,11 +32,13 @@ import bassebombecraft.item.action.mist.entity.VacuumMist;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.item.action.ExecuteOperatorAsAction2;
 import bassebombecraft.operator.projectile.ShootArrowProjectile2;
 import bassebombecraft.operator.projectile.ShootCircleProjectile2;
 import bassebombecraft.operator.projectile.ShootFireballProjectile2;
 import bassebombecraft.operator.projectile.ShootLargeFireballProjectile2;
+import bassebombecraft.operator.projectile.ShootSkullCircleProjectile2;
 import bassebombecraft.operator.projectile.ShootWitherSkullProjectile2;
 import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
 import bassebombecraft.operator.projectile.formation.TrifurcatedProjectileFormation2;
@@ -45,7 +47,6 @@ import bassebombecraft.projectile.action.EmitHorizontalForce;
 import bassebombecraft.projectile.action.EmitVerticalForce;
 import bassebombecraft.projectile.action.ProjectileAction;
 import bassebombecraft.projectile.action.SpawnAnvil;
-import bassebombecraft.projectile.action.SpawnCobweb;
 import bassebombecraft.projectile.action.SpawnFlamingChicken;
 import bassebombecraft.projectile.action.SpawnIceBlock;
 import bassebombecraft.projectile.action.SpawnLavaBlock;
@@ -69,7 +70,6 @@ import net.minecraft.pathfinding.PathNavigator;
  */
 public class CompanionAttack extends Goal {
 
-	static final ProjectileAction COWEB_PROJECTILE_ACTION = new SpawnCobweb();
 	static final ProjectileAction ICEBLOCK_PROJECTILE_ACTION = new SpawnIceBlock();
 	static final ProjectileAction LAVABLOCK_PROJECTILE_ACTION = new SpawnLavaBlock();
 	static final ProjectileAction LIGHTNING_PROJECTILE_ACTION = new SpawnLightningBolt();
@@ -135,6 +135,16 @@ public class CompanionAttack extends Goal {
 		Operator2 formationOp = new SingleProjectileFormation2();
 		Operator2 projectileOp = new ShootCircleProjectile2();
 		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> DigMobHole2.NAME);
+		return new Sequence2(formationOp, projectileOp, modifierOp);
+	};
+
+	/**
+	 * Create operators.
+	 */
+	static Supplier<Operator2> splSpawnCobwebOp = () -> {
+		Operator2 formationOp = new SingleProjectileFormation2();
+		Operator2 projectileOp = new ShootSkullCircleProjectile2();
+		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> SpawnCobweb2.NAME);
 		return new Sequence2(formationOp, projectileOp, modifierOp);
 	};
 
@@ -315,7 +325,7 @@ public class CompanionAttack extends Goal {
 	static List<RightClickedItemAction> initializeCloseRangeActions() {
 		List<RightClickedItemAction> actions = new ArrayList<RightClickedItemAction>();
 		actions.add(new GenericEntityMist(TOXIC_MIST_STRATEGY));
-		actions.add(new ShootGenericEggProjectile(COWEB_PROJECTILE_ACTION));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splSpawnCobwebOp.get()));
 		actions.add(new ShootGenericEggProjectile(EMIT_FORCE_PROJECTILE_ACTION));
 		actions.add(new ShootGenericEggProjectile(EMIT_VERTICAL_FORCE_PROJECTILE_ACTION));
 		actions.add(new ShootGenericEggProjectile(ICEBLOCK_PROJECTILE_ACTION));

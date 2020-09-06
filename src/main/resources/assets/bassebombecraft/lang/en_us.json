@@ -159,6 +159,7 @@
     "item.bassebombecraft.explodemobwhenkilledprojectilemodifieritem": "Projectile Modifier: Mob Explodes When Killed",                            
     "item.bassebombecraft.digmobholeprojectilemodifieritem": "Projectile Modifier: Inconvenient Hole",                            
     "item.bassebombecraft.explodeonimpactprojectilemodifieritem": "Projectile Modifier: Explode On Impact",                            
+    "item.bassebombecraft.spawncobwebprojectilemodifieritem": "Projectile Modifier: Spawn cobweb",                            
                 
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",
