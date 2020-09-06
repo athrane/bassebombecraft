@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:prismarine_crystals"
+		},		
+		{
+			"item": "minecraft:fire_charge"
+		},		
+		{
+			"item": "minecraft:lava_bucket"
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:explodeonimpactprojectilemodifieritem"
+	}
+}

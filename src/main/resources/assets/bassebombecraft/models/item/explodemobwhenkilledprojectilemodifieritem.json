@@ -1,7 +1,7 @@
 {
     "parent": "item/handheld",
     "textures": {
-        "layer0": "bassebombecraft:item/explodeprojectilemodifieritem"
+        "layer0": "bassebombecraft:item/explodemobwhenkilledprojectilemodifieritem"
     },
  	"display": {
         "thirdperson_righthand": {

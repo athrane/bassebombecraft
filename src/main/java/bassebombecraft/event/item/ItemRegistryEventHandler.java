@@ -81,11 +81,15 @@ import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjec
 import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
-import bassebombecraft.item.composite.projectile.modifier.ExplodeProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.ExplodeMobWhenKilledProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.ExplodeOnImpactProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.SpawnCobwebProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.CircleProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.DeaccelerateProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.RandomProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.SineProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.ZigZagProjectilePathItem;
@@ -184,11 +188,13 @@ public class ItemRegistryEventHandler {
 			new TrifurcatedProjectileFormationItem(), new FrontAndBackProjectileFormationItem(),
 			new RandomProjectileFormationModifierItem(), new InaccuracyProjectileFormationModifierItem(),
 			new OscillatingRotation180DProjectileFormationModifierItem(), new LlamaProjectileItem(),
-			new EggProjectileItem(), new LightningProjectileItem(), new RandomProjectilePathItem(), new AccelerateProjectilePathItem(),
-			new ZigZagProjectilePathItem(), new SineProjectilePathItem(), new TeleportInvokerProjectileModifierItem(),
+			new EggProjectileItem(), new LightningProjectileItem(), new RandomProjectilePathItem(),
+			new AccelerateProjectilePathItem(), new DeaccelerateProjectilePathItem(), new ZigZagProjectilePathItem(),
+			new SineProjectilePathItem(), new CircleProjectilePathItem(), new TeleportInvokerProjectileModifierItem(),
 			new TeleportMobProjectileModifierItem(), new CharmProjectileModifierItem(),
-			new MeteorProjectileModifierItem(), new DecoyProjectileModifierItem(), new ExplodeProjectileModifierItem(),
-			new DigMobHoleProjectileModifierItem() };
+			new MeteorProjectileModifierItem(), new DecoyProjectileModifierItem(),
+			new ExplodeMobWhenKilledProjectileModifierItem(), new DigMobHoleProjectileModifierItem(),
+			new ExplodeOnImpactProjectileModifierItem(), new SpawnCobwebProjectileModifierItem() };
 
 	/**
 	 * Handle {@linkplain RegistryEvent.Register<Item>} event to register items with

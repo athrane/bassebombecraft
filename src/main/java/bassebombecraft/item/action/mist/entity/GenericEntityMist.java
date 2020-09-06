@@ -3,7 +3,7 @@ package bassebombecraft.item.action.mist.entity;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.BLOCK_EFFECT_FREQUENCY;
-import static bassebombecraft.ModConstants.PARTICLE_RENDERING_FREQUENCY;
+import static bassebombecraft.ModConstants.PARTICLE_SPAWN_FREQUENCY;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
 
@@ -147,7 +147,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 
 			// render mist if frequency is active
 			FrequencyRepository repository = getProxy().getServerFrequencyRepository();
-			if (repository.isActive(PARTICLE_RENDERING_FREQUENCY))
+			if (repository.isActive(PARTICLE_SPAWN_FREQUENCY))
 				render();
 
 			// update effect if frequency is active
@@ -220,7 +220,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 			}
 
 			// calculate spiral index
-			int spiralCounter = (ticksCounter / PARTICLE_RENDERING_FREQUENCY) % spiralSize;
+			int spiralCounter = (ticksCounter / PARTICLE_SPAWN_FREQUENCY) % spiralSize;
 
 			// get next spiral coordinate
 			BlockPos spiralCoord = spiralCoordinates.get(spiralCounter);

@@ -9,9 +9,9 @@ import static bassebombecraft.config.ModConfiguration.creeperCannonProjectileEff
 import static bassebombecraft.config.ModConfiguration.primedCreeperCannonProjectileEffectExplosion;
 import static bassebombecraft.config.ModConfiguration.primedCreeperCannonProjectileEffectForce;
 
-import bassebombecraft.client.event.particle.ParticleRenderingEventHandler;
 import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
+import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
 import bassebombecraft.event.charm.CharmedMobEventHandler;
 import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
@@ -60,7 +60,7 @@ public class ModConstants {
 	/**
 	 * Mod version.
 	 */
-	public static final String VERSION = "1.15.2-1.45";
+	public static final String VERSION = "1.15.2-1.46";
 
 	/**
 	 * In game tab name.
@@ -253,11 +253,11 @@ public class ModConstants {
 	public static final BuildMineBook BUILD_MINE_BOOK = new BuildMineBook();
 
 	/**
-	 * Particle spawn frequency in {@linkplain ParticleRenderingEventHandler},
+	 * Particle spawn frequency in {@linkplain GenericCompositeProjectileEntity},
 	 * {@linkplain GenericBlockSpiralFillMist} and {@linkplain GenericEntityMist}.
 	 * Measured in world ticks.
 	 */
-	public static final int PARTICLE_RENDERING_FREQUENCY = 3;
+	public static final int PARTICLE_SPAWN_FREQUENCY = 10;
 
 	/**
 	 * Particle spawn frequency in {@linkplain CharmedMobEventHandler}. Measured in

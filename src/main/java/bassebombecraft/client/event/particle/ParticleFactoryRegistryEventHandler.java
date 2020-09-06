@@ -1,12 +1,13 @@
 package bassebombecraft.client.event.particle;
 
-import static bassebombecraft.client.particles.RegisteredParticles.CHICKEN_PARTICLE;
+import static bassebombecraft.client.particles.RegisteredParticles.*;
 import static bassebombecraft.client.particles.RegisteredParticles.LIGHTNING_PARTICLE;
 import static bassebombecraft.client.particles.RegisteredParticles.SPARK_PARTICLE;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.client.particles.ChickenParticle;
+import bassebombecraft.client.particles.CircleParticle;
 import bassebombecraft.client.particles.LightningParticle;
+import bassebombecraft.client.particles.SkullParticle;
 import bassebombecraft.client.particles.SparkParticle;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleManager;
@@ -34,7 +35,6 @@ public class ParticleFactoryRegistryEventHandler {
 	 */
 	@SubscribeEvent
 	public static void handleParticleFactoryRegisterEvent(ParticleFactoryRegisterEvent event) {
-		BassebombeCraft.getBassebombeCraft().getLogger().debug("handleParticleFactoryRegisterEvent");
 
 		ParticleManager particles = Minecraft.getInstance().particles;
 
@@ -53,6 +53,16 @@ public class ParticleFactoryRegistryEventHandler {
 		 */
 		particles.registerFactory(CHICKEN_PARTICLE.get(), sprite -> new ChickenParticle.Factory(sprite));
 
+		/**
+		 * Register factory for {@linkplain CircleParticle}.
+		 */
+		particles.registerFactory(CIRCLE_PARTICLE.get(), sprite -> new CircleParticle.Factory(sprite));
+
+		/**
+		 * Register factory for {@linkplain SkullParticle}.
+		 */
+		particles.registerFactory(SKULL_PARTICLE.get(), sprite -> new SkullParticle.Factory(sprite));
+		
 	}
 
 }

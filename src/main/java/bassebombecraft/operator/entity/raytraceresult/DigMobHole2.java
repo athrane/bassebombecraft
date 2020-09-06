@@ -61,26 +61,6 @@ public class DigMobHole2 implements Operator2 {
 	Function<Ports, World> fnGetWorld;
 
 	/**
-	 * No hit hole depth.
-	 */
-	final int noHitHoleDepth;
-
-	/**
-	 * No hit hole height.
-	 */
-	final int noHitholeHeight;
-
-	/**
-	 * No hit hole width.
-	 */
-	final int noHitholeWidth;
-
-	/**
-	 * Hole height expansion.
-	 */
-	final int holeHeightExpansion;
-
-	/**
 	 * Constructor.
 	 * 
 	 * @param splRayTraceResult function to get ray trace result.
@@ -89,11 +69,6 @@ public class DigMobHole2 implements Operator2 {
 	public DigMobHole2(Function<Ports, RayTraceResult> fnGetRayTraceResult, Function<Ports, World> fnGetWorld) {
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 		this.fnGetWorld = fnGetWorld;
-
-		noHitHoleDepth = digMobHoleNoHitHoleDepth.get();
-		noHitholeHeight = digMobHoleNoHitHoleHeight.get();
-		noHitholeWidth = digMobHoleNoHitHoleWidth.get();
-		holeHeightExpansion = digMobHoleHeightExpansion.get();
 	}
 
 	/**
@@ -131,6 +106,7 @@ public class DigMobHole2 implements Operator2 {
 			Entity entity = ((EntityRayTraceResult) result).getEntity();
 
 			// get entity aabb and convert it into air blocks
+			int holeHeightExpansion = digMobHoleHeightExpansion.get();			
 			AxisAlignedBB aabb = entity.getBoundingBox();
 			BlockPos min = new BlockPos(aabb.minX, aabb.minY - holeHeightExpansion, aabb.minZ);
 			BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
@@ -186,6 +162,9 @@ public class DigMobHole2 implements Operator2 {
 	 * @param composite composite structure
 	 */
 	void createVerticalStructure(CompositeStructure composite) {
+		int noHitHoleDepth = digMobHoleNoHitHoleDepth.get();
+		int noHitholeHeight = digMobHoleNoHitHoleHeight.get();
+		int noHitholeWidth = digMobHoleNoHitHoleWidth.get();		
 		BlockPos offset = new BlockPos(0, -noHitHoleDepth, 0);
 		BlockPos size = new BlockPos(noHitholeWidth, noHitholeHeight, noHitHoleDepth);
 		composite.add(createAirStructure(offset, size));

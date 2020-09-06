@@ -2,6 +2,7 @@ package bassebombecraft.entity.projectile;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ModConstants.PARTICLE_SPAWN_FREQUENCY;
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.config.ModConfiguration.genericProjectileEntityProjectileDuration;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
@@ -18,13 +19,16 @@ import java.util.function.Predicate;
 
 import bassebombecraft.config.ProjectileEntityConfig;
 import bassebombecraft.event.duration.DurationRepository;
+import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
+import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.RandomProjectilePath;
 import bassebombecraft.operator.projectile.path.SineProjectilePath;
+import bassebombecraft.operator.projectile.path.CircleProjectilePath;
 import bassebombecraft.operator.projectile.path.ZigZagProjectilePath;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -69,6 +73,11 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	static final Operator2 ACCELERATE_PATH_OPERATOR = new AccelerateProjectilePath();
 
 	/**
+	 * De-accelerate projectile path operator.
+	 */
+	static final Operator2 DEACCELERATE_PATH_OPERATOR = new DeaccelerateProjectilePath();
+	
+	/**
 	 * Zig Zag projectile path operator.
 	 */
 	static final Operator2 ZIGZAG_PATH_OPERATOR = new ZigZagProjectilePath();
@@ -78,6 +87,11 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 */
 	static final Operator2 SINE_PATH_OPERATOR = new SineProjectilePath();
 
+	/**
+	 * Spiral projectile path operator.
+	 */
+	static final Operator2 SPIRAL_PATH_OPERATOR = new CircleProjectilePath();
+	
 	/**
 	 * Projectile duration.
 	 */
@@ -338,6 +352,10 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		if (tags.contains(AccelerateProjectilePath.NAME))
 			calculateAccelerationPath();
 
+		// handle: deaccelerate
+		if (tags.contains(DeaccelerateProjectilePath.NAME))
+			calculateDeaccelerationPath();
+		
 		// handle: zig zag
 		if (tags.contains(ZigZagProjectilePath.NAME))
 			calculateZigZagPath();
@@ -346,6 +364,9 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		if (tags.contains(SineProjectilePath.NAME))
 			calculateSinePath();
 
+		// handle: spiral
+		if (tags.contains(CircleProjectilePath.NAME))
+			calculateSpiralPath();		
 	}
 
 	/**
@@ -365,6 +386,14 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	}
 
 	/**
+	 * Execute deacceleration path modifier operator.
+	 */
+	void calculateDeaccelerationPath() {
+		projectileModifierPorts.setEntity1(this);
+		run(projectileModifierPorts, DEACCELERATE_PATH_OPERATOR);
+	}
+	
+	/**
 	 * Execute zig zag path modifier operator.
 	 */
 	void calculateZigZagPath() {
@@ -380,6 +409,14 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		run(projectileModifierPorts, SINE_PATH_OPERATOR);
 	}
 
+	/**
+	 * Execute spiral path modifier operator.
+	 */
+	void calculateSpiralPath() {
+		projectileModifierPorts.setEntity1(this);
+		run(projectileModifierPorts, SPIRAL_PATH_OPERATOR);
+	}
+	
 	/**
 	 * Update motion and position of the projectile.
 	 */
@@ -457,6 +494,12 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * Add particle on update tick.
 	 */
 	void addParticles() {
+
+		// exit if particles shouldn't be spawned in this tick
+		FrequencyRepository frequencyRepository = getProxy().getClientFrequencyRepository();
+		if (!frequencyRepository.isActive(PARTICLE_SPAWN_FREQUENCY))
+			return;
+				
 		addParticlesPorts.setBlockPosition1(getPosition());
 		run(addParticlesPorts, addParticlesOp);
 	}

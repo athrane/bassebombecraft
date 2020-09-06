@@ -1,10 +1,10 @@
 package bassebombecraft.operator.projectile.path;
 
-import static bassebombecraft.operator.DefaultPorts.*;
+import static bassebombecraft.config.ModConfiguration.accelerateProjectilePathAcceleration;
+import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
 
 import java.util.function.Function;
 
-import static bassebombecraft.config.ModConfiguration.*;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
@@ -30,7 +30,7 @@ public class AccelerateProjectilePath implements Operator2 {
 	 * Function to get proectile entity.
 	 */
 	Function<Ports, Entity> fnGetProjectile;
-		
+
 	/**
 	 * Constructor.
 	 * 

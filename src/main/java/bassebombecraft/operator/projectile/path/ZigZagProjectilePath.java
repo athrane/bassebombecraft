@@ -96,9 +96,11 @@ public class ZigZagProjectilePath implements Operator2 {
 	}
 
 	/**
+	 * Calculate angle for next rotation.
 	 * 
-	 * @param x
-	 * @return
+	 * @param x x parameter for the next function value.
+	 * 
+	 * @return angle for next rotation.
 	 */
 	double calculateAngle(long x) {
 

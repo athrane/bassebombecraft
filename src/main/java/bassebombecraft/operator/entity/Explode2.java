@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which creates an
- * explosion.
+ * explosion from a hit target.
  */
 public class Explode2 implements Operator2 {
 
@@ -32,7 +32,7 @@ public class Explode2 implements Operator2 {
 	/**
 	 * Minimum explosion radius.
 	 */
-	Double minExplosionRadius;
+	double minExplosionRadius;
 
 	/**
 	 * Constructor.

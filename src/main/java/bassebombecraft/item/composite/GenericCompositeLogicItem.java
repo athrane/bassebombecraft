@@ -357,19 +357,19 @@ public class GenericCompositeLogicItem extends Item {
 	 */
 	void createCompositeName(PlayerEntity player, int inventoryIndex, int length) {
 		PlayerInventory inventory = player.inventory;
-
 		StringBuilder name = new StringBuilder();
 		name.append(this.getRegistryName().toString());
 
 		for (int index = 0; index < length; index++) {
 
 			// get inventory item
-			ItemStack inventoryStack = inventory.getStackInSlot(index);
+			ItemStack inventoryStack = inventory.getStackInSlot(inventoryIndex + index);
 			Item inventoryItem = inventoryStack.getItem();
 			name.append("-");
 
 			// get name without mod prefix
 			String itemName = inventoryItem.getRegistryName().toString();
+
 			String removedPrefixName = itemName.substring(ITEM_NAME_PREFIX.length());
 			name.append(removedPrefixName);
 		}
