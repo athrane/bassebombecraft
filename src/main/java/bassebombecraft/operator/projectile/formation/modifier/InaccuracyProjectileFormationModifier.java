@@ -61,6 +61,8 @@ public class InaccuracyProjectileFormationModifier implements Operator2 {
 
 		// get orientation vectors
 		Vec3d[] vectors = fnGetOrientation.apply(ports);
+		if (vectors == null)
+			return ports;
 
 		// create new array
 		Vec3d[] randomised = new Vec3d[vectors.length];

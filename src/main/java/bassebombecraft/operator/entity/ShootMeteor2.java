@@ -62,7 +62,12 @@ public class ShootMeteor2 implements Operator2 {
 
 		// get entities
 		LivingEntity invoker = fnGetInvoker.apply(ports);
+		if (invoker == null)
+			return ports;
+
 		LivingEntity target = fnGetTarget.apply(ports);
+		if (target == null)
+			return ports;
 
 		// get world
 		World world = invoker.getEntityWorld();

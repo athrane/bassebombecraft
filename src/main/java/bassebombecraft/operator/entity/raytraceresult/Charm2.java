@@ -18,8 +18,8 @@ import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 
 /**
- * Implementation of the {@linkplain Operator2} interface which charms the entity
- * which has been hit.
+ * Implementation of the {@linkplain Operator2} interface which charms the
+ * entity which has been hit.
  */
 public class Charm2 implements Operator2 {
 
@@ -65,9 +65,13 @@ public class Charm2 implements Operator2 {
 
 		// get invoker
 		LivingEntity invoker = fnGetInvoker.apply(ports);
+		if (invoker == null)
+			return ports;
 
 		// get ray trace result
 		RayTraceResult result = fnGetRayTraceResult.apply(ports);
+		if (result == null)
+			return ports;
 
 		// exit if no entity was hit
 		if (!isEntityHit(result))

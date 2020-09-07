@@ -70,6 +70,8 @@ public class TeleportMob2 implements Operator2 {
 
 		// get ray trace result
 		RayTraceResult result = fnGetRayTraceResult.apply(ports);
+		if (result == null)
+			return ports;
 
 		// exit if nothing was hit
 		if (isNothingHit(result))

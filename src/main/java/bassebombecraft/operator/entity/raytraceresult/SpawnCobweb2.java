@@ -25,8 +25,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain Operator2} interface which spawns which
- * spawns a cobweb around the hit mob.
+ * Implementation of the {@linkplain Operator2} interface which spawns a cobweb
+ * around the hit mob.
  * 
  * If a block is hit then a temporary cobweb is created where the projectile
  * hit.
@@ -37,8 +37,6 @@ public class SpawnCobweb2 implements Operator2 {
 	 * Operator identifier.
 	 */
 	public static final String NAME = SpawnCobweb2.class.getSimpleName();
-
-	static final int DURATION = 400;
 
 	/**
 	 * Function to get ray trace result.

@@ -58,6 +58,8 @@ public class Explode2 implements Operator2 {
 
 		// get target
 		Entity target = fnGetTarget.apply(ports);
+		if (target == null)
+			return ports;
 
 		// get position of dead entity
 		BlockPos position = target.getPosition();

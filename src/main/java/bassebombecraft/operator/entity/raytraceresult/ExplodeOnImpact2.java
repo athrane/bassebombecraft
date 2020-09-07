@@ -81,9 +81,13 @@ public class ExplodeOnImpact2 implements Operator2 {
 
 		// get ray trace result
 		RayTraceResult result = fnGetRayTraceResult.apply(ports);
+		if (result == null)
+			return ports;
 
 		// get world
 		World world = fnGetWorld.apply(ports);
+		if (world == null)
+			return ports;
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
@@ -105,7 +109,7 @@ public class ExplodeOnImpact2 implements Operator2 {
 			// calculate explosion radius
 			AxisAlignedBB aabb = entity.getBoundingBox();
 			float explosionRadius = (float) Math.max(aabb.getXSize(), aabb.getZSize());
-			double minExplosionRadius = explodeMinExplosionRadius.get();			
+			double minExplosionRadius = explodeMinExplosionRadius.get();
 			explosionRadius = (float) Math.max(explosionRadius, minExplosionRadius);
 
 			// create explosion
