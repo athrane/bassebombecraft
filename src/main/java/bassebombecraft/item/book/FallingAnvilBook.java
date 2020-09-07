@@ -1,18 +1,36 @@
 package bassebombecraft.item.book;
 
-import bassebombecraft.item.action.ShootGenericEggProjectile;
-import bassebombecraft.projectile.action.ProjectileAction;
-import bassebombecraft.projectile.action.SpawnAnvil;
+import static bassebombecraft.config.ModConfiguration.cobwebBook;
+import static bassebombecraft.operator.DefaultPorts.getFnGetEntities1;
+import static bassebombecraft.operator.DefaultPorts.getInstance;
+
+import java.util.function.Supplier;
+
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Sequence2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnAnvil2;
+import bassebombecraft.operator.projectile.ShootSkullCircleProjectile2;
+import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
+import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
 
 /**
  * Book of anvil block implementation.
  */
-public class FallingAnvilBook extends GenericRightClickedBook {
+public class FallingAnvilBook extends GenericRightClickedBook2 {
 
 	public static final String ITEM_NAME = FallingAnvilBook.class.getSimpleName();
-	static final ProjectileAction PROJECTILE_ACTION = new SpawnAnvil();
+
+	/**
+	 * Create operators.
+	 */
+	static Supplier<Operator2> splOp = () -> {
+		Operator2 formationOp = new SingleProjectileFormation2();
+		Operator2 projectileOp = new ShootSkullCircleProjectile2();
+		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> SpawnAnvil2.NAME);
+		return new Sequence2(formationOp, projectileOp, modifierOp);
+	};
 
 	public FallingAnvilBook() {
-		super(ITEM_NAME, new ShootGenericEggProjectile(PROJECTILE_ACTION));
+		super(ITEM_NAME, cobwebBook, getInstance(), splOp.get());
 	}
 }

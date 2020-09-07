@@ -84,6 +84,7 @@ import bassebombecraft.item.book.CopyPasteBlocksBook;
 import bassebombecraft.item.book.CreeperCannonBook;
 import bassebombecraft.item.book.DecoyBook;
 import bassebombecraft.item.book.DigMobHoleBook;
+import bassebombecraft.item.book.FallingAnvilBook;
 import bassebombecraft.item.book.HealingMistBook;
 import bassebombecraft.item.book.LargeFireballBook;
 import bassebombecraft.item.book.LavaSpiralMistBook;
@@ -123,6 +124,7 @@ import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifie
 import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeMobWhenKilledProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeOnImpactProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.SpawnAnvilProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnCobwebProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
@@ -168,6 +170,7 @@ import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig2;
 import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
 import bassebombecraft.operator.entity.raytraceresult.ExplodeOnImpact2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnAnvil2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
@@ -330,6 +333,7 @@ public class ModConfiguration {
 	public static ItemConfig receiveAggroBook;
 	public static ItemConfig digMobHoleBook;
 	public static ItemConfig cobwebBook;
+	public static ItemConfig fallingAnvilBook;
 
 	public static ItemConfig lavaSpiralMistBook;
 	public static ItemConfig rainbownizeBook;
@@ -445,7 +449,8 @@ public class ModConfiguration {
 	public static ItemConfig explodeOnImpactProjectileModifierItem;
 	public static ItemConfig digMobHoleProjectileModifierItem;
 	public static ItemConfig spawnCobwebProjectileModifierItem;
-
+	public static ItemConfig spawnAnvilProjectileModifierItem;
+	
 	// Actions..
 
 	// ShootBaconBazooka projectile action
@@ -579,6 +584,12 @@ public class ModConfiguration {
 	 * Properties for {@linkplain SpawnCobweb2} operator.
 	 */
 	public static ForgeConfigSpec.IntValue spawnCobwebDuration;
+
+	/**
+	 * Properties for {@linkplain SpawnAnvil2} operator.
+	 */
+	public static ForgeConfigSpec.IntValue spawnAnvilDuration;
+	public static ForgeConfigSpec.IntValue spawnAnvilOffset;
 	
 	/**
 	 * Properties for {@linkplain SpawnKillerBee} operator.
@@ -985,8 +996,19 @@ public class ModConfiguration {
 		name = SpawnCobweb2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnCobwebDuration = COMMON_BUILDER.comment("Duration of spawned cobweb.")
-				.defineInRange("cobwebDuration", 400, 0, Integer.MAX_VALUE);
+				.defineInRange("duration", 400, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the the {@linkplain SpawnAnvil2} operator.
+		 */
+		name = SpawnAnvil2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnAnvilDuration = COMMON_BUILDER.comment("Duration of spawned anvil.")
+				.defineInRange("duration", 400, 0, Integer.MAX_VALUE);
+		spawnAnvilOffset = COMMON_BUILDER.comment("Y-offset in blocks for spawned anvil.")
+				.defineInRange("duration", 10, 0, Integer.MAX_VALUE);		
+		COMMON_BUILDER.pop();		
 		
 		// GenericBlockSpiralFillMist
 		name = GenericBlockSpiralFillMist.NAME;
@@ -1493,6 +1515,14 @@ public class ModConfiguration {
 		name = CobwebBook.ITEM_NAME;
 		cobwebBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to shoot a projectile. If a creature is hit then an sticky cobweb is spawned to capture the mob.",
+				25);
+
+		/**
+		 * Configuration for the {@linkplain FallingAnvilBook} item.
+		 */
+		name = FallingAnvilBook.ITEM_NAME;
+		fallingAnvilBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to shoot a projectile. If a creature is hit then an faling anvil is spawned above the mob.",
 				25);
 		
 		// LavaSpiralMistBook
@@ -2066,7 +2096,7 @@ public class ModConfiguration {
 		name = DigMobHoleProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		digMobHoleProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. If a creature is hit then an inconvenient hole is digged beneath the unfortunate individual.",
+				"A mythical image of the modification of a projectile. If a creature is hit then an inconvenient hole is digged beneath the mob.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2076,10 +2106,19 @@ public class ModConfiguration {
 		name = SpawnCobwebProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnCobwebProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. If a creature is hit then a sticky cobweb is spawned around the unfortunate mob.",
+				"A mythical image of the modification of a projectile. If a creature is hit then a sticky cobweb is spawned around the mob.",
 				25);
 		COMMON_BUILDER.pop();
 		
+		/**
+		 * Configuration for the {@linkplain SpawnAnvilProjectileModifierItem} item.
+		 */
+		name = SpawnAnvilProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnAnvilProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. If a creature is hit then a falling anvil is spawned above the mob.",
+				25);
+		COMMON_BUILDER.pop();
 	}
 
 	/**

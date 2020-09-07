@@ -28,6 +28,7 @@ import bassebombecraft.operator.entity.potion.effect.AddEffect2;
 import bassebombecraft.operator.entity.raytraceresult.Charm2;
 import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
 import bassebombecraft.operator.entity.raytraceresult.ExplodeOnImpact2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnAnvil2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
@@ -140,6 +141,11 @@ public class ProjectileModifierEventHandler {
 	 */
 	static final Operator2 COBWEB_OPERATOR = new SpawnCobweb2();
 
+	/**
+	 * Spawn anvil operator.
+	 */
+	static final Operator2 ANVIL_OPERATOR = new SpawnAnvil2();
+	
 	@SubscribeEvent
 	static public void handleProjectileImpactEvent(ProjectileImpactEvent event) {
 		try {
@@ -186,6 +192,10 @@ public class ProjectileModifierEventHandler {
 			if (tags.contains(SpawnCobweb2.NAME))
 				spawnCobweb(event);
 
+			// handle: spawn anvil
+			if (tags.contains(SpawnAnvil2.NAME))
+				spawnAnvil(event);
+			
 			// handle: explode on impact
 			if (tags.contains(Explode2.NAME))
 				explodeOnImpact(event);
@@ -336,6 +346,18 @@ public class ProjectileModifierEventHandler {
 		run(ports, COBWEB_OPERATOR);
 	}
 
+	/**
+	 * Execute spawn anvil operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void spawnAnvil(ProjectileImpactEvent event) {
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setWorld(event.getEntity().getEntityWorld());
+		run(ports, ANVIL_OPERATOR);
+	}
+	
 	/**
 	 * Execute explode operator.
 	 * 
