@@ -37,6 +37,8 @@ public class AddParticlesFromEntityAtClient2 implements Operator2 {
 
 		// get entity
 		LivingEntity entity = ports.getLivingEntity1();
+		if (entity == null)
+			return ports;
 
 		// get entity position
 		BlockPos pos = entity.getPosition();

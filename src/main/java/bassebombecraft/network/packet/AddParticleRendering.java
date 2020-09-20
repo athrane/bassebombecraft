@@ -118,7 +118,7 @@ public class AddParticleRendering {
 		buf.writeFloat(rgbRed);
 		buf.writeFloat(rgbGreen);
 		buf.writeFloat(rgbBlue);
-		buf.writeResourceLocation(this.type.getRegistryName());
+		buf.writeResourceLocation(type.getRegistryName());
 	}
 
 	/**

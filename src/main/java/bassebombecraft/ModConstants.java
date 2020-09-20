@@ -362,10 +362,15 @@ public class ModConstants {
 	public static final String BOOKS_CONFIGPATH = "Books.";
 
 	/**
-	 * harmed mob configuration identifier.
+	 * Charmed mob configuration identifier.
 	 */
 	public static final String CHARMED_MOB_NAME = "CharmedMob";
 
+	/**
+	 * Processed block directives configuration identifier.
+	 */
+	public static final String PROCESSED_BLOCK_DIRECTIVES_NAME = "ProcessBlockDirectives";
+	
 	/**
 	 * Week amplification potion name.
 	 */

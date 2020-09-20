@@ -4,6 +4,7 @@ import static bassebombecraft.client.particles.RegisteredParticles.*;
 import static bassebombecraft.client.particles.RegisteredParticles.LIGHTNING_PARTICLE;
 import static bassebombecraft.client.particles.RegisteredParticles.SPARK_PARTICLE;
 
+import bassebombecraft.client.particles.BlockParticle;
 import bassebombecraft.client.particles.ChickenParticle;
 import bassebombecraft.client.particles.CircleParticle;
 import bassebombecraft.client.particles.LightningParticle;
@@ -62,6 +63,11 @@ public class ParticleFactoryRegistryEventHandler {
 		 * Register factory for {@linkplain SkullParticle}.
 		 */
 		particles.registerFactory(SKULL_PARTICLE.get(), sprite -> new SkullParticle.Factory(sprite));
+
+		/**
+		 * Register factory for {@linkplain BlockParticle}.
+		 */
+		particles.registerFactory(BLOCK_PARTICLE.get(), sprite -> new BlockParticle.Factory(sprite));
 		
 	}
 

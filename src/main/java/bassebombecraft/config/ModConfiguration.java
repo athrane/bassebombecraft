@@ -12,6 +12,7 @@ import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.ModConstants.MOB_AGGRO_POTION_NAME;
 import static bassebombecraft.ModConstants.MOB_PRIMING_POTION_NAME;
 import static bassebombecraft.ModConstants.PRIMEDCREEPERCANNON_EFFECT_NAME;
+import static bassebombecraft.ModConstants.PROCESSED_BLOCK_DIRECTIVES_NAME;
 import static bassebombecraft.ModConstants.SUPERIOR_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.WEAK_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.config.InventoryItemConfig.getInstance;
@@ -42,6 +43,7 @@ import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.entity.projectile.LightningProjectileEntity;
 import bassebombecraft.entity.projectile.LlamaProjectileEntity;
 import bassebombecraft.entity.projectile.SkullProjectileEntity;
+import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
 import bassebombecraft.event.charm.CharmedMobEventHandler;
 import bassebombecraft.event.charm.ServerCharmedMobsRepository;
 import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
@@ -124,8 +126,8 @@ import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifie
 import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeMobWhenKilledProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeOnImpactProjectileModifierItem;
-import bassebombecraft.item.composite.projectile.modifier.SpawnAnvilProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.SpawnAnvilProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnCobwebProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
@@ -225,6 +227,12 @@ public class ModConfiguration {
 	 * {@linkplain CharmedMobEventHandler}.
 	 */
 	public static ParticlesConfig charmedMobParticles;
+
+	/**
+	 * Particles spawned by charmed mob, spawned by
+	 * {@linkplain ProcessBlockDirectivesEventHandler}.
+	 */
+	public static ParticlesConfig spawnedBlockParticles;
 
 	// Basic item properties
 	public static ForgeConfigSpec.IntValue basicItemDefaultCooldown;
@@ -450,7 +458,7 @@ public class ModConfiguration {
 	public static ItemConfig digMobHoleProjectileModifierItem;
 	public static ItemConfig spawnCobwebProjectileModifierItem;
 	public static ItemConfig spawnAnvilProjectileModifierItem;
-	
+
 	// Actions..
 
 	// ShootBaconBazooka projectile action
@@ -590,7 +598,7 @@ public class ModConfiguration {
 	 */
 	public static ForgeConfigSpec.IntValue spawnAnvilDuration;
 	public static ForgeConfigSpec.IntValue spawnAnvilOffset;
-	
+
 	/**
 	 * Properties for {@linkplain SpawnKillerBee} operator.
 	 */
@@ -735,12 +743,21 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Particles spawned by charmed mob, spawned by
+		 * Particles spawned when a mob is charmed, spawned by
 		 * {@linkplain CharmedMobEventHandler}.
 		 */
 		name = CHARMED_MOB_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		charmedMobParticles = getInstance(COMMON_BUILDER, "heart", 1, 10, 0.1, 1.0, 1.0, 1.0);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Particles spawned when a block directive is processed, spawned by
+		 * {@linkplain ProcessBlockDirectivesEventHandler}.
+		 */
+		name = PROCESSED_BLOCK_DIRECTIVES_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnedBlockParticles = getInstance(COMMON_BUILDER, "bassebombecraft:blockparticle", 1, 10, 0.1, 1.0, 1.0, 1.0);
 		COMMON_BUILDER.pop();
 	}
 
@@ -995,8 +1012,8 @@ public class ModConfiguration {
 		 */
 		name = SpawnCobweb2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		spawnCobwebDuration = COMMON_BUILDER.comment("Duration of spawned cobweb.")
-				.defineInRange("duration", 400, 0, Integer.MAX_VALUE);
+		spawnCobwebDuration = COMMON_BUILDER.comment("Duration of spawned cobweb.").defineInRange("duration", 400, 0,
+				Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -1004,12 +1021,12 @@ public class ModConfiguration {
 		 */
 		name = SpawnAnvil2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		spawnAnvilDuration = COMMON_BUILDER.comment("Duration of spawned anvil.")
-				.defineInRange("duration", 400, 0, Integer.MAX_VALUE);
-		spawnAnvilOffset = COMMON_BUILDER.comment("Y-offset in blocks for spawned anvil.")
-				.defineInRange("duration", 10, 0, Integer.MAX_VALUE);		
-		COMMON_BUILDER.pop();		
-		
+		spawnAnvilDuration = COMMON_BUILDER.comment("Duration of spawned anvil.").defineInRange("duration", 400, 0,
+				Integer.MAX_VALUE);
+		spawnAnvilOffset = COMMON_BUILDER.comment("Y-offset in blocks for spawned anvil.").defineInRange("duration", 10,
+				0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
 		// GenericBlockSpiralFillMist
 		name = GenericBlockSpiralFillMist.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1524,7 +1541,7 @@ public class ModConfiguration {
 		fallingAnvilBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to shoot a projectile. If a creature is hit then an faling anvil is spawned above the mob.",
 				25);
-		
+
 		// LavaSpiralMistBook
 		name = LavaSpiralMistBook.ITEM_NAME;
 		lavaSpiralMistBook = getInstance(COMMON_BUILDER, name,
@@ -2109,7 +2126,7 @@ public class ModConfiguration {
 				"A mythical image of the modification of a projectile. If a creature is hit then a sticky cobweb is spawned around the mob.",
 				25);
 		COMMON_BUILDER.pop();
-		
+
 		/**
 		 * Configuration for the {@linkplain SpawnAnvilProjectileModifierItem} item.
 		 */
@@ -2181,7 +2198,7 @@ public class ModConfiguration {
 		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:skullparticle", 1, 27, 0.2D, 0.0, 0.0, 1.0);
 		skullProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 1.0D, splParticles);
 		COMMON_BUILDER.pop();
-		
+
 	}
 
 	/**

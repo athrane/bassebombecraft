@@ -4,17 +4,18 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.BLOCKS_PER_TICK;
 import static bassebombecraft.block.BlockUtils.createBlock;
-import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
-import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ModConfiguration.spawnedBlockParticles;
+import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.operator.Operators2.run;
 
-import bassebombecraft.event.particle.ParticleRendering;
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.network.packet.AddParticleRendering;
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
 import net.minecraft.block.BlockState;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
@@ -33,17 +34,10 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class ProcessBlockDirectivesEventHandler {
 
-	static final float R = 1.0F;
-	static final float G = 1.0F;
-	static final float B = 1.0F;
-	static final int PARTICLE_NUMBER = 5;
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
-	static final int PARTICLE_DURATION = 20;
-	static final double PARTICLE_SPEED = 3.0D; // Particle speed
-	static final ParticleRenderingInfo PARTICLE_INFO = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R,
-			G, B, PARTICLE_SPEED);
-
-	static final BlockPos NULL_POSITION = null; // NULL block position.
+	/**
+	 * Operator for spawning particles when processing a block directive .
+	 */
+	static Operator2 particlesOp = new AddParticlesFromPosAtClient2(createFromConfig(spawnedBlockParticles));
 
 	@SubscribeEvent
 	public static void handleServerTickEvent(ServerTickEvent event) {
@@ -97,8 +91,8 @@ public class ProcessBlockDirectivesEventHandler {
 
 			// send particle for rendering to client
 			BlockPos pos = directive.getBlockPosition();
-			ParticleRendering particle = getInstance(pos, PARTICLE_INFO);
-			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+			Ports ports = getInstance().setBlockPosition1(pos);
+			run(ports, particlesOp);
 		}
 
 	}
