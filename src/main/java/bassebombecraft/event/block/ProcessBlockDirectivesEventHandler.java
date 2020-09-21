@@ -9,9 +9,15 @@ import static bassebombecraft.config.ModConfiguration.spawnedBlockParticles;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
 
+import java.util.Optional;
+import java.util.function.Supplier;
+
+import bassebombecraft.config.ModConfiguration;
+import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.network.packet.AddParticleRendering;
+import bassebombecraft.operator.NullOp2;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
@@ -30,14 +36,43 @@ import net.minecraftforge.fml.common.Mod;
  * When a directive is processed, a particle is registered for rendering using
  * {@linkplain NetworkChannelHelper} to send a {@linkplain AddParticleRendering}
  * packet to the client.
+ * 
+ * Operator creation is somewhat expansive due to support the fact the particle
+ * configuration in {@linkplain ModConfiguration} isn't initialized when this
+ * class is class loaded. Until the configuration is initialized a null operator
+ * for spawning particle is returned.
  */
 @Mod.EventBusSubscriber
 public class ProcessBlockDirectivesEventHandler {
 
 	/**
-	 * Operator for spawning particles when processing a block directive .
+	 * Operator instance (can be null due to class loading).
 	 */
-	static Operator2 particlesOp = new AddParticlesFromPosAtClient2(createFromConfig(spawnedBlockParticles));
+	static Optional<Operator2> optOp = Optional.empty();
+
+	/**
+	 * Create operators.
+	 */
+	static Supplier<Operator2> splOp = () -> {
+
+		// return operator instance if defined
+		if (optOp.isPresent()) {
+			return optOp.get();
+		}
+
+		// if mod configuration hasn't been class loaded yet, the return null operator
+		if (spawnedBlockParticles == null) {
+			return new NullOp2();
+		}
+
+		// create particle config from configuration
+		ParticleRenderingInfo[] particleConfig = createFromConfig(spawnedBlockParticles);
+
+		// create particle op from configu
+		Operator2 op = new AddParticlesFromPosAtClient2(particleConfig);
+		optOp = Optional.of(op);
+		return optOp.get();
+	};
 
 	@SubscribeEvent
 	public static void handleServerTickEvent(ServerTickEvent event) {
@@ -92,7 +127,7 @@ public class ProcessBlockDirectivesEventHandler {
 			// send particle for rendering to client
 			BlockPos pos = directive.getBlockPosition();
 			Ports ports = getInstance().setBlockPosition1(pos);
-			run(ports, particlesOp);
+			run(ports, splOp.get());
 		}
 
 	}
