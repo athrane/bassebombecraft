@@ -161,6 +161,7 @@
     "item.bassebombecraft.explodeonimpactprojectilemodifieritem": "Projectile Modifier: Explode On Impact",                            
     "item.bassebombecraft.spawncobwebprojectilemodifieritem": "Projectile Modifier: Spawn Cobweb",                            
     "item.bassebombecraft.spawnanvilprojectilemodifieritem": "Projectile Modifier: Spawn Anvil",                            
+    "item.bassebombecraft.receiveaggroprojectilemodifieritem": "Projectile Modifier: Receive Mob Aggro",                            
                 
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",

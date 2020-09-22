@@ -14,7 +14,7 @@ import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileM
 import bassebombecraft.operator.projectile.modifier.tag.ReceiveAggro2;
 
 /**
- * Book of receive aggro implementation.
+ * Book of receive mob aggro implementation.
  */
 public class ReceiveAggroBook extends GenericRightClickedBook2 {
 

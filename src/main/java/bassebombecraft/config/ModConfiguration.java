@@ -127,6 +127,7 @@ import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileMo
 import bassebombecraft.item.composite.projectile.modifier.ExplodeMobWhenKilledProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeOnImpactProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.ReceiveAggroProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnAnvilProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnCobwebProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
@@ -458,6 +459,7 @@ public class ModConfiguration {
 	public static ItemConfig digMobHoleProjectileModifierItem;
 	public static ItemConfig spawnCobwebProjectileModifierItem;
 	public static ItemConfig spawnAnvilProjectileModifierItem;
+	public static ItemConfig receiveAggroProjectileModifierItem;
 
 	// Actions..
 
@@ -2134,6 +2136,16 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnAnvilProjectileModifierItem = getInstance(COMMON_BUILDER, name,
 				"A mythical image of the modification of a projectile. If a creature is hit then a falling anvil is spawned above the mob.",
+				25);
+		COMMON_BUILDER.pop();
+		
+		/**
+		 * Configuration for the {@linkplain ReceiveAggroProjectileModifierItem} item.
+		 */
+		name = ReceiveAggroProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		receiveAggroProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. If a creature is hit then all mobs in the vicinity will aggro the creature.",
 				25);
 		COMMON_BUILDER.pop();
 	}
