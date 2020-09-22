@@ -240,6 +240,7 @@ public class ModConstants {
 	/**
 	 * Mod structure world generator weight.
 	 */
+	@Deprecated
 	public static final int MOD_STRUCUTRE_GENERATOR_WEIGHT = 1;
 
 	/**

@@ -627,7 +627,7 @@ public class ModConfiguration {
 
 	/**
 	 * Properties for {@linkplain ReceiveAggroEffect} effect which is used by the
-	 * operators in {@linkplain ReceiveAggroBook}, {@linkplain DecoyBook} and
+	 * operators in {@linkplain ReceiveAggroBook} and
 	 * {@linkplain ProjectileModifierEventHandler}.
 	 */
 	public static ForgeConfigSpec.IntValue receiveAggroEffectDuration;

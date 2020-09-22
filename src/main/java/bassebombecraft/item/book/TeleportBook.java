@@ -8,9 +8,7 @@ import java.util.function.Supplier;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Sequence2;
-import bassebombecraft.operator.entity.raytraceresult.Charm2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
-import bassebombecraft.operator.projectile.ShootOperatorEggProjectile2;
 import bassebombecraft.operator.projectile.ShootSkullProjectile2;
 import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
 import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
