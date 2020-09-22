@@ -168,7 +168,7 @@ public class ProjectileModifierEventHandler {
 			if (tags.contains(TeleportInvoker2.NAME))
 				teleportInvoker(event);
 
-			// handle: teleport invoker
+			// handle: teleport mob
 			if (tags.contains(TeleportMob2.NAME))
 				teleportMob(event);
 

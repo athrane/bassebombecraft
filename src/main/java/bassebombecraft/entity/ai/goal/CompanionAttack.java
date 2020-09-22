@@ -39,7 +39,7 @@ import bassebombecraft.operator.projectile.ShootArrowProjectile2;
 import bassebombecraft.operator.projectile.ShootCircleProjectile2;
 import bassebombecraft.operator.projectile.ShootFireballProjectile2;
 import bassebombecraft.operator.projectile.ShootLargeFireballProjectile2;
-import bassebombecraft.operator.projectile.ShootSkullCircleProjectile2;
+import bassebombecraft.operator.projectile.ShootSkullProjectile2;
 import bassebombecraft.operator.projectile.ShootWitherSkullProjectile2;
 import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
 import bassebombecraft.operator.projectile.formation.TrifurcatedProjectileFormation2;
@@ -141,7 +141,7 @@ public class CompanionAttack extends Goal {
 	 */
 	static Supplier<Operator2> splSpawnCobwebOp = () -> {
 		Operator2 formationOp = new SingleProjectileFormation2();
-		Operator2 projectileOp = new ShootSkullCircleProjectile2();
+		Operator2 projectileOp = new ShootSkullProjectile2();
 		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> SpawnCobweb2.NAME);
 		return new Sequence2(formationOp, projectileOp, modifierOp);
 	};
@@ -151,7 +151,7 @@ public class CompanionAttack extends Goal {
 	 */
 	static Supplier<Operator2> splSpawnAnvilOp = () -> {
 		Operator2 formationOp = new SingleProjectileFormation2();
-		Operator2 projectileOp = new ShootSkullCircleProjectile2();
+		Operator2 projectileOp = new ShootSkullProjectile2();
 		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> SpawnAnvil2.NAME);
 		return new Sequence2(formationOp, projectileOp, modifierOp);
 	};
