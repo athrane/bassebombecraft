@@ -2171,7 +2171,7 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		Supplier<ParticlesConfig> splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:chickenparticle", 1,
 				12, 0.05D, 0.0, 0.0, 1.0);
-		eggProjectileEntity = getInstance(COMMON_BUILDER, name, 0.0D, 2.0D, 1.0D, splParticles);
+		eggProjectileEntity = getInstance(COMMON_BUILDER, name, 0.0D, 2.0D, 1.0D, 0.001D, splParticles);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2180,7 +2180,7 @@ public class ModConfiguration {
 		name = LlamaProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:sparkparticle", 1, 27, 0.2D, 0.0, 0.0, 1.0);
-		llamaProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 5.0D, splParticles);
+		llamaProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 5.0D, 0.0D, splParticles);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2190,7 +2190,7 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:lightningparticle", 1, 25, 0.2D, 0.0, 0.0,
 				1.0);
-		lightningProjectileEntity = getInstance(COMMON_BUILDER, name, 10.0D, 4.0D, 10.0D, splParticles);
+		lightningProjectileEntity = getInstance(COMMON_BUILDER, name, 10.0D, 4.0D, 10.0D, 0.003D, splParticles);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2199,7 +2199,7 @@ public class ModConfiguration {
 		name = CircleProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:circleparticle", 1, 27, 0.2D, 0.0, 0.0, 1.0);
-		circleProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 1.0D, splParticles);
+		circleProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 1.0D, 0.004D, splParticles);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2208,7 +2208,7 @@ public class ModConfiguration {
 		name = SkullProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:skullparticle", 1, 27, 0.2D, 0.0, 0.0, 1.0);
-		skullProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 1.0D, splParticles);
+		skullProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 1.0D, 0.01D, splParticles);
 		COMMON_BUILDER.pop();
 
 	}

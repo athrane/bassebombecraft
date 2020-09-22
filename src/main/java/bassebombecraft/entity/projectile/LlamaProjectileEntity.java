@@ -35,5 +35,5 @@ public class LlamaProjectileEntity extends GenericCompositeProjectileEntity {
 	public LlamaProjectileEntity(EntityType<?> type, LivingEntity invoker) {
 		super(type, invoker, llamaProjectileEntity);
 	}
-
+	
 }
