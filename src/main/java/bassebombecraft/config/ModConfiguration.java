@@ -135,6 +135,7 @@ import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileM
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.CircleProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.DeaccelerateProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.IncreaseGravityProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.RandomProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.SineProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.ZigZagProjectilePathItem;
@@ -179,6 +180,7 @@ import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
+import bassebombecraft.operator.projectile.path.IncreaseGravityProjectilePath;
 import bassebombecraft.potion.effect.AggroMobEffect;
 import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
@@ -448,6 +450,7 @@ public class ModConfiguration {
 	public static ItemConfig zigZagProjectilePathItem;
 	public static ItemConfig sineProjectilePathItem;
 	public static ItemConfig circleProjectilePathItem;
+	public static ItemConfig increaseGravityProjectilePathItem;
 
 	public static ItemConfig teleportInvokerProjectileModifierItem;
 	public static ItemConfig teleportMobProjectileModifierItem;
@@ -662,6 +665,11 @@ public class ModConfiguration {
 	 * Properties for {@linkplain DeaccelerateProjectilePath} operator.
 	 */
 	public static ForgeConfigSpec.DoubleValue deaccelerateProjectilePathAcceleration;
+
+	/**
+	 * Properties for {@linkplain IncreaseGravityProjectilePath} operator.
+	 */
+	public static ForgeConfigSpec.DoubleValue increaseGravityProjectilePathFactor;
 
 	// Entities..
 
@@ -1396,6 +1404,15 @@ public class ModConfiguration {
 		deaccelerateProjectilePathAcceleration = COMMON_BUILDER.comment("Acceleration decrease per game tick.")
 				.defineInRange("acceleration", 0.9D, 0, 1);
 		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain IncreaseGravityProjectilePath} operator.
+		 */
+		name = IncreaseGravityProjectilePath.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		deaccelerateProjectilePathAcceleration = COMMON_BUILDER.comment("Gravity increase factor per game tick.")
+				.defineInRange("acceleration", 2.5D, 0, 10);
+		COMMON_BUILDER.pop();
 	}
 
 	/**
@@ -2039,6 +2056,16 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
+		 * Configuration for the {@linkplain IncreaseGravityProjectilePathItem} item.
+		 */
+		name = IncreaseGravityProjectilePathItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		increaseGravityProjectilePathItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. The projectile will exposed to increased gravity.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
 		 * Configuration for the {@linkplain TeleportInvokerProjectileModifierItem}
 		 * item.
 		 */
@@ -2138,7 +2165,7 @@ public class ModConfiguration {
 				"A mythical image of the modification of a projectile. If a creature is hit then a falling anvil is spawned above the mob.",
 				25);
 		COMMON_BUILDER.pop();
-		
+
 		/**
 		 * Configuration for the {@linkplain ReceiveAggroProjectileModifierItem} item.
 		 */

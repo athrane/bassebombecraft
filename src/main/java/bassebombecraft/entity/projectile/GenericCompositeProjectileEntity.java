@@ -27,6 +27,7 @@ import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.CircleProjectilePath;
 import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
+import bassebombecraft.operator.projectile.path.IncreaseGravityProjectilePath;
 import bassebombecraft.operator.projectile.path.RandomProjectilePath;
 import bassebombecraft.operator.projectile.path.SineProjectilePath;
 import bassebombecraft.operator.projectile.path.ZigZagProjectilePath;
@@ -92,6 +93,11 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 */
 	static final Operator2 SPIRAL_PATH_OPERATOR = new CircleProjectilePath();
 
+	/**
+	 * Increase gravity projectile path operator.
+	 */
+	static final Operator2 INCREASE_GRAVITY_PATH_OPERATOR = new IncreaseGravityProjectilePath();
+	
 	/**
 	 * Projectile duration.
 	 */
@@ -367,6 +373,11 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		// handle: spiral
 		if (tags.contains(CircleProjectilePath.NAME))
 			calculateSpiralPath();
+		
+		// handle: increase gravity
+		if (tags.contains(IncreaseGravityProjectilePath.NAME))
+			calculateIncreaseGravityPath();
+		
 	}
 
 	/**
@@ -417,6 +428,16 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		run(projectileModifierPorts, SPIRAL_PATH_OPERATOR);
 	}
 
+	/**
+	 * Execute increase gravity path modifier operator.
+	 */
+	void calculateIncreaseGravityPath() {
+		projectileModifierPorts.setEntity1(this);
+		run(projectileModifierPorts, INCREASE_GRAVITY_PATH_OPERATOR);
+	}
+	
+		
+	
 	/**
 	 * Update motion and position of the projectile.
 	 */

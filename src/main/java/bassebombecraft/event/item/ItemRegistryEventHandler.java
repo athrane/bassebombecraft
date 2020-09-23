@@ -92,6 +92,7 @@ import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileM
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.CircleProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.DeaccelerateProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.IncreaseGravityProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.RandomProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.SineProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.ZigZagProjectilePathItem;
@@ -192,9 +193,9 @@ public class ItemRegistryEventHandler {
 			new OscillatingRotation180DProjectileFormationModifierItem(), new LlamaProjectileItem(),
 			new EggProjectileItem(), new LightningProjectileItem(), new RandomProjectilePathItem(),
 			new AccelerateProjectilePathItem(), new DeaccelerateProjectilePathItem(), new ZigZagProjectilePathItem(),
-			new SineProjectilePathItem(), new CircleProjectilePathItem(), new TeleportInvokerProjectileModifierItem(),
-			new TeleportMobProjectileModifierItem(), new CharmProjectileModifierItem(),
-			new MeteorProjectileModifierItem(), new DecoyProjectileModifierItem(),
+			new SineProjectilePathItem(), new CircleProjectilePathItem(), new IncreaseGravityProjectilePathItem(),
+			new TeleportInvokerProjectileModifierItem(), new TeleportMobProjectileModifierItem(),
+			new CharmProjectileModifierItem(), new MeteorProjectileModifierItem(), new DecoyProjectileModifierItem(),
 			new ExplodeMobWhenKilledProjectileModifierItem(), new DigMobHoleProjectileModifierItem(),
 			new ExplodeOnImpactProjectileModifierItem(), new SpawnCobwebProjectileModifierItem(),
 			new SpawnAnvilProjectileModifierItem(), new ReceiveAggroProjectileModifierItem() };
