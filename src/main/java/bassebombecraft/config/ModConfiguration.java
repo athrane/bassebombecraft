@@ -2172,7 +2172,7 @@ public class ModConfiguration {
 		name = DigMobHoleProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		digMobHoleProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. If a creature is hit then an inconvenient hole is digged beneath the mob.",
+				"A mythical image of the modification of a projectile. If a mob is hit then an inconvenient hole is digged beneath the mob.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2182,7 +2182,7 @@ public class ModConfiguration {
 		name = SpawnCobwebProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnCobwebProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. If a creature is hit then a sticky cobweb is spawned around the mob.",
+				"A mythical image of the modification of a projectile. If a mob is hit then a sticky cobweb is spawned around the mob.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2192,7 +2192,7 @@ public class ModConfiguration {
 		name = SpawnAnvilProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnAnvilProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. If a creature is hit then a falling anvil is spawned above the mob.",
+				"A mythical image of the modification of a projectile. If a mob is hit then a falling anvil is spawned above the mob.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2202,7 +2202,7 @@ public class ModConfiguration {
 		name = ReceiveAggroProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		receiveAggroProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. If a creature is hit then all mobs in the vicinity will aggro the creature.",
+				"A mythical image of the modification of a projectile. If a mob is hit then all mobs in the vicinity will aggro the creature.",
 				25);
 		COMMON_BUILDER.pop();
 		
@@ -2212,7 +2212,7 @@ public class ModConfiguration {
 		name = BounceProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		bounceProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. If a block is hit then the project bounce of the block in some other direction.",
+				"A mythical image of the modification of a projectile. If a block is hit then the projectile will bounce of in some other direction.",
 				25);
 		COMMON_BUILDER.pop();
 		
