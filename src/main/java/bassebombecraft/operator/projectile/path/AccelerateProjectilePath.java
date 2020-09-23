@@ -27,7 +27,7 @@ public class AccelerateProjectilePath implements Operator2 {
 	public static final String NAME = AccelerateProjectilePath.class.getSimpleName();
 
 	/**
-	 * Function to get proectile entity.
+	 * Function to get projectile entity.
 	 */
 	Function<Ports, Entity> fnGetProjectile;
 

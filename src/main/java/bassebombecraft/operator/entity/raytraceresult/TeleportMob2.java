@@ -42,11 +42,6 @@ public class TeleportMob2 implements Operator2 {
 		Operator2 projectileOp = new ShootCircleProjectile2();
 		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> TeleportInvoker2.NAME);
 		return new Sequence2(formationOp, projectileOp, modifierOp);
-
-		// Operator2 projectileLogicOp = new TeleportInvoker2();
-		// Operator2 formationOp = new RandomSingleProjectileFormation2();
-		// Operator2 projectileOp = new ShootOperatorEggProjectile2(projectileLogicOp);
-		// return new Sequence2(formationOp, projectileOp);
 	};
 
 	/**
