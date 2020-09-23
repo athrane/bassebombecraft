@@ -121,6 +121,7 @@ import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectile
 import bassebombecraft.item.composite.projectile.formation.modifier.InaccuracyProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.formation.modifier.OscillatingRotation180DProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.BounceProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
@@ -466,6 +467,7 @@ public class ModConfiguration {
 	public static ItemConfig spawnCobwebProjectileModifierItem;
 	public static ItemConfig spawnAnvilProjectileModifierItem;
 	public static ItemConfig receiveAggroProjectileModifierItem;
+	public static ItemConfig bounceProjectileModifierItem;
 
 	// Actions..
 
@@ -2203,6 +2205,17 @@ public class ModConfiguration {
 				"A mythical image of the modification of a projectile. If a creature is hit then all mobs in the vicinity will aggro the creature.",
 				25);
 		COMMON_BUILDER.pop();
+		
+		/**
+		 * Configuration for the {@linkplain BounceProjectileModifierItem} item.
+		 */
+		name = BounceProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		bounceProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. If a block is hit then the project bounce of the block in some other direction.",
+				25);
+		COMMON_BUILDER.pop();
+		
 	}
 
 	/**

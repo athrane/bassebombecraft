@@ -25,6 +25,7 @@ import bassebombecraft.operator.conditional.IsLivingEntityHitInRaytraceResult2;
 import bassebombecraft.operator.entity.Explode2;
 import bassebombecraft.operator.entity.ShootMeteor2;
 import bassebombecraft.operator.entity.potion.effect.AddEffect2;
+import bassebombecraft.operator.entity.raytraceresult.Bounce2;
 import bassebombecraft.operator.entity.raytraceresult.Charm2;
 import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
 import bassebombecraft.operator.entity.raytraceresult.ExplodeOnImpact2;
@@ -176,6 +177,11 @@ public class ProjectileModifierEventHandler {
 	 */
 	static final Operator2 RECEIVE_AGGGRO_OPERATOR = splReceiveAggroOp.get();
 
+	/**
+	 * Bounce on impact operator.
+	 */
+	static final Operator2 BOUNCE_ON_IMPACT_OPERATOR = new Bounce2();
+	
 	@SubscribeEvent
 	static public void handleProjectileImpactEvent(ProjectileImpactEvent event) {
 		try {
@@ -234,6 +240,10 @@ public class ProjectileModifierEventHandler {
 			if (tags.contains(ReceiveAggro2.NAME))
 				receiveAggro(event);
 
+			// handle: bounce projectile
+			if (tags.contains(Bounce2.NAME))
+				bounceOnImpact(event);
+			
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
@@ -426,4 +436,19 @@ public class ProjectileModifierEventHandler {
 		run(ports, RECEIVE_AGGGRO_OPERATOR);
 	}
 
+	/**
+	 * Execute bounce projectile on impact operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void bounceOnImpact(ProjectileImpactEvent event) {
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setEntity1(event.getEntity());		
+		run(ports, BOUNCE_ON_IMPACT_OPERATOR);
+
+		// cancel event to avoid removal of projectile
+		event.setCanceled(true);
+	}
+	
 }
