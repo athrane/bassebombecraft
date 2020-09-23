@@ -122,6 +122,20 @@ public interface Ports {
 	Ports setString2(String value);
 
 	/**
+	 * Get double #1.
+	 * 
+	 * @return double #1 .
+	 */
+	Double getDouble1();
+
+	/**
+	 * Set double #1.
+	 * 
+	 * @return ports.
+	 */
+	Ports setDouble1(Double value);
+	
+	/**
 	 * Return {@linkplain Vec3d} #1.
 	 * 
 	 * @return vector #1.

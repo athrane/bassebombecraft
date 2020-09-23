@@ -135,6 +135,7 @@ import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileM
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.CircleProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.DeaccelerateProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.DecreaseGravityProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.IncreaseGravityProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.RandomProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.SineProjectilePathItem;
@@ -180,6 +181,7 @@ import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
+import bassebombecraft.operator.projectile.path.DecreaseGravityProjectilePath;
 import bassebombecraft.operator.projectile.path.IncreaseGravityProjectilePath;
 import bassebombecraft.potion.effect.AggroMobEffect;
 import bassebombecraft.potion.effect.AggroPlayerEffect;
@@ -451,7 +453,8 @@ public class ModConfiguration {
 	public static ItemConfig sineProjectilePathItem;
 	public static ItemConfig circleProjectilePathItem;
 	public static ItemConfig increaseGravityProjectilePathItem;
-
+	public static ItemConfig decreaseGravityProjectilePathItem;	
+	
 	public static ItemConfig teleportInvokerProjectileModifierItem;
 	public static ItemConfig teleportMobProjectileModifierItem;
 	public static ItemConfig charmProjectileModifierItem;
@@ -670,6 +673,11 @@ public class ModConfiguration {
 	 * Properties for {@linkplain IncreaseGravityProjectilePath} operator.
 	 */
 	public static ForgeConfigSpec.DoubleValue increaseGravityProjectilePathFactor;
+
+	/**
+	 * Properties for {@linkplain DecreaseGravityProjectilePath} operator.
+	 */
+	public static ForgeConfigSpec.DoubleValue decreaseGravityProjectilePathFactor;
 
 	// Entities..
 
@@ -1410,9 +1418,19 @@ public class ModConfiguration {
 		 */
 		name = IncreaseGravityProjectilePath.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		deaccelerateProjectilePathAcceleration = COMMON_BUILDER.comment("Gravity increase factor per game tick.")
-				.defineInRange("acceleration", 2.5D, 0, 10);
+		increaseGravityProjectilePathFactor = COMMON_BUILDER.comment("Gravity increase factor per game tick.")
+				.defineInRange("increaseFactor", 2.5D, 0, 10);
 		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain DecreaseGravityProjectilePath} operator.
+		 */
+		name = DecreaseGravityProjectilePath.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		decreaseGravityProjectilePathFactor = COMMON_BUILDER.comment("Gravity decrease factor per game tick.")
+				.defineInRange("decreaseFactor", 2.5D, 0, 10);
+		COMMON_BUILDER.pop();
+
 	}
 
 	/**
@@ -2062,6 +2080,16 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		increaseGravityProjectilePathItem = getInstance(COMMON_BUILDER, name,
 				"A mythical image of the modification of a projectile. The projectile will exposed to increased gravity.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain DecreaseGravityProjectilePathItem} item.
+		 */
+		name = DecreaseGravityProjectilePathItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		decreaseGravityProjectilePathItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. The projectile will be exposed to less gravity and will have a tendency to float upwards.",
 				25);
 		COMMON_BUILDER.pop();
 

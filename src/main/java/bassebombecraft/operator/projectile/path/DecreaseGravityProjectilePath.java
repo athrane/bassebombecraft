@@ -1,7 +1,8 @@
 package bassebombecraft.operator.projectile.path;
 
-import static bassebombecraft.config.ModConfiguration.increaseGravityProjectilePathFactor;
-import static bassebombecraft.operator.DefaultPorts.*;
+import static bassebombecraft.config.ModConfiguration.decreaseGravityProjectilePathFactor;
+import static bassebombecraft.operator.DefaultPorts.getFnGetDouble1;
+import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
 
 import java.util.function.Function;
 
@@ -13,16 +14,16 @@ import net.minecraft.util.math.Vec3d;
 /**
  * Implementation of the {@linkplain Operator2} interface which increases the
  * gravity of the projectile along its path. The gravity of the projectile is
- * increased with some factor.
+ * decreased with some factor.
  * 
  * The projectile motion vector is updated (i.e. the y-coordinate).
  */
-public class IncreaseGravityProjectilePath implements Operator2 {
+public class DecreaseGravityProjectilePath implements Operator2 {
 
 	/**
 	 * Operator identifier.
 	 */
-	public static final String NAME = IncreaseGravityProjectilePath.class.getSimpleName();
+	public static final String NAME = DecreaseGravityProjectilePath.class.getSimpleName();
 
 	/**
 	 * Function to get projectile entity.
@@ -40,7 +41,7 @@ public class IncreaseGravityProjectilePath implements Operator2 {
 	 * @param fnGetProjectile function to get projectile entity.
 	 * @param fnGetGravity    function to get gravity.
 	 */
-	public IncreaseGravityProjectilePath(Function<Ports, Entity> fnGetProjectile,
+	public DecreaseGravityProjectilePath(Function<Ports, Entity> fnGetProjectile,
 			Function<Ports, Double> fnGetGravity) {
 		this.fnGetProjectile = fnGetProjectile;
 		this.fnGetGravity = fnGetGravity;
@@ -53,7 +54,7 @@ public class IncreaseGravityProjectilePath implements Operator2 {
 	 * 
 	 * Instance is configured with double #1 as gravity from ports.
 	 */
-	public IncreaseGravityProjectilePath() {
+	public DecreaseGravityProjectilePath() {
 		this(getFnGetEntity1(), getFnGetDouble1());
 	}
 
@@ -74,8 +75,8 @@ public class IncreaseGravityProjectilePath implements Operator2 {
 			return ports;
 
 		// update motion
-		double gravityIncrease = increaseGravityProjectilePathFactor.get() * gravity;
-		projectile.setMotion(motionVector.getX(), motionVector.getY() - gravityIncrease, motionVector.getZ());
+		double gravityDecrease = decreaseGravityProjectilePathFactor.get() * gravity;
+		projectile.setMotion(motionVector.getX(), motionVector.getY() + gravityDecrease, motionVector.getZ());
 
 		return ports;
 	}

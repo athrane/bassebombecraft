@@ -27,6 +27,7 @@ import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.CircleProjectilePath;
 import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
+import bassebombecraft.operator.projectile.path.DecreaseGravityProjectilePath;
 import bassebombecraft.operator.projectile.path.IncreaseGravityProjectilePath;
 import bassebombecraft.operator.projectile.path.RandomProjectilePath;
 import bassebombecraft.operator.projectile.path.SineProjectilePath;
@@ -97,6 +98,11 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * Increase gravity projectile path operator.
 	 */
 	static final Operator2 INCREASE_GRAVITY_PATH_OPERATOR = new IncreaseGravityProjectilePath();
+
+	/**
+	 * DEcrease gravity projectile path operator.
+	 */
+	static final Operator2 DECREASE_GRAVITY_PATH_OPERATOR = new DecreaseGravityProjectilePath();
 	
 	/**
 	 * Projectile duration.
@@ -377,7 +383,10 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		// handle: increase gravity
 		if (tags.contains(IncreaseGravityProjectilePath.NAME))
 			calculateIncreaseGravityPath();
-		
+
+		// handle: decrease gravity
+		if (tags.contains(DecreaseGravityProjectilePath.NAME))
+			calculateDecreaseGravityPath();		
 	}
 
 	/**
@@ -432,11 +441,19 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * Execute increase gravity path modifier operator.
 	 */
 	void calculateIncreaseGravityPath() {
-		projectileModifierPorts.setEntity1(this);
+		projectileModifierPorts.setDouble1(projectileConfig.gravity.get());
+		projectileModifierPorts.setEntity1(this);		
 		run(projectileModifierPorts, INCREASE_GRAVITY_PATH_OPERATOR);
 	}
-	
-		
+
+	/**
+	 * Execute decrease gravity path modifier operator.
+	 */
+	void calculateDecreaseGravityPath() {
+		projectileModifierPorts.setDouble1(projectileConfig.gravity.get());
+		projectileModifierPorts.setEntity1(this);		
+		run(projectileModifierPorts, DECREASE_GRAVITY_PATH_OPERATOR);
+	}
 	
 	/**
 	 * Update motion and position of the projectile.
