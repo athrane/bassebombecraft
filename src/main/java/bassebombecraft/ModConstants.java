@@ -83,11 +83,6 @@ public class ModConstants {
 	public static final String INTERNAL_TOML_CONFIG_FILE_NAME = MODID + "-common" + CONFIG_FILE_TOML_POSTFIX;
 
 	/**
-	 * Texture path.
-	 */
-	public static final String TEXTURE_PATH = "textures/entity/";
-
-	/**
 	 * Version check URL.
 	 */
 	public static final String VERSION_URL = "https://raw.githubusercontent.com/athrane/bassebombecraft/master/version.json";
@@ -371,7 +366,7 @@ public class ModConstants {
 	 * Processed block directives configuration identifier.
 	 */
 	public static final String PROCESSED_BLOCK_DIRECTIVES_NAME = "ProcessBlockDirectives";
-	
+
 	/**
 	 * Week amplification potion name.
 	 */

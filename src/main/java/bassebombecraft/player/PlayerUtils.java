@@ -120,7 +120,7 @@ public class PlayerUtils {
 		PlayerEntity targetAsPlayer = (PlayerEntity) entity;
 		return targetAsPlayer.isAlive();
 	}
-
+	
 	/**
 	 * Returns true if item is held in player off hand.
 	 * 

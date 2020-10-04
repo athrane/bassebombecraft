@@ -1,7 +1,7 @@
 package bassebombecraft.client.proxy;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.client.particles.RegisteredParticles.PARTICLES;
+import static bassebombecraft.client.particles.RegisteredParticles.PARTICLE_REGISTRY;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayerUId;
 import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
@@ -11,6 +11,7 @@ import static bassebombecraft.event.projectile.RegisteredEntityTypes.EGG_PROJECT
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.LIGHTNING_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.LLAMA_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.SKULL_PROJECTILE;
+import static bassebombecraft.inventory.container.RegisteredContainers.CONTAINER_REGISTRY;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 import java.io.PrintWriter;
@@ -34,6 +35,7 @@ import bassebombecraft.client.rendering.entity.EggProjectileEntityRenderer;
 import bassebombecraft.client.rendering.entity.LightningProjectileEntityRenderer;
 import bassebombecraft.client.rendering.entity.LlamaProjectileEntityRenderer;
 import bassebombecraft.client.rendering.entity.SkullProjectileEntityRenderer;
+import bassebombecraft.client.screen.CompositeMagicItemScreen;
 import bassebombecraft.config.VersionUtils;
 import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;
@@ -53,8 +55,10 @@ import bassebombecraft.event.frequency.DefaultFrequencyRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.job.DefaultJobReposiory;
 import bassebombecraft.event.job.JobRepository;
+import bassebombecraft.inventory.container.RegisteredContainers;
 import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.proxy.Proxy;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -314,7 +318,10 @@ public class ClientProxy implements Proxy {
 		RenderingRegistry.registerEntityRenderingHandler(LIGHTNING_PROJECTILE, LightningProjectileEntityRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(CIRCLE_PROJECTILE, CircleProjectileEntityRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(SKULL_PROJECTILE, SkullProjectileEntityRenderer::new);
-		
+
+		// register the factory used client side to generate a screen corresponding to the container		
+		ScreenManager.registerFactory(RegisteredContainers.COMPOSITE_ITEM_COMTAINER.get(),
+				CompositeMagicItemScreen::new);
 	}
 
 	@Override
@@ -391,7 +398,10 @@ public class ClientProxy implements Proxy {
 	public void doDeferredRegistration(IEventBus modEventBus) {
 
 		// register particles
-		PARTICLES.register(modEventBus);
+		PARTICLE_REGISTRY.register(modEventBus);
+
+		// register containers
+		CONTAINER_REGISTRY.register(modEventBus);
 	}
 
 }

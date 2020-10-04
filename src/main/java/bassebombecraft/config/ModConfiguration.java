@@ -454,8 +454,8 @@ public class ModConfiguration {
 	public static ItemConfig sineProjectilePathItem;
 	public static ItemConfig circleProjectilePathItem;
 	public static ItemConfig increaseGravityProjectilePathItem;
-	public static ItemConfig decreaseGravityProjectilePathItem;	
-	
+	public static ItemConfig decreaseGravityProjectilePathItem;
+
 	public static ItemConfig teleportInvokerProjectileModifierItem;
 	public static ItemConfig teleportMobProjectileModifierItem;
 	public static ItemConfig charmProjectileModifierItem;
@@ -2205,7 +2205,7 @@ public class ModConfiguration {
 				"A mythical image of the modification of a projectile. If a mob is hit then all mobs in the vicinity will aggro the creature.",
 				25);
 		COMMON_BUILDER.pop();
-		
+
 		/**
 		 * Configuration for the {@linkplain BounceProjectileModifierItem} item.
 		 */
@@ -2215,7 +2215,7 @@ public class ModConfiguration {
 				"A mythical image of the modification of a projectile. If a block is hit then the projectile will bounce of in some other direction.",
 				25);
 		COMMON_BUILDER.pop();
-		
+
 	}
 
 	/**
