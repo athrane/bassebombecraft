@@ -174,7 +174,7 @@ public class CompositeMagicItem extends Item {
 		if (hand != Hand.MAIN_HAND)
 			return false;
 
-		// exit if SHIFT isn't presssed
+		// exit if SHIFT isn't pressed
 		if (!player.isShiftKeyDown())
 			return false;
 

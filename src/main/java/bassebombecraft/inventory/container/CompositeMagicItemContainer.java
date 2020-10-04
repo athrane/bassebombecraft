@@ -1,6 +1,8 @@
 package bassebombecraft.inventory.container;
 
 import static bassebombecraft.ModConstants.COMPOSITE_MAX_SIZE;
+import static bassebombecraft.inventory.container.RegisteredContainers.COMPOSITE_ITEM_COMTAINER;
+
 import bassebombecraft.item.composite.CompositeMagicItem;
 import bassebombecraft.world.WorldUtils;
 import net.minecraft.entity.player.PlayerEntity;
@@ -102,15 +104,17 @@ public class CompositeMagicItemContainer extends Container {
 	 * 
 	 * The constructor is used client side.
 	 * 
+	 * On the client side there is no parent ItemStack to communicate with, so a
+	 * dummy inventory is used.
+	 * 
+	 * The extra data from the server isn't used.
+	 * 
 	 * @param id        window ID.
 	 * @param inventory player inventory.
 	 * @param extraData extra data sent from the server.
 	 */
 	public CompositeMagicItemContainer(int id, PlayerInventory inventory, PacketBuffer extraData) {
-		// On the client side there is no parent ItemStack to communicate with, a dummy
-		// inventory is used.
-		// The extra data from the server isn't used.
-		this(id, inventory, new ItemStackHandler(COMPOSITE_MAX_SIZE) ,ItemStack.EMPTY);
+		this(id, inventory, new CompositeMagicItemItemStackHandler(COMPOSITE_MAX_SIZE), ItemStack.EMPTY);
 	}
 
 	/**
@@ -125,7 +129,7 @@ public class CompositeMagicItemContainer extends Container {
 	 */
 	public CompositeMagicItemContainer(int id, PlayerInventory inventory, ItemStackHandler compositeItemInventory,
 			ItemStack compositeItem) {
-		super(RegisteredContainers.COMPOSITE_ITEM_COMTAINER.get(), id);
+		super(COMPOSITE_ITEM_COMTAINER.get(), id);
 		this.itemStackBeingHeld = compositeItem;
 		this.inventory = inventory;
 		this.compositeItemInventory = compositeItemInventory;
@@ -134,21 +138,20 @@ public class CompositeMagicItemContainer extends Container {
 		addHotBarSlots();
 		addPlayerInventorySlots();
 	}
-
+	
 	/**
-	 * Add composite slots to GUI.
-	 * Container slots are created with index at [0..5].
+	 * Add composite slots to GUI. Container slots are created with index at [0..5].
 	 */
 	void addCompositeSlots() {
 		for (int x = 0; x < COMPOSITE_SLOT_COUNT; x++) {
 			int index = x;
-			addSlot(new SlotItemHandler(compositeItemInventory, index, COMPOSITE_XPOS + SLOT_X_SPACING * x, COMPOSITE_YPOS));
+			addSlot(new SlotItemHandler(compositeItemInventory, index, COMPOSITE_XPOS + SLOT_X_SPACING * x,
+					COMPOSITE_YPOS));
 		}
 	}
-	
+
 	/**
-	 * Add hotbar slots to GUI.
-	 * Container slots are created with index at [0..8].
+	 * Add hotbar slots to GUI. Container slots are created with index at [0..8].
 	 */
 	void addHotBarSlots() {
 		for (int x = 0; x < HOTBAR_SLOT_COUNT; x++) {
@@ -158,8 +161,8 @@ public class CompositeMagicItemContainer extends Container {
 	}
 
 	/**
-	 * Add player inventory slots to GUI.
-	 * Container slots are created with index at [9..35].
+	 * Add player inventory slots to GUI. Container slots are created with index at
+	 * [9..35].
 	 */
 	void addPlayerInventorySlots() {
 		for (int y = 0; y < PLAYER_INVENTORY_ROW_COUNT; y++) {
