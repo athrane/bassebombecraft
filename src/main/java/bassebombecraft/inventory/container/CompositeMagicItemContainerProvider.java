@@ -1,6 +1,6 @@
 package bassebombecraft.inventory.container;
 
-import static bassebombecraft.ModConstants.COMPOSITE_MAX_SIZE;
+import static bassebombecraft.item.composite.CompositeMagicItem.getItemStackHandler;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -18,26 +18,25 @@ public class CompositeMagicItemContainerProvider implements INamedContainerProvi
 	/**
 	 * Itemstack used to initialize container.
 	 */
-	ItemStack compositeItemStack;
+	ItemStack itemStack;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param compositeItemStack composite magic item stack.
+	 * @param itemStack composite magic item stack.
 	 */
-	public CompositeMagicItemContainerProvider(ItemStack compositeItemStack) {
-		this.compositeItemStack = compositeItemStack;
+	public CompositeMagicItemContainerProvider(ItemStack itemStack) {
+		this.itemStack = itemStack;
 	}
 
 	@Override
 	public ITextComponent getDisplayName() {
-		return compositeItemStack.getDisplayName();
+		return itemStack.getDisplayName();
 	}
 
 	@Override
 	public Container createMenu(int id, PlayerInventory inventory, PlayerEntity player) {
-		return new CompositeMagicItemContainer(id, inventory,
-				new CompositeMagicItemItemStackHandler(COMPOSITE_MAX_SIZE), compositeItemStack);
+		return new CompositeMagicItemContainer(id, inventory, getItemStackHandler(itemStack), itemStack);
 	}
 
 }

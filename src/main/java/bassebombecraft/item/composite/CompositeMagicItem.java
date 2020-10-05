@@ -15,7 +15,9 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import bassebombecraft.config.ItemConfig;
+import bassebombecraft.inventory.container.CompositeMagicItemCapabilityProvider;
 import bassebombecraft.inventory.container.CompositeMagicItemContainerProvider;
+import bassebombecraft.inventory.container.CompositeMagicItemItemStackHandler;
 import bassebombecraft.operator.DefaultPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
@@ -26,6 +28,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.CooldownTracker;
@@ -36,7 +39,10 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
 /**
  * Composite magic item.
@@ -53,6 +59,16 @@ public class CompositeMagicItem extends Item {
 	 * Item identifier.
 	 */
 	public static final String NAME = CompositeMagicItem.class.getSimpleName();
+
+	/**
+	 * Base NBT tag.
+	 */
+	final String BASE_NBT_TAG = "base";
+
+	/**
+	 * Capability NBT tag.
+	 */
+	final String CAPABILITY_NBT_TAG = "cap";
 
 	/**
 	 * Name of item prefixes.
@@ -180,9 +196,9 @@ public class CompositeMagicItem extends Item {
 
 		// get held item
 		ItemStack itemStack = player.getHeldItem(hand);
-		
+
 		// open GUI
-		CompositeMagicItemContainerProvider provider = new CompositeMagicItemContainerProvider(itemStack);		
+		CompositeMagicItemContainerProvider provider = new CompositeMagicItemContainerProvider(itemStack);
 		NetworkHooks.openGui((ServerPlayerEntity) player, provider);
 
 		return true;
@@ -434,6 +450,69 @@ public class CompositeMagicItem extends Item {
 			ITooltipFlag flagIn) {
 		ITextComponent text = new TranslationTextComponent(TextFormatting.GREEN + this.tooltip);
 		tooltip.add(text);
+	}
+
+	@Override
+	public ICapabilityProvider initCapabilities(ItemStack stack, CompoundNBT nbt) {
+		return new CompositeMagicItemCapabilityProvider();
+	}
+
+	@Override
+	public void readShareTag(ItemStack stack, CompoundNBT nbt) {
+
+		// if nbt is null, set null tag en exit
+		if (nbt == null) {
+			stack.setTag(null);
+			return;
+		}
+
+		// set base tag, is empty if not found
+		CompoundNBT baseTag = nbt.getCompound(BASE_NBT_TAG);
+		stack.setTag(baseTag);
+
+		// set capability tag, is empty if not found
+		CompoundNBT capabilityTag = nbt.getCompound(CAPABILITY_NBT_TAG);
+		CompositeMagicItemItemStackHandler itemStackHandler = getItemStackHandler(stack);
+		itemStackHandler.deserializeNBT(capabilityTag);
+	}
+
+	@Override
+	public CompoundNBT getShareTag(ItemStack stack) {
+
+		// get item handler
+		CompositeMagicItemItemStackHandler itemStackHandler = getItemStackHandler(stack);
+
+		// get tags
+		CompoundNBT baseTag = stack.getTag();
+		CompoundNBT capabilityTag = itemStackHandler.serializeNBT();
+
+		// combine tags
+		CompoundNBT combinedTag = new CompoundNBT();
+		if (baseTag != null) {
+			combinedTag.put(BASE_NBT_TAG, baseTag);
+		}
+		if (capabilityTag != null) {
+			combinedTag.put(CAPABILITY_NBT_TAG, capabilityTag);
+		}
+		return combinedTag;
+	}
+
+	/**
+	 * Get item stack handler for item stack, handler is retrieved form capability.
+	 * 
+	 * @param itemStack item stack to get item stack handler for.
+	 * 
+	 * @return stack handler for item stack.
+	 */
+	public static CompositeMagicItemItemStackHandler getItemStackHandler(ItemStack itemStack) {
+		IItemHandler inventory = itemStack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
+
+		// return dummy inventory if inventory can't be resolved
+		if (inventory == null)
+			return new CompositeMagicItemItemStackHandler(1);
+
+		// type cast and return inventory
+		return (CompositeMagicItemItemStackHandler) inventory;
 	}
 
 }
