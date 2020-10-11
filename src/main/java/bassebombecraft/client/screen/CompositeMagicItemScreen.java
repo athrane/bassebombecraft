@@ -43,7 +43,7 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 
 	@Override
 	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-
+		
 		// bind texture		
         RenderHelper.setupGuiFlatDiffuseLighting();
         RenderSystem.color4f( 1.0F, 1.0F, 1.0F, 1.0F );        

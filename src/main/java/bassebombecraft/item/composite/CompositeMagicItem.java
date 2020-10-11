@@ -1,5 +1,6 @@
 package bassebombecraft.item.composite;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.COMPOSITE_MAX_SIZE;
@@ -8,6 +9,8 @@ import static bassebombecraft.config.ModConfiguration.compositeMagicItem;
 import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
+import static net.minecraft.util.Hand.MAIN_HAND;
+import static net.minecraftforge.fml.network.NetworkHooks.openGui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +43,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 
@@ -63,12 +65,12 @@ public class CompositeMagicItem extends Item {
 	/**
 	 * Base NBT tag.
 	 */
-	final String BASE_NBT_TAG = "base";
+	static final String BASE_NBT_TAG = "base";
 
 	/**
 	 * Capability NBT tag.
 	 */
-	final String CAPABILITY_NBT_TAG = "cap";
+	static final String CAPABILITY_NBT_TAG = "cap";
 
 	/**
 	 * Name of item prefixes.
@@ -150,6 +152,11 @@ public class CompositeMagicItem extends Item {
 		CooldownTracker tracker = player.getCooldownTracker();
 		tracker.setCooldown(this, coolDown);
 
+		// get composite item inventory
+		ItemStack itemStack = player.getHeldItem(hand);
+		CompositeMagicItemItemStackHandler inventory = getItemStackHandler(itemStack);
+
+		/**
 		// skip configuration if inventory dons't contain composites
 		int inventoryIndex = findInventoryComposites(player);
 		if (isInventoryContainingComposites(inventoryIndex)) {
@@ -164,9 +171,13 @@ public class CompositeMagicItem extends Item {
 				createCompositeName(player, inventoryIndex, compositeLength);
 			}
 		}
+		**/
+		
+		// get operators
+		operator = inventory.getOperator();
 
 		// post analytics
-		getProxy().postItemUsage(this.compositeName, player.getGameProfile().getName());
+		//getProxy().postItemUsage(compositeName, player.getGameProfile().getName());
 
 		// execute operators
 		ports.setLivingEntity1(player);
@@ -187,7 +198,7 @@ public class CompositeMagicItem extends Item {
 	boolean openGUI(PlayerEntity player, Hand hand) {
 
 		// exit if item isn't held in main hand
-		if (hand != Hand.MAIN_HAND)
+		if (hand != MAIN_HAND)
 			return false;
 
 		// exit if SHIFT isn't pressed
@@ -199,7 +210,7 @@ public class CompositeMagicItem extends Item {
 
 		// open GUI
 		CompositeMagicItemContainerProvider provider = new CompositeMagicItemContainerProvider(itemStack);
-		NetworkHooks.openGui((ServerPlayerEntity) player, provider);
+		openGui((ServerPlayerEntity) player, provider);
 
 		return true;
 	}
@@ -498,18 +509,20 @@ public class CompositeMagicItem extends Item {
 	}
 
 	/**
-	 * Get item stack handler for item stack, handler is retrieved form capability.
+	 * Get inventory for item stack, handler is retrieved form capability.
 	 * 
-	 * @param itemStack item stack to get item stack handler for.
+	 * @param itemStack item stack to get inventory for.
 	 * 
-	 * @return stack handler for item stack.
+	 * @return inventory for item stack.
 	 */
 	public static CompositeMagicItemItemStackHandler getItemStackHandler(ItemStack itemStack) {
 		IItemHandler inventory = itemStack.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).orElse(null);
 
 		// return dummy inventory if inventory can't be resolved
-		if (inventory == null)
+		if (inventory == null) {
+			getBassebombeCraft().reportAndLogError("Composite item did not have the expected ITEM_HANDLER_CAPABILITY");
 			return new CompositeMagicItemItemStackHandler(1);
+		}
 
 		// type cast and return inventory
 		return (CompositeMagicItemItemStackHandler) inventory;

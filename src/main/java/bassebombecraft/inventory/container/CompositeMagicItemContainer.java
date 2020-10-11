@@ -2,16 +2,16 @@ package bassebombecraft.inventory.container;
 
 import static bassebombecraft.ModConstants.COMPOSITE_MAX_SIZE;
 import static bassebombecraft.inventory.container.RegisteredContainers.COMPOSITE_ITEM_COMTAINER;
+import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import bassebombecraft.item.composite.CompositeMagicItem;
-import bassebombecraft.world.WorldUtils;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
 /**
@@ -97,7 +97,7 @@ public class CompositeMagicItemContainer extends Container {
 	/**
 	 * Composite item inventory.
 	 */
-	ItemStackHandler compositeItemInventory;
+	CompositeMagicItemItemStackHandler compositeItemInventory;
 
 	/**
 	 * Constructor.
@@ -127,8 +127,8 @@ public class CompositeMagicItemContainer extends Container {
 	 * @param compositeItemInventory inventory for the composite magic item.
 	 * @param compositeItem          item stack for the composite magic item.
 	 */
-	public CompositeMagicItemContainer(int id, PlayerInventory inventory, ItemStackHandler compositeItemInventory,
-			ItemStack compositeItem) {
+	public CompositeMagicItemContainer(int id, PlayerInventory inventory,
+			CompositeMagicItemItemStackHandler compositeItemInventory, ItemStack compositeItem) {
 		super(COMPOSITE_ITEM_COMTAINER.get(), id);
 		this.itemStackBeingHeld = compositeItem;
 		this.inventory = inventory;
@@ -138,7 +138,7 @@ public class CompositeMagicItemContainer extends Container {
 		addHotBarSlots();
 		addPlayerInventorySlots();
 	}
-	
+
 	/**
 	 * Add composite slots to GUI. Container slots are created with index at [0..5].
 	 */
@@ -179,7 +179,7 @@ public class CompositeMagicItemContainer extends Container {
 	public boolean canInteractWith(PlayerEntity player) {
 
 		// exit if at logical client side
-		if (WorldUtils.isLogicalClient(player))
+		if (isLogicalClient(player))
 			return false;
 
 		// get item in main hand
@@ -190,6 +190,27 @@ public class CompositeMagicItemContainer extends Container {
 			return false;
 
 		return main == itemStackBeingHeld;
+	}
+
+	@Override
+	public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+		return super.transferStackInSlot(playerIn, index);
+	}
+
+	@Override
+	public void detectAndSendChanges() {
+
+		// handle no changes
+		if (!compositeItemInventory.isChanged()) {
+			super.detectAndSendChanges();
+			return;
+		}
+
+		// handle changed inventory
+		CompoundNBT nbt = itemStackBeingHeld.getOrCreateTag();
+		int dirtyCounter = nbt.getInt("dirtyCounter");
+		nbt.putInt("dirtyCounter", dirtyCounter + 1);
+		itemStackBeingHeld.setTag(nbt);						
 	}
 
 }
