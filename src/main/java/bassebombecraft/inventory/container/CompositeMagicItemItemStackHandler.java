@@ -86,7 +86,6 @@ public class CompositeMagicItemItemStackHandler extends ItemStackHandler {
 				createCompositeName(inventoryIndex, compositeLength);
 			}
 		}
-
 	}
 
 	/**
