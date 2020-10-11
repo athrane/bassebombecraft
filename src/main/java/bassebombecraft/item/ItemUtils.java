@@ -26,6 +26,7 @@ public class ItemUtils {
 	 * {@linkplain GenericInventoryItem}.
 	 * 
 	 * @param object to test.
+	 * 
 	 * @return true if object is a subclass of the
 	 *         {@linkplain GenericInventoryItem}.
 	 */
@@ -39,6 +40,7 @@ public class ItemUtils {
 	 * {@linkplain GenericCompositeNullItem}.
 	 * 
 	 * @param object to test.
+	 * 
 	 * @return true if object is a subclass of the
 	 *         {@linkplain GenericCompositeNullItem}.
 	 */

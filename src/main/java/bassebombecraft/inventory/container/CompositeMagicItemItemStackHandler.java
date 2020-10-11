@@ -1,6 +1,7 @@
 package bassebombecraft.inventory.container;
 
 import static bassebombecraft.ModConstants.COMPOSITE_MAX_SIZE;
+import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.item.ItemUtils.isTypeCompositeItem;
 
 import java.util.ArrayList;
@@ -20,6 +21,11 @@ import net.minecraftforge.items.ItemStackHandler;
  * inventory.
  */
 public class CompositeMagicItemItemStackHandler extends ItemStackHandler {
+
+	/**
+	 * Name of item prefixes.
+	 */
+	static final String ITEM_NAME_PREFIX = MODID + ":";
 
 	/**
 	 * Tracks if content has changed.
@@ -77,7 +83,7 @@ public class CompositeMagicItemItemStackHandler extends ItemStackHandler {
 			// configure operators
 			if (hasSignatureChanged(inventoryIndex, compositeLength)) {
 				configureOperators(inventoryIndex, compositeLength);
-				// createCompositeName(inventoryIndex, compositeLength);
+				createCompositeName(inventoryIndex, compositeLength);
 			}
 		}
 
@@ -143,13 +149,9 @@ public class CompositeMagicItemItemStackHandler extends ItemStackHandler {
 	 * @return true if item in inventory slot is a composite item.
 	 */
 	boolean isCompositeItem(int index) {
-
-		// get inventory item
-		ItemStack inventoryStack = getStackInSlot(index);
-		Item inventoryItem = inventoryStack.getItem();
-
-		// add operator for current slot
-		return (inventoryItem instanceof GenericCompositeNullItem);
+		ItemStack stack = getStackInSlot(index);
+		Item inventoryItem = stack.getItem();
+		return isTypeCompositeItem(inventoryItem);
 	}
 
 	/**
@@ -290,7 +292,52 @@ public class CompositeMagicItemItemStackHandler extends ItemStackHandler {
 		opList.add(operator);
 	}
 
+	/**
+	 * Get configured operator.
+	 * 
+	 * @return configured operator.
+	 */
 	public Operator2 getOperator() {
 		return operator;
 	}
+
+	/**
+	 * Create name for current composite.
+	 * 
+	 * @param inventoryIndex inventory index for first composite item.
+	 * @param length         length of the composite in the inventory.
+	 * 
+	 * @return array containing the operators in the composite.
+	 */
+	void createCompositeName(int inventoryIndex, int length) {
+		StringBuilder name = new StringBuilder();
+
+		for (int index = 0; index < length; index++) {
+
+			// get inventory item
+			ItemStack inventoryStack = getStackInSlot(inventoryIndex + index);
+			Item inventoryItem = inventoryStack.getItem();
+			name.append("-");
+
+			// get name without mod prefix
+			String itemName = inventoryItem.getRegistryName().toString();
+
+			String removedPrefixName = itemName.substring(ITEM_NAME_PREFIX.length());
+			name.append(removedPrefixName);
+		}
+
+		this.compositeName = name.toString();
+	}
+
+	/**
+	 * Get composite name.
+	 * 
+	 * The name is concatenated from then names of the configured composite items.
+	 * 
+	 * @return composite name.
+	 */
+	public String getCompositeName() {
+		return compositeName;
+	}
+
 }
