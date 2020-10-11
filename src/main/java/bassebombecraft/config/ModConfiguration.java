@@ -1894,7 +1894,7 @@ public class ModConfiguration {
 		String name = CompositeMagicItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		compositeMagicItem = getInstance(COMMON_BUILDER, name,
-				"Equip item (e.g. in the off hand slot). Right-click to activate configured magic. Configure magic but placing composite magic items in the inventory or the hotbar. The first connected sequence of items is used by the item. Add or remove items to reconfigure the magic.",
+				"Equip item in main hand. Right-click to activate configured magic. Shift-click to configure magic in GUI. Configure magic by placing composite magic items in the GUI slots. The first connected sequence of items is used by the item. Add or remove items to reconfigure the magic.",
 				25);
 		COMMON_BUILDER.pop();
 
