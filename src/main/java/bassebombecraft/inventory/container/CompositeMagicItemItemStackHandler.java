@@ -156,7 +156,7 @@ public class CompositeMagicItemItemStackHandler extends ItemStackHandler {
 	/**
 	 * Calculate the length of the composite.
 	 * 
-	 * The length is computed from the sequence of connected
+	 * The length is computed from the sequence of connected composite items.
 	 * 
 	 * @param inventoryIndex inventory index for first composite item.
 	 * 
