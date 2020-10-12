@@ -25,13 +25,16 @@ import bassebombecraft.operator.conditional.IsLivingEntityHitInRaytraceResult2;
 import bassebombecraft.operator.entity.Explode2;
 import bassebombecraft.operator.entity.ShootMeteor2;
 import bassebombecraft.operator.entity.potion.effect.AddEffect2;
+import bassebombecraft.operator.entity.raytraceresult.Bounce2;
 import bassebombecraft.operator.entity.raytraceresult.Charm2;
 import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
 import bassebombecraft.operator.entity.raytraceresult.ExplodeOnImpact2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnAnvil2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportMob2;
+import bassebombecraft.operator.projectile.modifier.tag.ReceiveAggro2;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
@@ -140,6 +143,45 @@ public class ProjectileModifierEventHandler {
 	 */
 	static final Operator2 COBWEB_OPERATOR = new SpawnCobweb2();
 
+	/**
+	 * Spawn anvil operator.
+	 */
+	static final Operator2 ANVIL_OPERATOR = new SpawnAnvil2();
+
+	/**
+	 * Create receive aggro operator.
+	 * 
+	 * The reason for not using the no-arg constructor for {@linkplain AddEffect2}
+	 * is that it by default gets the target entity as living entity #1 from the
+	 * ports.
+	 * 
+	 * But the event handler currently only sets the ray race result (in the ray
+	 * trace result #1 port) from the event.
+	 * 
+	 * In order for {@linkplain AddEffect2} to resolve the target entity from the
+	 * ray trace result then its constructor is invoked with adapted functions.
+	 */
+	static Supplier<Operator2> splReceiveAggroOp = () -> {
+		Function<Ports, LivingEntity> fnGetTarget = p -> {
+			RayTraceResult result = p.getRayTraceResult1();
+			EntityRayTraceResult entityResult = (EntityRayTraceResult) result;
+			return (LivingEntity) entityResult.getEntity();
+		};
+		BiConsumer<Ports, EffectInstance> bcSetEffectInstance = getBcSetEffectInstance1();
+		return new Sequence2(new IsLivingEntityHitInRaytraceResult2(), new AddEffect2(fnGetTarget, bcSetEffectInstance,
+				RECEIVE_AGGRO_EFFECT, receiveAggroEffectDuration.get(), receiveAggroEffectAmplifier.get()));
+	};
+
+	/**
+	 * Receive aggro operator
+	 */
+	static final Operator2 RECEIVE_AGGGRO_OPERATOR = splReceiveAggroOp.get();
+
+	/**
+	 * Bounce on impact operator.
+	 */
+	static final Operator2 BOUNCE_ON_IMPACT_OPERATOR = new Bounce2();
+	
 	@SubscribeEvent
 	static public void handleProjectileImpactEvent(ProjectileImpactEvent event) {
 		try {
@@ -162,7 +204,7 @@ public class ProjectileModifierEventHandler {
 			if (tags.contains(TeleportInvoker2.NAME))
 				teleportInvoker(event);
 
-			// handle: teleport invoker
+			// handle: teleport mob
 			if (tags.contains(TeleportMob2.NAME))
 				teleportMob(event);
 
@@ -186,10 +228,22 @@ public class ProjectileModifierEventHandler {
 			if (tags.contains(SpawnCobweb2.NAME))
 				spawnCobweb(event);
 
+			// handle: spawn anvil
+			if (tags.contains(SpawnAnvil2.NAME))
+				spawnAnvil(event);
+
 			// handle: explode on impact
 			if (tags.contains(Explode2.NAME))
 				explodeOnImpact(event);
 
+			// handle: receive aggro
+			if (tags.contains(ReceiveAggro2.NAME))
+				receiveAggro(event);
+
+			// handle: bounce projectile
+			if (tags.contains(Bounce2.NAME))
+				bounceOnImpact(event);
+			
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
@@ -337,6 +391,18 @@ public class ProjectileModifierEventHandler {
 	}
 
 	/**
+	 * Execute spawn anvil operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void spawnAnvil(ProjectileImpactEvent event) {
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setWorld(event.getEntity().getEntityWorld());
+		run(ports, ANVIL_OPERATOR);
+	}
+
+	/**
 	 * Execute explode operator.
 	 * 
 	 * @param event living death event.
@@ -359,4 +425,30 @@ public class ProjectileModifierEventHandler {
 		run(ports, EXPLODE_ON_IMPACT_OPERATOR);
 	}
 
+	/**
+	 * Execute receive aggro operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void receiveAggro(ProjectileImpactEvent event) {
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		run(ports, RECEIVE_AGGGRO_OPERATOR);
+	}
+
+	/**
+	 * Execute bounce projectile on impact operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void bounceOnImpact(ProjectileImpactEvent event) {
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setEntity1(event.getEntity());		
+		run(ports, BOUNCE_ON_IMPACT_OPERATOR);
+
+		// cancel event to avoid removal of projectile
+		event.setCanceled(true);
+	}
+	
 }

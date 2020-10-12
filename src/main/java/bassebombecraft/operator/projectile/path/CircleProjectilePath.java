@@ -23,7 +23,7 @@ public class CircleProjectilePath implements Operator2 {
 	public static final String NAME = CircleProjectilePath.class.getSimpleName();
 
 	/**
-	 * Function to get projctile entity.
+	 * Function to get projectile entity.
 	 */
 	Function<Ports, Entity> fnGetProjectile;
 

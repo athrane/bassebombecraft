@@ -16,7 +16,7 @@ import net.minecraft.util.math.Vec3d;
  * Sub class of the {@linkplain GenericShootProjectile2} generic projectile
  * shooter operator.
  */
-public class ShootSkullCircleProjectile2 extends GenericShootProjectile2 {
+public class ShootSkullProjectile2 extends GenericShootProjectile2 {
 
 	@Override
 	Entity createProjectile(LivingEntity invoker, Vec3d orientation) {

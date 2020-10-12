@@ -37,7 +37,7 @@ public class TagProjectileWithProjectileModifier implements Operator2 {
 	 * Constructor.
 	 * 
 	 * @param fnGetProjectiles function to get projectiles.
-	 * @param fnGetTag function to get tag.
+	 * @param fnGetTag         function to get tag.
 	 */
 	public TagProjectileWithProjectileModifier(Function<Ports, Entity[]> fnGetProjectiles,
 			Function<Ports, String> fnGetTag) {
@@ -61,13 +61,15 @@ public class TagProjectileWithProjectileModifier implements Operator2 {
 
 		// get tag
 		String tag = fnGetTag.apply(ports);
-		if(tag == null || tag.isEmpty())return ports;
-		
+		if (tag == null || tag.isEmpty())
+			return ports;
+
 		// get projectiles
 		Entity[] projectiles = fnGetProjectiles.apply(ports);
-		if(projectiles == null || projectiles.length == 0)return ports;
-		
-		// tag projectiles		
+		if (projectiles == null || projectiles.length == 0)
+			return ports;
+
+		// tag projectiles
 		Arrays.stream(projectiles).forEach(p -> p.addTag(tag));
 
 		return ports;

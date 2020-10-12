@@ -27,7 +27,7 @@ public class SineProjectilePath implements Operator2 {
 	public static final String NAME = SineProjectilePath.class.getSimpleName();
 
 	/**
-	 * Function to get projctile entity.
+	 * Function to get projectile entity.
 	 */
 	Function<Ports, Entity> fnGetProjectile;
 

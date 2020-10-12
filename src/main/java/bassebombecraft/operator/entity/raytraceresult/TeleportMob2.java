@@ -3,6 +3,7 @@ package bassebombecraft.operator.entity.raytraceresult;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isNothingHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
+import static bassebombecraft.operator.DefaultPorts.getFnGetEntities1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 
@@ -14,8 +15,9 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Operators2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.Sequence2;
-import bassebombecraft.operator.projectile.ShootOperatorEggProjectile2;
+import bassebombecraft.operator.projectile.ShootCircleProjectile2;
 import bassebombecraft.operator.projectile.formation.RandomSingleProjectileFormation2;
+import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -36,10 +38,10 @@ public class TeleportMob2 implements Operator2 {
 	 * Create operators.
 	 */
 	static Supplier<Operator2> splOp = () -> {
-		Operator2 projectileLogicOp = new TeleportInvoker2();
 		Operator2 formationOp = new RandomSingleProjectileFormation2();
-		Operator2 projectileOp = new ShootOperatorEggProjectile2(projectileLogicOp);
-		return new Sequence2(formationOp, projectileOp);
+		Operator2 projectileOp = new ShootCircleProjectile2();
+		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> TeleportInvoker2.NAME);
+		return new Sequence2(formationOp, projectileOp, modifierOp);
 	};
 
 	/**
@@ -70,6 +72,8 @@ public class TeleportMob2 implements Operator2 {
 
 		// get ray trace result
 		RayTraceResult result = fnGetRayTraceResult.apply(ports);
+		if (result == null)
+			return ports;
 
 		// exit if nothing was hit
 		if (isNothingHit(result))

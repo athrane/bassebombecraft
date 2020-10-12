@@ -60,16 +60,18 @@ public class RandomProjectileFormationModifier implements Operator2 {
 
 		// get orientation vectors
 		Vec3d[] vectors = fnGetOrientation.apply(ports);
+		if (vectors == null)
+			return ports;
 
 		// create new array
 		Vec3d[] randomised = new Vec3d[vectors.length];
 
 		// get random
 		Random random = getBassebombeCraft().getRandom();
-				
+
 		// create index
 		int index = 0;
-		
+
 		for (Vec3d orientation : vectors) {
 
 			// calculate random angle

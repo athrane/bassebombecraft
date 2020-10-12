@@ -12,6 +12,7 @@ import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.ModConstants.MOB_AGGRO_POTION_NAME;
 import static bassebombecraft.ModConstants.MOB_PRIMING_POTION_NAME;
 import static bassebombecraft.ModConstants.PRIMEDCREEPERCANNON_EFFECT_NAME;
+import static bassebombecraft.ModConstants.PROCESSED_BLOCK_DIRECTIVES_NAME;
 import static bassebombecraft.ModConstants.SUPERIOR_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.WEAK_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.config.InventoryItemConfig.getInstance;
@@ -42,6 +43,7 @@ import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.entity.projectile.LightningProjectileEntity;
 import bassebombecraft.entity.projectile.LlamaProjectileEntity;
 import bassebombecraft.entity.projectile.SkullProjectileEntity;
+import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
 import bassebombecraft.event.charm.CharmedMobEventHandler;
 import bassebombecraft.event.charm.ServerCharmedMobsRepository;
 import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
@@ -84,6 +86,7 @@ import bassebombecraft.item.book.CopyPasteBlocksBook;
 import bassebombecraft.item.book.CreeperCannonBook;
 import bassebombecraft.item.book.DecoyBook;
 import bassebombecraft.item.book.DigMobHoleBook;
+import bassebombecraft.item.book.FallingAnvilBook;
 import bassebombecraft.item.book.HealingMistBook;
 import bassebombecraft.item.book.LargeFireballBook;
 import bassebombecraft.item.book.LavaSpiralMistBook;
@@ -118,18 +121,23 @@ import bassebombecraft.item.composite.projectile.formation.TrifurcatedProjectile
 import bassebombecraft.item.composite.projectile.formation.modifier.InaccuracyProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.formation.modifier.OscillatingRotation180DProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.BounceProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeMobWhenKilledProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeOnImpactProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.ReceiveAggroProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.SpawnAnvilProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnCobwebProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.CircleProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.DeaccelerateProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.DecreaseGravityProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.IncreaseGravityProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.RandomProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.SineProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.ZigZagProjectilePathItem;
@@ -168,11 +176,14 @@ import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig2;
 import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
 import bassebombecraft.operator.entity.raytraceresult.ExplodeOnImpact2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnAnvil2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
+import bassebombecraft.operator.projectile.path.DecreaseGravityProjectilePath;
+import bassebombecraft.operator.projectile.path.IncreaseGravityProjectilePath;
 import bassebombecraft.potion.effect.AggroMobEffect;
 import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
@@ -222,6 +233,12 @@ public class ModConfiguration {
 	 * {@linkplain CharmedMobEventHandler}.
 	 */
 	public static ParticlesConfig charmedMobParticles;
+
+	/**
+	 * Particles spawned by charmed mob, spawned by
+	 * {@linkplain ProcessBlockDirectivesEventHandler}.
+	 */
+	public static ParticlesConfig spawnedBlockParticles;
 
 	// Basic item properties
 	public static ForgeConfigSpec.IntValue basicItemDefaultCooldown;
@@ -330,6 +347,7 @@ public class ModConfiguration {
 	public static ItemConfig receiveAggroBook;
 	public static ItemConfig digMobHoleBook;
 	public static ItemConfig cobwebBook;
+	public static ItemConfig fallingAnvilBook;
 
 	public static ItemConfig lavaSpiralMistBook;
 	public static ItemConfig rainbownizeBook;
@@ -435,6 +453,8 @@ public class ModConfiguration {
 	public static ItemConfig zigZagProjectilePathItem;
 	public static ItemConfig sineProjectilePathItem;
 	public static ItemConfig circleProjectilePathItem;
+	public static ItemConfig increaseGravityProjectilePathItem;
+	public static ItemConfig decreaseGravityProjectilePathItem;
 
 	public static ItemConfig teleportInvokerProjectileModifierItem;
 	public static ItemConfig teleportMobProjectileModifierItem;
@@ -445,6 +465,9 @@ public class ModConfiguration {
 	public static ItemConfig explodeOnImpactProjectileModifierItem;
 	public static ItemConfig digMobHoleProjectileModifierItem;
 	public static ItemConfig spawnCobwebProjectileModifierItem;
+	public static ItemConfig spawnAnvilProjectileModifierItem;
+	public static ItemConfig receiveAggroProjectileModifierItem;
+	public static ItemConfig bounceProjectileModifierItem;
 
 	// Actions..
 
@@ -579,7 +602,13 @@ public class ModConfiguration {
 	 * Properties for {@linkplain SpawnCobweb2} operator.
 	 */
 	public static ForgeConfigSpec.IntValue spawnCobwebDuration;
-	
+
+	/**
+	 * Properties for {@linkplain SpawnAnvil2} operator.
+	 */
+	public static ForgeConfigSpec.IntValue spawnAnvilDuration;
+	public static ForgeConfigSpec.IntValue spawnAnvilOffset;
+
 	/**
 	 * Properties for {@linkplain SpawnKillerBee} operator.
 	 */
@@ -608,7 +637,7 @@ public class ModConfiguration {
 
 	/**
 	 * Properties for {@linkplain ReceiveAggroEffect} effect which is used by the
-	 * operators in {@linkplain ReceiveAggroBook}, {@linkplain DecoyBook} and
+	 * operators in {@linkplain ReceiveAggroBook} and
 	 * {@linkplain ProjectileModifierEventHandler}.
 	 */
 	public static ForgeConfigSpec.IntValue receiveAggroEffectDuration;
@@ -641,6 +670,16 @@ public class ModConfiguration {
 	 * Properties for {@linkplain DeaccelerateProjectilePath} operator.
 	 */
 	public static ForgeConfigSpec.DoubleValue deaccelerateProjectilePathAcceleration;
+
+	/**
+	 * Properties for {@linkplain IncreaseGravityProjectilePath} operator.
+	 */
+	public static ForgeConfigSpec.DoubleValue increaseGravityProjectilePathFactor;
+
+	/**
+	 * Properties for {@linkplain DecreaseGravityProjectilePath} operator.
+	 */
+	public static ForgeConfigSpec.DoubleValue decreaseGravityProjectilePathFactor;
 
 	// Entities..
 
@@ -724,12 +763,21 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Particles spawned by charmed mob, spawned by
+		 * Particles spawned when a mob is charmed, spawned by
 		 * {@linkplain CharmedMobEventHandler}.
 		 */
 		name = CHARMED_MOB_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		charmedMobParticles = getInstance(COMMON_BUILDER, "heart", 1, 10, 0.1, 1.0, 1.0, 1.0);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Particles spawned when a block directive is processed, spawned by
+		 * {@linkplain ProcessBlockDirectivesEventHandler}.
+		 */
+		name = PROCESSED_BLOCK_DIRECTIVES_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnedBlockParticles = getInstance(COMMON_BUILDER, "bassebombecraft:blockparticle", 1, 10, 0.1, 1.0, 1.0, 1.0);
 		COMMON_BUILDER.pop();
 	}
 
@@ -984,10 +1032,21 @@ public class ModConfiguration {
 		 */
 		name = SpawnCobweb2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		spawnCobwebDuration = COMMON_BUILDER.comment("Duration of spawned cobweb.")
-				.defineInRange("cobwebDuration", 400, 0, Integer.MAX_VALUE);
+		spawnCobwebDuration = COMMON_BUILDER.comment("Duration of spawned cobweb.").defineInRange("duration", 400, 0,
+				Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
-		
+
+		/**
+		 * Configuration for the the {@linkplain SpawnAnvil2} operator.
+		 */
+		name = SpawnAnvil2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnAnvilDuration = COMMON_BUILDER.comment("Duration of spawned anvil.").defineInRange("duration", 400, 0,
+				Integer.MAX_VALUE);
+		spawnAnvilOffset = COMMON_BUILDER.comment("Y-offset in blocks for spawned anvil.").defineInRange("duration", 10,
+				0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
 		// GenericBlockSpiralFillMist
 		name = GenericBlockSpiralFillMist.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1355,6 +1414,25 @@ public class ModConfiguration {
 		deaccelerateProjectilePathAcceleration = COMMON_BUILDER.comment("Acceleration decrease per game tick.")
 				.defineInRange("acceleration", 0.9D, 0, 1);
 		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain IncreaseGravityProjectilePath} operator.
+		 */
+		name = IncreaseGravityProjectilePath.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		increaseGravityProjectilePathFactor = COMMON_BUILDER.comment("Gravity increase factor per game tick.")
+				.defineInRange("increaseFactor", 2.5D, 0, 10);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain DecreaseGravityProjectilePath} operator.
+		 */
+		name = DecreaseGravityProjectilePath.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		decreaseGravityProjectilePathFactor = COMMON_BUILDER.comment("Gravity decrease factor per game tick.")
+				.defineInRange("decreaseFactor", 2.5D, 0, 10);
+		COMMON_BUILDER.pop();
+
 	}
 
 	/**
@@ -1494,7 +1572,15 @@ public class ModConfiguration {
 		cobwebBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to shoot a projectile. If a creature is hit then an sticky cobweb is spawned to capture the mob.",
 				25);
-		
+
+		/**
+		 * Configuration for the {@linkplain FallingAnvilBook} item.
+		 */
+		name = FallingAnvilBook.ITEM_NAME;
+		fallingAnvilBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to shoot a projectile. If a creature is hit then an faling anvil is spawned above the mob.",
+				25);
+
 		// LavaSpiralMistBook
 		name = LavaSpiralMistBook.ITEM_NAME;
 		lavaSpiralMistBook = getInstance(COMMON_BUILDER, name,
@@ -1808,7 +1894,7 @@ public class ModConfiguration {
 		String name = CompositeMagicItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		compositeMagicItem = getInstance(COMMON_BUILDER, name,
-				"Equip item (e.g. in the off hand slot). Right-click to activate configured magic. Configure magic but placing composite magic items in the inventory or the hotbar. The first connected sequence of items is used by the item. Add or remove items to reconfigure the magic.",
+				"Equip item in main hand. Right-click to activate configured magic. Shift-click to configure magic in GUI. Configure magic by placing composite magic items in the GUI slots. The first connected sequence of items is used by the item. Add or remove items to reconfigure the magic.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -1990,6 +2076,26 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
+		 * Configuration for the {@linkplain IncreaseGravityProjectilePathItem} item.
+		 */
+		name = IncreaseGravityProjectilePathItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		increaseGravityProjectilePathItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. The projectile will exposed to increased gravity.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain DecreaseGravityProjectilePathItem} item.
+		 */
+		name = DecreaseGravityProjectilePathItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		decreaseGravityProjectilePathItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. The projectile will be exposed to less gravity and will have a tendency to float upwards.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
 		 * Configuration for the {@linkplain TeleportInvokerProjectileModifierItem}
 		 * item.
 		 */
@@ -2066,7 +2172,7 @@ public class ModConfiguration {
 		name = DigMobHoleProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		digMobHoleProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. If a creature is hit then an inconvenient hole is digged beneath the unfortunate individual.",
+				"A mythical image of the modification of a projectile. If a mob is hit then an inconvenient hole is digged beneath the mob.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2076,10 +2182,40 @@ public class ModConfiguration {
 		name = SpawnCobwebProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnCobwebProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. If a creature is hit then a sticky cobweb is spawned around the unfortunate mob.",
+				"A mythical image of the modification of a projectile. If a mob is hit then a sticky cobweb is spawned around the mob.",
 				25);
 		COMMON_BUILDER.pop();
-		
+
+		/**
+		 * Configuration for the {@linkplain SpawnAnvilProjectileModifierItem} item.
+		 */
+		name = SpawnAnvilProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnAnvilProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. If a mob is hit then a falling anvil is spawned above the mob.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain ReceiveAggroProjectileModifierItem} item.
+		 */
+		name = ReceiveAggroProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		receiveAggroProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. If a mob is hit then all mobs in the vicinity will aggro the creature.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain BounceProjectileModifierItem} item.
+		 */
+		name = BounceProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		bounceProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. If a block is hit then the projectile will bounce of in some other direction.",
+				25);
+		COMMON_BUILDER.pop();
+
 	}
 
 	/**
@@ -2103,7 +2239,7 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		Supplier<ParticlesConfig> splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:chickenparticle", 1,
 				12, 0.05D, 0.0, 0.0, 1.0);
-		eggProjectileEntity = getInstance(COMMON_BUILDER, name, 0.0D, 2.0D, 1.0D, splParticles);
+		eggProjectileEntity = getInstance(COMMON_BUILDER, name, 0.0D, 2.0D, 1.0D, 0.001D, splParticles);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2112,7 +2248,7 @@ public class ModConfiguration {
 		name = LlamaProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:sparkparticle", 1, 27, 0.2D, 0.0, 0.0, 1.0);
-		llamaProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 5.0D, splParticles);
+		llamaProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 5.0D, 0.0D, splParticles);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2122,7 +2258,7 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:lightningparticle", 1, 25, 0.2D, 0.0, 0.0,
 				1.0);
-		lightningProjectileEntity = getInstance(COMMON_BUILDER, name, 10.0D, 4.0D, 10.0D, splParticles);
+		lightningProjectileEntity = getInstance(COMMON_BUILDER, name, 10.0D, 4.0D, 10.0D, 0.003D, splParticles);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2131,7 +2267,7 @@ public class ModConfiguration {
 		name = CircleProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:circleparticle", 1, 27, 0.2D, 0.0, 0.0, 1.0);
-		circleProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 1.0D, splParticles);
+		circleProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 1.0D, 0.004D, splParticles);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2140,9 +2276,9 @@ public class ModConfiguration {
 		name = SkullProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:skullparticle", 1, 27, 0.2D, 0.0, 0.0, 1.0);
-		skullProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 1.0D, splParticles);
+		skullProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 1.0D, 0.01D, splParticles);
 		COMMON_BUILDER.pop();
-		
+
 	}
 
 	/**

@@ -31,7 +31,7 @@ public class RandomProjectilePath implements Operator2 {
 	public static final String NAME = RandomProjectilePath.class.getSimpleName();
 
 	/**
-	 * Function to get proectile entity.
+	 * Function to get projectile entity.
 	 */
 	Function<Ports, Entity> fnGetProjectile;
 

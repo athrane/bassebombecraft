@@ -38,7 +38,7 @@ public class ZigZagProjectilePath implements Operator2 {
 	static final int ROTATION = 90;
 	
 	/**
-	 * Function to get projctile entity.
+	 * Function to get projectile entity.
 	 */
 	Function<Ports, Entity> fnGetProjectile;
 

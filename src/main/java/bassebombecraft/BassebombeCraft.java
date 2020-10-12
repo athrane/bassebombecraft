@@ -114,7 +114,7 @@ public class BassebombeCraft {
 		// The event handler initialises the client renders
 		modEventBus.addListener(clientSetupEventHandler);
 
-		// do deferred registration of particles
+		// do deferred registration of objects
 		proxy.doDeferredRegistration(modEventBus);
 	}
 

@@ -68,4 +68,14 @@ public class ClientModConstants {
 	 */
 	public static final float TEXT_SCALE = 0.02F;
 
+	/**
+	 * Entity texture path.
+	 */
+	public static final String ENTITY_TEXTURE_PATH = "textures/entity/";
+
+	/**
+	 * Screen texture path.
+	 */
+	public static final String GUI_TEXTURE_PATH = "textures/gui/";
+
 }

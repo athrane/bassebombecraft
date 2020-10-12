@@ -1,11 +1,12 @@
 package bassebombecraft.client.rendering;
 
+import static bassebombecraft.ClientModConstants.ENTITY_TEXTURE_PATH;
+import static bassebombecraft.ClientModConstants.GUI_TEXTURE_PATH;
 import static bassebombecraft.ClientModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ClientModConstants.TEXT_SCALE;
 import static bassebombecraft.ModConstants.BILLBOARD_LINE_WIDTH;
 import static bassebombecraft.ModConstants.EQUILATERAL_TRIANGLE_HEIGHT;
 import static bassebombecraft.ModConstants.MODID;
-import static bassebombecraft.ModConstants.TEXTURE_PATH;
 
 import org.lwjgl.opengl.GL11;
 
@@ -800,14 +801,27 @@ public class RenderingUtils {
 	}
 
 	/**
-	 * Create texture resource location for projectile entity.
+	 * Create entity texture resource location for projectile entity.
 	 * 
-	 * @param projectileEntity class name of projectile entity.
+	 * @param projectileEntity class name of entity.
 	 * 
-	 * @return texture resource location for projectile entity.
+	 * @return texture resource location for entity.
 	 */
-	public static ResourceLocation createTextureResourceLocation(Class<?> projectileEntity) {
-		String textureName = new StringBuilder().append(TEXTURE_PATH)
+	public static ResourceLocation createEntityTextureResourceLocation(Class<?> projectileEntity) {
+		String textureName = new StringBuilder().append(ENTITY_TEXTURE_PATH)
+				.append(projectileEntity.getSimpleName().toLowerCase()).append(".png").toString();
+		return new ResourceLocation(MODID, textureName);
+	}
+
+	/**
+	 * Create texture resource location for GUI screen.
+	 * 
+	 * @param projectileEntity class name of GUI screen.
+	 * 
+	 * @return texture resource location for GUI screen.
+	 */
+	public static ResourceLocation createGuiTextureResourceLocation(Class<?> projectileEntity) {
+		String textureName = new StringBuilder().append(GUI_TEXTURE_PATH)
 				.append(projectileEntity.getSimpleName().toLowerCase()).append(".png").toString();
 		return new ResourceLocation(MODID, textureName);
 	}

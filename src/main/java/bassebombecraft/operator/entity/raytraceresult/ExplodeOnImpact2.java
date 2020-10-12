@@ -1,23 +1,17 @@
 package bassebombecraft.operator.entity.raytraceresult;
 
-import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.config.ModConfiguration.explodeMinExplosionRadius;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isBlockHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isNothingHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
-import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
 import static bassebombecraft.operator.DefaultPorts.getFnWorld1;
-import static net.minecraft.block.Blocks.AIR;
 import static net.minecraft.world.Explosion.Mode.DESTROY;
 
 import java.util.function.Function;
 
-import bassebombecraft.event.block.BlockDirectivesRepository;
-import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
@@ -81,9 +75,13 @@ public class ExplodeOnImpact2 implements Operator2 {
 
 		// get ray trace result
 		RayTraceResult result = fnGetRayTraceResult.apply(ports);
+		if (result == null)
+			return ports;
 
 		// get world
 		World world = fnGetWorld.apply(ports);
+		if (world == null)
+			return ports;
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
@@ -105,7 +103,7 @@ public class ExplodeOnImpact2 implements Operator2 {
 			// calculate explosion radius
 			AxisAlignedBB aabb = entity.getBoundingBox();
 			float explosionRadius = (float) Math.max(aabb.getXSize(), aabb.getZSize());
-			double minExplosionRadius = explodeMinExplosionRadius.get();			
+			double minExplosionRadius = explodeMinExplosionRadius.get();
 			explosionRadius = (float) Math.max(explosionRadius, minExplosionRadius);
 
 			// create explosion
@@ -134,21 +132,6 @@ public class ExplodeOnImpact2 implements Operator2 {
 		}
 
 		return ports;
-	}
-
-	/**
-	 * Register block for processed to generate air block.
-	 * 
-	 * @param aabb  AABB
-	 * @param pos   block position to process.
-	 * @param world world where directive should be processed.
-	 */
-	void registerBlockToDig(AxisAlignedBB aabb, BlockPos pos, World world) {
-		double translateY = aabb.maxY - aabb.minY;
-		BlockPos tranlatedPos = pos.add(0, -translateY, 0);
-		BlockDirective directive = getInstance(tranlatedPos, AIR, DONT_HARVEST, world);
-		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
-		repository.add(directive);
 	}
 
 }

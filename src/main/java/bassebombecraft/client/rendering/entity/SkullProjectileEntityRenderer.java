@@ -1,6 +1,6 @@
 package bassebombecraft.client.rendering.entity;
 
-import static bassebombecraft.client.rendering.RenderingUtils.createTextureResourceLocation;
+import static bassebombecraft.client.rendering.RenderingUtils.createEntityTextureResourceLocation;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -30,7 +30,7 @@ public class SkullProjectileEntityRenderer extends EntityRenderer<SkullProjectil
 	/**
 	 * Path to texture.
 	 */
-	static final ResourceLocation TEXTURE = createTextureResourceLocation(SkullProjectileEntity.class);
+	static final ResourceLocation TEXTURE = createEntityTextureResourceLocation(SkullProjectileEntity.class);
 
 	/**
 	 * Constructor

@@ -89,9 +89,13 @@ public class SpawnDecoy2 implements Operator2 {
 
 		// get invoker
 		LivingEntity invoker = fnGetInvoker.apply(ports);
+		if (invoker == null)
+			return ports;
 
 		// get ray trace result
 		RayTraceResult result = fnGetRayTraceResult.apply(ports);
+		if (result == null)
+			return ports;
 
 		// exit if nothing was hit
 		if (isNothingHit(result))

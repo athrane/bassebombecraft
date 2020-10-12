@@ -47,6 +47,11 @@ public class DefaultPorts implements Ports {
 	String string2;
 
 	/**
+	 * Double #1.
+	 */
+	Double double1;
+
+	/**
 	 * Vector #1.
 	 */
 	Vec3d vector1;
@@ -162,6 +167,16 @@ public class DefaultPorts implements Ports {
 	static BiConsumer<Ports, String> bcSetString2 = (Ports p, String s) -> p.setString2(s);
 
 	/**
+	 * Double #1 getter.
+	 */
+	static Function<Ports, Double> fnGetDouble1 = p -> p.getDouble1();
+
+	/**
+	 * Double #1 setter.
+	 */
+	static BiConsumer<Ports, Double> bcSetDouble1 = (Ports p, Double d) -> p.setDouble1(d);
+
+	/**
 	 * Vector #1 getter.
 	 */
 	static Function<Ports, Vec3d> fnGetVector1 = p -> p.getVector1();
@@ -231,9 +246,8 @@ public class DefaultPorts implements Ports {
 	/**
 	 * World #1 setter.
 	 */
-	static BiConsumer<Ports, World> bcSetWorld1 = (Ports p, World w) -> p
-			.setWorld(w);
-	
+	static BiConsumer<Ports, World> bcSetWorld1 = (Ports p, World w) -> p.setWorld(w);
+
 	/**
 	 * Constructor
 	 */
@@ -299,12 +313,23 @@ public class DefaultPorts implements Ports {
 
 	@Override
 	public String getString2() {
-		return this.string2;
+		return string2;
 	}
 
 	@Override
 	public Ports setString2(String value) {
 		this.string2 = value;
+		return this;
+	}
+
+	@Override
+	public Double getDouble1() {
+		return double1;
+	}
+
+	@Override
+	public Ports setDouble1(Double value) {
+		this.double1 = value;
 		return this;
 	}
 
@@ -363,7 +388,6 @@ public class DefaultPorts implements Ports {
 		return this;
 	}
 
-	
 	@Override
 	public EffectInstance getEffectInstance1() {
 		return effectInstance1;
@@ -490,6 +514,14 @@ public class DefaultPorts implements Ports {
 		return bcSetString2;
 	}
 
+	public static Function<Ports, Double> getFnGetDouble1() {
+		return fnGetDouble1;
+	}
+
+	public static BiConsumer<Ports, Double> getBcSetDouble1() {
+		return bcSetDouble1;
+	}
+
 	public static Function<Ports, Vec3d> getFnGetVector1() {
 		return fnGetVector1;
 	}
@@ -545,7 +577,7 @@ public class DefaultPorts implements Ports {
 	public static BiConsumer<Ports, World> getBcSetWorld1() {
 		return bcSetWorld1;
 	}
-	
+
 	/**
 	 * Factory method.
 	 * 

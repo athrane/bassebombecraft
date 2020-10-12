@@ -4,6 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.config.VersionUtils.endServerSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startServerSession;
+import static bassebombecraft.inventory.container.RegisteredContainers.CONTAINER_REGISTRY;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -324,7 +325,9 @@ public class ServerProxy implements Proxy {
 
 	@Override
 	public void doDeferredRegistration(IEventBus modEventBus) {
-		// NO-OP for now.
+		
+		// register containers
+		CONTAINER_REGISTRY.register(modEventBus);
 	}
 	
 }

@@ -150,6 +150,8 @@
     "item.bassebombecraft.zigzagprojectilepathitem": "Projectile Path: Zig Zag",                            
     "item.bassebombecraft.sineprojectilepathitem": "Projectile Path: Sine",                                
     "item.bassebombecraft.circlespiralprojectilepathitem": "Projectile Path: Circle",                                
+    "item.bassebombecraft.increasegravityprojectilepathitem": "Projectile Path: Increase Gravity",                                
+    "item.bassebombecraft.decreasegravityprojectilepathitem": "Projectile Path: Decrease Gravity",                                
                               
     "item.bassebombecraft.teleportinvokerprojectilemodifieritem": "Projectile Modifier: Teleport Player",        
     "item.bassebombecraft.teleportmobprojectilemodifieritem": "Projectile Modifier: Teleport Mob",            
@@ -159,7 +161,10 @@
     "item.bassebombecraft.explodemobwhenkilledprojectilemodifieritem": "Projectile Modifier: Mob Explodes When Killed",                            
     "item.bassebombecraft.digmobholeprojectilemodifieritem": "Projectile Modifier: Inconvenient Hole",                            
     "item.bassebombecraft.explodeonimpactprojectilemodifieritem": "Projectile Modifier: Explode On Impact",                            
-    "item.bassebombecraft.spawncobwebprojectilemodifieritem": "Projectile Modifier: Spawn cobweb",                            
+    "item.bassebombecraft.spawncobwebprojectilemodifieritem": "Projectile Modifier: Spawn Cobweb",                            
+    "item.bassebombecraft.spawnanvilprojectilemodifieritem": "Projectile Modifier: Spawn Anvil",                            
+    "item.bassebombecraft.receiveaggroprojectilemodifieritem": "Projectile Modifier: Receive Mob Aggro",                            
+    "item.bassebombecraft.bounceprojectilemodifieritem": "Projectile Modifier: Bounce On Impact",                            
                 
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",

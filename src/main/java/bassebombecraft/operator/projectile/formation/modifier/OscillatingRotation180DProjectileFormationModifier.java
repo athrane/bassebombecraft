@@ -8,7 +8,6 @@ import static bassebombecraft.operator.DefaultPorts.getFnGetVectors1;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.util.math.Vec3d;
@@ -67,6 +66,8 @@ public class OscillatingRotation180DProjectileFormationModifier implements Opera
 
 		// get orientation vectors
 		Vec3d[] vectors = fnGetOrientation.apply(ports);
+		if (vectors == null)
+			return ports;
 
 		// create new array
 		Vec3d[] rotated = new Vec3d[vectors.length];

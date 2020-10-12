@@ -60,7 +60,7 @@ public class ModConstants {
 	/**
 	 * Mod version.
 	 */
-	public static final String VERSION = "1.15.2-1.46";
+	public static final String VERSION = "1.15.2-1.47";
 
 	/**
 	 * In game tab name.
@@ -81,11 +81,6 @@ public class ModConstants {
 	 * Configuration file name.
 	 */
 	public static final String INTERNAL_TOML_CONFIG_FILE_NAME = MODID + "-common" + CONFIG_FILE_TOML_POSTFIX;
-
-	/**
-	 * Texture path.
-	 */
-	public static final String TEXTURE_PATH = "textures/entity/";
 
 	/**
 	 * Version check URL.
@@ -240,6 +235,7 @@ public class ModConstants {
 	/**
 	 * Mod structure world generator weight.
 	 */
+	@Deprecated
 	public static final int MOD_STRUCUTRE_GENERATOR_WEIGHT = 1;
 
 	/**
@@ -362,9 +358,14 @@ public class ModConstants {
 	public static final String BOOKS_CONFIGPATH = "Books.";
 
 	/**
-	 * harmed mob configuration identifier.
+	 * Charmed mob configuration identifier.
 	 */
 	public static final String CHARMED_MOB_NAME = "CharmedMob";
+
+	/**
+	 * Processed block directives configuration identifier.
+	 */
+	public static final String PROCESSED_BLOCK_DIRECTIVES_NAME = "ProcessBlockDirectives";
 
 	/**
 	 * Week amplification potion name.
@@ -503,6 +504,6 @@ public class ModConstants {
 	/**
 	 * Maximum size composite magic. Used in {@linkplain CompositeMagicItem}.
 	 */
-	public static final int COMPOSITE_MAX_SIZE = 5;
+	public static final int COMPOSITE_MAX_SIZE = 6;
 
 }

@@ -32,13 +32,13 @@ import bassebombecraft.item.action.mist.entity.VacuumMist;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnAnvil2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.item.action.ExecuteOperatorAsAction2;
 import bassebombecraft.operator.projectile.ShootArrowProjectile2;
 import bassebombecraft.operator.projectile.ShootCircleProjectile2;
 import bassebombecraft.operator.projectile.ShootFireballProjectile2;
 import bassebombecraft.operator.projectile.ShootLargeFireballProjectile2;
-import bassebombecraft.operator.projectile.ShootSkullCircleProjectile2;
 import bassebombecraft.operator.projectile.ShootWitherSkullProjectile2;
 import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
 import bassebombecraft.operator.projectile.formation.TrifurcatedProjectileFormation2;
@@ -46,7 +46,6 @@ import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileM
 import bassebombecraft.projectile.action.EmitHorizontalForce;
 import bassebombecraft.projectile.action.EmitVerticalForce;
 import bassebombecraft.projectile.action.ProjectileAction;
-import bassebombecraft.projectile.action.SpawnAnvil;
 import bassebombecraft.projectile.action.SpawnFlamingChicken;
 import bassebombecraft.projectile.action.SpawnIceBlock;
 import bassebombecraft.projectile.action.SpawnLavaBlock;
@@ -76,9 +75,7 @@ public class CompanionAttack extends Goal {
 	static final ProjectileAction EMIT_FORCE_PROJECTILE_ACTION = new EmitHorizontalForce();
 	static final ProjectileAction EMIT_VERTICAL_FORCE_PROJECTILE_ACTION = new EmitVerticalForce();
 	static final ProjectileAction SPAWN_SQUID_PROJECTILE_ACTION = new SpawnSquid();
-	static final ProjectileAction FALLING_ANVIL_PROJECTILE_ACTION = new SpawnAnvil();
 	static final ProjectileAction FLAMING_CHICKEN_PROJECTILE_ACTION = new SpawnFlamingChicken();
-
 	static final EntityMistActionStrategy SPAWN_VACUUM_MIST_PROJECTILE_ACTION = new VacuumMist();
 
 	static final EntityMistActionStrategy TOXIC_MIST_STRATEGY = new ToxicMist();
@@ -143,8 +140,18 @@ public class CompanionAttack extends Goal {
 	 */
 	static Supplier<Operator2> splSpawnCobwebOp = () -> {
 		Operator2 formationOp = new SingleProjectileFormation2();
-		Operator2 projectileOp = new ShootSkullCircleProjectile2();
+		Operator2 projectileOp = new ShootCircleProjectile2();
 		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> SpawnCobweb2.NAME);
+		return new Sequence2(formationOp, projectileOp, modifierOp);
+	};
+
+	/**
+	 * Create operators.
+	 */
+	static Supplier<Operator2> splSpawnAnvilOp = () -> {
+		Operator2 formationOp = new SingleProjectileFormation2();
+		Operator2 projectileOp = new ShootCircleProjectile2();
+		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> SpawnAnvil2.NAME);
 		return new Sequence2(formationOp, projectileOp, modifierOp);
 	};
 
@@ -310,7 +317,7 @@ public class CompanionAttack extends Goal {
 		actions.add(new ShootBaconBazooka());
 		actions.add(new ShootCreeperCannon(ISNT_PRIMED));
 		actions.add(new ShootGenericEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));
-		actions.add(new ShootGenericEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splSpawnAnvilOp.get()));
 		actions.add(new ShootGenericEggProjectile(LIGHTNING_PROJECTILE_ACTION));
 		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splDigMobHoleOps.get()));
 		actions.add(new ShootGenericEggProjectile(FLAMING_CHICKEN_PROJECTILE_ACTION));
@@ -331,7 +338,7 @@ public class CompanionAttack extends Goal {
 		actions.add(new ShootGenericEggProjectile(ICEBLOCK_PROJECTILE_ACTION));
 		actions.add(new ShootGenericEggProjectile(LAVABLOCK_PROJECTILE_ACTION));
 		actions.add(new ShootGenericEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));
-		actions.add(new ShootGenericEggProjectile(FALLING_ANVIL_PROJECTILE_ACTION));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splSpawnAnvilOp.get()));
 		actions.add(new GenericEntityMist(SPAWN_VACUUM_MIST_PROJECTILE_ACTION));
 		actions.add(new ShootGenericEggProjectile(LIGHTNING_PROJECTILE_ACTION));
 		actions.add(new GenericEntityMist(LIGHTNING_MIST_STRATEGY));

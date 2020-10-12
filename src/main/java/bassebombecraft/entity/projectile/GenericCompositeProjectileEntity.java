@@ -25,10 +25,12 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
+import bassebombecraft.operator.projectile.path.CircleProjectilePath;
 import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
+import bassebombecraft.operator.projectile.path.DecreaseGravityProjectilePath;
+import bassebombecraft.operator.projectile.path.IncreaseGravityProjectilePath;
 import bassebombecraft.operator.projectile.path.RandomProjectilePath;
 import bassebombecraft.operator.projectile.path.SineProjectilePath;
-import bassebombecraft.operator.projectile.path.CircleProjectilePath;
 import bassebombecraft.operator.projectile.path.ZigZagProjectilePath;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -76,7 +78,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * De-accelerate projectile path operator.
 	 */
 	static final Operator2 DEACCELERATE_PATH_OPERATOR = new DeaccelerateProjectilePath();
-	
+
 	/**
 	 * Zig Zag projectile path operator.
 	 */
@@ -91,6 +93,16 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * Spiral projectile path operator.
 	 */
 	static final Operator2 SPIRAL_PATH_OPERATOR = new CircleProjectilePath();
+
+	/**
+	 * Increase gravity projectile path operator.
+	 */
+	static final Operator2 INCREASE_GRAVITY_PATH_OPERATOR = new IncreaseGravityProjectilePath();
+
+	/**
+	 * DEcrease gravity projectile path operator.
+	 */
+	static final Operator2 DECREASE_GRAVITY_PATH_OPERATOR = new DecreaseGravityProjectilePath();
 	
 	/**
 	 * Projectile duration.
@@ -355,7 +367,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		// handle: deaccelerate
 		if (tags.contains(DeaccelerateProjectilePath.NAME))
 			calculateDeaccelerationPath();
-		
+
 		// handle: zig zag
 		if (tags.contains(ZigZagProjectilePath.NAME))
 			calculateZigZagPath();
@@ -366,7 +378,15 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 
 		// handle: spiral
 		if (tags.contains(CircleProjectilePath.NAME))
-			calculateSpiralPath();		
+			calculateSpiralPath();
+		
+		// handle: increase gravity
+		if (tags.contains(IncreaseGravityProjectilePath.NAME))
+			calculateIncreaseGravityPath();
+
+		// handle: decrease gravity
+		if (tags.contains(DecreaseGravityProjectilePath.NAME))
+			calculateDecreaseGravityPath();		
 	}
 
 	/**
@@ -392,7 +412,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		projectileModifierPorts.setEntity1(this);
 		run(projectileModifierPorts, DEACCELERATE_PATH_OPERATOR);
 	}
-	
+
 	/**
 	 * Execute zig zag path modifier operator.
 	 */
@@ -416,6 +436,24 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		projectileModifierPorts.setEntity1(this);
 		run(projectileModifierPorts, SPIRAL_PATH_OPERATOR);
 	}
+
+	/**
+	 * Execute increase gravity path modifier operator.
+	 */
+	void calculateIncreaseGravityPath() {
+		projectileModifierPorts.setDouble1(projectileConfig.gravity.get());
+		projectileModifierPorts.setEntity1(this);		
+		run(projectileModifierPorts, INCREASE_GRAVITY_PATH_OPERATOR);
+	}
+
+	/**
+	 * Execute decrease gravity path modifier operator.
+	 */
+	void calculateDecreaseGravityPath() {
+		projectileModifierPorts.setDouble1(projectileConfig.gravity.get());
+		projectileModifierPorts.setEntity1(this);		
+		run(projectileModifierPorts, DECREASE_GRAVITY_PATH_OPERATOR);
+	}
 	
 	/**
 	 * Update motion and position of the projectile.
@@ -430,13 +468,8 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 
 		// calculate motion and position
 		Vec3d nextMotionVec = motionVec.scale(motionScale);
-		Vec3d nextPositionVec = motionVec.add(positionVec);
-
-		// TODO: Include gravity in motion calculation for "physical projectile"
-		// update motion and position
-		// this.setMotion(nextMotionVec.getX(), nextMotionVec.getY() -
-		// this.getGravity(), nextMotionVec.getZ());
-		this.setMotion(nextMotionVec.getX(), nextMotionVec.getY(), nextMotionVec.getZ());
+		Vec3d nextPositionVec = motionVec.add(positionVec);		
+		this.setMotion(nextMotionVec.getX(), nextMotionVec.getY() - getGravity(), nextMotionVec.getZ());
 		this.setPosition(nextPositionVec.getX(), nextPositionVec.getY(), nextPositionVec.getZ());
 	}
 
@@ -468,7 +501,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	public LivingEntity getThrower() {
 		return this.invoker;
 	}
-	
+
 	float getWaterDrag() {
 		return 0.6f;
 	}
@@ -477,8 +510,11 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		return 0.99f;
 	}
 
-	float getGravity() {
-		return 0.01f;
+	/**
+	 * Gets the amount of gravity to apply to the thrown entity with each tick.
+	 */
+	double getGravity() {
+		return projectileConfig.gravity.get();
 	}
 
 	/**
@@ -489,7 +525,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	public ProjectileEntityConfig getConfiguration() {
 		return projectileConfig;
 	}
-	
+
 	/**
 	 * Add particle on update tick.
 	 */
@@ -499,9 +535,9 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		FrequencyRepository frequencyRepository = getProxy().getClientFrequencyRepository();
 		if (!frequencyRepository.isActive(PARTICLE_SPAWN_FREQUENCY))
 			return;
-				
+
 		addParticlesPorts.setBlockPosition1(getPosition());
 		run(addParticlesPorts, addParticlesOp);
 	}
-	
+
 }
