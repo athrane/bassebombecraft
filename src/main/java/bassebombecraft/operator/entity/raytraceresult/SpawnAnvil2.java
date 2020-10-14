@@ -1,19 +1,19 @@
 package bassebombecraft.operator.entity.raytraceresult;
 
 import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
+import static bassebombecraft.config.ModConfiguration.spawnAnvilDuration;
 import static bassebombecraft.config.ModConfiguration.spawnAnvilOffset;
-import static bassebombecraft.config.ModConfiguration.spawnCobwebDuration;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isNothingHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
 import static bassebombecraft.operator.DefaultPorts.getFnWorld1;
+import static net.minecraft.block.Blocks.ANVIL;
 
 import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import static net.minecraft.block.Blocks.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -22,8 +22,8 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain Operator2} interface which which spawns an
- * anvil over the top of the hit entity.
+ * Implementation of the {@linkplain Operator2} interface which spawns an anvil
+ * over the top of the hit entity.
  * 
  * If a block is hit then NO-OP.
  */
@@ -83,7 +83,7 @@ public class SpawnAnvil2 implements Operator2 {
 		if (isNothingHit(result))
 			return ports;
 
-		// spawn cobweb around entity
+		// if entity is hit drop anvil on entity
 		if (isEntityHit(result)) {
 
 			// exit if result isn't entity ray trace result
@@ -101,7 +101,7 @@ public class SpawnAnvil2 implements Operator2 {
 			double lz = posVec.z;
 
 			BlockPos blockpos = new BlockPos(lx, ly, lz);
-			setTemporaryBlock(world, blockpos, ANVIL, spawnCobwebDuration.get());
+			setTemporaryBlock(world, blockpos, ANVIL, spawnAnvilDuration.get());
 		}
 
 		return ports;
