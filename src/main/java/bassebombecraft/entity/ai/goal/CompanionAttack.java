@@ -43,7 +43,6 @@ import bassebombecraft.operator.projectile.ShootWitherSkullProjectile2;
 import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
 import bassebombecraft.operator.projectile.formation.TrifurcatedProjectileFormation2;
 import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
-import bassebombecraft.projectile.action.EmitHorizontalForce;
 import bassebombecraft.projectile.action.EmitVerticalForce;
 import bassebombecraft.projectile.action.ProjectileAction;
 import bassebombecraft.projectile.action.SpawnFlamingChicken;
@@ -72,7 +71,6 @@ public class CompanionAttack extends Goal {
 	static final ProjectileAction ICEBLOCK_PROJECTILE_ACTION = new SpawnIceBlock();
 	static final ProjectileAction LAVABLOCK_PROJECTILE_ACTION = new SpawnLavaBlock();
 	static final ProjectileAction LIGHTNING_PROJECTILE_ACTION = new SpawnLightningBolt();
-	static final ProjectileAction EMIT_FORCE_PROJECTILE_ACTION = new EmitHorizontalForce();
 	static final ProjectileAction EMIT_VERTICAL_FORCE_PROJECTILE_ACTION = new EmitVerticalForce();
 	static final ProjectileAction SPAWN_SQUID_PROJECTILE_ACTION = new SpawnSquid();
 	static final ProjectileAction FLAMING_CHICKEN_PROJECTILE_ACTION = new SpawnFlamingChicken();
@@ -152,6 +150,16 @@ public class CompanionAttack extends Goal {
 		Operator2 formationOp = new SingleProjectileFormation2();
 		Operator2 projectileOp = new ShootCircleProjectile2();
 		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> SpawnAnvil2.NAME);
+		return new Sequence2(formationOp, projectileOp, modifierOp);
+	};
+
+	/**
+	 * Create operators.
+	 */
+	static Supplier<Operator2> splEmitHorizontalForceOp = () -> {
+		Operator2 formationOp = new SingleProjectileFormation2();
+		Operator2 projectileOp = new ShootCircleProjectile2();
+		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> SpawnCobweb2.NAME);
 		return new Sequence2(formationOp, projectileOp, modifierOp);
 	};
 
@@ -333,7 +341,7 @@ public class CompanionAttack extends Goal {
 		List<RightClickedItemAction> actions = new ArrayList<RightClickedItemAction>();
 		actions.add(new GenericEntityMist(TOXIC_MIST_STRATEGY));
 		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splSpawnCobwebOp.get()));
-		actions.add(new ShootGenericEggProjectile(EMIT_FORCE_PROJECTILE_ACTION));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splEmitHorizontalForceOp.get()));
 		actions.add(new ShootGenericEggProjectile(EMIT_VERTICAL_FORCE_PROJECTILE_ACTION));
 		actions.add(new ShootGenericEggProjectile(ICEBLOCK_PROJECTILE_ACTION));
 		actions.add(new ShootGenericEggProjectile(LAVABLOCK_PROJECTILE_ACTION));

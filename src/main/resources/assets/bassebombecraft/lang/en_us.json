@@ -165,6 +165,7 @@
     "item.bassebombecraft.spawnanvilprojectilemodifieritem": "Projectile Modifier: Spawn Anvil",                            
     "item.bassebombecraft.receiveaggroprojectilemodifieritem": "Projectile Modifier: Receive Mob Aggro",                            
     "item.bassebombecraft.bounceprojectilemodifieritem": "Projectile Modifier: Bounce On Impact",                            
+    "item.bassebombecraft.emithorizontalforceprojectilemodifieritem": "Projectile Modifier: Emit Horizontal Force",                            
                 
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",

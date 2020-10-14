@@ -28,6 +28,7 @@ import bassebombecraft.operator.entity.potion.effect.AddEffect2;
 import bassebombecraft.operator.entity.raytraceresult.Bounce2;
 import bassebombecraft.operator.entity.raytraceresult.Charm2;
 import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
+import bassebombecraft.operator.entity.raytraceresult.EmitHorizontalForce2;
 import bassebombecraft.operator.entity.raytraceresult.ExplodeOnImpact2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnAnvil2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
@@ -181,6 +182,11 @@ public class ProjectileModifierEventHandler {
 	 * Bounce on impact operator.
 	 */
 	static final Operator2 BOUNCE_ON_IMPACT_OPERATOR = new Bounce2();
+
+	/**
+	 * Emit horizontal force operator.
+	 */
+	static final Operator2 HORIZONTAL_FORCE_OPERATOR = new EmitHorizontalForce2();
 	
 	@SubscribeEvent
 	static public void handleProjectileImpactEvent(ProjectileImpactEvent event) {
@@ -232,6 +238,10 @@ public class ProjectileModifierEventHandler {
 			if (tags.contains(SpawnAnvil2.NAME))
 				spawnAnvil(event);
 
+			// handle: emit horizontal force
+			if (tags.contains(EmitHorizontalForce2.NAME))
+				emitHorizontalForce(event);
+			
 			// handle: explode on impact
 			if (tags.contains(Explode2.NAME))
 				explodeOnImpact(event);
@@ -402,6 +412,19 @@ public class ProjectileModifierEventHandler {
 		run(ports, ANVIL_OPERATOR);
 	}
 
+	/**
+	 * Execute emit horizontal force operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void emitHorizontalForce(ProjectileImpactEvent event) {
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setWorld(event.getEntity().getEntityWorld());
+		ports.setEntity1(event.getEntity());
+		run(ports, HORIZONTAL_FORCE_OPERATOR );
+	}
+	
 	/**
 	 * Execute explode operator.
 	 * 
