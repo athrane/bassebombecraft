@@ -90,6 +90,7 @@ import bassebombecraft.item.book.EmitHorizontalForceBook;
 import bassebombecraft.item.book.EmitVerticalForceBook;
 import bassebombecraft.item.book.FallingAnvilBook;
 import bassebombecraft.item.book.HealingMistBook;
+import bassebombecraft.item.book.IceBlockBook;
 import bassebombecraft.item.book.LargeFireballBook;
 import bassebombecraft.item.book.LavaSpiralMistBook;
 import bassebombecraft.item.book.LingeringFlameBook;
@@ -135,6 +136,7 @@ import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifi
 import bassebombecraft.item.composite.projectile.modifier.ReceiveAggroProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnAnvilProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnCobwebProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.SpawnIceBlockProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
@@ -185,6 +187,7 @@ import bassebombecraft.operator.entity.raytraceresult.ExplodeOnImpact2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnAnvil2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnIceBlock2;
 import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
@@ -353,6 +356,7 @@ public class ModConfiguration {
 	public static ItemConfig receiveAggroBook;
 	public static ItemConfig digMobHoleBook;
 	public static ItemConfig cobwebBook;
+	public static ItemConfig iceBlockBook;	
 	public static ItemConfig fallingAnvilBook;
 	public static ItemConfig emitHorizontalForceBook;
 	public static ItemConfig emitVerticalForceBook;
@@ -471,6 +475,7 @@ public class ModConfiguration {
 	public static ItemConfig explodeOnImpactProjectileModifierItem;
 	public static ItemConfig digMobHoleProjectileModifierItem;
 	public static ItemConfig spawnCobwebProjectileModifierItem;
+	public static ItemConfig spawnIceBlockProjectileModifierItem;	
 	public static ItemConfig spawnAnvilProjectileModifierItem;
 	public static ItemConfig receiveAggroProjectileModifierItem;
 	public static ItemConfig bounceProjectileModifierItem;
@@ -611,6 +616,11 @@ public class ModConfiguration {
 	 */
 	public static ForgeConfigSpec.IntValue spawnCobwebDuration;
 
+	/**
+	 * Properties for {@linkplain SpawnIceBlock2} operator.
+	 */
+	public static ForgeConfigSpec.IntValue spawnIceBlockDuration;
+	
 	/**
 	 * Properties for {@linkplain SpawnAnvil2} operator.
 	 */
@@ -1054,6 +1064,15 @@ public class ModConfiguration {
 				Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the the {@linkplain SpawnCobweb2} operator.
+		 */
+		name = SpawnIceBlock2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnIceBlockDuration = COMMON_BUILDER.comment("Duration of spawned ice block.").defineInRange("duration", 400, 0,
+				Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+		
 		/**
 		 * Configuration for the the {@linkplain SpawnAnvil2} operator.
 		 */
@@ -1610,6 +1629,14 @@ public class ModConfiguration {
 				25);
 
 		/**
+		 * Configuration for the {@linkplain IceBlockBook} item.
+		 */
+		name = IceBlockBook.ITEM_NAME;
+		iceBlockBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to shoot a projectile. If a creature is hit then an chilling ice block is spawned to capture the mob.",
+				25);
+		
+		/**
 		 * Configuration for the {@linkplain FallingAnvilBook} item.
 		 */
 		name = FallingAnvilBook.ITEM_NAME;
@@ -1622,16 +1649,16 @@ public class ModConfiguration {
 		 */
 		name = EmitHorizontalForceBook.ITEM_NAME;
 		emitHorizontalForceBook = getInstance(COMMON_BUILDER, name,
-				"Right-click to shoot a projectile. If a creature is hit then the mob is pushed away from the caster.",
+				"Right-click to shoot a projectile. If a creature is hit then a strong gust of wind will push the mob away from the caster.",
 				25);
 
 		/**
-		 * Configuration for the {@linkplain EmitHorizontalForceBook} item.
+		 * Configuration for the {@linkplain EmitVerticalForceBook} item.
 		 */
 		name = EmitVerticalForceBook.ITEM_NAME;
 		emitVerticalForceBook = getInstance(COMMON_BUILDER, name,
-				"Right-click to shoot a projectile. If a creature is hit then the mob is pushed up into the air.", 25);
-
+				"Right-click to shoot a projectile. If a creature is hit then an updraft will push the the mob up into the air.", 25);		
+		
 		// LavaSpiralMistBook
 		name = LavaSpiralMistBook.ITEM_NAME;
 		lavaSpiralMistBook = getInstance(COMMON_BUILDER, name,
@@ -2238,6 +2265,16 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
+		 * Configuration for the {@linkplain SpawnIceBlockProjectileModifierItem} item.
+		 */
+		name = SpawnIceBlockProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnIceBlockProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. If a mob is hit then a chilling ice block is spawned around the mob.",
+				25);
+		COMMON_BUILDER.pop();
+		
+		/**
 		 * Configuration for the {@linkplain SpawnAnvilProjectileModifierItem} item.
 		 */
 		name = SpawnAnvilProjectileModifierItem.NAME;
@@ -2274,7 +2311,7 @@ public class ModConfiguration {
 		name = EmitHorizontalForceProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		emitHorizontalForceProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. If a mob is hit then a strong gust of wind will push it away from the caster.",
+				"A mythical image of the modification of a projectile. If a mob is hit then a strong gust of wind will push the mob away from the caster.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2285,7 +2322,7 @@ public class ModConfiguration {
 		name = EmitVerticalForceProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		emitVerticalForceProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. If a mob is hit then a string gust of wind will push it up into the air.",
+				"A mythical image of the modification of a projectile. If a mob is hit then an updraft will push the mob it up into the air.",
 				25);
 		COMMON_BUILDER.pop();
 

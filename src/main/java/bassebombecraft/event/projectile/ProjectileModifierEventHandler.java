@@ -34,6 +34,7 @@ import bassebombecraft.operator.entity.raytraceresult.ExplodeOnImpact2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnAnvil2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnIceBlock2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportMob2;
 import bassebombecraft.operator.projectile.modifier.tag.ReceiveAggro2;
@@ -146,6 +147,11 @@ public class ProjectileModifierEventHandler {
 	static final Operator2 COBWEB_OPERATOR = new SpawnCobweb2();
 
 	/**
+	 * Spawn ice block operator.
+	 */
+	static final Operator2 ICEBLOCK_OPERATOR = new SpawnIceBlock2();
+	
+	/**
 	 * Spawn anvil operator.
 	 */
 	static final Operator2 ANVIL_OPERATOR = new SpawnAnvil2();
@@ -240,6 +246,10 @@ public class ProjectileModifierEventHandler {
 			if (tags.contains(SpawnCobweb2.NAME))
 				spawnCobweb(event);
 
+			// handle: spawn ice block 
+			if (tags.contains(SpawnIceBlock2.NAME))
+				spawnIceBlock(event);
+			
 			// handle: spawn anvil
 			if (tags.contains(SpawnAnvil2.NAME))
 				spawnAnvil(event);
@@ -410,6 +420,18 @@ public class ProjectileModifierEventHandler {
 		run(ports, COBWEB_OPERATOR);
 	}
 
+	/**
+	 * Execute spawn ice block operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void spawnIceBlock(ProjectileImpactEvent event) {
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setWorld(event.getEntity().getEntityWorld());
+		run(ports, ICEBLOCK_OPERATOR);
+	}
+	
 	/**
 	 * Execute spawn anvil operator.
 	 * 

@@ -15,7 +15,7 @@ import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileM
 import net.minecraft.entity.Entity;
 
 /**
- * EmitHorizontal force projectile modifier item.
+ * Emit horizontal force projectile modifier item.
  * 
  * The tagged projectile is processed in
  * {@linkplain ProjectileModifierEventHandler} where the
