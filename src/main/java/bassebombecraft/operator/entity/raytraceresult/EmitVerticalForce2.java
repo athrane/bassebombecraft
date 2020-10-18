@@ -1,10 +1,9 @@
 package bassebombecraft.operator.entity.raytraceresult;
 
-import static bassebombecraft.config.ModConfiguration.emitHorizontalForceStrength;
+import static bassebombecraft.config.ModConfiguration.*;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isNothingHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
-import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
 
 import java.util.function.Function;
@@ -19,16 +18,16 @@ import net.minecraft.util.math.Vec3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which hits a mob with
- * a horizontal force.
+ * a vertical force.
  * 
  * If a block is hit then NO-OP.
  */
-public class EmitHorizontalForce2 implements Operator2 {
+public class EmitVerticalForce2 implements Operator2 {
 
 	/**
 	 * Operator identifier.
 	 */
-	public static final String NAME = EmitHorizontalForce2.class.getSimpleName();
+	public static final String NAME = EmitVerticalForce2.class.getSimpleName();
 
 	/**
 	 * Function to get ray trace result.
@@ -36,32 +35,21 @@ public class EmitHorizontalForce2 implements Operator2 {
 	Function<Ports, RayTraceResult> fnGetRayTraceResult;
 
 	/**
-	 * Function to get entity (projectile) which caused the hit in the ray trace
-	 * result.
-	 */
-	Function<Ports, Entity> fnGetRayOriginator;
-
-	/**
 	 * Constructor.
 	 * 
-	 * @param splRayTraceResult  function to get ray trace result.
-	 * @param fnGetRayOriginator function to get ray originator.
+	 * @param splRayTraceResult function to get ray trace result.
 	 */
-	public EmitHorizontalForce2(Function<Ports, RayTraceResult> fnGetRayTraceResult,
-			Function<Ports, Entity> fnGetRayOriginator) {
+	public EmitVerticalForce2(Function<Ports, RayTraceResult> fnGetRayTraceResult) {
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
-		this.fnGetRayOriginator = fnGetRayOriginator;
 	}
 
 	/**
 	 * Constructor.
 	 * 
 	 * Instance is configured with ray tracing result #1 from ports.
-	 * 
-	 * Instance is configured with entity #1 from ports.
 	 */
-	public EmitHorizontalForce2() {
-		this(getFnGetRayTraceResult1(), getFnGetEntity1());
+	public EmitVerticalForce2() {
+		this(getFnGetRayTraceResult1());
 	}
 
 	@Override
@@ -70,11 +58,6 @@ public class EmitHorizontalForce2 implements Operator2 {
 		// get ray trace result
 		RayTraceResult result = fnGetRayTraceResult.apply(ports);
 		if (result == null)
-			return ports;
-
-		// get originator entity
-		Entity originator = fnGetRayOriginator.apply(ports);
-		if (originator == null)
 			return ports;
 
 		// exit if nothing was hit
@@ -92,13 +75,8 @@ public class EmitHorizontalForce2 implements Operator2 {
 			Entity entity = ((EntityRayTraceResult) result).getEntity();
 
 			// calculate push vector
-			Vec3d motion = originator.getMotion();
-			Vec3d motionVec = new Vec3d(motion.getX(), motion.getY(), motion.getZ());
-			double x = motionVec.x * emitHorizontalForceStrength.get();
-			double y = motionVec.y * emitHorizontalForceStrength.get();
-			double z = motionVec.z * emitHorizontalForceStrength.get();
-			Vec3d motionVecForced = new Vec3d(x, y, z);
-			entity.move(MoverType.SELF, motionVecForced);
+			Vec3d motionVec = new Vec3d(0, emitVerticalForceStrength.get(), 0);
+			entity.move(MoverType.SELF, motionVec);
 		}
 
 		return ports;

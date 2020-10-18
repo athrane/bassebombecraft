@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Sequence2;
-import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
+import bassebombecraft.operator.entity.raytraceresult.EmitHorizontalForce2;
 import bassebombecraft.operator.projectile.ShootSkullProjectile2;
 import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
 import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
@@ -26,7 +26,8 @@ public class EmitHorizontalForceBook extends GenericRightClickedBook2 {
 	static Supplier<Operator2> splOp = () -> {
 		Operator2 formationOp = new SingleProjectileFormation2();
 		Operator2 projectileOp = new ShootSkullProjectile2();
-		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> SpawnCobweb2.NAME);
+		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(),
+				p -> EmitHorizontalForce2.NAME);
 		return new Sequence2(formationOp, projectileOp, modifierOp);
 	};
 
