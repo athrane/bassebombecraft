@@ -5,10 +5,10 @@
 			"item": "minecraft:prismarine_crystals"
 		},		
 		{
-			"item": "minecraft:snowball"
+			"item": "minecraft:lava_bucket"
 		}
 	],
 	"result": {
-		"item": "bassebombecraft:spawniceblockprojectilemodifieritem"
+		"item": "bassebombecraft:spawnlavablockprojectilemodifieritem"
 	}
 }

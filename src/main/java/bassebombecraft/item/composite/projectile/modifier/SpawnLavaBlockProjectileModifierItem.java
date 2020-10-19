@@ -1,6 +1,6 @@
 package bassebombecraft.item.composite.projectile.modifier;
 
-import static bassebombecraft.config.ModConfiguration.spawnIceBlockProjectileModifierItem;
+import static bassebombecraft.config.ModConfiguration.spawnLavaBlockProjectileModifierItem;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntities1;
 
 import java.util.function.Function;
@@ -11,37 +11,38 @@ import bassebombecraft.item.composite.GenericCompositeNullItem;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.entity.raytraceresult.SpawnIceBlock2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnLavaBlock2;
 import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
 import net.minecraft.entity.Entity;
 
 /**
- * Spawn ice block projectile modifier item.
+ * Spawn lava block projectile modifier item.
  * 
  * The tagged projectile is processed in
  * {@linkplain ProjectileModifierEventHandler} where the
  * {@linkplain SpawnIceBlock2} operator is executed.
  */
-public class SpawnIceBlockProjectileModifierItem extends GenericCompositeNullItem {
+public class SpawnLavaBlockProjectileModifierItem extends GenericCompositeNullItem {
 
 	/**
 	 * Item identifier.
 	 */
-	public static final String NAME = SpawnIceBlockProjectileModifierItem.class.getSimpleName();
+	public static final String NAME = SpawnLavaBlockProjectileModifierItem.class.getSimpleName();
 
 	/**
 	 * Create operators.
 	 */
 	static Supplier<Operator2> splOp = () -> {
 		Function<Ports, Entity[]> fnGetProjectiles = getFnGetEntities1();
-		Function<Ports, String> fnGetTag = p -> SpawnIceBlock2.NAME;
+		Function<Ports, String> fnGetTag = p -> SpawnLavaBlock2.NAME;
 		return new TagProjectileWithProjectileModifier(fnGetProjectiles, fnGetTag);
 	};
 
 	/**
 	 * Constructor.
 	 */
-	public SpawnIceBlockProjectileModifierItem() {
-		super(NAME, spawnIceBlockProjectileModifierItem);
+	public SpawnLavaBlockProjectileModifierItem() {
+		super(NAME, spawnLavaBlockProjectileModifierItem);
 	}
 
 	@Override

@@ -163,6 +163,7 @@
     "item.bassebombecraft.explodeonimpactprojectilemodifieritem": "Projectile Modifier: Explode",                            
     "item.bassebombecraft.spawncobwebprojectilemodifieritem": "Projectile Modifier: Cobweb",                            
     "item.bassebombecraft.spawniceblockprojectilemodifieritem": "Projectile Modifier: Ice Cage",                                
+    "item.bassebombecraft.spawnlavablockprojectilemodifieritem": "Projectile Modifier: Lava Cage",                                    
     "item.bassebombecraft.spawnanvilprojectilemodifieritem": "Projectile Modifier: Drop Anvil",                            
     "item.bassebombecraft.receiveaggroprojectilemodifieritem": "Projectile Modifier: Receive Mob Aggro",                            
     "item.bassebombecraft.bounceprojectilemodifieritem": "Projectile Modifier: Bounce On Impact",                            

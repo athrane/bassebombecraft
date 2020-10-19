@@ -24,6 +24,7 @@ import net.minecraft.world.World;
  * If a block is hit then several lava block is spawned where the projectile
  * hit.
  */
+@Deprecated
 public class SpawnLavaBlock implements ProjectileAction {
 
 	static final int DURATION = 400;

@@ -92,6 +92,7 @@ import bassebombecraft.item.book.FallingAnvilBook;
 import bassebombecraft.item.book.HealingMistBook;
 import bassebombecraft.item.book.IceBlockBook;
 import bassebombecraft.item.book.LargeFireballBook;
+import bassebombecraft.item.book.LavaBlockBook;
 import bassebombecraft.item.book.LavaSpiralMistBook;
 import bassebombecraft.item.book.LingeringFlameBook;
 import bassebombecraft.item.book.LingeringFuryBook;
@@ -137,6 +138,7 @@ import bassebombecraft.item.composite.projectile.modifier.ReceiveAggroProjectile
 import bassebombecraft.item.composite.projectile.modifier.SpawnAnvilProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnCobwebProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnIceBlockProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.SpawnLavaBlockProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
@@ -188,6 +190,7 @@ import bassebombecraft.operator.entity.raytraceresult.SpawnAnvil2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnIceBlock2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnLavaBlock2;
 import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
@@ -357,6 +360,7 @@ public class ModConfiguration {
 	public static ItemConfig digMobHoleBook;
 	public static ItemConfig cobwebBook;
 	public static ItemConfig iceBlockBook;	
+	public static ItemConfig lavaBlockBook;		
 	public static ItemConfig fallingAnvilBook;
 	public static ItemConfig emitHorizontalForceBook;
 	public static ItemConfig emitVerticalForceBook;
@@ -475,7 +479,8 @@ public class ModConfiguration {
 	public static ItemConfig explodeOnImpactProjectileModifierItem;
 	public static ItemConfig digMobHoleProjectileModifierItem;
 	public static ItemConfig spawnCobwebProjectileModifierItem;
-	public static ItemConfig spawnIceBlockProjectileModifierItem;	
+	public static ItemConfig spawnIceBlockProjectileModifierItem;
+	public static ItemConfig spawnLavaBlockProjectileModifierItem;	
 	public static ItemConfig spawnAnvilProjectileModifierItem;
 	public static ItemConfig receiveAggroProjectileModifierItem;
 	public static ItemConfig bounceProjectileModifierItem;
@@ -620,6 +625,11 @@ public class ModConfiguration {
 	 * Properties for {@linkplain SpawnIceBlock2} operator.
 	 */
 	public static ForgeConfigSpec.IntValue spawnIceBlockDuration;
+
+	/**
+	 * Properties for {@linkplain SpawnLavaBlock2} operator.
+	 */
+	public static ForgeConfigSpec.IntValue spawnLavaBlockDuration;
 	
 	/**
 	 * Properties for {@linkplain SpawnAnvil2} operator.
@@ -1065,11 +1075,20 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the the {@linkplain SpawnCobweb2} operator.
+		 * Configuration for the the {@linkplain SpawnIceBlock2} operator.
 		 */
 		name = SpawnIceBlock2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnIceBlockDuration = COMMON_BUILDER.comment("Duration of spawned ice block.").defineInRange("duration", 400, 0,
+				Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the the {@linkplain SpawnLavaBlock2} operator.
+		 */
+		name = SpawnLavaBlock2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnLavaBlockDuration = COMMON_BUILDER.comment("Duration of spawned lava block.").defineInRange("duration", 400, 0,
 				Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 		
@@ -1625,7 +1644,7 @@ public class ModConfiguration {
 		 */
 		name = CobwebBook.ITEM_NAME;
 		cobwebBook = getInstance(COMMON_BUILDER, name,
-				"Right-click to shoot a projectile. If a creature is hit then an sticky cobweb is spawned to capture the mob.",
+				"Right-click to shoot a projectile. If a creature is hit then a sticky cobweb is spawned to capture the mob.",
 				25);
 
 		/**
@@ -1633,7 +1652,15 @@ public class ModConfiguration {
 		 */
 		name = IceBlockBook.ITEM_NAME;
 		iceBlockBook = getInstance(COMMON_BUILDER, name,
-				"Right-click to shoot a projectile. If a creature is hit then an chilling ice block is spawned to capture the mob.",
+				"Right-click to shoot a projectile. If a creature is hit then a chilling ice block is spawned to capture the mob.",
+				25);
+
+		/**
+		 * Configuration for the {@linkplain LavaBlockBook} item.
+		 */
+		name = LavaBlockBook.ITEM_NAME;
+		lavaBlockBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to shoot a projectile. If a creature is hit then a sizzling lava block is spawned to capture the mob.",
 				25);
 		
 		/**
@@ -1641,7 +1668,7 @@ public class ModConfiguration {
 		 */
 		name = FallingAnvilBook.ITEM_NAME;
 		fallingAnvilBook = getInstance(COMMON_BUILDER, name,
-				"Right-click to shoot a projectile. If a creature is hit then an faling anvil is spawned above the mob.",
+				"Right-click to shoot a projectile. If a creature is hit then a faling anvil is spawned above the mob.",
 				25);
 
 		/**
@@ -2271,6 +2298,16 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnIceBlockProjectileModifierItem = getInstance(COMMON_BUILDER, name,
 				"A mythical image of the modification of a projectile. If a mob is hit then a chilling ice block is spawned around the mob.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain SpawnLavaBlockProjectileModifierItem} item.
+		 */
+		name = SpawnLavaBlockProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnLavaBlockProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. If a mob is hit then a sizzling lava block is spawned around the mob.",
 				25);
 		COMMON_BUILDER.pop();
 		

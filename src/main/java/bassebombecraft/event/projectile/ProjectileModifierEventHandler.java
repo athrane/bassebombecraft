@@ -35,6 +35,7 @@ import bassebombecraft.operator.entity.raytraceresult.SpawnAnvil2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnIceBlock2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnLavaBlock2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportMob2;
 import bassebombecraft.operator.projectile.modifier.tag.ReceiveAggro2;
@@ -150,6 +151,11 @@ public class ProjectileModifierEventHandler {
 	 * Spawn ice block operator.
 	 */
 	static final Operator2 ICEBLOCK_OPERATOR = new SpawnIceBlock2();
+
+	/**
+	 * Spawn lava block operator.
+	 */
+	static final Operator2 LAVABLOCK_OPERATOR = new SpawnLavaBlock2();
 	
 	/**
 	 * Spawn anvil operator.
@@ -249,6 +255,10 @@ public class ProjectileModifierEventHandler {
 			// handle: spawn ice block 
 			if (tags.contains(SpawnIceBlock2.NAME))
 				spawnIceBlock(event);
+
+			// handle: spawn lava block 
+			if (tags.contains(SpawnLavaBlock2.NAME))
+				spawnLavaBlock(event);
 			
 			// handle: spawn anvil
 			if (tags.contains(SpawnAnvil2.NAME))
@@ -430,6 +440,18 @@ public class ProjectileModifierEventHandler {
 		ports.setRayTraceResult1(event.getRayTraceResult());
 		ports.setWorld(event.getEntity().getEntityWorld());
 		run(ports, ICEBLOCK_OPERATOR);
+	}
+
+	/**
+	 * Execute spawn lava block operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void spawnLavaBlock(ProjectileImpactEvent event) {
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setWorld(event.getEntity().getEntityWorld());
+		run(ports, LAVABLOCK_OPERATOR);
 	}
 	
 	/**
