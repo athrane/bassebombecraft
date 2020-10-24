@@ -1231,7 +1231,7 @@ public class ModConfiguration {
 		copyPasteBlocksCaptureOnCopy = COMMON_BUILDER
 				.comment("Defines whether copied structure should be saved on disk as a template.")
 				.define("captureOnCopy", true);
-		copyPasteBlocksParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 5, -1, 0.3, 1.0, 1.0, 1.0);
+		copyPasteBlocksParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 5, -10, 0.3, 1.0, 1.0, 1.0);
 		COMMON_BUILDER.pop();
 
 		// AddLevitationEffect

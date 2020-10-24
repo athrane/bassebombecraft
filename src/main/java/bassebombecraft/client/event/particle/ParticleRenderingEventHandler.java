@@ -110,7 +110,8 @@ public class ParticleRenderingEventHandler {
 		Particle spellParticle = manager.addParticle(particle.getParticleType(), x, y, z, d0, d1, d2);
 
 		// set age
-		spellParticle.setMaxAge(particle.getInfo().getDuration());
+		int duration = Math.abs(particle.getInfo().getDuration());
+		spellParticle.setMaxAge(duration);
 	}
 
 	/**
@@ -122,6 +123,7 @@ public class ParticleRenderingEventHandler {
 	 * The particle is rendered without any acceleration
 	 * 
 	 * @param world    world object
+	 * 
 	 * @param particle particle to render.
 	 */
 	static void renderParticleWithCustomColor(World world, ParticleRendering particle) {
@@ -145,9 +147,12 @@ public class ParticleRenderingEventHandler {
 		ParticleManager manager = mcClient.particles;
 		Particle spellParticle = manager.addParticle(ParticleTypes.EFFECT, x, y, z, d0, d1, d2);
 
-		// set color and age
+		// set color
 		spellParticle.setColor(r, g, b);
-		spellParticle.setMaxAge(particle.getInfo().getDuration());
+		
+		// set age
+		int duration = Math.abs(particle.getInfo().getDuration());
+		spellParticle.setMaxAge(duration);
 	}
 
 	/**

@@ -52,15 +52,16 @@ public class DefaultParticleRenderingRepository implements ParticleRenderingRepo
 	/**
 	 * Resolve spawn duration of particles renderings.
 	 * 
-	 * If particle rendering is configured with -1 then it will be configured never to expire.
-	 * Otherwise it will be configured to use default expiry value.
+	 * If particle rendering is configured with negative number then it will be
+	 * configured never to expire. Otherwise it will be configured to use default
+	 * expiry value.
 	 * 
 	 * @param duration particle duration to resolve.
 	 * 
 	 * @return resolved duration value for particle.
 	 */
 	int resolveSpawnDuration(int duration) {
-		if (duration == NO_EXPIRY)
+		if (duration < 0 )
 			return NO_EXPIRY;
 		return PARTICLE_SPAWN_DURATION;
 	}
