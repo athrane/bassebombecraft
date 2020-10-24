@@ -327,7 +327,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 
 			// send particle rendering info to client
 			secondMarkerParticle = getInstance(pos, infos[FIRST_INDEX]);
-			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(firstMarkerParticle);
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(secondMarkerParticle);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
