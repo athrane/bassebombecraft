@@ -253,13 +253,8 @@ public class ModConstants {
 	 * {@linkplain GenericBlockSpiralFillMist} and {@linkplain GenericEntityMist}.
 	 * Measured in world ticks.
 	 */
+	@Deprecated	
 	public static final int PARTICLE_SPAWN_FREQUENCY = 10;
-
-	/**
-	 * Particle spawn frequency in {@linkplain CharmedMobEventHandler}. Measured in
-	 * world ticks.
-	 */
-	public static final int CHARM_PARTICLE_RENDERING_FREQUENCY = 20;
 
 	/**
 	 * Effect update frequency in {@linkplain GenericBlockSpiralFillMist}. Measured

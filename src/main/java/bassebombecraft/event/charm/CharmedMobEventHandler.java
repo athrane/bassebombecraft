@@ -1,6 +1,5 @@
 package bassebombecraft.event.charm;
 
-import static bassebombecraft.ModConstants.CHARM_PARTICLE_RENDERING_FREQUENCY;
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
 import static bassebombecraft.config.ModConfiguration.charmedMobParticles;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
@@ -11,9 +10,8 @@ import bassebombecraft.network.packet.AddParticleRendering;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.client.rendering.AddParticlesFromEntityAtClient2;
-import bassebombecraft.operator.conditional.IsEntity1OfType2;
 import bassebombecraft.operator.conditional.IsEntityIsCharmed2;
-import bassebombecraft.operator.conditional.IsFrequencyIsActive2;
+import bassebombecraft.operator.conditional.IsEntityOfType2;
 import bassebombecraft.operator.conditional.IsWorldAtServerSide2;
 import bassebombecraft.operator.entity.RemoveCharm2;
 import net.minecraft.entity.MobEntity;
@@ -38,14 +36,13 @@ public class CharmedMobEventHandler {
 	/**
 	 * Operator for spawning particles for charmed mob.
 	 */
-	static Operator2[] particlesOps = { new IsWorldAtServerSide2(),
-			new IsFrequencyIsActive2(CHARM_PARTICLE_RENDERING_FREQUENCY), new IsEntity1OfType2(MobEntity.class),
+	static Operator2[] particlesOps = { new IsWorldAtServerSide2(), new IsEntityOfType2(MobEntity.class),
 			new IsEntityIsCharmed2(), new AddParticlesFromEntityAtClient2(createFromConfig(charmedMobParticles)) };
 
 	/**
 	 * Operators for uncharm.
 	 */
-	static Operator2[] uncharmOps = { new IsWorldAtServerSide2(), new IsEntity1OfType2(MobEntity.class),
+	static Operator2[] uncharmOps = { new IsWorldAtServerSide2(), new IsEntityOfType2(MobEntity.class),
 			new RemoveCharm2() };
 
 	@SubscribeEvent
