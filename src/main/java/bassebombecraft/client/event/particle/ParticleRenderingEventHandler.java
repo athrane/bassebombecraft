@@ -2,14 +2,12 @@ package bassebombecraft.client.event.particle;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.ModConstants.PARTICLE_SPAWN_FREQUENCY;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
 
 import java.util.Random;
 import java.util.stream.Stream;
 
-import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
@@ -106,13 +104,13 @@ public class ParticleRenderingEventHandler {
 		double y = particle.getPosition().getY() + 1;
 		double z = particle.getPosition().getZ() + 0.5D;
 
-		// add particle		
+		// add particle
 		Minecraft mcClient = Minecraft.getInstance();
 		ParticleManager manager = mcClient.particles;
 		Particle spellParticle = manager.addParticle(particle.getParticleType(), x, y, z, d0, d1, d2);
-		
-		// set age		
-		spellParticle.setMaxAge(particle.getInfo().getDuration());		
+
+		// set age
+		spellParticle.setMaxAge(particle.getInfo().getDuration());
 	}
 
 	/**
@@ -128,7 +126,7 @@ public class ParticleRenderingEventHandler {
 	 */
 	static void renderParticleWithCustomColor(World world, ParticleRendering particle) {
 		Random random = getBassebombeCraft().getRandom();
-		
+
 		double speed = particle.getInfo().getSpeed();
 		double d0 = calculateRandomSpeed(speed);
 		double d1 = calculateRandomSpeed(speed);
@@ -146,10 +144,10 @@ public class ParticleRenderingEventHandler {
 		Minecraft mcClient = Minecraft.getInstance();
 		ParticleManager manager = mcClient.particles;
 		Particle spellParticle = manager.addParticle(ParticleTypes.EFFECT, x, y, z, d0, d1, d2);
-		
+
 		// set color and age
 		spellParticle.setColor(r, g, b);
-		spellParticle.setMaxAge(particle.getInfo().getDuration());				
+		spellParticle.setMaxAge(particle.getInfo().getDuration());
 	}
 
 	/**

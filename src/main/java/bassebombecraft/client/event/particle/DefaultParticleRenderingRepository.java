@@ -2,6 +2,8 @@ package bassebombecraft.client.event.particle;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ClientModConstants.PARTICLE_SPAWN_DURATION;
+import static bassebombecraft.event.duration.Duration.NO_EXPIRY;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
@@ -36,7 +38,8 @@ public class DefaultParticleRenderingRepository implements ParticleRenderingRepo
 				return;
 
 			// register duration
-			getProxy().getClientDurationRepository().add(id, particle.getInfo().getDuration(), cRemovalCallback);
+			int duration = resolveSpawnDuration(particle.getInfo().getDuration());
+			getProxy().getClientDurationRepository().add(id, duration, cRemovalCallback);
 
 			// store particle
 			particles.put(id, particle);
@@ -44,6 +47,22 @@ public class DefaultParticleRenderingRepository implements ParticleRenderingRepo
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
+	}
+
+	/**
+	 * Resolve spawn duration of particles renderings.
+	 * 
+	 * If particle rendering is configured with -1 then it will be configured never to expire.
+	 * Otherwise it will be configured to use default expiry value.
+	 * 
+	 * @param duration particle duration to resolve.
+	 * 
+	 * @return resolved duration value for particle.
+	 */
+	int resolveSpawnDuration(int duration) {
+		if (duration == NO_EXPIRY)
+			return NO_EXPIRY;
+		return PARTICLE_SPAWN_DURATION;
 	}
 
 	@Override

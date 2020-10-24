@@ -10,14 +10,9 @@ import java.util.function.Consumer;
  * Implementation of the {@linkplain Duration} interface.
  */
 public class DefaultDuration implements Duration {
-
+	
 	/**
-	 * No expiry.
-	 */
-	static final int NO_EXPIRY = -1;
-
-	/**
-	 * Is expired .
+	 * Is expired.
 	 */
 	static final int IS_EXPIRED = 0;
 
