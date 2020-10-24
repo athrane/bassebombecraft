@@ -81,6 +81,6 @@ public class ClientModConstants {
 	/**
 	 * Default spawn duration for particle renderings.
 	 */
-	public static final int PARTICLE_SPAWN_DURATION = 1;
+	public static final int PARTICLE_SPAWN_DURATION = 2;
 	
 }

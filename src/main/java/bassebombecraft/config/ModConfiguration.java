@@ -815,7 +815,7 @@ public class ModConfiguration {
 		 */
 		name = PROCESSED_BLOCK_DIRECTIVES_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		spawnedBlockParticles = getInstance(COMMON_BUILDER, "bassebombecraft:blockparticle", 1, 10, 0.1, 1.0, 1.0, 1.0);
+		spawnedBlockParticles = getInstance(COMMON_BUILDER, "bassebombecraft:blockparticle", 5, 10, 0.1, 1.0, 1.0, 1.0);
 		COMMON_BUILDER.pop();
 	}
 

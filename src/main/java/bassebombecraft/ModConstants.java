@@ -13,7 +13,6 @@ import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
-import bassebombecraft.event.charm.CharmedMobEventHandler;
 import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
@@ -253,7 +252,7 @@ public class ModConstants {
 	 * {@linkplain GenericBlockSpiralFillMist} and {@linkplain GenericEntityMist}.
 	 * Measured in world ticks.
 	 */
-	@Deprecated	
+	@Deprecated
 	public static final int PARTICLE_SPAWN_FREQUENCY = 10;
 
 	/**
