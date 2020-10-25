@@ -137,26 +137,31 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
+		try {
+			// get position
+			BlockPos pos = context.getPos();
+			PlayerEntity player = context.getPlayer();
 
-		// get position
-		BlockPos pos = context.getPos();
-		PlayerEntity player = context.getPlayer();
+			// update state and create structure
+			Structure structure = updateState(pos, player);
 
-		// update state and create structure
-		Structure structure = updateState(pos, player);
+			// calculate Y offset in structure
+			int yOffset = calculatePlayerFeetPosititionAsInt(player);
 
-		// calculate Y offset in structure
-		int yOffset = calculatePlayerFeetPosititionAsInt(player);
+			// calculate list of block directives
+			BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
+			List<BlockDirective> directives = calculateBlockDirectives(offset, player, structure, DONT_HARVEST);
 
-		// calculate list of block directives
-		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
-		List<BlockDirective> directives = calculateBlockDirectives(offset, player, structure, DONT_HARVEST);
+			// add directives
+			BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
+			repository.addAll(directives);
 
-		// add directives
-		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
-		repository.addAll(directives);
+			return USED_ITEM;
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+			return USED_ITEM;
+		}
 
-		return USED_ITEM;
 	}
 
 	@Override
@@ -292,28 +297,23 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * @param player player object.
 	 */
 	void registerFirstMarker(BlockPos pos, PlayerEntity player) {
-		try {
-			firstMarker = pos;
+		firstMarker = pos;
 
-			// get player rotation
-			PlayerDirection playerDirection = PlayerUtils.getPlayerDirection(player);
+		// get player rotation
+		PlayerDirection playerDirection = PlayerUtils.getPlayerDirection(player);
 
-			// Hack: if player direction is east or west
-			// then modify rotation 180 degrees
-			if (playerDirection == PlayerDirection.East) {
-				playerDirection = PlayerDirection.West;
-			} else if (playerDirection == PlayerDirection.West) {
-				playerDirection = PlayerDirection.East;
-			}
-			rotationDegrees = calculateDegreesFromPlayerDirection(playerDirection);
-
-			// send particle rendering info to client
-			firstMarkerParticle = getInstance(pos, infos[FIRST_INDEX]);
-			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(firstMarkerParticle);
-
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
+		// Hack: if player direction is east or west
+		// then modify rotation 180 degrees
+		if (playerDirection == PlayerDirection.East) {
+			playerDirection = PlayerDirection.West;
+		} else if (playerDirection == PlayerDirection.West) {
+			playerDirection = PlayerDirection.East;
 		}
+		rotationDegrees = calculateDegreesFromPlayerDirection(playerDirection);
+
+		// send particle rendering info to client
+		firstMarkerParticle = getInstance(pos, infos[FIRST_INDEX]);
+		getProxy().getNetworkChannel().sendAddParticleRenderingPacket(firstMarkerParticle);
 	}
 
 	/**
@@ -322,16 +322,11 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * @param pos marker position.
 	 */
 	void registerSecondMarker(BlockPos pos) {
-		try {
-			secondMarker = pos;
+		secondMarker = pos;
 
-			// send particle rendering info to client
-			secondMarkerParticle = getInstance(pos, infos[FIRST_INDEX]);
-			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(secondMarkerParticle);
-
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
-		}
+		// send particle rendering info to client
+		secondMarkerParticle = getInstance(pos, infos[FIRST_INDEX]);
+		getProxy().getNetworkChannel().sendAddParticleRenderingPacket(secondMarkerParticle);
 	}
 
 	/**
@@ -516,12 +511,8 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * Clear rendering of particles.
 	 */
 	void clearRendering() {
-		try {
-			getProxy().getNetworkChannel().sendRemoveParticleRenderingPacket(firstMarkerParticle);
-			getProxy().getNetworkChannel().sendRemoveParticleRenderingPacket(secondMarkerParticle);
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
-		}
+		getProxy().getNetworkChannel().sendRemoveParticleRenderingPacket(firstMarkerParticle);
+		getProxy().getNetworkChannel().sendRemoveParticleRenderingPacket(secondMarkerParticle);
 	}
 
 }
