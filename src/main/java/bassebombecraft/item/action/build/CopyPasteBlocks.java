@@ -4,7 +4,6 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.config.ConfigUtils.createFromConfig;
-import static bassebombecraft.config.ModConfiguration.copyPasteBlocksCaptureOnCopy;
 import static bassebombecraft.config.ModConfiguration.copyPasteBlocksParticleInfo;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
@@ -29,7 +28,6 @@ import bassebombecraft.player.PlayerUtils;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
-import bassebombecraft.world.TemplateUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -123,16 +121,10 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	ParticleRendering secondMarkerParticle;
 
 	/**
-	 * Defines if copied structure should be captured on disk.
-	 */
-	boolean captureOnCopy;
-
-	/**
 	 * CopyPasteBlocks constructor.
 	 */
 	public CopyPasteBlocks() {
 		infos = createFromConfig(copyPasteBlocksParticleInfo);
-		captureOnCopy = copyPasteBlocksCaptureOnCopy.get();
 	}
 
 	@Override
@@ -159,7 +151,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 			return USED_ITEM;
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
-			return USED_ITEM;
+			return DIDNT_USED_ITEM;
 		}
 
 	}
@@ -345,7 +337,6 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		// calculate lower and upper bounds
 		BlockPos lower = calculateLowerBound();
 		BlockPos upper = calculateUpperBound();
-
 		BlockPos captureOffset = new BlockPos(lower);
 		BlockPos captureSize = new BlockPos(upper.getX() - lower.getX(), upper.getY() - lower.getY(),
 				upper.getZ() - lower.getZ());
@@ -361,26 +352,6 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		// translate
 		BlockPos translation = calculateTranslationVector(captureOffset, captureSize, playerDirection);
 		capturedBlocks = translate(translation, capturedBlocks);
-
-		// exit if capture on copy is disabled
-		if (!captureOnCopy)
-			return;
-
-		// if captured blocks is empty then exit
-		if (capturedBlocks.isEmpty())
-			return;
-
-		// get last block in list to get y-coordinate of captured blocks
-		int index = capturedBlocks.size();
-		BlockDirective lastblock = capturedBlocks.get(index - 1);
-		int capturedBlocksHeight = lastblock.getY();
-
-		// modify offset for Minecraft structure
-		// captureOffset = captureOffset.add(0, 1, 0);
-		captureSize = captureSize.add(0, capturedBlocksHeight, 0);
-
-		// save captured content as a Minecraft structure file
-		TemplateUtils.save(world, captureOffset, captureSize);
 	}
 
 	/**

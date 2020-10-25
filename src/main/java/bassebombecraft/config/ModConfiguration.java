@@ -548,7 +548,6 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue spawnStairsDuration;
 
 	// CopyPasteBlocks action
-	public static ForgeConfigSpec.BooleanValue copyPasteBlocksCaptureOnCopy;
 	public static ParticlesConfig copyPasteBlocksParticleInfo;
 
 	// AddLevitationEffect action
@@ -1228,9 +1227,6 @@ public class ModConfiguration {
 		// CopyPasteBlocks
 		name = CopyPasteBlocks.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		copyPasteBlocksCaptureOnCopy = COMMON_BUILDER
-				.comment("Defines whether copied structure should be saved on disk as a template.")
-				.define("captureOnCopy", true);
 		copyPasteBlocksParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 5, -10, 0.3, 1.0, 1.0, 1.0);
 		COMMON_BUILDER.pop();
 

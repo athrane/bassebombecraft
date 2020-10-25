@@ -3,7 +3,7 @@ package bassebombecraft.geom;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.ModConstants.ORIGIN_BLOCK_POS;
-import static bassebombecraft.block.BlockUtils.containsAirBlocksOnly;
+import static bassebombecraft.block.BlockUtils.containsNonAirBlocks;
 import static bassebombecraft.block.BlockUtils.getBlockFromPosition;
 import static bassebombecraft.block.BlockUtils.getBlockStateFromPosition;
 import static bassebombecraft.block.BlockUtils.rotateBlockStateWithFacingProperty;
@@ -25,6 +25,7 @@ import static net.minecraft.block.Blocks.WHITE_TULIP;
 import java.awt.geom.AffineTransform;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -65,14 +66,15 @@ public class GeometryUtils {
 	 * The block directive is configured not to harvest the target block when
 	 * processed.
 	 * 
-	 * @param blocks   stream of {@linkplain BlockPos} to capture.
-	 * @param world    world where block information is queried.
-	 * 
-	 * @param opResult list of captured {@linkplain BlockDirective}.
+	 * @param blocks         stream of {@linkplain BlockPos} to capture.
+	 * @param world          world where block information is queried.
+	 * @param destCollection destination collection where
+	 *                       {@linkplain BlockDirective} is added to.
 	 */
-	public static List<BlockDirective> captureBlockDirectives(Stream<BlockPos> blocks, World world) {
-		return blocks.map(p -> getInstance(p, getBlockFromPosition(p, world), getBlockStateFromPosition(p, world),
-				DONT_HARVEST, world)).collect(Collectors.toList());
+	public static void captureBlockDirectives(Stream<BlockPos> blocks, World world,
+			Collection<BlockDirective> destCollection) {
+		blocks.map(p -> getInstance(p, getBlockFromPosition(p, world), getBlockStateFromPosition(p, world),
+				DONT_HARVEST, world)).forEach(destCollection::add);
 	}
 
 	/**
@@ -413,12 +415,13 @@ public class GeometryUtils {
 			BlockPos to = from.add(layerXDelta, layerYDelta, layerZDelta);
 			Stream<BlockPos> blocks = BlockPos.getAllInBox(from, to);
 
-			// exit if blocks is of type air
-			if (containsAirBlocksOnly(blocks, world))
+			// exit if blocks is of type air only
+			if (!containsNonAirBlocks(blocks, world))
 				return result;
 
 			// add blocks from this layer
-			result.addAll(captureBlockDirectives(blocks, world));
+			blocks = BlockPos.getAllInBox(from, to);
+			captureBlockDirectives(blocks, world, result);
 
 			// increase layer
 			yCounter++;
@@ -643,8 +646,8 @@ public class GeometryUtils {
 	 * Oscillate value.
 	 * 
 	 * @param timeDelta value added to time.
-	 * @param min minimum value.
-	 * @param max maximum value.
+	 * @param min       minimum value.
+	 * @param max       maximum value.
 	 * 
 	 * @return oscillated value between min and max.
 	 */
@@ -657,13 +660,13 @@ public class GeometryUtils {
 	 * Oscillate value.
 	 * 
 	 * @param time time value.
-	 * @param min minimum value.
-	 * @param max maximum value.
+	 * @param min  minimum value.
+	 * @param max  maximum value.
 	 * 
 	 * @return oscillated value between min and max.
 	 */
 	public static double oscillateWithFixedTime(long time, float min, float max) {
 		return min + (Math.sin(Math.toRadians(time)) + 1) / 2 * (max - min);
 	}
-	
+
 }
