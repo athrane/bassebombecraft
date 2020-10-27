@@ -2418,7 +2418,7 @@ public class ModConfiguration {
 		 */
 		name = SkullProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:skullparticle", 1, 27, 0.2D, 0.0, 0.0, 1.0);
+		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:skullparticle", 1, 2*9, 0.2D, 0.0, 0.0, 1.0);
 		skullProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 1.0D, 0.01D, splParticles);
 		COMMON_BUILDER.pop();
 
