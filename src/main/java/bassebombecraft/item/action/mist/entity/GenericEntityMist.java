@@ -145,12 +145,11 @@ public class GenericEntityMist implements RightClickedItemAction {
 			if (!isActive())
 				return;
 
-			// render mist if frequency is active
-			FrequencyRepository repository = getProxy().getServerFrequencyRepository();
-			if (repository.isActive(PARTICLE_SPAWN_FREQUENCY))
-				render();
+			// render mist
+			render();
 
 			// update effect if frequency is active
+			FrequencyRepository repository = getProxy().getServerFrequencyRepository();			
 			if (repository.isActive(BLOCK_EFFECT_FREQUENCY))
 				applyEffect(worldIn, entity);
 

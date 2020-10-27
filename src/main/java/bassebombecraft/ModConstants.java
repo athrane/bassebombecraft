@@ -11,7 +11,6 @@ import static bassebombecraft.config.ModConfiguration.primedCreeperCannonProject
 
 import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
-import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
 import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
 import bassebombecraft.item.action.ShootBaconBazooka;
@@ -248,9 +247,8 @@ public class ModConstants {
 	public static final BuildMineBook BUILD_MINE_BOOK = new BuildMineBook();
 
 	/**
-	 * Particle spawn frequency in {@linkplain GenericCompositeProjectileEntity},
-	 * {@linkplain GenericBlockSpiralFillMist} and {@linkplain GenericEntityMist}.
-	 * Measured in world ticks.
+	 * Particle spawn frequency in {@linkplain GenericEntityMist}. Measured in world
+	 * ticks.
 	 */
 	@Deprecated
 	public static final int PARTICLE_SPAWN_FREQUENCY = 10;
