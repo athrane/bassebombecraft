@@ -101,7 +101,7 @@ public class ParticleRenderingEventHandler {
 		double d2 = calculateRandomSpeed(speed);
 
 		double x = particle.getPosition().getX() + 0.5D;
-		double y = particle.getPosition().getY() + 1;
+		double y = particle.getPosition().getY() + 1.0D;
 		double z = particle.getPosition().getZ() + 0.5D;
 
 		// add particle
@@ -139,7 +139,7 @@ public class ParticleRenderingEventHandler {
 		float b = particle.getBlueColorComponent(random);
 
 		double x = particle.getPosition().getX() + 0.5D;
-		double y = particle.getPosition().getY() + 1;
+		double y = particle.getPosition().getY() + 1.0D;
 		double z = particle.getPosition().getZ() + 0.5D;
 
 		// add particle
