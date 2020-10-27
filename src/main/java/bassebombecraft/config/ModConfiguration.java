@@ -1227,7 +1227,7 @@ public class ModConfiguration {
 		// CopyPasteBlocks
 		name = CopyPasteBlocks.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		copyPasteBlocksParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 5, -10, 0.3, 1.0, 1.0, 1.0);
+		copyPasteBlocksParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 2, -10, 0.3, 1.0, 1.0, 1.0);
 		COMMON_BUILDER.pop();
 
 		// AddLevitationEffect
