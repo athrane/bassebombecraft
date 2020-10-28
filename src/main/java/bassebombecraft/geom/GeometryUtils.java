@@ -8,6 +8,10 @@ import static bassebombecraft.block.BlockUtils.getBlockFromPosition;
 import static bassebombecraft.block.BlockUtils.getBlockStateFromPosition;
 import static bassebombecraft.block.BlockUtils.rotateBlockStateWithFacingProperty;
 import static bassebombecraft.geom.BlockDirective.getInstance;
+import static bassebombecraft.player.PlayerDirection.East;
+import static bassebombecraft.player.PlayerDirection.North;
+import static bassebombecraft.player.PlayerDirection.South;
+import static bassebombecraft.player.PlayerDirection.West;
 import static bassebombecraft.player.PlayerUtils.getPlayerDirection;
 import static net.minecraft.block.Blocks.ALLIUM;
 import static net.minecraft.block.Blocks.AZURE_BLUET;
@@ -38,6 +42,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -370,6 +375,28 @@ public class GeometryUtils {
 		}
 	}
 
+	/**
+	 * Convert {@linkplain Direction} to {@linkplain PlayerDirection}.
+	 * 
+	 * @param direction direction value
+	 * 
+	 * @return player direction value.
+	 */
+	public static PlayerDirection convertToPlayerDirection(Direction direction) {
+		switch (direction) {
+		case EAST:
+			return East;
+		case WEST:
+			return West;
+		case NORTH:
+			return North;
+		case SOUTH:
+			return South;
+		default:
+			return East;
+		}
+	}
+	
 	/**
 	 * Calculate y offset from block.
 	 * 

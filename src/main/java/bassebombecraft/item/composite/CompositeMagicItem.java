@@ -14,7 +14,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.config.ItemConfig;
 import bassebombecraft.inventory.container.CompositeMagicItemCapabilityProvider;
 import bassebombecraft.inventory.container.CompositeMagicItemContainerProvider;
