@@ -135,7 +135,6 @@ public class CompositeMagicItem extends Item {
 
 		// post analytics
 		String compositeName = createCompositeName(inventory);
-		BassebombeCraft.getBassebombeCraft().getLogger().debug("compositeName="+compositeName);		
 		getProxy().postItemUsage(compositeName, player.getGameProfile().getName());
 
 		// get operators
