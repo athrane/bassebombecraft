@@ -129,6 +129,7 @@ import bassebombecraft.item.composite.projectile.modifier.BounceProjectileModifi
 import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.DigProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.EmitHorizontalForceProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.EmitVerticalForceProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeMobWhenKilledProjectileModifierItem;
@@ -182,6 +183,7 @@ import bassebombecraft.operator.entity.Explode2;
 import bassebombecraft.operator.entity.Respawn;
 import bassebombecraft.operator.entity.SpawnKillerBee;
 import bassebombecraft.operator.entity.SpawnWarPig2;
+import bassebombecraft.operator.entity.raytraceresult.Dig2;
 import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
 import bassebombecraft.operator.entity.raytraceresult.EmitHorizontalForce2;
 import bassebombecraft.operator.entity.raytraceresult.EmitVerticalForce2;
@@ -478,6 +480,7 @@ public class ModConfiguration {
 	public static ItemConfig explodeMobWhenKilledProjectileModifierItem;
 	public static ItemConfig explodeOnImpactProjectileModifierItem;
 	public static ItemConfig digMobHoleProjectileModifierItem;
+	public static ItemConfig digProjectileModifierItem;	
 	public static ItemConfig spawnCobwebProjectileModifierItem;
 	public static ItemConfig spawnIceBlockProjectileModifierItem;
 	public static ItemConfig spawnLavaBlockProjectileModifierItem;	
@@ -615,6 +618,11 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue digMobHoleNoHitHoleWidth;
 	public static ForgeConfigSpec.IntValue digMobHoleHeightExpansion;
 
+	/**
+	 * Properties for {@linkplain Dig2} operator.
+	 */
+	public static ForgeConfigSpec.IntValue digHoleSize;
+	
 	/**
 	 * Properties for {@linkplain SpawnCobweb2} operator.
 	 */
@@ -1064,6 +1072,15 @@ public class ModConfiguration {
 				.defineInRange("heightExpansion", 1, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the the {@linkplain DigMobHole2} operator.
+		 */
+		name = Dig2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		digHoleSize = COMMON_BUILDER.comment("hole size (X/Y/Z) in blocks.")
+				.defineInRange("HoleSize", 2, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+		
 		/**
 		 * Configuration for the the {@linkplain SpawnCobweb2} operator.
 		 */
@@ -2278,6 +2295,16 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
+		 * Configuration for the {@linkplain DigProjectileModifierItem} item.
+		 */
+		name = DigProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		digProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. If a block is then a some blocks will be excavated.",
+				25);
+		COMMON_BUILDER.pop();
+				
+		/**
 		 * Configuration for the {@linkplain SpawnCobwebProjectileModifierItem} item.
 		 */
 		name = SpawnCobwebProjectileModifierItem.NAME;
@@ -2399,7 +2426,7 @@ public class ModConfiguration {
 		 */
 		name = LightningProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:lightningparticle", 1, 25, 0.2D, 0.0, 0.0,
+		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:lightningparticle", 1, 9, 0.2D, 0.0, 0.0,
 				1.0);
 		lightningProjectileEntity = getInstance(COMMON_BUILDER, name, 10.0D, 4.0D, 10.0D, 0.003D, splParticles);
 		COMMON_BUILDER.pop();
@@ -2409,7 +2436,7 @@ public class ModConfiguration {
 		 */
 		name = CircleProjectileEntity.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:circleparticle", 1, 27, 0.2D, 0.0, 0.0, 1.0);
+		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:circleparticle", 1, 6, 0.2D, 0.0, 0.0, 1.0);
 		circleProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 1.0D, 0.004D, splParticles);
 		COMMON_BUILDER.pop();
 

@@ -301,8 +301,8 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 			BlockPos pos = ((BlockRayTraceResult) result).getPos();
 		}
 
-		// TODO: this must be made condition to support drilling projectiles
-		// remove particle from server world
+		// Digging is handled by ProjectileModifierEventHandler. Which cancels then the
+		// projectile impact event and exits this method prior to this point.
 		this.remove();
 	}
 

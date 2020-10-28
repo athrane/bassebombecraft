@@ -1,24 +1,19 @@
 package bassebombecraft.operator.entity.raytraceresult;
 
+import static bassebombecraft.config.ModConfiguration.*;
+
+
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.block.BlockUtils.calculatePosition;
-import static bassebombecraft.config.ModConfiguration.digMobHoleHeightExpansion;
-import static bassebombecraft.config.ModConfiguration.digMobHoleNoHitHoleDepth;
-import static bassebombecraft.config.ModConfiguration.digMobHoleNoHitHoleHeight;
-import static bassebombecraft.config.ModConfiguration.digMobHoleNoHitHoleWidth;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isBlockHit;
-import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isNothingHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
-import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
-import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
 import static bassebombecraft.operator.DefaultPorts.getFnWorld1;
 import static bassebombecraft.player.PlayerDirection.South;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
-import static net.minecraft.block.Blocks.AIR;
 
 import java.util.List;
 import java.util.function.Function;
@@ -28,26 +23,21 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.structure.CompositeStructure;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain Operator2} interface which spawns a hole
- * the size of the entity hit box beneath the hit mob.
- * 
- * If a block is hit then a small hole is created where the projectile hit.
+ * Implementation of the {@linkplain Operator2} interface which dig blocks when
+ * projectile hits a block.
  */
-public class DigMobHole2 implements Operator2 {
+public class Dig2 implements Operator2 {
 
 	/**
 	 * Operator identifier.
 	 */
-	public static final String NAME = DigMobHole2.class.getSimpleName();
+	public static final String NAME = Dig2.class.getSimpleName();
 
 	/**
 	 * Function to get ray trace result.
@@ -65,7 +55,7 @@ public class DigMobHole2 implements Operator2 {
 	 * @param splRayTraceResult function to get ray trace result.
 	 * @param fnGetWorld        function to get world.
 	 */
-	public DigMobHole2(Function<Ports, RayTraceResult> fnGetRayTraceResult, Function<Ports, World> fnGetWorld) {
+	public Dig2(Function<Ports, RayTraceResult> fnGetRayTraceResult, Function<Ports, World> fnGetWorld) {
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 		this.fnGetWorld = fnGetWorld;
 	}
@@ -77,7 +67,7 @@ public class DigMobHole2 implements Operator2 {
 	 * 
 	 * Instance is configured with world #1 from ports.
 	 */
-	public DigMobHole2() {
+	public Dig2() {
 		this(getFnGetRayTraceResult1(), getFnWorld1());
 	}
 
@@ -98,27 +88,7 @@ public class DigMobHole2 implements Operator2 {
 		if (isNothingHit(result))
 			return ports;
 
-		// teleport to hit entity
-		if (isEntityHit(result)) {
-
-			// exit if result isn't entity ray trace result
-			if (!isTypeEntityRayTraceResult(result))
-				return ports;
-
-			// get entity
-			Entity entity = ((EntityRayTraceResult) result).getEntity();
-
-			// get entity aabb and convert it into air blocks
-			int holeHeightExpansion = digMobHoleHeightExpansion.get();
-			AxisAlignedBB aabb = entity.getBoundingBox();
-			BlockPos min = new BlockPos(aabb.minX, aabb.minY - holeHeightExpansion, aabb.minZ);
-			BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
-			BlockPos.getAllInBox(min, max).forEach(pos -> registerBlockToDig(aabb, pos, world));
-
-			return ports;
-		}
-
-		// teleport to hit block
+		// dig if block is hit
 		if (isBlockHit(result)) {
 
 			// exit if result isn't block ray trace result
@@ -131,7 +101,7 @@ public class DigMobHole2 implements Operator2 {
 			// calculate set of block directives
 			BlockPos offset = calculatePosition(blockResult);
 			CompositeStructure composite = new CompositeStructure();
-			createVerticalStructure(composite);
+			createExcavatedStructure(composite);
 			List<BlockDirective> directives = calculateBlockDirectives(offset, South, composite, DONT_HARVEST, world);
 
 			// add directives
@@ -143,31 +113,14 @@ public class DigMobHole2 implements Operator2 {
 	}
 
 	/**
-	 * Register block for processed to generate air block.
-	 * 
-	 * @param aabb  AABB
-	 * @param pos   block position to process.
-	 * @param world world where directive should be processed.
-	 */
-	void registerBlockToDig(AxisAlignedBB aabb, BlockPos pos, World world) {
-		double translateY = aabb.maxY - aabb.minY;
-		BlockPos tranlatedPos = pos.add(0, -translateY, 0);
-		BlockDirective directive = getInstance(tranlatedPos, AIR, DONT_HARVEST, world);
-		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
-		repository.add(directive);
-	}
-
-	/**
-	 * Add created vertical structure to composite.
+	 * Add excavated structure to composite.
 	 * 
 	 * @param composite composite structure
 	 */
-	void createVerticalStructure(CompositeStructure composite) {
-		int noHitHoleDepth = digMobHoleNoHitHoleDepth.get();
-		int noHitholeHeight = digMobHoleNoHitHoleHeight.get();
-		int noHitholeWidth = digMobHoleNoHitHoleWidth.get();
-		BlockPos offset = new BlockPos(0, -noHitHoleDepth, 0);
-		BlockPos size = new BlockPos(noHitholeWidth, noHitholeHeight, noHitHoleDepth);
+	void createExcavatedStructure(CompositeStructure composite) {
+		int holeSize = digHoleSize.get();
+		BlockPos offset = new BlockPos(0, 0, 0);
+		BlockPos size = new BlockPos(holeSize , holeSize , holeSize);
 		composite.add(createAirStructure(offset, size));
 	}
 

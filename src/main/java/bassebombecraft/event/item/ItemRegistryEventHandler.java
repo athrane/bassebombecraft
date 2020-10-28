@@ -82,6 +82,7 @@ import bassebombecraft.item.composite.projectile.modifier.BounceProjectileModifi
 import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.DigProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.EmitHorizontalForceProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.EmitVerticalForceProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeMobWhenKilledProjectileModifierItem;
@@ -204,11 +205,11 @@ public class ItemRegistryEventHandler {
 			new TeleportMobProjectileModifierItem(), new CharmProjectileModifierItem(),
 			new MeteorProjectileModifierItem(), new DecoyProjectileModifierItem(),
 			new ExplodeMobWhenKilledProjectileModifierItem(), new DigMobHoleProjectileModifierItem(),
-			new ExplodeOnImpactProjectileModifierItem(), new SpawnCobwebProjectileModifierItem(),
-			new SpawnIceBlockProjectileModifierItem(), new SpawnLavaBlockProjectileModifierItem(),
-			new SpawnAnvilProjectileModifierItem(), new ReceiveAggroProjectileModifierItem(),
-			new BounceProjectileModifierItem(), new EmitHorizontalForceProjectileModifierItem(),
-			new EmitVerticalForceProjectileModifierItem() };
+			new DigProjectileModifierItem(), new ExplodeOnImpactProjectileModifierItem(),
+			new SpawnCobwebProjectileModifierItem(), new SpawnIceBlockProjectileModifierItem(),
+			new SpawnLavaBlockProjectileModifierItem(), new SpawnAnvilProjectileModifierItem(),
+			new ReceiveAggroProjectileModifierItem(), new BounceProjectileModifierItem(),
+			new EmitHorizontalForceProjectileModifierItem(), new EmitVerticalForceProjectileModifierItem() };
 
 	/**
 	 * Handle {@linkplain RegistryEvent.Register<Item>} event to register items with

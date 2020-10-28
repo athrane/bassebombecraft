@@ -28,6 +28,7 @@ import bassebombecraft.operator.entity.potion.effect.AddEffect2;
 import bassebombecraft.operator.entity.raytraceresult.Bounce2;
 import bassebombecraft.operator.entity.raytraceresult.Charm2;
 import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
+import bassebombecraft.operator.entity.raytraceresult.Dig2;
 import bassebombecraft.operator.entity.raytraceresult.EmitHorizontalForce2;
 import bassebombecraft.operator.entity.raytraceresult.EmitVerticalForce2;
 import bassebombecraft.operator.entity.raytraceresult.ExplodeOnImpact2;
@@ -143,6 +144,11 @@ public class ProjectileModifierEventHandler {
 	static final Operator2 DIGMOBHOLE_OPERATOR = new DigMobHole2();
 
 	/**
+	 * Dig operator.
+	 */
+	static final Operator2 DIG_OPERATOR = new Dig2();
+	
+	/**
 	 * Spawn cobweb operator.
 	 */
 	static final Operator2 COBWEB_OPERATOR = new SpawnCobweb2();
@@ -223,7 +229,7 @@ public class ProjectileModifierEventHandler {
 			// exit if no tags is defined
 			if (tags.isEmpty())
 				return;
-
+			
 			// handle: teleport invoker
 			if (tags.contains(TeleportInvoker2.NAME))
 				teleportInvoker(event);
@@ -248,6 +254,10 @@ public class ProjectileModifierEventHandler {
 			if (tags.contains(DigMobHole2.NAME))
 				digMobHole(event);
 
+			// handle: drill
+			if (tags.contains(Dig2.NAME))
+				drill(event);
+			
 			// handle: spawn cobweb
 			if (tags.contains(SpawnCobweb2.NAME))
 				spawnCobweb(event);
@@ -418,6 +428,22 @@ public class ProjectileModifierEventHandler {
 		run(ports, DIGMOBHOLE_OPERATOR);
 	}
 
+	/**
+	 * Execute drill operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void drill(ProjectileImpactEvent event) {
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setWorld(event.getEntity().getEntityWorld());
+		run(ports, DIG_OPERATOR);
+		
+		
+		// cancel event to avoid removal of projectile when drilling
+		event.setCanceled(true);		
+	}
+	
 	/**
 	 * Execute spawn cobweb operator.
 	 * 
