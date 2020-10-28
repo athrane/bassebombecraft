@@ -2070,7 +2070,7 @@ public class ModConfiguration {
 		name = EggProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		eggProjectileItem = getInstance(COMMON_BUILDER, name,
-				"A runic image of an egg. The egg can on very rare occasions contain several surprises. But most likely it is just an empty shell. It is slow and don't much damage on impact.",
+				"A runic image of an egg. The egg can on very rare occasions contain several surprises. But most likely it is just an empty shell.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2080,7 +2080,7 @@ public class ModConfiguration {
 		name = LlamaProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		llamaProjectileItem = getInstance(COMMON_BUILDER, name,
-				"A runic image of a llama , almost like something from a psychedelic shooter. It is quick but doesn't do much damage on impact.",
+				"A runic image of a llama , almost like something from a psychedelic shooter.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2090,7 +2090,7 @@ public class ModConfiguration {
 		name = LightningProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		lightningProjectileItem = getInstance(COMMON_BUILDER, name,
-				"A runic image of a lightning. It has medium speed and cause high damage on impact.", 25);
+				"A runic image of a lightning.", 25);
 		COMMON_BUILDER.pop();
 
 		/**

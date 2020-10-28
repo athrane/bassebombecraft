@@ -170,6 +170,12 @@
     "item.bassebombecraft.bounceprojectilemodifieritem": "Projectile Modifier: Bounce On Impact",                            
     "item.bassebombecraft.emithorizontalforceprojectilemodifieritem": "Projectile Modifier: Gust of Wind",                            
     "item.bassebombecraft.emitverticalforceprojectilemodifieritem": "Projectile Modifier: Updraft",                            
+
+	"_comment": "composite projectile properties",
+    "desc.bassebombecraft.projectile.damage" : "Damage: %d",
+    "desc.bassebombecraft.projectile.force" : "Force: %d",
+    "desc.bassebombecraft.projectile.gravity" : "Gravity: %d",
+    "desc.bassebombecraft.projectile.inaccuracy" : "Inaccuracy: %d",    
                 
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",

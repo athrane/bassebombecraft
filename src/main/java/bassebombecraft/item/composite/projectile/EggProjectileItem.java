@@ -1,15 +1,15 @@
 package bassebombecraft.item.composite.projectile;
 
+import static bassebombecraft.config.ModConfiguration.eggProjectileEntity;
 import static bassebombecraft.config.ModConfiguration.eggProjectileItem;
 
-import bassebombecraft.item.composite.GenericCompositeNullItem;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.projectile.ShootEggProjectile2;
 
 /**
  * Egg projectile item.
  */
-public class EggProjectileItem extends GenericCompositeNullItem {
+public class EggProjectileItem extends GenericCompositeNullProjectileItem {
 
 	/**
 	 * Item identifier.
@@ -20,7 +20,7 @@ public class EggProjectileItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public EggProjectileItem() {
-		super(NAME, eggProjectileItem);
+		super(NAME, eggProjectileItem, eggProjectileEntity);
 	}
 
 	@Override

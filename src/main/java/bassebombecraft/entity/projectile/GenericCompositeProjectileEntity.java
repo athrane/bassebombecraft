@@ -301,7 +301,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 			BlockPos pos = ((BlockRayTraceResult) result).getPos();
 		}
 
-		// Digging is handled by ProjectileModifierEventHandler. Which cancels then the
+		// Digging is handled by ProjectileModifierEventHandler. Which cancels the
 		// projectile impact event and exits this method prior to this point.
 		this.remove();
 	}
