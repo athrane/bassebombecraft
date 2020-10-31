@@ -89,6 +89,7 @@ import bassebombecraft.item.composite.projectile.modifier.ExplodeMobWhenKilledPr
 import bassebombecraft.item.composite.projectile.modifier.ExplodeOnImpactProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ReceiveAggroProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.RespawnProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnAnvilProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnCobwebProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnIceBlockProjectileModifierItem;
@@ -209,7 +210,8 @@ public class ItemRegistryEventHandler {
 			new SpawnCobwebProjectileModifierItem(), new SpawnIceBlockProjectileModifierItem(),
 			new SpawnLavaBlockProjectileModifierItem(), new SpawnAnvilProjectileModifierItem(),
 			new ReceiveAggroProjectileModifierItem(), new BounceProjectileModifierItem(),
-			new EmitHorizontalForceProjectileModifierItem(), new EmitVerticalForceProjectileModifierItem() };
+			new EmitHorizontalForceProjectileModifierItem(), new EmitVerticalForceProjectileModifierItem(),
+			new RespawnProjectileModifierItem()};
 
 	/**
 	 * Handle {@linkplain RegistryEvent.Register<Item>} event to register items with

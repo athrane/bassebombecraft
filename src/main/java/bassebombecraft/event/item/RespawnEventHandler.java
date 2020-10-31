@@ -30,6 +30,7 @@ public class RespawnEventHandler {
 	 */
 	static Operators ops;
 
+	
 	static {
 		ops = new Operators();
 		Operator respawnOp = new Respawn(ops.getSplLivingEntity());

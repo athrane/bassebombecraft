@@ -23,12 +23,13 @@ import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.conditional.IsLivingEntityHitInRaytraceResult2;
 import bassebombecraft.operator.entity.Explode2;
+import bassebombecraft.operator.entity.Respawn2;
 import bassebombecraft.operator.entity.ShootMeteor2;
 import bassebombecraft.operator.entity.potion.effect.AddEffect2;
 import bassebombecraft.operator.entity.raytraceresult.Bounce2;
 import bassebombecraft.operator.entity.raytraceresult.Charm2;
-import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
 import bassebombecraft.operator.entity.raytraceresult.Dig2;
+import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
 import bassebombecraft.operator.entity.raytraceresult.EmitHorizontalForce2;
 import bassebombecraft.operator.entity.raytraceresult.EmitVerticalForce2;
 import bassebombecraft.operator.entity.raytraceresult.ExplodeOnImpact2;
@@ -129,9 +130,15 @@ public class ProjectileModifierEventHandler {
 	static final Operator2 DECOY_OPERATOR = splDecoyOp.get();
 
 	/**
-	 * Explode operator.
+	 * Explode when killed operator.
 	 */
-	static final Operator2 EXPLODE_OPERATOR = new Explode2();
+	static final Operator2 EXPLODE_WHEN_KILLED_OPERATOR = new Explode2();
+
+	/**
+	 * Respawn when killed operator.
+	 * 
+	 */
+	static final Operator2 RESPAWN_WHEN_KILLED_OPERATOR = new Respawn2();
 
 	/**
 	 * Explode on impact operator.
@@ -147,7 +154,7 @@ public class ProjectileModifierEventHandler {
 	 * Dig operator.
 	 */
 	static final Operator2 DIG_OPERATOR = new Dig2();
-	
+
 	/**
 	 * Spawn cobweb operator.
 	 */
@@ -162,7 +169,7 @@ public class ProjectileModifierEventHandler {
 	 * Spawn lava block operator.
 	 */
 	static final Operator2 LAVABLOCK_OPERATOR = new SpawnLavaBlock2();
-	
+
 	/**
 	 * Spawn anvil operator.
 	 */
@@ -211,7 +218,7 @@ public class ProjectileModifierEventHandler {
 	 * Emit vertical force operator.
 	 */
 	static final Operator2 VERTICAL_FORCE_OPERATOR = new EmitVerticalForce2();
-	
+
 	@SubscribeEvent
 	static public void handleProjectileImpactEvent(ProjectileImpactEvent event) {
 		try {
@@ -229,7 +236,7 @@ public class ProjectileModifierEventHandler {
 			// exit if no tags is defined
 			if (tags.isEmpty())
 				return;
-			
+
 			// handle: teleport invoker
 			if (tags.contains(TeleportInvoker2.NAME))
 				teleportInvoker(event);
@@ -257,19 +264,19 @@ public class ProjectileModifierEventHandler {
 			// handle: drill
 			if (tags.contains(Dig2.NAME))
 				drill(event);
-			
+
 			// handle: spawn cobweb
 			if (tags.contains(SpawnCobweb2.NAME))
 				spawnCobweb(event);
 
-			// handle: spawn ice block 
+			// handle: spawn ice block
 			if (tags.contains(SpawnIceBlock2.NAME))
 				spawnIceBlock(event);
 
-			// handle: spawn lava block 
+			// handle: spawn lava block
 			if (tags.contains(SpawnLavaBlock2.NAME))
 				spawnLavaBlock(event);
-			
+
 			// handle: spawn anvil
 			if (tags.contains(SpawnAnvil2.NAME))
 				spawnAnvil(event);
@@ -281,7 +288,7 @@ public class ProjectileModifierEventHandler {
 			// handle: emit vertical force
 			if (tags.contains(EmitVerticalForce2.NAME))
 				emitVerticalForce(event);
-			
+
 			// handle: explode on impact
 			if (tags.contains(Explode2.NAME))
 				explodeOnImpact(event);
@@ -293,7 +300,7 @@ public class ProjectileModifierEventHandler {
 			// handle: bounce projectile
 			if (tags.contains(Bounce2.NAME))
 				bounceOnImpact(event);
-			
+
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
@@ -327,6 +334,10 @@ public class ProjectileModifierEventHandler {
 			// handle: explode when killed
 			if (tags.contains(Explode2.NAME))
 				explodeMobWhenKilled(event);
+
+			// handle: respawn when killed
+			if (tags.contains(Respawn2.NAME))
+				respawnWhenKilled(event);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -438,12 +449,11 @@ public class ProjectileModifierEventHandler {
 		ports.setRayTraceResult1(event.getRayTraceResult());
 		ports.setWorld(event.getEntity().getEntityWorld());
 		run(ports, DIG_OPERATOR);
-		
-		
+
 		// cancel event to avoid removal of projectile when drilling
-		event.setCanceled(true);		
+		event.setCanceled(true);
 	}
-	
+
 	/**
 	 * Execute spawn cobweb operator.
 	 * 
@@ -479,7 +489,7 @@ public class ProjectileModifierEventHandler {
 		ports.setWorld(event.getEntity().getEntityWorld());
 		run(ports, LAVABLOCK_OPERATOR);
 	}
-	
+
 	/**
 	 * Execute spawn anvil operator.
 	 * 
@@ -501,7 +511,7 @@ public class ProjectileModifierEventHandler {
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
 		ports.setEntity1(event.getEntity());
-		run(ports, HORIZONTAL_FORCE_OPERATOR );
+		run(ports, HORIZONTAL_FORCE_OPERATOR);
 	}
 
 	/**
@@ -512,18 +522,7 @@ public class ProjectileModifierEventHandler {
 	static void emitVerticalForce(ProjectileImpactEvent event) {
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-		run(ports, VERTICAL_FORCE_OPERATOR );
-	}
-	
-	/**
-	 * Execute explode operator.
-	 * 
-	 * @param event living death event.
-	 */
-	static void explodeMobWhenKilled(LivingDeathEvent event) {
-		Ports ports = getInstance();
-		ports.setEntity1(event.getEntity());
-		run(ports, EXPLODE_OPERATOR);
+		run(ports, VERTICAL_FORCE_OPERATOR);
 	}
 
 	/**
@@ -557,11 +556,33 @@ public class ProjectileModifierEventHandler {
 	static void bounceOnImpact(ProjectileImpactEvent event) {
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-		ports.setEntity1(event.getEntity());		
+		ports.setEntity1(event.getEntity());
 		run(ports, BOUNCE_ON_IMPACT_OPERATOR);
 
 		// cancel event to avoid removal of projectile
 		event.setCanceled(true);
 	}
-	
+
+	/**
+	 * Execute explode when killed operator.
+	 * 
+	 * @param event living death event.
+	 */
+	static void explodeMobWhenKilled(LivingDeathEvent event) {
+		Ports ports = getInstance();
+		ports.setEntity1(event.getEntity());
+		run(ports, EXPLODE_WHEN_KILLED_OPERATOR);
+	}
+
+	/**
+	 * Execute respawn when killed operator.
+	 * 
+	 * @param event living death event.
+	 */
+	static void respawnWhenKilled(LivingDeathEvent event) {
+		Ports ports = getInstance();
+		ports.setEntity1(event.getEntity());
+		run(ports, RESPAWN_WHEN_KILLED_OPERATOR);
+	}
+
 }
