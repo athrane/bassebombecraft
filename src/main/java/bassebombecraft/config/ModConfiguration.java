@@ -691,7 +691,7 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue receiveAggroEffectAmplifier;
 
 	/**
-	 * Properties for {@linkplain Respawn} operator.
+	 * Properties for {@linkplain Respawn2} operator.
 	 */
 	public static ForgeConfigSpec.IntValue respawnMinEntities;
 	public static ForgeConfigSpec.IntValue respawnMaxEntities;

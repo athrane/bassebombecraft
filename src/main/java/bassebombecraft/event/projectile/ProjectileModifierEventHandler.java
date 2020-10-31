@@ -581,7 +581,7 @@ public class ProjectileModifierEventHandler {
 	 */
 	static void respawnWhenKilled(LivingDeathEvent event) {
 		Ports ports = getInstance();
-		ports.setEntity1(event.getEntity());
+		ports.setLivingEntity1(event.getEntityLiving());
 		run(ports, RESPAWN_WHEN_KILLED_OPERATOR);
 	}
 

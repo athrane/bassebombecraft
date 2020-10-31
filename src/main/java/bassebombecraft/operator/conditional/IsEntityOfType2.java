@@ -1,10 +1,10 @@
 package bassebombecraft.operator.conditional;
 
 import static bassebombecraft.entity.EntityUtils.isType;
+import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 
 import java.util.function.Function;
 
-import bassebombecraft.operator.DefaultPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.LivingEntity;
@@ -44,7 +44,7 @@ public class IsEntityOfType2 implements Operator2 {
 	 * @param type type to test for.
 	 */
 	public IsEntityOfType2(Class<?> type) {
-		this(DefaultPorts.getFnGetLivingEntity1(), type);
+		this(getFnGetLivingEntity1(), type);
 	}
 
 	@Override

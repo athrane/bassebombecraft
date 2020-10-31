@@ -10,7 +10,7 @@ import static bassebombecraft.entity.EntityUtils.calculateRandomYaw;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.entity.EntityUtils.setAttribute;
 import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
-import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
+import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 
 import java.util.Random;
 import java.util.function.Function;
@@ -45,14 +45,14 @@ public class Respawn2 implements Operator2 {
 	/**
 	 * Function to get dead entity.
 	 */
-	Function<Ports, Entity> fnGetDeadEntity;
+	Function<Ports, LivingEntity> fnGetDeadEntity;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param fnGetDeadEntity function to get dead entity.
+	 * @param fnGetDeadEntity function to get dead living entity.
 	 */
-	public Respawn2(Function<Ports, Entity> fnGetDeadEntity) {
+	public Respawn2(Function<Ports, LivingEntity> fnGetDeadEntity) {
 		this.fnGetDeadEntity = fnGetDeadEntity;
 	}
 
@@ -62,15 +62,14 @@ public class Respawn2 implements Operator2 {
 	 * Instance is configured with living entity #1 as dead entity from ports.
 	 */
 	public Respawn2() {
-		this(getFnGetEntity1());
+		this(getFnGetLivingEntity1());
 	}
 
 	@Override
 	public Ports run(Ports ports) {
 
-		// get entitiy
-		Entity deadEntity = fnGetDeadEntity.apply(ports);
-
+		// get entity
+		LivingEntity deadEntity = fnGetDeadEntity.apply(ports);
 		if (deadEntity == null)
 			return ports;
 
@@ -87,7 +86,7 @@ public class Respawn2 implements Operator2 {
 	 * 
 	 * @param deadEntity dead entity to spawn from.
 	 */
-	static void spawnEntity(Entity deadEntity) {
+	void spawnEntity(LivingEntity deadEntity) {
 
 		// get world
 		World world = deadEntity.getEntityWorld();
@@ -119,7 +118,7 @@ public class Respawn2 implements Operator2 {
 	 * 
 	 * @return potion effect
 	 */
-	static EffectInstance createEffect() {
+	EffectInstance createEffect() {
 		return new EffectInstance(AGGRO_PLAYER_EFFECT, Integer.MAX_VALUE);
 	}
 
