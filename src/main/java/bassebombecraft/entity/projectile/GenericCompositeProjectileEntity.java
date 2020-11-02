@@ -2,7 +2,7 @@ package bassebombecraft.entity.projectile;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
 import static bassebombecraft.config.ModConfiguration.genericProjectileEntityProjectileDuration;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
@@ -146,11 +146,6 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	ProjectileEntityConfig projectileConfig;
 
 	/**
-	 * Particle info for rendering.
-	 */
-	ParticleRenderingInfo[] infos;
-
-	/**
 	 * Client side projectile generator operator.
 	 */
 	Operator2 addParticlesOp;
@@ -165,8 +160,8 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	public GenericCompositeProjectileEntity(EntityType<?> type, World world, ProjectileEntityConfig config) {
 		super(type, world);
 		projectileConfig = config;
-		infos = createFromConfig(projectileConfig.particles);
-		addParticlesOp = new AddParticlesFromPosAtClient2(infos);
+		ParticleRenderingInfo info = createInfoFromConfig(projectileConfig.particles);
+		addParticlesOp = new AddParticlesFromPosAtClient2(info);
 		duration = genericProjectileEntityProjectileDuration.get();
 		projectileModifierPorts = getInstance();
 		addParticlesPorts = getInstance();

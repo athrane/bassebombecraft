@@ -28,7 +28,7 @@ public class ConfigUtils {
 	 */
 	@Deprecated
 	public static ParticleRenderingInfo[] createFromConfig(ParticlesConfig config) {
-		ParticleRenderingInfo info = createFromConfig2(config);
+		ParticleRenderingInfo info = createInfoFromConfig(config);
 		return new ParticleRenderingInfo[] { info };
 	}
 
@@ -38,9 +38,9 @@ public class ConfigUtils {
 	 * 
 	 * @param key configuration key to read configuration from.
 	 * 
-	 * @return array with single {@linkplain ParticleRenderingInfo}.
+	 * @return single {@linkplain ParticleRenderingInfo}.
 	 */
-	public static ParticleRenderingInfo createFromConfig2(ParticlesConfig config) {
+	public static ParticleRenderingInfo createInfoFromConfig(ParticlesConfig config) {
 		ParticleType<?> particleType = resolveParticleType(config);
 		BasicParticleType castParticleType = (BasicParticleType) particleType;
 		int number = config.number.get();
@@ -68,7 +68,13 @@ public class ConfigUtils {
 
 		// resolve vanilla particle
 		ResourceLocation key2 = new ResourceLocation(name.toLowerCase());
-		return ForgeRegistries.PARTICLE_TYPES.getValue(key2);
+		ParticleType<?> retval = ForgeRegistries.PARTICLE_TYPES.getValue(key2);
+
+		// throw exception if particle is unknown.
+		if (retval == null)
+			throw new RuntimeException("Failed to initialize particle from configuration value : " + name);
+		
+		return retval;
 	}
 
 	/**
