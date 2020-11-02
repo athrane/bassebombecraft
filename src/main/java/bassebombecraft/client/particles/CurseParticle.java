@@ -13,33 +13,33 @@ import net.minecraft.particles.BasicParticleType;
 import net.minecraft.world.World;
 
 /**
- * Skull particle.
+ * Curse particle.
  * 
  * Supports animation based on age.
  * 
- * The set of animation frames are defined in the the .json file.
+ * The set of animation frame is defined in the the .json file.
  */
-public class SkullParticle extends SpriteTexturedParticle {
+public class CurseParticle extends SpriteTexturedParticle {
 
 	/**
 	 * Particle identifier.
 	 */
-	public static final String NAME = SkullParticle.class.getSimpleName();
+	public static final String NAME = CurseParticle.class.getSimpleName();
 
 	/**
 	 * ¨ Sprite set.
 	 */
 	IAnimatedSprite spriteSet;;
 
-	protected SkullParticle(World worldIn, double posXIn, double posYIn, double posZIn) {
+	protected CurseParticle(World worldIn, double posXIn, double posYIn, double posZIn) {
 		super(worldIn, posXIn, posYIn, posZIn);
 	}
 
-	protected SkullParticle(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn,
+	protected CurseParticle(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn,
 			double ySpeedIn, double zSpeedIn, IAnimatedSprite spriteSet) {
 		super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
 		this.spriteSet = spriteSet;
-		
+
 		// get random
 		Random random = getBassebombeCraft().getRandom();
 
@@ -85,7 +85,7 @@ public class SkullParticle extends SpriteTexturedParticle {
 		@Override
 		public Particle makeParticle(BasicParticleType typeIn, World world, double x, double y, double z, double xSpeed,
 				double ySpeed, double zSpeed) {
-			SkullParticle particle = new SkullParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
+			CurseParticle particle = new CurseParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
 			particle.setColor(1.0f, 1.0f, 1.0f);
 			particle.selectSpriteWithAge(spriteSet);
 			return particle;

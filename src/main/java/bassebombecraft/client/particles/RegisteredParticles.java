@@ -55,4 +55,16 @@ public class RegisteredParticles {
 	public static final RegistryObject<BasicParticleType> BLOCK_PARTICLE = PARTICLE_REGISTRY
 			.register(BlockParticle.NAME.toLowerCase(), () -> new BasicParticleType(true));
 
+	/**
+	 * Registry object for {@linkplain PlayerAggroParticle}.
+	 */
+	public static final RegistryObject<BasicParticleType> PLAYER_AGGRO_PARTICLE = PARTICLE_REGISTRY
+			.register(PlayerAggroParticle.NAME.toLowerCase(), () -> new BasicParticleType(true));
+
+	/**
+	 * Registry object for {@linkplain CurseParticle}.
+	 */
+	public static final RegistryObject<BasicParticleType> CURSE_PARTICLE = PARTICLE_REGISTRY
+			.register(CurseParticle.NAME.toLowerCase(), () -> new BasicParticleType(true));
+	
 }

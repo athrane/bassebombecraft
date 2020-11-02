@@ -17,7 +17,7 @@ import net.minecraft.world.World;
  * 
  * Supports animation based on age.
  * 
- * The set of animation frame is defined in the the .json file.
+ * The set of animation frames are defined in the the .json file.
  */
 public class LightningParticle extends SpriteTexturedParticle {
 
