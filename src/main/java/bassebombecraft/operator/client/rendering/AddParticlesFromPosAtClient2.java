@@ -45,10 +45,10 @@ public class AddParticlesFromPosAtClient2 implements Operator2 {
 	/**
 	 * Constructor.
 	 * 
-	 * @param particles particle rendering infos.
+	 * Instance is configured with block position #1 as particle spawn position from
+	 * ports.
 	 * 
-	 *                  Instance is configured with block position #1 as particle
-	 *                  spawn position from ports.
+	 * @param particles particle rendering infos.
 	 */
 	public AddParticlesFromPosAtClient2(ParticleRenderingInfo[] infos) {
 		this(infos, getFnGetBlockPosition1());
