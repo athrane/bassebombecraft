@@ -26,7 +26,21 @@ public class ConfigUtils {
 	 * 
 	 * @return array with single {@linkplain ParticleRenderingInfo}.
 	 */
+	@Deprecated
 	public static ParticleRenderingInfo[] createFromConfig(ParticlesConfig config) {
+		ParticleRenderingInfo info = createFromConfig2(config);
+		return new ParticleRenderingInfo[] { info };
+	}
+
+	/**
+	 * Create {@linkplain ParticleRenderingInfo} from a {@linkplain ParticlesConfig}
+	 * object.
+	 * 
+	 * @param key configuration key to read configuration from.
+	 * 
+	 * @return array with single {@linkplain ParticleRenderingInfo}.
+	 */
+	public static ParticleRenderingInfo createFromConfig2(ParticlesConfig config) {
 		ParticleType<?> particleType = resolveParticleType(config);
 		BasicParticleType castParticleType = (BasicParticleType) particleType;
 		int number = config.number.get();
@@ -37,7 +51,7 @@ public class ConfigUtils {
 		double speed = config.speed.get();
 		ParticleRenderingInfo info = getInstance(castParticleType, number, duration, (float) colorR, (float) colorG,
 				(float) colorB, speed);
-		return new ParticleRenderingInfo[] { info };
+		return info;
 	}
 
 	/**

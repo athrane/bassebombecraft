@@ -33,10 +33,11 @@ public class AddParticlesFromPosAtClient2 implements Operator2 {
 	/**
 	 * Constructor.
 	 * 
-	 * @param particles  particle rendering infos.
+	 * @param infos particle rendering infos.
 	 * @param fnBlockPos function to get block position where particles should be
 	 *                   rendered.
 	 */
+	@Deprecated
 	public AddParticlesFromPosAtClient2(ParticleRenderingInfo[] infos, Function<Ports, BlockPos> fnBlockPos) {
 		this.infos = infos;
 		this.fnBlockPos = fnBlockPos;
@@ -45,15 +46,40 @@ public class AddParticlesFromPosAtClient2 implements Operator2 {
 	/**
 	 * Constructor.
 	 * 
+	 * @param info particle rendering info.
+	 * @param fnBlockPos function to get block position where particles should be
+	 *                   rendered.
+	 */
+	public AddParticlesFromPosAtClient2(ParticleRenderingInfo info, Function<Ports, BlockPos> fnBlockPos) {
+		this.infos = new ParticleRenderingInfo[] { info };
+		this.fnBlockPos = fnBlockPos;
+	}
+	
+	/**
+	 * Constructor.
+	 * 
 	 * Instance is configured with block position #1 as particle spawn position from
 	 * ports.
 	 * 
-	 * @param particles particle rendering infos.
+	 * @param infos  particle rendering infos.
 	 */
+	@Deprecated
 	public AddParticlesFromPosAtClient2(ParticleRenderingInfo[] infos) {
 		this(infos, getFnGetBlockPosition1());
 	}
 
+	/**
+	 * Constructor.
+	 * 
+	 * Instance is configured with block position #1 as particle spawn position from
+	 * ports.
+	 * 
+	 * @param info particle rendering info.
+	 */
+	public AddParticlesFromPosAtClient2(ParticleRenderingInfo info) {
+		this(info, getFnGetBlockPosition1());
+	}
+	
 	@Override
 	public Ports run(Ports ports) {
 
