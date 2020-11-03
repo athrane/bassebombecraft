@@ -2,15 +2,11 @@ package bassebombecraft.tab;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
-import java.util.Random;
-
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 
 /**
- * 
- * {@linkplain ItemGroup} implementation, which defines creative tab.
+ * Sub class of {@linkplain ItemGroup} which defines creative tab.
  */
 public class BassebombeItemGroup extends ItemGroup {
 
@@ -20,11 +16,7 @@ public class BassebombeItemGroup extends ItemGroup {
 
 	@Override
 	public ItemStack createIcon() {
-		Item[] items = getBassebombeCraft().getInventoryItems();
-		Random random = getBassebombeCraft().getRandom();
-		int index = random.nextInt(items.length);
-		Item item = items[index];
-		return new ItemStack(item);
+		return new ItemStack(getBassebombeCraft().getCreativeTabItem());
 	}
 
 }

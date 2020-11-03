@@ -4,6 +4,7 @@ import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.ModConstants.TAB_NAME;
 import static bassebombecraft.config.ModConfiguration.loadConfig;
 import static bassebombecraft.config.VersionUtils.validateVersion;
+import static bassebombecraft.item.RegisteredItems.*;
 import static bassebombecraft.tab.ItemGroupFactory.createItemGroup;
 import static java.util.Optional.ofNullable;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
@@ -21,7 +22,6 @@ import com.electronwill.nightconfig.core.UnmodifiableConfig;
 
 import bassebombecraft.client.proxy.ClientProxy;
 import bassebombecraft.config.ModConfiguration;
-import bassebombecraft.event.item.ItemRegistryEventHandler;
 import bassebombecraft.proxy.Proxy;
 import bassebombecraft.proxy.ServerProxy;
 import net.minecraft.entity.player.PlayerEntity;
@@ -164,12 +164,12 @@ public class BassebombeCraft {
 	}
 
 	/**
-	 * Get array of inventory items.
+	 * Get item for rendering as creative tab icon.
 	 * 
-	 * @return array of inventory items.
+	 * @return item for creative tab icon.
 	 */
-	public Item[] getInventoryItems() {
-		return ItemRegistryEventHandler.getInventoryItems();
+	public Item getCreativeTabItem() {
+		return COMPOSITE.get();
 	}
 
 	/**
