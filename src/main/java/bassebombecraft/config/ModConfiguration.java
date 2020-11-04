@@ -1992,11 +1992,11 @@ public class ModConfiguration {
 		 * Configuration for the {@linkplain RespawnIdolInventoryItem} item.
 		 */
 		name = RespawnIdolInventoryItem.ITEM_NAME;
-		splParticles = () -> getInstance(COMMON_BUILDER, "crit", 5, 20, 0.5, 0.9, 0.9, 0.9);
+		splParticles = () -> getInstance(COMMON_BUILDER, "bassebombecraft:curseparticle", 1, 20, 0.1, 0.9, 0.9, 0.9);
 		respawnIdolInventoryItem = getInstance(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will curse nearby mobs with a spectral curse. When a cursed mob dies any number of spectres will respawn.",
 				25, 5, splParticles);
-
+		
 		// RemoveBlockSpiralIdolInventoryItem
 		name = RemoveBlockSpiralIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1.0, 1.0, 0.4, 0.7);
