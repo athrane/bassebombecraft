@@ -4,7 +4,6 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.config.ModConfiguration.compositeMagicItem;
-import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static net.minecraft.util.Hand.MAIN_HAND;
@@ -100,7 +99,6 @@ public class CompositeMagicItem extends Item {
 	 */
 	public CompositeMagicItem(String name, ItemConfig config) {
 		super(new Item.Properties().group(getItemGroup()));
-		doCommonItemInitialization(this, name);
 
 		// get cooldown and tooltip
 		coolDown = config.cooldown.get();

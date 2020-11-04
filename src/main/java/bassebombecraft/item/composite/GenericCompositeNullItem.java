@@ -2,7 +2,6 @@ package bassebombecraft.item.composite;
 
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static net.minecraft.util.ActionResultType.SUCCESS;
 import static net.minecraft.util.text.TextFormatting.GREEN;
@@ -53,7 +52,6 @@ public abstract class GenericCompositeNullItem extends Item {
 	 */
 	public GenericCompositeNullItem(String name, ItemConfig config) {
 		super(new Item.Properties().group(getItemGroup()));
-		doCommonItemInitialization(this, name);
 
 		// get cooldown and tooltip
 		coolDown = config.cooldown.get();

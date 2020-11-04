@@ -4,7 +4,6 @@ import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
-import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
@@ -87,7 +86,6 @@ public class GenericInventoryItem extends Item {
 	 */
 	public GenericInventoryItem(String name, InventoryItemConfig config, InventoryItemActionStrategy strategy) {
 		super(new Item.Properties().group(getItemGroup()));
-		doCommonItemInitialization(this, name);
 		this.strategy = strategy;
 		coolDown = config.cooldown.get();
 		tooltip = config.tooltip.get();

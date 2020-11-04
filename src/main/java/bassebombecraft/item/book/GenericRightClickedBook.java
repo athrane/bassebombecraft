@@ -7,7 +7,6 @@ import static bassebombecraft.ModConstants.ITEM_BOOK_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 import static bassebombecraft.config.ConfigUtils.resolveTooltip;
-import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import java.util.List;
@@ -56,7 +55,7 @@ public class GenericRightClickedBook extends Item {
 	String tooltip;
 
 	/**
-	 * Generic book constructor.
+	 * Constructor.
 	 * 
 	 * @param name   item name.
 	 * @param config item configuration.
@@ -64,8 +63,6 @@ public class GenericRightClickedBook extends Item {
 	 */
 	public GenericRightClickedBook(String name, ItemConfig config, RightClickedItemAction action) {
 		super(new Item.Properties().group(getItemGroup()));
-		doCommonItemInitialization(this, name);
-
 		this.action = action;
 
 		// get cooldown and tooltip
@@ -74,7 +71,7 @@ public class GenericRightClickedBook extends Item {
 	}
 
 	/**
-	 * Generic book constructor.
+	 * Constructor.
 	 * 
 	 * @param name   item name.
 	 * @param action item action object which is invoked when item is right clicked.
@@ -82,8 +79,6 @@ public class GenericRightClickedBook extends Item {
 	@Deprecated
 	public GenericRightClickedBook(String name, RightClickedItemAction action) {
 		super(new Item.Properties().group(getItemGroup()));
-		doCommonItemInitialization(this, name);
-
 		this.action = action;
 
 		// get cooldown or default value
@@ -99,7 +94,7 @@ public class GenericRightClickedBook extends Item {
 
 	@Override
 	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		
+
 		// exit if invoked at client side
 		if (isLogicalClient(worldIn)) {
 			return super.onItemRightClick(worldIn, playerIn, handIn);
@@ -120,11 +115,11 @@ public class GenericRightClickedBook extends Item {
 
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		
+
 		// only update the action at server side since we updates the world
 		if (isLogicalClient(worldIn))
 			return;
-		
+
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 

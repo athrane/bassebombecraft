@@ -7,7 +7,6 @@ import static bassebombecraft.ModConstants.ITEM_BASICITEM_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 import static bassebombecraft.config.ConfigUtils.resolveTooltip;
-import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import java.util.List;
@@ -62,12 +61,10 @@ public class GenericNullItem extends Item {
 	 */
 	public GenericNullItem(String name, RightClickedItemAction action) {
 		super(new Item.Properties().group(getItemGroup()));
-		doCommonItemInitialization(this, name);
-
 		this.action = action;
 
 		// get cooldown or default value
-		String configPath = BASICITEMS_CONFIGPATH + name;		
+		String configPath = BASICITEMS_CONFIGPATH + name;
 		coolDown = resolveCoolDown(configPath, ITEM_BASICITEM_DEFAULT_COOLDOWN);
 		tooltip = resolveTooltip(configPath, ITEM_DEFAULT_TOOLTIP);
 	}
@@ -99,11 +96,11 @@ public class GenericNullItem extends Item {
 
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		
+
 		// only update the action at server side since we updates the world
 		if (isLogicalClient(worldIn))
 			return;
-		
+
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 

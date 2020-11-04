@@ -2,7 +2,6 @@ package bassebombecraft.item.book;
 
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
@@ -63,17 +62,15 @@ public class GenericRightClickedBook2 extends Item {
 	String tooltip;
 
 	/**
-	 * constructor.
+	 * Constructor.
 	 * 
-	 * @param name   item name.
-	 * @param config item configuration.
-	 * @param ports  ports used by operators.
-	 * @param operator     operator executed when item is right clicked.
+	 * @param name     item name.
+	 * @param config   item configuration.
+	 * @param ports    ports used by operators.
+	 * @param operator operator executed when item is right clicked.
 	 */
 	public GenericRightClickedBook2(String name, ItemConfig config, Ports ports, Operator2 operator) {
 		super(new Item.Properties().group(getItemGroup()));
-		doCommonItemInitialization(this, name);
-
 		this.ports = ports;
 		this.operator = operator;
 
