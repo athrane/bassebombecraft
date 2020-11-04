@@ -13,6 +13,6 @@ public class RainbownizeBook extends GenericRightClickedBook {
 	public static final String ITEM_NAME = RainbownizeBook.class.getSimpleName();
 
 	public RainbownizeBook() {
-		super(ITEM_NAME, rainbownizeBook, new GenericBlockSpiralFillMist(new RainbowSpiralMist()));
+		super(rainbownizeBook, new GenericBlockSpiralFillMist(new RainbowSpiralMist()));
 	}
 }

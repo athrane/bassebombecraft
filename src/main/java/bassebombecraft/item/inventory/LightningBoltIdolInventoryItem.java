@@ -12,6 +12,6 @@ public class LightningBoltIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = LightningBoltIdolInventoryItem.class.getSimpleName();
 
 	public LightningBoltIdolInventoryItem() {
-		super(ITEM_NAME, lightningBoltIdolInventoryItem, new SpawnLightningBolt());
+		super(lightningBoltIdolInventoryItem, new SpawnLightningBolt());
 	}
 }

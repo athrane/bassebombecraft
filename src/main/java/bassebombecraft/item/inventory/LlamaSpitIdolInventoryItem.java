@@ -12,6 +12,6 @@ public class LlamaSpitIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = LlamaSpitIdolInventoryItem.class.getSimpleName();
 
 	public LlamaSpitIdolInventoryItem() {
-		super(ITEM_NAME, llamaSpitIdolInventoryItem, new LlamaSpit());
+		super(llamaSpitIdolInventoryItem, new LlamaSpit());
 	}
 }

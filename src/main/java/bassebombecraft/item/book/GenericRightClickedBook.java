@@ -57,11 +57,10 @@ public class GenericRightClickedBook extends Item {
 	/**
 	 * Constructor.
 	 * 
-	 * @param name   item name.
 	 * @param config item configuration.
 	 * @param action item action object which is invoked when item is right clicked.
 	 */
-	public GenericRightClickedBook(String name, ItemConfig config, RightClickedItemAction action) {
+	public GenericRightClickedBook(ItemConfig config, RightClickedItemAction action) {
 		super(new Item.Properties().group(getItemGroup()));
 		this.action = action;
 

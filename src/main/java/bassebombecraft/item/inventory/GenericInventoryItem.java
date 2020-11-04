@@ -80,11 +80,10 @@ public class GenericInventoryItem extends Item {
 	/**
 	 * Constructor.
 	 * 
-	 * @param name     item name.
 	 * @param config   inventory item configuration.
 	 * @param strategy inventory item strategy.
 	 */
-	public GenericInventoryItem(String name, InventoryItemConfig config, InventoryItemActionStrategy strategy) {
+	public GenericInventoryItem(InventoryItemConfig config, InventoryItemActionStrategy strategy) {
 		super(new Item.Properties().group(getItemGroup()));
 		this.strategy = strategy;
 		coolDown = config.cooldown.get();

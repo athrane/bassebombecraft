@@ -12,6 +12,6 @@ public class SaturationIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = SaturationIdolInventoryItem.class.getSimpleName();
 
 	public SaturationIdolInventoryItem() {
-		super(ITEM_NAME, saturationIdolInventoryItem, new AddSaturationEffect());
+		super(saturationIdolInventoryItem, new AddSaturationEffect());
 	}
 }

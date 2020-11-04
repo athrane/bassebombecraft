@@ -12,6 +12,6 @@ public class PinkynizeIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = PinkynizeIdolInventoryItem.class.getSimpleName();
 
 	public PinkynizeIdolInventoryItem() {
-		super(ITEM_NAME, pinkynizeIdolInventoryItem, new Pinkynize());
+		super(pinkynizeIdolInventoryItem, new Pinkynize());
 	}
 }

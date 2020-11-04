@@ -83,21 +83,17 @@ public class CompositeMagicItem extends Item {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param name   item name.
-	 * @param config item configuration.
 	 */
 	public CompositeMagicItem() {
-		this(NAME, compositeMagicItem);
+		this(compositeMagicItem);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param name   item name.
 	 * @param config item configuration.
 	 */
-	public CompositeMagicItem(String name, ItemConfig config) {
+	public CompositeMagicItem(ItemConfig config) {
 		super(new Item.Properties().group(getItemGroup()));
 
 		// get cooldown and tooltip

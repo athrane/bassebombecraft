@@ -27,6 +27,6 @@ public class KillerBeesIdolInventoryItem extends GenericInventoryItem {
 	};
 
 	public KillerBeesIdolInventoryItem() {
-		super(ITEM_NAME, killerBeesIdolInventoryItem, new ExecuteOperatorOnTarget(splOp.get()));
+		super(killerBeesIdolInventoryItem, new ExecuteOperatorOnTarget(splOp.get()));
 	}
 }

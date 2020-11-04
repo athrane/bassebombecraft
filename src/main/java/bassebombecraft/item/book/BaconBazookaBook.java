@@ -12,7 +12,7 @@ public class BaconBazookaBook extends GenericRightClickedBook {
 	public static final String ITEM_NAME = BaconBazookaBook.class.getSimpleName();
 
 	public BaconBazookaBook() {
-		super(ITEM_NAME, baconBazookaBook, new ShootBaconBazooka());
+		super(baconBazookaBook, new ShootBaconBazooka());
 	}
 
 }

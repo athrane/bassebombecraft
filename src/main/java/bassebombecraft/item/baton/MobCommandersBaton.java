@@ -12,7 +12,7 @@ public class MobCommandersBaton extends GenericRightClickedBook {
 	public static final String ITEM_NAME = MobCommandersBaton.class.getSimpleName();
 
 	public MobCommandersBaton() {
-		super(ITEM_NAME, mobCommandersBaton, new CommandMobs());
+		super(mobCommandersBaton, new CommandMobs());
 	}
 
 }

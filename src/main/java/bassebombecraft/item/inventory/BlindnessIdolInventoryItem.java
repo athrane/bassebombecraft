@@ -12,6 +12,6 @@ public class BlindnessIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = BlindnessIdolInventoryItem.class.getSimpleName();
 
 	public BlindnessIdolInventoryItem() {
-		super(ITEM_NAME, blindnessIdolInventoryItem, new AddBlindingEffect());
+		super(blindnessIdolInventoryItem, new AddBlindingEffect());
 	}
 }

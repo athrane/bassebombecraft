@@ -31,6 +31,6 @@ public class RespawnIdolInventoryItem extends GenericInventoryItem {
 	};
 
 	public RespawnIdolInventoryItem() {
-		super(ITEM_NAME, respawnIdolInventoryItem, new ExecuteOperatorOnTarget(splOp.get()));
+		super(respawnIdolInventoryItem, new ExecuteOperatorOnTarget(splOp.get()));
 	}
 }

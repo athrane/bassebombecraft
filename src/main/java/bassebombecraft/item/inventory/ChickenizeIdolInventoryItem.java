@@ -12,6 +12,6 @@ public class ChickenizeIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = ChickenizeIdolInventoryItem.class.getSimpleName();
 
 	public ChickenizeIdolInventoryItem() {
-		super(ITEM_NAME, chickenizeIdolInventoryItem, new Chickenize());
+		super(chickenizeIdolInventoryItem, new Chickenize());
 	}
 }

@@ -69,6 +69,6 @@ public class RemoveBlockSpiralIdolInventoryItem extends GenericInventoryItem {
 	};
 
 	public RemoveBlockSpiralIdolInventoryItem() {
-		super(ITEM_NAME, removeBlockSpiralIdolInventoryItem, new ExecuteOperatorOnInvoker2(getInstance(), splOp.get()));
+		super(removeBlockSpiralIdolInventoryItem, new ExecuteOperatorOnInvoker2(getInstance(), splOp.get()));
 	}
 }

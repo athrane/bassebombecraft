@@ -13,6 +13,6 @@ public class LavaSpiralMistBook extends GenericRightClickedBook {
 	public static final String ITEM_NAME = LavaSpiralMistBook.class.getSimpleName();
 
 	public LavaSpiralMistBook() {
-		super(ITEM_NAME, lavaSpiralMistBook, new GenericBlockSpiralFillMist(new LavaSpiralMist()));
+		super(lavaSpiralMistBook, new GenericBlockSpiralFillMist(new LavaSpiralMist()));
 	}
 }

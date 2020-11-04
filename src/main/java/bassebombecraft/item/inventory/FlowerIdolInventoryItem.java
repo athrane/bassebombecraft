@@ -12,6 +12,6 @@ public class FlowerIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = FlowerIdolInventoryItem.class.getSimpleName();
 
 	public FlowerIdolInventoryItem() {
-		super(ITEM_NAME, flowerIdolInventoryItem, new Naturalize());
+		super(flowerIdolInventoryItem, new Naturalize());
 	}
 }

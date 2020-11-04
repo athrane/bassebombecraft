@@ -36,6 +36,6 @@ public class WarPigsIdolInventoryItem extends GenericInventoryItem {
 	};
 
 	public WarPigsIdolInventoryItem() {
-		super(ITEM_NAME, warPigsIdolInventoryItem, new ExecuteOperatorOnTarget2(getInstance(), splOp.get()));
+		super(warPigsIdolInventoryItem, new ExecuteOperatorOnTarget2(getInstance(), splOp.get()));
 	}
 }

@@ -12,6 +12,6 @@ public class MobsAggroIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = MobsAggroIdolInventoryItem.class.getSimpleName();
 
 	public MobsAggroIdolInventoryItem() {
-		super(ITEM_NAME, mobsAggroIdolInventoryItem, new AddAggroMobEffect());
+		super(mobsAggroIdolInventoryItem, new AddAggroMobEffect());
 	}
 }

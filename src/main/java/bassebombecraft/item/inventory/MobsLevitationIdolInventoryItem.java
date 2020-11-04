@@ -12,7 +12,7 @@ public class MobsLevitationIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = MobsLevitationIdolInventoryItem.class.getSimpleName();
 
 	public MobsLevitationIdolInventoryItem() {
-		super(ITEM_NAME, mobsLevitationIdolInventoryItem, new AddMobsLevitationEffect());
+		super(mobsLevitationIdolInventoryItem, new AddMobsLevitationEffect());
 	}
 
 }

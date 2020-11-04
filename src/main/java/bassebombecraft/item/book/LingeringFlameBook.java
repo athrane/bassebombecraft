@@ -16,6 +16,6 @@ public class LingeringFlameBook extends GenericRightClickedBook {
 	static final EntityMistActionStrategy STRATEGY = new LingeringFlameMist(EXPLOSION_RADIUS);
 
 	public LingeringFlameBook() {
-		super(ITEM_NAME, lingeringFlameBook, new GenericEntityMist(STRATEGY));
+		super(lingeringFlameBook, new GenericEntityMist(STRATEGY));
 	}
 }
