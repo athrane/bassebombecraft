@@ -27,9 +27,8 @@ public class BeastmasterMist implements EntityMistActionStrategy {
 	static final float G = 0.75F;
 	static final float B = 0.0F;
 	static final double PARTICLE_SPEED = 0.3;
-	static final ParticleRenderingInfo MIST = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R, G, B,
+	static final ParticleRenderingInfo INFO = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R, G, B,
 			PARTICLE_SPEED);
-	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
 
 	@Override
 	public void applyEffectToEntity(LivingEntity target, Vec3d mistPos, LivingEntity invoker) {
@@ -76,8 +75,8 @@ public class BeastmasterMist implements EntityMistActionStrategy {
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return INFOS;
+	public ParticleRenderingInfo getRenderingInfos() {
+		return INFO;
 	}
 
 }

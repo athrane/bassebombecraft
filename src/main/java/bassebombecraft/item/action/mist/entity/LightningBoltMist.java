@@ -3,7 +3,6 @@ package bassebombecraft.item.action.mist.entity;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 import static bassebombecraft.world.WorldUtils.addLightningAtBlockPos;
 import static net.minecraft.particles.ParticleTypes.CLOUD;
-import static net.minecraft.particles.ParticleTypes.FALLING_WATER;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.LivingEntity;
@@ -21,7 +20,10 @@ public class LightningBoltMist implements EntityMistActionStrategy {
 
 	static final int EFFECT_DURATION = 500; // Measured in ticks
 
-	ParticleRenderingInfo[] infos;
+	/**
+	 * Particle rendering info
+	 */
+	ParticleRenderingInfo info;
 
 	/**
 	 * LightningBoltMist constructor.
@@ -37,18 +39,7 @@ public class LightningBoltMist implements EntityMistActionStrategy {
 		BasicParticleType type = CLOUD;
 		int duration = 20;
 		double speed = 0.1;
-		ParticleRenderingInfo cloud = getInstance(type, numbers, duration, r, g, b, speed);
-
-		r = 0.0F;
-		g = 0.0F;
-		b = 0.25F;
-		numbers = 1;
-		type = FALLING_WATER;
-		duration = 20;
-		speed = 0.01;
-		ParticleRenderingInfo water = getInstance(type, numbers, duration, r, g, b, speed);
-
-		infos = new ParticleRenderingInfo[] { cloud, water };
+		info = getInstance(type, numbers, duration, r, g, b, speed);
 	}
 
 	@Override
@@ -87,8 +78,8 @@ public class LightningBoltMist implements EntityMistActionStrategy {
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
+	public ParticleRenderingInfo getRenderingInfos() {
+		return info;
 	}
 
 }

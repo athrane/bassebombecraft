@@ -1,6 +1,6 @@
 package bassebombecraft.event.charm;
 
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
 import static bassebombecraft.config.ModConfiguration.charmedMobParticles;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
@@ -38,7 +38,7 @@ public class CharmedMobEventHandler {
 	 * Operator for spawning particles for charmed mob.
 	 */
 	static Operator2 particlesOp = new Sequence2(new IsWorldAtServerSide2(), new IsEntityOfType2(MobEntity.class),
-			new IsEntityIsCharmed2(), new AddParticlesFromEntityAtClient2(createFromConfig(charmedMobParticles)));
+			new IsEntityIsCharmed2(), new AddParticlesFromEntityAtClient2(createInfoFromConfig(charmedMobParticles)));
 
 	/**
 	 * Operators for uncharm.

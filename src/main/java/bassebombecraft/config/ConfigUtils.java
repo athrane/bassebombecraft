@@ -15,20 +15,6 @@ import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 public class ConfigUtils {
 
 	/**
-	 * Create array with single {@linkplain ParticleRenderingInfo} from a
-	 * {@linkplain ParticlesConfig} object.
-	 * 
-	 * @param key configuration key to read configuration from.
-	 * 
-	 * @return array with single {@linkplain ParticleRenderingInfo}.
-	 */
-	@Deprecated
-	public static ParticleRenderingInfo[] createFromConfig(ParticlesConfig config) {
-		ParticleRenderingInfo info = createInfoFromConfig(config);
-		return new ParticleRenderingInfo[] { info };
-	}
-
-	/**
 	 * Create {@linkplain ParticleRenderingInfo} from a {@linkplain ParticlesConfig}
 	 * object.
 	 * 

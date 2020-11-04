@@ -12,9 +12,10 @@ import java.util.List;
 import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.GeometryUtils;
 import bassebombecraft.item.action.RightClickedItemAction;
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -84,6 +85,18 @@ public class GenericEntityMist implements RightClickedItemAction {
 	int spiralSize;
 
 	/**
+	 * Particle rendering ports.
+	 * 
+	 * The ports is defined as a field to reuse it across update ticks.
+	 */
+	Ports addParticlesPorts;
+
+	/**
+	 * Client side particle rendering operator.
+	 */
+	Operator2 addParticlesOp;
+
+	/**
 	 * GenericEntityMist constructor.
 	 * 
 	 * @param strategy mist strategy.
@@ -149,7 +162,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 			render();
 
 			// update effect if frequency is active
-			FrequencyRepository repository = getProxy().getServerFrequencyRepository();			
+			FrequencyRepository repository = getProxy().getServerFrequencyRepository();
 			if (repository.isActive(BLOCK_EFFECT_FREQUENCY))
 				applyEffect(worldIn, entity);
 
@@ -210,13 +223,9 @@ public class GenericEntityMist implements RightClickedItemAction {
 			// Get particle position
 			BlockPos pos = new BlockPos(mistPos);
 
-			// iterate over rendering info's
-			for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
-
-				// send particle rendering info to client
-				ParticleRendering particle = getInstance(pos, info);
-				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
-			}
+			// send particle rendering info to client
+			ParticleRendering particle = getInstance(pos, strategy.getRenderingInfos());
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 
 			// calculate spiral index
 			int spiralCounter = (ticksCounter / PARTICLE_SPAWN_FREQUENCY) % spiralSize;
@@ -227,13 +236,10 @@ public class GenericEntityMist implements RightClickedItemAction {
 			// calculate ground coordinates
 			BlockPos pos2 = pos.add(spiralCoord.getX(), 0, spiralCoord.getZ());
 
-			// iterate over rendering info's
-			for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
+			// send particle rendering info to client
+			particle = getInstance(pos, strategy.getRenderingInfos());
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 
-				// send particle rendering info to client
-				ParticleRendering particle = getInstance(pos2, info);
-				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
-			}
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}

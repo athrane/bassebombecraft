@@ -1,7 +1,7 @@
 package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
 import static bassebombecraft.config.ModConfiguration.lavaSpiralMistDuration;
 import static bassebombecraft.config.ModConfiguration.lavaSpiralMistParticleInfo;
 
@@ -27,7 +27,7 @@ public class LavaSpiralMist implements BlockMistActionStrategy {
 	/**
 	 * Particle rendering info
 	 */
-	ParticleRenderingInfo[] infos;
+	ParticleRenderingInfo info;
 
 	/**
 	 * Effect duration.
@@ -38,7 +38,7 @@ public class LavaSpiralMist implements BlockMistActionStrategy {
 	 * Constructor.
 	 */
 	public LavaSpiralMist() {
-		infos = createFromConfig(lavaSpiralMistParticleInfo);
+		info = createInfoFromConfig(lavaSpiralMistParticleInfo);
 		duration = lavaSpiralMistDuration.get();
 	}
 
@@ -68,8 +68,8 @@ public class LavaSpiralMist implements BlockMistActionStrategy {
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
+	public ParticleRenderingInfo getRenderingInfo() {
+		return info;
 	}
 
 	@Override

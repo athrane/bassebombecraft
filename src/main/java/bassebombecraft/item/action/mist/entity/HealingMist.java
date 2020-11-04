@@ -1,6 +1,6 @@
 package bassebombecraft.item.action.mist.entity;
 
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
 import static bassebombecraft.config.ModConfiguration.healingMistDuration;
 import static bassebombecraft.config.ModConfiguration.healingMistParticleInfo;
 
@@ -24,7 +24,7 @@ public class HealingMist implements EntityMistActionStrategy {
 	/**
 	 * Particle rendering info
 	 */
-	ParticleRenderingInfo[] infos;
+	ParticleRenderingInfo info;
 
 	/**
 	 * Effect duration.
@@ -35,7 +35,7 @@ public class HealingMist implements EntityMistActionStrategy {
 	 * Constructor.
 	 */
 	public HealingMist() {
-		infos = createFromConfig(healingMistParticleInfo);
+		info = createInfoFromConfig(healingMistParticleInfo);
 		duration = healingMistDuration.get();
 	}
 
@@ -79,8 +79,8 @@ public class HealingMist implements EntityMistActionStrategy {
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
+	public ParticleRenderingInfo getRenderingInfos() {
+		return info;
 	}
 
 }

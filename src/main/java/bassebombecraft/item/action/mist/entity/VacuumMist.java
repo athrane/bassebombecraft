@@ -1,6 +1,6 @@
 package bassebombecraft.item.action.mist.entity;
 
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
 import static bassebombecraft.config.ModConfiguration.vacuumMistDuration;
 import static bassebombecraft.config.ModConfiguration.vacuumMistForce;
 import static bassebombecraft.config.ModConfiguration.vacuumMistParticleInfo;
@@ -25,7 +25,7 @@ public class VacuumMist implements EntityMistActionStrategy {
 	/**
 	 * Particle rendering info
 	 */
-	ParticleRenderingInfo[] infos;
+	ParticleRenderingInfo info;
 
 	/**
 	 * Effect pull force in blocks.
@@ -41,7 +41,7 @@ public class VacuumMist implements EntityMistActionStrategy {
 	 * Constructor.
 	 */
 	public VacuumMist() {
-		infos = createFromConfig(vacuumMistParticleInfo);
+		info = createInfoFromConfig(vacuumMistParticleInfo);
 		duration = vacuumMistDuration.get();
 		force = vacuumMistForce.get();
 	}
@@ -88,8 +88,8 @@ public class VacuumMist implements EntityMistActionStrategy {
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
+	public ParticleRenderingInfo getRenderingInfos() {
+		return info;
 	}
 
 }

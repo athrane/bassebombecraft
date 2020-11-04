@@ -3,6 +3,14 @@ package bassebombecraft.client.event.rendering;
 import static bassebombecraft.ModConstants.IS_RESPAWNED;
 import static bassebombecraft.entity.EntityUtils.hasAttribute;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
+import static com.mojang.blaze3d.platform.GlStateManager.SourceFactor.SRC_ALPHA;
+import static com.mojang.blaze3d.platform.GlStateManager.DestFactor.*;
+
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import bassebombecraft.geom.GeometryUtils;
+import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,8 +36,14 @@ public class RespawnedRenderer {
 		if (!hasAttribute(entity, IS_RESPAWNED))
 			return;
 
-		// RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		// RenderSystem.enableBlend();
+		// get and push matrix stack
+		MatrixStack matrixStack = event.getMatrixStack();
+		matrixStack.push();
+		
+		// do ....
+		float oscValue = (float) GeometryUtils.oscillate(0, 1);
+		RenderSystem.blendFunc(SRC_ALPHA, ONE);
+		RenderSystem.color4f(oscValue, oscValue, oscValue, 0.5f);		
 	}
 
 	/**
@@ -38,7 +52,19 @@ public class RespawnedRenderer {
 	 * @param event rendering event.
 	 */
 	public static void handleRenderLivingEventPost(Post<PlayerEntity, PlayerModel<PlayerEntity>> event) {
-		// NO-OP
+		LivingEntity entity = event.getEntity();
+
+		// exit if entity attribute isn't defined
+		if (!hasAttribute(entity, IS_RESPAWNED))
+			return;
+
+
+		// do ....
+		RenderSystem.blendFunc(SRC_ALPHA, ONE_MINUS_SRC_ALPHA);
+		
+		// get and pop matrix stack
+		MatrixStack matrixStack = event.getMatrixStack();
+		matrixStack.pop();
 	}
 
 }

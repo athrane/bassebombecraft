@@ -3,7 +3,7 @@ package bassebombecraft.item.action.build;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
 import static bassebombecraft.config.ModConfiguration.copyPasteBlocksParticleInfo;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
@@ -59,7 +59,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	/**
 	 * Particle rendering info
 	 */
-	ParticleRenderingInfo[] infos;
+	ParticleRenderingInfo info;
 
 	/**
 	 * Null structure.
@@ -124,7 +124,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * CopyPasteBlocks constructor.
 	 */
 	public CopyPasteBlocks() {
-		infos = createFromConfig(copyPasteBlocksParticleInfo);
+		info = createInfoFromConfig(copyPasteBlocksParticleInfo);
 	}
 
 	@Override
@@ -304,7 +304,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		rotationDegrees = calculateDegreesFromPlayerDirection(playerDirection);
 
 		// send particle rendering info to client
-		firstMarkerParticle = getInstance(pos, infos[FIRST_INDEX]);
+		firstMarkerParticle = getInstance(pos, info);
 		getProxy().getNetworkChannel().sendAddParticleRenderingPacket(firstMarkerParticle);
 	}
 
@@ -317,7 +317,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		secondMarker = pos;
 
 		// send particle rendering info to client
-		secondMarkerParticle = getInstance(pos, infos[FIRST_INDEX]);
+		secondMarkerParticle = getInstance(pos, info);
 		getProxy().getNetworkChannel().sendAddParticleRenderingPacket(secondMarkerParticle);
 	}
 

@@ -3,7 +3,7 @@ package bassebombecraft.item.action.mist.block;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.block.BlockUtils.selectRainbowColoredWool;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
 import static bassebombecraft.config.ModConfiguration.rainbowSpiralMistDuration;
 import static bassebombecraft.config.ModConfiguration.rainbowSpiralMistParticleInfo;
 import static bassebombecraft.geom.BlockDirective.getInstance;
@@ -32,7 +32,7 @@ public class RainbowSpiralMist implements BlockMistActionStrategy {
 	/**
 	 * Particle rendering info
 	 */
-	ParticleRenderingInfo[] infos;
+	ParticleRenderingInfo info;
 
 	/**
 	 * Effect duration.
@@ -48,7 +48,7 @@ public class RainbowSpiralMist implements BlockMistActionStrategy {
 	 * Constructor.
 	 */
 	public RainbowSpiralMist() {
-		infos = createFromConfig(rainbowSpiralMistParticleInfo);
+		info = createInfoFromConfig(rainbowSpiralMistParticleInfo);
 		duration = rainbowSpiralMistDuration.get();
 	}
 
@@ -87,8 +87,8 @@ public class RainbowSpiralMist implements BlockMistActionStrategy {
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
+	public ParticleRenderingInfo getRenderingInfo() {
+		return info;
 	}
 
 	@Override

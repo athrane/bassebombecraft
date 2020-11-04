@@ -7,7 +7,6 @@ import static bassebombecraft.event.particle.DefaultParticleRendering.getInstanc
 
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.GeometryUtils;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.entity.Entity;
@@ -206,13 +205,10 @@ public class GenericBlockMist implements RightClickedItemAction {
 			// Get particle position
 			BlockPos pos = new BlockPos(mistPosition);
 
-			// iterate over rendering info's
-			for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
-
-				// send particle rendering info to client
-				ParticleRendering particle = getInstance(pos, info);
-				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
-			}
+			// send particle rendering info to client
+			ParticleRendering particle = getInstance(pos, strategy.getRenderingInfo());
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+			
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}

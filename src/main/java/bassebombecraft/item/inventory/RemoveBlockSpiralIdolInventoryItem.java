@@ -1,6 +1,6 @@
 package bassebombecraft.item.inventory;
 
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ConfigUtils.*;
 import static bassebombecraft.config.ModConfiguration.removeBlockSpiralIdolInventoryItem;
 import static bassebombecraft.config.ModConfiguration.removeBlockSpiralIdolInventoryItemParticleInfo;
 import static bassebombecraft.config.ModConfiguration.removeBlockSpiralIdolInventoryItemSpiralSize;
@@ -41,7 +41,7 @@ public class RemoveBlockSpiralIdolInventoryItem extends GenericInventoryItem {
 
 		// Read configuration values
 		int spiralSize = removeBlockSpiralIdolInventoryItemSpiralSize.get();
-		ParticleRenderingInfo[] infos = createFromConfig(removeBlockSpiralIdolInventoryItemParticleInfo);
+		ParticleRenderingInfo info = createInfoFromConfig(removeBlockSpiralIdolInventoryItemParticleInfo);
 		int numberSpiralBlocks = (spiralSize * spiralSize);
 
 		/**
@@ -64,7 +64,7 @@ public class RemoveBlockSpiralIdolInventoryItem extends GenericInventoryItem {
 		Operator2[] ops = new Operator2[] { new ResetSpiralOnMovement2(1, fnGetInvokerPos, fnGetCenter, bcSetCenter),
 				new SingleLoopIncreasingCounter2(numberSpiralBlocks - 1),
 				new CalculateSpiralPosition2(spiralSize, fnGetCenter, bcSetSpiralPos, fnGetWorld),
-				new RemoveBlock2(fnGetSpiralPos, fnGetWorld), new AddParticlesFromPosAtClient2(infos, fnGetSpiralPos) };
+				new RemoveBlock2(fnGetSpiralPos, fnGetWorld), new AddParticlesFromPosAtClient2(info, fnGetSpiralPos) };
 		return ops;
 	};
 

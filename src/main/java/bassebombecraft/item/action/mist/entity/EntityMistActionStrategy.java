@@ -60,10 +60,10 @@ public interface EntityMistActionStrategy {
 	int getEffectRange();
 
 	/**
-	 * Get array of rendering info's used to render mist.
+	 * Get rendering info used to render mist.
 	 * 
-	 * @return array of rendering info's used to render mist.
+	 * @return rendering info used to render mist.
 	 */
-	ParticleRenderingInfo[] getRenderingInfos();
+	ParticleRenderingInfo getRenderingInfos();
 
 }
