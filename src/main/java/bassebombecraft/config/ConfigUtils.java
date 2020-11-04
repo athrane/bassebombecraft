@@ -1,17 +1,13 @@
 package bassebombecraft.config;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getUnresolvedInstance;
 
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
-import net.minecraftforge.registries.ForgeRegistries;
 
 /**
  * Configuration utility class.
@@ -41,40 +37,16 @@ public class ConfigUtils {
 	 * @return single {@linkplain ParticleRenderingInfo}.
 	 */
 	public static ParticleRenderingInfo createInfoFromConfig(ParticlesConfig config) {
-		ParticleType<?> particleType = resolveParticleType(config);
-		BasicParticleType castParticleType = (BasicParticleType) particleType;
+		String unresolvedType = config.type.get();
 		int number = config.number.get();
 		int duration = config.duration.get();
 		double colorR = config.r.get();
 		double colorG = config.g.get();
 		double colorB = config.b.get();
 		double speed = config.speed.get();
-		ParticleRenderingInfo info = getInstance(castParticleType, number, duration, (float) colorR, (float) colorG,
-				(float) colorB, speed);
+		ParticleRenderingInfo info = getUnresolvedInstance(unresolvedType, number, duration, (float) colorR,
+				(float) colorG, (float) colorB, speed);
 		return info;
-	}
-
-	/**
-	 * Resolve particle type from particle configuration object.
-	 * 
-	 * @param config particle configuration object.
-	 * 
-	 * @return particle type object.
-	 */
-	static ParticleType<?> resolveParticleType(ParticlesConfig config) {
-
-		// get particle type name
-		String name = config.type.get();
-
-		// resolve vanilla particle
-		ResourceLocation key2 = new ResourceLocation(name.toLowerCase());
-		ParticleType<?> retval = ForgeRegistries.PARTICLE_TYPES.getValue(key2);
-
-		// throw exception if particle is unknown.
-		if (retval == null)
-			throw new RuntimeException("Failed to initialize particle from configuration value : " + name);
-		
-		return retval;
 	}
 
 	/**
