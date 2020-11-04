@@ -12,6 +12,7 @@ import static bassebombecraft.event.projectile.RegisteredEntityTypes.LIGHTNING_P
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.LLAMA_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.SKULL_PROJECTILE;
 import static bassebombecraft.inventory.container.RegisteredContainers.CONTAINER_REGISTRY;
+import static bassebombecraft.item.RegisteredItems.ITEMS_REGISTRY;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 import java.io.PrintWriter;
@@ -319,7 +320,8 @@ public class ClientProxy implements Proxy {
 		RenderingRegistry.registerEntityRenderingHandler(CIRCLE_PROJECTILE, CircleProjectileEntityRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(SKULL_PROJECTILE, SkullProjectileEntityRenderer::new);
 
-		// register the factory used client side to generate a screen corresponding to the container		
+		// register the factory used client side to generate a screen corresponding to
+		// the container
 		ScreenManager.registerFactory(RegisteredContainers.COMPOSITE_ITEM_COMTAINER.get(),
 				CompositeMagicItemScreen::new);
 	}
@@ -395,13 +397,10 @@ public class ClientProxy implements Proxy {
 	}
 
 	@Override
-	public void doDeferredRegistration(IEventBus modEventBus) {
-
-		// register particles
-		PARTICLE_REGISTRY.register(modEventBus);
-
-		// register containers
-		CONTAINER_REGISTRY.register(modEventBus);
+	public void doDeferredRegistration(IEventBus bus) {
+		PARTICLE_REGISTRY.register(bus);
+		CONTAINER_REGISTRY.register(bus);
+		ITEMS_REGISTRY.register(bus);
 	}
 
 }

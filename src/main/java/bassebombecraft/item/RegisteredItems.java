@@ -139,7 +139,7 @@ import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import static net.minecraftforge.registries.ForgeRegistries.*;
 
 /**
  * Registry objects for registered items.
@@ -149,7 +149,7 @@ public class RegisteredItems {
 	/**
 	 * Deferred registry for registration of items.
 	 */
-	public static final DeferredRegister<Item> ITEMS_REGISTRY = new DeferredRegister<>(ForgeRegistries.ITEMS, MODID);
+	public static final DeferredRegister<Item> ITEMS_REGISTRY = new DeferredRegister<>(ITEMS, MODID);
 
 	/**
 	 * Other items
