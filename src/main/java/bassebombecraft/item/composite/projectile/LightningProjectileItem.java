@@ -20,7 +20,7 @@ public class LightningProjectileItem extends GenericCompositeNullProjectileItem 
 	 * Constructor.
 	 */
 	public LightningProjectileItem() {
-		super(NAME, lightningProjectileItem, lightningProjectileEntity);
+		super(lightningProjectileItem, lightningProjectileEntity);
 	}
 
 	@Override

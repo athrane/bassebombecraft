@@ -41,7 +41,7 @@ public class EmitVerticalForceProjectileModifierItem extends GenericCompositeNul
 	 * Constructor.
 	 */
 	public EmitVerticalForceProjectileModifierItem() {
-		super(NAME, emitVerticalForceProjectileModifierItem);
+		super(emitVerticalForceProjectileModifierItem);
 	}
 
 	@Override

@@ -41,7 +41,7 @@ public class RespawnProjectileModifierItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public RespawnProjectileModifierItem() {
-		super(NAME, respawnProjectileModifierItem);
+		super(respawnProjectileModifierItem);
 	}
 
 	@Override

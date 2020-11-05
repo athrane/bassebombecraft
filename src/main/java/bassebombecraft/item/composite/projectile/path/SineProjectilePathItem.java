@@ -40,7 +40,7 @@ public class SineProjectilePathItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public SineProjectilePathItem() {
-		super(NAME, sineProjectilePathItem);
+		super(sineProjectilePathItem);
 	}
 
 	@Override

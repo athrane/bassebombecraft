@@ -20,7 +20,7 @@ public class EggProjectileItem extends GenericCompositeNullProjectileItem {
 	 * Constructor.
 	 */
 	public EggProjectileItem() {
-		super(NAME, eggProjectileItem, eggProjectileEntity);
+		super(eggProjectileItem, eggProjectileEntity);
 	}
 
 	@Override

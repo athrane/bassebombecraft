@@ -41,7 +41,7 @@ public class DigProjectileModifierItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public DigProjectileModifierItem() {
-		super(NAME, digProjectileModifierItem);
+		super(digProjectileModifierItem);
 	}
 
 	@Override

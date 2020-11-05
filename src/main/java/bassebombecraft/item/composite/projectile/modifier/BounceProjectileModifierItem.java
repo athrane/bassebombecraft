@@ -41,7 +41,7 @@ public class BounceProjectileModifierItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public BounceProjectileModifierItem() {
-		super(NAME, bounceProjectileModifierItem);
+		super(bounceProjectileModifierItem);
 	}
 
 	@Override

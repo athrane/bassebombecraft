@@ -42,7 +42,7 @@ public class SpawnLavaBlockProjectileModifierItem extends GenericCompositeNullIt
 	 * Constructor.
 	 */
 	public SpawnLavaBlockProjectileModifierItem() {
-		super(NAME, spawnLavaBlockProjectileModifierItem);
+		super(spawnLavaBlockProjectileModifierItem);
 	}
 
 	@Override

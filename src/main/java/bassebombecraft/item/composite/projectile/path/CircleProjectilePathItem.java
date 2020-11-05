@@ -41,7 +41,7 @@ public class CircleProjectilePathItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public CircleProjectilePathItem() {
-		super(NAME, circleProjectilePathItem);
+		super(circleProjectilePathItem);
 	}
 
 	@Override

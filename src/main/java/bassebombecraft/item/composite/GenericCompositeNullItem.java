@@ -47,10 +47,9 @@ public abstract class GenericCompositeNullItem extends Item {
 	/**
 	 * Constructor.
 	 * 
-	 * @param name   item name.
 	 * @param config item configuration.
 	 */
-	public GenericCompositeNullItem(String name, ItemConfig config) {
+	public GenericCompositeNullItem(ItemConfig config) {
 		super(new Item.Properties().group(getItemGroup()));
 
 		// get cooldown and tooltip

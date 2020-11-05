@@ -20,7 +20,7 @@ public class OscillatingRotation180DProjectileFormationModifierItem extends Gene
 	 * Constructor.
 	 */
 	public OscillatingRotation180DProjectileFormationModifierItem() {
-		super(NAME, oscillatingRotation180DProjectileFormationModifierItem);
+		super(oscillatingRotation180DProjectileFormationModifierItem);
 	}
 
 	@Override

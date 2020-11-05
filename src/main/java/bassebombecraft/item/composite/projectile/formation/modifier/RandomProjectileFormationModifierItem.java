@@ -20,7 +20,7 @@ public class RandomProjectileFormationModifierItem extends GenericCompositeNullI
 	 * Constructor.
 	 */
 	public RandomProjectileFormationModifierItem() {
-		super(NAME, randomProjectileFormationModifierItem);
+		super(randomProjectileFormationModifierItem);
 	}
 
 	@Override

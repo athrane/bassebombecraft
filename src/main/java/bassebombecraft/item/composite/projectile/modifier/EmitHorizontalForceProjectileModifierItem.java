@@ -41,7 +41,7 @@ public class EmitHorizontalForceProjectileModifierItem extends GenericCompositeN
 	 * Constructor.
 	 */
 	public EmitHorizontalForceProjectileModifierItem() {
-		super(NAME, emitHorizontalForceProjectileModifierItem);
+		super(emitHorizontalForceProjectileModifierItem);
 	}
 
 	@Override

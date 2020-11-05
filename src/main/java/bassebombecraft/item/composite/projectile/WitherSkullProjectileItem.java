@@ -20,7 +20,7 @@ public class WitherSkullProjectileItem extends GenericCompositeNullProjectileIte
 	 * Constructor.
 	 */
 	public WitherSkullProjectileItem() {
-		super(NAME, witherSkullProjectileItem, skullProjectileEntity);
+		super(witherSkullProjectileItem, skullProjectileEntity);
 	}
 
 	@Override

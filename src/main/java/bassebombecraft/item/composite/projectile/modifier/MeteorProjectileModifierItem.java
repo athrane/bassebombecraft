@@ -41,7 +41,7 @@ public class MeteorProjectileModifierItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public MeteorProjectileModifierItem() {
-		super(NAME, meteorProjectileModifierItem);
+		super(meteorProjectileModifierItem);
 	}
 
 	@Override

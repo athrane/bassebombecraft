@@ -41,7 +41,7 @@ public class SpawnIceBlockProjectileModifierItem extends GenericCompositeNullIte
 	 * Constructor.
 	 */
 	public SpawnIceBlockProjectileModifierItem() {
-		super(NAME, spawnIceBlockProjectileModifierItem);
+		super(spawnIceBlockProjectileModifierItem);
 	}
 
 	@Override

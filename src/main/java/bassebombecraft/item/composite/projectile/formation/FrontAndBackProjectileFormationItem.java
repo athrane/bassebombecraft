@@ -20,7 +20,7 @@ public class FrontAndBackProjectileFormationItem extends GenericCompositeNullIte
 	 * Constructor.
 	 */
 	public FrontAndBackProjectileFormationItem() {
-		super(NAME, frontAndBackProjectileFormationItem);
+		super(frontAndBackProjectileFormationItem);
 	}
 
 	@Override

@@ -41,7 +41,7 @@ public class DigMobHoleProjectileModifierItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public DigMobHoleProjectileModifierItem() {
-		super(NAME, digMobHoleProjectileModifierItem);
+		super(digMobHoleProjectileModifierItem);
 	}
 
 	@Override

@@ -44,7 +44,7 @@ public class ExplodeMobWhenKilledProjectileModifierItem extends GenericComposite
 	 * Constructor.
 	 */
 	public ExplodeMobWhenKilledProjectileModifierItem() {
-		super(NAME, explodeMobWhenKilledProjectileModifierItem);
+		super(explodeMobWhenKilledProjectileModifierItem);
 	}
 
 	@Override

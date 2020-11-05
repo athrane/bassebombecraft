@@ -35,12 +35,11 @@ public abstract class GenericCompositeNullProjectileItem extends GenericComposit
 	/**
 	 * constructor.
 	 * 
-	 * @param name             item name.
 	 * @param config           item configuration.
 	 * @param projectileConfig projectile configuration.
 	 */
-	public GenericCompositeNullProjectileItem(String name, ItemConfig config, ProjectileEntityConfig projectileConfig) {
-		super(name, config);
+	public GenericCompositeNullProjectileItem(ItemConfig config, ProjectileEntityConfig projectileConfig) {
+		super(config);
 		this.projectileConfig = projectileConfig;
 	}
 

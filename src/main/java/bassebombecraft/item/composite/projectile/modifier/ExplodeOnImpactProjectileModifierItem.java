@@ -41,7 +41,7 @@ public class ExplodeOnImpactProjectileModifierItem extends GenericCompositeNullI
 	 * Constructor.
 	 */
 	public ExplodeOnImpactProjectileModifierItem() {
-		super(NAME, explodeOnImpactProjectileModifierItem);
+		super(explodeOnImpactProjectileModifierItem);
 	}
 
 	@Override

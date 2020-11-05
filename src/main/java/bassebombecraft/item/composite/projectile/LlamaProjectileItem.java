@@ -20,7 +20,7 @@ public class LlamaProjectileItem extends GenericCompositeNullProjectileItem {
 	 * Constructor.
 	 */
 	public LlamaProjectileItem() {
-		super(NAME, llamaProjectileItem, llamaProjectileEntity);
+		super(llamaProjectileItem, llamaProjectileEntity);
 	}
 
 	@Override

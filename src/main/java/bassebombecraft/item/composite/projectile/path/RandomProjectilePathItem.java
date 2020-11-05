@@ -40,7 +40,7 @@ public class RandomProjectilePathItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public RandomProjectilePathItem() {
-		super(NAME, randomProjectilePathItem);
+		super(randomProjectilePathItem);
 	}
 
 	@Override

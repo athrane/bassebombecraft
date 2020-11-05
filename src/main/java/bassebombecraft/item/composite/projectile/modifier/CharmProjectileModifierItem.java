@@ -41,7 +41,7 @@ public class CharmProjectileModifierItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public CharmProjectileModifierItem() {
-		super(NAME, charmProjectileModifierItem);
+		super(charmProjectileModifierItem);
 	}
 
 	@Override
