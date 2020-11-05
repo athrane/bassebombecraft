@@ -31,6 +31,6 @@ public class DigMobHoleBook extends GenericRightClickedBook2 {
 	};
 
 	public DigMobHoleBook() {
-		super(ITEM_NAME, digMobHoleBook, getInstance(), splOp.get());
+		super(digMobHoleBook, getInstance(), splOp.get());
 	}
 }

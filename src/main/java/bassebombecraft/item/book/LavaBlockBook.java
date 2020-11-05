@@ -31,6 +31,6 @@ public class LavaBlockBook extends GenericRightClickedBook2 {
 	};
 
 	public LavaBlockBook() {
-		super(ITEM_NAME, lavaBlockBook, getInstance(), splOp.get());
+		super(lavaBlockBook, getInstance(), splOp.get());
 	}
 }

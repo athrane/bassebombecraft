@@ -31,6 +31,6 @@ public class IceBlockBook extends GenericRightClickedBook2 {
 	};
 
 	public IceBlockBook() {
-		super(ITEM_NAME, iceBlockBook, getInstance(), splOp.get());
+		super(iceBlockBook, getInstance(), splOp.get());
 	}
 }

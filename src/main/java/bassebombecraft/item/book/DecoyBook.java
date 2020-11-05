@@ -31,7 +31,7 @@ public class DecoyBook extends GenericRightClickedBook2 {
 	};
 
 	public DecoyBook() {
-		super(ITEM_NAME, decoyBook, getInstance(), splOp.get());
+		super(decoyBook, getInstance(), splOp.get());
 	}
 
 }

@@ -27,6 +27,6 @@ public class WitherSkullBook extends GenericRightClickedBook2 {
 	};
 
 	public WitherSkullBook() {
-		super(ITEM_NAME, witherSkullBook, getInstance(), splOps.get());
+		super(witherSkullBook, getInstance(), splOps.get());
 	}
 }

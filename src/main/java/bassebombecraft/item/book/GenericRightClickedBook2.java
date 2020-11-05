@@ -64,12 +64,11 @@ public class GenericRightClickedBook2 extends Item {
 	/**
 	 * Constructor.
 	 * 
-	 * @param name     item name.
 	 * @param config   item configuration.
 	 * @param ports    ports used by operators.
 	 * @param operator operator executed when item is right clicked.
 	 */
-	public GenericRightClickedBook2(String name, ItemConfig config, Ports ports, Operator2 operator) {
+	public GenericRightClickedBook2(ItemConfig config, Ports ports, Operator2 operator) {
 		super(new Item.Properties().group(getItemGroup()));
 		this.ports = ports;
 		this.operator = operator;

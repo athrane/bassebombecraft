@@ -31,6 +31,6 @@ public class FallingAnvilBook extends GenericRightClickedBook2 {
 	};
 
 	public FallingAnvilBook() {
-		super(ITEM_NAME, cobwebBook, getInstance(), splOp.get());
+		super(cobwebBook, getInstance(), splOp.get());
 	}
 }

@@ -31,6 +31,6 @@ public class TeleportBook extends GenericRightClickedBook2 {
 	};
 
 	public TeleportBook() {
-		super(ITEM_NAME, teleportBook, getInstance(), splOp.get());
+		super(teleportBook, getInstance(), splOp.get());
 	}
 }

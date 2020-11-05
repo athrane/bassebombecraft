@@ -32,6 +32,6 @@ public class EmitVerticalForceBook extends GenericRightClickedBook2 {
 	};
 
 	public EmitVerticalForceBook() {
-		super(ITEM_NAME, emitVerticalForceBook, getInstance(), splOp.get());
+		super(emitVerticalForceBook, getInstance(), splOp.get());
 	}
 }
