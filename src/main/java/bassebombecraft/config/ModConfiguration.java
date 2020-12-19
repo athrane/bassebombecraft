@@ -1783,7 +1783,9 @@ public class ModConfiguration {
 				.defineInRange("cooldown", 50, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// BuildMineBook
+		/**
+		 * Configuration for the {@linkplain BuildMineBook} item.
+		 */
 		name = BuildMineBook.ITEM_NAME;
 		buildMineBook = getInstance(COMMON_BUILDER, name,
 				"Click on a ground block to excavate an entrance entrance to a lower level mine. A ground block is a block at the same level as the block that the payer is standing on. Click on a block in front of the player to excavate a mine corridor, room or hall.",
