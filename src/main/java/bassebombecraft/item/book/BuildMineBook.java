@@ -1,5 +1,7 @@
 package bassebombecraft.item.book;
 
+import static bassebombecraft.config.ModConfiguration.buildMineBook;
+
 import bassebombecraft.item.action.build.BuildMine;
 
 /**
@@ -10,6 +12,6 @@ public class BuildMineBook extends GenericBlockClickedBook {
 	public static final String ITEM_NAME = BuildMineBook.class.getSimpleName();
 
 	public BuildMineBook() {
-		super(ITEM_NAME, new BuildMine());
+		super(buildMineBook, new BuildMine());
 	}
 }

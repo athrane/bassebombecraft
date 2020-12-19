@@ -1,5 +1,7 @@
 package bassebombecraft.item.basic;
 
+import static bassebombecraft.config.ModConfiguration.hudItem;
+
 import bassebombecraft.item.action.NullRightClickedItemAction;
 
 /**
@@ -7,16 +9,10 @@ import bassebombecraft.item.action.NullRightClickedItemAction;
  */
 public class HudItem extends GenericNullItem {
 
-	/**
-	 * Item identifier.
-	 */	
 	public static final String NAME = HudItem.class.getSimpleName();
 
-	/**
-	 * HudItem no-arg constructor,
-	 */	
 	public HudItem() {
-		super(NAME, new NullRightClickedItemAction());
+		super(hudItem, new NullRightClickedItemAction());
 	}
 
 }

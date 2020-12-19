@@ -337,6 +337,7 @@ public class ModConstants {
 	/**
 	 * Basic items config path prefix in TOML configuration file.
 	 */
+	@Deprecated
 	public static final String BASICITEMS_CONFIGPATH = "BasicItems.";
 
 	/**
