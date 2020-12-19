@@ -47,6 +47,7 @@ public class ConfigUtils {
 	 * 
 	 * @return resolve cooldown value from configuration.
 	 */
+	@Deprecated
 	public static int resolveCoolDown(String key, int defaultValue) {
 
 		// define configuration path in .TOML file
@@ -71,6 +72,7 @@ public class ConfigUtils {
 	 * 
 	 * @return resolve cooldown value from configuration.
 	 */
+	@Deprecated	
 	public static String resolveTooltip(String key, String defaultValue) {
 
 		// define configuration path in .TOML file
