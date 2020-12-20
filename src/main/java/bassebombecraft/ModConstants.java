@@ -239,12 +239,8 @@ public class ModConstants {
 	/**
 	 * HUD Item.
 	 */
+	@Deprecated		
 	public static final HudItem HUD_ITEM = new HudItem();
-
-	/**
-	 * Build mine book.
-	 */
-	public static final BuildMineBook BUILD_MINE_BOOK = new BuildMineBook();
 
 	/**
 	 * Particle spawn frequency in {@linkplain GenericEntityMist}. Measured in world
