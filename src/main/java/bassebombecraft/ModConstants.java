@@ -237,12 +237,6 @@ public class ModConstants {
 	public static final int MOD_STRUCUTRE_GENERATOR_WEIGHT = 1;
 
 	/**
-	 * HUD Item.
-	 */
-	@Deprecated		
-	public static final HudItem HUD_ITEM = new HudItem();
-
-	/**
 	 * Particle spawn frequency in {@linkplain GenericEntityMist}. Measured in world
 	 * ticks.
 	 */

@@ -2,12 +2,12 @@ package bassebombecraft.client.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.ModConstants.HUD_ITEM;
 import static bassebombecraft.ModConstants.TEAM_MEMBERS_TO_RENDER;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
 import static bassebombecraft.client.rendering.RenderingUtils.renderBillboardText;
 import static bassebombecraft.entity.EntityUtils.getTarget;
+import static bassebombecraft.item.RegisteredItems.HUD;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 
 import java.util.Collection;
@@ -46,7 +46,7 @@ public class TeamInfoRenderer {
 			PlayerEntity player = getClientSidePlayer();
 
 			// exit if HUD item isn't in hotbar
-			if (!isItemInHotbar(player, HUD_ITEM))
+			if (!isItemInHotbar(player, HUD.get()))
 				return;
 
 			render(event.getMatrixStack(), player);

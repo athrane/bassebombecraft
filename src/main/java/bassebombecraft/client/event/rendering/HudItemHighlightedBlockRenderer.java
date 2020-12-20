@@ -2,10 +2,10 @@ package bassebombecraft.client.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ClientModConstants.HUD_LINE_COLOR;
-import static bassebombecraft.ModConstants.HUD_ITEM;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
 import static bassebombecraft.client.rendering.rendertype.OverlayLines.OVERLAY_LINES;
+import static bassebombecraft.item.RegisteredItems.HUD;
 import static bassebombecraft.operator.DefaultPorts.getFnGetString1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetString2;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
@@ -66,7 +66,7 @@ public class HudItemHighlightedBlockRenderer {
 			PlayerEntity player = getClientSidePlayer();
 
 			// exit if HUD item isn't in hotbar
-			if (!isItemInHotbar(player, HUD_ITEM))
+			if (!isItemInHotbar(player, HUD.get()))
 				return;
 
 			render(event, player);
