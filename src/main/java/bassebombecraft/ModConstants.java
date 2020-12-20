@@ -19,8 +19,6 @@ import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
-import bassebombecraft.item.basic.HudItem;
-import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.item.composite.CompositeMagicItem;
 import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
