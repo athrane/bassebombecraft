@@ -4,7 +4,6 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.config.ModConfiguration.compositeMagicItem;
-import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static net.minecraft.util.Hand.MAIN_HAND;
@@ -14,7 +13,6 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.config.ItemConfig;
 import bassebombecraft.inventory.container.CompositeMagicItemCapabilityProvider;
 import bassebombecraft.inventory.container.CompositeMagicItemContainerProvider;
@@ -85,23 +83,18 @@ public class CompositeMagicItem extends Item {
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param name   item name.
-	 * @param config item configuration.
 	 */
 	public CompositeMagicItem() {
-		this(NAME, compositeMagicItem);
+		this(compositeMagicItem);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param name   item name.
 	 * @param config item configuration.
 	 */
-	public CompositeMagicItem(String name, ItemConfig config) {
+	public CompositeMagicItem(ItemConfig config) {
 		super(new Item.Properties().group(getItemGroup()));
-		doCommonItemInitialization(this, name);
 
 		// get cooldown and tooltip
 		coolDown = config.cooldown.get();
@@ -135,7 +128,6 @@ public class CompositeMagicItem extends Item {
 
 		// post analytics
 		String compositeName = createCompositeName(inventory);
-		BassebombeCraft.getBassebombeCraft().getLogger().debug("compositeName="+compositeName);		
 		getProxy().postItemUsage(compositeName, player.getGameProfile().getName());
 
 		// get operators

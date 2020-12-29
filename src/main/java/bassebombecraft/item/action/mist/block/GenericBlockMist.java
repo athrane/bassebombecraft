@@ -3,12 +3,10 @@ package bassebombecraft.item.action.mist.block;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.BLOCK_EFFECT_FREQUENCY;
-import static bassebombecraft.ModConstants.PARTICLE_SPAWN_FREQUENCY;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
-import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.GeometryUtils;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.entity.Entity;
@@ -97,12 +95,11 @@ public class GenericBlockMist implements RightClickedItemAction {
 			if (!isActive())
 				return;
 
-			// render mist if frequency is active
-			FrequencyRepository repository = getProxy().getServerFrequencyRepository();
-			if (repository.isActive(PARTICLE_SPAWN_FREQUENCY))
-				render(worldIn);
+			// render mist
+			render(worldIn);
 
 			// update effect if frequency is active
+			FrequencyRepository repository = getProxy().getServerFrequencyRepository();
 			if (repository.isActive(BLOCK_EFFECT_FREQUENCY))
 				applyEffect(worldIn);
 
@@ -208,13 +205,10 @@ public class GenericBlockMist implements RightClickedItemAction {
 			// Get particle position
 			BlockPos pos = new BlockPos(mistPosition);
 
-			// iterate over rendering info's
-			for (ParticleRenderingInfo info : strategy.getRenderingInfos()) {
-
-				// send particle rendering info to client
-				ParticleRendering particle = getInstance(pos, info);
-				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
-			}
+			// send particle rendering info to client
+			ParticleRendering particle = getInstance(pos, strategy.getRenderingInfo());
+			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
+			
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}

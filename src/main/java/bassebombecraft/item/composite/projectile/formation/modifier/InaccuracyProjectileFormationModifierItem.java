@@ -20,7 +20,7 @@ public class InaccuracyProjectileFormationModifierItem extends GenericCompositeN
 	 * Constructor.
 	 */
 	public InaccuracyProjectileFormationModifierItem() {
-		super(NAME, inaccuracyProjectileFormationModifierItem);
+		super(inaccuracyProjectileFormationModifierItem);
 	}
 
 	@Override

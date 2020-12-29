@@ -7,13 +7,13 @@ import static bassebombecraft.ModConstants.ITEM_BOOK_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
 import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
 import static bassebombecraft.config.ConfigUtils.resolveTooltip;
-import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import java.util.List;
 
 import javax.annotation.Nullable;
 
+import bassebombecraft.config.ItemConfig;
 import bassebombecraft.item.action.BlockClickedItemAction;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -54,20 +54,33 @@ public class GenericBlockClickedBook extends Item {
 	String tooltip;
 
 	/**
-	 * Generic book constructor.
+	 * Constructor.
+	 * 
+	 * @param config item configuration.
+	 * @param action item action object which is invoked when item is right clicked.
+	 */
+	public GenericBlockClickedBook(ItemConfig config, BlockClickedItemAction action) {
+		super(new Item.Properties().group(getItemGroup()));
+		this.action = action;
+
+		// get cooldown and tooltip
+		coolDown = config.cooldown.get();
+		tooltip = config.tooltip.get();
+	}
+
+	/**
+	 * Constructor.
 	 * 
 	 * @param name   item name.
-	 * @param action item action object which is invoked when item is right clicked
-	 *               with this item.
+	 * @param action item action object which is invoked when item is right clicked.
 	 */
+	@Deprecated
 	public GenericBlockClickedBook(String name, BlockClickedItemAction action) {
 		super(new Item.Properties().group(getItemGroup()));
-		doCommonItemInitialization(this, name);
-
 		this.action = action;
 
 		// get cooldown or default value
-		String configPath = BOOKS_CONFIGPATH + name;		
+		String configPath = BOOKS_CONFIGPATH + name;
 		coolDown = resolveCoolDown(configPath, ITEM_BOOK_DEFAULT_COOLDOWN);
 		tooltip = resolveTooltip(configPath, ITEM_DEFAULT_TOOLTIP);
 	}
@@ -97,11 +110,11 @@ public class GenericBlockClickedBook extends Item {
 
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		
+
 		// only update the action at server side since we updates the world
 		if (isLogicalClient(worldIn))
 			return;
-		
+
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 

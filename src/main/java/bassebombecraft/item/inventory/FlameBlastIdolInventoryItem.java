@@ -12,6 +12,6 @@ public class FlameBlastIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = FlameBlastIdolInventoryItem.class.getSimpleName();
 
 	public FlameBlastIdolInventoryItem() {
-		super(ITEM_NAME, flameBlastIdolInventoryItem, new AddFlameEffect());
+		super(flameBlastIdolInventoryItem, new AddFlameEffect());
 	}
 }

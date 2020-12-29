@@ -12,6 +12,6 @@ public class MassExtinctionEventIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = MassExtinctionEventIdolInventoryItem.class.getSimpleName();
 
 	public MassExtinctionEventIdolInventoryItem() {
-		super(ITEM_NAME, massExtinctionEventIdolInventoryItem, new MassExtinctionEvent());
+		super(massExtinctionEventIdolInventoryItem, new MassExtinctionEvent());
 	}
 }

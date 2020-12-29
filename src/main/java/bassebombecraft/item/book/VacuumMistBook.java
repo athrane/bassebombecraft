@@ -13,6 +13,6 @@ public class VacuumMistBook extends GenericRightClickedBook {
 	public static final String ITEM_NAME = VacuumMistBook.class.getSimpleName();
 
 	public VacuumMistBook() {
-		super(ITEM_NAME, vacuumMistBook, new GenericEntityMist(new VacuumMist()));
+		super(vacuumMistBook, new GenericEntityMist(new VacuumMist()));
 	}
 }

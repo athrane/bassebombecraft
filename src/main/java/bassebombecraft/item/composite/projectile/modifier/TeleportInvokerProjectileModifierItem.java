@@ -41,7 +41,7 @@ public class TeleportInvokerProjectileModifierItem extends GenericCompositeNullI
 	 * Constructor.
 	 */
 	public TeleportInvokerProjectileModifierItem() {
-		super(NAME, teleportInvokerProjectileModifierItem);
+		super(teleportInvokerProjectileModifierItem);
 	}
 
 	@Override

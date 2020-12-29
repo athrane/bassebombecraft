@@ -1,12 +1,11 @@
 package bassebombecraft.item.inventory;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
-import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
-import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
+import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.player.PlayerUtils.hasIdenticalUniqueID;
 import static bassebombecraft.player.PlayerUtils.isItemHeldInOffHand;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
@@ -17,9 +16,11 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import bassebombecraft.config.InventoryItemConfig;
-import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -60,30 +61,37 @@ public class GenericInventoryItem extends Item {
 	String tooltip;
 
 	/**
-	 * Rendering infos.
-	 */
-	ParticleRenderingInfo[] infos;
-
-	/**
 	 * Effect range.
 	 */
 	int range;
 
 	/**
+	 * Projectile particle rendering ports.
+	 * 
+	 * The ports is defined as a field to reuse it across update ticks.
+	 */
+	Ports addParticlesPorts;
+
+	/**
+	 * Client side projectile generator operator.
+	 */
+	Operator2 addParticlesOp;
+
+	/**
 	 * Constructor.
 	 * 
-	 * @param name     item name.
 	 * @param config   inventory item configuration.
 	 * @param strategy inventory item strategy.
 	 */
-	public GenericInventoryItem(String name, InventoryItemConfig config, InventoryItemActionStrategy strategy) {
+	public GenericInventoryItem(InventoryItemConfig config, InventoryItemActionStrategy strategy) {
 		super(new Item.Properties().group(getItemGroup()));
-		doCommonItemInitialization(this, name);
 		this.strategy = strategy;
-		infos = createFromConfig(config.particles);
 		coolDown = config.cooldown.get();
 		tooltip = config.tooltip.get();
 		range = config.range.get();
+		ParticleRenderingInfo info = createInfoFromConfig(config.particles);
+		addParticlesOp = new AddParticlesFromPosAtClient2(info);
+		addParticlesPorts = getInstance();
 	}
 
 	@Override
@@ -180,32 +188,21 @@ public class GenericInventoryItem extends Item {
 
 			// apply and render effect
 			if (strategy.shouldApplyEffect(foundEntity, isInvoker)) {
-
 				strategy.applyEffect(foundEntity, world, invokingEntity);
-				renderEffect(foundEntity.getPositionVector());
+				addParticles(foundEntity.getPositionVector());
 			}
 		}
 	}
 
 	/**
-	 * Render a effect at some position.
+	 * Add particle on update tick.
 	 * 
 	 * @param position effect position.
 	 */
-	void renderEffect(Vec3d position) {
-		try {
-			// create position
-			BlockPos pos = new BlockPos(position);
-
-			// iterate over rendering info's
-			for (ParticleRenderingInfo info : infos) {
-				// send particle rendering info to client
-				ParticleRendering particle = getInstance(pos, info);
-				getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
-			}
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
-		}
+	void addParticles(Vec3d position) {
+		BlockPos pos = new BlockPos(position);
+		addParticlesPorts.setBlockPosition1(pos);
+		run(addParticlesPorts, addParticlesOp);
 	}
 
 	@OnlyIn(Dist.CLIENT)

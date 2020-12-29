@@ -39,6 +39,6 @@ public class DecreaseSizeIdolInventoryItem extends GenericInventoryItem {
 	};
 
 	public DecreaseSizeIdolInventoryItem() {
-		super(ITEM_NAME, decreaseSizeIdolInventoryItem, new ExecuteOperatorOnTarget(splOp.get()));
+		super(decreaseSizeIdolInventoryItem, new ExecuteOperatorOnTarget(splOp.get()));
 	}
 }

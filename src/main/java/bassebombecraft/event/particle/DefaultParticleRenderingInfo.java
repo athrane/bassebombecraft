@@ -1,19 +1,29 @@
 package bassebombecraft.event.particle;
 
-import net.minecraft.particles.BasicParticleType;
+import static net.minecraftforge.registries.ForgeRegistries.PARTICLE_TYPES;
 
+import bassebombecraft.BassebombeCraft;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleType;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.ResourceLocation;
+
+/**
+ * Default implementation of the {@linkplain ParticleRenderingInfo} interface.
+ */
 public class DefaultParticleRenderingInfo implements ParticleRenderingInfo {
 
-	private BasicParticleType type;
-	private int number;
-	private int duration;
-	private float rgbRed;
-	private float rgbBlue;
-	private float rgbGreen;
-	private double speed;
+	BasicParticleType type;
+	String unresolvedType;
+	int number;
+	int duration;
+	float rgbRed;
+	float rgbBlue;
+	float rgbGreen;
+	double speed;
 
 	/**
-	 * DefaultParticleRenderingInfo constructor.
+	 * Constructor.
 	 * 
 	 * @param type     particle type.
 	 * @param number   number of particles to render per update.
@@ -25,9 +35,10 @@ public class DefaultParticleRenderingInfo implements ParticleRenderingInfo {
 	 * @param rgbBlue  blue RGB color component of the particle.
 	 * @param speed    particle speed.
 	 */
-	private DefaultParticleRenderingInfo(BasicParticleType type, int number, int duration, float rgbRed, float rgbGreen,
+	DefaultParticleRenderingInfo(BasicParticleType type, int number, int duration, float rgbRed, float rgbGreen,
 			float rgbBlue, double speed) {
 		this.type = type;
+		this.unresolvedType = type.getRegistryName().toString();				
 		this.number = number;
 		this.duration = duration;
 		this.rgbRed = rgbRed;
@@ -36,9 +47,55 @@ public class DefaultParticleRenderingInfo implements ParticleRenderingInfo {
 		this.speed = speed;
 	}
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param type     unresolved particle type. The type is specified as a string
+	 *                 and not resolved to an actual particle due to class loading
+	 *                 issues. 
+	 * @param number   number of particles to render per update.
+	 * @param duration number of updates to render particles. Particle is removed
+	 *                 when the number reaches zero. If the duration is negative
+	 *                 then it is interpreted as an infinite duration.
+	 * @param rgbRed   red RGB color component of the particle.
+	 * @param rgbGren  green RGB color component of the particle.
+	 * @param rgbBlue  blue RGB color component of the particle.
+	 * @param speed    particle speed.
+	 */
+	DefaultParticleRenderingInfo(String type, int number, int duration, float rgbRed, float rgbGreen,
+			float rgbBlue, double speed) {
+		this.unresolvedType = type;		
+		this.type = null;
+		this.number = number;
+		this.duration = duration;
+		this.rgbRed = rgbRed;
+		this.rgbGreen = rgbGreen;
+		this.rgbBlue = rgbBlue;
+		this.speed = speed;
+	}
+	
 	@Override
 	public BasicParticleType getParticleType() {
-		return type;
+
+		// return type if resolved
+		if(type != null) return type;
+		
+		// resolved unresolved type
+		ResourceLocation key = new ResourceLocation(unresolvedType.toLowerCase());
+		ParticleType<?> resolved = PARTICLE_TYPES.getValue(key);
+		
+		// store and return resolved type
+		if(resolved != null) {
+			type = (BasicParticleType) resolved;
+			return type;
+		}
+		
+		// report exception
+		String msg = "Failed to initialize particle from configuration value : " + key;
+		BassebombeCraft.getBassebombeCraft().reportAndLogError(msg);
+		
+		// add default particle 
+		return ParticleTypes.HEART;
 	}
 
 	@Override
@@ -88,6 +145,28 @@ public class DefaultParticleRenderingInfo implements ParticleRenderingInfo {
 	 */
 	public static ParticleRenderingInfo getInstance(BasicParticleType type, int number, int duration, float rgbRed,
 			float rgbGreen, float rgbBlue, double speed) {
+		return new DefaultParticleRenderingInfo(type, number, duration, rgbRed, rgbGreen, rgbBlue, speed);
+	}
+
+	/**
+	 * Factory method for creation of a unresolved particle rendering info.
+	 * 
+	 * @param type     unresolved particle type. The type is specified as a string
+	 *                 and not resolved to an actual particle due to class loading
+	 *                 issues. 
+	 * @param number   number of particles to render per update.
+	 * @param duration number of updates to render particles. Particle is removed
+	 *                 when the number reaches zero. If the duration is negative
+	 *                 then it is interpreted as an infinite duration.
+	 * @param rgbRed   red RGB color component of the particle.
+	 * @param rgbGren  green RGB color component of the particle.
+	 * @param rgbBlue  blue RGB color component of the particle.
+	 * @param speed    particle speed.
+	 * 
+	 * @return particle rendering info.
+	 */
+	public static ParticleRenderingInfo getUnresolvedInstance(String type, int number, int duration,
+			float rgbRed, float rgbGreen, float rgbBlue, double speed) {
 		return new DefaultParticleRenderingInfo(type, number, duration, rgbRed, rgbGreen, rgbBlue, speed);
 	}
 

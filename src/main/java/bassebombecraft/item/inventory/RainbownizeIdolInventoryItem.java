@@ -12,6 +12,6 @@ public class RainbownizeIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = RainbownizeIdolInventoryItem.class.getSimpleName();
 
 	public RainbownizeIdolInventoryItem() {
-		super(ITEM_NAME, rainbownizeIdolInventoryItem, new Rainbownize());
+		super(rainbownizeIdolInventoryItem, new Rainbownize());
 	}
 }

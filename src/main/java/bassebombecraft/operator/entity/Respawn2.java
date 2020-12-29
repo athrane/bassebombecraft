@@ -10,13 +10,15 @@ import static bassebombecraft.entity.EntityUtils.calculateRandomYaw;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.entity.EntityUtils.setAttribute;
 import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
+import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 
 import java.util.Random;
-import java.util.function.Supplier;
+import java.util.function.Function;
 import java.util.stream.IntStream;
 
 import bassebombecraft.ModConstants;
-import bassebombecraft.operator.Operator;
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -24,15 +26,15 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.world.World;
 
 /**
- * Implementation of the {@linkplain Operator} interface which respawns any
+ * Implementation of the {@linkplain Operator2} interface which respawns any
  * number of instances of an (dead) entity .
  */
-public class Respawn implements Operator {
+public class Respawn2 implements Operator2 {
 
 	/**
 	 * Operator identifier.
 	 */
-	public static final String NAME = Respawn.class.getSimpleName();
+	public static final String NAME = Respawn2.class.getSimpleName();
 
 	/**
 	 * Value for {@linkplain ModConstants.IS_RESPAWNED}. The value doesn't carry any
@@ -41,29 +43,42 @@ public class Respawn implements Operator {
 	static final double IS_RESPAWNED_VALUE = 1.0D;
 
 	/**
-	 * Entity supplier.
+	 * Function to get dead entity.
 	 */
-	Supplier<LivingEntity> splEntity;
+	Function<Ports, LivingEntity> fnGetDeadEntity;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param splEntity entity supplier.
+	 * @param fnGetDeadEntity function to get dead living entity.
 	 */
-	public Respawn(Supplier<LivingEntity> splEntity) {
-		this.splEntity = splEntity;
+	public Respawn2(Function<Ports, LivingEntity> fnGetDeadEntity) {
+		this.fnGetDeadEntity = fnGetDeadEntity;
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * Instance is configured with living entity #1 as dead entity from ports.
+	 */
+	public Respawn2() {
+		this(getFnGetLivingEntity1());
 	}
 
 	@Override
-	public void run() {
+	public Ports run(Ports ports) {
 
 		// get entity
-		LivingEntity livingEntity = splEntity.get();
+		LivingEntity deadEntity = fnGetDeadEntity.apply(ports);
+		if (deadEntity == null)
+			return ports;
 
 		// spawn entities
 		Random random = getBassebombeCraft().getRandom();
 		int entities = Math.max(respawnMinEntities.get(), random.nextInt(respawnMaxEntities.get()));
-		IntStream.rangeClosed(1, entities).forEach(n -> spawnEntity(livingEntity));
+		IntStream.rangeClosed(1, entities).forEach(n -> spawnEntity(deadEntity));
+
+		return ports;
 	}
 
 	/**
@@ -71,7 +86,7 @@ public class Respawn implements Operator {
 	 * 
 	 * @param deadEntity dead entity to spawn from.
 	 */
-	static void spawnEntity(Entity deadEntity) {
+	void spawnEntity(LivingEntity deadEntity) {
 
 		// get world
 		World world = deadEntity.getEntityWorld();
@@ -103,7 +118,7 @@ public class Respawn implements Operator {
 	 * 
 	 * @return potion effect
 	 */
-	static EffectInstance createEffect() {
+	EffectInstance createEffect() {
 		return new EffectInstance(AGGRO_PLAYER_EFFECT, Integer.MAX_VALUE);
 	}
 

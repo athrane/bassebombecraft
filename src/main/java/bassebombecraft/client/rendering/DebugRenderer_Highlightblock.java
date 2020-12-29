@@ -9,7 +9,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import bassebombecraft.client.rendering.rendertype.OverlayLines;
+import bassebombecraft.client.rendering.rendertype.RenderTypes;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -46,7 +46,7 @@ public class DebugRenderer_Highlightblock {
 		PlayerEntity player = getClientSidePlayer();
 
 		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-		IVertexBuilder builder = buffer.getBuffer(OverlayLines.OVERLAY_LINES);
+		IVertexBuilder builder = buffer.getBuffer(RenderTypes.OVERLAY_LINES);
 
 		BlockRayTraceResult blockResult = (BlockRayTraceResult) event.getTarget();
 		BlockPos blockPos = blockResult.getPos();
@@ -72,13 +72,13 @@ public class DebugRenderer_Highlightblock {
 
 		// see: https://wiki.mcjty.eu/modding/index.php?title=Tut15_Ep15
 		RenderSystem.disableDepthTest();
-		buffer.finish(OverlayLines.OVERLAY_LINES);
+		buffer.finish(RenderTypes.OVERLAY_LINES);
 
 		renderText_default(matrixStack, buffer, 0, 0, message);
 
 		// see: https://wiki.mcjty.eu/modding/index.php?title=Tut15_Ep15
 		RenderSystem.disableDepthTest();
-		buffer.finish(OverlayLines.OVERLAY_LINES);
+		buffer.finish(RenderTypes.OVERLAY_LINES);
 	}
 
 	/**

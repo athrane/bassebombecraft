@@ -15,6 +15,6 @@ public class SpawnGuardianBook extends GenericRightClickedBook {
 	static final ProjectileAction PROJECTILE_ACTION = new SpawnGuardian();
 
 	public SpawnGuardianBook() {
-		super(ITEM_NAME, spawnGuardianBook, new ShootGenericEggProjectile(PROJECTILE_ACTION));
+		super( spawnGuardianBook, new ShootGenericEggProjectile(PROJECTILE_ACTION));
 	}
 }

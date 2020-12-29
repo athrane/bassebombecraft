@@ -11,6 +11,6 @@ public class PlayerAggroIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = PlayerAggroIdolInventoryItem.class.getSimpleName();
 
 	public PlayerAggroIdolInventoryItem() {
-		super(ITEM_NAME, ModConfiguration.playerAggroIdolInventoryItem, new AddAggroPlayerEffect());
+		super(ModConfiguration.playerAggroIdolInventoryItem, new AddAggroPlayerEffect());
 	}
 }

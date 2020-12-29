@@ -41,7 +41,7 @@ public class ReceiveAggroProjectileModifierItem extends GenericCompositeNullItem
 	 * Constructor.
 	 */
 	public ReceiveAggroProjectileModifierItem() {
-		super(NAME, receiveAggroProjectileModifierItem);
+		super(receiveAggroProjectileModifierItem);
 	}
 
 	@Override

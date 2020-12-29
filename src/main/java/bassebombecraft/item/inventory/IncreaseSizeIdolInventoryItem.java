@@ -38,6 +38,6 @@ public class IncreaseSizeIdolInventoryItem extends GenericInventoryItem {
 	};
 
 	public IncreaseSizeIdolInventoryItem() {
-		super(ITEM_NAME, increaseSizeIdolInventoryItem, new ExecuteOperatorOnTarget(splOp.get()));
+		super(increaseSizeIdolInventoryItem, new ExecuteOperatorOnTarget(splOp.get()));
 	}
 }

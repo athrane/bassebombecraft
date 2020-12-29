@@ -144,6 +144,60 @@ public class PlayerUtils {
 	}
 
 	/**
+	 * Returns true if item is held in player off hand.
+	 * 
+	 * @param player player to test.
+	 * @param item   item to test whether it is held in off hand.
+	 * 
+	 * @return true if item is held in player off hand.
+	 */
+	public static boolean isItemHeldInOffHand(PlayerEntity player, Item item) {
+		if (player == null)
+			return false;
+		if (item == null)
+			return false;
+
+		// get item stack
+		ItemStack heldItemStack = player.getHeldItemOffhand();
+		if (heldItemStack == null)
+			return false;
+		
+		// get item
+		Item heldItem = heldItemStack.getItem();
+		if (heldItem == null)
+			return false;
+		
+		return item.equals(heldItem);
+	}
+
+	/**
+	 * Returns true if item is held in player main hand.
+	 * 
+	 * @param player player to test.
+	 * @param item   item to test whether it is held in main hand.
+	 * 
+	 * @return true if item is held in player main hand.
+	 */
+	public static boolean isItemHeldInMainHand(PlayerEntity player, Item item) {
+		if (player == null)
+			return false;
+		if (item == null)
+			return false;
+
+		// get item stack
+		ItemStack heldItemStack = player.getHeldItemMainhand();
+		if (heldItemStack == null)
+			return false;
+		
+		// get item
+		Item heldItem = heldItemStack.getItem();
+		if (heldItem == null)
+			return false;
+		
+		return item.equals(heldItem);
+	}
+	
+	/**
 	 * Returns true if item is held in either player hands.
 	 * 
 	 * @param player player to test.
@@ -152,33 +206,9 @@ public class PlayerUtils {
 	 * @return true if item is held by player in either hand.
 	 */
 	public static boolean isItemHeldInEitherHands(PlayerEntity player, Item item) {
-		if (player == null)
-			return false;
-		if (item == null)
-			return false;
-
-		ItemStack itemStackOffhand = player.getHeldItemOffhand();
-		if (itemStackOffhand == null)
-			return false;
-
-		Item itemOffhand = itemStackOffhand.getItem();
-		if (itemOffhand == null)
-			return false;
-
-		// exit if item is held in off hand
-		if (item.equals(itemOffhand))
-			return true;
-
-		ItemStack itemStack = player.getHeldItemMainhand();
-		if (itemStack == null)
-			return false;
-
-		Item itemMainhand = itemStack.getItem();
-		if (itemMainhand == null)
-			return false;
-
-		// exit if item is held in main hand
-		return (item.equals(itemMainhand));
+		if(isItemHeldInMainHand(player, item)) return true;
+		if(isItemHeldInOffHand(player, item)) return true;		
+		return false;
 	}
 
 	/**

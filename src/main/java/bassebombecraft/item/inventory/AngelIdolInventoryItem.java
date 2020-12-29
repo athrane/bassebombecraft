@@ -12,6 +12,6 @@ public class AngelIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = AngelIdolInventoryItem.class.getSimpleName();
 
 	public AngelIdolInventoryItem() {
-		super(ITEM_NAME, angelIdolInventoryItem, new AddHealingEffect());
+		super(angelIdolInventoryItem, new AddHealingEffect());
 	}
 }

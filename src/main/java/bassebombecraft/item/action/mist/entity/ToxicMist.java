@@ -18,6 +18,9 @@ public class ToxicMist implements EntityMistActionStrategy {
 
 	static final int EFFECT_DURATION = 200; // Measured in ticks
 
+	/**
+	 * Particle rendering info.
+	 */	
 	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
@@ -25,9 +28,8 @@ public class ToxicMist implements EntityMistActionStrategy {
 	static final float B = 0.0F;
 	static final float G = 0.75F;
 	static final double PARTICLE_SPEED = 0.3;
-	static final ParticleRenderingInfo MIST = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R, G, B,
+	static final ParticleRenderingInfo INFO = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R, G, B,
 			PARTICLE_SPEED);
-	static final ParticleRenderingInfo[] INFOS = new ParticleRenderingInfo[] { MIST };
 
 	/**
 	 * Create potion effect.
@@ -69,8 +71,8 @@ public class ToxicMist implements EntityMistActionStrategy {
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return INFOS;
+	public ParticleRenderingInfo getRenderingInfos() {
+		return INFO;
 	}
 
 }

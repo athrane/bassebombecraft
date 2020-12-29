@@ -35,24 +35,24 @@ public class AddParticlesFromEntityAtClient2 implements Operator2 {
 	 * Constructor.
 	 * 
 	 * @param fnGetEntity function to get living entity.
-	 * @param particles   particle rendering infos.
+	 * @param info        particle rendering info.
 	 */
 	public AddParticlesFromEntityAtClient2(Function<Ports, LivingEntity> fnGetLivingEntity,
-			ParticleRenderingInfo[] infos) {
+			ParticleRenderingInfo info) {
 		this.fnGetLivingEntity = fnGetLivingEntity;
-		this.infos = infos;
+		this.infos = new ParticleRenderingInfo[] { info };
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param particles particle rendering infos.
+	 * Instance is configured with living entity #1 (at whose position the particle
+	 * are spawned) source from ports.
 	 * 
-	 *                  Instance is configured with living entity #1 (at whose
-	 *                  position the particle are spawned) source from ports.
+	 * @param info particle rendering infos.
 	 */
-	public AddParticlesFromEntityAtClient2(ParticleRenderingInfo[] infos) {
-		this(getFnGetLivingEntity1(), infos);
+	public AddParticlesFromEntityAtClient2(ParticleRenderingInfo info) {
+		this(getFnGetLivingEntity1(), info);
 	}
 
 	@Override

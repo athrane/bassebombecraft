@@ -12,6 +12,6 @@ public class PrimeMobIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = PrimeMobIdolInventoryItem.class.getSimpleName();
 
 	public PrimeMobIdolInventoryItem() {
-		super(ITEM_NAME, primeMobIdolInventoryItem, new AddMobsPrimingEffect());
+		super(primeMobIdolInventoryItem, new AddMobsPrimingEffect());
 	}
 }

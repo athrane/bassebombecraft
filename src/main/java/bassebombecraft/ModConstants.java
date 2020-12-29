@@ -11,9 +11,7 @@ import static bassebombecraft.config.ModConfiguration.primedCreeperCannonProject
 
 import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
-import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
-import bassebombecraft.event.charm.CharmedMobEventHandler;
 import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
@@ -21,8 +19,6 @@ import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
-import bassebombecraft.item.basic.HudItem;
-import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.item.composite.CompositeMagicItem;
 import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
@@ -60,7 +56,7 @@ public class ModConstants {
 	/**
 	 * Mod version.
 	 */
-	public static final String VERSION = "1.15.2-1.47";
+	public static final String VERSION = "1.15.2-1.48";
 
 	/**
 	 * In game tab name.
@@ -239,27 +235,11 @@ public class ModConstants {
 	public static final int MOD_STRUCUTRE_GENERATOR_WEIGHT = 1;
 
 	/**
-	 * HUD Item.
+	 * Particle spawn frequency in {@linkplain GenericEntityMist}. Measured in world
+	 * ticks.
 	 */
-	public static final HudItem HUD_ITEM = new HudItem();
-
-	/**
-	 * Build mine book.
-	 */
-	public static final BuildMineBook BUILD_MINE_BOOK = new BuildMineBook();
-
-	/**
-	 * Particle spawn frequency in {@linkplain GenericCompositeProjectileEntity},
-	 * {@linkplain GenericBlockSpiralFillMist} and {@linkplain GenericEntityMist}.
-	 * Measured in world ticks.
-	 */
+	@Deprecated
 	public static final int PARTICLE_SPAWN_FREQUENCY = 10;
-
-	/**
-	 * Particle spawn frequency in {@linkplain CharmedMobEventHandler}. Measured in
-	 * world ticks.
-	 */
-	public static final int CHARM_PARTICLE_RENDERING_FREQUENCY = 20;
 
 	/**
 	 * Effect update frequency in {@linkplain GenericBlockSpiralFillMist}. Measured
@@ -345,6 +325,7 @@ public class ModConstants {
 	/**
 	 * Basic items config path prefix in TOML configuration file.
 	 */
+	@Deprecated
 	public static final String BASICITEMS_CONFIGPATH = "BasicItems.";
 
 	/**

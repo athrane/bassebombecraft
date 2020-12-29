@@ -20,7 +20,7 @@ public class CircleProjectileFormationItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public CircleProjectileFormationItem() {
-		super(NAME, circleProjectileFormationItem);
+		super(circleProjectileFormationItem);
 	}
 
 	@Override

@@ -41,7 +41,7 @@ public class DecoyProjectileModifierItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public DecoyProjectileModifierItem() {
-		super(NAME, decoyProjectileModifierItem);
+		super(decoyProjectileModifierItem);
 	}
 
 	@Override

@@ -12,6 +12,6 @@ public class LevitationIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = LevitationIdolInventoryItem.class.getSimpleName();
 
 	public LevitationIdolInventoryItem() {
-		super(ITEM_NAME, levitationIdolInventoryItem, new AddLevitationEffect());
+		super(levitationIdolInventoryItem, new AddLevitationEffect());
 	}
 }

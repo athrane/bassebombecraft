@@ -1,17 +1,13 @@
 package bassebombecraft.config;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
+import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getUnresolvedInstance;
 
 import com.electronwill.nightconfig.core.UnmodifiableConfig;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleType;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
-import net.minecraftforge.registries.ForgeRegistries;
 
 /**
  * Configuration utility class.
@@ -19,42 +15,24 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class ConfigUtils {
 
 	/**
-	 * Create array with single {@linkplain ParticleRenderingInfo} from a
-	 * {@linkplain ParticlesConfig} object.
+	 * Create {@linkplain ParticleRenderingInfo} from a {@linkplain ParticlesConfig}
+	 * object.
 	 * 
 	 * @param key configuration key to read configuration from.
 	 * 
-	 * @return array with single {@linkplain ParticleRenderingInfo}.
+	 * @return single {@linkplain ParticleRenderingInfo}.
 	 */
-	public static ParticleRenderingInfo[] createFromConfig(ParticlesConfig config) {
-		ParticleType<?> particleType = resolveParticleType(config);
-		BasicParticleType castParticleType = (BasicParticleType) particleType;
+	public static ParticleRenderingInfo createInfoFromConfig(ParticlesConfig config) {
+		String unresolvedType = config.type.get();
 		int number = config.number.get();
 		int duration = config.duration.get();
 		double colorR = config.r.get();
 		double colorG = config.g.get();
 		double colorB = config.b.get();
 		double speed = config.speed.get();
-		ParticleRenderingInfo info = getInstance(castParticleType, number, duration, (float) colorR, (float) colorG,
-				(float) colorB, speed);
-		return new ParticleRenderingInfo[] { info };
-	}
-
-	/**
-	 * Resolve particle type from particle configuration object.
-	 * 
-	 * @param config particle configuration object.
-	 * 
-	 * @return particle type object.
-	 */
-	static ParticleType<?> resolveParticleType(ParticlesConfig config) {
-
-		// get particle type name
-		String name = config.type.get();
-
-		// resolve vanilla particle
-		ResourceLocation key2 = new ResourceLocation(name.toLowerCase());
-		return ForgeRegistries.PARTICLE_TYPES.getValue(key2);
+		ParticleRenderingInfo info = getUnresolvedInstance(unresolvedType, number, duration, (float) colorR,
+				(float) colorG, (float) colorB, speed);
+		return info;
 	}
 
 	/**
@@ -69,6 +47,7 @@ public class ConfigUtils {
 	 * 
 	 * @return resolve cooldown value from configuration.
 	 */
+	@Deprecated
 	public static int resolveCoolDown(String key, int defaultValue) {
 
 		// define configuration path in .TOML file
@@ -93,6 +72,7 @@ public class ConfigUtils {
 	 * 
 	 * @return resolve cooldown value from configuration.
 	 */
+	@Deprecated	
 	public static String resolveTooltip(String key, String defaultValue) {
 
 		// define configuration path in .TOML file

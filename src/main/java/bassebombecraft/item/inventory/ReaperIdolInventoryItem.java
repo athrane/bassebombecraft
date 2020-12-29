@@ -12,6 +12,6 @@ public class ReaperIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = ReaperIdolInventoryItem.class.getSimpleName();
 
 	public ReaperIdolInventoryItem() {
-		super(ITEM_NAME, reaperIdolInventoryItem, new KillInvokerAndDestroyIdol());
+		super(reaperIdolInventoryItem, new KillInvokerAndDestroyIdol());
 	}
 }

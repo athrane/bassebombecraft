@@ -1,5 +1,9 @@
 package bassebombecraft.client.particles;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+
+import java.util.Random;
+
 import net.minecraft.client.particle.IAnimatedSprite;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.IParticleRenderType;
@@ -13,7 +17,7 @@ import net.minecraft.world.World;
  * 
  * Supports animation based on age.
  * 
- * The set of animation frame is defined in the the .json file.
+ * The set of animation frames are defined in the the .json file.
  */
 public class CircleParticle extends SpriteTexturedParticle {
 
@@ -36,10 +40,13 @@ public class CircleParticle extends SpriteTexturedParticle {
 		super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
 		this.spriteSet = spriteSet;
 		
+		// get random
+		Random random = getBassebombeCraft().getRandom();
+
 		// set speed
-		this.motionX = xSpeedIn * (Math.random() * 2.0D - 1.0D);
-	    this.motionY = ySpeedIn * (Math.random() * 2.0D - 1.0D);
-	    this.motionZ = zSpeedIn * (Math.random() * 2.0D - 1.0D);		
+		this.motionX = xSpeedIn * (random.nextDouble() * 2.0D - 1.0D);
+		this.motionY = ySpeedIn * (random.nextDouble() * 2.0D - 1.0D);
+		this.motionZ = zSpeedIn * (random.nextDouble() * 2.0D - 1.0D);
 	}
 
 	@Override

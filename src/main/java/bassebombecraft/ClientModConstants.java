@@ -78,4 +78,9 @@ public class ClientModConstants {
 	 */
 	public static final String GUI_TEXTURE_PATH = "textures/gui/";
 
+	/**
+	 * Default spawn duration for particle renderings.
+	 */
+	public static final int PARTICLE_SPAWN_DURATION = 2;
+	
 }

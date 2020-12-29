@@ -4,19 +4,19 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ClientModConstants.TEXT_COLOR;
 import static bassebombecraft.ClientModConstants.TEXT_SCALE;
-import static bassebombecraft.ModConstants.HUD_ITEM;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
 import static bassebombecraft.entity.ai.AiUtils.getFirstRunningAiGoalName;
 import static bassebombecraft.entity.ai.AiUtils.getFirstRunningAiTargetGoalName;
+import static bassebombecraft.geom.GeometryUtils.oscillate;
+import static bassebombecraft.item.RegisteredItems.HUD;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import bassebombecraft.client.rendering.RenderingUtils;
-import bassebombecraft.client.rendering.rendertype.OverlayLines;
+import bassebombecraft.client.rendering.rendertype.RenderTypes;
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -29,7 +29,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderLivingEvent.Pre;
-import static bassebombecraft.geom.GeometryUtils.oscillate;
 
 /**
  * Rendering team member information in the HUD item.
@@ -52,7 +51,7 @@ public class TeamEnityRenderer {
 			PlayerEntity player = getClientSidePlayer();
 
 			// exit if HUD item isn't in hotbar
-			if (!isItemInHotbar(player, HUD_ITEM))
+			if (!isItemInHotbar(player, HUD.get()))
 				return;
 
 			// exit if entity isn't a member
@@ -87,13 +86,13 @@ public class TeamEnityRenderer {
 		matrixStack.translate(0, height, 0);
 		matrixStack.rotate(Vector3f.YP.rotationDegrees(180));
 		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
-		IVertexBuilder builder = buffer.getBuffer(OverlayLines.OVERLAY_LINES);
+		IVertexBuilder builder = buffer.getBuffer(RenderTypes.OVERLAY_LINES);
 		renderTriangle(builder, positionMatrix);
 		matrixStack.pop();
 
 		// see: https://wiki.mcjty.eu/modding/index.php?title=Tut15_Ep15
 		RenderSystem.disableDepthTest();
-		buffer.finish(OverlayLines.OVERLAY_LINES);
+		buffer.finish(RenderTypes.OVERLAY_LINES);
 	}
 
 	static void renderText(MatrixStack matrixStack, IRenderTypeBuffer buffer, float x, float y, String text) {

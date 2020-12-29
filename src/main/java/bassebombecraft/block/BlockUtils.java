@@ -247,14 +247,14 @@ public class BlockUtils {
 	}
 
 	/**
-	 * Returns true if the set of blocks are all of type air.
+	 * Returns true if at least one block in the stream isn't of type air.
 	 * 
 	 * @param stream of blocks to query.
 	 * @param world  world where query should be processed.
 	 * 
-	 * @return true if the blocks are all of type air.
+	 * @return true if if at least one block in the stream isn't of type air.
 	 */
-	public static boolean containsAirBlocksOnly(Stream<BlockPos> blocks, World world) {
+	public static boolean containsNonAirBlocks(Stream<BlockPos> blocks, World world) {
 		return blocks.map(bp -> getBlockFromPosition(bp, world)).anyMatch(b -> b != Blocks.AIR);
 	}
 

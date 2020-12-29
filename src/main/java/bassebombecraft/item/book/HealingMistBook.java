@@ -13,6 +13,6 @@ public class HealingMistBook extends GenericRightClickedBook {
 	public static final String ITEM_NAME = HealingMistBook.class.getSimpleName();
 
 	public HealingMistBook() {
-		super(ITEM_NAME, healingMistBook, new GenericEntityMist(new HealingMist()));
+		super(healingMistBook, new GenericEntityMist(new HealingMist()));
 	}
 }

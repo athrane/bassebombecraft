@@ -15,6 +15,6 @@ public class ToxicMistBook extends GenericRightClickedBook {
 	static final EntityMistActionStrategy STRATEGY = new ToxicMist();
 
 	public ToxicMistBook() {
-		super(ITEM_NAME, toxicMistBook, new GenericEntityMist(STRATEGY));
+		super(toxicMistBook, new GenericEntityMist(STRATEGY));
 	}
 }

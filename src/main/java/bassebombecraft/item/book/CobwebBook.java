@@ -31,6 +31,6 @@ public class CobwebBook extends GenericRightClickedBook2 {
 	};
 
 	public CobwebBook() {
-		super(ITEM_NAME, cobwebBook, getInstance(), splOp.get());
+		super(cobwebBook, getInstance(), splOp.get());
 	}
 }

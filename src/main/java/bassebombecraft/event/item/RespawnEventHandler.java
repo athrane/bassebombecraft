@@ -1,14 +1,17 @@
 package bassebombecraft.event.item;
 
 import static bassebombecraft.ModConstants.RESPAWN;
+import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.operator.Operators2.run;
 
 import bassebombecraft.ModConstants;
 import bassebombecraft.item.inventory.RespawnIdolInventoryItem;
-import bassebombecraft.operator.Operator;
-import bassebombecraft.operator.Operators;
-import bassebombecraft.operator.conditional.IfEntityAttributeIsDefined;
-import bassebombecraft.operator.conditional.IfWorldAtServerSide;
-import bassebombecraft.operator.entity.Respawn;
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.Sequence2;
+import bassebombecraft.operator.conditional.IsEntityAttributeDefined2;
+import bassebombecraft.operator.conditional.IsWorldAtServerSide2;
+import bassebombecraft.operator.entity.Respawn2;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -20,26 +23,22 @@ import net.minecraftforge.fml.common.Mod;
  * An entity is tagged if it has the entity attribute
  * {@linkplain ModConstants.RESPAWN} defined.
  * 
- * The handler only executes events SERVER side. 
+ * The handler only executes events SERVER side.
  */
 @Mod.EventBusSubscriber
 public class RespawnEventHandler {
 
 	/**
-	 * Operator execution.
+	 * Create operators.
 	 */
-	static Operators ops;
-
-	static {
-		ops = new Operators();
-		Operator respawnOp = new Respawn(ops.getSplLivingEntity());
-		Operator ifOp2 = new IfEntityAttributeIsDefined(ops.getSplLivingEntity(), respawnOp, RESPAWN);		
-		Operator ifOp = new IfWorldAtServerSide(ops.getSplLivingEntity(), ifOp2); ;		
-		ops.setOperator(ifOp);
-	}
+	static Operator2 respawnOp = new Sequence2(new IsWorldAtServerSide2(), new IsEntityAttributeDefined2(RESPAWN),
+			new Respawn2());
 
 	@SubscribeEvent
 	public static void handleLivingDeathEvent(LivingDeathEvent event) {
-		ops.run(event.getEntityLiving());
+		Ports ports = getInstance();
+		ports.setLivingEntity1(event.getEntityLiving());
+		run(ports, respawnOp);
 	}
+
 }

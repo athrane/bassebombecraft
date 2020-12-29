@@ -1,15 +1,15 @@
 package bassebombecraft.item.composite.projectile;
 
+import static bassebombecraft.config.ModConfiguration.skullProjectileEntity;
 import static bassebombecraft.config.ModConfiguration.witherSkullProjectileItem;
 
-import bassebombecraft.item.composite.GenericCompositeNullItem;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.projectile.ShootWitherSkullProjectile2;
 
 /**
  * Wither skull projectile item.
  */
-public class WitherSkullProjectileItem extends GenericCompositeNullItem {
+public class WitherSkullProjectileItem extends GenericCompositeNullProjectileItem {
 
 	/**
 	 * Item identifier.
@@ -20,7 +20,7 @@ public class WitherSkullProjectileItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public WitherSkullProjectileItem() {
-		super(NAME, witherSkullProjectileItem);
+		super(witherSkullProjectileItem, skullProjectileEntity);
 	}
 
 	@Override

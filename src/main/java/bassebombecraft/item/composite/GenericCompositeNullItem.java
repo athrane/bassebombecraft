@@ -2,26 +2,24 @@ package bassebombecraft.item.composite;
 
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
+import static net.minecraft.util.ActionResultType.SUCCESS;
+import static net.minecraft.util.text.TextFormatting.GREEN;
 
 import java.util.List;
 
 import javax.annotation.Nullable;
 
 import bassebombecraft.config.ItemConfig;
-import bassebombecraft.item.action.RightClickedItemAction;
 import bassebombecraft.operator.Operator2;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
 import net.minecraft.util.CooldownTracker;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -37,11 +35,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public abstract class GenericCompositeNullItem extends Item {
 
 	/**
-	 * Item action.
-	 */
-	RightClickedItemAction action;
-
-	/**
 	 * Item cooldown value.
 	 */
 	int coolDown;
@@ -49,17 +42,15 @@ public abstract class GenericCompositeNullItem extends Item {
 	/**
 	 * Item tooltip.
 	 */
-	String tooltip;
+	protected String tooltip;
 
 	/**
-	 * Generic null item constructor.
+	 * Constructor.
 	 * 
-	 * @param name   item name.
 	 * @param config item configuration.
 	 */
-	public GenericCompositeNullItem(String name, ItemConfig config) {
+	public GenericCompositeNullItem(ItemConfig config) {
 		super(new Item.Properties().group(getItemGroup()));
-		doCommonItemInitialization(this, name);
 
 		// get cooldown and tooltip
 		coolDown = config.cooldown.get();
@@ -80,15 +71,14 @@ public abstract class GenericCompositeNullItem extends Item {
 		CooldownTracker tracker = playerIn.getCooldownTracker();
 		tracker.setCooldown(this, coolDown);
 
-		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
+		return new ActionResult<ItemStack>(SUCCESS, playerIn.getHeldItem(handIn));
 	}
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
 			ITooltipFlag flagIn) {
-		ITextComponent text = new TranslationTextComponent(TextFormatting.GREEN + this.tooltip);
-		tooltip.add(text);
+		tooltip.add(new TranslationTextComponent(GREEN + this.tooltip));
 	}
 
 	/**
@@ -97,5 +87,5 @@ public abstract class GenericCompositeNullItem extends Item {
 	 * @return operator for composite item.
 	 */
 	abstract public Operator2 createOperator();
-		
+
 }

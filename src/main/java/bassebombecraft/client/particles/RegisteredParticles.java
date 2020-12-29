@@ -3,6 +3,7 @@ package bassebombecraft.client.particles;
 import static bassebombecraft.ModConstants.MODID;
 import static net.minecraftforge.registries.ForgeRegistries.PARTICLE_TYPES;
 
+import net.minecraft.client.particle.SpriteTexturedParticle;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
 import net.minecraftforge.fml.RegistryObject;
@@ -22,37 +23,53 @@ public class RegisteredParticles {
 	/**
 	 * Registry object for {@linkplain LightningParticle}.
 	 */
-	public static final RegistryObject<BasicParticleType> LIGHTNING_PARTICLE = PARTICLE_REGISTRY
-			.register(LightningParticle.NAME.toLowerCase(), () -> new BasicParticleType(true));
+	public static final RegistryObject<BasicParticleType> LIGHTNING_PARTICLE = register(LightningParticle.class);
 
 	/**
 	 * Registry object for {@linkplain SparkParticle}.
 	 */
-	public static final RegistryObject<BasicParticleType> SPARK_PARTICLE = PARTICLE_REGISTRY
-			.register(SparkParticle.NAME.toLowerCase(), () -> new BasicParticleType(true));
+	public static final RegistryObject<BasicParticleType> SPARK_PARTICLE = register(SparkParticle.class);
 
 	/**
 	 * Registry object for {@linkplain ChickenParticle}.
 	 */
-	public static final RegistryObject<BasicParticleType> CHICKEN_PARTICLE = PARTICLE_REGISTRY
-			.register(ChickenParticle.NAME.toLowerCase(), () -> new BasicParticleType(true));
+	public static final RegistryObject<BasicParticleType> CHICKEN_PARTICLE = register(ChickenParticle.class);
 
 	/**
 	 * Registry object for {@linkplain CircleParticle}.
 	 */
-	public static final RegistryObject<BasicParticleType> CIRCLE_PARTICLE = PARTICLE_REGISTRY
-			.register(CircleParticle.NAME.toLowerCase(), () -> new BasicParticleType(true));
+	public static final RegistryObject<BasicParticleType> CIRCLE_PARTICLE = register(CircleParticle.class);
 
 	/**
 	 * Registry object for {@linkplain SkullParticle}.
 	 */
-	public static final RegistryObject<BasicParticleType> SKULL_PARTICLE = PARTICLE_REGISTRY
-			.register(SkullParticle.NAME.toLowerCase(), () -> new BasicParticleType(true));
+	public static final RegistryObject<BasicParticleType> SKULL_PARTICLE = register(SkullParticle.class);
 
 	/**
 	 * Registry object for {@linkplain BlockParticle}.
 	 */
-	public static final RegistryObject<BasicParticleType> BLOCK_PARTICLE = PARTICLE_REGISTRY
-			.register(BlockParticle.NAME.toLowerCase(), () -> new BasicParticleType(true));
+	public static final RegistryObject<BasicParticleType> BLOCK_PARTICLE = register(BlockParticle.class);
+
+	/**
+	 * Registry object for {@linkplain PlayerAggroParticle}.
+	 */
+	public static final RegistryObject<BasicParticleType> PLAYER_AGGRO_PARTICLE = register(PlayerAggroParticle.class);
+
+	/**
+	 * Registry object for {@linkplain CurseParticle}.
+	 */
+	public static final RegistryObject<BasicParticleType> CURSE_PARTICLE = register(CurseParticle.class);
+
+	/**
+	 * Register particle as {@linkplain BasicParticleType}.
+	 * 
+	 * @param class1 class for particle to register.
+	 * 
+	 * @return registry object.
+	 */
+	static RegistryObject<BasicParticleType> register(Class<? extends SpriteTexturedParticle> class1) {
+		String key = class1.getSimpleName().toLowerCase();
+		return PARTICLE_REGISTRY.register(key, () -> new BasicParticleType(true));
+	}
 
 }

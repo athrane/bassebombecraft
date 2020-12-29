@@ -31,6 +31,6 @@ public class BeastmasterBook extends GenericRightClickedBook2 {
 	};
 
 	public BeastmasterBook() {
-		super(ITEM_NAME, beastmasterBook, getInstance(), splOp.get());
+		super(beastmasterBook, getInstance(), splOp.get());
 	}
 }

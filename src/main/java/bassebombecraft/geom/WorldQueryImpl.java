@@ -4,6 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+@Deprecated
 public class WorldQueryImpl implements WorldQuery {
 
 	World world;

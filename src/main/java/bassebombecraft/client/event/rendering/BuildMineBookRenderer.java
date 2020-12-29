@@ -3,10 +3,10 @@ package bassebombecraft.client.event.rendering;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ClientModConstants.BUILDMINEBOOK_TEXT_COLOR;
 import static bassebombecraft.ClientModConstants.HUD_LINE_COLOR;
-import static bassebombecraft.ModConstants.BUILD_MINE_BOOK;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
-import static bassebombecraft.client.rendering.rendertype.OverlayLines.OVERLAY_LINES;
+import static bassebombecraft.client.rendering.rendertype.RenderTypes.OVERLAY_LINES;
+import static bassebombecraft.item.RegisteredItems.MINE_BOOK;
 import static bassebombecraft.operator.DefaultPorts.getFnGetString1;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
@@ -63,9 +63,8 @@ public class BuildMineBookRenderer {
 			PlayerEntity player = getClientSidePlayer();
 
 			// render if build mine book is in hand
-			if (!isItemHeldInEitherHands(player, BUILD_MINE_BOOK))
+			if (!isItemHeldInEitherHands(player, MINE_BOOK.get()))
 				return;
-
 			render(event, player);
 
 		} catch (Exception e) {

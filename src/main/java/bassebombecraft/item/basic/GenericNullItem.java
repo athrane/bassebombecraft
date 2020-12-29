@@ -2,18 +2,13 @@ package bassebombecraft.item.basic;
 
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.ModConstants.BASICITEMS_CONFIGPATH;
-import static bassebombecraft.ModConstants.ITEM_BASICITEM_DEFAULT_COOLDOWN;
-import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
-import static bassebombecraft.config.ConfigUtils.resolveCoolDown;
-import static bassebombecraft.config.ConfigUtils.resolveTooltip;
-import static bassebombecraft.item.ItemUtils.doCommonItemInitialization;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import java.util.List;
 
 import javax.annotation.Nullable;
 
+import bassebombecraft.config.ItemConfig;
 import bassebombecraft.item.action.RightClickedItemAction;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -55,21 +50,18 @@ public class GenericNullItem extends Item {
 	String tooltip;
 
 	/**
-	 * Generic null item constructor.
+	 * Constructor.
 	 * 
-	 * @param name   item name.
+	 * @param config item configuration.
 	 * @param action item action object which is invoked when item is right clicked.
 	 */
-	public GenericNullItem(String name, RightClickedItemAction action) {
+	public GenericNullItem(ItemConfig config, RightClickedItemAction action) {
 		super(new Item.Properties().group(getItemGroup()));
-		doCommonItemInitialization(this, name);
-
 		this.action = action;
 
-		// get cooldown or default value
-		String configPath = BASICITEMS_CONFIGPATH + name;		
-		coolDown = resolveCoolDown(configPath, ITEM_BASICITEM_DEFAULT_COOLDOWN);
-		tooltip = resolveTooltip(configPath, ITEM_DEFAULT_TOOLTIP);
+		// get cooldown and tooltip
+		coolDown = config.cooldown.get();
+		tooltip = config.tooltip.get();
 	}
 
 	@Override
@@ -99,11 +91,11 @@ public class GenericNullItem extends Item {
 
 	@Override
 	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
-		
+
 		// only update the action at server side since we updates the world
 		if (isLogicalClient(worldIn))
 			return;
-		
+
 		action.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
 	}
 

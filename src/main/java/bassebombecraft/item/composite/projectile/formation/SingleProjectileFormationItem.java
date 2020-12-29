@@ -20,7 +20,7 @@ public class SingleProjectileFormationItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public SingleProjectileFormationItem() {
-		super(NAME, singleProjectileFormationItem);
+		super(singleProjectileFormationItem);
 	}
 
 	@Override

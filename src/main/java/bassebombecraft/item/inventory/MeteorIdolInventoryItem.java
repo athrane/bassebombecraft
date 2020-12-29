@@ -24,6 +24,6 @@ public class MeteorIdolInventoryItem extends GenericInventoryItem {
 	};
 
 	public MeteorIdolInventoryItem() {
-		super(ITEM_NAME, meteorIdolInventoryItem, new ExecuteOperatorOnTarget2(getInstance(), splOp.get()));
+		super(meteorIdolInventoryItem, new ExecuteOperatorOnTarget2(getInstance(), splOp.get()));
 	}
 }

@@ -4,7 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.BLOCKS_PER_TICK;
 import static bassebombecraft.block.BlockUtils.createBlock;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
 import static bassebombecraft.config.ModConfiguration.spawnedBlockParticles;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
@@ -66,9 +66,9 @@ public class ProcessBlockDirectivesEventHandler {
 		}
 
 		// create particle config from configuration
-		ParticleRenderingInfo[] particleConfig = createFromConfig(spawnedBlockParticles);
+		ParticleRenderingInfo particleConfig = createInfoFromConfig(spawnedBlockParticles);
 
-		// create particle op from configu
+		// create particle op from configuration
 		Operator2 op = new AddParticlesFromPosAtClient2(particleConfig);
 		optOp = Optional.of(op);
 		return optOp.get();

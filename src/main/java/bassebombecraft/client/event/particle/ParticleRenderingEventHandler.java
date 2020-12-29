@@ -2,14 +2,12 @@ package bassebombecraft.client.event.particle;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.ModConstants.PARTICLE_SPAWN_FREQUENCY;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
 
 import java.util.Random;
 import java.util.stream.Stream;
 
-import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
@@ -103,16 +101,17 @@ public class ParticleRenderingEventHandler {
 		double d2 = calculateRandomSpeed(speed);
 
 		double x = particle.getPosition().getX() + 0.5D;
-		double y = particle.getPosition().getY() + 1;
+		double y = particle.getPosition().getY() + 1.0D;
 		double z = particle.getPosition().getZ() + 0.5D;
 
-		// add particle		
+		// add particle
 		Minecraft mcClient = Minecraft.getInstance();
 		ParticleManager manager = mcClient.particles;
 		Particle spellParticle = manager.addParticle(particle.getParticleType(), x, y, z, d0, d1, d2);
-		
-		// set age		
-		spellParticle.setMaxAge(particle.getInfo().getDuration());		
+
+		// set age
+		int duration = Math.abs(particle.getInfo().getDuration());
+		spellParticle.setMaxAge(duration);
 	}
 
 	/**
@@ -124,11 +123,12 @@ public class ParticleRenderingEventHandler {
 	 * The particle is rendered without any acceleration
 	 * 
 	 * @param world    world object
+	 * 
 	 * @param particle particle to render.
 	 */
 	static void renderParticleWithCustomColor(World world, ParticleRendering particle) {
 		Random random = getBassebombeCraft().getRandom();
-		
+
 		double speed = particle.getInfo().getSpeed();
 		double d0 = calculateRandomSpeed(speed);
 		double d1 = calculateRandomSpeed(speed);
@@ -139,17 +139,20 @@ public class ParticleRenderingEventHandler {
 		float b = particle.getBlueColorComponent(random);
 
 		double x = particle.getPosition().getX() + 0.5D;
-		double y = particle.getPosition().getY() + 1;
+		double y = particle.getPosition().getY() + 1.0D;
 		double z = particle.getPosition().getZ() + 0.5D;
 
 		// add particle
 		Minecraft mcClient = Minecraft.getInstance();
 		ParticleManager manager = mcClient.particles;
 		Particle spellParticle = manager.addParticle(ParticleTypes.EFFECT, x, y, z, d0, d1, d2);
-		
-		// set color and age
+
+		// set color
 		spellParticle.setColor(r, g, b);
-		spellParticle.setMaxAge(particle.getInfo().getDuration());				
+		
+		// set age
+		int duration = Math.abs(particle.getInfo().getDuration());
+		spellParticle.setMaxAge(duration);
 	}
 
 	/**

@@ -42,7 +42,7 @@ public class DecreaseGravityProjectilePathItem extends GenericCompositeNullItem 
 	 * Constructor.
 	 */
 	public DecreaseGravityProjectilePathItem() {
-		super(NAME, decreaseGravityProjectilePathItem);
+		super(decreaseGravityProjectilePathItem);
 	}
 
 	@Override

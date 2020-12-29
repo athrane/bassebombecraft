@@ -41,7 +41,7 @@ public class DeaccelerateProjectilePathItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public DeaccelerateProjectilePathItem() {
-		super(NAME, accelerateProjectilePathItem);
+		super(accelerateProjectilePathItem);
 	}
 
 	@Override

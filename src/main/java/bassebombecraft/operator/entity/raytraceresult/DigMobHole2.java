@@ -27,7 +27,6 @@ import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.CompositeStructure;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -110,12 +109,12 @@ public class DigMobHole2 implements Operator2 {
 			Entity entity = ((EntityRayTraceResult) result).getEntity();
 
 			// get entity aabb and convert it into air blocks
-			int holeHeightExpansion = digMobHoleHeightExpansion.get();			
+			int holeHeightExpansion = digMobHoleHeightExpansion.get();
 			AxisAlignedBB aabb = entity.getBoundingBox();
 			BlockPos min = new BlockPos(aabb.minX, aabb.minY - holeHeightExpansion, aabb.minZ);
 			BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
 			BlockPos.getAllInBox(min, max).forEach(pos -> registerBlockToDig(aabb, pos, world));
-			
+
 			return ports;
 		}
 
@@ -133,9 +132,7 @@ public class DigMobHole2 implements Operator2 {
 			BlockPos offset = calculatePosition(blockResult);
 			CompositeStructure composite = new CompositeStructure();
 			createVerticalStructure(composite);
-			PlayerDirection playerDirection = South;
-			List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, composite, DONT_HARVEST,
-					world);
+			List<BlockDirective> directives = calculateBlockDirectives(offset, South, composite, DONT_HARVEST, world);
 
 			// add directives
 			BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
@@ -168,7 +165,7 @@ public class DigMobHole2 implements Operator2 {
 	void createVerticalStructure(CompositeStructure composite) {
 		int noHitHoleDepth = digMobHoleNoHitHoleDepth.get();
 		int noHitholeHeight = digMobHoleNoHitHoleHeight.get();
-		int noHitholeWidth = digMobHoleNoHitHoleWidth.get();		
+		int noHitholeWidth = digMobHoleNoHitHoleWidth.get();
 		BlockPos offset = new BlockPos(0, -noHitHoleDepth, 0);
 		BlockPos size = new BlockPos(noHitholeWidth, noHitholeHeight, noHitHoleDepth);
 		composite.add(createAirStructure(offset, size));

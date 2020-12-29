@@ -3,9 +3,9 @@ package bassebombecraft.item.action.build;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
-import static bassebombecraft.config.ModConfiguration.copyPasteBlocksCaptureOnCopy;
+import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
 import static bassebombecraft.config.ModConfiguration.copyPasteBlocksParticleInfo;
+import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.geom.GeometryUtils.calculateDegreesFromPlayerDirection;
 import static bassebombecraft.geom.GeometryUtils.captureRectangle;
@@ -19,19 +19,15 @@ import static bassebombecraft.player.PlayerUtils.sendChatMessageToPlayer;
 import java.util.List;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
-import bassebombecraft.event.particle.DefaultParticleRendering;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
-import bassebombecraft.geom.WorldQuery;
-import bassebombecraft.geom.WorldQueryImpl;
 import bassebombecraft.item.action.BlockClickedItemAction;
 import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.player.PlayerUtils;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
-import bassebombecraft.world.TemplateUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -63,7 +59,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	/**
 	 * Particle rendering info
 	 */
-	ParticleRenderingInfo[] infos;
+	ParticleRenderingInfo info;
 
 	/**
 	 * Null structure.
@@ -125,41 +121,39 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	ParticleRendering secondMarkerParticle;
 
 	/**
-	 * Defines if copied structure should be captured on disk.
-	 */
-	boolean captureOnCopy;
-
-	/**
 	 * CopyPasteBlocks constructor.
 	 */
 	public CopyPasteBlocks() {
-		infos = createFromConfig(copyPasteBlocksParticleInfo);
-		captureOnCopy = copyPasteBlocksCaptureOnCopy.get();
+		info = createInfoFromConfig(copyPasteBlocksParticleInfo);
 	}
 
 	@Override
 	public ActionResultType onItemUse(ItemUseContext context) {
+		try {
+			// get position
+			BlockPos pos = context.getPos();
+			PlayerEntity player = context.getPlayer();
 
-		// create world query
-		BlockPos pos = context.getPos();
-		PlayerEntity player = context.getPlayer();
-		WorldQueryImpl worldQuery = new WorldQueryImpl(player, pos);
+			// update state and create structure
+			Structure structure = updateState(pos, player);
 
-		// update state and create structure
-		Structure structure = updateState(worldQuery);
+			// calculate Y offset in structure
+			int yOffset = calculatePlayerFeetPosititionAsInt(player);
 
-		// calculate Y offset in structure
-		int yOffset = calculatePlayerFeetPosititionAsInt(player);
+			// calculate list of block directives
+			BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
+			List<BlockDirective> directives = calculateBlockDirectives(offset, player, structure, DONT_HARVEST);
 
-		// calculate list of block directives
-		BlockPos offset = new BlockPos(pos.getX(), yOffset, pos.getZ());
-		List<BlockDirective> directives = calculateBlockDirectives(offset, player, structure, DONT_HARVEST);
+			// add directives
+			BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
+			repository.addAll(directives);
 
-		// add directives
-		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
-		repository.addAll(directives);
+			return USED_ITEM;
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+			return DIDNT_USED_ITEM;
+		}
 
-		return USED_ITEM;
 	}
 
 	@Override
@@ -170,48 +164,49 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	/**
 	 * Update book state depending on the blocks selected.
 	 * 
-	 * @param worldQuery world query object.
+	 * @param targetBlockPosition target block position that player interacted with.
+	 * @param player              player object.
 	 * 
 	 * @return structure to build.
 	 */
-	Structure updateState(WorldQuery worldQuery) {
+	Structure updateState(BlockPos targetBlockPosition, PlayerEntity player) {
 
 		// calculate if selected block is a ground block
-		boolean isGroundBlock = isBelowPlayerYPosition(worldQuery.getTargetBlockPosition().getY(),
-				worldQuery.getPlayer());
+		boolean isGroundBlock = isBelowPlayerYPosition(targetBlockPosition.getY(), player);
 
 		switch (state) {
 		case NO_MARKERS_DEFINED:
 			if (!isLegaLFirstMarker(isGroundBlock))
 				return NULL_STRUCTURE;
 			state = StaffState.FIRST_MARKER_DEFINED;
-			registerFirstMarker(worldQuery.getTargetBlockPosition(), worldQuery.getPlayer());
-			sendChatMessageToPlayer(worldQuery.getPlayer(), MSG_REGISTERED_M1);
+			registerFirstMarker(targetBlockPosition, player);
+			sendChatMessageToPlayer(player, MSG_REGISTERED_M1);
 			return NULL_STRUCTURE;
+
 		case FIRST_MARKER_DEFINED:
-			if (!isLegaLSecondMarker(isGroundBlock, worldQuery.getTargetBlockPosition()))
+			if (!isLegaLSecondMarker(isGroundBlock, targetBlockPosition))
 				return NULL_STRUCTURE;
 			state = StaffState.SECOND_MARKER_DEFINED;
-			registerSecondMarker(worldQuery.getTargetBlockPosition());
-			captureWorldContent(worldQuery);
-			sendChatMessageToPlayer(worldQuery.getPlayer(), MSG_REGISTERED_M2);
+			registerSecondMarker(targetBlockPosition);
+			captureWorldContent(player);
+			sendChatMessageToPlayer(player, MSG_REGISTERED_M2);
 			return NULL_STRUCTURE;
+
 		case SECOND_MARKER_DEFINED:
-			if (!isLegalTrigger(isGroundBlock, worldQuery.getTargetBlockPosition(), worldQuery.getPlayer())) {
+			if (!isLegalTrigger(isGroundBlock, targetBlockPosition, player)) {
 
 				// determine if capture should be reset
 				if (shouldReset(isGroundBlock)) {
 					state = StaffState.NO_MARKERS_DEFINED;
-					sendChatMessageToPlayer(worldQuery.getPlayer(), MSG_RESET);
+					sendChatMessageToPlayer(player, MSG_RESET);
 					clearRendering();
 					return NULL_STRUCTURE;
 				}
-
-				sendChatMessageToPlayer(worldQuery.getPlayer(), MSG_ILLEGAL_TRIGGER);
+				sendChatMessageToPlayer(player, MSG_ILLEGAL_TRIGGER);
 				return NULL_STRUCTURE;
 			}
-			sendChatMessageToPlayer(worldQuery.getPlayer(), MSG_COPIED);
-			return getCapturedContent(worldQuery);
+			sendChatMessageToPlayer(player, MSG_COPIED);
+			return getCapturedContent();
 		default:
 			return NULL_STRUCTURE;
 		}
@@ -251,7 +246,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * ground block and it isn't identical to the first or second marker.
 	 * 
 	 * @param isGroundBlock boolean to indicate if invoked block is a ground block.
-	 * @param position           trigger position.
+	 * @param position      trigger position.
 	 * @param player        player object.
 	 * @return
 	 */
@@ -294,29 +289,23 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * @param player player object.
 	 */
 	void registerFirstMarker(BlockPos pos, PlayerEntity player) {
-		try {
-			firstMarker = pos;
+		firstMarker = pos;
 
-			// get player rotation
-			PlayerDirection playerDirection = PlayerUtils.getPlayerDirection(player);
+		// get player rotation
+		PlayerDirection playerDirection = PlayerUtils.getPlayerDirection(player);
 
-			// Hack: if player direction is east or west
-			// then modify rotation 180 degrees
-			if (playerDirection == PlayerDirection.East) {
-				playerDirection = PlayerDirection.West;
-			} else if (playerDirection == PlayerDirection.West) {
-				playerDirection = PlayerDirection.East;
-			}
-
-			rotationDegrees = calculateDegreesFromPlayerDirection(playerDirection);
-
-			// send particle rendering info to client
-			firstMarkerParticle = DefaultParticleRendering.getInstance(pos, infos[FIRST_INDEX]);
-			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(firstMarkerParticle);
-
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
+		// Hack: if player direction is east or west
+		// then modify rotation 180 degrees
+		if (playerDirection == PlayerDirection.East) {
+			playerDirection = PlayerDirection.West;
+		} else if (playerDirection == PlayerDirection.West) {
+			playerDirection = PlayerDirection.East;
 		}
+		rotationDegrees = calculateDegreesFromPlayerDirection(playerDirection);
+
+		// send particle rendering info to client
+		firstMarkerParticle = getInstance(pos, info);
+		getProxy().getNetworkChannel().sendAddParticleRenderingPacket(firstMarkerParticle);
 	}
 
 	/**
@@ -325,34 +314,29 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * @param pos marker position.
 	 */
 	void registerSecondMarker(BlockPos pos) {
-		try {
-			secondMarker = pos;
+		secondMarker = pos;
 
-			// send particle rendering info to client
-			secondMarkerParticle = DefaultParticleRendering.getInstance(pos, infos[FIRST_INDEX]);
-			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(firstMarkerParticle);
-
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
-		}
+		// send particle rendering info to client
+		secondMarkerParticle = getInstance(pos, info);
+		getProxy().getNetworkChannel().sendAddParticleRenderingPacket(secondMarkerParticle);
 	}
 
 	/**
 	 * Capture world content
 	 * 
-	 * @param sourceBlock
-	 * @param worldQuery
-	 * @return
+	 * @param player player object.
 	 */
-	void captureWorldContent(WorldQuery worldQuery) {
+	void captureWorldContent(PlayerEntity player) {
+
+		// get world
+		World world = player.getEntityWorld();
 
 		// get player direction
-		PlayerDirection playerDirection = getPlayerDirection(worldQuery.getPlayer());
+		PlayerDirection playerDirection = getPlayerDirection(player);
 
 		// calculate lower and upper bounds
 		BlockPos lower = calculateLowerBound();
 		BlockPos upper = calculateUpperBound();
-
 		BlockPos captureOffset = new BlockPos(lower);
 		BlockPos captureSize = new BlockPos(upper.getX() - lower.getX(), upper.getY() - lower.getY(),
 				upper.getZ() - lower.getZ());
@@ -363,31 +347,11 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 		}
 
 		// capture
-		capturedBlocks = captureRectangle(captureOffset, captureSize, worldQuery.getWorld());
+		capturedBlocks = captureRectangle(captureOffset, captureSize, world);
 
 		// translate
 		BlockPos translation = calculateTranslationVector(captureOffset, captureSize, playerDirection);
 		capturedBlocks = translate(translation, capturedBlocks);
-
-		// exit if capture on copy is disabled
-		if (!captureOnCopy)
-			return;
-
-		// if captured blocks is empty then exit
-		if (capturedBlocks.isEmpty())
-			return;
-
-		// get last block in list to get y-coordinate of captured blocks
-		int index = capturedBlocks.size();
-		BlockDirective lastblock = capturedBlocks.get(index - 1);
-		int capturedBlocksHeight = lastblock.getY();
-
-		// modify offset for Minecraft structure
-		// captureOffset = captureOffset.add(0, 1, 0);
-		captureSize = captureSize.add(0, capturedBlocksHeight, 0);
-
-		// save captured content as a Minecraft structure file
-		TemplateUtils.save(worldQuery.getWorld(), captureOffset, captureSize);
 	}
 
 	/**
@@ -484,28 +448,25 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	/**
 	 * Generate structure for captured content.
 	 * 
-	 * @param worldQuery world query object.
-	 * 
 	 * @return structure containing the captured content.
 	 */
-	Structure getCapturedContent(WorldQuery worldQuery) {
+	Structure getCapturedContent() {
 
 		// rotate around origin
 		List<BlockDirective> rotatedBlocks = rotateCoordinatesAroundYAxisAtOrigin(rotationDegrees, capturedBlocks);
 
 		// generate captured structure
-		return generateStructureForCapturedContent(rotatedBlocks, worldQuery);
+		return generateStructureForCapturedContent(rotatedBlocks);
 	}
 
 	/**
 	 * Generate structure for captured content.
 	 * 
 	 * @param capturedBlocks list of captured block directives.
-	 * @param worldQuery     world query object.
 	 * 
 	 * @return structure containing the captured content.
 	 */
-	Structure generateStructureForCapturedContent(List<BlockDirective> capturedBlocks, WorldQuery worldQuery) {
+	Structure generateStructureForCapturedContent(List<BlockDirective> capturedBlocks) {
 		final BlockPos unitSize = new BlockPos(1, 1, 1);
 
 		CompositeStructure composite = new CompositeStructure();
@@ -521,12 +482,8 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * Clear rendering of particles.
 	 */
 	void clearRendering() {
-		try {
-			getProxy().getNetworkChannel().sendRemoveParticleRenderingPacket(firstMarkerParticle);
-			getProxy().getNetworkChannel().sendRemoveParticleRenderingPacket(secondMarkerParticle);
-		} catch (Exception e) {
-			getBassebombeCraft().reportAndLogException(e);
-		}
+		getProxy().getNetworkChannel().sendRemoveParticleRenderingPacket(firstMarkerParticle);
+		getProxy().getNetworkChannel().sendRemoveParticleRenderingPacket(secondMarkerParticle);
 	}
 
 }

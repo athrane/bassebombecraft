@@ -2,8 +2,7 @@ package bassebombecraft.entity.projectile;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.ModConstants.PARTICLE_SPAWN_FREQUENCY;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
 import static bassebombecraft.config.ModConfiguration.genericProjectileEntityProjectileDuration;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
@@ -19,7 +18,6 @@ import java.util.function.Predicate;
 
 import bassebombecraft.config.ProjectileEntityConfig;
 import bassebombecraft.event.duration.DurationRepository;
-import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
@@ -103,7 +101,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * DEcrease gravity projectile path operator.
 	 */
 	static final Operator2 DECREASE_GRAVITY_PATH_OPERATOR = new DecreaseGravityProjectilePath();
-	
+
 	/**
 	 * Projectile duration.
 	 */
@@ -148,11 +146,6 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	ProjectileEntityConfig projectileConfig;
 
 	/**
-	 * Particle info for rendering.
-	 */
-	ParticleRenderingInfo[] infos;
-
-	/**
 	 * Client side projectile generator operator.
 	 */
 	Operator2 addParticlesOp;
@@ -167,8 +160,8 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	public GenericCompositeProjectileEntity(EntityType<?> type, World world, ProjectileEntityConfig config) {
 		super(type, world);
 		projectileConfig = config;
-		infos = createFromConfig(projectileConfig.particles);
-		addParticlesOp = new AddParticlesFromPosAtClient2(infos);
+		ParticleRenderingInfo info = createInfoFromConfig(projectileConfig.particles);
+		addParticlesOp = new AddParticlesFromPosAtClient2(info);
 		duration = genericProjectileEntityProjectileDuration.get();
 		projectileModifierPorts = getInstance();
 		addParticlesPorts = getInstance();
@@ -303,8 +296,8 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 			BlockPos pos = ((BlockRayTraceResult) result).getPos();
 		}
 
-		// TODO: this must be made condition to support drilling projectiles
-		// remove particle from server world
+		// Digging is handled by ProjectileModifierEventHandler. Which cancels the
+		// projectile impact event and exits this method prior to this point.
 		this.remove();
 	}
 
@@ -379,14 +372,14 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		// handle: spiral
 		if (tags.contains(CircleProjectilePath.NAME))
 			calculateSpiralPath();
-		
+
 		// handle: increase gravity
 		if (tags.contains(IncreaseGravityProjectilePath.NAME))
 			calculateIncreaseGravityPath();
 
 		// handle: decrease gravity
 		if (tags.contains(DecreaseGravityProjectilePath.NAME))
-			calculateDecreaseGravityPath();		
+			calculateDecreaseGravityPath();
 	}
 
 	/**
@@ -442,7 +435,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 */
 	void calculateIncreaseGravityPath() {
 		projectileModifierPorts.setDouble1(projectileConfig.gravity.get());
-		projectileModifierPorts.setEntity1(this);		
+		projectileModifierPorts.setEntity1(this);
 		run(projectileModifierPorts, INCREASE_GRAVITY_PATH_OPERATOR);
 	}
 
@@ -451,10 +444,10 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 */
 	void calculateDecreaseGravityPath() {
 		projectileModifierPorts.setDouble1(projectileConfig.gravity.get());
-		projectileModifierPorts.setEntity1(this);		
+		projectileModifierPorts.setEntity1(this);
 		run(projectileModifierPorts, DECREASE_GRAVITY_PATH_OPERATOR);
 	}
-	
+
 	/**
 	 * Update motion and position of the projectile.
 	 */
@@ -468,7 +461,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 
 		// calculate motion and position
 		Vec3d nextMotionVec = motionVec.scale(motionScale);
-		Vec3d nextPositionVec = motionVec.add(positionVec);		
+		Vec3d nextPositionVec = motionVec.add(positionVec);
 		this.setMotion(nextMotionVec.getX(), nextMotionVec.getY() - getGravity(), nextMotionVec.getZ());
 		this.setPosition(nextPositionVec.getX(), nextPositionVec.getY(), nextPositionVec.getZ());
 	}
@@ -530,12 +523,6 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * Add particle on update tick.
 	 */
 	void addParticles() {
-
-		// exit if particles shouldn't be spawned in this tick
-		FrequencyRepository frequencyRepository = getProxy().getClientFrequencyRepository();
-		if (!frequencyRepository.isActive(PARTICLE_SPAWN_FREQUENCY))
-			return;
-
 		addParticlesPorts.setBlockPosition1(getPosition());
 		run(addParticlesPorts, addParticlesOp);
 	}

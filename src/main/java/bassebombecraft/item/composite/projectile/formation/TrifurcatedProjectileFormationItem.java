@@ -20,7 +20,7 @@ public class TrifurcatedProjectileFormationItem extends GenericCompositeNullItem
 	 * Constructor.
 	 */
 	public TrifurcatedProjectileFormationItem() {
-		super(NAME, trifurcatedProjectileFormationItem);
+		super(trifurcatedProjectileFormationItem);
 	}
 
 	@Override

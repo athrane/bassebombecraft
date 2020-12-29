@@ -29,11 +29,6 @@ public class Bounce2 implements Operator2 {
 	public static final String NAME = Bounce2.class.getSimpleName();
 
 	/**
-	 * Null entity for block explosions.
-	 */
-	static final Entity NULL_ENTITY = null;
-
-	/**
 	 * Function to get ray trace result.
 	 */
 	Function<Ports, RayTraceResult> fnGetRayTraceResult;

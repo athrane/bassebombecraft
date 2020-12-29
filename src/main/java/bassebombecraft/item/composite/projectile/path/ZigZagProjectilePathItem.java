@@ -40,7 +40,7 @@ public class ZigZagProjectilePathItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public ZigZagProjectilePathItem() {
-		super(NAME, zigZagProjectilePathItem);
+		super(zigZagProjectilePathItem);
 	}
 
 	@Override

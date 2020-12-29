@@ -15,6 +15,6 @@ public class SpawnFlamingChickenBook extends GenericRightClickedBook {
 	static final ProjectileAction PROJECTILE_ACTION = new SpawnFlamingChicken();
 
 	public SpawnFlamingChickenBook() {
-		super(ITEM_NAME, spawnFlamingChickenBook, new ShootGenericEggProjectile(PROJECTILE_ACTION));
+		super(spawnFlamingChickenBook, new ShootGenericEggProjectile(PROJECTILE_ACTION));
 	}
 }

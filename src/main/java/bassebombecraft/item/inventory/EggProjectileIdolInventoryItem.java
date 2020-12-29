@@ -12,6 +12,6 @@ public class EggProjectileIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = EggProjectileIdolInventoryItem.class.getSimpleName();
 
 	public EggProjectileIdolInventoryItem() {
-		super(ITEM_NAME, eggProjectileIdolInventoryItem, new ShootEgg());
+		super(eggProjectileIdolInventoryItem, new ShootEgg());
 	}
 }

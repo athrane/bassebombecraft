@@ -2,7 +2,7 @@ package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
-import static bassebombecraft.config.ConfigUtils.createFromConfig;
+import static bassebombecraft.config.ConfigUtils.*;
 import static bassebombecraft.config.ModConfiguration.naturalizeSpiralMistDuration;
 import static bassebombecraft.config.ModConfiguration.naturalizeSpiralMistParticleInfo;
 import static bassebombecraft.geom.BlockDirective.getInstance;
@@ -32,7 +32,7 @@ public class NaturalizeSpiralMist implements BlockMistActionStrategy {
 	/**
 	 * Particle rendering info
 	 */
-	ParticleRenderingInfo[] infos;
+	ParticleRenderingInfo info;
 
 	/**
 	 * Effect duration.
@@ -43,7 +43,7 @@ public class NaturalizeSpiralMist implements BlockMistActionStrategy {
 	 * Constructor.
 	 */
 	public NaturalizeSpiralMist() {
-		infos = createFromConfig(naturalizeSpiralMistParticleInfo);
+		info = createInfoFromConfig(naturalizeSpiralMistParticleInfo);
 		duration = naturalizeSpiralMistDuration.get();
 	}
 
@@ -86,8 +86,8 @@ public class NaturalizeSpiralMist implements BlockMistActionStrategy {
 	}
 
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
+	public ParticleRenderingInfo getRenderingInfo() {
+		return info;
 	}
 
 	@Override

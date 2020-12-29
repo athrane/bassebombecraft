@@ -31,7 +31,7 @@ public class ReceiveAggroBook extends GenericRightClickedBook2 {
 	};
 
 	public ReceiveAggroBook() {
-		super(ITEM_NAME, receiveAggroBook, getInstance(), splOp.get());
+		super(receiveAggroBook, getInstance(), splOp.get());
 	}
 
 }

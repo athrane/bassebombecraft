@@ -6,6 +6,11 @@ package bassebombecraft.event.duration;
 public interface Duration {
 
 	/**
+	 * Value for duration never to expire.
+	 */
+	public static final int NO_EXPIRY = -1;
+	
+	/**
 	 * Update duration state.
 	 */
 	public void update();

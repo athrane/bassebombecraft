@@ -23,15 +23,21 @@ import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.conditional.IsLivingEntityHitInRaytraceResult2;
 import bassebombecraft.operator.entity.Explode2;
+import bassebombecraft.operator.entity.Respawn2;
 import bassebombecraft.operator.entity.ShootMeteor2;
 import bassebombecraft.operator.entity.potion.effect.AddEffect2;
 import bassebombecraft.operator.entity.raytraceresult.Bounce2;
 import bassebombecraft.operator.entity.raytraceresult.Charm2;
+import bassebombecraft.operator.entity.raytraceresult.Dig2;
 import bassebombecraft.operator.entity.raytraceresult.DigMobHole2;
+import bassebombecraft.operator.entity.raytraceresult.EmitHorizontalForce2;
+import bassebombecraft.operator.entity.raytraceresult.EmitVerticalForce2;
 import bassebombecraft.operator.entity.raytraceresult.ExplodeOnImpact2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnAnvil2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnIceBlock2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnLavaBlock2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportMob2;
 import bassebombecraft.operator.projectile.modifier.tag.ReceiveAggro2;
@@ -124,9 +130,15 @@ public class ProjectileModifierEventHandler {
 	static final Operator2 DECOY_OPERATOR = splDecoyOp.get();
 
 	/**
-	 * Explode operator.
+	 * Explode when killed operator.
 	 */
-	static final Operator2 EXPLODE_OPERATOR = new Explode2();
+	static final Operator2 EXPLODE_WHEN_KILLED_OPERATOR = new Explode2();
+
+	/**
+	 * Respawn when killed operator.
+	 * 
+	 */
+	static final Operator2 RESPAWN_WHEN_KILLED_OPERATOR = new Respawn2();
 
 	/**
 	 * Explode on impact operator.
@@ -139,9 +151,24 @@ public class ProjectileModifierEventHandler {
 	static final Operator2 DIGMOBHOLE_OPERATOR = new DigMobHole2();
 
 	/**
+	 * Dig operator.
+	 */
+	static final Operator2 DIG_OPERATOR = new Dig2();
+
+	/**
 	 * Spawn cobweb operator.
 	 */
 	static final Operator2 COBWEB_OPERATOR = new SpawnCobweb2();
+
+	/**
+	 * Spawn ice block operator.
+	 */
+	static final Operator2 ICEBLOCK_OPERATOR = new SpawnIceBlock2();
+
+	/**
+	 * Spawn lava block operator.
+	 */
+	static final Operator2 LAVABLOCK_OPERATOR = new SpawnLavaBlock2();
 
 	/**
 	 * Spawn anvil operator.
@@ -181,7 +208,17 @@ public class ProjectileModifierEventHandler {
 	 * Bounce on impact operator.
 	 */
 	static final Operator2 BOUNCE_ON_IMPACT_OPERATOR = new Bounce2();
-	
+
+	/**
+	 * Emit horizontal force operator.
+	 */
+	static final Operator2 HORIZONTAL_FORCE_OPERATOR = new EmitHorizontalForce2();
+
+	/**
+	 * Emit vertical force operator.
+	 */
+	static final Operator2 VERTICAL_FORCE_OPERATOR = new EmitVerticalForce2();
+
 	@SubscribeEvent
 	static public void handleProjectileImpactEvent(ProjectileImpactEvent event) {
 		try {
@@ -224,13 +261,33 @@ public class ProjectileModifierEventHandler {
 			if (tags.contains(DigMobHole2.NAME))
 				digMobHole(event);
 
+			// handle: drill
+			if (tags.contains(Dig2.NAME))
+				drill(event);
+
 			// handle: spawn cobweb
 			if (tags.contains(SpawnCobweb2.NAME))
 				spawnCobweb(event);
 
+			// handle: spawn ice block
+			if (tags.contains(SpawnIceBlock2.NAME))
+				spawnIceBlock(event);
+
+			// handle: spawn lava block
+			if (tags.contains(SpawnLavaBlock2.NAME))
+				spawnLavaBlock(event);
+
 			// handle: spawn anvil
 			if (tags.contains(SpawnAnvil2.NAME))
 				spawnAnvil(event);
+
+			// handle: emit horizontal force
+			if (tags.contains(EmitHorizontalForce2.NAME))
+				emitHorizontalForce(event);
+
+			// handle: emit vertical force
+			if (tags.contains(EmitVerticalForce2.NAME))
+				emitVerticalForce(event);
 
 			// handle: explode on impact
 			if (tags.contains(Explode2.NAME))
@@ -243,7 +300,7 @@ public class ProjectileModifierEventHandler {
 			// handle: bounce projectile
 			if (tags.contains(Bounce2.NAME))
 				bounceOnImpact(event);
-			
+
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
@@ -277,6 +334,10 @@ public class ProjectileModifierEventHandler {
 			// handle: explode when killed
 			if (tags.contains(Explode2.NAME))
 				explodeMobWhenKilled(event);
+
+			// handle: respawn when killed
+			if (tags.contains(Respawn2.NAME))
+				respawnWhenKilled(event);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -379,6 +440,21 @@ public class ProjectileModifierEventHandler {
 	}
 
 	/**
+	 * Execute drill operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void drill(ProjectileImpactEvent event) {
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setWorld(event.getEntity().getEntityWorld());
+		run(ports, DIG_OPERATOR);
+
+		// cancel event to avoid removal of projectile when drilling
+		event.setCanceled(true);
+	}
+
+	/**
 	 * Execute spawn cobweb operator.
 	 * 
 	 * @param event projectile impact event.
@@ -388,6 +464,30 @@ public class ProjectileModifierEventHandler {
 		ports.setRayTraceResult1(event.getRayTraceResult());
 		ports.setWorld(event.getEntity().getEntityWorld());
 		run(ports, COBWEB_OPERATOR);
+	}
+
+	/**
+	 * Execute spawn ice block operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void spawnIceBlock(ProjectileImpactEvent event) {
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setWorld(event.getEntity().getEntityWorld());
+		run(ports, ICEBLOCK_OPERATOR);
+	}
+
+	/**
+	 * Execute spawn lava block operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void spawnLavaBlock(ProjectileImpactEvent event) {
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setWorld(event.getEntity().getEntityWorld());
+		run(ports, LAVABLOCK_OPERATOR);
 	}
 
 	/**
@@ -403,14 +503,26 @@ public class ProjectileModifierEventHandler {
 	}
 
 	/**
-	 * Execute explode operator.
+	 * Execute emit horizontal force operator.
 	 * 
-	 * @param event living death event.
+	 * @param event projectile impact event.
 	 */
-	static void explodeMobWhenKilled(LivingDeathEvent event) {
+	static void emitHorizontalForce(ProjectileImpactEvent event) {
 		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
 		ports.setEntity1(event.getEntity());
-		run(ports, EXPLODE_OPERATOR);
+		run(ports, HORIZONTAL_FORCE_OPERATOR);
+	}
+
+	/**
+	 * Execute emit vertical force operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void emitVerticalForce(ProjectileImpactEvent event) {
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		run(ports, VERTICAL_FORCE_OPERATOR);
 	}
 
 	/**
@@ -444,11 +556,33 @@ public class ProjectileModifierEventHandler {
 	static void bounceOnImpact(ProjectileImpactEvent event) {
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-		ports.setEntity1(event.getEntity());		
+		ports.setEntity1(event.getEntity());
 		run(ports, BOUNCE_ON_IMPACT_OPERATOR);
 
 		// cancel event to avoid removal of projectile
 		event.setCanceled(true);
 	}
-	
+
+	/**
+	 * Execute explode when killed operator.
+	 * 
+	 * @param event living death event.
+	 */
+	static void explodeMobWhenKilled(LivingDeathEvent event) {
+		Ports ports = getInstance();
+		ports.setEntity1(event.getEntity());
+		run(ports, EXPLODE_WHEN_KILLED_OPERATOR);
+	}
+
+	/**
+	 * Execute respawn when killed operator.
+	 * 
+	 * @param event living death event.
+	 */
+	static void respawnWhenKilled(LivingDeathEvent event) {
+		Ports ports = getInstance();
+		ports.setLivingEntity1(event.getEntityLiving());
+		run(ports, RESPAWN_WHEN_KILLED_OPERATOR);
+	}
+
 }

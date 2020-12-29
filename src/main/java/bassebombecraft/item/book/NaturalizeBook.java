@@ -13,6 +13,6 @@ public class NaturalizeBook extends GenericRightClickedBook {
 	public static final String ITEM_NAME = NaturalizeBook.class.getSimpleName();
 
 	public NaturalizeBook() {
-		super(ITEM_NAME, naturalizeBook, new GenericBlockSpiralFillMist(new NaturalizeSpiralMist()));
+		super(naturalizeBook, new GenericBlockSpiralFillMist(new NaturalizeSpiralMist()));
 	}
 }

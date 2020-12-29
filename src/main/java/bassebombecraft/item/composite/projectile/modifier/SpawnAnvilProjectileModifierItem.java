@@ -41,7 +41,7 @@ public class SpawnAnvilProjectileModifierItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public SpawnAnvilProjectileModifierItem() {
-		super(NAME, spawnAnvilProjectileModifierItem);
+		super(spawnAnvilProjectileModifierItem);
 	}
 
 	@Override

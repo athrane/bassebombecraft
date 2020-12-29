@@ -1,9 +1,9 @@
 package bassebombecraft.client.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.ModConstants.HUD_ITEM;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
 import static bassebombecraft.client.rendering.DefaultRenderingInfo.getInstance;
+import static bassebombecraft.item.RegisteredItems.HUD;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 
@@ -51,7 +51,7 @@ public class RenderingEventHandler {
 		PlayerEntity player = ClientPlayerUtils.getClientSidePlayer();
 
 		// exit if targeting overlay isn't in hotbar
-		if (!isItemInHotbar(player, HUD_ITEM))
+		if (!isItemInHotbar(player, HUD.get()))
 			return;
 
 		/**
@@ -87,7 +87,7 @@ public class RenderingEventHandler {
 		// debugRenderer.render(player, info);
 
 		// render if HUD item is in hotbar
-		if (isItemInHotbar(player, HUD_ITEM))
+		if (isItemInHotbar(player, HUD.get()))
 			renderHudItem(event, player);
 
 	}

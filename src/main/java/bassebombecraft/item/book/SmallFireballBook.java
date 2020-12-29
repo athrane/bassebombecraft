@@ -27,6 +27,6 @@ public class SmallFireballBook extends GenericRightClickedBook2 {
 	};
 
 	public SmallFireballBook() {
-		super(ITEM_NAME, smallFireballBook, getInstance(), splOps.get());
+		super(smallFireballBook, getInstance(), splOps.get());
 	}
 }

@@ -27,6 +27,6 @@ public class MultipleArrowsBook extends GenericRightClickedBook2 {
 	};
 
 	public MultipleArrowsBook() {
-		super(ITEM_NAME, multipleArrowsBook, getInstance(), splOp.get());
+		super(multipleArrowsBook, getInstance(), splOp.get());
 	}
 }

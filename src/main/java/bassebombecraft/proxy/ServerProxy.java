@@ -5,6 +5,7 @@ import static bassebombecraft.config.VersionUtils.endServerSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startServerSession;
 import static bassebombecraft.inventory.container.RegisteredContainers.CONTAINER_REGISTRY;
+import static bassebombecraft.item.RegisteredItems.ITEMS_REGISTRY;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -57,7 +58,7 @@ public class ServerProxy implements Proxy {
 	 * Job repository.
 	 */
 	JobRepository jobRepository;
-	
+
 	/**
 	 * Charmed Mob repository
 	 */
@@ -106,7 +107,7 @@ public class ServerProxy implements Proxy {
 
 		// initialise job repository
 		jobRepository = DefaultJobReposiory.getInstance();
-		
+
 		// Initialise charmed mobs repository
 		charmedMobsRepository = ServerCharmedMobsRepository.getInstance();
 
@@ -132,11 +133,11 @@ public class ServerProxy implements Proxy {
 	@Override
 	public void startAnalyticsSession() {
 		try {
-			
+
 			// get server
 			Optional<MinecraftServer> optServer = getBassebombeCraft().getServer();
-			MinecraftServer server = optServer.get(); 
-					
+			MinecraftServer server = optServer.get();
+
 			// define server host
 			String host = server.getServerHostname();
 			if ((host == null) || (host.isEmpty()))
@@ -166,7 +167,7 @@ public class ServerProxy implements Proxy {
 		try {
 			// get server
 			Optional<MinecraftServer> optServer = getBassebombeCraft().getServer();
-			MinecraftServer server = optServer.get(); 
+			MinecraftServer server = optServer.get();
 			String hostname = server.getServerHostname();
 			endServerSession(hostname);
 		} catch (Exception ex) {
@@ -277,7 +278,7 @@ public class ServerProxy implements Proxy {
 	public DurationRepository getClientDurationRepository() throws UnsupportedOperationException {
 		throw new UnsupportedOperationException("Operation not supported by server.");
 	}
-	
+
 	@Override
 	public JobRepository getServerJobRepository() {
 		return jobRepository;
@@ -324,10 +325,9 @@ public class ServerProxy implements Proxy {
 	}
 
 	@Override
-	public void doDeferredRegistration(IEventBus modEventBus) {
-		
-		// register containers
-		CONTAINER_REGISTRY.register(modEventBus);
+	public void doDeferredRegistration(IEventBus bus) {
+		CONTAINER_REGISTRY.register(bus);
+		ITEMS_REGISTRY.register(bus);
 	}
-	
+
 }

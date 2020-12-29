@@ -13,6 +13,6 @@ public class ReflectIdolInventoryItem extends GenericInventoryItem {
 	public static final String ITEM_NAME = ReflectIdolInventoryItem.class.getSimpleName();
 
 	public ReflectIdolInventoryItem() {
-		super(ITEM_NAME, reflectIdolInventoryItem, new AddReflectEffect());
+		super(reflectIdolInventoryItem, new AddReflectEffect());
 	}
 }

@@ -41,7 +41,7 @@ public class SpawnCobwebProjectileModifierItem extends GenericCompositeNullItem 
 	 * Constructor.
 	 */
 	public SpawnCobwebProjectileModifierItem() {
-		super(NAME, spawnCobwebProjectileModifierItem);
+		super(spawnCobwebProjectileModifierItem);
 	}
 
 	@Override

@@ -87,7 +87,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 		spiralOp = new Sequence2(new SingleLoopIncreasingCounter2(numberSpiralBlocks - 1),
 				new CalculateSpiralPosition2(spiralSize, fnGetCenter, bcSetSpiralPos, fnGetWorld),
 				new ApplyEffectFromMistStrategy2(strategy, fnGetSpiralPos, fnGetWorld),
-				new AddParticlesFromPosAtClient2(strategy.getRenderingInfos(), fnGetSpiralPos));
+				new AddParticlesFromPosAtClient2(strategy.getRenderingInfo(), fnGetSpiralPos));
 	}
 
 	@Override

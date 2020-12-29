@@ -1,15 +1,15 @@
 package bassebombecraft.item.composite.projectile;
 
+import static bassebombecraft.config.ModConfiguration.lightningProjectileEntity;
 import static bassebombecraft.config.ModConfiguration.lightningProjectileItem;
 
-import bassebombecraft.item.composite.GenericCompositeNullItem;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.projectile.ShootLightningProjectile2;
 
 /**
  * Lightning projectile item.
  */
-public class LightningProjectileItem extends GenericCompositeNullItem {
+public class LightningProjectileItem extends GenericCompositeNullProjectileItem {
 
 	/**
 	 * Item identifier.
@@ -20,7 +20,7 @@ public class LightningProjectileItem extends GenericCompositeNullItem {
 	 * Constructor.
 	 */
 	public LightningProjectileItem() {
-		super(NAME, lightningProjectileItem);
+		super(lightningProjectileItem, lightningProjectileEntity);
 	}
 
 	@Override

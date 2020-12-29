@@ -13,7 +13,7 @@ import net.minecraft.world.World;
  * 
  * Supports animation based on age.
  * 
- * The set of animation frame is defined in the the .json file.
+ * The set of animation frames are defined in the the .json file.
  */
 public class ChickenParticle extends SpriteTexturedParticle {
 
@@ -35,13 +35,14 @@ public class ChickenParticle extends SpriteTexturedParticle {
 			double ySpeedIn, double zSpeedIn, IAnimatedSprite spriteSet) {
 		super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
 		this.spriteSet = spriteSet;
-		
+
 		/**
-		// set speed
-		this.motionX = xSpeedIn * (Math.random() * 2.0D - 1.0D);
-	    this.motionY = ySpeedIn * (Math.random() * 2.0D - 1.0D);
-	    this.motionZ = zSpeedIn * (Math.random() * 2.0D - 1.0D);
-	    **/
+		 * // get random Random random = getBassebombeCraft().getRandom();
+		 * 
+		 * // set speed this.motionX = xSpeedIn * (random.nextDouble() * 2.0D - 1.0D);
+		 * this.motionY = ySpeedIn * (random.nextDouble() * 2.0D - 1.0D); this.motionZ =
+		 * zSpeedIn * (random.nextDouble() * 2.0D - 1.0D);
+		 **/
 	}
 
 	@Override

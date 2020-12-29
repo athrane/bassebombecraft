@@ -18,7 +18,11 @@ import net.minecraft.world.World;
 public class LingeringFlameMist implements EntityMistActionStrategy {
 	
 	int explosionRadius;
-	ParticleRenderingInfo[] infos;
+	
+	/**
+	 * Particle rendering info.
+	 */
+	ParticleRenderingInfo info;
 
 	/**
 	 * LingeringFlameMist constructor.
@@ -36,19 +40,7 @@ public class LingeringFlameMist implements EntityMistActionStrategy {
 		BasicParticleType type = ParticleTypes.FLAME;
 		int duration = 20;		
 		double speed = 0.075;
-		ParticleRenderingInfo flame = getInstance(type, numbers, duration, r, g, b, speed);
-		
-		r = 0.75F;
-		g = 0.25F;
-		b = 0.25F;		
-		numbers = 1;
-		type = ParticleTypes.LAVA;
-		duration = 20;		
-		speed = 0.01;		
-		ParticleRenderingInfo lava = getInstance(type, numbers, duration, r, g, b, speed);
-
-		infos = new ParticleRenderingInfo[] { flame, lava };
-		
+		info = getInstance(type, numbers, duration, r, g, b, speed);		
 	}
 
 	@Override
@@ -83,8 +75,8 @@ public class LingeringFlameMist implements EntityMistActionStrategy {
 	}
 	
 	@Override
-	public ParticleRenderingInfo[] getRenderingInfos() {
-		return infos;
+	public ParticleRenderingInfo getRenderingInfos() {
+		return info;
 	}
 	
 	
