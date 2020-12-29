@@ -4,7 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import bassebombecraft.client.rendering.rendertype.OverlayLines;
+import bassebombecraft.client.rendering.rendertype.RenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Matrix4f;
@@ -29,7 +29,7 @@ public class DebugRenderer_WorldLastEvent_GuiLines {
 		// To handle bug
 		// https://wiki.mcjty.eu/modding/index.php?title=Tut15_Ep15
 		RenderSystem.disableDepthTest();
-		buffer.finish(OverlayLines.OVERLAY_LINES);
+		buffer.finish(RenderTypes.OVERLAY_LINES);
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class DebugRenderer_WorldLastEvent_GuiLines {
 	 */
 	static void renderRect(MatrixStack matrixStack, IRenderTypeBuffer buffer, Vector3f pos, Vector3f size) {
 		EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
-		IVertexBuilder builder = buffer.getBuffer(OverlayLines.OVERLAY_LINES);
+		IVertexBuilder builder = buffer.getBuffer(RenderTypes.OVERLAY_LINES);
 
 		matrixStack.push();
 		// matrixStack.scale(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);

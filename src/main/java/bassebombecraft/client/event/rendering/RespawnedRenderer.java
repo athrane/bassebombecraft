@@ -14,7 +14,6 @@ import net.minecraft.client.renderer.OutlineLayerBuffer;
 import net.minecraft.client.renderer.entity.LivingRenderer;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderLivingEvent.Post;
 import net.minecraftforge.client.event.RenderLivingEvent.Pre;
@@ -22,9 +21,33 @@ import net.minecraftforge.client.event.RenderLivingEvent.Pre;
 /**
  * Client side renderer for rendering entities with the respawned entity
  * attribute.
+ * 
+ * A lock is used to ensure is only rendered once. This is due to invocation of
+ * the render method spawns a new {@linkplain RenderLivingEvent} event which
+ * lead to invocation of this handler once more.
  */
 public class RespawnedRenderer {
 
+	/**
+	 * Outline color, red component.
+	 */
+	static final int RGB_RED = 128;
+	
+	/**
+	 * Outline color, green component.
+	 */	
+	static final int RGB_GREEN = 192;
+	
+	/**
+	 * Outline color, blue component.
+	 */	
+	static final int RGB_BLUE = 128;
+	
+	/**
+	 * Outline color, alpha offset.
+	 */	
+	static final int ALPHA_OFFSET = 127;
+	
 	/**
 	 * Lock used to avoid stack over flow of {@linkplain RenderLivingEvent} events.
 	 */
@@ -42,16 +65,14 @@ public class RespawnedRenderer {
 			return;
 
 		// exit if lock is already locked
-		boolean isLocked = lock.isLocked();
-		if (isLocked)
+		if (lock.isLocked())
 			return;
 
 		try {
 
-			// acquire lock
+			// acquire lock and render
 			lock.lock();
-
-			doRenderPre(event);
+			doRender(event);
 
 			// cancel event - i.e. main rendering of entity
 			event.setCanceled(true);
@@ -66,27 +87,40 @@ public class RespawnedRenderer {
 	}
 
 	/**
-	 * Render pre event.
+	 * Render entity.
+	 * 
+	 * Renders with the event renderer {@linkplain LivingRenderer}.
+	 * 
+	 * Uses the {@linkplain OutlineLayerBuffer} to set colors.
 	 * 
 	 * @param event rendering event
 	 */
-	static void doRenderPre(Pre<? super LivingEntity, ?> event) {
+	static void doRender(Pre<? super LivingEntity, ?> event) {
 		LivingEntity entity = event.getEntity();
 
 		// get oscillating value
 		float oscValue = (float) GeometryUtils.oscillate(0, 1);
-		int oscInt = (int) (oscValue * 255);
-		int color = encodeRgbaToInt(0, oscInt, 0, 128);
+		int alpha = (int) (oscValue * 128);
 
+		// get outline buffer and set color
 		Minecraft mcClient = Minecraft.getInstance();
 		OutlineLayerBuffer buffer = mcClient.getRenderTypeBuffers().getOutlineBufferSource();
-		MatrixStack ms = event.getMatrixStack();
-		LivingRenderer<? super LivingEntity, ?> renderer = event.getRenderer();
-		float partialTicks = event.getPartialRenderTick();
-		float yaw = MathHelper.lerp(partialTicks, entity.prevRotationYaw, entity.rotationYaw);
+		buffer.setColor(RGB_RED, RGB_GREEN, RGB_BLUE, ALPHA_OFFSET + alpha);
 
-		buffer.setColor((color >> 16) & 0xFF, (color >> 8) & 0xFF, color & 0xFF, (color >> 24) & 0xFF);
-		renderer.render(entity, yaw, partialTicks, ms, buffer, 15728640);
+		// get matrix stack
+		MatrixStack matrixStack = event.getMatrixStack();
+
+		// calculate yaw
+		float partialTicks = event.getPartialRenderTick();
+		float yaw = entity.getYaw(partialTicks);
+
+		// get light
+		int packedLight = event.getLight();
+
+		// render
+		event.getRenderer().render(entity, yaw, partialTicks, matrixStack, buffer, packedLight);
+
+		// should be maintained for outline buffer.
 		buffer.finish();
 	}
 
@@ -103,10 +137,6 @@ public class RespawnedRenderer {
 			return;
 
 		// NO-OP
-	}
-
-	static int encodeRgbaToInt(int red, int green, int blue, int alpha) {
-		return ((alpha & 0xFF) << 24) | ((red & 0xFF) << 16) | ((green & 0xFF) << 8) | ((blue & 0xFF));
 	}
 
 }

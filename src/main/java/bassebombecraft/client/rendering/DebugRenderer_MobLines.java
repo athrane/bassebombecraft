@@ -3,7 +3,7 @@ package bassebombecraft.client.rendering;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import bassebombecraft.client.rendering.rendertype.OverlayLines;
+import bassebombecraft.client.rendering.rendertype.RenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Matrix4f;
@@ -34,7 +34,7 @@ public class DebugRenderer_MobLines {
 
 	private static void showMobs(MatrixStack matrixStack, LivingEntity entity) {
 		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
-		IVertexBuilder builder = buffer.getBuffer(OverlayLines.OVERLAY_LINES);
+		IVertexBuilder builder = buffer.getBuffer(RenderTypes.OVERLAY_LINES);
 
 		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
 

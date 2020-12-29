@@ -16,7 +16,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
-import bassebombecraft.client.rendering.rendertype.OverlayLines;
+import bassebombecraft.client.rendering.rendertype.RenderTypes;
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -86,13 +86,13 @@ public class TeamEnityRenderer {
 		matrixStack.translate(0, height, 0);
 		matrixStack.rotate(Vector3f.YP.rotationDegrees(180));
 		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
-		IVertexBuilder builder = buffer.getBuffer(OverlayLines.OVERLAY_LINES);
+		IVertexBuilder builder = buffer.getBuffer(RenderTypes.OVERLAY_LINES);
 		renderTriangle(builder, positionMatrix);
 		matrixStack.pop();
 
 		// see: https://wiki.mcjty.eu/modding/index.php?title=Tut15_Ep15
 		RenderSystem.disableDepthTest();
-		buffer.finish(OverlayLines.OVERLAY_LINES);
+		buffer.finish(RenderTypes.OVERLAY_LINES);
 	}
 
 	static void renderText(MatrixStack matrixStack, IRenderTypeBuffer buffer, float x, float y, String text) {

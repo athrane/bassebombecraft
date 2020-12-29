@@ -5,7 +5,7 @@ import static bassebombecraft.ClientModConstants.BUILDMINEBOOK_TEXT_COLOR;
 import static bassebombecraft.ClientModConstants.HUD_LINE_COLOR;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
-import static bassebombecraft.client.rendering.rendertype.OverlayLines.OVERLAY_LINES;
+import static bassebombecraft.client.rendering.rendertype.RenderTypes.OVERLAY_LINES;
 import static bassebombecraft.item.RegisteredItems.MINE_BOOK;
 import static bassebombecraft.operator.DefaultPorts.getFnGetString1;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
