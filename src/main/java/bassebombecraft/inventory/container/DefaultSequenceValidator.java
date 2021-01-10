@@ -30,7 +30,7 @@ public class DefaultSequenceValidator implements CompositeMagicItemSequenceValid
 
 	@Override	
 	public boolean isSecondItemProjectileFormationModifier(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 1, "ProjectileFormationModifier");
+		return isItemAt(inventory, 1, "ProjectileFormationModifierItem");
 	}
 
 	@Override	
@@ -45,27 +45,27 @@ public class DefaultSequenceValidator implements CompositeMagicItemSequenceValid
 
 	@Override	
 	public boolean isThirdItemProjectileFormationModifier(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 2, "ProjectileFormationModifier");
+		return isItemAt(inventory, 2, "ProjectileFormationModifierItem");
 	}
 
 	@Override	
 	public boolean isThirdItemProjectilePath(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 2, "ProjectilePath");
+		return isItemAt(inventory, 2, "ProjectilePathItem");
 	}
 
 	@Override	
 	public boolean isThirdItemProjectileModifier(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 2, "ProjectileModifier");
+		return isItemAt(inventory, 2, "ProjectileModifierItem");
 	}
 
 	@Override	
 	public boolean isFourthItemProjectilePath(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 3, "ProjectilePath");
+		return isItemAt(inventory, 3, "ProjectilePathItem");
 	}
 
 	@Override	
 	public boolean isFourthItemProjectileModifier(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 3, "ProjectileModifier");
+		return isItemAt(inventory, 3, "ProjectileModifierItem");
 	}
 	
 	/**

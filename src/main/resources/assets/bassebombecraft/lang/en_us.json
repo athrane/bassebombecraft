@@ -140,9 +140,9 @@
     "item.bassebombecraft.lightningprojectileitem": "Projectile: Lightning",
     "item.bassebombecraft.skullprojectileitem": "Projectile: Heavy Skull",
 
-    "item.bassebombecraft.randomprojectileformationmodifieritem": "Formation Modifier: Random",
-    "item.bassebombecraft.inaccuracyprojectileformationmodifieritem": "Formation Modifier: Inaccuracy",
-    "item.bassebombecraft.oscillatingrotation180dprojectileformationmodifieritem": "Formation Modifier: Oscillation 180",
+    "item.bassebombecraft.randomprojectileformationmodifieritem": "Projectile Formation Modifier: Random",
+    "item.bassebombecraft.inaccuracyprojectileformationmodifieritem": "Projectile Formation Modifier: Inaccuracy",
+    "item.bassebombecraft.oscillatingrotation180dprojectileformationmodifieritem": "Projectile Formation Modifier: Oscillation 180",
 
     "item.bassebombecraft.randomprojectilepathitem": "Projectile Path: Random",                            
     "item.bassebombecraft.accelerateprojectilepathitem": "Projectile Path: Accelerate",                            
