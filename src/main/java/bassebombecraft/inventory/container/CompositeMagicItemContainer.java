@@ -210,7 +210,16 @@ public class CompositeMagicItemContainer extends Container {
 		CompoundNBT nbt = itemStackBeingHeld.getOrCreateTag();
 		int dirtyCounter = nbt.getInt("dirtyCounter");
 		nbt.putInt("dirtyCounter", dirtyCounter + 1);
-		itemStackBeingHeld.setTag(nbt);						
+		itemStackBeingHeld.setTag(nbt);
+	}
+
+	/**
+	 * Return stack handler for composite item inventory.
+	 * 
+	 * @return stack handler for composite item inventory.
+	 */
+	public CompositeMagicItemItemStackHandler getCompositeItemInventory() {
+		return this.compositeItemInventory;
 	}
 
 }

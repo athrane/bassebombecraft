@@ -11,6 +11,7 @@ import static bassebombecraft.event.projectile.RegisteredEntityTypes.EGG_PROJECT
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.LIGHTNING_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.LLAMA_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.SKULL_PROJECTILE;
+import static bassebombecraft.inventory.container.RegisteredContainers.COMPOSITE_ITEM_COMTAINER;
 import static bassebombecraft.inventory.container.RegisteredContainers.CONTAINER_REGISTRY;
 import static bassebombecraft.item.RegisteredItems.ITEMS_REGISTRY;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
@@ -56,7 +57,6 @@ import bassebombecraft.event.frequency.DefaultFrequencyRepository;
 import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.job.DefaultJobReposiory;
 import bassebombecraft.event.job.JobRepository;
-import bassebombecraft.inventory.container.RegisteredContainers;
 import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.proxy.Proxy;
 import net.minecraft.client.gui.ScreenManager;
@@ -322,8 +322,7 @@ public class ClientProxy implements Proxy {
 
 		// register the factory used client side to generate a screen corresponding to
 		// the container
-		ScreenManager.registerFactory(RegisteredContainers.COMPOSITE_ITEM_COMTAINER.get(),
-				CompositeMagicItemScreen::new);
+		ScreenManager.registerFactory(COMPOSITE_ITEM_COMTAINER.get(), CompositeMagicItemScreen::new);
 	}
 
 	@Override
