@@ -7,6 +7,31 @@ import net.minecraft.item.ItemStack;
  */
 public class DefaultSequenceValidator implements CompositeMagicItemSequenceValidator {
 
+	/**
+	 * PF class suffix.
+	 */
+	static final String PF_SUFFIX = "ProjectileFormationItem";
+
+	/**
+	 * PFM class suffix.
+	 */	
+	static final String PFM_SUFFIX = "ProjectileFormationModifierItem";
+	
+	/**
+	 * P class suffix.
+	 */		
+	static final String P_SUFFIX = "ProjectileItem";
+	
+	/**
+	 * PP class suffix.
+	 */			
+	static final String PP_SUFFIX = "ProjectilePathItem";
+	
+	/**
+	 * PM class suffix.
+	 */			
+	static final String PM_SUFFIX = "ProjectileModifierItem";
+
 	@Override
 	public int resolveLegalSequenceLength(CompositeMagicItemItemStackHandler inventory) {
 		
@@ -25,67 +50,67 @@ public class DefaultSequenceValidator implements CompositeMagicItemSequenceValid
 	
 	@Override	
 	public boolean isFirstItemProjectileFormation(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 0, "ProjectileFormationItem");
+		return isItemAt(inventory, 0, PF_SUFFIX);
 	}
 
 	@Override	
 	public boolean isSecondItemProjectileFormationModifier(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 1, "ProjectileFormationModifierItem");
+		return isItemAt(inventory, 1, PFM_SUFFIX);
 	}
 
 	@Override	
 	public boolean isSecondItemProjectile(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 1, "ProjectileItem");
+		return isItemAt(inventory, 1, P_SUFFIX);
 	}
 
 	@Override	
 	public boolean isThirdItemProjectile(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 2, "ProjectileItem");
+		return isItemAt(inventory, 2, P_SUFFIX);
 	}
 
 	@Override	
 	public boolean isThirdItemProjectileFormationModifier(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 2, "ProjectileFormationModifierItem");
+		return isItemAt(inventory, 2, PFM_SUFFIX);
 	}
 
 	@Override	
 	public boolean isThirdItemProjectilePath(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 2, "ProjectilePathItem");
+		return isItemAt(inventory, 2, PP_SUFFIX);
 	}
 
 	@Override	
 	public boolean isThirdItemProjectileModifier(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 2, "ProjectileModifierItem");
+		return isItemAt(inventory, 2, PM_SUFFIX);
 	}
 
 	@Override	
 	public boolean isFourthItemProjectilePath(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 3, "ProjectilePathItem");
+		return isItemAt(inventory, 3, PP_SUFFIX);
 	}
 
 	@Override	
 	public boolean isFourthItemProjectileModifier(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 3, "ProjectileModifierItem");
+		return isItemAt(inventory, 3, PM_SUFFIX);
 	}
 
 	@Override	
 	public boolean isFifthItemProjectilePath(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 4, "ProjectilePathItem");
+		return isItemAt(inventory, 4, PP_SUFFIX);
 	}
 
 	@Override	
 	public boolean isFifthItemProjectileModifier(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 4, "ProjectileModifierItem");
+		return isItemAt(inventory, 4, PM_SUFFIX);
 	}
 
 	@Override	
 	public boolean isSixthItemProjectilePath(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 5, "ProjectilePathItem");
+		return isItemAt(inventory, 5, PP_SUFFIX);
 	}
 
 	@Override	
 	public boolean isSixthItemProjectileModifier(CompositeMagicItemItemStackHandler inventory) {
-		return isItemAt(inventory, 5, "ProjectileModifierItem");
+		return isItemAt(inventory, 5, PM_SUFFIX);
 	}
 	
 	/**

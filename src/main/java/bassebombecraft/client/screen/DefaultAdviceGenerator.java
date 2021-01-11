@@ -17,8 +17,8 @@ public class DefaultAdviceGenerator implements ItemAdviceGenerator {
 			"Projectile Formation Modifier (PFM)." };
 	static final String[] ADVICE_L2_P = new String[] { "As item #3, add a Projectile Path (PP)",
 			"or a Projectile Modifier (PM)." };
-	static final String[] ADVICE_L2_PFM = new String[] { "As item #3, add another PFM or a Projectile Path (PP)",
-			"or a Projectile Modifier (PM)." };
+	static final String[] ADVICE_L2_PFM = new String[] { "As item #3, add another PFM or a",
+			"Projectile Path (PP) or a Projectile Modifier (PM)." };
 	static final String[] ADVICE_L3 = new String[] { "As item #4, ", "L3" };
 	static final String[] ADVICE_L4 = new String[] { "L4", "L4" };
 	static final String[] ADVICE_LX_PF = new String[] { "Item #1 must be a Projectile Formation (PF)." };
@@ -72,19 +72,10 @@ public class DefaultAdviceGenerator implements ItemAdviceGenerator {
 	}
 
 	String[] adviceOnLength1(CompositeMagicItemItemStackHandler inventory) {
-
-		// add advice for item #1 != PF
-		if (!validator.isFirstItemProjectileFormation(inventory))
-			return ADVICE_LX_PF;
-
 		return ADVICE_L1;
 	}
 
 	String[] adviceOnLength2(CompositeMagicItemItemStackHandler inventory) {
-
-		// add advice for item #1 != PF
-		if (!validator.isFirstItemProjectileFormation(inventory))
-			return ADVICE_LX_PF;
 
 		// add advice for item #2 == P
 		if (validator.isSecondItemProjectile(inventory))
