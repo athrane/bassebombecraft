@@ -12,16 +12,21 @@ import bassebombecraft.item.composite.CompositeMagicItem;
  */
 public class DefaultAdviceGenerator implements ItemAdviceGenerator {
 
-	static final String[] ADVICE_L0 = new String[] { "As item #1, add a Projectile Formation (PF).", };
-	static final String[] ADVICE_L1 = new String[] { "As item #2, add a Projectile (P) or a",
+	static final String[] ADVICE_L0 = { "As item #1, add a Projectile Formation (PF).", };
+	static final String[] ADVICE_L1 = { "As item #2, add a Projectile (P) or a",
 			"Projectile Formation Modifier (PFM)." };
-	static final String[] ADVICE_L2_P = new String[] { "As item #3, add a Projectile Path (PP)",
-			"or a Projectile Modifier (PM)." };
-	static final String[] ADVICE_L2_PFM = new String[] { "As item #3, add another PFM or a",
+	static final String[] ADVICE_L2_P = { "As item #3, add a Projectile Path (PP)", "or a Projectile Modifier (PM)." };
+	static final String[] ADVICE_L2_PFM = { "As item #3, add another PFM or a",
 			"Projectile Path (PP) or a Projectile Modifier (PM)." };
-	static final String[] ADVICE_L3 = new String[] { "As item #4, ", "L3" };
-	static final String[] ADVICE_L4 = new String[] { "L4", "L4" };
-	static final String[] ADVICE_LX_PF = new String[] { "Item #1 must be a Projectile Formation (PF)." };
+	static final String[] ADVICE_L3_P = { "As item #4, add a Projectile Path (PP)", "or a Projectile Modifier (PM)." };
+	static final String[] ADVICE_L3_PP = { "As item #4, add a Projectile Path (PP)", "or a Projectile Modifier (PM)." };
+	static final String[] ADVICE_L3_PM = { "As item #4, add a Projectile Modifier (PM)." };
+	static final String[] ADVICE_L4_PP = { "As item #5, add a Projectile Path (PP)", "or a Projectile Modifier (PM)." };
+	static final String[] ADVICE_L4_PM = { "As item #5, add a Projectile Modifier (PM)." };
+	static final String[] ADVICE_L5_PP = { "As item #6, add a Projectile Path (PP)", "or a Projectile Modifier (PM)." };
+	static final String[] ADVICE_L5_PM = { "As item #6, add a Projectile Modifier (PM)." };
+	static final String[] ADVICE_L6 = { "Impressive. A 6 item combo.."};
+	static final String[] ADVICE_DEFAULT = { "The legal syntax is:", "Sequence = PF [PFM] P {PP} {PM}" };
 
 	/**
 	 * Item container.
@@ -61,6 +66,10 @@ public class DefaultAdviceGenerator implements ItemAdviceGenerator {
 			return adviceOnLength3(inventory);
 		case 4:
 			return adviceOnLength4(inventory);
+		case 5:
+			return adviceOnLength5(inventory);
+		case 6:
+			return adviceOnLength6(inventory);
 
 		default:
 			return defaultAdvice();
@@ -76,38 +85,51 @@ public class DefaultAdviceGenerator implements ItemAdviceGenerator {
 	}
 
 	String[] adviceOnLength2(CompositeMagicItemItemStackHandler inventory) {
-
-		// add advice for item #2 == P
-		if (validator.isSecondItemProjectile(inventory))
-			return ADVICE_L2_P;
-
-		// add advice for item #2 == PFM
+		// item #2 is PFM
 		if (validator.isSecondItemProjectileFormationModifier(inventory))
 			return ADVICE_L2_PFM;
 
-		return ADVICE_L1;
+		// item #2 is P
+		return ADVICE_L2_P;
 	}
 
 	String[] adviceOnLength3(CompositeMagicItemItemStackHandler inventory) {
+		// item #2,3 is PFM P
+		if (validator.isSecondItemProjectileFormationModifier(inventory))
+			return ADVICE_L3_P;
 
-		// add advice for item #1 != PF
-		if (!validator.isFirstItemProjectileFormation(inventory))
-			return ADVICE_LX_PF;
+		// item #2,3 is P PP
+		if (validator.isThirdItemProjectilePath(inventory))
+			return ADVICE_L3_PP;
 
-		return new String[] { "S=3", "S=3" };
+		// item #2,3 is P PM
+		return ADVICE_L3_PM;
 	}
 
 	String[] adviceOnLength4(CompositeMagicItemItemStackHandler inventory) {
+		// item #4 is PP
+		if (validator.isFourthItemProjectilePath(inventory))
+			return ADVICE_L4_PP;
 
-		// add advice for item #1 != PF
-		if (!validator.isFirstItemProjectileFormation(inventory))
-			return ADVICE_LX_PF;
+		// item #4 is PM
+		return ADVICE_L4_PM;
+	}
 
-		return new String[] { "S=4", "S=4" };
+	String[] adviceOnLength5(CompositeMagicItemItemStackHandler inventory) {
+		// item #5 is PP
+		if (validator.isFifthItemProjectilePath(inventory))
+			return ADVICE_L5_PP;
+
+		// item #5 is PM
+		return ADVICE_L5_PM;
+	}
+
+	String[] adviceOnLength6(CompositeMagicItemItemStackHandler inventory) {
+		return ADVICE_L6;
 	}
 
 	String[] defaultAdvice() {
-		return new String[] { "The legal syntax is:", "Sequence = PF [PFM] P {PP} {PM}" };
+		return ADVICE_DEFAULT;
 	}
 
 }

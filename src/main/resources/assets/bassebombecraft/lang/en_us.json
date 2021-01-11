@@ -2,6 +2,9 @@
     "_comment": "GUI tab",
     "itemGroup.bassebombecraft": "BasseBombeCraft items",
 
+    "_comment": "Composite Magic Item Screen",
+    "gui.bassebombecraft.compositemagicscreen.header": "Composite magic combo:",
+
     "_comment": "Fire",
     "item.bassebombecraft.smallfireballbook": "Book of Small Fireballs",
     "item.bassebombecraft.largefireballbook": "Book of Large Fireballs",
