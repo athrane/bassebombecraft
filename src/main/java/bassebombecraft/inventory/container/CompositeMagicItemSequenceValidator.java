@@ -97,5 +97,41 @@ public interface CompositeMagicItemSequenceValidator {
 	 * @return true if fourth item is a projectile modifier.
 	 */
 	boolean isFourthItemProjectileModifier(CompositeMagicItemItemStackHandler inventory);
+
+	/**
+	 * Returns true if fifth item is a projectile path.
+	 * 
+	 * @param inventory composite item inventory.
+	 * 
+	 * @return true if fifth item is a projectile path.
+	 */
+	boolean isFifthItemProjectilePath(CompositeMagicItemItemStackHandler inventory);
+	
+	/**
+	 * Returns true if fifth item is a projectile modifier.
+	 * 
+	 * @param inventory composite item inventory.
+	 * 
+	 * @return true if fifth item is a projectile modifier.
+	 */
+	boolean isFifthItemProjectileModifier(CompositeMagicItemItemStackHandler inventory);
+
+	/**
+	 * Returns true if sixth item is a projectile path.
+	 * 
+	 * @param inventory composite item inventory.
+	 * 
+	 * @return true if sixth item is a projectile path.
+	 */
+	boolean isSixthItemProjectilePath(CompositeMagicItemItemStackHandler inventory);
+	
+	/**
+	 * Returns true if sixth item is a projectile modifier.
+	 * 
+	 * @param inventory composite item inventory.
+	 * 
+	 * @return true if sixth item is a projectile modifier.
+	 */
+	boolean isSixthItemProjectileModifier(CompositeMagicItemItemStackHandler inventory);
 	
 }

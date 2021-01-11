@@ -67,6 +67,26 @@ public class DefaultSequenceValidator implements CompositeMagicItemSequenceValid
 	public boolean isFourthItemProjectileModifier(CompositeMagicItemItemStackHandler inventory) {
 		return isItemAt(inventory, 3, "ProjectileModifierItem");
 	}
+
+	@Override	
+	public boolean isFifthItemProjectilePath(CompositeMagicItemItemStackHandler inventory) {
+		return isItemAt(inventory, 4, "ProjectilePathItem");
+	}
+
+	@Override	
+	public boolean isFifthItemProjectileModifier(CompositeMagicItemItemStackHandler inventory) {
+		return isItemAt(inventory, 4, "ProjectileModifierItem");
+	}
+
+	@Override	
+	public boolean isSixthItemProjectilePath(CompositeMagicItemItemStackHandler inventory) {
+		return isItemAt(inventory, 5, "ProjectilePathItem");
+	}
+
+	@Override	
+	public boolean isSixthItemProjectileModifier(CompositeMagicItemItemStackHandler inventory) {
+		return isItemAt(inventory, 5, "ProjectileModifierItem");
+	}
 	
 	/**
 	 * Returns true if item matches name suffix.
@@ -143,11 +163,37 @@ public class DefaultSequenceValidator implements CompositeMagicItemSequenceValid
 	}
 
 	boolean isPos5LegalSequence(CompositeMagicItemItemStackHandler inventory) {
-		return false;
+
+		// item #4 is PP 
+		if(isFourthItemProjectilePath(inventory)) {
+			boolean itemIsPP = isFifthItemProjectilePath(inventory);				
+			boolean itemIsPM = isFifthItemProjectileModifier(inventory);		
+			if(itemIsPP) return true;		
+			if(itemIsPM) return true;		
+			return false;
+		}
+		
+		// item #4 is PM
+		boolean itemIsPM = isFifthItemProjectileModifier(inventory);		
+		if(itemIsPM) return true;		
+		return false;				
 	}
 
 	boolean isPos6LegalSequence(CompositeMagicItemItemStackHandler inventory) {
-		return false;
+
+		// item #5 is PP 
+		if(isFifthItemProjectilePath(inventory)) {
+			boolean itemIsPP = isSixthItemProjectilePath(inventory);				
+			boolean itemIsPM = isSixthItemProjectileModifier(inventory);		
+			if(itemIsPP) return true;		
+			if(itemIsPM) return true;		
+			return false;
+		}
+		
+		// item #5 is PM
+		boolean itemIsPM = isSixthItemProjectileModifier(inventory);		
+		if(itemIsPM) return true;		
+		return false;						
 	}	
 	
 }
