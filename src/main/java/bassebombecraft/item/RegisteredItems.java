@@ -90,6 +90,7 @@ import bassebombecraft.item.composite.projectile.modifier.EmitHorizontalForcePro
 import bassebombecraft.item.composite.projectile.modifier.EmitVerticalForceProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeMobWhenKilledProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeOnImpactProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.LightningProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ReceiveAggroProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.RespawnProjectileModifierItem;
@@ -298,6 +299,7 @@ public class RegisteredItems {
 	public static final RegistryObject<Item> MODIFIER16 = register(EmitHorizontalForceProjectileModifierItem::new);
 	public static final RegistryObject<Item> MODIFIER17 = register(EmitVerticalForceProjectileModifierItem::new);
 	public static final RegistryObject<Item> MODIFIER18 = register(RespawnProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER19 = register(LightningProjectileModifierItem::new);
 
 	/**
 	 * Register item.

@@ -38,6 +38,7 @@ import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnIceBlock2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnLavaBlock2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnLightning2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportMob2;
 import bassebombecraft.operator.projectile.modifier.tag.ReceiveAggro2;
@@ -219,6 +220,11 @@ public class ProjectileModifierEventHandler {
 	 */
 	static final Operator2 VERTICAL_FORCE_OPERATOR = new EmitVerticalForce2();
 
+	/**
+	 * Spawn lightning operator.
+	 */
+	static final Operator2 LIGHTNING_OPERATOR = new SpawnLightning2();
+	
 	@SubscribeEvent
 	static public void handleProjectileImpactEvent(ProjectileImpactEvent event) {
 		try {
@@ -301,6 +307,10 @@ public class ProjectileModifierEventHandler {
 			if (tags.contains(Bounce2.NAME))
 				bounceOnImpact(event);
 
+			// handle: spawn lightning
+			if (tags.contains(SpawnLightning2.NAME))
+				spawnLightning(event);
+			
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
@@ -536,7 +546,7 @@ public class ProjectileModifierEventHandler {
 		ports.setWorld(event.getEntity().getEntityWorld());
 		run(ports, EXPLODE_ON_IMPACT_OPERATOR);
 	}
-
+	
 	/**
 	 * Execute receive aggro operator.
 	 * 
@@ -564,6 +574,18 @@ public class ProjectileModifierEventHandler {
 	}
 
 	/**
+	 * Execute spawn lightning operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void spawnLightning(ProjectileImpactEvent event) {
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setWorld(event.getEntity().getEntityWorld());
+		run(ports, LIGHTNING_OPERATOR);
+	}
+			
+	/**
 	 * Execute explode when killed operator.
 	 * 
 	 * @param event living death event.
@@ -585,4 +607,5 @@ public class ProjectileModifierEventHandler {
 		run(ports, RESPAWN_WHEN_KILLED_OPERATOR);
 	}
 
+	
 }

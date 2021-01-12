@@ -17,6 +17,7 @@ import net.minecraft.world.World;
  * Implementation of the {@linkplain RightClickedItemAction} which shoot an egg
  * projectile which executes an {@linkplain ProjectileAction} on impact.
  */
+@Deprecated
 public class ShootGenericEggProjectile implements RightClickedItemAction {
 
 	static final float PITCH_OFFSET = 0.0F;
