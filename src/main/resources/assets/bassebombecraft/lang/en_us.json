@@ -2,6 +2,9 @@
     "_comment": "GUI tab",
     "itemGroup.bassebombecraft": "BasseBombeCraft items",
 
+    "_comment": "Composite Magic Item Screen",
+    "gui.bassebombecraft.compositemagicscreen.header": "Composite magic combo:",
+
     "_comment": "Fire",
     "item.bassebombecraft.smallfireballbook": "Book of Small Fireballs",
     "item.bassebombecraft.largefireballbook": "Book of Large Fireballs",
@@ -140,9 +143,9 @@
     "item.bassebombecraft.lightningprojectileitem": "Projectile: Lightning",
     "item.bassebombecraft.skullprojectileitem": "Projectile: Heavy Skull",
 
-    "item.bassebombecraft.randomprojectileformationmodifieritem": "Formation Modifier: Random",
-    "item.bassebombecraft.inaccuracyprojectileformationmodifieritem": "Formation Modifier: Inaccuracy",
-    "item.bassebombecraft.oscillatingrotation180dprojectileformationmodifieritem": "Formation Modifier: Oscillation 180",
+    "item.bassebombecraft.randomprojectileformationmodifieritem": "Projectile Formation Modifier: Random",
+    "item.bassebombecraft.inaccuracyprojectileformationmodifieritem": "Projectile Formation Modifier: Inaccuracy",
+    "item.bassebombecraft.oscillatingrotation180dprojectileformationmodifieritem": "Projectile Formation Modifier: Oscillation 180",
 
     "item.bassebombecraft.randomprojectilepathitem": "Projectile Path: Random",                            
     "item.bassebombecraft.accelerateprojectilepathitem": "Projectile Path: Accelerate",                            
@@ -171,6 +174,8 @@
     "item.bassebombecraft.emithorizontalforceprojectilemodifieritem": "Projectile Modifier: Wind Gust",                            
     "item.bassebombecraft.emitverticalforceprojectilemodifieritem": "Projectile Modifier: Updraft",                            
     "item.bassebombecraft.respawnprojectilemodifieritem": "Projectile Modifier: Respawn Spectres",                            
+    "item.bassebombecraft.lightningprojectilemodifieritem": "Projectile Modifier: Lightning",                            
+    "item.bassebombecraft.spawnsquidprojectilemodifieritem": "Projectile Modifier: Angry Squid",                            
 
 	"_comment": "composite projectile properties",
     "desc.bassebombecraft.projectile.damage" : "Damage: %d",

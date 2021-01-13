@@ -816,14 +816,27 @@ public class RenderingUtils {
 	/**
 	 * Create texture resource location for GUI screen.
 	 * 
-	 * @param projectileEntity class name of GUI screen.
+	 * @param containerScreen class name of GUI screen.
 	 * 
 	 * @return texture resource location for GUI screen.
 	 */
-	public static ResourceLocation createGuiTextureResourceLocation(Class<?> projectileEntity) {
+	public static ResourceLocation createGuiTextureResourceLocation(Class<?> containerScreen) {
 		String textureName = new StringBuilder().append(GUI_TEXTURE_PATH)
-				.append(projectileEntity.getSimpleName().toLowerCase()).append(".png").toString();
+				.append(containerScreen.getSimpleName().toLowerCase()).append(".png").toString();
 		return new ResourceLocation(MODID, textureName);
 	}
 
+	/**
+	 * Create texture resource location for GUI.
+	 * 
+	 * @param guiTexture name of GUI texture.
+	 * 
+	 * @return texture resource location for GUI texture.
+	 */
+	public static ResourceLocation createGuiTextureResourceLocation(String guiTexture) {
+		String textureName = new StringBuilder().append(GUI_TEXTURE_PATH)
+				.append(guiTexture.toLowerCase()).append(".png").toString();
+		return new ResourceLocation(MODID, textureName);
+	}
+	
 }

@@ -48,6 +48,16 @@ public class CompositeMagicItemItemStackHandler extends ItemStackHandler {
 	String compositeName;
 
 	/**
+	 * Length of current composite sequence.
+	 */
+	int compositeLength;
+
+	/**
+	 * Inventory index for current composite sequence.
+	 */
+	int inventoryIndex;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param size item stack size.
@@ -72,12 +82,10 @@ public class CompositeMagicItemItemStackHandler extends ItemStackHandler {
 	protected void onContentsChanged(int slot) {
 		isChanged = true;
 
-		// skip configuration if inventory dons't contain composites
-		int inventoryIndex = findInventoryComposites();
+		inventoryIndex = findInventoryComposites();
 		if (isInventoryContainingComposites(inventoryIndex)) {
 
-			// calculate composite length
-			int compositeLength = calculateCompositeLength(inventoryIndex);
+			compositeLength = calculateCompositeLength(inventoryIndex);
 			compositeLength = Math.min(compositeLength, COMPOSITE_MAX_SIZE);
 
 			// configure operators
@@ -85,6 +93,8 @@ public class CompositeMagicItemItemStackHandler extends ItemStackHandler {
 				configureOperators(inventoryIndex, compositeLength);
 				createCompositeName(inventoryIndex, compositeLength);
 			}
+		} else {
+			compositeLength = 0;
 		}
 	}
 
@@ -339,4 +349,22 @@ public class CompositeMagicItemItemStackHandler extends ItemStackHandler {
 		return compositeName;
 	}
 
+	/**
+	 * Get length of current composite sequence.
+	 * 
+	 * @return length of current composite sequence.
+	 */	
+	public int getCompositeLength() {
+		return compositeLength;
+	}
+
+	/**
+	 * Get inventory index of current composite sequence.
+	 * 
+	 * @return index of current composite sequence.
+	 */	
+	public int getCompositeInventoryIndex() {
+		return inventoryIndex;
+	}
+		
 }

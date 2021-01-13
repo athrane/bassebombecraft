@@ -3,9 +3,9 @@
 	"ingredients": [
 		{
 			"item": "minecraft:book"
-		},
+		},			
 		{
-			"item": "minecraft:gold_ingot"
+			"item": "bassebombecraft:lightningprojectilemodifieritem"
 		}
 	],
 	"result": {

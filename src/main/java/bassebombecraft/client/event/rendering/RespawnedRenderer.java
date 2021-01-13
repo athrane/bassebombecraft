@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import bassebombecraft.geom.GeometryUtils;
+import static bassebombecraft.geom.GeometryUtils.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OutlineLayerBuffer;
 import net.minecraft.client.renderer.entity.LivingRenderer;
@@ -99,7 +99,7 @@ public class RespawnedRenderer {
 		LivingEntity entity = event.getEntity();
 
 		// get oscillating value
-		float oscValue = (float) GeometryUtils.oscillate(0, 1);
+		float oscValue = (float) oscillate(0, 1);
 		int alpha = (int) (oscValue * 128);
 
 		// get outline buffer and set color

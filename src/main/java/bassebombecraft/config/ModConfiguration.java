@@ -94,6 +94,7 @@ import bassebombecraft.item.book.IceBlockBook;
 import bassebombecraft.item.book.LargeFireballBook;
 import bassebombecraft.item.book.LavaBlockBook;
 import bassebombecraft.item.book.LavaSpiralMistBook;
+import bassebombecraft.item.book.LightningBoltBook;
 import bassebombecraft.item.book.LingeringFlameBook;
 import bassebombecraft.item.book.LingeringFuryBook;
 import bassebombecraft.item.book.MultipleArrowsBook;
@@ -108,6 +109,7 @@ import bassebombecraft.item.book.SpawnFlamingChickenBook;
 import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnKittenArmyBook;
 import bassebombecraft.item.book.SpawnSkeletonArmyBook;
+import bassebombecraft.item.book.SpawnSquidBook;
 import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.VacuumMistBook;
@@ -134,6 +136,7 @@ import bassebombecraft.item.composite.projectile.modifier.EmitHorizontalForcePro
 import bassebombecraft.item.composite.projectile.modifier.EmitVerticalForceProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeMobWhenKilledProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeOnImpactProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.LightningProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.MeteorProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ReceiveAggroProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.RespawnProjectileModifierItem;
@@ -141,6 +144,7 @@ import bassebombecraft.item.composite.projectile.modifier.SpawnAnvilProjectileMo
 import bassebombecraft.item.composite.projectile.modifier.SpawnCobwebProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnIceBlockProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnLavaBlockProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.SpawnSquidProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
@@ -372,6 +376,8 @@ public class ModConfiguration {
 	public static ItemConfig naturalizeBook;
 	public static ItemConfig vacuumMistBook;
 	public static ItemConfig healingMistBook;
+	public static ItemConfig lightningBoltBook;
+	public static ItemConfig spawnSquidBook;
 
 	// SpawnCreeperArmyBook
 	public static ForgeConfigSpec.ConfigValue<String> spawnCreeperArmyBookTooltip;
@@ -491,6 +497,8 @@ public class ModConfiguration {
 	public static ItemConfig emitHorizontalForceProjectileModifierItem;
 	public static ItemConfig emitVerticalForceProjectileModifierItem;
 	public static ItemConfig respawnProjectileModifierItem;
+	public static ItemConfig lightningProjectileModifierItem;
+	public static ItemConfig spawnSquidProjectileModifierItem;
 
 	// Actions..
 
@@ -1059,86 +1067,6 @@ public class ModConfiguration {
 				.defineInRange("spawnDisplacement", 2, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		/**
-		 * Configuration for the the {@linkplain DigMobHole2} operator.
-		 */
-		name = DigMobHole2.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		digMobHoleNoHitHoleDepth = COMMON_BUILDER.comment("No-hit, hole depth (Z) in blocks.")
-				.defineInRange("noHitHoleDepth", 2, 0, Integer.MAX_VALUE);
-		digMobHoleNoHitHoleHeight = COMMON_BUILDER.comment("No-hit, hole height (Y) in blocks.")
-				.defineInRange("noHitHoleHeight", 2, 0, Integer.MAX_VALUE);
-		digMobHoleNoHitHoleWidth = COMMON_BUILDER.comment("No-hit, hole width (X) in blocks.")
-				.defineInRange("noHitHoleWidth", 2, 0, Integer.MAX_VALUE);
-		digMobHoleHeightExpansion = COMMON_BUILDER.comment("Hole expansion in addition to entity bounding box.")
-				.defineInRange("heightExpansion", 1, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
-		/**
-		 * Configuration for the the {@linkplain DigMobHole2} operator.
-		 */
-		name = Dig2.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		digHoleSize = COMMON_BUILDER.comment("hole size (X/Y/Z) in blocks.").defineInRange("HoleSize", 2, 0,
-				Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
-		/**
-		 * Configuration for the the {@linkplain SpawnCobweb2} operator.
-		 */
-		name = SpawnCobweb2.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		spawnCobwebDuration = COMMON_BUILDER.comment("Duration of spawned cobweb.").defineInRange("duration", 400, 0,
-				Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
-		/**
-		 * Configuration for the the {@linkplain SpawnIceBlock2} operator.
-		 */
-		name = SpawnIceBlock2.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		spawnIceBlockDuration = COMMON_BUILDER.comment("Duration of spawned ice block.").defineInRange("duration", 400,
-				0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
-		/**
-		 * Configuration for the the {@linkplain SpawnLavaBlock2} operator.
-		 */
-		name = SpawnLavaBlock2.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		spawnLavaBlockDuration = COMMON_BUILDER.comment("Duration of spawned lava block.").defineInRange("duration",
-				400, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
-		/**
-		 * Configuration for the the {@linkplain SpawnAnvil2} operator.
-		 */
-		name = SpawnAnvil2.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		spawnAnvilDuration = COMMON_BUILDER.comment("Duration of spawned anvil.").defineInRange("duration", 400, 0,
-				Integer.MAX_VALUE);
-		spawnAnvilOffset = COMMON_BUILDER.comment("Y-offset in blocks for spawned anvil.").defineInRange("duration", 10,
-				0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
-		/**
-		 * Configuration for the the {@linkplain EmitHorizontalForce2} operator.
-		 */
-		name = EmitHorizontalForce2.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		emitHorizontalForceStrength = COMMON_BUILDER.comment("Strength of horizontal force.").defineInRange("strength",
-				12, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
-		/**
-		 * Configuration for the the {@linkplain EmitVerticalForce2} operator.
-		 */
-		name = EmitVerticalForce2.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		emitVerticalForceStrength = COMMON_BUILDER.comment("Strength of vertical force.").defineInRange("strength", 12,
-				0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
 		// GenericBlockSpiralFillMist
 		name = GenericBlockSpiralFillMist.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1487,6 +1415,86 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
+		 * Configuration for the the {@linkplain DigMobHole2} operator.
+		 */
+		name = DigMobHole2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		digMobHoleNoHitHoleDepth = COMMON_BUILDER.comment("No-hit, hole depth (Z) in blocks.")
+				.defineInRange("noHitHoleDepth", 2, 0, Integer.MAX_VALUE);
+		digMobHoleNoHitHoleHeight = COMMON_BUILDER.comment("No-hit, hole height (Y) in blocks.")
+				.defineInRange("noHitHoleHeight", 2, 0, Integer.MAX_VALUE);
+		digMobHoleNoHitHoleWidth = COMMON_BUILDER.comment("No-hit, hole width (X) in blocks.")
+				.defineInRange("noHitHoleWidth", 2, 0, Integer.MAX_VALUE);
+		digMobHoleHeightExpansion = COMMON_BUILDER.comment("Hole expansion in addition to entity bounding box.")
+				.defineInRange("heightExpansion", 1, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the the {@linkplain DigMobHole2} operator.
+		 */
+		name = Dig2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		digHoleSize = COMMON_BUILDER.comment("hole size (X/Y/Z) in blocks.").defineInRange("HoleSize", 2, 0,
+				Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the the {@linkplain SpawnCobweb2} operator.
+		 */
+		name = SpawnCobweb2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnCobwebDuration = COMMON_BUILDER.comment("Duration of spawned cobweb.").defineInRange("duration", 400, 0,
+				Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the the {@linkplain SpawnIceBlock2} operator.
+		 */
+		name = SpawnIceBlock2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnIceBlockDuration = COMMON_BUILDER.comment("Duration of spawned ice block.").defineInRange("duration", 400,
+				0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the the {@linkplain SpawnLavaBlock2} operator.
+		 */
+		name = SpawnLavaBlock2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnLavaBlockDuration = COMMON_BUILDER.comment("Duration of spawned lava block.").defineInRange("duration",
+				400, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the the {@linkplain SpawnAnvil2} operator.
+		 */
+		name = SpawnAnvil2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnAnvilDuration = COMMON_BUILDER.comment("Duration of spawned anvil.").defineInRange("duration", 400, 0,
+				Integer.MAX_VALUE);
+		spawnAnvilOffset = COMMON_BUILDER.comment("Y-offset in blocks for spawned anvil.").defineInRange("duration", 10,
+				0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the the {@linkplain EmitHorizontalForce2} operator.
+		 */
+		name = EmitHorizontalForce2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		emitHorizontalForceStrength = COMMON_BUILDER.comment("Strength of horizontal force.").defineInRange("strength",
+				12, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the the {@linkplain EmitVerticalForce2} operator.
+		 */
+		name = EmitVerticalForce2.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		emitVerticalForceStrength = COMMON_BUILDER.comment("Strength of vertical force.").defineInRange("strength", 12,
+				0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
 		 * Configuration for the {@linkplain AccelerateProjectilePath} operator.
 		 */
 		name = AccelerateProjectilePath.NAME;
@@ -1629,18 +1637,24 @@ public class ModConfiguration {
 				.defineInRange("cooldown", 25, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// BeastmasterBook
+		/**
+		 * Configuration for the {@linkplain BeastmasterBook} item.
+		 */
 		name = BeastmasterBook.ITEM_NAME;
 		beastmasterBook = getInstance(COMMON_BUILDER, name,
 				"Right-click shot a beast charm at mobs. If the charm hits, the mob will temporarily tamed to fight by the side of the beastmaster who conjured the charm. When the duration of the charm ends, the charmed mob will regain its former mental abilities. A charmed mob can be commanded by Krenko's Command Baton",
 				25);
 
-		// DecoyBook
+		/**
+		 * Configuration for the {@linkplain DecoyBook} item.
+		 */
 		name = DecoyBook.ITEM_NAME;
 		decoyBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to spawn a decoy. All mobs in the vicinity will aggro the poor thing.", 100);
 
-		// ReceiveAggroBook
+		/**
+		 * Configuration for the {@linkplain ReceiveAggroBook} item.
+		 */
 		name = ReceiveAggroBook.ITEM_NAME;
 		receiveAggroBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to shoot projectile. If the projectile hits a target mob then all mobs in the vicinity will aggro the hit target mob.",
@@ -1755,6 +1769,22 @@ public class ModConfiguration {
 		name = SpawnFlamingChickenBook.ITEM_NAME;
 		spawnFlamingChickenBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to spawns a failed phoenix. The phoenix will panic due to it being on fire.", 25);
+
+		/**
+		 * Configuration for the {@linkplain LightningBoltBook} item.
+		 */
+		name = LightningBoltBook.ITEM_NAME;
+		lightningBoltBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to shoot a projectile. If a creature or block is hit then a lightning is discharged from the sky.",
+				25);
+
+		/**
+		 * Configuration for the {@linkplain SpawnSquidBook} item.
+		 */
+		name = SpawnSquidBook.ITEM_NAME;
+		spawnSquidBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to shoot a projectile. If a creature or block is hit then a angry squid will drop form the sky.",
+				25);
 
 		// BuildTowerBook
 		name = BuildTowerBook.ITEM_NAME;
@@ -1998,7 +2028,7 @@ public class ModConfiguration {
 		respawnIdolInventoryItem = getInstance(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will curse nearby mobs with a spectral curse. When a cursed mob dies any number of spectres will respawn.",
 				25, 5, splParticles);
-		
+
 		// RemoveBlockSpiralIdolInventoryItem
 		name = RemoveBlockSpiralIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1.0, 1.0, 0.4, 0.7);
@@ -2398,6 +2428,26 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		respawnProjectileModifierItem = getInstance(COMMON_BUILDER, name,
 				"A mythical image of the modification of a projectile. When the projectile kills a mob then any number of spectres will respawn.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain LightningProjectileModifierItem} item.
+		 */
+		name = LightningProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		lightningProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. When the projectile hits a mob or a block then a lightning is discharged from the sky.",
+				25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain SpawnSquidProjectileModifierItem} item.
+		 */
+		name = SpawnSquidProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnSquidProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. When the projectile hits a mob or a block then an angry squid is discharged from the sky.",
 				25);
 		COMMON_BUILDER.pop();
 	}
