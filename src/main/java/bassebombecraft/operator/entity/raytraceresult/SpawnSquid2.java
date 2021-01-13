@@ -1,8 +1,6 @@
 package bassebombecraft.operator.entity.raytraceresult;
 
 import static bassebombecraft.block.BlockUtils.calculatePosition;
-import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
-import static bassebombecraft.config.ModConfiguration.spawnIceBlockDuration;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isBlockHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isNothingHit;
@@ -10,18 +8,19 @@ import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeBlockRayTr
 import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
 import static bassebombecraft.operator.DefaultPorts.getFnWorld1;
-import static net.minecraft.block.Blocks.ICE;
 
 import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.passive.SquidEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
@@ -31,12 +30,27 @@ import net.minecraft.world.World;
  * If a block is hit then a temporary ice block is created where the projectile
  * hit.
  */
-public class SpawnIceBlock2 implements Operator2 {
+public class SpawnSquid2 implements Operator2 {
 
 	/**
 	 * Operator identifier.
 	 */
-	public static final String NAME = SpawnIceBlock2.class.getSimpleName();
+	public static final String NAME = SpawnSquid2.class.getSimpleName();
+
+	/**
+	 * Spawn Y offset.
+	 */
+	static final int Y_SPAWN_OFFSET = 2;
+
+	/**
+	 * Squid pitch.
+	 */
+	static final float PITCH = 0.0F;
+
+	/**
+	 * Entity yaw.
+	 */
+	static final float PARTIAL_TICKS = 1.0F;
 
 	/**
 	 * Function to get ray trace result.
@@ -54,7 +68,7 @@ public class SpawnIceBlock2 implements Operator2 {
 	 * @param splRayTraceResult function to get ray trace result.
 	 * @param fnGetWorld        function to get world.
 	 */
-	public SpawnIceBlock2(Function<Ports, RayTraceResult> fnGetRayTraceResult, Function<Ports, World> fnGetWorld) {
+	public SpawnSquid2(Function<Ports, RayTraceResult> fnGetRayTraceResult, Function<Ports, World> fnGetWorld) {
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 		this.fnGetWorld = fnGetWorld;
 	}
@@ -66,7 +80,7 @@ public class SpawnIceBlock2 implements Operator2 {
 	 * 
 	 * Instance is configured with world #1 from ports.
 	 */
-	public SpawnIceBlock2() {
+	public SpawnSquid2() {
 		this(getFnGetRayTraceResult1(), getFnWorld1());
 	}
 
@@ -87,7 +101,11 @@ public class SpawnIceBlock2 implements Operator2 {
 		if (isNothingHit(result))
 			return ports;
 
-		// spawn ice block around entity
+		// declare variables
+		Vec3d posVec = null;
+		float yaw = 0;
+
+		// spawn cobweb around entity
 		if (isEntityHit(result)) {
 
 			// exit if result isn't entity ray trace result
@@ -97,14 +115,12 @@ public class SpawnIceBlock2 implements Operator2 {
 			// get entity
 			Entity entity = ((EntityRayTraceResult) result).getEntity();
 
-			// get entity aabb and convert it into cobweb blocks
-			AxisAlignedBB aabb = entity.getBoundingBox();
-			BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);
-			BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
-			BlockPos.getAllInBox(min, max)
-					.forEach(pos -> setTemporaryBlock(world, pos, ICE, spawnIceBlockDuration.get()));
+			// get entity position
+			posVec = entity.getPositionVector();
+			posVec = posVec.add(0, entity.getHeight(), 0);
 
-			return ports;
+			// get entity yaw
+			yaw = entity.getYaw(PARTIAL_TICKS);
 		}
 
 		// teleport to hit block
@@ -117,10 +133,18 @@ public class SpawnIceBlock2 implements Operator2 {
 			// type cast
 			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
 
-			// spawn block
+			// calculate spawn position
 			BlockPos spawnPosition = calculatePosition(blockResult);
-			setTemporaryBlock(world, spawnPosition, ICE, spawnIceBlockDuration.get());
+			posVec = new Vec3d(spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getZ());
 		}
+
+		// spawn squid
+		SquidEntity entity = EntityType.SQUID.create(world);
+		double lx = posVec.x;
+		double ly = posVec.y + Y_SPAWN_OFFSET;
+		double lz = posVec.z;
+		entity.setLocationAndAngles(lx, ly, lz, yaw, PITCH);
+		world.addEntity(entity);
 
 		return ports;
 	}

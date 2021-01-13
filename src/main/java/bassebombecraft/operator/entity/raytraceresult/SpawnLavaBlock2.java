@@ -87,7 +87,7 @@ public class SpawnLavaBlock2 implements Operator2 {
 		if (isNothingHit(result))
 			return ports;
 
-		// spawn cobweb around entity
+		// spawn lava block around entity
 		if (isEntityHit(result)) {
 
 			// exit if result isn't entity ray trace result

@@ -24,6 +24,7 @@ import net.minecraft.world.World;
  * 
  * If a block is hit then a squid is spawned where the projectile hit.
  */
+@Deprecated
 public class SpawnSquid implements ProjectileAction {
 
 	private static final int Y_SPAWN_OFFSET = 2;

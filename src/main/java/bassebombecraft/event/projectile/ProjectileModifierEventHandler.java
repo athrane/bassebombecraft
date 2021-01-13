@@ -39,6 +39,7 @@ import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnIceBlock2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnLavaBlock2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnLightning2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnSquid2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportMob2;
 import bassebombecraft.operator.projectile.modifier.tag.ReceiveAggro2;
@@ -224,7 +225,12 @@ public class ProjectileModifierEventHandler {
 	 * Spawn lightning operator.
 	 */
 	static final Operator2 LIGHTNING_OPERATOR = new SpawnLightning2();
-	
+
+	/**
+	 * Spawn squid operator.
+	 */
+	static final Operator2 SQUID_OPERATOR = new SpawnSquid2();
+
 	@SubscribeEvent
 	static public void handleProjectileImpactEvent(ProjectileImpactEvent event) {
 		try {
@@ -310,7 +316,11 @@ public class ProjectileModifierEventHandler {
 			// handle: spawn lightning
 			if (tags.contains(SpawnLightning2.NAME))
 				spawnLightning(event);
-			
+
+			// handle: spawn squid
+			if (tags.contains(SpawnSquid2.NAME))
+				spawnSquid(event);
+
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
@@ -538,7 +548,7 @@ public class ProjectileModifierEventHandler {
 	/**
 	 * Execute explode operator.
 	 * 
-	 * @param event projectile impact death event.
+	 * @param event projectile impact event.
 	 */
 	static void explodeOnImpact(ProjectileImpactEvent event) {
 		Ports ports = getInstance();
@@ -546,7 +556,7 @@ public class ProjectileModifierEventHandler {
 		ports.setWorld(event.getEntity().getEntityWorld());
 		run(ports, EXPLODE_ON_IMPACT_OPERATOR);
 	}
-	
+
 	/**
 	 * Execute receive aggro operator.
 	 * 
@@ -584,7 +594,19 @@ public class ProjectileModifierEventHandler {
 		ports.setWorld(event.getEntity().getEntityWorld());
 		run(ports, LIGHTNING_OPERATOR);
 	}
-			
+
+	/**
+	 * Execute spawn squid operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void spawnSquid(ProjectileImpactEvent event) {
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setWorld(event.getEntity().getEntityWorld());
+		run(ports, SQUID_OPERATOR);
+	}
+	
 	/**
 	 * Execute explode when killed operator.
 	 * 
@@ -607,5 +629,4 @@ public class ProjectileModifierEventHandler {
 		run(ports, RESPAWN_WHEN_KILLED_OPERATOR);
 	}
 
-	
 }

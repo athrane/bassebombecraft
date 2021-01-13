@@ -109,6 +109,7 @@ import bassebombecraft.item.book.SpawnFlamingChickenBook;
 import bassebombecraft.item.book.SpawnGuardianBook;
 import bassebombecraft.item.book.SpawnKittenArmyBook;
 import bassebombecraft.item.book.SpawnSkeletonArmyBook;
+import bassebombecraft.item.book.SpawnSquidBook;
 import bassebombecraft.item.book.TeleportBook;
 import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.VacuumMistBook;
@@ -375,6 +376,7 @@ public class ModConfiguration {
 	public static ItemConfig vacuumMistBook;
 	public static ItemConfig healingMistBook;
 	public static ItemConfig lightningBoltBook;
+	public static ItemConfig spawnSquidBook;
 
 	// SpawnCreeperArmyBook
 	public static ForgeConfigSpec.ConfigValue<String> spawnCreeperArmyBookTooltip;
@@ -1772,6 +1774,14 @@ public class ModConfiguration {
 		name = LightningBoltBook.ITEM_NAME;
 		lightningBoltBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to shoot a projectile. If a creature or block is hit then a lightning is discharged from the sky.",
+				25);
+
+		/**
+		 * Configuration for the {@linkplain SpawnSquidBook} item.
+		 */
+		name = SpawnSquidBook.ITEM_NAME;
+		spawnSquidBook = getInstance(COMMON_BUILDER, name,
+				"Right-click to shoot a projectile. If a creature or block is hit then a angry squid will drop form the sky.",
 				25);
 		
 		// BuildTowerBook
