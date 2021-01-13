@@ -39,6 +39,7 @@ import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnIceBlock2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnLavaBlock2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnLightning2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnSquid2;
 import bassebombecraft.operator.item.action.ExecuteOperatorAsAction2;
 import bassebombecraft.operator.projectile.ShootArrowProjectile2;
 import bassebombecraft.operator.projectile.ShootCircleProjectile2;
@@ -50,7 +51,6 @@ import bassebombecraft.operator.projectile.formation.TrifurcatedProjectileFormat
 import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
 import bassebombecraft.projectile.action.ProjectileAction;
 import bassebombecraft.projectile.action.SpawnFlamingChicken;
-import bassebombecraft.projectile.action.SpawnSquid;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.controller.LookController;
@@ -69,7 +69,6 @@ import net.minecraft.pathfinding.PathNavigator;
  */
 public class CompanionAttack extends Goal {
 
-	static final ProjectileAction SPAWN_SQUID_PROJECTILE_ACTION = new SpawnSquid();
 	static final ProjectileAction FLAMING_CHICKEN_PROJECTILE_ACTION = new SpawnFlamingChicken();
 	static final EntityMistActionStrategy SPAWN_VACUUM_MIST_PROJECTILE_ACTION = new VacuumMist();
 
@@ -87,7 +86,7 @@ public class CompanionAttack extends Goal {
 	/**
 	 * Create operators.
 	 */
-	static Supplier<Operator2> splLargeFireballOps = () -> {
+	static Supplier<Operator2> splLargeFireballOp = () -> {
 		Operator2 formationOp = new SingleProjectileFormation2();
 		Operator2 projectileOp = new ShootLargeFireballProjectile2();
 		return new Sequence2(formationOp, projectileOp);
@@ -96,7 +95,7 @@ public class CompanionAttack extends Goal {
 	/**
 	 * Create operators.
 	 */
-	static Supplier<Operator2> splFireballOps = () -> {
+	static Supplier<Operator2> splFireballOp = () -> {
 		Operator2 formationOp = new SingleProjectileFormation2();
 		Operator2 projectileOp = new ShootFireballProjectile2();
 		return new Sequence2(formationOp, projectileOp);
@@ -105,7 +104,7 @@ public class CompanionAttack extends Goal {
 	/**
 	 * Create operators.
 	 */
-	static Supplier<Operator2> splWitherSkullOps = () -> {
+	static Supplier<Operator2> splWitherSkullOp = () -> {
 		Operator2 formationOp = new SingleProjectileFormation2();
 		Operator2 projectileOp = new ShootWitherSkullProjectile2();
 		return new Sequence2(formationOp, projectileOp);
@@ -114,7 +113,7 @@ public class CompanionAttack extends Goal {
 	/**
 	 * Create operators.
 	 */
-	static Supplier<Operator2> splArrowsOps = () -> {
+	static Supplier<Operator2> splArrowsOp = () -> {
 		Operator2 formationOp = new TrifurcatedProjectileFormation2();
 		Operator2 projectileOp = new ShootArrowProjectile2();
 		return new Sequence2(formationOp, projectileOp);
@@ -123,7 +122,7 @@ public class CompanionAttack extends Goal {
 	/**
 	 * Create operators.
 	 */
-	static Supplier<Operator2> splDigMobHoleOps = () -> {
+	static Supplier<Operator2> splDigMobHoleOp = () -> {
 		Operator2 formationOp = new SingleProjectileFormation2();
 		Operator2 projectileOp = new ShootCircleProjectile2();
 		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> DigMobHole2.NAME);
@@ -199,6 +198,16 @@ public class CompanionAttack extends Goal {
 		Operator2 formationOp = new SingleProjectileFormation2();
 		Operator2 projectileOp = new ShootCircleProjectile2();
 		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> SpawnLightning2.NAME);
+		return new Sequence2(formationOp, projectileOp, modifierOp);
+	};
+
+	/**
+	 * Create operators.
+	 */
+	static Supplier<Operator2> splSpawnSquidOp = () -> {
+		Operator2 formationOp = new SingleProjectileFormation2();
+		Operator2 projectileOp = new ShootCircleProjectile2();
+		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> SpawnSquid2.NAME);
 		return new Sequence2(formationOp, projectileOp, modifierOp);
 	};
 
@@ -357,16 +366,16 @@ public class CompanionAttack extends Goal {
 	 */
 	static List<RightClickedItemAction> initializeLongRangeActions() {
 		List<RightClickedItemAction> actions = new ArrayList<RightClickedItemAction>();
-		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splLargeFireballOps.get()));
-		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splFireballOps.get()));
-		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splWitherSkullOps.get()));
-		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splArrowsOps.get()));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splLargeFireballOp.get()));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splFireballOp.get()));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splWitherSkullOp.get()));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splArrowsOp.get()));
 		actions.add(new ShootBaconBazooka());
 		actions.add(new ShootCreeperCannon(ISNT_PRIMED));
-		actions.add(new ShootGenericEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splSpawnSquidOp.get()));
 		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splSpawnAnvilOp.get()));
 		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splSpawnLigthningOp.get()));
-		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splDigMobHoleOps.get()));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splDigMobHoleOp.get()));
 		actions.add(new ShootGenericEggProjectile(FLAMING_CHICKEN_PROJECTILE_ACTION));
 		return actions;
 	}
@@ -384,12 +393,12 @@ public class CompanionAttack extends Goal {
 		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splEmitVerticalForceOp.get()));
 		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splSpawnIceBlockOp.get()));
 		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splSpawnLavaBlockOp.get()));
-		actions.add(new ShootGenericEggProjectile(SPAWN_SQUID_PROJECTILE_ACTION));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splSpawnSquidOp.get()));
 		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splSpawnAnvilOp.get()));
 		actions.add(new GenericEntityMist(SPAWN_VACUUM_MIST_PROJECTILE_ACTION));
 		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splSpawnLigthningOp.get()));
 		actions.add(new GenericEntityMist(LIGHTNING_MIST_STRATEGY));
-		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splDigMobHoleOps.get()));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splDigMobHoleOp.get()));
 		return actions;
 	}
 

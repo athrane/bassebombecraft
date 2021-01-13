@@ -175,6 +175,7 @@
     "item.bassebombecraft.emitverticalforceprojectilemodifieritem": "Projectile Modifier: Updraft",                            
     "item.bassebombecraft.respawnprojectilemodifieritem": "Projectile Modifier: Respawn Spectres",                            
     "item.bassebombecraft.lightningprojectilemodifieritem": "Projectile Modifier: Lightning",                            
+    "item.bassebombecraft.spawnsquidprojectilemodifieritem": "Projectile Modifier: Angry Squid",                            
 
 	"_comment": "composite projectile properties",
     "desc.bassebombecraft.projectile.damage" : "Damage: %d",

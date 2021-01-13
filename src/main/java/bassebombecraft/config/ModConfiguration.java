@@ -144,6 +144,7 @@ import bassebombecraft.item.composite.projectile.modifier.SpawnAnvilProjectileMo
 import bassebombecraft.item.composite.projectile.modifier.SpawnCobwebProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnIceBlockProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnLavaBlockProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.SpawnSquidProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
@@ -497,7 +498,8 @@ public class ModConfiguration {
 	public static ItemConfig emitVerticalForceProjectileModifierItem;
 	public static ItemConfig respawnProjectileModifierItem;
 	public static ItemConfig lightningProjectileModifierItem;
-	
+	public static ItemConfig spawnSquidProjectileModifierItem;
+
 	// Actions..
 
 	// ShootBaconBazooka projectile action
@@ -1491,7 +1493,7 @@ public class ModConfiguration {
 		emitVerticalForceStrength = COMMON_BUILDER.comment("Strength of vertical force.").defineInRange("strength", 12,
 				0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
-		
+
 		/**
 		 * Configuration for the {@linkplain AccelerateProjectilePath} operator.
 		 */
@@ -1637,7 +1639,7 @@ public class ModConfiguration {
 
 		/**
 		 * Configuration for the {@linkplain BeastmasterBook} item.
-		 */		
+		 */
 		name = BeastmasterBook.ITEM_NAME;
 		beastmasterBook = getInstance(COMMON_BUILDER, name,
 				"Right-click shot a beast charm at mobs. If the charm hits, the mob will temporarily tamed to fight by the side of the beastmaster who conjured the charm. When the duration of the charm ends, the charmed mob will regain its former mental abilities. A charmed mob can be commanded by Krenko's Command Baton",
@@ -1645,14 +1647,14 @@ public class ModConfiguration {
 
 		/**
 		 * Configuration for the {@linkplain DecoyBook} item.
-		 */		
+		 */
 		name = DecoyBook.ITEM_NAME;
 		decoyBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to spawn a decoy. All mobs in the vicinity will aggro the poor thing.", 100);
 
 		/**
 		 * Configuration for the {@linkplain ReceiveAggroBook} item.
-		 */		
+		 */
 		name = ReceiveAggroBook.ITEM_NAME;
 		receiveAggroBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to shoot projectile. If the projectile hits a target mob then all mobs in the vicinity will aggro the hit target mob.",
@@ -1681,7 +1683,7 @@ public class ModConfiguration {
 		iceBlockBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to shoot a projectile. If a creature is hit then a chilling ice block is spawned to capture the mob.",
 				25);
-							
+
 		/**
 		 * Configuration for the {@linkplain LavaBlockBook} item.
 		 */
@@ -1783,7 +1785,7 @@ public class ModConfiguration {
 		spawnSquidBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to shoot a projectile. If a creature or block is hit then a angry squid will drop form the sky.",
 				25);
-		
+
 		// BuildTowerBook
 		name = BuildTowerBook.ITEM_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -2026,7 +2028,7 @@ public class ModConfiguration {
 		respawnIdolInventoryItem = getInstance(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will curse nearby mobs with a spectral curse. When a cursed mob dies any number of spectres will respawn.",
 				25, 5, splParticles);
-		
+
 		// RemoveBlockSpiralIdolInventoryItem
 		name = RemoveBlockSpiralIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 1.0, 1.0, 0.4, 0.7);
@@ -2428,7 +2430,7 @@ public class ModConfiguration {
 				"A mythical image of the modification of a projectile. When the projectile kills a mob then any number of spectres will respawn.",
 				25);
 		COMMON_BUILDER.pop();
-		
+
 		/**
 		 * Configuration for the {@linkplain LightningProjectileModifierItem} item.
 		 */
@@ -2437,9 +2439,18 @@ public class ModConfiguration {
 		lightningProjectileModifierItem = getInstance(COMMON_BUILDER, name,
 				"A mythical image of the modification of a projectile. When the projectile hits a mob or a block then a lightning is discharged from the sky.",
 				25);
-		COMMON_BUILDER.pop();		
-	}
+		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the {@linkplain SpawnSquidProjectileModifierItem} item.
+		 */
+		name = SpawnSquidProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnSquidProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"A mythical image of the modification of a projectile. When the projectile hits a mob or a block then an angry squid is discharged from the sky.",
+				25);
+		COMMON_BUILDER.pop();
+	}
 
 	/**
 	 * Define configuration for entities.

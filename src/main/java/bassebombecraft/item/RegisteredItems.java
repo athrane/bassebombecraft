@@ -98,6 +98,7 @@ import bassebombecraft.item.composite.projectile.modifier.SpawnAnvilProjectileMo
 import bassebombecraft.item.composite.projectile.modifier.SpawnCobwebProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnIceBlockProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnLavaBlockProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.SpawnSquidProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
@@ -300,6 +301,7 @@ public class RegisteredItems {
 	public static final RegistryObject<Item> MODIFIER17 = register(EmitVerticalForceProjectileModifierItem::new);
 	public static final RegistryObject<Item> MODIFIER18 = register(RespawnProjectileModifierItem::new);
 	public static final RegistryObject<Item> MODIFIER19 = register(LightningProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER20 = register(SpawnSquidProjectileModifierItem::new);
 
 	/**
 	 * Register item.
