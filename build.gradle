@@ -23,7 +23,7 @@ apply plugin: 'eclipse'
 
 // definition of properties
 ext {
-    modVersion = "1.49"
+    modVersion = "1.50"
     mcVersion = "1.15.2"
 }
 version = project.mcVersion + "-" + project.modVersion  
