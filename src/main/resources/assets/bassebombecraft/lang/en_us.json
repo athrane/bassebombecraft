@@ -2,8 +2,17 @@
     "_comment": "GUI tab",
     "itemGroup.bassebombecraft": "BasseBombeCraft items",
 
-    "_comment": "Composite Magic Item Screen",
-    "gui.bassebombecraft.compositemagicscreen.header": "Composite magic combo:",
+    "_comment": "CompositeMagicItemScreen",
+    "compositemagicscreen.header": "Composite magic combo:",
+
+    "_comment": "GenericCompositeNullItem",
+    "genericcompositenullitem.type": "Type: %s",
+
+	"_comment": "GenericCompositeNullProjectileItem",
+    "genericcompositenullprojectileitem.damage" : "Damage: %d",
+    "genericcompositenullprojectileitem.force" : "Force: %d",
+    "genericcompositenullprojectileitem.gravity" : "Gravity: %d",
+    "genericcompositenullprojectileitem.inaccuracy" : "Inaccuracy: %d",    
 
     "_comment": "Fire",
     "item.bassebombecraft.smallfireballbook": "Book of Small Fireballs",
@@ -176,12 +185,6 @@
     "item.bassebombecraft.respawnprojectilemodifieritem": "Projectile Modifier: Respawn Spectres",                            
     "item.bassebombecraft.lightningprojectilemodifieritem": "Projectile Modifier: Lightning",                            
     "item.bassebombecraft.spawnsquidprojectilemodifieritem": "Projectile Modifier: Angry Squid",                            
-
-	"_comment": "composite projectile properties",
-    "desc.bassebombecraft.projectile.damage" : "Damage: %d",
-    "desc.bassebombecraft.projectile.force" : "Force: %d",
-    "desc.bassebombecraft.projectile.gravity" : "Gravity: %d",
-    "desc.bassebombecraft.projectile.inaccuracy" : "Inaccuracy: %d",    
                 
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",

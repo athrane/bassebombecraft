@@ -48,10 +48,10 @@ public abstract class GenericCompositeNullProjectileItem extends GenericComposit
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
 			ITooltipFlag flagIn) {
 		tooltip.add(new TranslationTextComponent(GREEN + this.tooltip));
-		tooltip.add(new TranslationTextComponent("desc.bassebombecraft.projectile.damage", projectileConfig.damage.get()));
-		tooltip.add(new TranslationTextComponent("desc.bassebombecraft.projectile.force", projectileConfig.force.get()));
-		tooltip.add(new TranslationTextComponent("desc.bassebombecraft.projectile.gravity", projectileConfig.gravity.get()));
-		tooltip.add(new TranslationTextComponent("desc.bassebombecraft.projectile.inaccuracy", projectileConfig.inaccuracy.get()));		
+		tooltip.add(new TranslationTextComponent("genericcompositenullprojectileitem.damage", projectileConfig.damage.get()));
+		tooltip.add(new TranslationTextComponent("genericcompositenullprojectileitem.force", projectileConfig.force.get()));
+		tooltip.add(new TranslationTextComponent("genericcompositenullprojectileitem.gravity", projectileConfig.gravity.get()));
+		tooltip.add(new TranslationTextComponent("genericcompositenullprojectileitem.inaccuracy", projectileConfig.inaccuracy.get()));		
 	}
 
 }

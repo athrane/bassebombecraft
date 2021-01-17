@@ -2,6 +2,7 @@ package bassebombecraft.item.composite;
 
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.item.ItemUtils.resolveCompositeItemTypeFromString;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static net.minecraft.util.ActionResultType.SUCCESS;
 import static net.minecraft.util.text.TextFormatting.GREEN;
@@ -78,7 +79,10 @@ public abstract class GenericCompositeNullItem extends Item {
 	@Override
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
 			ITooltipFlag flagIn) {
+		String typeName = resolveCompositeItemTypeFromString(this);
 		tooltip.add(new TranslationTextComponent(GREEN + this.tooltip));
+		tooltip.add(new TranslationTextComponent("genericcompositenullitem.type", typeName));
+
 	}
 
 	/**

@@ -487,4 +487,34 @@ public class ModConstants {
 	 */
 	public static final int COMPOSITE_MAX_SIZE = 6;
 
+	/**
+	 * PF class suffix for composite item.
+	 */
+	public  static final String PF_SUFFIX = "ProjectileFormationItem";
+	
+	/**
+	 * PFM class suffix for composite item.
+	 */	
+	public static final String PFM_SUFFIX = "ProjectileFormationModifierItem";
+	
+	/**
+	 * P class suffix for composite item.
+	 */		
+	public static final String P_SUFFIX = "ProjectileItem";
+	
+	/**
+	 * PP class suffix for composite item.
+	 */			
+	public static final String PP_SUFFIX = "ProjectilePathItem";
+	
+	/**
+	 * PM class suffix for composite item.
+	 */			
+	public static final String PM_SUFFIX = "ProjectileModifierItem";
+
+	/**
+	 * Unknown class suffix for composite item.
+	 */			
+	public static final String UNKNOWN_SUFFIX = "Unknown type";
+	
 }
