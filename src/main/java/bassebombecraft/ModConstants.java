@@ -516,5 +516,10 @@ public class ModConstants {
 	 * Unknown class suffix for composite item.
 	 */			
 	public static final String UNKNOWN_SUFFIX = "Unknown type";
+
+	/**
+	 * Null arguments for I18N.
+	 */
+	public static final Object[] NULL_I18N_ARGS = new Object[0];
 	
 }

@@ -67,7 +67,7 @@ public class ItemUtils {
 			return "Projectile";
 		if (name.endsWith(PP_SUFFIX))
 			return "Projectile Path";
-		if (name.endsWith(P_SUFFIX))
+		if (name.endsWith(PM_SUFFIX))
 			return "Projectile Modifier";
 		return UNKNOWN_SUFFIX;
 	}

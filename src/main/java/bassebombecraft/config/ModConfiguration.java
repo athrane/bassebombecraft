@@ -2049,7 +2049,7 @@ public class ModConfiguration {
 		String name = CompositeMagicItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		compositeMagicItem = getInstance(COMMON_BUILDER, name,
-				"Equip item in main hand. Right-click to activate configured magic. Shift-click to configure magic in GUI. Configure magic by placing composite magic items in the GUI slots. The first connected sequence of items is used by the item. Add or remove items to reconfigure the magic.",
+				"Equip item in main hand. Right-click to activate configured magic. Shift-click to configure magic in GUI. Configure magic by placing composite items in the combo slots. The first connected combination of items is used by the item. Add or remove items to reconfigure the magic.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2059,7 +2059,7 @@ public class ModConfiguration {
 		name = SingleProjectileFormationItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		singleProjectileFormationItem = getInstance(COMMON_BUILDER, name,
-				"A cryptic illustration of a formation. Cast a single projectile in front of the caster.", 25);
+				"Cast a single projectile in front of the caster.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2068,7 +2068,7 @@ public class ModConfiguration {
 		name = RandomSingleProjectileFormationItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		randomSingleProjectileFormationItem = getInstance(COMMON_BUILDER, name,
-				"A cryptic illustration of a formation. Cast a single projectile in a random direction around the caster.",
+				"Cast a single projectile in a random direction around the caster.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2078,7 +2078,7 @@ public class ModConfiguration {
 		name = CircleProjectileFormationItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		circleProjectileFormationItem = getInstance(COMMON_BUILDER, name,
-				"A cryptic illustration of a formation. Cast projectiles in a circle formation around the caster.", 25);
+				"Cast projectiles in a circle formation around the caster.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2087,7 +2087,7 @@ public class ModConfiguration {
 		name = TrifurcatedProjectileFormationItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		trifurcatedProjectileFormationItem = getInstance(COMMON_BUILDER, name,
-				"A cryptic illustration of a formation. Cast 3 projectiles in a trifurcated formation in front of the caster.",
+				"Cast 3 projectiles in a trifurcated formation in front of the caster.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2097,7 +2097,7 @@ public class ModConfiguration {
 		name = FrontAndBackProjectileFormationItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		frontAndBackProjectileFormationItem = getInstance(COMMON_BUILDER, name,
-				"A cryptic illustration of a formation. Cast 2 projectiles. One projectile is cast in front and one from the back of the caster.",
+				"Cast 2 projectiles. One projectile is cast in front and one from the back of the caster.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2107,7 +2107,7 @@ public class ModConfiguration {
 		name = EggProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		eggProjectileItem = getInstance(COMMON_BUILDER, name,
-				"A runic image of an egg. The egg can on very rare occasions contain several surprises. But most likely it is just an empty shell.",
+				"A image of an egg. The egg can on very rare occasions contain several surprises. But most likely it is just an empty shell.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2117,7 +2117,7 @@ public class ModConfiguration {
 		name = LlamaProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		llamaProjectileItem = getInstance(COMMON_BUILDER, name,
-				"A runic image of a llama , almost like something from a psychedelic shooter.", 25);
+				"A image of a llama , almost like something from a psychedelic shooter.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2125,7 +2125,7 @@ public class ModConfiguration {
 		 */
 		name = LightningProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		lightningProjectileItem = getInstance(COMMON_BUILDER, name, "A runic image of a lightning.", 25);
+		lightningProjectileItem = getInstance(COMMON_BUILDER, name, "A image of a lightning ball.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2134,7 +2134,7 @@ public class ModConfiguration {
 		name = WitherSkullProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		witherSkullProjectileItem = getInstance(COMMON_BUILDER, name,
-				"A runic image of a scary wither skull. The skull will explode on impact.", 25);
+				"A image of a scary wither skull. The skull will explode on impact.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2144,7 +2144,7 @@ public class ModConfiguration {
 		name = RandomProjectileFormationModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		randomProjectileFormationModifierItem = getInstance(COMMON_BUILDER, name,
-				"A fiendish image of the modification of a projectile formation. All projectile paths are randomized around the vertical axis of the caster.",
+				"All projectile paths are randomized around the vertical axis of the caster.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2155,7 +2155,7 @@ public class ModConfiguration {
 		name = InaccuracyProjectileFormationModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		inaccuracyProjectileFormationModifierItem = getInstance(COMMON_BUILDER, name,
-				"A fiendish image of the modification of a projectile formation. All projectile paths are made somewhat more inaccurate. Inaccuracy is [-5..5] degrees.",
+				"All projectile paths are made somewhat more inaccurate. Inaccuracy is [-5..5] degrees.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2166,7 +2166,7 @@ public class ModConfiguration {
 		name = OscillatingRotation180DProjectileFormationModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		oscillatingRotation180DProjectileFormationModifierItem = getInstance(COMMON_BUILDER, name,
-				"A fiendish image of the modification of a projectile formation. All projectile paths are oscillating [-90..90] degrees from the casters POV around vertical axis of the caster.",
+				"All projectile paths are oscillating [-90..90] degrees from the casters POV around vertical axis of the caster.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2176,7 +2176,7 @@ public class ModConfiguration {
 		name = RandomProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		randomProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. The projectile will follow a random path.", 25);
+				"The projectile will follow a random path.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2185,7 +2185,7 @@ public class ModConfiguration {
 		name = ZigZagProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		zigZagProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. The projectile will follow a zig zag path.", 25);
+				"The projectile will follow a zig zag path.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2194,7 +2194,7 @@ public class ModConfiguration {
 		name = SineProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		sineProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. The projectile will follow a sine wave path.",
+				"The projectile will follow a sine wave path.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2204,7 +2204,7 @@ public class ModConfiguration {
 		name = AccelerateProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		accelerateProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. The projectile will continue to accelerate along its path.",
+				"The projectile will continue to accelerate along its path.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2214,7 +2214,7 @@ public class ModConfiguration {
 		name = DeaccelerateProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		deaccelerateProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. The projectile will continue to de-accelerate along its path.",
+				"The projectile will continue to de-accelerate along its path.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2224,7 +2224,7 @@ public class ModConfiguration {
 		name = CircleProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		circleProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. The projectile will move the projectile in a circle around the caster.",
+				"The projectile will move the projectile in a circle around the caster.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2234,7 +2234,7 @@ public class ModConfiguration {
 		name = IncreaseGravityProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		increaseGravityProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. The projectile will exposed to increased gravity.",
+				"The projectile will exposed to increased gravity.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2244,7 +2244,7 @@ public class ModConfiguration {
 		name = DecreaseGravityProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		decreaseGravityProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. The projectile will be exposed to less gravity and will have a tendency to float upwards.",
+				"The projectile will be exposed to less gravity and will have a tendency to float upwards.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2255,7 +2255,7 @@ public class ModConfiguration {
 		name = TeleportInvokerProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		teleportInvokerProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits a mob then the caster will be teleported to the mob. If the projectile hits a block then the caster will be teleported to the point of impact.",
+				"When the projectile hits a mob then the caster will be teleported to the mob. If the projectile hits a block then the caster will be teleported to the point of impact.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2265,7 +2265,7 @@ public class ModConfiguration {
 		name = TeleportMobProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		teleportMobProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits a mob then the mob will be teleported to a random location.",
+				"When the projectile hits a mob then the mob will be teleported to a random location.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2275,7 +2275,7 @@ public class ModConfiguration {
 		name = CharmProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		charmProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits a mob then the mob will be charmed and can be commanded by the caster.",
+				"When the projectile hits a mob then the mob will be charmed and can be commanded by the caster.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2285,7 +2285,7 @@ public class ModConfiguration {
 		name = MeteorProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		meteorProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits a mob then a meteor will fall from the sky.",
+				"When the projectile hits a mob then a meteor will fall from the sky.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2295,7 +2295,7 @@ public class ModConfiguration {
 		name = DecoyProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		decoyProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits something a decoy will be spawned. All mobs in the vicinity will aggro the poor thing.",
+				"When the projectile hits something a decoy will be spawned. All mobs in the vicinity will aggro the poor thing.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2305,7 +2305,7 @@ public class ModConfiguration {
 		name = ExplodeMobWhenKilledProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		explodeMobWhenKilledProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile kills a mob then the mob will explode dealing damage to nearby mobs. The explosion radius is based on the size of the killed mob.",
+				"When the projectile kills a mob then the mob will explode dealing damage to nearby mobs. The explosion radius is based on the size of the killed mob.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2316,7 +2316,7 @@ public class ModConfiguration {
 		name = ExplodeOnImpactProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		explodeOnImpactProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. Projectile will explode on impact.", 25);
+				"Projectile will explode on impact.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2325,7 +2325,7 @@ public class ModConfiguration {
 		name = DigMobHoleProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		digMobHoleProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits a mob then an inconvenient hole is digged beneath the mob.",
+				"When the projectile hits a mob then an inconvenient hole is digged beneath the mob.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2335,7 +2335,7 @@ public class ModConfiguration {
 		name = DigProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		digProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits a block then some blocks will be excavated.",
+				"When the projectile hits a block then some blocks will be excavated.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2345,7 +2345,7 @@ public class ModConfiguration {
 		name = SpawnCobwebProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnCobwebProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits a mob then a sticky cobweb is spawned around the mob.",
+				"When the projectile hits a mob then a sticky cobweb is spawned around the mob.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2355,7 +2355,7 @@ public class ModConfiguration {
 		name = SpawnIceBlockProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnIceBlockProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits a mob then a chilling ice block is spawned around the mob. If the projectile hits a block then an ice block will be spawned.",
+				"When the projectile hits a mob then a chilling ice block is spawned around the mob. If the projectile hits a block then an ice block will be spawned.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2365,7 +2365,7 @@ public class ModConfiguration {
 		name = SpawnLavaBlockProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnLavaBlockProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits a mob then a sizzling lava block is spawned around the mob. If the projectile hits a block then an lava block will be spawned.",
+				"When the projectile hits a mob then a sizzling lava block is spawned around the mob. If the projectile hits a block then an lava block will be spawned.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2375,7 +2375,7 @@ public class ModConfiguration {
 		name = SpawnAnvilProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnAnvilProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits a mob then a falling anvil is spawned above the mob.",
+				"When the projectile hits a mob then a falling anvil is spawned above the mob.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2385,7 +2385,7 @@ public class ModConfiguration {
 		name = ReceiveAggroProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		receiveAggroProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits a mob then all mobs in the vicinity will aggro the creature.",
+				"When the projectile hits a mob then all mobs in the vicinity will aggro the creature.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2395,7 +2395,7 @@ public class ModConfiguration {
 		name = BounceProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		bounceProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits a block then the projectile will bounce of in some other direction.",
+				"When the projectile hits a block then the projectile will bounce of in some other direction.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2406,7 +2406,7 @@ public class ModConfiguration {
 		name = EmitHorizontalForceProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		emitHorizontalForceProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits a mob then a strong gust of wind will push the mob away from the caster.",
+				"When the projectile hits a mob then a strong gust of wind will push the mob away from the caster.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2417,7 +2417,7 @@ public class ModConfiguration {
 		name = EmitVerticalForceProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		emitVerticalForceProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits a mob then an updraft will push the mob it up into the air.",
+				"When the projectile hits a mob then an updraft will push the mob it up into the air.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2427,7 +2427,7 @@ public class ModConfiguration {
 		name = RespawnProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		respawnProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile kills a mob then any number of spectres will respawn.",
+				"When the projectile kills a mob then any number of spectres will respawn.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2437,7 +2437,7 @@ public class ModConfiguration {
 		name = LightningProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		lightningProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits a mob or a block then a lightning is discharged from the sky.",
+				"When the projectile hits a mob or a block then a lightning is discharged from the sky.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2447,7 +2447,7 @@ public class ModConfiguration {
 		name = SpawnSquidProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnSquidProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"A mythical image of the modification of a projectile. When the projectile hits a mob or a block then an angry squid is discharged from the sky.",
+				"When the projectile hits a mob or a block then an angry squid is discharged from the sky.",
 				25);
 		COMMON_BUILDER.pop();
 	}

@@ -1,5 +1,6 @@
 package bassebombecraft.client.screen;
 
+import static bassebombecraft.ModConstants.NULL_I18N_ARGS;
 import static bassebombecraft.client.rendering.RenderingUtils.createGuiTextureResourceLocation;
 import static bassebombecraft.geom.GeometryUtils.oscillateFloat;
 
@@ -23,11 +24,6 @@ import net.minecraft.util.text.TranslationTextComponent;
  * GUI for the composite magic item {@linkplain CompositeMagicItem}.
  */
 public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItemContainer> {
-
-	/**
-	 * Null arguments for I18N.
-	 */
-	static final Object[] NULL_ARGS = new Object[0];
 
 	/**
 	 * Delta for sequence icons.
@@ -121,8 +117,7 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 		super(container, inventory, title);
 		adviceGenerator = new DefaultAdviceGenerator(container);
 		validator = new DefaultSequenceValidator();
-		guiHeader = new TranslationTextComponent("compositemagicscreen.header", NULL_ARGS)
-				.getFormattedText();
+		guiHeader = new TranslationTextComponent("compositemagicscreen.header", NULL_I18N_ARGS).getFormattedText();
 	}
 
 	@Override
