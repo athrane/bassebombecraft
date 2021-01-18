@@ -1,4 +1,4 @@
-package bassebombecraft.client.event.particle;
+package bassebombecraft.client.event.rendering.particle;
 
 import static bassebombecraft.client.particles.RegisteredParticles.*;
 import static bassebombecraft.client.particles.RegisteredParticles.LIGHTNING_PARTICLE;

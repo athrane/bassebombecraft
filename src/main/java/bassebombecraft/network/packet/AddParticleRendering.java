@@ -7,7 +7,7 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 
 import java.util.function.Supplier;
 
-import bassebombecraft.client.event.particle.ParticleRenderingRepository;
+import bassebombecraft.client.event.rendering.particle.ParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.network.PacketBuffer;

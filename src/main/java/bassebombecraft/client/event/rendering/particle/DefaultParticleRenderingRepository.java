@@ -1,4 +1,4 @@
-package bassebombecraft.client.event.particle;
+package bassebombecraft.client.event.rendering.particle;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;

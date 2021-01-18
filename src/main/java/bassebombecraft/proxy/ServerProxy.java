@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.Logger;
 
-import bassebombecraft.client.event.particle.ParticleRenderingRepository;
+import bassebombecraft.client.event.rendering.particle.ParticleRenderingRepository;
 import bassebombecraft.config.VersionUtils;
 import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;

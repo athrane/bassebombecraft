@@ -1,4 +1,4 @@
-package bassebombecraft.client.event.particle;
+package bassebombecraft.client.event.rendering.particle;
 
 import java.util.stream.Stream;
 

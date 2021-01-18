@@ -1,4 +1,4 @@
-package bassebombecraft.client.event.particle;
+package bassebombecraft.client.event.rendering.particle;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
@@ -16,20 +16,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 /**
- * Event handler for rendering particles.
- * 
- * The handler only executes events CLIENT side.
+ * Client side renderer for rendering particles.
  */
-@Mod.EventBusSubscriber(Dist.CLIENT)
-public class ParticleRenderingEventHandler {
+public class ParticleRenderer {
 
-	@SubscribeEvent
 	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
 		try {
 
@@ -149,7 +142,7 @@ public class ParticleRenderingEventHandler {
 
 		// set color
 		spellParticle.setColor(r, g, b);
-		
+
 		// set age
 		int duration = Math.abs(particle.getInfo().getDuration());
 		spellParticle.setMaxAge(duration);

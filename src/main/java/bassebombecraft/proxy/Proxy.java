@@ -1,7 +1,7 @@
 package bassebombecraft.proxy;
 
 import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
-import bassebombecraft.client.event.particle.ParticleRenderingRepository;
+import bassebombecraft.client.event.rendering.particle.ParticleRenderingRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;

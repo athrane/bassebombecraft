@@ -22,8 +22,6 @@ import java.io.StringWriter;
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
-import bassebombecraft.client.event.particle.DefaultParticleRenderingRepository;
-import bassebombecraft.client.event.particle.ParticleRenderingRepository;
 import bassebombecraft.client.event.rendering.BuildMineBookRenderer;
 import bassebombecraft.client.event.rendering.DecoyRenderer;
 import bassebombecraft.client.event.rendering.DecreaseSizeEffectRenderer;
@@ -32,6 +30,10 @@ import bassebombecraft.client.event.rendering.HudItemHighlightedBlockRenderer;
 import bassebombecraft.client.event.rendering.IncreaseSizeEffectRenderer;
 import bassebombecraft.client.event.rendering.RenderingEventHandler;
 import bassebombecraft.client.event.rendering.RespawnedRenderer;
+import bassebombecraft.client.event.rendering.effect.EffectRenderer;
+import bassebombecraft.client.event.rendering.particle.DefaultParticleRenderingRepository;
+import bassebombecraft.client.event.rendering.particle.ParticleRenderer;
+import bassebombecraft.client.event.rendering.particle.ParticleRenderingRepository;
 import bassebombecraft.client.rendering.entity.CircleProjectileEntityRenderer;
 import bassebombecraft.client.rendering.entity.EggProjectileEntityRenderer;
 import bassebombecraft.client.rendering.entity.LightningProjectileEntityRenderer;
@@ -313,6 +315,9 @@ public class ClientProxy implements Proxy {
 		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPre);
 		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPost);
 
+		EVENT_BUS.addListener(ParticleRenderer::handleRenderWorldLastEvent);				
+		EVENT_BUS.addListener(EffectRenderer::handleRenderWorldLastEvent);		
+		
 		// register entity rendering
 		RenderingRegistry.registerEntityRenderingHandler(EGG_PROJECTILE, EggProjectileEntityRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(LLAMA_PROJECTILE, LlamaProjectileEntityRenderer::new);

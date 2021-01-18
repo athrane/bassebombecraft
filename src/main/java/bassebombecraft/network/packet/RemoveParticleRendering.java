@@ -5,7 +5,7 @@ import static bassebombecraft.BassebombeCraft.getProxy;
 
 import java.util.function.Supplier;
 
-import bassebombecraft.client.event.particle.ParticleRenderingRepository;
+import bassebombecraft.client.event.rendering.particle.ParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
