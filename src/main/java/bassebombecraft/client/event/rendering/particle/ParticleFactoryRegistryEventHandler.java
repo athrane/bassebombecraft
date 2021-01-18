@@ -39,7 +39,8 @@ public class ParticleFactoryRegistryEventHandler {
 	@SubscribeEvent
 	public static void handleParticleFactoryRegisterEvent(ParticleFactoryRegisterEvent event) {
 
-		ParticleManager particles = Minecraft.getInstance().particles;
+		Minecraft mcClient = Minecraft.getInstance();		
+		ParticleManager particles = mcClient.particles;
 
 		/**
 		 * Register factory for {@linkplain LightningParticle}.

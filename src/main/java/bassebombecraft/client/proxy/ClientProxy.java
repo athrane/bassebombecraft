@@ -299,7 +299,6 @@ public class ClientProxy implements Proxy {
 		// register renderer classes
 		EVENT_BUS.addListener(RenderingEventHandler::handleRenderGameOverlayEvent);
 		EVENT_BUS.addListener(RenderingEventHandler::handleRenderWorldLastEvent);
-		EVENT_BUS.addListener(RenderingEventHandler::handleHighlightBlock);
 		// EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
 		// EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
 		EVENT_BUS.addListener(HudItemCharmedInfoRenderer::handleRenderWorldLastEvent);

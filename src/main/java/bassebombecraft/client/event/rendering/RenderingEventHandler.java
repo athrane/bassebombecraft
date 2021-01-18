@@ -16,7 +16,6 @@ import bassebombecraft.client.rendering.RenderingUtils;
 import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
-import net.minecraftforge.client.event.DrawHighlightEvent.HighlightBlock;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
@@ -90,10 +89,6 @@ public class RenderingEventHandler {
 		if (isItemInHotbar(player, HUD.get()))
 			renderHudItem(event, player);
 
-	}
-
-	public static void handleHighlightBlock(HighlightBlock event) {
-		// NO-OP
 	}
 
 	/**
