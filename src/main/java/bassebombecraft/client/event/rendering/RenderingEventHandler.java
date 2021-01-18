@@ -40,37 +40,6 @@ public class RenderingEventHandler {
 	 */
 	static final EntityRenderer charmedRenderer = new DefaultCharmedRenderer();
 
-	public static void handleRenderGameOverlayEvent(RenderGameOverlayEvent event) {
-
-		// exit if player is undefined
-		if (!ClientPlayerUtils.isClientSidePlayerDefined())
-			return;
-
-		// get player
-		PlayerEntity player = ClientPlayerUtils.getClientSidePlayer();
-
-		// exit if targeting overlay isn't in hotbar
-		if (!isItemInHotbar(player, HUD.get()))
-			return;
-
-		/**
-		 * // get player position Vec3d playerPos = CalculatePlayerPosition(player,
-		 * event.getPartialTicks());
-		 * 
-		 * // get font renderer Minecraft mc = Minecraft.getInstance(); FontRenderer
-		 * fontRenderer = mc.fontRenderer;
-		 * 
-		 * String text = "Player view info:"; MainWindow window = event.getWindow(); int
-		 * x = (window.getScaledWidth() - fontRenderer.getStringWidth(text)) / 2; int y
-		 * = window.getScaledHeight() - TEXT_RANDOM_Y_OFFSET - 50;
-		 * 
-		 * fontRenderer.drawString(text, x, y, TEXT_COLOR);
-		 * fontRenderer.drawString("Position: " + playerPos, x, y + 10, TEXT_COLOR);
-		 * fontRenderer.drawString("Look: " + player.getLookVec(), x, y + 20,
-		 * TEXT_COLOR);
-		 **/
-	}
-
 	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
 
 		// exit if player is undefined

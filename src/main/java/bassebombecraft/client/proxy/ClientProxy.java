@@ -297,7 +297,6 @@ public class ClientProxy implements Proxy {
 		// EVENT_BUS.addListener(DebugRenderer_WorldLastEvent_GuiLines::render);
 
 		// register renderer classes
-		EVENT_BUS.addListener(RenderingEventHandler::handleRenderGameOverlayEvent);
 		EVENT_BUS.addListener(RenderingEventHandler::handleRenderWorldLastEvent);
 		// EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
 		// EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
@@ -314,9 +313,9 @@ public class ClientProxy implements Proxy {
 		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPre);
 		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPost);
 
-		EVENT_BUS.addListener(ParticleRenderer::handleRenderWorldLastEvent);				
-		EVENT_BUS.addListener(EffectRenderer::handleRenderWorldLastEvent);		
-		
+		EVENT_BUS.addListener(ParticleRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(EffectRenderer::handleRenderWorldLastEvent);
+
 		// register entity rendering
 		RenderingRegistry.registerEntityRenderingHandler(EGG_PROJECTILE, EggProjectileEntityRenderer::new);
 		RenderingRegistry.registerEntityRenderingHandler(LLAMA_PROJECTILE, LlamaProjectileEntityRenderer::new);
