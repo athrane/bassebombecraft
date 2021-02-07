@@ -2,24 +2,31 @@ package bassebombecraft.client.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ClientModConstants.HUD_TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEAM_MEMBERS_TO_RENDER;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
-import static bassebombecraft.client.rendering.RenderingUtils.renderBillboardText;
 import static bassebombecraft.item.RegisteredItems.HUD;
+import static bassebombecraft.operator.DefaultPorts.getFnGetString1;
+import static bassebombecraft.operator.DefaultPorts.getFnGetString2;
+import static bassebombecraft.operator.DefaultPorts.getFnGetStrings1;
+import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import bassebombecraft.client.op.rendering.RenderMultiLineTextBillboard2;
+import bassebombecraft.client.op.rendering.RenderTextBillboard2;
 import bassebombecraft.event.charm.CharmedMob;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.item.basic.HudItem;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.entity.LivingEntity;
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
@@ -27,6 +34,9 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
  * Rendering charmed information in the {@linkplain HudItem}.
  */
 public class HudItemCharmedInfoRenderer {
+
+	static Function<CharmedMob, String> fnCreateMessage = c -> c.getEntity().getName().getUnformattedComponentText()
+			+ ", Charm duration: " + c.getDuration();
 
 	/**
 	 * HUD text x position.
@@ -37,6 +47,24 @@ public class HudItemCharmedInfoRenderer {
 	 * HUD text y position.
 	 */
 	static final int TEXT_Y_POS = 10;
+
+	/**
+	 * Text oscillation value.
+	 */
+	static final float TEXT_OSCILLIATION = 5F;
+
+	/**
+	 * Create operators.
+	 */
+	static Supplier<Operator2[]> splOp = () -> {
+		Operator2[] ops = {
+				new RenderTextBillboard2(getFnGetString1(), TEXT_X_POS, TEXT_Y_POS, TEXT_OSCILLIATION, HUD_TEXT_COLOR),
+				new RenderTextBillboard2(getFnGetString2(), TEXT_X_POS, TEXT_Y_POS + 10, TEXT_OSCILLIATION,
+						HUD_TEXT_COLOR),
+				new RenderMultiLineTextBillboard2(getFnGetStrings1(), TEXT_X_POS, TEXT_Y_POS + 20, TEXT_OSCILLIATION,
+						HUD_TEXT_COLOR) };
+		return ops;
+	};
 
 	/**
 	 * Handle {@linkplain RenderWorldLastEvent}.
@@ -77,30 +105,16 @@ public class HudItemCharmedInfoRenderer {
 		Stream<CharmedMob> charmedMobs = repository.get();
 		int charmedSize = repository.size();
 
-		// get render buffer
-		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+		// create list of members
+		Stream<String> messages2 = charmedMobs.limit(TEAM_MEMBERS_TO_RENDER).map(fnCreateMessage);
 
-		// render basic info
-		renderBillboardText(matrixStack, buffer, TEXT_X_POS, TEXT_Y_POS, "CHARMED MOBS");
-		renderBillboardText(matrixStack, buffer, TEXT_X_POS, TEXT_Y_POS + 10, "Number chamred: " + charmedSize);
-
-		// create counter to use inside loop
-		final AtomicInteger count = new AtomicInteger();
-
-		// render members
-		charmedMobs.forEach(c -> {
-			int counter = count.incrementAndGet();
-
-			// exit if enough members has been rendered
-			if (counter > TEAM_MEMBERS_TO_RENDER)
-				return;
-
-			LivingEntity charmedEntity = c.getEntity();
-			String memberName = charmedEntity.getName().getUnformattedComponentText();
-			int duration = c.getDuration();
-			String text = "Mob: " + memberName + ", Charm duration: " + duration;
-			renderBillboardText(matrixStack, buffer, TEXT_X_POS, TEXT_Y_POS + 20 + (counter * 10), text);
-		});
+		// setup operator and execute
+		Ports ports = getInstance();
+		ports.setMatrixStack(matrixStack);
+		ports.setString1("CHARMED MOBS");
+		ports.setString2("Number chamred: " + charmedSize);
+		ports.setStrings1(messages2);
+		run(ports, splOp.get());
 
 	}
 

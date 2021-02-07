@@ -1,5 +1,7 @@
 package bassebombecraft.operator;
 
+import java.util.stream.Stream;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import net.minecraft.entity.Entity;
@@ -12,7 +14,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 /**
- * Colloection of ports which provides input and output from operators.
+ * Collection of ports which provides input and output from operators.
  */
 public interface Ports {
 
@@ -121,6 +123,20 @@ public interface Ports {
 	 */
 	Ports setString2(String value);
 
+	/**
+	 * Return {@linkplain Stream<String>} #1.
+	 * 
+	 * @return strings #1.
+	 */
+	Stream<String> getStrings1();
+
+	/**
+	 * Set {@linkplain Stream<String>} #1.
+	 * 
+	 * @param strings string stream #1.
+	 */
+	Ports setStrings1(Stream<String> values);
+	
 	/**
 	 * Get double #1.
 	 * 

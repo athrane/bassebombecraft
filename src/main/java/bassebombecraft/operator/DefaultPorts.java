@@ -2,6 +2,7 @@ package bassebombecraft.operator;
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -46,6 +47,11 @@ public class DefaultPorts implements Ports {
 	 */
 	String string2;
 
+	/**
+	 * String stream #1.
+	 */
+	Stream<String> strings1;
+	
 	/**
 	 * Double #1.
 	 */
@@ -165,6 +171,16 @@ public class DefaultPorts implements Ports {
 	 * String #2 setter.
 	 */
 	static BiConsumer<Ports, String> bcSetString2 = (Ports p, String s) -> p.setString2(s);
+
+	/**
+	 * String stream #1 setter.
+	 */
+	static BiConsumer<Ports, Stream<String>> bcSetStrings1 = (Ports p, Stream<String> s) -> p.setStrings1(s);
+
+	/**
+	 * String stream #1 getter.
+	 */
+	static Function<Ports, Stream<String>> fnGetStrings1 = p -> p.getStrings1();
 
 	/**
 	 * Double #1 getter.
@@ -319,6 +335,17 @@ public class DefaultPorts implements Ports {
 	@Override
 	public Ports setString2(String value) {
 		this.string2 = value;
+		return this;
+	}
+
+	@Override
+	public Stream<String> getStrings1() {
+		return strings1;
+	}
+
+	@Override
+	public Ports setStrings1(Stream<String> values) {
+		this.strings1 = values;
 		return this;
 	}
 
@@ -512,6 +539,14 @@ public class DefaultPorts implements Ports {
 
 	public static BiConsumer<Ports, String> getBcSetString2() {
 		return bcSetString2;
+	}
+
+	public static Function<Ports, Stream<String>> getFnGetStrings1() {
+		return fnGetStrings1;
+	}
+
+	public static BiConsumer<Ports, Stream<String>> getBcSetStrings1() {
+		return bcSetStrings1;
 	}
 
 	public static Function<Ports, Double> getFnGetDouble1() {
