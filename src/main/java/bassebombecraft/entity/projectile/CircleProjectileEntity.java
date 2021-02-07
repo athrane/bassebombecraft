@@ -7,7 +7,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 
 /**
- * Circle for composite magic.
+ * Circle projectile for composite magic.
  */
 public class CircleProjectileEntity extends GenericCompositeProjectileEntity {
 
