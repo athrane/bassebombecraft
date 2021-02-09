@@ -3,7 +3,7 @@ package bassebombecraft.client.event.rendering.effect;
 import java.util.stream.Stream;
 
 import bassebombecraft.proxy.Proxy;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Entity;
 
 /**
  * Interface for repository for rendering graphics effects.
@@ -22,9 +22,10 @@ public interface GraphicalEffectRepository {
 	 * @param source   source entity involved in the effect.
 	 * @param target   target entity involved in the effect.
 	 * @param duration effect duration.
-	 */
-	public void add(LivingEntity source, LivingEntity target, int duration);
-
+	 * @param name effect name.
+	 */	
+	public void add(Entity source, Entity target, int duration, String name);
+	
 	/**
 	 * Remove effect.
 	 * 

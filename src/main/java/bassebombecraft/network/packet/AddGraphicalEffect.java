@@ -2,14 +2,12 @@ package bassebombecraft.network.packet;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 
 import java.util.function.Supplier;
 
 import bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
@@ -38,6 +36,11 @@ public class AddGraphicalEffect {
 	int targetEntityId;
 
 	/**
+	 * Effect name.
+	 */
+	String name;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param buf packet buffer.
@@ -46,6 +49,7 @@ public class AddGraphicalEffect {
 		this.sourceEntityId = buf.readInt();
 		this.targetEntityId = buf.readInt();
 		this.duration = buf.readInt();
+		this.name = buf.readString();
 	}
 
 	/**
@@ -54,11 +58,13 @@ public class AddGraphicalEffect {
 	 * @param source   source entity involved in the effect.
 	 * @param target   target entity involved in the effect.
 	 * @param duration effect duration (in game ticks).
+	 * @param name effect name.
 	 */
-	public AddGraphicalEffect(LivingEntity source, LivingEntity target, int duration) {
+	public AddGraphicalEffect(Entity source, Entity target, int duration, String name) {
 		this.sourceEntityId = source.getEntityId();
 		this.targetEntityId = target.getEntityId();
 		this.duration = duration;
+		this.name = name;
 	}
 
 	/**
@@ -70,6 +76,7 @@ public class AddGraphicalEffect {
 		buf.writeInt(sourceEntityId);
 		buf.writeInt(targetEntityId);
 		buf.writeInt(duration);
+		buf.writeString(name);
 	}
 
 	/**
@@ -98,13 +105,6 @@ public class AddGraphicalEffect {
 			if (source == null)
 				return;
 
-			// exit if entity isn't a living entity
-			if (!isTypeLivingEntity(source))
-				return;
-
-			// type cast
-			LivingEntity sourceAsLivingEntity = (LivingEntity) source;
-
 			// get client side entity from ID
 			Entity target = mcClient.world.getEntityByID(targetEntityId);
 
@@ -112,19 +112,9 @@ public class AddGraphicalEffect {
 			if (target == null)
 				return;
 
-			// exit if entity isn't a living entity
-			if (!isTypeLivingEntity(target))
-				return;
-
-			// type cast
-			LivingEntity targetAsLivingEntity = (LivingEntity) target;
-
 			// register
 			GraphicalEffectRepository repository = getProxy().getClientGraphicalEffectRepository();
-			repository.add(sourceAsLivingEntity, targetAsLivingEntity, duration);
-
-			getBassebombeCraft().getLogger().debug("AddGraphicalEffect source=" + source);
-			getBassebombeCraft().getLogger().debug("AddGraphicalEffect target=" + target);
+			repository.add(source, target, duration, name);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

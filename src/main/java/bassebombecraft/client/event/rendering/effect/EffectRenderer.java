@@ -7,12 +7,9 @@ import static bassebombecraft.operator.DefaultPorts.getInstance;
 
 import java.util.stream.Stream;
 
-import bassebombecraft.client.op.rendering.RenderLine2;
-import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Operators2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.renderer.Vector4f;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 /**
@@ -20,10 +17,7 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
  */
 public class EffectRenderer {
 
-	/**
-	 * Effect operator
-	 */
-	static Operator2 operator = new RenderLine2();
+	public static final Vector4f EFFECT_LINE_COLOR = new Vector4f(0, 0, 0.75F, 1);
 
 	/**
 	 * Handle {@linkplain RenderWorldLastEvent} rendering event at client side.
@@ -39,7 +33,7 @@ public class EffectRenderer {
 
 			// create port
 			Ports ports = getInstance();
-
+			
 			// add matrix stack
 			ports.setMatrixStack(event.getMatrixStack());
 
@@ -48,25 +42,15 @@ public class EffectRenderer {
 			Stream<GraphicalEffect> effects = repository.get();
 
 			// loop over effects
-			effects.forEach(e -> renderEffect(e, ports));
+			effects.forEach(e -> {
+				ports.setEntity1(e.getSource());
+				ports.setEntity2(e.getTarget());				
+				Operators2.run(ports, e.getEffectOperator());	
+			});
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
-	}
-
-	/**
-	 * Render effect. 
-	 * 
-	 * @param effect
-	 * @param ports
-	 */
-	static void renderEffect(GraphicalEffect effect, Ports ports) {
-		LivingEntity source = effect.getSource();
-		LivingEntity target= effect.getTarget();		
-		Vec3d[] vectors = { source.getPositionVec(), target.getPositionVec() };
-		ports.setVectors1(vectors);
-		Operators2.run(ports, operator);
 	}
 
 }

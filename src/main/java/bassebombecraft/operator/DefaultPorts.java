@@ -73,6 +73,11 @@ public class DefaultPorts implements Ports {
 	Entity entitiy1;
 
 	/**
+	 * Entity #2.
+	 */
+	Entity entitiy2;
+	
+	/**
 	 * Entity array #1.
 	 */
 	Entity[] entities1;
@@ -222,6 +227,16 @@ public class DefaultPorts implements Ports {
 	 */
 	static Function<Ports, Entity> fnGetEntity1 = p -> p.getEntity1();
 
+	/**
+	 * Entity #2 setter.
+	 */
+	static BiConsumer<Ports, Entity> bcSetEntity2 = (Ports p, Entity e) -> p.setEntity2(e);
+
+	/**
+	 * Entity #2 getter.
+	 */
+	static Function<Ports, Entity> fnGetEntity2 = p -> p.getEntity2();
+	
 	/**
 	 * Entity array #1 setter.
 	 */
@@ -390,6 +405,17 @@ public class DefaultPorts implements Ports {
 	@Override
 	public Ports setEntity1(Entity entity) {
 		this.entitiy1 = entity;
+		return this;
+	}
+	
+	@Override
+	public Entity getEntity2() {
+		return entitiy2;
+	}
+
+	@Override
+	public Ports setEntity2(Entity entity) {
+		this.entitiy2 = entity;
 		return this;
 	}
 
@@ -577,10 +603,18 @@ public class DefaultPorts implements Ports {
 		return fnGetEntity1;
 	}
 
-	public static BiConsumer<Ports, Entity> getBcSetEntity() {
+	public static BiConsumer<Ports, Entity> getBcSetEntity1() {
 		return bcSetEntity1;
 	}
 
+	public static Function<Ports, Entity> getFnGetEntity2() {
+		return fnGetEntity2;
+	}
+
+	public static BiConsumer<Ports, Entity> getBcSetEntity2() {
+		return bcSetEntity2;
+	}
+	
 	public static Function<Ports, Entity[]> getFnGetEntities1() {
 		return fnGetEntities1;
 	}

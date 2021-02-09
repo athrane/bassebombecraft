@@ -23,10 +23,24 @@ public class RenderTypes extends RenderType {
 
 	static final LineState THICK_LINES = new LineState(OptionalDouble.of(3.0D));
 
+	static final LineState THIN_LINES = new LineState(OptionalDouble.of(1.0D));
+	
 	public static final RenderType OVERLAY_LINES = get("overlay_lines", DefaultVertexFormats.POSITION_COLOR,
 			GL11.GL_LINES, 256,
 			RenderType.State.builder().line(THICK_LINES).layer(PROJECTION_LAYERING)
 					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).depthTest(DEPTH_ALWAYS)
 					.cull(CULL_DISABLED).lightmap(LIGHTMAP_DISABLED).writeMask(COLOR_WRITE).build(false));
 
+	public static final RenderType DEFAULT_LINES = get("default_lines", DefaultVertexFormats.POSITION_COLOR,
+			GL11.GL_LINES, 256,
+			RenderType.State.builder().line(THICK_LINES).layer(PROJECTION_LAYERING)
+					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).depthTest(DEPTH_ALWAYS)
+					.cull(CULL_DISABLED).lightmap(LIGHTMAP_DISABLED).writeMask(COLOR_WRITE).build(false));
+
+	public static final RenderType LIGHTNING_LINES = get("lightning_lines", DefaultVertexFormats.POSITION_COLOR,
+			GL11.GL_LINES, 256,
+			RenderType.State.builder().line(THICK_LINES).layer(PROJECTION_LAYERING)
+					.transparency(LIGHTNING_TRANSPARENCY).texture(NO_TEXTURE).depthTest(DEPTH_ALWAYS)
+					.cull(CULL_ENABLED).lightmap(LIGHTMAP_ENABLED).writeMask(COLOR_WRITE).build(false));
+	
 }

@@ -1,7 +1,8 @@
 package bassebombecraft.client.op.rendering;
 
+import static bassebombecraft.client.rendering.rendertype.RenderTypes.DEFAULT_LINES;
 import static bassebombecraft.geom.GeometryUtils.oscillate;
-
+import static bassebombecraft.ClientModConstants.DEFAULT_LINE_COLOR;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -26,10 +27,6 @@ import net.minecraft.util.math.Vec3d;
  */
 public class RenderWireframeBoundingBox2 implements Operator2 {
 
-	/**
-	 * Default color.
-	 */
-	static final Vector4f WHITE_COLOR = new Vector4f(1, 1, 1, 1);
 
 	/**
 	 * oscillate max value.
@@ -51,7 +48,8 @@ public class RenderWireframeBoundingBox2 implements Operator2 {
 	 */
 	public RenderWireframeBoundingBox2() {
 		oscillateMax = 0.02F;
-		color = WHITE_COLOR;
+		color = DEFAULT_LINE_COLOR ;
+		renderType = DEFAULT_LINES;
 	}
 
 	/**
@@ -76,7 +74,7 @@ public class RenderWireframeBoundingBox2 implements Operator2 {
 			return ports;
 
 		// get render buffer and builder
-		Minecraft mcClient = Minecraft.getInstance();						
+		Minecraft mcClient = Minecraft.getInstance();
 		IRenderTypeBuffer.Impl buffer = mcClient.getRenderTypeBuffers().getBufferSource();
 		IVertexBuilder builder = buffer.getBuffer(renderType);
 

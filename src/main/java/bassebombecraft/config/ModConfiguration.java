@@ -185,6 +185,7 @@ import bassebombecraft.item.inventory.RemoveBlockSpiralIdolInventoryItem;
 import bassebombecraft.item.inventory.RespawnIdolInventoryItem;
 import bassebombecraft.item.inventory.SaturationIdolInventoryItem;
 import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
+import bassebombecraft.operator.entity.Electrocute2;
 import bassebombecraft.operator.entity.Explode2;
 import bassebombecraft.operator.entity.Respawn2;
 import bassebombecraft.operator.entity.SpawnKillerBee;
@@ -706,6 +707,12 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue respawnMinEntities;
 	public static ForgeConfigSpec.IntValue respawnMaxEntities;
 	public static ForgeConfigSpec.IntValue respawnSpawnArea;
+
+	/**
+	 * Properties for {@linkplain Electrocute2} operator.
+	 */
+	public static ForgeConfigSpec.IntValue electrocuteDuration;
+	public static ForgeConfigSpec.IntValue electrocuteAoeRange;
 
 	/**
 	 * Properties for {@linkplain CircleProjectileFormation2} operator.
@@ -1327,26 +1334,6 @@ public class ModConfiguration {
 				0, 5.0D);
 		COMMON_BUILDER.pop();
 
-		// Decrease size effect for the DecreaseSizeIdolInventoryItem class
-		name = DecreaseSizeIdolInventoryItem.ITEM_NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		decreaseSizeEffectAmplifier = COMMON_BUILDER.comment(
-				"Potency of the effect (as a potion effect), i.e. the resulting size decrease in procentage, i.e. 50% is half size. ")
-				.defineInRange("amplifier", 50, 1, 100);
-		decreaseSizeEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
-				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
-		// Increase size effect for the for the IncreaseSizeIdolInventoryItem class
-		name = IncreaseSizeIdolInventoryItem.ITEM_NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		increaseSizeEffectAmplifier = COMMON_BUILDER.comment(
-				"Potency of the effect (as a potion effect), i.e. the resulting size increase in procentage, i.e. 200% is double size. ")
-				.defineInRange("amplifier", 200, 1, 500);
-		increaseSizeEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
-				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
 		/**
 		 * Configuration for the {@linkplain SpawnDecoy2} operator.
 		 */
@@ -1380,20 +1367,18 @@ public class ModConfiguration {
 				0, 10);
 		respawnMaxEntities = COMMON_BUILDER.comment("Max. number of entities spawned.").defineInRange("maxEntities", 2,
 				0, 5);
-		respawnSpawnArea = COMMON_BUILDER.comment("Size of spawn areas around the dead entity.")
+		respawnSpawnArea = COMMON_BUILDER.comment("Size of spawn area around the dead entity.")
 				.defineInRange("SpawnArea ", 5, 0, 10);
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain RemoveBlockSpiralIdolInventoryItem} item.
+		 * Configuration for the {@linkplain Electrocute2} operator.
 		 */
-		name = RemoveBlockSpiralIdolInventoryItem.ITEM_NAME;
+		name = Electrocute2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		removeBlockSpiralIdolInventoryItemSpiralSize = COMMON_BUILDER
-				.comment("Spiral size, measured in rotations around the centre.")
-				.defineInRange("spiralSize", 5, 0, Integer.MAX_VALUE);
-		removeBlockSpiralIdolInventoryItemParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 5, 10, 0.3, 1.0,
-				1.0, 1.0);
+		electrocuteAoeRange = COMMON_BUILDER.comment("AOE range for effect.").defineInRange("aoeRange", 5, 0, 10);
+		electrocuteDuration = COMMON_BUILDER.comment("Duration of visual effect in game ticks.")
+				.defineInRange("maxEntities", 10, 0, 100);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -1532,6 +1517,38 @@ public class ModConfiguration {
 				.defineInRange("decreaseFactor", 2.5D, 0, 10);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the {@linkplain RemoveBlockSpiralIdolInventoryItem} item.
+		 */
+		name = RemoveBlockSpiralIdolInventoryItem.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		removeBlockSpiralIdolInventoryItemSpiralSize = COMMON_BUILDER
+				.comment("Spiral size, measured in rotations around the centre.")
+				.defineInRange("spiralSize", 5, 0, Integer.MAX_VALUE);
+		removeBlockSpiralIdolInventoryItemParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 5, 10, 0.3, 1.0,
+				1.0, 1.0);
+		COMMON_BUILDER.pop();
+
+		// Decrease size effect for the DecreaseSizeIdolInventoryItem class
+		name = DecreaseSizeIdolInventoryItem.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		decreaseSizeEffectAmplifier = COMMON_BUILDER.comment(
+				"Potency of the effect (as a potion effect), i.e. the resulting size decrease in procentage, i.e. 50% is half size. ")
+				.defineInRange("amplifier", 50, 1, 100);
+		decreaseSizeEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		// Increase size effect for the for the IncreaseSizeIdolInventoryItem class
+		name = IncreaseSizeIdolInventoryItem.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		increaseSizeEffectAmplifier = COMMON_BUILDER.comment(
+				"Potency of the effect (as a potion effect), i.e. the resulting size increase in procentage, i.e. 200% is double size. ")
+				.defineInRange("amplifier", 200, 1, 500);
+		increaseSizeEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+		
 	}
 
 	/**

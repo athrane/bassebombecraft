@@ -1,73 +1,92 @@
 package bassebombecraft.operator.client.rendering;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
-import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity2;
+import static bassebombecraft.operator.DefaultPorts.getFnGetDouble1;
+import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
+import static bassebombecraft.operator.DefaultPorts.getFnGetEntity2;
 
 import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Entity;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which adds a graphical
  * effect at client side.
- * 
  */
 public class AddGraphicalEffectAtClient2 implements Operator2 {
 
 	/**
 	 * Function to get source entity.
 	 */
-	Function<Ports, LivingEntity> fnGetSource;
+	Function<Ports, Entity> fnGetSource;
 
 	/**
 	 * Function to get target entity.
 	 */
-	Function<Ports, LivingEntity> fnGetTarget;
+	Function<Ports, Entity> fnGetTarget;
 
 	/**
-	 * Effect duration (in game ticks).
+	 * Function to get duration.
+	 */	
+	Function<Ports, Double> fnGetDuration;
+	
+	/**
+	 * Effect name.
 	 */
-	int duration;
+	String name;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param fnGetSource function to get source entity in effect.
 	 * @param fnGetTarget function to get target entity in effect.
-	 * @param duration effect duration (in game ticks).
+	 * @param fnGetDuration function to get duration (in game ticks).
+	 * @param name effect name.
 	 */
-	public AddGraphicalEffectAtClient2(Function<Ports, LivingEntity> fnGetSource,
-			Function<Ports, LivingEntity> fnGetTarget, int duration) {
+	public AddGraphicalEffectAtClient2(Function<Ports, Entity> fnGetSource, Function<Ports, Entity> fnGetTarget,
+			Function<Ports, Double> fnGetDuration, String name) {
 		this.fnGetSource = fnGetSource;
 		this.fnGetTarget = fnGetTarget;
-		this.duration = duration;
+		this.fnGetDuration = fnGetDuration;
+		this.name = name;
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * Instance is configured with living entity #1 as source entity from ports.
+	 * Instance is configured with entity #1 as source entity from ports.
 	 * 
-	 * Instance is configured with living entity #2 as target entity from ports.
+	 * Instance is configured with entity #2 as target entity from ports.
+	 * 
+	 * Instance is configured with double #1 as effect duration from ports.
+	 * 
+	 * @param name effect name.
+	 */
+	public AddGraphicalEffectAtClient2(String name) {
+		this(getFnGetEntity1(), getFnGetEntity2(), getFnGetDouble1(), name);
+	}
+	
+	/**
+	 * Constructor.
+	 * 
+	 * Instance is configured with entity #1 as source entity from ports.
+	 * 
+	 * Instance is configured with entity #2 as target entity from ports.
+	 * 
+	 * Instance is configured with double #1 as effect duration from ports.
 	 */
 	public AddGraphicalEffectAtClient2() {
-		this.fnGetSource = getFnGetLivingEntity1();
-		this.fnGetSource = getFnGetLivingEntity2();
-		this.duration = 10;
-	}
-
+		this(getFnGetEntity1(), getFnGetEntity2(), getFnGetDouble1(), "default");
+	}	
+	
 	@Override
 	public Ports run(Ports ports) {
-		LivingEntity source = fnGetSource.apply(ports);
-		LivingEntity target = fnGetTarget.apply(ports);
-		getProxy().getNetworkChannel().sendAddGraphicalEffectPacket(source, target, duration);
-		
-		getBassebombeCraft().getLogger().debug("AddGraphicalEffectAtClient2 source="+source);
-		getBassebombeCraft().getLogger().debug("AddGraphicalEffectAtClient2 target="+target);				
+		Entity source = fnGetSource.apply(ports);
+		Entity target = fnGetTarget.apply(ports);
+		int duration = fnGetDuration.apply(ports).intValue();
+		getProxy().getNetworkChannel().sendAddGraphicalEffectPacket(source, target, duration, name);
 		return ports;
 	}
 }

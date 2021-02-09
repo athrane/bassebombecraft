@@ -12,6 +12,7 @@ import bassebombecraft.network.packet.AddPotionEffect;
 import bassebombecraft.network.packet.RemoveEffect;
 import bassebombecraft.network.packet.RemoveParticleRendering;
 import bassebombecraft.proxy.Proxy;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.potion.Effect;
@@ -147,10 +148,11 @@ public class NetworkChannelHelper {
 	 * @param source   source entity involved in the effect.
 	 * @param target   target entity involved in the effect.
 	 * @param duration effect duration (in game ticks).
+	 * @param name effect name.
 	 */
-	public void sendAddGraphicalEffectPacket(LivingEntity source, LivingEntity target, int duration) {
+	public void sendAddGraphicalEffectPacket(Entity source, Entity target, int duration, String name) {
 		try {
-			channel.send(PacketDistributor.ALL.noArg(), new AddGraphicalEffect(source, target, duration));
+			channel.send(PacketDistributor.ALL.noArg(), new AddGraphicalEffect(source, target, duration, name));
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}

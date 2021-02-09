@@ -89,5 +89,15 @@ public class ClientModConstants {
 	 * Default spawn duration for particle renderings.
 	 */
 	public static final int PARTICLE_SPAWN_DURATION = 2;
+
+	/**
+	 * Default line color 
+	 */
+	public static final Vector4f DEFAULT_LINE_COLOR = new Vector4f(0, 0.75F, 0, 1);
+
+	/**
+	 * Rendering: Line color for lightning for {@linkplain ClientGraphicalEffectRepository}.
+	 */
+	public static final Vector4f LIGHTNING_LINE_COLOR = new Vector4f(0.25F, 0.25F, 0.75F, 0.75F);
 	
 }

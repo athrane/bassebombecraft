@@ -194,6 +194,20 @@ public interface Ports {
 	Ports setEntity1(Entity entity);
 
 	/**
+	 * Return {@linkplain Entity} #2.
+	 * 
+	 * @return entity #2.
+	 */
+	Entity getEntity2();
+
+	/**
+	 * Set {@linkplain Entity} #2.
+	 * 
+	 * @param entity entity #2.
+	 */
+	Ports setEntity2(Entity entity);
+	
+	/**
 	 * Return {@linkplain Entity[]} #1.
 	 * 
 	 * @return entity array #1.

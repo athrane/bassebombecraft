@@ -1,5 +1,8 @@
 package bassebombecraft.client.op.rendering;
 
+import static bassebombecraft.ClientModConstants.DEFAULT_LINE_COLOR;
+import static bassebombecraft.client.rendering.rendertype.RenderTypes.DEFAULT_LINES;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -25,11 +28,6 @@ import net.minecraft.util.math.Vec3d;
 public class RenderLine2 implements Operator2 {
 
 	/**
-	 * Default color.
-	 */
-	static final Vector4f WHITE_COLOR = new Vector4f(1, 1, 1, 1);
-
-	/**
 	 * Line color. Encoded as RGB+alpha
 	 */
 	Vector4f color;
@@ -43,7 +41,8 @@ public class RenderLine2 implements Operator2 {
 	 * Constructor.
 	 */
 	public RenderLine2() {
-		color = WHITE_COLOR;
+		color = DEFAULT_LINE_COLOR ;
+		renderType = DEFAULT_LINES;		
 	}
 
 	/**
@@ -61,15 +60,13 @@ public class RenderLine2 implements Operator2 {
 	public Ports run(Ports ports) {
 
 		// get vectors
-		Vec3d[] vectors = ports.getVectors1();
-		if (vectors == null)
+		Vec3d[] positions = ports.getVectors1();
+		if (positions == null)
 			return ports;
 
 		// Get start and end position
-		if (vectors.length < 2)
+		if (positions.length < 2)
 			return ports;
-		Vec3d start = vectors[0];
-		Vec3d end = vectors[1];
 
 		// get render buffer and builder
 		Minecraft mcClient = Minecraft.getInstance();
@@ -88,7 +85,11 @@ public class RenderLine2 implements Operator2 {
 		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
 
 		// render
-		renderLine(start, end, builder, positionMatrix);
+		for(int index = 0; index < (positions.length-1); index++) {
+			Vec3d start = positions[index];
+			Vec3d end = positions[index+1];
+			renderLine(start, end, builder, positionMatrix);			
+		}
 
 		// restore matrix
 		matrixStack.pop();
