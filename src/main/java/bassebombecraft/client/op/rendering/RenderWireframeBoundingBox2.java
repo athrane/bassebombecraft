@@ -19,6 +19,10 @@ import net.minecraft.util.math.Vec3d;
 /**
  * Implementation of the {@linkplain Operator2} interface which renders a wire
  * frame bounding box.
+ * 
+ * {@linkplain MatrixStack} is read from ports during execution.
+ * 
+ * {@linkplain AxisAlignedBB} is read from ports during execution.
  */
 public class RenderWireframeBoundingBox2 implements Operator2 {
 
@@ -66,21 +70,28 @@ public class RenderWireframeBoundingBox2 implements Operator2 {
 	@Override
 	public Ports run(Ports ports) {
 
+		// get aabb
+		AxisAlignedBB aabb = ports.getAabb();
+		if (aabb == null)
+			return ports;
+
 		// get render buffer and builder
-		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+		Minecraft mcClient = Minecraft.getInstance();						
+		IRenderTypeBuffer.Impl buffer = mcClient.getRenderTypeBuffers().getBufferSource();
 		IVertexBuilder builder = buffer.getBuffer(renderType);
 
 		// push matrix
 		MatrixStack matrixStack = ports.getMatrixStack();
+		if (matrixStack == null)
+			return ports;
 		matrixStack.push();
 
 		// get position matrix
-		Vec3d projectedView = Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getProjectedView();
+		Vec3d projectedView = mcClient.gameRenderer.getActiveRenderInfo().getProjectedView();
 		matrixStack.translate(-projectedView.x, -projectedView.y, -projectedView.z);
 		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
 
 		// grow aabb
-		AxisAlignedBB aabb = ports.getAabb();
 		aabb = aabb.grow(oscillate(0, oscillateMax));
 
 		// render
@@ -106,51 +117,51 @@ public class RenderWireframeBoundingBox2 implements Operator2 {
 	void renderWireframeBox(AxisAlignedBB aabb, IVertexBuilder builder, Matrix4f positionMatrix) {
 
 		// AB
-		addWhiteVertex(builder, positionMatrix, aabb.minX, aabb.minY, aabb.minZ);
-		addWhiteVertex(builder, positionMatrix, aabb.minX, aabb.minY, aabb.maxZ);
+		addVertex(builder, positionMatrix, aabb.minX, aabb.minY, aabb.minZ);
+		addVertex(builder, positionMatrix, aabb.minX, aabb.minY, aabb.maxZ);
 		// BC
-		addWhiteVertex(builder, positionMatrix, aabb.minX, aabb.minY, aabb.maxZ);
-		addWhiteVertex(builder, positionMatrix, aabb.maxX, aabb.minY, aabb.maxZ);
+		addVertex(builder, positionMatrix, aabb.minX, aabb.minY, aabb.maxZ);
+		addVertex(builder, positionMatrix, aabb.maxX, aabb.minY, aabb.maxZ);
 		// CD
-		addWhiteVertex(builder, positionMatrix, aabb.maxX, aabb.minY, aabb.maxZ);
-		addWhiteVertex(builder, positionMatrix, aabb.maxX, aabb.minY, aabb.minZ);
+		addVertex(builder, positionMatrix, aabb.maxX, aabb.minY, aabb.maxZ);
+		addVertex(builder, positionMatrix, aabb.maxX, aabb.minY, aabb.minZ);
 
 		// DA
-		addWhiteVertex(builder, positionMatrix, aabb.maxX, aabb.minY, aabb.minZ);
-		addWhiteVertex(builder, positionMatrix, aabb.minX, aabb.minY, aabb.minZ);
+		addVertex(builder, positionMatrix, aabb.maxX, aabb.minY, aabb.minZ);
+		addVertex(builder, positionMatrix, aabb.minX, aabb.minY, aabb.minZ);
 		// EF
-		addWhiteVertex(builder, positionMatrix, aabb.minX, aabb.maxY, aabb.minZ);
-		addWhiteVertex(builder, positionMatrix, aabb.minX, aabb.maxY, aabb.maxZ);
+		addVertex(builder, positionMatrix, aabb.minX, aabb.maxY, aabb.minZ);
+		addVertex(builder, positionMatrix, aabb.minX, aabb.maxY, aabb.maxZ);
 		// FG
-		addWhiteVertex(builder, positionMatrix, aabb.minX, aabb.maxY, aabb.maxZ);
-		addWhiteVertex(builder, positionMatrix, aabb.maxX, aabb.maxY, aabb.maxZ);
+		addVertex(builder, positionMatrix, aabb.minX, aabb.maxY, aabb.maxZ);
+		addVertex(builder, positionMatrix, aabb.maxX, aabb.maxY, aabb.maxZ);
 		// GH
-		addWhiteVertex(builder, positionMatrix, aabb.maxX, aabb.maxY, aabb.maxZ);
-		addWhiteVertex(builder, positionMatrix, aabb.maxX, aabb.maxY, aabb.minZ);
+		addVertex(builder, positionMatrix, aabb.maxX, aabb.maxY, aabb.maxZ);
+		addVertex(builder, positionMatrix, aabb.maxX, aabb.maxY, aabb.minZ);
 		// HE
-		addWhiteVertex(builder, positionMatrix, aabb.maxX, aabb.maxY, aabb.minZ);
-		addWhiteVertex(builder, positionMatrix, aabb.minX, aabb.maxY, aabb.minZ);
+		addVertex(builder, positionMatrix, aabb.maxX, aabb.maxY, aabb.minZ);
+		addVertex(builder, positionMatrix, aabb.minX, aabb.maxY, aabb.minZ);
 		// AE
-		addWhiteVertex(builder, positionMatrix, aabb.minX, aabb.minY, aabb.minZ);
-		addWhiteVertex(builder, positionMatrix, aabb.minX, aabb.maxY, aabb.minZ);
+		addVertex(builder, positionMatrix, aabb.minX, aabb.minY, aabb.minZ);
+		addVertex(builder, positionMatrix, aabb.minX, aabb.maxY, aabb.minZ);
 		// BF
-		addWhiteVertex(builder, positionMatrix, aabb.minX, aabb.minY, aabb.maxZ);
-		addWhiteVertex(builder, positionMatrix, aabb.minX, aabb.maxY, aabb.maxZ);
+		addVertex(builder, positionMatrix, aabb.minX, aabb.minY, aabb.maxZ);
+		addVertex(builder, positionMatrix, aabb.minX, aabb.maxY, aabb.maxZ);
 		// CG
-		addWhiteVertex(builder, positionMatrix, aabb.maxX, aabb.minY, aabb.maxZ);
-		addWhiteVertex(builder, positionMatrix, aabb.maxX, aabb.maxY, aabb.maxZ);
+		addVertex(builder, positionMatrix, aabb.maxX, aabb.minY, aabb.maxZ);
+		addVertex(builder, positionMatrix, aabb.maxX, aabb.maxY, aabb.maxZ);
 		// DH
-		addWhiteVertex(builder, positionMatrix, aabb.maxX, aabb.minY, aabb.minZ);
-		addWhiteVertex(builder, positionMatrix, aabb.maxX, aabb.maxY, aabb.minZ);
+		addVertex(builder, positionMatrix, aabb.maxX, aabb.minY, aabb.minZ);
+		addVertex(builder, positionMatrix, aabb.maxX, aabb.maxY, aabb.minZ);
 
 	}
 
-	void addWhiteVertex(IVertexBuilder builder, Matrix4f positionMatrix, float x, float y, float z) {
+	void addVertex(IVertexBuilder builder, Matrix4f positionMatrix, float x, float y, float z) {
 		builder.pos(positionMatrix, x, y, z).color(color.getX(), color.getY(), color.getZ(), color.getW()).endVertex();
 	}
 
-	void addWhiteVertex(IVertexBuilder builder, Matrix4f positionMatrix, double x, double y, double z) {
-		addWhiteVertex(builder, positionMatrix, (float) x, (float) y, (float) z);
+	void addVertex(IVertexBuilder builder, Matrix4f positionMatrix, double x, double y, double z) {
+		addVertex(builder, positionMatrix, (float) x, (float) y, (float) z);
 	}
 
 }

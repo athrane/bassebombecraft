@@ -25,6 +25,8 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
  * 
  * Supports rendering of billboard text in the renderer instances handling
  * processing the {@linkplain RenderWorldLastEvent}.
+ * 
+ * {@linkplain MatrixStack} is read from ports during execution.
  */
 public class RenderTextBillboard2 implements Operator2 {
 
@@ -117,14 +119,17 @@ public class RenderTextBillboard2 implements Operator2 {
 	public Ports run(Ports ports) {
 
 		// get render buffer
-		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+		Minecraft mcClient = Minecraft.getInstance();
+		IRenderTypeBuffer.Impl buffer = mcClient.getRenderTypeBuffers().getBufferSource();
 
 		// get rendering engine
-		EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
+		EntityRendererManager renderManager = mcClient.getRenderManager();
 		FontRenderer fontRenderer = renderManager.getFontRenderer();
 
 		// push matrix
 		MatrixStack matrixStack = ports.getMatrixStack();
+		if (matrixStack == null)
+			return ports;
 		matrixStack.push();
 
 		// setup matrix

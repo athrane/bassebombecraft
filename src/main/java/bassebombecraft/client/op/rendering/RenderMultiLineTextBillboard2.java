@@ -126,10 +126,11 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 	public Ports run(Ports ports) {
 
 		// get render buffer
-		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+		Minecraft mcClient = Minecraft.getInstance();
+		IRenderTypeBuffer.Impl buffer = mcClient.getRenderTypeBuffers().getBufferSource();
 
 		// get rendering engine
-		EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
+		EntityRendererManager renderManager = mcClient.getRenderManager();
 		FontRenderer fontRenderer = renderManager.getFontRenderer();
 
 		// push matrix
@@ -147,7 +148,7 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 		// create index to use inside loop
 		final AtomicInteger index = new AtomicInteger();
 
-		// render messages		
+		// render messages
 		fnGetString.apply(ports).forEach(m -> {
 			int ypos = y + (Y_DELTA * index.incrementAndGet());
 			fontRenderer.renderString(m, x, ypos, textColor, DROP_SHADOW, positionMatrix, buffer, IS_TRANSPARENT,

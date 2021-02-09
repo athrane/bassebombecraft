@@ -1,17 +1,29 @@
 package bassebombecraft.client.event.rendering.effect;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
+import static bassebombecraft.operator.DefaultPorts.getInstance;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.world.World;
+import java.util.stream.Stream;
+
+import bassebombecraft.client.op.rendering.RenderLine2;
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Operators2;
+import bassebombecraft.operator.Ports;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 /**
- * Client side renderer for rendering graphics effects.
+ * Client side renderer for rendering graphical effects.
  */
 public class EffectRenderer {
+
+	/**
+	 * Effect operator
+	 */
+	static Operator2 operator = new RenderLine2();
 
 	/**
 	 * Handle {@linkplain RenderWorldLastEvent} rendering event at client side.
@@ -25,14 +37,18 @@ public class EffectRenderer {
 			if (!isClientSidePlayerDefined())
 				return;
 
-			// get player
-			PlayerEntity player = getClientSidePlayer();
+			// create port
+			Ports ports = getInstance();
 
-			// get world
-			World world = player.getEntityWorld();
+			// add matrix stack
+			ports.setMatrixStack(event.getMatrixStack());
 
-			// render particles
-			render(world);
+			// get effects
+			GraphicalEffectRepository repository = getProxy().getClientGraphicalEffectRepository();
+			Stream<GraphicalEffect> effects = repository.get();
+
+			// loop over effects
+			effects.forEach(e -> renderEffect(e, ports));
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -40,13 +56,17 @@ public class EffectRenderer {
 	}
 
 	/**
-	 * Render effects.
+	 * Render effect. 
 	 * 
-	 * @param world world object.
-	 * 
-	 * @throws Exception if rendering fails.
+	 * @param effect
+	 * @param ports
 	 */
-	static void render(World world) throws Exception {
+	static void renderEffect(GraphicalEffect effect, Ports ports) {
+		LivingEntity source = effect.getSource();
+		LivingEntity target= effect.getTarget();		
+		Vec3d[] vectors = { source.getPositionVec(), target.getPositionVec() };
+		ports.setVectors1(vectors);
+		Operators2.run(ports, operator);
 	}
 
 }

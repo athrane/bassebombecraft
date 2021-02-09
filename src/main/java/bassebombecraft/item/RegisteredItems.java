@@ -86,6 +86,7 @@ import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifie
 import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.ElectrocuteProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.EmitHorizontalForceProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.EmitVerticalForceProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeMobWhenKilledProjectileModifierItem;
@@ -302,6 +303,7 @@ public class RegisteredItems {
 	public static final RegistryObject<Item> MODIFIER18 = register(RespawnProjectileModifierItem::new);
 	public static final RegistryObject<Item> MODIFIER19 = register(LightningProjectileModifierItem::new);
 	public static final RegistryObject<Item> MODIFIER20 = register(SpawnSquidProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER21 = register(ElectrocuteProjectileModifierItem::new);
 
 	/**
 	 * Register item.

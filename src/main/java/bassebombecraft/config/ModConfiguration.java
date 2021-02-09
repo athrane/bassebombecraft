@@ -132,6 +132,7 @@ import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifie
 import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.ElectrocuteProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.EmitHorizontalForceProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.EmitVerticalForceProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.ExplodeMobWhenKilledProjectileModifierItem;
@@ -499,6 +500,7 @@ public class ModConfiguration {
 	public static ItemConfig respawnProjectileModifierItem;
 	public static ItemConfig lightningProjectileModifierItem;
 	public static ItemConfig spawnSquidProjectileModifierItem;
+	public static ItemConfig electrocuteProjectileModifierItem;
 
 	// Actions..
 
@@ -2068,8 +2070,7 @@ public class ModConfiguration {
 		name = RandomSingleProjectileFormationItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		randomSingleProjectileFormationItem = getInstance(COMMON_BUILDER, name,
-				"Cast a single projectile in a random direction around the caster.",
-				25);
+				"Cast a single projectile in a random direction around the caster.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2087,8 +2088,7 @@ public class ModConfiguration {
 		name = TrifurcatedProjectileFormationItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		trifurcatedProjectileFormationItem = getInstance(COMMON_BUILDER, name,
-				"Cast 3 projectiles in a trifurcated formation in front of the caster.",
-				25);
+				"Cast 3 projectiles in a trifurcated formation in front of the caster.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2097,8 +2097,7 @@ public class ModConfiguration {
 		name = FrontAndBackProjectileFormationItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		frontAndBackProjectileFormationItem = getInstance(COMMON_BUILDER, name,
-				"Cast 2 projectiles. One projectile is cast in front and one from the back of the caster.",
-				25);
+				"Cast 2 projectiles. One projectile is cast in front and one from the back of the caster.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2144,8 +2143,7 @@ public class ModConfiguration {
 		name = RandomProjectileFormationModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		randomProjectileFormationModifierItem = getInstance(COMMON_BUILDER, name,
-				"All projectile paths are randomized around the vertical axis of the caster.",
-				25);
+				"All projectile paths are randomized around the vertical axis of the caster.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2155,8 +2153,7 @@ public class ModConfiguration {
 		name = InaccuracyProjectileFormationModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		inaccuracyProjectileFormationModifierItem = getInstance(COMMON_BUILDER, name,
-				"All projectile paths are made somewhat more inaccurate. Inaccuracy is [-5..5] degrees.",
-				25);
+				"All projectile paths are made somewhat more inaccurate. Inaccuracy is [-5..5] degrees.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2175,8 +2172,7 @@ public class ModConfiguration {
 		 */
 		name = RandomProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		randomProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"The projectile will follow a random path.", 25);
+		randomProjectilePathItem = getInstance(COMMON_BUILDER, name, "The projectile will follow a random path.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2184,8 +2180,7 @@ public class ModConfiguration {
 		 */
 		name = ZigZagProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		zigZagProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"The projectile will follow a zig zag path.", 25);
+		zigZagProjectilePathItem = getInstance(COMMON_BUILDER, name, "The projectile will follow a zig zag path.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2193,9 +2188,7 @@ public class ModConfiguration {
 		 */
 		name = SineProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		sineProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"The projectile will follow a sine wave path.",
-				25);
+		sineProjectilePathItem = getInstance(COMMON_BUILDER, name, "The projectile will follow a sine wave path.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2204,8 +2197,7 @@ public class ModConfiguration {
 		name = AccelerateProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		accelerateProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"The projectile will continue to accelerate along its path.",
-				25);
+				"The projectile will continue to accelerate along its path.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2214,8 +2206,7 @@ public class ModConfiguration {
 		name = DeaccelerateProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		deaccelerateProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"The projectile will continue to de-accelerate along its path.",
-				25);
+				"The projectile will continue to de-accelerate along its path.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2224,8 +2215,7 @@ public class ModConfiguration {
 		name = CircleProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		circleProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"The projectile will move the projectile in a circle around the caster.",
-				25);
+				"The projectile will move the projectile in a circle around the caster.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2234,8 +2224,7 @@ public class ModConfiguration {
 		name = IncreaseGravityProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		increaseGravityProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"The projectile will exposed to increased gravity.",
-				25);
+				"The projectile will exposed to increased gravity.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2244,8 +2233,7 @@ public class ModConfiguration {
 		name = DecreaseGravityProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		decreaseGravityProjectilePathItem = getInstance(COMMON_BUILDER, name,
-				"The projectile will be exposed to less gravity and will have a tendency to float upwards.",
-				25);
+				"The projectile will be exposed to less gravity and will have a tendency to float upwards.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2265,8 +2253,7 @@ public class ModConfiguration {
 		name = TeleportMobProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		teleportMobProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"When the projectile hits a mob then the mob will be teleported to a random location.",
-				25);
+				"When the projectile hits a mob then the mob will be teleported to a random location.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2275,8 +2262,7 @@ public class ModConfiguration {
 		name = CharmProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		charmProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"When the projectile hits a mob then the mob will be charmed and can be commanded by the caster.",
-				25);
+				"When the projectile hits a mob then the mob will be charmed and can be commanded by the caster.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2285,8 +2271,7 @@ public class ModConfiguration {
 		name = MeteorProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		meteorProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"When the projectile hits a mob then a meteor will fall from the sky.",
-				25);
+				"When the projectile hits a mob then a meteor will fall from the sky.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2315,8 +2300,8 @@ public class ModConfiguration {
 		 */
 		name = ExplodeOnImpactProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		explodeOnImpactProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"Projectile will explode on impact.", 25);
+		explodeOnImpactProjectileModifierItem = getInstance(COMMON_BUILDER, name, "Projectile will explode on impact.",
+				25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2325,8 +2310,7 @@ public class ModConfiguration {
 		name = DigMobHoleProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		digMobHoleProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"When the projectile hits a mob then an inconvenient hole is digged beneath the mob.",
-				25);
+				"When the projectile hits a mob then an inconvenient hole is digged beneath the mob.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2335,8 +2319,7 @@ public class ModConfiguration {
 		name = DigProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		digProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"When the projectile hits a block then some blocks will be excavated.",
-				25);
+				"When the projectile hits a block then some blocks will be excavated.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2345,8 +2328,7 @@ public class ModConfiguration {
 		name = SpawnCobwebProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnCobwebProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"When the projectile hits a mob then a sticky cobweb is spawned around the mob.",
-				25);
+				"When the projectile hits a mob then a sticky cobweb is spawned around the mob.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2375,8 +2357,7 @@ public class ModConfiguration {
 		name = SpawnAnvilProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnAnvilProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"When the projectile hits a mob then a falling anvil is spawned above the mob.",
-				25);
+				"When the projectile hits a mob then a falling anvil is spawned above the mob.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2385,8 +2366,7 @@ public class ModConfiguration {
 		name = ReceiveAggroProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		receiveAggroProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"When the projectile hits a mob then all mobs in the vicinity will aggro the creature.",
-				25);
+				"When the projectile hits a mob then all mobs in the vicinity will aggro the creature.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2395,8 +2375,7 @@ public class ModConfiguration {
 		name = BounceProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		bounceProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"When the projectile hits a block then the projectile will bounce of in some other direction.",
-				25);
+				"When the projectile hits a block then the projectile will bounce of in some other direction.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2417,8 +2396,7 @@ public class ModConfiguration {
 		name = EmitVerticalForceProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		emitVerticalForceProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"When the projectile hits a mob then an updraft will push the mob it up into the air.",
-				25);
+				"When the projectile hits a mob then an updraft will push the mob it up into the air.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2427,8 +2405,7 @@ public class ModConfiguration {
 		name = RespawnProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		respawnProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"When the projectile kills a mob then any number of spectres will respawn.",
-				25);
+				"When the projectile kills a mob then any number of spectres will respawn.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2437,8 +2414,7 @@ public class ModConfiguration {
 		name = LightningProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		lightningProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"When the projectile hits a mob or a block then a lightning is discharged from the sky.",
-				25);
+				"When the projectile hits a mob or a block then a lightning is discharged from the sky.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2447,8 +2423,16 @@ public class ModConfiguration {
 		name = SpawnSquidProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnSquidProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"When the projectile hits a mob or a block then an angry squid is discharged from the sky.",
-				25);
+				"When the projectile hits a mob or a block then an angry squid is discharged from the sky.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain ElectrocuteProjectileModifierItem} item.
+		 */
+		name = ElectrocuteProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		electrocuteProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"Electrocutes mobs in the vicinity of the projectile.", 25);
 		COMMON_BUILDER.pop();
 	}
 

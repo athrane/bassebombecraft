@@ -19,7 +19,7 @@ import net.minecraftforge.fml.network.NetworkEvent.Context;
  * Packet is used to send ID of potion effect added to mob. The packet is used
  * to sync the client with the server.
  */
-public class AddEffect {
+public class AddPotionEffect {
 
 	/**
 	 * Effect ID.
@@ -46,7 +46,7 @@ public class AddEffect {
 	 * 
 	 * @param buf packet buffer.
 	 */
-	public AddEffect(PacketBuffer buf) {
+	public AddPotionEffect(PacketBuffer buf) {
 		this.effectId = buf.readInt();
 		this.entityId = buf.readInt();
 		this.duration = buf.readInt();
@@ -59,7 +59,7 @@ public class AddEffect {
 	 * @param entity entity to add the effect to.
 	 * @param effect effect to add to entity.
 	 */
-	public AddEffect(LivingEntity entity, EffectInstance effectInstance) {
+	public AddPotionEffect(LivingEntity entity, EffectInstance effectInstance) {
 		this.entityId = entity.getEntityId();
 		this.effectId = Effect.getId(effectInstance.getPotion());
 		this.duration = effectInstance.getDuration();

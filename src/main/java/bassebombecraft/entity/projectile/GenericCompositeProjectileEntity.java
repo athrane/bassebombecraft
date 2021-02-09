@@ -22,6 +22,7 @@ import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
+import bassebombecraft.operator.entity.Electrocute2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.CircleProjectilePath;
 import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
@@ -98,10 +99,15 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	static final Operator2 INCREASE_GRAVITY_PATH_OPERATOR = new IncreaseGravityProjectilePath();
 
 	/**
-	 * DEcrease gravity projectile path operator.
+	 * Decrease gravity projectile path operator.
 	 */
 	static final Operator2 DECREASE_GRAVITY_PATH_OPERATOR = new DecreaseGravityProjectilePath();
 
+	/**
+	 * Electrocute operator.
+	 */
+	static final Operator2 ELECTROCUTE_OPERATOR = new Electrocute2();
+	
 	/**
 	 * Projectile duration.
 	 */
@@ -380,6 +386,10 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		// handle: decrease gravity
 		if (tags.contains(DecreaseGravityProjectilePath.NAME))
 			calculateDecreaseGravityPath();
+		
+		// handle: electrocute
+		if (tags.contains(Electrocute2.NAME))
+			electrocute();		
 	}
 
 	/**
@@ -448,6 +458,14 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		run(projectileModifierPorts, DECREASE_GRAVITY_PATH_OPERATOR);
 	}
 
+	/**
+	 * Execute electrocute operator.
+	 */
+	void electrocute() {
+		projectileModifierPorts.setEntity1(this);
+		run(projectileModifierPorts, ELECTROCUTE_OPERATOR);
+	}
+	
 	/**
 	 * Update motion and position of the projectile.
 	 */

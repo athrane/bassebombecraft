@@ -42,6 +42,6 @@ public class AddEffectAtClient implements Operator {
 		EffectInstance effectInstance = splEffectInstance.get();
 
 		// sync effect to client
-		getProxy().getNetworkChannel().sendAddEffectPacket(entity, effectInstance);
+		getProxy().getNetworkChannel().sendAddPotionEffectPacket(entity, effectInstance);
 	}
 }
