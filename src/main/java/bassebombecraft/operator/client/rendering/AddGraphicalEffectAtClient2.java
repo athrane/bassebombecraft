@@ -18,6 +18,11 @@ import net.minecraft.entity.Entity;
 public class AddGraphicalEffectAtClient2 implements Operator2 {
 
 	/**
+	 * Operator identifier.
+	 */
+	public static final String NAME = AddGraphicalEffectAtClient2.class.getSimpleName();
+
+	/**
 	 * Function to get source entity.
 	 */
 	Function<Ports, Entity> fnGetSource;
@@ -29,9 +34,9 @@ public class AddGraphicalEffectAtClient2 implements Operator2 {
 
 	/**
 	 * Function to get duration.
-	 */	
+	 */
 	Function<Ports, Double> fnGetDuration;
-	
+
 	/**
 	 * Effect name.
 	 */
@@ -40,10 +45,10 @@ public class AddGraphicalEffectAtClient2 implements Operator2 {
 	/**
 	 * Constructor.
 	 * 
-	 * @param fnGetSource function to get source entity in effect.
-	 * @param fnGetTarget function to get target entity in effect.
+	 * @param fnGetSource   function to get source entity in effect.
+	 * @param fnGetTarget   function to get target entity in effect.
 	 * @param fnGetDuration function to get duration (in game ticks).
-	 * @param name effect name.
+	 * @param name          effect name.
 	 */
 	public AddGraphicalEffectAtClient2(Function<Ports, Entity> fnGetSource, Function<Ports, Entity> fnGetTarget,
 			Function<Ports, Double> fnGetDuration, String name) {
@@ -67,7 +72,7 @@ public class AddGraphicalEffectAtClient2 implements Operator2 {
 	public AddGraphicalEffectAtClient2(String name) {
 		this(getFnGetEntity1(), getFnGetEntity2(), getFnGetDouble1(), name);
 	}
-	
+
 	/**
 	 * Constructor.
 	 * 
@@ -79,12 +84,21 @@ public class AddGraphicalEffectAtClient2 implements Operator2 {
 	 */
 	public AddGraphicalEffectAtClient2() {
 		this(getFnGetEntity1(), getFnGetEntity2(), getFnGetDouble1(), "default");
-	}	
-	
+	}
+
 	@Override
 	public Ports run(Ports ports) {
+		
+		// get source		
 		Entity source = fnGetSource.apply(ports);
+		if (source == null)
+			return ports;
+		
+		// get target		
 		Entity target = fnGetTarget.apply(ports);
+		if (target == null)
+			return ports;
+		
 		int duration = fnGetDuration.apply(ports).intValue();
 		getProxy().getNetworkChannel().sendAddGraphicalEffectPacket(source, target, duration, name);
 		return ports;

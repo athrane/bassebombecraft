@@ -9,15 +9,12 @@ import java.util.stream.Stream;
 
 import bassebombecraft.operator.Operators2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.client.renderer.Vector4f;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 /**
  * Client side renderer for rendering graphical effects.
  */
 public class EffectRenderer {
-
-	public static final Vector4f EFFECT_LINE_COLOR = new Vector4f(0, 0, 0.75F, 1);
 
 	/**
 	 * Handle {@linkplain RenderWorldLastEvent} rendering event at client side.
@@ -33,7 +30,7 @@ public class EffectRenderer {
 
 			// create port
 			Ports ports = getInstance();
-			
+
 			// add matrix stack
 			ports.setMatrixStack(event.getMatrixStack());
 
@@ -44,8 +41,8 @@ public class EffectRenderer {
 			// loop over effects
 			effects.forEach(e -> {
 				ports.setEntity1(e.getSource());
-				ports.setEntity2(e.getTarget());				
-				Operators2.run(ports, e.getEffectOperator());	
+				ports.setEntity2(e.getTarget());
+				Operators2.run(ports, e.getEffectOperator());
 			});
 
 		} catch (Exception e) {

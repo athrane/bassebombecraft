@@ -713,6 +713,7 @@ public class ModConfiguration {
 	 */
 	public static ForgeConfigSpec.IntValue electrocuteDuration;
 	public static ForgeConfigSpec.IntValue electrocuteAoeRange;
+	public static ForgeConfigSpec.DoubleValue electrocuteDamage;
 
 	/**
 	 * Properties for {@linkplain CircleProjectileFormation2} operator.
@@ -1376,9 +1377,11 @@ public class ModConfiguration {
 		 */
 		name = Electrocute2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		electrocuteAoeRange = COMMON_BUILDER.comment("AOE range for effect.").defineInRange("aoeRange", 5, 0, 10);
+		electrocuteAoeRange = COMMON_BUILDER.comment("AOE range for effect.").defineInRange("range", 5, 0, 10);
 		electrocuteDuration = COMMON_BUILDER.comment("Duration of visual effect in game ticks.")
-				.defineInRange("maxEntities", 10, 0, 100);
+				.defineInRange("duration", 10, 0, Integer.MAX_VALUE);
+		electrocuteDamage = COMMON_BUILDER.comment("Damage done by effect.").defineInRange("damage", 10.0D, 0, 100.0D);
+
 		COMMON_BUILDER.pop();
 
 		/**
@@ -1548,7 +1551,7 @@ public class ModConfiguration {
 		increaseSizeEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
 				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
-		
+
 	}
 
 	/**

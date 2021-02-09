@@ -463,6 +463,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 */
 	void electrocute() {
 		projectileModifierPorts.setEntity1(this);
+		projectileModifierPorts.setEntity2(getThrower());		
 		run(projectileModifierPorts, ELECTROCUTE_OPERATOR);
 	}
 	

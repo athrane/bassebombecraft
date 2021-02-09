@@ -186,6 +186,7 @@
     "item.bassebombecraft.respawnprojectilemodifieritem": "Respawn Spectres",                            
     "item.bassebombecraft.lightningprojectilemodifieritem": "Lightning",                            
     "item.bassebombecraft.spawnsquidprojectilemodifieritem": "Angry Squid",                            
+    "item.bassebombecraft.electrocuteprojectilemodifieritem": "Electrocute",                            
                 
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",

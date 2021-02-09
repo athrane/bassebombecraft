@@ -1,7 +1,7 @@
 package bassebombecraft.client.event.rendering.effect;
 
 import static bassebombecraft.ClientModConstants.LIGHTNING_LINE_COLOR;
-import static bassebombecraft.client.rendering.rendertype.RenderTypes.LIGHTNING_LINES;
+import static bassebombecraft.client.rendering.rendertype.RenderTypes.*;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,8 +26,6 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 	/**
 	 * Default effect operator.
 	 */
-	// final static Operator2 DEFAULT_OPERATOR = new Sequence2(new
-	// InitLineRenderingFromPorts2(), new RenderLine2());
 	final static Operator2 DEFAULT_OPERATOR = new NullOp2();
 
 	/**
