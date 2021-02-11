@@ -68,7 +68,7 @@ public class ProcessBlockDirectivesEventHandler {
 		// create particle config from configuration
 		ParticleRenderingInfo particleConfig = createInfoFromConfig(spawnedBlockParticles);
 
-		// create particle op from configuration
+		// create particle operator from configuration
 		Operator2 op = new AddParticlesFromPosAtClient2(particleConfig);
 		optOp = Optional.of(op);
 		return optOp.get();
