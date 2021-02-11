@@ -54,8 +54,6 @@ public class ApplyEffectFromMistStrategy2 implements Operator2 {
 	 * Instance is configured with world #1 from ports.
 	 * 
 	 * @param strategy   mist strategy to invoke.
-	 * @param fnBlockPos function to get block position where strategy is invoked.
-	 * @param fnGetWorld function to get world.
 	 */
 	public ApplyEffectFromMistStrategy2(BlockMistActionStrategy strategy) {
 		this(strategy, getFnGetBlockPosition1(), getFnWorld1());
@@ -66,9 +64,13 @@ public class ApplyEffectFromMistStrategy2 implements Operator2 {
 
 		// get position
 		BlockPos pos = fnBlockPos.apply(ports);
+		if (pos == null)
+			return ports;
 
 		// get world
 		World world = fnGetWorld.apply(ports);
+		if (world == null)
+			return ports;
 		
 		// apply effect
 		strategy.applyEffectToBlock(pos, world);
