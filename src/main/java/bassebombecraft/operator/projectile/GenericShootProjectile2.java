@@ -30,7 +30,7 @@ abstract public class GenericShootProjectile2 implements Operator2 {
 	 */
 	Function<Ports, Vec3d[]> fnGetOrientation;
 
-	/*
+	/**
 	 * Function to set projectiles.
 	 */
 	BiConsumer<Ports, Entity[]> bcSetProjectiles;
@@ -56,7 +56,7 @@ abstract public class GenericShootProjectile2 implements Operator2 {
 	 * 
 	 * Instance is configured with vector array #1 as orientation vector from ports.
 	 * 
-	 * Instance sets created projecties as entity arry #1 in the ports.
+	 * Instance sets created projecties as entity array #1 in the ports.
 	 */
 	public GenericShootProjectile2() {
 		this(getFnGetLivingEntity1(), getFnGetVectors1(), getBcSetEntities1());
