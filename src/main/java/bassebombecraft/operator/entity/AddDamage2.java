@@ -19,11 +19,6 @@ import net.minecraft.util.IndirectEntityDamageSource;
 public class AddDamage2 implements Operator2 {
 
 	/**
-	 * Operator identifier.
-	 */
-	public static final String NAME = AddDamage2.class.getSimpleName();
-
-	/**
 	 * Null indirect damage source.
 	 */
 	static final Entity NULL_INDIRECT_SOURCE = null;
@@ -32,7 +27,7 @@ public class AddDamage2 implements Operator2 {
 	 * Damage type.
 	 */
 	static final String DAMAGE_TYPE = "composite";
-	
+
 	/**
 	 * Function to get source entity.
 	 */
@@ -47,7 +42,7 @@ public class AddDamage2 implements Operator2 {
 	 * Function to get damage.
 	 */
 	Function<Ports, Double> fnGetDamage;
-	
+
 	/**
 	 * Constructor.
 	 * 
@@ -55,7 +50,8 @@ public class AddDamage2 implements Operator2 {
 	 * @param fnGetTarget function to get target entity in effect.
 	 * @param fnGetDamage function to get damage inflicted to target.
 	 */
-	public AddDamage2(Function<Ports, Entity> fnGetSource, Function<Ports, Entity> fnGetTarget, Function<Ports, Double> fnGetDamage) {
+	public AddDamage2(Function<Ports, Entity> fnGetSource, Function<Ports, Entity> fnGetTarget,
+			Function<Ports, Double> fnGetDamage) {
 		this.fnGetSource = fnGetSource;
 		this.fnGetTarget = fnGetTarget;
 		this.fnGetDamage = fnGetDamage;
@@ -70,7 +66,7 @@ public class AddDamage2 implements Operator2 {
 	 * 
 	 * Instance is configured with double #1 as damage from ports.
 	 */
-	public AddDamage2(float damage) {
+	public AddDamage2() {
 		this(getFnGetEntity1(), getFnGetEntity2(), getFnGetDouble1());
 	}
 
