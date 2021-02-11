@@ -30,18 +30,12 @@ public class Explode2 implements Operator2 {
 	Function<Ports, Entity> fnGetTarget;
 
 	/**
-	 * Minimum explosion radius.
-	 */
-	double minExplosionRadius;
-
-	/**
 	 * Constructor.
 	 * 
 	 * @param fnGetTarget function to get target entity.
 	 */
 	public Explode2(Function<Ports, Entity> fnGetTarget) {
 		this.fnGetTarget = fnGetTarget;
-		minExplosionRadius = explodeMinExplosionRadius.get();
 	}
 
 	/**
@@ -70,7 +64,7 @@ public class Explode2 implements Operator2 {
 		// calculate explosion radius
 		AxisAlignedBB aabb = target.getBoundingBox();
 		float explosionRadius = (float) Math.max(aabb.getXSize(), aabb.getZSize());
-		explosionRadius = (float) Math.max(explosionRadius, minExplosionRadius);
+		explosionRadius = (float) Math.max(explosionRadius, explodeMinExplosionRadius.get());
 
 		// create explosion
 		world.createExplosion(target, position.getX(), position.getY(), position.getZ(), explosionRadius, DESTROY);
