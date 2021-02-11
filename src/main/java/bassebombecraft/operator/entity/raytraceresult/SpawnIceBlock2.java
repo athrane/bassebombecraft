@@ -10,6 +10,7 @@ import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeBlockRayTr
 import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
 import static bassebombecraft.operator.DefaultPorts.getFnWorld1;
+import static bassebombecraft.operator.Operators2.applyV;
 import static net.minecraft.block.Blocks.ICE;
 
 import java.util.function.Function;
@@ -71,28 +72,20 @@ public class SpawnIceBlock2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get ray trace result
-		RayTraceResult result = fnGetRayTraceResult.apply(ports);
-		if (result == null)
-			return ports;
-
-		// get world
-		World world = fnGetWorld.apply(ports);
-		if (world == null)
-			return ports;
+	public void run(Ports ports) {
+		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
+		World world = applyV(fnGetWorld, ports);
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
-			return ports;
+			return;
 
 		// spawn ice block around entity
 		if (isEntityHit(result)) {
 
 			// exit if result isn't entity ray trace result
 			if (!isTypeEntityRayTraceResult(result))
-				return ports;
+				return;
 
 			// get entity
 			Entity entity = ((EntityRayTraceResult) result).getEntity();
@@ -104,7 +97,7 @@ public class SpawnIceBlock2 implements Operator2 {
 			BlockPos.getAllInBox(min, max)
 					.forEach(pos -> setTemporaryBlock(world, pos, ICE, spawnIceBlockDuration.get()));
 
-			return ports;
+			return;
 		}
 
 		// teleport to hit block
@@ -112,7 +105,7 @@ public class SpawnIceBlock2 implements Operator2 {
 
 			// exit if result isn't block ray trace result
 			if (!isTypeBlockRayTraceResult(result))
-				return ports;
+				return;
 
 			// type cast
 			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
@@ -121,8 +114,6 @@ public class SpawnIceBlock2 implements Operator2 {
 			BlockPos spawnPosition = calculatePosition(blockResult);
 			setTemporaryBlock(world, spawnPosition, ICE, spawnIceBlockDuration.get());
 		}
-
-		return ports;
 	}
 
 }

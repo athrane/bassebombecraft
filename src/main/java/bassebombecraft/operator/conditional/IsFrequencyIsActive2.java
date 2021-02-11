@@ -26,12 +26,11 @@ public class IsFrequencyIsActive2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
+	public void run(Ports ports) {
 		if (getProxy().getServerFrequencyRepository().isActive(frequency))
 			ports.setResultAsSucces();
 		else
 			ports.setResultAsFailed();
-		return ports;
 	}
 
 }

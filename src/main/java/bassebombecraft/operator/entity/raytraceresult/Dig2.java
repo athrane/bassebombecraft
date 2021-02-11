@@ -11,6 +11,7 @@ import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.geom.GeometryUtils.convertToPlayerDirection;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
 import static bassebombecraft.operator.DefaultPorts.getFnWorld1;
+import static bassebombecraft.operator.Operators2.applyV;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
 
 import java.util.List;
@@ -72,28 +73,20 @@ public class Dig2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get ray trace result
-		RayTraceResult result = fnGetRayTraceResult.apply(ports);
-		if (result == null)
-			return ports;
-
-		// get world
-		World world = fnGetWorld.apply(ports);
-		if (world == null)
-			return ports;
+	public void run(Ports ports) {
+		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
+		World world = applyV(fnGetWorld, ports);
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
-			return ports;
+			return;
 
 		// dig if block is hit
 		if (isBlockHit(result)) {
 
 			// exit if result isn't block ray trace result
 			if (!isTypeBlockRayTraceResult(result))
-				return ports;
+				return;
 
 			// type cast
 			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
@@ -116,8 +109,6 @@ public class Dig2 implements Operator2 {
 			BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 			repository.addAll(directives);
 		}
-
-		return ports;
 	}
 
 	/**

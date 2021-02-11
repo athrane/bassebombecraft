@@ -2,6 +2,7 @@ package bassebombecraft.operator.projectile.path;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.Random;
 import java.util.function.Function;
@@ -54,18 +55,16 @@ public class RandomProjectilePath implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-		Random random = getBassebombeCraft().getRandom();
+	public void run(Ports ports) {
+		Entity projectile = applyV(fnGetProjectile, ports);
 
-		// get projectile
-		Entity projectile = fnGetProjectile.apply(ports);
-		if (projectile == null)
-			return ports;
+		// get random
+		Random random = getBassebombeCraft().getRandom();
 
 		// get motion vector
 		Vec3d motionVector = projectile.getMotion();
 		if (motionVector == null)
-			return ports;
+			return;
 
 		// rotate
 		float angleDegrees = random.nextInt(90) - 45;
@@ -74,8 +73,6 @@ public class RandomProjectilePath implements Operator2 {
 
 		// update motion
 		projectile.setMotion(newMotionVector.getX(), newMotionVector.getY(), newMotionVector.getZ());
-
-		return ports;
 	}
 
 }

@@ -2,6 +2,7 @@ package bassebombecraft.operator.projectile.path;
 
 import static bassebombecraft.config.ModConfiguration.accelerateProjectilePathAcceleration;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
@@ -50,17 +51,12 @@ public class AccelerateProjectilePath implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get projectile
-		Entity projectile = fnGetProjectile.apply(ports);
-		if (projectile == null)
-			return ports;
+	public void run(Ports ports) {
+		Entity projectile = applyV(fnGetProjectile, ports);
 
 		// get motion vector
 		Vec3d motionVector = projectile.getMotion();
-		if (motionVector == null)
-			return ports;
+		if (motionVector == null) return;
 
 		// get length
 		double length = motionVector.length();
@@ -71,8 +67,6 @@ public class AccelerateProjectilePath implements Operator2 {
 
 		// update motion
 		projectile.setMotion(newMotionVector.getX(), newMotionVector.getY(), newMotionVector.getZ());
-
-		return ports;
 	}
 
 }

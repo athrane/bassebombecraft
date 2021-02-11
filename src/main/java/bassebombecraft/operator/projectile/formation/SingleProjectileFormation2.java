@@ -2,6 +2,7 @@ package bassebombecraft.operator.projectile.formation;
 
 import static bassebombecraft.operator.DefaultPorts.getBcSetVectors1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -67,10 +68,8 @@ public class SingleProjectileFormation2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get invoker
-		LivingEntity invoker = fnGetInvoker.apply(ports);
+	public void run(Ports ports) {
+		LivingEntity invoker = applyV(fnGetInvoker, ports);
 
 		// calculate orientation
 		Vec3d orientation = invoker.getLook(1).scale(ACCELERATION_MODIFIER);
@@ -80,8 +79,6 @@ public class SingleProjectileFormation2 implements Operator2 {
 
 		// store vector array in ports
 		bcSetVectors.accept(ports, vectorArray);
-
-		return ports;
 	}
 
 }

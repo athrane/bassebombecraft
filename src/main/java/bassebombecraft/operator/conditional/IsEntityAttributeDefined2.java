@@ -2,6 +2,7 @@ package bassebombecraft.operator.conditional;
 
 import static bassebombecraft.entity.EntityUtils.hasAttribute;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
@@ -49,24 +50,21 @@ public class IsEntityAttributeDefined2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// exit as failed if no living entity is defined
-		LivingEntity livingEntity = fnGetEntity.apply(ports);
+	public void run(Ports ports) {
+		LivingEntity livingEntity = applyV(fnGetEntity, ports);
 		if (livingEntity == null) {
 			ports.setResultAsFailed();
-			return ports;
+			return;
 		}
 
 		// exit as failed if attribute isn't defined
 		if (!hasAttribute(livingEntity, attribute)) {
 			ports.setResultAsFailed();
-			return ports;
+			return;
 		}
 
 		// set as successful
 		ports.setResultAsSucces();
-		return ports;
 	}
 
 }

@@ -3,6 +3,7 @@ package bassebombecraft.operator.entity;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity2;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.Random;
 import java.util.function.Function;
@@ -57,18 +58,13 @@ public class ShootMeteor2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
+	public void run(Ports ports) {
+		LivingEntity invoker = applyV(fnGetInvoker, ports);
+		LivingEntity target = applyV(fnGetTarget, ports);
+
+		// get random
 		Random random = getBassebombeCraft().getRandom();
-
-		// get entities
-		LivingEntity invoker = fnGetInvoker.apply(ports);
-		if (invoker == null)
-			return ports;
-
-		LivingEntity target = fnGetTarget.apply(ports);
-		if (target == null)
-			return ports;
-
+		
 		// get world
 		World world = invoker.getEntityWorld();
 
@@ -86,8 +82,6 @@ public class ShootMeteor2 implements Operator2 {
 		FireballEntity projectile = new FireballEntity(world, invoker, d0, d1, d2);
 		projectile.setPosition(posX, posY, posZ);
 		world.addEntity(projectile);
-
-		return ports;
 	}
 
 }

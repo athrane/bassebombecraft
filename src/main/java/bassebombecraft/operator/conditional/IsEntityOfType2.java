@@ -2,6 +2,7 @@ package bassebombecraft.operator.conditional;
 
 import static bassebombecraft.entity.EntityUtils.isType;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
@@ -48,17 +49,14 @@ public class IsEntityOfType2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-		// get entity
-		LivingEntity livingEntity = fnGetLivingEntity.apply(ports);
+	public void run(Ports ports) {
+		LivingEntity livingEntity = applyV(fnGetLivingEntity, ports);
 
 		// test
 		if (isType(livingEntity, type))
 			ports.setResultAsSucces();
 		else
 			ports.setResultAsFailed();
-
-		return ports;
 	}
 
 }

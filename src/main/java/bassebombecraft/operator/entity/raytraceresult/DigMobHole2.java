@@ -16,6 +16,7 @@ import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
 import static bassebombecraft.operator.DefaultPorts.getFnWorld1;
+import static bassebombecraft.operator.Operators2.applyV;
 import static bassebombecraft.player.PlayerDirection.South;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
 import static net.minecraft.block.Blocks.AIR;
@@ -82,28 +83,20 @@ public class DigMobHole2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get ray trace result
-		RayTraceResult result = fnGetRayTraceResult.apply(ports);
-		if (result == null)
-			return ports;
-
-		// get world
-		World world = fnGetWorld.apply(ports);
-		if (world == null)
-			return ports;
+	public void run(Ports ports) {
+		RayTraceResult result = applyV(fnGetRayTraceResult,ports);
+		World world = applyV(fnGetWorld, ports);
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
-			return ports;
+			return;
 
 		// teleport to hit entity
 		if (isEntityHit(result)) {
 
 			// exit if result isn't entity ray trace result
 			if (!isTypeEntityRayTraceResult(result))
-				return ports;
+				return;
 
 			// get entity
 			Entity entity = ((EntityRayTraceResult) result).getEntity();
@@ -114,8 +107,8 @@ public class DigMobHole2 implements Operator2 {
 			BlockPos min = new BlockPos(aabb.minX, aabb.minY - holeHeightExpansion, aabb.minZ);
 			BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
 			BlockPos.getAllInBox(min, max).forEach(pos -> registerBlockToDig(aabb, pos, world));
-
-			return ports;
+			
+			return;
 		}
 
 		// teleport to hit block
@@ -123,7 +116,7 @@ public class DigMobHole2 implements Operator2 {
 
 			// exit if result isn't block ray trace result
 			if (!isTypeBlockRayTraceResult(result))
-				return ports;
+				return;
 
 			// type cast
 			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
@@ -138,8 +131,6 @@ public class DigMobHole2 implements Operator2 {
 			BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 			repository.addAll(directives);
 		}
-
-		return ports;
 	}
 
 	/**

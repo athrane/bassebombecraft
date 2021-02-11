@@ -59,7 +59,7 @@ public class ResetSpiralOnMovement2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
+	public void run(Ports ports) {
 
 		// clear result port
 		ports.setResultAsSucces();
@@ -72,17 +72,15 @@ public class ResetSpiralOnMovement2 implements Operator2 {
 		if ((pos1 == null) || (pos2 == null)) {
 			ports.setCounter(min);
 			bcSetCenterPos.accept(ports, pos1);
-			return ports;
+			return;
 		}
 
 		// exit if the positions are equal
 		if (pos1.equals(pos2))
-			return ports;
+			return;
 
 		// reset
 		ports.setCounter(min);
 		bcSetCenterPos.accept(ports, pos1);
-
-		return ports;
 	}
 }

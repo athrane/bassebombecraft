@@ -4,6 +4,7 @@ import static bassebombecraft.entity.EntityUtils.*;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
@@ -45,21 +46,19 @@ public class IsLivingEntityHitInRaytraceResult2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get ray trace result
-		RayTraceResult result = fnGetRayTraceResult.apply(ports);
+	public void run(Ports ports) {
+		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
 
 		// exit if no entity was hit
 		if (!isEntityHit(result)) {
 			ports.setResultAsFailed();
-			return ports;
+			return;
 		}
 
 		// exit if result isn't entity ray trace result
 		if (!isTypeEntityRayTraceResult(result)) {
 			ports.setResultAsFailed();
-			return ports;
+			return;
 		}
 
 		// get entity
@@ -68,10 +67,10 @@ public class IsLivingEntityHitInRaytraceResult2 implements Operator2 {
 		// skip if entity isn't a living entity
 		if (!isTypeLivingEntity(entity)) {
 			ports.setResultAsFailed();
-			return ports;			
+			return;			
 		}
 		
 		ports.setResultAsSucces();
-		return ports;
+		return;
 	}
 }

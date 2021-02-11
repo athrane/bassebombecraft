@@ -23,9 +23,8 @@ public class Sequence2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
+	public void run(Ports ports) {
 		Operators2.run(ports, operators);
-		return ports;
 	}
 
 	@Override

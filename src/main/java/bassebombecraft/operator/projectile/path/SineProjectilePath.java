@@ -2,6 +2,7 @@ package bassebombecraft.operator.projectile.path;
 
 import static bassebombecraft.geom.GeometryUtils.oscillate;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
@@ -52,17 +53,13 @@ public class SineProjectilePath implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get projectile
-		Entity projectile = fnGetProjectile.apply(ports);
-		if (projectile == null)
-			return ports;
+	public void run(Ports ports) {
+		Entity projectile = applyV(fnGetProjectile, ports);
 
 		// get motion vector
 		Vec3d motionVector = projectile.getMotion();
 		if (motionVector == null)
-			return ports;
+			return;
 
 		// calculate angle
 		double angleDegrees = oscillate(-ANGLE, ANGLE);
@@ -74,7 +71,7 @@ public class SineProjectilePath implements Operator2 {
 		// update motion
 		projectile.setMotion(newMotionVector.getX(), newMotionVector.getY(), newMotionVector.getZ());
 
-		return ports;
+		return;
 	}
 
 }

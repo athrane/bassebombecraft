@@ -4,6 +4,7 @@ import static bassebombecraft.geom.GeometryUtils.oscillateWithFixedTime;
 import static bassebombecraft.geom.GeometryUtils.rotateUnitVectorAroundYAxisAtOrigin;
 import static bassebombecraft.operator.DefaultPorts.getBcSetVectors1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetVectors1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -56,18 +57,14 @@ public class OscillatingRotation180DProjectileFormationModifier implements Opera
 	}
 
 	@Override
-	public Ports run(Ports ports) {
+	public void run(Ports ports) {
+		Vec3d[] vectors = applyV(fnGetOrientation, ports);
 
 		// get counter
 		int time = ports.getCounter();
 
 		// get oscillate value
 		double oscillatedAngle = oscillateWithFixedTime(time, -DEGREES_90, DEGREES_90);
-
-		// get orientation vectors
-		Vec3d[] vectors = fnGetOrientation.apply(ports);
-		if (vectors == null)
-			return ports;
 
 		// create new array
 		Vec3d[] rotated = new Vec3d[vectors.length];
@@ -90,8 +87,6 @@ public class OscillatingRotation180DProjectileFormationModifier implements Opera
 		ports.incrementCounter();
 		ports.incrementCounter();
 		ports.incrementCounter();
-
-		return ports;
 	}
 
 }

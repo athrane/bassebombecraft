@@ -3,6 +3,7 @@ package bassebombecraft.client.op.rendering;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity2;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.Random;
 import java.util.function.Function;
@@ -68,17 +69,9 @@ public class InitElectrocute2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get source
-		Entity source = fnGetSource.apply(ports);
-		if (source == null)
-			return ports;
-
-		// get target
-		Entity target = fnGetTarget.apply(ports);
-		if (target == null)
-			return ports;
+	public void run(Ports ports) {
+		Entity source = applyV(fnGetSource, ports);
+		Entity target = applyV(fnGetTarget, ports);
 
 		// get random
 		Random random = getBassebombeCraft().getRandom();
@@ -104,8 +97,6 @@ public class InitElectrocute2 implements Operator2 {
 		targetPos = addNoiseToPosition(targetPos, ENDPOINT_NOISE, random);		
 		positions[4] = targetPos;
 		ports.setVectors1(positions);
-
-		return ports;
 	}
 
 	/**

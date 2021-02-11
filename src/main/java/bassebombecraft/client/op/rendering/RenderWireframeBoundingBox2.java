@@ -66,12 +66,12 @@ public class RenderWireframeBoundingBox2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
+	public void run(Ports ports) {
 
 		// get aabb
 		AxisAlignedBB aabb = ports.getAabb();
 		if (aabb == null)
-			return ports;
+			return;
 
 		// get render buffer and builder
 		Minecraft mcClient = Minecraft.getInstance();
@@ -81,7 +81,7 @@ public class RenderWireframeBoundingBox2 implements Operator2 {
 		// push matrix
 		MatrixStack matrixStack = ports.getMatrixStack();
 		if (matrixStack == null)
-			return ports;
+			return;
 		matrixStack.push();
 
 		// get position matrix
@@ -101,8 +101,6 @@ public class RenderWireframeBoundingBox2 implements Operator2 {
 		// Rendering bug, see: https://wiki.mcjty.eu/modding/index.php?title=Tut15_Ep15
 		RenderSystem.disableDepthTest();
 		buffer.finish(renderType);
-
-		return ports;
 	}
 
 	/**

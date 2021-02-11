@@ -123,7 +123,7 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
+	public void run(Ports ports) {
 
 		// get render buffer
 		Minecraft mcClient = Minecraft.getInstance();
@@ -157,8 +157,6 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 
 		// restore matrix
 		matrixStack.pop();
-
-		return ports;
 	}
 
 }

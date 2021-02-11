@@ -6,6 +6,7 @@ import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayT
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntities1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -68,31 +69,27 @@ public class TeleportMob2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get ray trace result
-		RayTraceResult result = fnGetRayTraceResult.apply(ports);
-		if (result == null)
-			return ports;
+	public void run(Ports ports) {
+		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
-			return ports;
+			return;
 
 		// exit if no entity was hit
 		if (!isEntityHit(result))
-			return ports;
+			return;
 
 		// exit if result isn't entity ray trace result
 		if (!isTypeEntityRayTraceResult(result))
-			return ports;
+			return;
 
 		// get hit entity
 		Entity entity = ((EntityRayTraceResult) result).getEntity();
 
 		// exit if entity isn't a living entity
 		if (!EntityUtils.isTypeLivingEntity(entity))
-			return ports;
+			return;
 
 		// type cast
 		LivingEntity livingEntity = (LivingEntity) entity;
@@ -103,8 +100,6 @@ public class TeleportMob2 implements Operator2 {
 
 		// execute
 		Operators2.run(ports2, splOp.get());
-
-		return ports;
 	}
 
 }

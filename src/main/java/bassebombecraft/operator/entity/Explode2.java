@@ -1,6 +1,7 @@
 package bassebombecraft.operator.entity;
 
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
+import static bassebombecraft.operator.Operators2.applyV;
 import static net.minecraft.world.Explosion.Mode.DESTROY;
 
 import java.util.function.Function;
@@ -48,12 +49,8 @@ public class Explode2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get target
-		Entity target = fnGetTarget.apply(ports);
-		if (target == null)
-			return ports;
+	public void run(Ports ports) {
+		Entity target = applyV(fnGetTarget, ports);
 
 		// get position of dead entity
 		BlockPos position = target.getPosition();
@@ -68,8 +65,6 @@ public class Explode2 implements Operator2 {
 
 		// create explosion
 		world.createExplosion(target, position.getX(), position.getY(), position.getZ(), explosionRadius, DESTROY);
-
-		return ports;
 	}
 
 }

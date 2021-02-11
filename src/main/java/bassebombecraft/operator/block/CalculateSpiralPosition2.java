@@ -4,6 +4,7 @@ import static bassebombecraft.geom.GeometryUtils.ITERATIONS_TO_QUERY_FOR_GROUND_
 import static bassebombecraft.geom.GeometryUtils.calculateSpiral;
 import static bassebombecraft.geom.GeometryUtils.locateGroundBlockPos;
 import static bassebombecraft.operator.DefaultPorts.getFnGetBlockPosition1;
+import static bassebombecraft.operator.Operators2.applyV;
 import static bassebombecraft.operator.DefaultPorts.*;
 
 import java.util.List;
@@ -77,13 +78,12 @@ public class CalculateSpiralPosition2 implements Operator2 {
 	}
 	
 	@Override
-	public Ports run(Ports ports) {
+	public void run(Ports ports) {
+		BlockPos center = applyV(fnGetBlockPos, ports);
+		World world = applyV(fnGetWorld, ports);
 
 		// get next spiral coordinate
 		BlockPos spiralCoord = spiralCoordinates.get(ports.getCounter());
-
-		// get spiral centre
-		BlockPos center = fnGetBlockPos.apply(ports);
 
 		// calculate ground coordinates
 		int x = center.getX() + spiralCoord.getX();
@@ -91,15 +91,10 @@ public class CalculateSpiralPosition2 implements Operator2 {
 		int z = center.getZ() + spiralCoord.getZ();
 		BlockPos candidate = new BlockPos(x, y, z);
 
-		// get world
-		World world = fnGetWorld.apply(ports);
-
 		// locate ground block
 		BlockPos position = locateGroundBlockPos(candidate, ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK, world);
 
 		// add spiral position to ports
 		bcSetBlockPos.accept(ports, position);
-
-		return ports;
 	}
 }

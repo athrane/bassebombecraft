@@ -24,7 +24,7 @@ public class IsNot2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
+	public void run(Ports ports) {
 		operator.run(ports);
 
 		// negate result
@@ -32,8 +32,6 @@ public class IsNot2 implements Operator2 {
 			ports.setResultAsFailed();
 		else
 			ports.setResultAsSucces();
-
-		return ports;
 	}
 
 }

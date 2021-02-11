@@ -3,6 +3,7 @@ package bassebombecraft.operator.projectile;
 import static bassebombecraft.operator.DefaultPorts.getBcSetEntities1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetVectors1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -63,13 +64,9 @@ abstract public class GenericShootProjectile2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get invoker
-		LivingEntity invoker = fnGetInvoker.apply(ports);
-
-		// get orientation vectors
-		Vec3d[] vectors = fnGetOrientation.apply(ports);
+	public void run(Ports ports) {
+		LivingEntity invoker = applyV(fnGetInvoker, ports);
+		Vec3d[] vectors = applyV(fnGetOrientation, ports);
 
 		// get world
 		World world = invoker.getEntityWorld();
@@ -97,8 +94,6 @@ abstract public class GenericShootProjectile2 implements Operator2 {
 
 		// store projectiles
 		bcSetProjectiles.accept(ports, projectiles);
-
-		return ports;
 	}
 
 	/**

@@ -57,16 +57,16 @@ public class RenderLine2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
+	public void run(Ports ports) {
 
 		// get vectors
 		Vec3d[] positions = ports.getVectors1();
 		if (positions == null)
-			return ports;
+			return;
 
 		// Get start and end position
 		if (positions.length < 2)
-			return ports;
+			return;
 
 		// get render buffer and builder
 		Minecraft mcClient = Minecraft.getInstance();
@@ -76,7 +76,7 @@ public class RenderLine2 implements Operator2 {
 		// push matrix
 		MatrixStack matrixStack = ports.getMatrixStack();
 		if (matrixStack == null)
-			return ports;
+			return;
 		matrixStack.push();
 
 		// get position matrix
@@ -97,8 +97,6 @@ public class RenderLine2 implements Operator2 {
 		// Rendering bug, see: https://wiki.mcjty.eu/modding/index.php?title=Tut15_Ep15
 		RenderSystem.disableDepthTest();
 		buffer.finish(renderType);
-
-		return ports;
 	}
 
 	/**

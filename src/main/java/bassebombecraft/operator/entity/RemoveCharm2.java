@@ -19,7 +19,7 @@ import net.minecraft.entity.MobEntity;
 public class RemoveCharm2 implements Operator2 {
 
 	@Override
-	public Ports run(Ports ports) {
+	public void run(Ports ports) {
 		
 		// remove from repository
 		MobEntity mobEntity = (MobEntity) ports.getLivingEntity1();
@@ -27,7 +27,6 @@ public class RemoveCharm2 implements Operator2 {
 
 		// update result port
 		ports.setResultAsSucces();
-		return ports;
 	}
 
 }

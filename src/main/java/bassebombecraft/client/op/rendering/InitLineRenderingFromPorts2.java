@@ -2,6 +2,7 @@ package bassebombecraft.client.op.rendering;
 
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity2;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
@@ -56,24 +57,14 @@ public class InitLineRenderingFromPorts2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get source
-		Entity source = fnGetSource.apply(ports);
-		if (source == null)
-			return ports;
-
-		// get target
-		Entity target = fnGetTarget.apply(ports);
-		if (target == null)
-			return ports;
+	public void run(Ports ports) {
+		Entity source = applyV(fnGetSource, ports);
+		Entity target = applyV(fnGetTarget, ports);
 
 		// add positions as vector 0 and 1
 		positions[0] = source.getPositionVec();
 		positions[1] = target.getPositionVec();
 		ports.setVectors1(positions);
-
-		return ports;
 	}
 
 }

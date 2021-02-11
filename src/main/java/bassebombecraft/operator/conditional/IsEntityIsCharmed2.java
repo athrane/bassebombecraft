@@ -16,20 +16,16 @@ import net.minecraft.entity.MobEntity;
 public class IsEntityIsCharmed2 implements Operator2 {
 
 	@Override
-	public Ports run(Ports ports) {
-		
-		// get entity
+	public void run(Ports ports) {
 		MobEntity mobEntity = (MobEntity) ports.getLivingEntity1();
-		
+
 		// get repository
 		CharmedMobsRepository repository = getProxy().getServerCharmedMobsRepository();
-		
+
 		// test if entity is charmed
 		if (repository.contains(mobEntity))
 			ports.setResultAsSucces();
 		else
 			ports.setResultAsFailed();
-
-		return ports;
 	}
 }

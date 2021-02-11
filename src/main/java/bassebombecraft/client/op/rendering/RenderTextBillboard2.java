@@ -116,7 +116,7 @@ public class RenderTextBillboard2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
+	public void run(Ports ports) {
 
 		// get render buffer
 		Minecraft mcClient = Minecraft.getInstance();
@@ -129,7 +129,7 @@ public class RenderTextBillboard2 implements Operator2 {
 		// push matrix
 		MatrixStack matrixStack = ports.getMatrixStack();
 		if (matrixStack == null)
-			return ports;
+			return;
 		matrixStack.push();
 
 		// setup matrix
@@ -147,8 +147,6 @@ public class RenderTextBillboard2 implements Operator2 {
 
 		// restore matrix
 		matrixStack.pop();
-
-		return ports;
 	}
 
 }

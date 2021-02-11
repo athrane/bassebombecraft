@@ -6,6 +6,7 @@ import static bassebombecraft.config.ModConfiguration.spawnWarPigMovementSpeed;
 import static bassebombecraft.entity.EntityUtils.resolveTarget;
 import static bassebombecraft.entity.EntityUtils.setAttribute;
 import static bassebombecraft.entity.ai.AiUtils.buildChargingAi;
+import static bassebombecraft.operator.Operators2.applyV;
 import static net.minecraft.entity.SharedMonsterAttributes.ATTACK_DAMAGE;
 import static net.minecraft.entity.SharedMonsterAttributes.MOVEMENT_SPEED;
 
@@ -71,16 +72,9 @@ public class SpawnWarPig2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get entities
-		LivingEntity invoker = fnGetInvoker.apply(ports);
-		if (invoker == null)
-			return ports;
-		
-		LivingEntity target = fnGetTarget.apply(ports);
-		if (target == null)
-			return ports;
+	public void run(Ports ports) {
+		LivingEntity invoker = applyV(fnGetInvoker, ports);		
+		LivingEntity target = applyV(fnGetTarget, ports);
 
 		// get world
 		World world = invoker.getEntityWorld();
@@ -103,8 +97,6 @@ public class SpawnWarPig2 implements Operator2 {
 
 		// spawn
 		world.addEntity(entity);
-
-		return ports;
 	}
 
 }
