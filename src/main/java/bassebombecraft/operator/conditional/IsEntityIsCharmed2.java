@@ -15,7 +15,8 @@ import net.minecraft.entity.MobEntity;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which updates the
- * result port as successful if the mob entity is charmed, i.e. registered in
+ * result port as successful/unsuccessful depending on whether the the mob
+ * entity is charmed or not, i.e. registered in
  * {@linkplain ServerCharmedMobsRepository}.
  */
 public class IsEntityIsCharmed2 implements Operator2 {
