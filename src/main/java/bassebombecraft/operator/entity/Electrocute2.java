@@ -29,11 +29,11 @@ import net.minecraft.world.World;
  * Implementation of the {@linkplain Operator2} interface which applies AOE
  * effect electrocute to nearby mobs.
  * 
+ * Damage is assigned to mobs and an graphical effect is sent to clients.
+ * 
  * The {@linkplain Ports} object used to invoke the operator isn't used to
  * invoke the embedded operators. An separate {@linkplain Ports} instance is
  * used to invoked the embedded operators.
- * 
- * Damage is assigned to mobs and an graphical effect is sent to clients.
  */
 public class Electrocute2 implements Operator2 {
 
