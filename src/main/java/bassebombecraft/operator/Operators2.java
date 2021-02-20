@@ -80,7 +80,6 @@ public class Operators2 {
 		T retVal = fn.apply(ports);
 		validateNotNull(retVal, fn);
 		return retVal;
-
 	}
 
 }

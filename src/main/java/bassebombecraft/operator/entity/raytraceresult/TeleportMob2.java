@@ -27,6 +27,10 @@ import net.minecraft.util.math.RayTraceResult;
 /**
  * Implementation of the {@linkplain Operator2} interface which teleports a hit
  * mob to a random location.
+ * 
+ * The {@linkplain Ports} object used to invoke the operator isn't used to
+ * invoke the embedded operators. An separate {@linkplain Ports} instance is
+ * used to invoked the embedded operators.
  */
 public class TeleportMob2 implements Operator2 {
 

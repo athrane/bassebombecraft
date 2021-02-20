@@ -34,6 +34,8 @@ public interface Ports {
 
 	/**
 	 * Get result of operation execution.
+	 * 
+	 * @return true if operation was successful.
 	 */
 	boolean getResult();
 
