@@ -26,10 +26,6 @@ import net.minecraft.util.math.Vec3d;
 /**
  * Implementation of the {@linkplain Operator2} interface which renders a wire
  * frame bounding box.
- * 
- * {@linkplain MatrixStack} is read from ports during execution.
- * 
- * {@linkplain AxisAlignedBB} is read from ports during execution.
  */
 public class RenderWireframeBoundingBox2 implements Operator2 {
 

@@ -4,6 +4,8 @@ import static bassebombecraft.ClientModConstants.TEXT_COLOR;
 import static bassebombecraft.ClientModConstants.TEXT_SCALE_2;
 import static bassebombecraft.ClientModConstants.TEXT_Z_TRANSLATION;
 import static bassebombecraft.geom.GeometryUtils.oscillate;
+import static bassebombecraft.operator.DefaultPorts.getFnMaxtrixStack1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
@@ -61,6 +63,11 @@ public class RenderTextBillboard2 implements Operator2 {
 	Function<Ports, String> fnGetString;
 
 	/**
+	 * Function to get matrix stack.
+	 */
+	Function<Ports, MatrixStack> fnGetMatrixStack;
+
+	/**
 	 * X coordinate for placement of billboard.
 	 */
 	int x;
@@ -78,6 +85,8 @@ public class RenderTextBillboard2 implements Operator2 {
 	/**
 	 * Constructor.
 	 * 
+	 * Instance is configured with matrix stack #1 from ports.
+	 * 
 	 * @param fnGetString function to get message.
 	 * @param x           x coordinate for placement of billboard.
 	 * @param y           y coordinate for placement of billboard.
@@ -89,26 +98,31 @@ public class RenderTextBillboard2 implements Operator2 {
 	/**
 	 * Constructor.
 	 * 
+	 * Instance is configured with matrix stack #1 from ports.
+	 * 
 	 * @param fnGetString  function to get message.
 	 * @param x            x coordinate for placement of billboard.
 	 * @param y            y coordinate for placement of billboard.
 	 * @param oscillateMax oscillate max value
 	 */
 	public RenderTextBillboard2(Function<Ports, String> fnGetString, int x, int y, float oscillateMax) {
-		this(fnGetString, x, y, oscillateMax, TEXT_COLOR);
+		this(fnGetString, getFnMaxtrixStack1(), x, y, oscillateMax, TEXT_COLOR);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param fnGetString  function to get message.
-	 * @param x            x coordinate for placement of billboard.
-	 * @param y            y coordinate for placement of billboard.
-	 * @param oscillateMax oscillate max value
-	 * @param textColor    text color.
+	 * @param fnGetString      function to get message.
+	 * @param fnGetMatrixStack function to get matrix stack.
+	 * @param x                x coordinate for placement of billboard.
+	 * @param y                y coordinate for placement of billboard.
+	 * @param oscillateMax     oscillate max value
+	 * @param textColor        text color.
 	 */
-	public RenderTextBillboard2(Function<Ports, String> fnGetString, int x, int y, float oscillateMax, int textColor) {
+	public RenderTextBillboard2(Function<Ports, String> fnGetString, Function<Ports, MatrixStack> fnGetMatrixStack,
+			int x, int y, float oscillateMax, int textColor) {
 		this.fnGetString = fnGetString;
+		this.fnGetMatrixStack = fnGetMatrixStack;
 		this.x = x;
 		this.y = y;
 		this.oscillateMax = oscillateMax;
@@ -117,6 +131,7 @@ public class RenderTextBillboard2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
+		MatrixStack matrixStack = applyV(fnGetMatrixStack, ports);
 
 		// get render buffer
 		Minecraft mcClient = Minecraft.getInstance();
@@ -127,9 +142,6 @@ public class RenderTextBillboard2 implements Operator2 {
 		FontRenderer fontRenderer = renderManager.getFontRenderer();
 
 		// push matrix
-		MatrixStack matrixStack = ports.getMatrixStack1();
-		if (matrixStack == null)
-			return;
 		matrixStack.push();
 
 		// setup matrix
