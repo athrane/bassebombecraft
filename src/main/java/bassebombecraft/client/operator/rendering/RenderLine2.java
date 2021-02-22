@@ -2,6 +2,10 @@ package bassebombecraft.client.operator.rendering;
 
 import static bassebombecraft.ClientModConstants.DEFAULT_LINE_COLOR;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.DEFAULT_LINES;
+import static bassebombecraft.operator.DefaultPorts.*;
+import static bassebombecraft.operator.Operators2.applyV;
+
+import java.util.function.Function;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -18,8 +22,6 @@ import net.minecraft.util.math.Vec3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which renders a line.
- * 
- * {@linkplain MatrixStack} is read from ports during execution.
  * 
  * Vector array are read from ports during execution. The first vector is
  * interpreted as the start of the line. Every subsequent entity is interpreted
@@ -38,31 +40,49 @@ public class RenderLine2 implements Operator2 {
 	RenderType renderType;
 
 	/**
+	 * Function to get matrix stack.
+	 */
+	Function<Ports, MatrixStack> fnGetMatrixStack;
+
+	/**
+	 * Function to get line vertexes.
+	 */
+	Function<Ports, Vec3d[]> fnGetLineVertexes;
+	
+	/**
 	 * Constructor.
+	 * 
+	 * Instance is configured with matrix stack #1 from ports.
+	 * 
+	 * Instance is configured with vectors #1 as line vertexes from ports.
 	 */
 	public RenderLine2() {
-		color = DEFAULT_LINE_COLOR ;
-		renderType = DEFAULT_LINES;		
+		this.fnGetMatrixStack = getFnMaxtrixStack1();
+		this.fnGetLineVertexes = getFnGetVectors1();
+		this.color = DEFAULT_LINE_COLOR ;
+		this.renderType = DEFAULT_LINES;				
 	}
 
 	/**
 	 * Constructor.
 	 * 
+	 * Instance is configured with matrix stack #1 from ports.
+	 * 
+	 * Instance is configured with vectors #1 as line vertexes from ports.
+	 * 
 	 * @param color      line color.
 	 * @param renderType render type for rendering the line.
 	 */
 	public RenderLine2(Vector4f color, RenderType renderType) {
+		this();				
 		this.color = color;
 		this.renderType = renderType;
 	}
 
 	@Override
 	public void run(Ports ports) {
-
-		// get vectors
-		Vec3d[] positions = ports.getVectors1();
-		if (positions == null)
-			return;
+		MatrixStack matrixStack = applyV(fnGetMatrixStack, ports);
+		Vec3d[] positions = applyV(fnGetLineVertexes, ports);
 
 		// Get start and end position
 		if (positions.length < 2)
@@ -74,9 +94,6 @@ public class RenderLine2 implements Operator2 {
 		IVertexBuilder builder = buffer.getBuffer(renderType);
 
 		// push matrix
-		MatrixStack matrixStack = ports.getMatrixStack1();
-		if (matrixStack == null)
-			return;
 		matrixStack.push();
 
 		// get position matrix

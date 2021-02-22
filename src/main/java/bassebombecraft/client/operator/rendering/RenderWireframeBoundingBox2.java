@@ -64,9 +64,9 @@ public class RenderWireframeBoundingBox2 implements Operator2 {
 	public RenderWireframeBoundingBox2() {
 		this.fnGetAabb = getFnAabb1();
 		this.fnGetMatrixStack = getFnMaxtrixStack1();
-		oscillateMax = 0.02F;
-		color = DEFAULT_LINE_COLOR;
-		renderType = DEFAULT_LINES;
+		this.oscillateMax = 0.02F;
+		this.color = DEFAULT_LINE_COLOR;
+		this.renderType = DEFAULT_LINES;
 	}
 
 	/**

@@ -27,8 +27,6 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
  * 
  * Supports rendering of billboard text in the renderer instances handling
  * processing the {@linkplain RenderWorldLastEvent}.
- * 
- * {@linkplain MatrixStack} is read from ports during execution.
  */
 public class RenderTextBillboard2 implements Operator2 {
 
