@@ -90,16 +90,15 @@ public class RenderWireframeBoundingBox2 implements Operator2 {
 	/**
 	 * Constructor.
 	 * 
-	 * @param fnGetAabb        function to get AABB.
-	 * @param fnGetMatrixStack function to get matrix stack.
-	 * @param oscillateMax     oscillate max value
-	 * @param color            AABB color.
-	 * @param renderType       render type for rendering the AABB lines.
+	 * @param fnGetAabb    function to get AABB.
+	 * @param oscillateMax oscillate max value
+	 * @param color        AABB color.
+	 * @param renderType   render type for rendering the AABB lines.
 	 */
-	public RenderWireframeBoundingBox2(Function<Ports, AxisAlignedBB> fnGetAabb,
-			Function<Ports, MatrixStack> fnGetMatrixStack, float oscillateMax, Vector4f color, RenderType renderType) {
+	public RenderWireframeBoundingBox2(Function<Ports, AxisAlignedBB> fnGetAabb, float oscillateMax, Vector4f color,
+			RenderType renderType) {
 		this.fnGetAabb = fnGetAabb;
-		this.fnGetMatrixStack = fnGetMatrixStack;
+		this.fnGetMatrixStack = getFnMaxtrixStack1();
 		this.oscillateMax = oscillateMax;
 		this.color = color;
 		this.renderType = renderType;

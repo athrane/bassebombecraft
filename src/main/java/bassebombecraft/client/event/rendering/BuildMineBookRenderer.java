@@ -8,7 +8,6 @@ import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayer
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.OVERLAY_LINES;
 import static bassebombecraft.item.RegisteredItems.MINE_BOOK;
 import static bassebombecraft.operator.DefaultPorts.getFnGetString1;
-import static bassebombecraft.operator.DefaultPorts.getFnMaxtrixStack1;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.player.PlayerUtils.isItemHeldInEitherHands;
@@ -50,8 +49,7 @@ public class BuildMineBookRenderer {
 	 */
 	static Supplier<Operator2> splOp = () -> {
 		return new Sequence2(new RenderWireframeBoundingBox2(AABB_OSCILLIATION, HUD_LINE_COLOR, OVERLAY_LINES),
-				new RenderTextBillboard2(getFnGetString1(), getFnMaxtrixStack1(), -5, -20, TEXT_OSCILLIATION,
-						BUILDMINEBOOK_TEXT_COLOR));
+				new RenderTextBillboard2(getFnGetString1(), -5, -20, TEXT_OSCILLIATION, BUILDMINEBOOK_TEXT_COLOR));
 	};
 
 	public static void handleHighlightBlockEvent(HighlightBlock event) {

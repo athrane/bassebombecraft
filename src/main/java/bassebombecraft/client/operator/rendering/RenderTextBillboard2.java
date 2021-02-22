@@ -104,23 +104,22 @@ public class RenderTextBillboard2 implements Operator2 {
 	 * @param oscillateMax oscillate max value
 	 */
 	public RenderTextBillboard2(Function<Ports, String> fnGetString, int x, int y, float oscillateMax) {
-		this(fnGetString, getFnMaxtrixStack1(), x, y, oscillateMax, TEXT_COLOR);
+		this(fnGetString, x, y, oscillateMax, TEXT_COLOR);
 	}
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param fnGetString      function to get message.
-	 * @param fnGetMatrixStack function to get matrix stack.
 	 * @param x                x coordinate for placement of billboard.
 	 * @param y                y coordinate for placement of billboard.
 	 * @param oscillateMax     oscillate max value
 	 * @param textColor        text color.
 	 */
-	public RenderTextBillboard2(Function<Ports, String> fnGetString, Function<Ports, MatrixStack> fnGetMatrixStack,
+	public RenderTextBillboard2(Function<Ports, String> fnGetString,
 			int x, int y, float oscillateMax, int textColor) {
 		this.fnGetString = fnGetString;
-		this.fnGetMatrixStack = fnGetMatrixStack;
+		this.fnGetMatrixStack = getFnMaxtrixStack1();
 		this.x = x;
 		this.y = y;
 		this.oscillateMax = oscillateMax;
@@ -130,6 +129,7 @@ public class RenderTextBillboard2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		MatrixStack matrixStack = applyV(fnGetMatrixStack, ports);
+		String message = applyV(fnGetString, ports);
 
 		// get render buffer
 		Minecraft mcClient = Minecraft.getInstance();
@@ -151,7 +151,6 @@ public class RenderTextBillboard2 implements Operator2 {
 
 		// render message
 		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
-		String message = fnGetString.apply(ports);
 		fontRenderer.renderString(message, x, y, textColor, DROP_SHADOW, positionMatrix, buffer, IS_TRANSPARENT,
 				TEXT_EFFECT, PACKED_LIGHT);
 

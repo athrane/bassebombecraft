@@ -4,6 +4,8 @@ import static bassebombecraft.ClientModConstants.TEXT_COLOR;
 import static bassebombecraft.ClientModConstants.TEXT_SCALE_2;
 import static bassebombecraft.ClientModConstants.TEXT_Z_TRANSLATION;
 import static bassebombecraft.geom.GeometryUtils.oscillate;
+import static bassebombecraft.operator.DefaultPorts.getFnMaxtrixStack1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
@@ -66,6 +68,11 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 	Function<Ports, Stream<String>> fnGetString;
 
 	/**
+	 * Function to get matrix stack.
+	 */
+	Function<Ports, MatrixStack> fnGetMatrixStack;
+
+	/**
 	 * X coordinate for placement of billboard.
 	 */
 	int x;
@@ -116,6 +123,7 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 	public RenderMultiLineTextBillboard2(Function<Ports, Stream<String>> fnGetString, int x, int y, float oscillateMax,
 			int textColor) {
 		this.fnGetString = fnGetString;
+		this.fnGetMatrixStack = getFnMaxtrixStack1();
 		this.x = x;
 		this.y = y;
 		this.oscillateMax = oscillateMax;
@@ -124,6 +132,8 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
+		MatrixStack matrixStack = applyV(fnGetMatrixStack, ports);
+		Stream<String> messages = applyV(fnGetString, ports);
 
 		// get render buffer
 		Minecraft mcClient = Minecraft.getInstance();
@@ -134,7 +144,6 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 		FontRenderer fontRenderer = renderManager.getFontRenderer();
 
 		// push matrix
-		MatrixStack matrixStack = ports.getMatrixStack1();
 		matrixStack.push();
 
 		// setup matrix
@@ -149,7 +158,7 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 		final AtomicInteger index = new AtomicInteger();
 
 		// render messages
-		fnGetString.apply(ports).forEach(m -> {
+		messages.forEach(m -> {
 			int ypos = y + (Y_DELTA * index.incrementAndGet());
 			fontRenderer.renderString(m, x, ypos, textColor, DROP_SHADOW, positionMatrix, buffer, IS_TRANSPARENT,
 					TEXT_EFFECT, PACKED_LIGHT);
