@@ -10,6 +10,7 @@ import static bassebombecraft.item.RegisteredItems.HUD;
 import static bassebombecraft.operator.DefaultPorts.getFnGetString1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetString2;
 import static bassebombecraft.operator.DefaultPorts.getFnGetStrings1;
+import static bassebombecraft.operator.DefaultPorts.getFnMaxtrixStack1;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
@@ -58,9 +59,10 @@ public class HudItemCharmedInfoRenderer {
 	 */
 	static Supplier<Operator2[]> splOp = () -> {
 		Operator2[] ops = {
-				new RenderTextBillboard2(getFnGetString1(), TEXT_X_POS, TEXT_Y_POS, TEXT_OSCILLIATION, HUD_TEXT_COLOR),
-				new RenderTextBillboard2(getFnGetString2(), TEXT_X_POS, TEXT_Y_POS + 10, TEXT_OSCILLIATION,
-						HUD_TEXT_COLOR),
+				new RenderTextBillboard2(getFnGetString1(), getFnMaxtrixStack1(), TEXT_X_POS, TEXT_Y_POS,
+						TEXT_OSCILLIATION, HUD_TEXT_COLOR),
+				new RenderTextBillboard2(getFnGetString2(), getFnMaxtrixStack1(), TEXT_X_POS, TEXT_Y_POS + 10,
+						TEXT_OSCILLIATION, HUD_TEXT_COLOR),
 				new RenderMultiLineTextBillboard2(getFnGetStrings1(), TEXT_X_POS, TEXT_Y_POS + 20, TEXT_OSCILLIATION,
 						HUD_TEXT_COLOR) };
 		return ops;
