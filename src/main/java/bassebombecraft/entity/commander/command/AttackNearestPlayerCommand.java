@@ -7,7 +7,7 @@ import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.entity.EntityDistanceSorter;
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
-import bassebombecraft.predicate.DiscardCommander;
+import bassebombecraft.util.function.DiscardCommander;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;

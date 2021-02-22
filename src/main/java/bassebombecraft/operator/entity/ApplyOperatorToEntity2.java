@@ -14,9 +14,9 @@ import net.minecraft.entity.Entity;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which applies all
- * entity object from the input set to embedded operator.
+ * entity objects from the input set to the embedded operator.
  * 
- * Each entity in the input set are applied in sequence to operator.
+ * Each entity in the input set are applied in sequence to the embedded operator.
  * 
  * Any report of failed execution by the operator is ignored.
  */

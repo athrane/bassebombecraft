@@ -10,10 +10,12 @@ import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity2;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.applyV;
+import static bassebombecraft.util.function.Predicates.hasDifferentIds;
 
-import java.util.Optional;
 import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import bassebombecraft.operator.Operator2;
@@ -29,11 +31,11 @@ import net.minecraft.world.World;
  * Implementation of the {@linkplain Operator2} interface which applies AOE
  * effect electrocute to nearby mobs.
  * 
- * Damage is assigned to mobs and an graphical effect is sent to clients.
- * 
  * The {@linkplain Ports} object used to invoke the operator isn't used to
  * invoke the embedded operators. An separate {@linkplain Ports} instance is
  * used to invoked the embedded operators.
+ * 
+ * Damage is assigned to mobs and an graphical effect is sent to clients.
  */
 public class Electrocute2 implements Operator2 {
 
@@ -43,19 +45,9 @@ public class Electrocute2 implements Operator2 {
 	public static final String NAME = Electrocute2.class.getSimpleName();
 
 	/**
-	 * Operator instance (can be null due to class loading).
-	 */
-	static Optional<Operator2> optAoeOp = Optional.empty();
-
-	/**
 	 * Create operators.
 	 */
 	static Supplier<Operator2> splAoeOp = () -> {
-
-		// return operator instance if defined
-		if (optAoeOp.isPresent()) {
-			return optAoeOp.get();
-		}
 
 		// AddDamage2: get damage from configuration
 		Function<Ports, Double> fnGetDamage = p -> electrocuteDamage.get();
@@ -64,44 +56,37 @@ public class Electrocute2 implements Operator2 {
 		Function<Ports, Double> fnGetDuration = p -> electrocuteDuration.get().doubleValue();
 
 		// create operator for AOE effect
-		Operator2 op = new Sequence2(new AddDamage2(getFnGetEntity1(), getFnGetEntity2(), fnGetDamage),
+		return new Sequence2(new AddDamage2(getFnGetEntity1(), getFnGetEntity2(), fnGetDamage),
 				new AddGraphicalEffectAtClient2(getFnGetEntity1(), getFnGetEntity2(), fnGetDuration, NAME));
-
-		optAoeOp = Optional.of(op);
-		return optAoeOp.get();
 	};
-
-	/**
-	 * Operator instance (can be null due to class loading).
-	 */
-	static Optional<Operator2> optOp = Optional.empty();
 
 	/**
 	 * Create operators. (using the get source function as input).
 	 */
-	static Function<Function<Ports, Entity>, Operator2> fnOp = fnGetSource -> {
+	static BiFunction<Function<Ports, Entity>, Function<Ports, Entity>, Operator2> fnOp = (fnGetSource,
+			fnGetTrueSource) -> {
 
-		// return operator instance if defined
-		if (optOp.isPresent()) {
-			return optOp.get();
-		}
+				// FindEntities2: get source position from source entity
+				Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(fnGetSource, p).getPosition();
 
-		// FindEntities2: get source position from source entity
-		Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(fnGetSource, p).getPosition();
+				// FindEntities2: get world from source entity
+				Function<Ports, World> fnGetWorld = p -> applyV(fnGetSource, p).getEntityWorld();
 
-		// FindEntities2: get world from source entity
-		Function<Ports, World> fnGetWorld = p -> applyV(fnGetSource, p).getEntityWorld();
+				// FindEntities2: get function to create exclusion predicate using the true
+				// source entity
+				Function<Ports, Predicate<Entity>> fnGetPredicate = p -> hasDifferentIds(applyV(fnGetTrueSource, p));
 
-		// ApplyOperatorTo2: set target as entity #2
-		BiConsumer<Ports, Entity> bcSetTarget = getBcSetEntity2();
+				// FindEntities2: get search range from configuration
+				Function<Ports, Integer> fnGetRange = p -> electrocuteAoeRange.get().intValue();
 
-		// create operator
-		Operator2 op = new Sequence2(
-				new FindEntities2(fnGetSourcePos, fnGetWorld, getBcSetEntities1(), electrocuteAoeRange.get()),
-				new ApplyOperatorToEntity2(getFnGetEntities1(), bcSetTarget, splAoeOp.get()));
-		optOp = Optional.of(op);
-		return optOp.get();
-	};
+				// ApplyOperatorTo2: set target as entity #2
+				BiConsumer<Ports, Entity> bcSetTarget = getBcSetEntity2();
+
+				// create operator
+				return new Sequence2(
+						new FindEntities2(fnGetSourcePos, fnGetWorld, fnGetPredicate, fnGetRange, getBcSetEntities1()),
+						new ApplyOperatorToEntity2(getFnGetEntities1(), bcSetTarget, splAoeOp.get()));
+			};
 
 	/**
 	 * Function to get source entity.
@@ -121,6 +106,11 @@ public class Electrocute2 implements Operator2 {
 	Ports ports2;
 
 	/**
+	 * Operator instance.
+	 */
+	Operator2 op;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param fnGetSource     function to get source entity.
@@ -130,6 +120,7 @@ public class Electrocute2 implements Operator2 {
 		this.fnGetSource = fnGetSource;
 		this.fnGetTrueSource = fnGetTrueSource;
 		ports2 = getInstance();
+		op = fnOp.apply(fnGetSource, fnGetTrueSource);
 	}
 
 	/**
@@ -146,14 +137,11 @@ public class Electrocute2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		Entity source = applyV(fnGetSource, ports);
-
-		// TODO: add support for predicate in ApplyOperatorTo2 to support filtering for
-		// determine if target is invoker boolean isInvoker =
-		// hasIdenticalUniqueID(originalSource, target); if (!isInvoker)
-		// Entity originalSource = applyV(fnGetTrueSource, ports);
+		Entity trueSource = applyV(fnGetTrueSource, ports);
 
 		ports2.setEntity1(source);
-		Operators2.run(ports2, fnOp.apply(fnGetSource));
+		ports2.setEntity2(trueSource);
+		Operators2.run(ports2, op);
 	}
 
 }

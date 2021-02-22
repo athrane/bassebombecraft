@@ -1,4 +1,4 @@
-package bassebombecraft.predicate;
+package bassebombecraft.util.function;
 
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 

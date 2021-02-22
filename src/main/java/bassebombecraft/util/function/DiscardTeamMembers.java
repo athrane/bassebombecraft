@@ -1,4 +1,4 @@
-package bassebombecraft.predicate;
+package bassebombecraft.util.function;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;

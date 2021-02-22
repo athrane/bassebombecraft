@@ -1,4 +1,4 @@
-package bassebombecraft.predicate;
+package bassebombecraft.util.function;
 
 import com.google.common.base.Predicate;
 
