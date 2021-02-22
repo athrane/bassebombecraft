@@ -15,8 +15,8 @@ import static net.minecraft.util.math.RayTraceResult.Type.BLOCK;
 
 import java.util.function.Supplier;
 
-import bassebombecraft.client.op.rendering.RenderTextBillboard2;
-import bassebombecraft.client.op.rendering.RenderWireframeBoundingBox2;
+import bassebombecraft.client.operator.rendering.RenderTextBillboard2;
+import bassebombecraft.client.operator.rendering.RenderWireframeBoundingBox2;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;

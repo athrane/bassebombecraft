@@ -2,7 +2,7 @@ package bassebombecraft;
 
 import bassebombecraft.client.event.rendering.BuildMineBookRenderer;
 import bassebombecraft.client.event.rendering.HudItemHighlightedBlockRenderer;
-import bassebombecraft.client.op.rendering.RenderTextBillboard2;
+import bassebombecraft.client.operator.rendering.RenderTextBillboard2;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.book.BuildMineBook;
 import net.minecraft.client.renderer.Vector4f;

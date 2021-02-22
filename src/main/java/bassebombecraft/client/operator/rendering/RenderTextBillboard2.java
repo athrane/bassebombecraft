@@ -1,13 +1,11 @@
-package bassebombecraft.client.op.rendering;
+package bassebombecraft.client.operator.rendering;
 
 import static bassebombecraft.ClientModConstants.TEXT_COLOR;
 import static bassebombecraft.ClientModConstants.TEXT_SCALE_2;
 import static bassebombecraft.ClientModConstants.TEXT_Z_TRANSLATION;
 import static bassebombecraft.geom.GeometryUtils.oscillate;
 
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -27,8 +25,10 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
  * 
  * Supports rendering of billboard text in the renderer instances handling
  * processing the {@linkplain RenderWorldLastEvent}.
+ * 
+ * {@linkplain MatrixStack} is read from ports during execution.
  */
-public class RenderMultiLineTextBillboard2 implements Operator2 {
+public class RenderTextBillboard2 implements Operator2 {
 
 	/**
 	 * Packed light
@@ -51,19 +51,14 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 	static final boolean DROP_SHADOW = false;
 
 	/**
-	 * Y position delta.
-	 */
-	static final int Y_DELTA = 10;
-
-	/**
 	 * oscillate max value.
 	 */
 	float oscillateMax;
 
 	/**
-	 * Function get messages to render.
+	 * Function get message to render.
 	 */
-	Function<Ports, Stream<String>> fnGetString;
+	Function<Ports, String> fnGetString;
 
 	/**
 	 * X coordinate for placement of billboard.
@@ -83,38 +78,36 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 	/**
 	 * Constructor.
 	 * 
-	 * @param fnGetString function to get messages.
+	 * @param fnGetString function to get message.
 	 * @param x           x coordinate for placement of billboard.
 	 * @param y           y coordinate for placement of billboard.
 	 */
-	public RenderMultiLineTextBillboard2(Function<Ports, Stream<String>> fnGetString, int x, int y) {
+	public RenderTextBillboard2(Function<Ports, String> fnGetString, int x, int y) {
 		this(fnGetString, x, y, 0);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param fnGetString  function to get messages.
+	 * @param fnGetString  function to get message.
 	 * @param x            x coordinate for placement of billboard.
 	 * @param y            y coordinate for placement of billboard.
 	 * @param oscillateMax oscillate max value
 	 */
-	public RenderMultiLineTextBillboard2(Function<Ports, Stream<String>> fnGetString, int x, int y,
-			float oscillateMax) {
+	public RenderTextBillboard2(Function<Ports, String> fnGetString, int x, int y, float oscillateMax) {
 		this(fnGetString, x, y, oscillateMax, TEXT_COLOR);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param fnGetString  function to get messages.
+	 * @param fnGetString  function to get message.
 	 * @param x            x coordinate for placement of billboard.
 	 * @param y            y coordinate for placement of billboard.
 	 * @param oscillateMax oscillate max value
 	 * @param textColor    text color.
 	 */
-	public RenderMultiLineTextBillboard2(Function<Ports, Stream<String>> fnGetString, int x, int y, float oscillateMax,
-			int textColor) {
+	public RenderTextBillboard2(Function<Ports, String> fnGetString, int x, int y, float oscillateMax, int textColor) {
 		this.fnGetString = fnGetString;
 		this.x = x;
 		this.y = y;
@@ -135,6 +128,8 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 
 		// push matrix
 		MatrixStack matrixStack = ports.getMatrixStack();
+		if (matrixStack == null)
+			return;
 		matrixStack.push();
 
 		// setup matrix
@@ -143,17 +138,12 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
 		double zTranslation = TEXT_Z_TRANSLATION + oscillate(0, oscillateMax);
 		matrixStack.translate(0, 0, zTranslation);
+
+		// render message
 		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
-
-		// create index to use inside loop
-		final AtomicInteger index = new AtomicInteger();
-
-		// render messages
-		fnGetString.apply(ports).forEach(m -> {
-			int ypos = y + (Y_DELTA * index.incrementAndGet());
-			fontRenderer.renderString(m, x, ypos, textColor, DROP_SHADOW, positionMatrix, buffer, IS_TRANSPARENT,
-					TEXT_EFFECT, PACKED_LIGHT);
-		});
+		String message = fnGetString.apply(ports);
+		fontRenderer.renderString(message, x, y, textColor, DROP_SHADOW, positionMatrix, buffer, IS_TRANSPARENT,
+				TEXT_EFFECT, PACKED_LIGHT);
 
 		// restore matrix
 		matrixStack.pop();

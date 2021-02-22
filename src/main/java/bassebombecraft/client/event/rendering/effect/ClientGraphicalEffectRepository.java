@@ -8,8 +8,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import bassebombecraft.client.op.rendering.InitElectrocute2;
-import bassebombecraft.client.op.rendering.RenderLine2;
+import bassebombecraft.client.operator.rendering.InitElectrocute2;
+import bassebombecraft.client.operator.rendering.RenderLine2;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.operator.NullOp2;
 import bassebombecraft.operator.Operator2;

@@ -1,4 +1,4 @@
-package bassebombecraft.client.op.rendering;
+package bassebombecraft.client.operator.rendering;
 
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.DEFAULT_LINES;
 import static bassebombecraft.geom.GeometryUtils.oscillate;

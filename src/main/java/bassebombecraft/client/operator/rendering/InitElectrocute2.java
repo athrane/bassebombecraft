@@ -1,4 +1,4 @@
-package bassebombecraft.client.op.rendering;
+package bassebombecraft.client.operator.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;

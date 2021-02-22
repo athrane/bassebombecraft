@@ -20,8 +20,8 @@ import java.util.stream.Stream;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import bassebombecraft.client.op.rendering.RenderMultiLineTextBillboard2;
-import bassebombecraft.client.op.rendering.RenderTextBillboard2;
+import bassebombecraft.client.operator.rendering.RenderMultiLineTextBillboard2;
+import bassebombecraft.client.operator.rendering.RenderTextBillboard2;
 import bassebombecraft.event.charm.CharmedMob;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.item.basic.HudItem;
