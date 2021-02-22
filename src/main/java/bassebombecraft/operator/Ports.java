@@ -289,35 +289,35 @@ public interface Ports {
 	int incrementCounter();
 
 	/**
-	 * Get AABB.
+	 * Get AABB #1.
 	 * 
 	 * @return AABB.
 	 */
-	AxisAlignedBB getAabb();
+	AxisAlignedBB getAabb1();
 
 	/**
-	 * Set AABB.
+	 * Set AABB #1.
 	 * 
 	 * @param aabb AABB to set.
 	 *
 	 * @return ports.
 	 */
-	Ports setAabb(AxisAlignedBB aabb);
+	Ports setAabb1(AxisAlignedBB aabb);
 
 	/**
-	 * Get matrix stack.
+	 * Get matrix stack #1.
 	 * 
 	 * @return matrix stack.
 	 */
-	MatrixStack getMatrixStack();
+	MatrixStack getMatrixStack1();
 
 	/**
-	 * Set matrix stack .
+	 * Set matrix stack #1.
 	 * 
 	 * @param ms matrix stack.
 	 * 
 	 * @return ports.
 	 */
-	Ports setMatrixStack(MatrixStack ms);
+	Ports setMatrixStack1(MatrixStack ms);
 
 }

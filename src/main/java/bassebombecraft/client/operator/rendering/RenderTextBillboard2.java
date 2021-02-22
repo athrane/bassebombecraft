@@ -127,7 +127,7 @@ public class RenderTextBillboard2 implements Operator2 {
 		FontRenderer fontRenderer = renderManager.getFontRenderer();
 
 		// push matrix
-		MatrixStack matrixStack = ports.getMatrixStack();
+		MatrixStack matrixStack = ports.getMatrixStack1();
 		if (matrixStack == null)
 			return;
 		matrixStack.push();

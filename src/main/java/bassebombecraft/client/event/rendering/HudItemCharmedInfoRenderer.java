@@ -110,7 +110,7 @@ public class HudItemCharmedInfoRenderer {
 
 		// setup operator and execute
 		Ports ports = getInstance();
-		ports.setMatrixStack(matrixStack);
+		ports.setMatrixStack1(matrixStack);
 		ports.setString1("CHARMED MOBS");
 		ports.setString2("Number chamred: " + charmedSize);
 		ports.setStrings1(messages2);

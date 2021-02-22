@@ -32,7 +32,7 @@ public class EffectRenderer {
 			Ports ports = getInstance();
 
 			// add matrix stack
-			ports.setMatrixStack(event.getMatrixStack());
+			ports.setMatrixStack1(event.getMatrixStack());
 
 			// get effects
 			GraphicalEffectRepository repository = getProxy().getClientGraphicalEffectRepository();

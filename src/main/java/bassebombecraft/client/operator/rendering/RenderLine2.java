@@ -74,7 +74,7 @@ public class RenderLine2 implements Operator2 {
 		IVertexBuilder builder = buffer.getBuffer(renderType);
 
 		// push matrix
-		MatrixStack matrixStack = ports.getMatrixStack();
+		MatrixStack matrixStack = ports.getMatrixStack1();
 		if (matrixStack == null)
 			return;
 		matrixStack.push();

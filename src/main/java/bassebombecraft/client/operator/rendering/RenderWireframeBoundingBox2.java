@@ -1,8 +1,14 @@
 package bassebombecraft.client.operator.rendering;
 
+import static bassebombecraft.ClientModConstants.DEFAULT_LINE_COLOR;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.DEFAULT_LINES;
 import static bassebombecraft.geom.GeometryUtils.oscillate;
-import static bassebombecraft.ClientModConstants.DEFAULT_LINE_COLOR;
+import static bassebombecraft.operator.DefaultPorts.getFnAabb1;
+import static bassebombecraft.operator.DefaultPorts.getFnMaxtrixStack1;
+import static bassebombecraft.operator.Operators2.applyV;
+
+import java.util.function.Function;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
@@ -27,6 +33,15 @@ import net.minecraft.util.math.Vec3d;
  */
 public class RenderWireframeBoundingBox2 implements Operator2 {
 
+	/**
+	 * Function to get aabb.
+	 */
+	Function<Ports, AxisAlignedBB> fnGetAabb;
+
+	/**
+	 * Function to get matrix stack.
+	 */
+	Function<Ports, MatrixStack> fnGetMatrixStack;
 
 	/**
 	 * oscillate max value.
@@ -45,21 +60,50 @@ public class RenderWireframeBoundingBox2 implements Operator2 {
 
 	/**
 	 * Constructor.
+	 * 
+	 * Instance is configured with AABB #1 from ports.
+	 * 
+	 * Instance is configured with matrix stack #1 from ports.
 	 */
 	public RenderWireframeBoundingBox2() {
+		this.fnGetAabb = getFnAabb1();
+		this.fnGetMatrixStack = getFnMaxtrixStack1();
 		oscillateMax = 0.02F;
-		color = DEFAULT_LINE_COLOR ;
+		color = DEFAULT_LINE_COLOR;
 		renderType = DEFAULT_LINES;
 	}
 
 	/**
 	 * Constructor.
 	 * 
+	 * Instance is configured with AABB #1 from ports.
+	 * 
+	 * Instance is configured with matrix stack #1 from ports.
+	 * 
 	 * @param oscillateMax oscillate max value
-	 * @param color        aabb color.
-	 * @param renderType   render type for rendering the lines.
+	 * @param color        AABB color.
+	 * @param renderType   render type for rendering the AABB lines.
 	 */
 	public RenderWireframeBoundingBox2(float oscillateMax, Vector4f color, RenderType renderType) {
+		this();
+		this.oscillateMax = oscillateMax;
+		this.color = color;
+		this.renderType = renderType;
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param fnGetAabb        function to get AABB.
+	 * @param fnGetMatrixStack function to get matrix stack.
+	 * @param oscillateMax     oscillate max value
+	 * @param color            AABB color.
+	 * @param renderType       render type for rendering the AABB lines.
+	 */
+	public RenderWireframeBoundingBox2(Function<Ports, AxisAlignedBB> fnGetAabb,
+			Function<Ports, MatrixStack> fnGetMatrixStack, float oscillateMax, Vector4f color, RenderType renderType) {
+		this.fnGetAabb = fnGetAabb;
+		this.fnGetMatrixStack = fnGetMatrixStack;
 		this.oscillateMax = oscillateMax;
 		this.color = color;
 		this.renderType = renderType;
@@ -67,11 +111,8 @@ public class RenderWireframeBoundingBox2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-
-		// get aabb
-		AxisAlignedBB aabb = ports.getAabb();
-		if (aabb == null)
-			return;
+		AxisAlignedBB aabb = applyV(fnGetAabb, ports);
+		MatrixStack matrixStack = applyV(fnGetMatrixStack, ports);
 
 		// get render buffer and builder
 		Minecraft mcClient = Minecraft.getInstance();
@@ -79,9 +120,6 @@ public class RenderWireframeBoundingBox2 implements Operator2 {
 		IVertexBuilder builder = buffer.getBuffer(renderType);
 
 		// push matrix
-		MatrixStack matrixStack = ports.getMatrixStack();
-		if (matrixStack == null)
-			return;
 		matrixStack.push();
 
 		// get position matrix
