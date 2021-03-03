@@ -1380,7 +1380,7 @@ public class ModConfiguration {
 		electrocuteAoeRange = COMMON_BUILDER.comment("AOE range for effect.").defineInRange("range", 5, 0, 10);
 		electrocuteDuration = COMMON_BUILDER.comment("Duration of visual effect in game ticks.")
 				.defineInRange("duration", 10, 0, Integer.MAX_VALUE);
-		electrocuteDamage = COMMON_BUILDER.comment("Damage done by effect.").defineInRange("damage", 10.0D, 0, 100.0D);
+		electrocuteDamage = COMMON_BUILDER.comment("Damage done by effect.").defineInRange("damage", 2.0D, 0, 100.0D);
 
 		COMMON_BUILDER.pop();
 

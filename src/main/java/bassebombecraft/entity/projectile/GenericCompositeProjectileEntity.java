@@ -2,6 +2,7 @@ package bassebombecraft.entity.projectile;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository.Effect.PROJECTILE_TRAIL;
 import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
 import static bassebombecraft.config.ModConfiguration.genericProjectileEntityProjectileDuration;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
@@ -21,6 +22,8 @@ import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.Sequence2;
+import bassebombecraft.operator.client.rendering.AddGraphicalEffectAtClient2;
 import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
 import bassebombecraft.operator.entity.Electrocute2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
@@ -107,7 +110,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * Electrocute operator.
 	 */
 	static final Operator2 ELECTROCUTE_OPERATOR = new Electrocute2();
-	
+
 	/**
 	 * Projectile duration.
 	 */
@@ -140,11 +143,11 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	Ports projectileModifierPorts;
 
 	/**
-	 * Projectile particle rendering ports.
+	 * Projectile rendering ports.
 	 * 
 	 * The ports is defined as a field to reuse it across update ticks.
 	 */
-	Ports addParticlesPorts;
+	Ports renderingPorts;
 
 	/**
 	 * Projectile entity configuration.
@@ -152,9 +155,9 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	ProjectileEntityConfig projectileConfig;
 
 	/**
-	 * Client side projectile generator operator.
+	 * Client side rendering operator.
 	 */
-	Operator2 addParticlesOp;
+	Operator2 renderingOp;
 
 	/**
 	 * Constructor
@@ -167,10 +170,11 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		super(type, world);
 		projectileConfig = config;
 		ParticleRenderingInfo info = createInfoFromConfig(projectileConfig.particles);
-		addParticlesOp = new AddParticlesFromPosAtClient2(info);
+		renderingOp = new Sequence2(new AddParticlesFromPosAtClient2(info));
+				//new AddGraphicalEffectAtClient2(PROJECTILE_TRAIL));
 		duration = genericProjectileEntityProjectileDuration.get();
 		projectileModifierPorts = getInstance();
-		addParticlesPorts = getInstance();
+		renderingPorts = getInstance();
 		initialiseDuration();
 	}
 
@@ -242,7 +246,13 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	@Override
 	public void tick() {
 		super.tick();
+
 		try {
+
+			// exit if on client side
+			if (isLogicalClient(getEntityWorld()))
+				return;
+
 			// calculate collision with block or entity
 			RayTraceResult result = calculateCollision();
 
@@ -257,7 +267,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 			updateMotionAndPosition();
 
 			// send particle rendering info to client
-			addParticles();
+			addRendering();
 
 			// update ports counter
 			projectileModifierPorts.incrementCounter();
@@ -386,10 +396,10 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		// handle: decrease gravity
 		if (tags.contains(DecreaseGravityProjectilePath.NAME))
 			calculateDecreaseGravityPath();
-		
+
 		// handle: electrocute
 		if (tags.contains(Electrocute2.NAME))
-			electrocute();		
+			electrocute();
 	}
 
 	/**
@@ -463,10 +473,10 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 */
 	void electrocute() {
 		projectileModifierPorts.setEntity1(this);
-		projectileModifierPorts.setEntity2(getThrower());		
+		projectileModifierPorts.setEntity2(getThrower());
 		run(projectileModifierPorts, ELECTROCUTE_OPERATOR);
 	}
-	
+
 	/**
 	 * Update motion and position of the projectile.
 	 */
@@ -539,11 +549,14 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	}
 
 	/**
-	 * Add particle on update tick.
+	 * Add particle rendering on update tick.
 	 */
-	void addParticles() {
-		addParticlesPorts.setBlockPosition1(getPosition());
-		run(addParticlesPorts, addParticlesOp);
+	void addRendering() {
+		renderingPorts.setBlockPosition1(getPosition());
+		renderingPorts.setDouble1(5.0D);
+		renderingPorts.setEntity1(this);
+		renderingPorts.setEntity2(getThrower());
+		run(renderingPorts, renderingOp);
 	}
 
 }

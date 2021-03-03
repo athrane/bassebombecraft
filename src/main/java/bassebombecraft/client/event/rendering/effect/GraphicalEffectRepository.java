@@ -17,14 +17,23 @@ import net.minecraft.entity.Entity;
 public interface GraphicalEffectRepository {
 
 	/**
+	 * Support effects
+	 */
+	enum Effect {
+		NO_EFFECT,
+		ELECTROCUTE,
+		PROJECTILE_TRAIL		
+	};
+	
+	/**
 	 * Add effect.
 	 * 
 	 * @param source   source entity involved in the effect.
 	 * @param target   target entity involved in the effect.
 	 * @param duration effect duration.
-	 * @param name effect name.
+	 * @param effect effect name.
 	 */	
-	public void add(Entity source, Entity target, int duration, String name);
+	public void add(Entity source, Entity target, int duration, Effect effect);
 	
 	/**
 	 * Remove effect.

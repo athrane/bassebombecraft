@@ -1,6 +1,7 @@
 package bassebombecraft.operator.client.rendering;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository.Effect.NO_EFFECT;
 import static bassebombecraft.operator.DefaultPorts.getFnGetDouble1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity2;
@@ -8,6 +9,7 @@ import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
+import bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository.Effect;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
@@ -39,9 +41,9 @@ public class AddGraphicalEffectAtClient2 implements Operator2 {
 	Function<Ports, Double> fnGetDuration;
 
 	/**
-	 * Effect name.
+	 * Graphical effect.
 	 */
-	String name;
+	Effect effect;
 
 	/**
 	 * Constructor.
@@ -49,14 +51,14 @@ public class AddGraphicalEffectAtClient2 implements Operator2 {
 	 * @param fnGetSource   function to get source entity in effect.
 	 * @param fnGetTarget   function to get target entity in effect.
 	 * @param fnGetDuration function to get duration (in game ticks).
-	 * @param name          effect name.
+	 * @param effect        graphical effect.
 	 */
 	public AddGraphicalEffectAtClient2(Function<Ports, Entity> fnGetSource, Function<Ports, Entity> fnGetTarget,
-			Function<Ports, Double> fnGetDuration, String name) {
+			Function<Ports, Double> fnGetDuration, Effect effect) {
 		this.fnGetSource = fnGetSource;
 		this.fnGetTarget = fnGetTarget;
 		this.fnGetDuration = fnGetDuration;
-		this.name = name;
+		this.effect = effect;
 	}
 
 	/**
@@ -68,10 +70,10 @@ public class AddGraphicalEffectAtClient2 implements Operator2 {
 	 * 
 	 * Instance is configured with double #1 as effect duration from ports.
 	 * 
-	 * @param name effect name.
+	 * @param effect graphical effect.
 	 */
-	public AddGraphicalEffectAtClient2(String name) {
-		this(getFnGetEntity1(), getFnGetEntity2(), getFnGetDouble1(), name);
+	public AddGraphicalEffectAtClient2(Effect effect) {
+		this(getFnGetEntity1(), getFnGetEntity2(), getFnGetDouble1(), effect);
 	}
 
 	/**
@@ -84,15 +86,15 @@ public class AddGraphicalEffectAtClient2 implements Operator2 {
 	 * Instance is configured with double #1 as effect duration from ports.
 	 */
 	public AddGraphicalEffectAtClient2() {
-		this(getFnGetEntity1(), getFnGetEntity2(), getFnGetDouble1(), "default");
+		this(getFnGetEntity1(), getFnGetEntity2(), getFnGetDouble1(), NO_EFFECT);
 	}
 
 	@Override
 	public void run(Ports ports) {
 		Entity source = applyV(fnGetSource, ports);
-		Entity target = applyV(fnGetTarget,ports);
+		Entity target = applyV(fnGetTarget, ports);
+		int duration = applyV(fnGetDuration, ports).intValue();
 		
-		int duration = fnGetDuration.apply(ports).intValue();
-		getProxy().getNetworkChannel().sendAddGraphicalEffectPacket(source, target, duration, name);
+		getProxy().getNetworkChannel().sendAddGraphicalEffectPacket(source, target, duration, effect);
 	}
 }

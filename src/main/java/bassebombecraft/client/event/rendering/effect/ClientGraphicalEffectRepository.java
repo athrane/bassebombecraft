@@ -1,7 +1,8 @@
 package bassebombecraft.client.event.rendering.effect;
 
 import static bassebombecraft.ClientModConstants.LIGHTNING_LINE_COLOR;
-import static bassebombecraft.client.rendering.rendertype.RenderTypes.*;
+import static bassebombecraft.client.rendering.rendertype.RenderTypes.LIGHTNING_LINES;
+import static bassebombecraft.client.rendering.rendertype.RenderTypes.PROJECTILE_TRAIL_LINES;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,12 +10,12 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import bassebombecraft.client.operator.rendering.InitElectrocute2;
+import bassebombecraft.client.operator.rendering.InitLineRenderingFromPorts2;
 import bassebombecraft.client.operator.rendering.RenderLine2;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.operator.NullOp2;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Sequence2;
-import bassebombecraft.operator.entity.Electrocute2;
 import net.minecraft.entity.Entity;
 
 /**
@@ -29,10 +30,16 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 	final static Operator2 DEFAULT_OPERATOR = new NullOp2();
 
 	/**
-	 * Effect operator for Electrocute effect.
+	 * Effect operator for electrocute effect.
 	 */
 	final static Operator2 ELECTROCUTE_OPERATOR = new Sequence2(new InitElectrocute2(),
 			new RenderLine2(LIGHTNING_LINE_COLOR, LIGHTNING_LINES));
+
+	/**
+	 * Effect operator for projectile trail effect.
+	 */
+	final static Operator2 PROJECTILE_TRAIL_OPERATOR = new Sequence2(new InitLineRenderingFromPorts2(),
+			new RenderLine2(LIGHTNING_LINE_COLOR, PROJECTILE_TRAIL_LINES));
 
 	/**
 	 * Consumer to support callback when {@linkplain DurationRepository} expires a
@@ -49,36 +56,42 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 	Map<String, GraphicalEffect> effects = new ConcurrentHashMap<String, GraphicalEffect>();
 
 	@Override
-	public void add(Entity source, Entity target, int duration, String name) {
+	public void add(Entity source, Entity target, int duration, Effect effect) {
 
 		// resolve effect operator
-		Operator2 effectOp = resolveOperator(name);
+		Operator2 effectOp = resolveOperator(effect);
 
 		// create effect container
-		GraphicalEffect effect = ClientGraphicalEffect.getInstance(source, target, duration, effectOp,
+		GraphicalEffect effectInstance = ClientGraphicalEffect.getInstance(source, target, duration, effectOp,
 				cRemovalCallback);
 
 		// store effect
 		String id = Integer.toString(source.getEntityId());
-		effects.put(id, effect);
+		effects.put(id, effectInstance);
 	}
 
 	/**
-	 * Resolve Effect operator from name.
+	 * Resolve operator from effect.
 	 * 
-	 * @param name effect name.
+	 * @param effect effect to resolve operator from.
 	 * 
 	 * @return effect operator.
 	 */
-	Operator2 resolveOperator(String name) {
+	Operator2 resolveOperator(Effect effect) {
+		switch (effect) {
 
-		// return effect for electrocute
-		if (name.equals(Electrocute2.NAME)) {
+		case NO_EFFECT:
+			return DEFAULT_OPERATOR;
+
+		case ELECTROCUTE:
 			return ELECTROCUTE_OPERATOR;
-		}
 
-		// return default op.
-		return DEFAULT_OPERATOR;
+		case PROJECTILE_TRAIL:
+			return PROJECTILE_TRAIL_OPERATOR;
+
+		default:
+			return DEFAULT_OPERATOR;
+		}
 	}
 
 	@Override

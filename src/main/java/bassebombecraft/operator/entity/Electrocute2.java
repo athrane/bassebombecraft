@@ -1,5 +1,6 @@
 package bassebombecraft.operator.entity;
 
+import static bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository.Effect.ELECTROCUTE;
 import static bassebombecraft.config.ModConfiguration.electrocuteAoeRange;
 import static bassebombecraft.config.ModConfiguration.electrocuteDamage;
 import static bassebombecraft.config.ModConfiguration.electrocuteDuration;
@@ -57,7 +58,7 @@ public class Electrocute2 implements Operator2 {
 
 		// create operator for AOE effect
 		return new Sequence2(new AddDamage2(getFnGetEntity1(), getFnGetEntity2(), fnGetDamage),
-				new AddGraphicalEffectAtClient2(getFnGetEntity1(), getFnGetEntity2(), fnGetDuration, NAME));
+				new AddGraphicalEffectAtClient2(getFnGetEntity1(), getFnGetEntity2(), fnGetDuration, ELECTROCUTE));
 	};
 
 	/**

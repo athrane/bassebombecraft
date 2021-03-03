@@ -6,6 +6,7 @@ import static bassebombecraft.BassebombeCraft.getProxy;
 import java.util.function.Supplier;
 
 import bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository;
+import bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository.Effect;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.PacketBuffer;
@@ -36,9 +37,9 @@ public class AddGraphicalEffect {
 	int targetEntityId;
 
 	/**
-	 * Effect name.
+	 * Graphical effect.
 	 */
-	String name;
+	Effect effect;
 
 	/**
 	 * Constructor.
@@ -49,7 +50,7 @@ public class AddGraphicalEffect {
 		this.sourceEntityId = buf.readInt();
 		this.targetEntityId = buf.readInt();
 		this.duration = buf.readInt();
-		this.name = buf.readString();
+		this.effect = Effect.valueOf(buf.readString());
 	}
 
 	/**
@@ -58,13 +59,13 @@ public class AddGraphicalEffect {
 	 * @param source   source entity involved in the effect.
 	 * @param target   target entity involved in the effect.
 	 * @param duration effect duration (in game ticks).
-	 * @param name effect name.
+	 * @param effect   graphical effect.
 	 */
-	public AddGraphicalEffect(Entity source, Entity target, int duration, String name) {
+	public AddGraphicalEffect(Entity source, Entity target, int duration, Effect effect) {
 		this.sourceEntityId = source.getEntityId();
 		this.targetEntityId = target.getEntityId();
 		this.duration = duration;
-		this.name = name;
+		this.effect = effect;
 	}
 
 	/**
@@ -76,7 +77,7 @@ public class AddGraphicalEffect {
 		buf.writeInt(sourceEntityId);
 		buf.writeInt(targetEntityId);
 		buf.writeInt(duration);
-		buf.writeString(name);
+		buf.writeString(effect.name());
 	}
 
 	/**
@@ -114,7 +115,7 @@ public class AddGraphicalEffect {
 
 			// register
 			GraphicalEffectRepository repository = getProxy().getClientGraphicalEffectRepository();
-			repository.add(source, target, duration, name);
+			repository.add(source, target, duration, effect);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

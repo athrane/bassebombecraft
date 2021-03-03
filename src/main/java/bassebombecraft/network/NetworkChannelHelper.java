@@ -4,6 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.MODID;
 import static net.minecraftforge.fml.network.NetworkRegistry.newSimpleChannel;
 
+import bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.network.packet.AddCharm;
 import bassebombecraft.network.packet.AddGraphicalEffect;
@@ -148,11 +149,12 @@ public class NetworkChannelHelper {
 	 * @param source   source entity involved in the effect.
 	 * @param target   target entity involved in the effect.
 	 * @param duration effect duration (in game ticks).
-	 * @param name effect name.
+	 * @param effect   graphical effect .
 	 */
-	public void sendAddGraphicalEffectPacket(Entity source, Entity target, int duration, String name) {
+	public void sendAddGraphicalEffectPacket(Entity source, Entity target, int duration,
+			GraphicalEffectRepository.Effect effect) {
 		try {
-			channel.send(PacketDistributor.ALL.noArg(), new AddGraphicalEffect(source, target, duration, name));
+			channel.send(PacketDistributor.ALL.noArg(), new AddGraphicalEffect(source, target, duration, effect));
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
