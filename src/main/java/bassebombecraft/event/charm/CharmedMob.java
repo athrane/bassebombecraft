@@ -47,4 +47,11 @@ public interface CharmedMob {
 	 */
 	public int getDuration();
 
+	/**
+	 * Return ID used to identify instance in repositories.
+	 * 
+	 * @return ID used to identify instance in repositories
+	 */
+	public String getId();
+	
 }

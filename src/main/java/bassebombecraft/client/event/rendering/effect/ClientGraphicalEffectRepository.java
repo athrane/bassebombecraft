@@ -65,6 +65,9 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 		// create effect container
 		GraphicalEffect effectObject = ClientGraphicalEffect.getInstance(source, target, duration, effectOp);
 
+		// exit if effect exits
+		if(contains(effectObject.getId())) return;
+		
 		// register effect with client duration repository
 		DurationRepository repository = getProxy().getClientDurationRepository();
 		repository.add(effectObject.getId(), duration, cRemovalCallback);

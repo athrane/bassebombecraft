@@ -1,5 +1,6 @@
 package bassebombecraft.client.event.charm;
 
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.config.ModConfiguration.charmDuration;
 
 import java.util.Map;
@@ -39,12 +40,20 @@ public class ClientCharmedMobsRepository implements CharmedMobsRepository {
 
 	@Override
 	public void add(MobEntity entity, LivingEntity commander) {
-		// create charmed mob container
-		CharmedMob charmedMob = ClientCharmedMob.getInstance(entity, charmDuration.get(), cRemovalCallback);
 
+		// create charmed mob container
+		int duration = charmDuration.get();
+		CharmedMob charmedMob = ClientCharmedMob.getInstance(entity, duration);
+
+		// exit if mob is already charmed
+		if(contains(charmedMob.getId())) return;
+		
+		// register charmed mob with client duration repository
+		DurationRepository repository = getProxy().getClientDurationRepository();
+		repository.add(charmedMob.getId(), duration, cRemovalCallback);
+		
 		// store mob
-		String id = Integer.toString(entity.getEntityId());
-		charmedMobs.put(id, charmedMob);
+		charmedMobs.put(charmedMob.getId(), charmedMob);
 	}
 
 	@Override
