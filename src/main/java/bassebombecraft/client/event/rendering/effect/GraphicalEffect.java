@@ -28,7 +28,7 @@ public interface GraphicalEffect {
 	 * @return remaining duration of effect (in game ticks).
 	 */
 	public int getDuration();
-	
+
 	/**
 	 * Get effect operator.
 	 * 
@@ -36,4 +36,10 @@ public interface GraphicalEffect {
 	 */
 	public Operator2 getEffectOperator();
 
+	/**
+	 * Return ID used to identify instance in repositories.
+	 * 
+	 * @return ID used to identify instance in repositories
+	 */
+	public String getId();
 }

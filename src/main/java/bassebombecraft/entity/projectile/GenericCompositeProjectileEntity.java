@@ -170,8 +170,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		super(type, world);
 		projectileConfig = config;
 		ParticleRenderingInfo info = createInfoFromConfig(projectileConfig.particles);
-		renderingOp = new Sequence2(new AddParticlesFromPosAtClient2(info));
-				//new AddGraphicalEffectAtClient2(PROJECTILE_TRAIL));
+		renderingOp = new Sequence2(new AddParticlesFromPosAtClient2(info), new AddGraphicalEffectAtClient2(PROJECTILE_TRAIL));
 		duration = genericProjectileEntityProjectileDuration.get();
 		projectileModifierPorts = getInstance();
 		renderingPorts = getInstance();

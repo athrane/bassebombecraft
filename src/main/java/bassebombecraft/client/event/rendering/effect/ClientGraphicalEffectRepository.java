@@ -1,5 +1,6 @@
 package bassebombecraft.client.event.rendering.effect;
 
+import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ClientModConstants.LIGHTNING_LINE_COLOR;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.LIGHTNING_LINES;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.PROJECTILE_TRAIL_LINES;
@@ -62,12 +63,14 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 		Operator2 effectOp = resolveOperator(effect);
 
 		// create effect container
-		GraphicalEffect effectInstance = ClientGraphicalEffect.getInstance(source, target, duration, effectOp,
-				cRemovalCallback);
+		GraphicalEffect effectObject = ClientGraphicalEffect.getInstance(source, target, duration, effectOp);
 
+		// register effect with client duration repository
+		DurationRepository repository = getProxy().getClientDurationRepository();
+		repository.add(effectObject.getId(), duration, cRemovalCallback);
+		
 		// store effect
-		String id = Integer.toString(source.getEntityId());
-		effects.put(id, effectInstance);
+		effects.put(effectObject.getId(), effectObject);
 	}
 
 	/**

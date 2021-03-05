@@ -3,9 +3,6 @@ package bassebombecraft.client.event.rendering.effect;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.entity.ai.AiUtils.getCharmDuration;
 
-import java.util.function.Consumer;
-
-import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.operator.Operator2;
 import net.minecraft.entity.Entity;
 
@@ -38,24 +35,16 @@ public class ClientGraphicalEffect implements GraphicalEffect {
 	/**
 	 * Constructor.
 	 * 
-	 * @param source           source entity.
-	 * @param target           target entity.
-	 * @param duration         duration of effect in measured in ticks.
-	 * @param effectOp         effect operator.
-	 * @param cRemovalCallback removal callback function invoked by
-	 *                         {@linkplain DurationRepository} when mob charm
-	 *                         expires.
+	 * @param source   source entity.
+	 * @param target   target entity.
+	 * @param duration duration of effect in measured in ticks.
+	 * @param effectOp effect operator.
 	 */
-	ClientGraphicalEffect(Entity source, Entity target, int duration, Operator2 effectOp,
-			Consumer<String> cRemovalCallback) {
+	ClientGraphicalEffect(Entity source, Entity target, int duration, Operator2 effectOp) {
 		this.source = source;
 		this.target = target;
 		this.effectOp = effectOp;
-		id = Integer.toString(source.getEntityId());
-
-		// register effect with client duration repository
-		DurationRepository repository = getProxy().getClientDurationRepository();
-		repository.add(id, duration, cRemovalCallback);
+		id = Integer.toString(hashCode());
 	}
 
 	@Override
@@ -71,26 +60,27 @@ public class ClientGraphicalEffect implements GraphicalEffect {
 	public int getDuration() {
 		return getCharmDuration(id, getProxy().getClientDurationRepository());
 	}
-	
+
 	@Override
 	public Operator2 getEffectOperator() {
 		return effectOp;
+	}
+	
+	@Override
+	public String getId() {
+		return id;
 	}
 
 	/**
 	 * Factory method.
 	 * 
-	 * @param source           source entity.
-	 * @param target           target entity.
-	 * @param duration         duration of effect in measured in ticks.
-	 * @param effectOp         effect operator.
-	 * @param cRemovalCallback removal callback function invoked by
-	 *                         {@linkplain DurationRepository} when mob charm
-	 *                         expires.
+	 * @param source   source entity.
+	 * @param target   target entity.
+	 * @param duration duration of effect in measured in ticks.
+	 * @param effectOp effect operator.
 	 */
-	public static GraphicalEffect getInstance(Entity source, Entity target, int duration, Operator2 effectOp,
-			Consumer<String> cRemovalCallback) {
-		return new ClientGraphicalEffect(source, target, duration, effectOp, cRemovalCallback);
+	public static GraphicalEffect getInstance(Entity source, Entity target, int duration, Operator2 effectOp) {
+		return new ClientGraphicalEffect(source, target, duration, effectOp);
 	}
 
 }
