@@ -7,7 +7,8 @@ import bassebombecraft.operator.Ports;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which updates the
- * result port as successful if frequency is active.
+ * result port as successful if frequency is active at the server frequency
+ * repository.
  */
 public class IsFrequencyIsActive2 implements Operator2 {
 
