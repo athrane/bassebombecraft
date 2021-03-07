@@ -15,6 +15,8 @@ import net.minecraft.world.World;
  * Strategy is invoked when target is invoker.
  * 
  * The ports is updated with the world and the invoker entity.
+ * 
+ * The ports is reused across invocations.
  */
 public class ExecuteOperatorOnInvoker2 implements InventoryItemActionStrategy {
 
@@ -24,18 +26,18 @@ public class ExecuteOperatorOnInvoker2 implements InventoryItemActionStrategy {
 	Ports ports;
 
 	/**
-	 * Operators.
+	 * Operator.
 	 */
-	Operator2[] ops;
+	Operator2 op;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param ports ports used by operators.
-	 * @param ops   operators executed by the strategy.
+	 * @param op    operator executed by the strategy.
 	 */
-	public ExecuteOperatorOnInvoker2(Ports ports, Operator2[] ops) {
-		this.ops = ops;
+	public ExecuteOperatorOnInvoker2(Ports ports, Operator2 op) {
+		this.op = op;
 		this.ports = ports;
 	}
 
@@ -53,7 +55,7 @@ public class ExecuteOperatorOnInvoker2 implements InventoryItemActionStrategy {
 	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
 		ports.setLivingEntity1(invoker);
 		ports.setWorld(world);
-		run(ports, ops);
+		run(ports, op);
 	}
 
 }

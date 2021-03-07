@@ -19,6 +19,7 @@ import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.item.action.inventory.ExecuteOperatorOnInvoker2;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.block.CalculateSpiralPosition2;
 import bassebombecraft.operator.block.RemoveBlock2;
 import bassebombecraft.operator.block.ResetSpiralOnMovement2;
@@ -37,7 +38,7 @@ public class RemoveBlockSpiralIdolInventoryItem extends GenericInventoryItem {
 	/**
 	 * Create operators.
 	 */
-	static Supplier<Operator2[]> splOp = () -> {
+	static Supplier<Operator2> splOp = () -> {
 
 		// Read configuration values
 		int spiralSize = removeBlockSpiralIdolInventoryItemSpiralSize.get();
@@ -61,11 +62,10 @@ public class RemoveBlockSpiralIdolInventoryItem extends GenericInventoryItem {
 		BiConsumer<Ports, BlockPos> bcSetSpiralPos = getBcSetBlockPosition2();
 		Function<Ports, World> fnGetWorld = getFnWorld1();
 
-		Operator2[] ops = new Operator2[] { new ResetSpiralOnMovement2(1, fnGetInvokerPos, fnGetCenter, bcSetCenter),
+		return new Sequence2(new ResetSpiralOnMovement2(1, fnGetInvokerPos, fnGetCenter, bcSetCenter),
 				new SingleLoopIncreasingCounter2(numberSpiralBlocks - 1),
 				new CalculateSpiralPosition2(spiralSize, fnGetCenter, bcSetSpiralPos, fnGetWorld),
-				new RemoveBlock2(fnGetSpiralPos, fnGetWorld), new AddParticlesFromPosAtClient2(info, fnGetSpiralPos) };
-		return ops;
+				new RemoveBlock2(fnGetSpiralPos, fnGetWorld), new AddParticlesFromPosAtClient2(info, fnGetSpiralPos));
 	};
 
 	public RemoveBlockSpiralIdolInventoryItem() {
