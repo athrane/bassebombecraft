@@ -22,6 +22,8 @@ import net.minecraft.entity.Entity;
 /**
  * CLIENT side implementation of the {@linkplain GraphicalEffectRepository}
  * interface.
+ * 
+ * Effects are identified by effect hash code so any effect is accepted.
  */
 public class ClientGraphicalEffectRepository implements GraphicalEffectRepository {
 
