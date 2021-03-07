@@ -711,6 +711,7 @@ public class ModConfiguration {
 	/**
 	 * Properties for {@linkplain Electrocute2} operator.
 	 */
+	public static ForgeConfigSpec.IntValue electrocuteAoeFrequency;
 	public static ForgeConfigSpec.IntValue electrocuteDuration;
 	public static ForgeConfigSpec.IntValue electrocuteAoeRange;
 	public static ForgeConfigSpec.DoubleValue electrocuteDamage;
@@ -1377,10 +1378,11 @@ public class ModConfiguration {
 		 */
 		name = Electrocute2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
+		electrocuteAoeFrequency = COMMON_BUILDER.comment("AOE frequency in game ticks, i.e. pause between triggering.").defineInRange("frequency", 5, 0, 20);		
 		electrocuteAoeRange = COMMON_BUILDER.comment("AOE range for effect.").defineInRange("range", 5, 0, 10);
 		electrocuteDuration = COMMON_BUILDER.comment("Duration of visual effect in game ticks.")
-				.defineInRange("duration", 10, 0, Integer.MAX_VALUE);
-		electrocuteDamage = COMMON_BUILDER.comment("Damage done by effect.").defineInRange("damage", 2.0D, 0, 100.0D);
+				.defineInRange("duration", 7, 0, 20);
+		electrocuteDamage = COMMON_BUILDER.comment("Damage done by effect when trigged.").defineInRange("damage", 10.0D, 0, 100.0D);
 
 		COMMON_BUILDER.pop();
 

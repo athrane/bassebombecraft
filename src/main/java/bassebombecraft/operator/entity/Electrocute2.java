@@ -3,7 +3,7 @@ package bassebombecraft.operator.entity;
 import static bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository.Effect.ELECTROCUTE;
 import static bassebombecraft.config.ModConfiguration.electrocuteAoeRange;
 import static bassebombecraft.config.ModConfiguration.electrocuteDamage;
-import static bassebombecraft.config.ModConfiguration.electrocuteDuration;
+import static bassebombecraft.config.ModConfiguration.*;
 import static bassebombecraft.operator.DefaultPorts.getBcSetEntities1;
 import static bassebombecraft.operator.DefaultPorts.getBcSetEntity2;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntities1;
@@ -22,8 +22,10 @@ import java.util.function.Supplier;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Operators2;
 import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.ResetResult2;
 import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.client.rendering.AddGraphicalEffectAtClient2;
+import bassebombecraft.operator.conditional.IsFrequencyActive2;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -46,9 +48,9 @@ public class Electrocute2 implements Operator2 {
 	public static final String NAME = Electrocute2.class.getSimpleName();
 
 	/**
-	 * Create operators.
+	 * Create AOE effect operators.
 	 */
-	static Supplier<Operator2> splAoeOp = () -> {
+	static Supplier<Operator2> splAoeEffectOp = () -> {
 
 		// AddDamage2: get damage from configuration
 		Function<Ports, Double> fnGetDamage = p -> electrocuteDamage.get();
@@ -62,11 +64,15 @@ public class Electrocute2 implements Operator2 {
 	};
 
 	/**
-	 * Create operators. (using the get source function as input).
+	 * Create operators to locate AOE candidates (using the get source function as
+	 * input).
 	 */
-	static BiFunction<Function<Ports, Entity>, Function<Ports, Entity>, Operator2> fnOp = (fnGetSource,
+	static BiFunction<Function<Ports, Entity>, Function<Ports, Entity>, Operator2> fnAoeCoreOp = (fnGetSource,
 			fnGetTrueSource) -> {
 
+				// FindEntities2: get frequency from configuration
+				Function<Ports, Integer> fnGetFrequency = p -> electrocuteAoeFrequency.get().intValue();
+				
 				// FindEntities2: get source position from source entity
 				Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(fnGetSource, p).getPosition();
 
@@ -84,9 +90,9 @@ public class Electrocute2 implements Operator2 {
 				BiConsumer<Ports, Entity> bcSetTarget = getBcSetEntity2();
 
 				// create operator
-				return new Sequence2(
+				return new Sequence2(new ResetResult2(), new IsFrequencyActive2(fnGetFrequency),
 						new FindEntities2(fnGetSourcePos, fnGetWorld, fnGetPredicate, fnGetRange, getBcSetEntities1()),
-						new ApplyOperatorToEntity2(getFnGetEntities1(), bcSetTarget, splAoeOp.get()));
+						new ApplyOperatorToEntity2(getFnGetEntities1(), bcSetTarget, splAoeEffectOp.get()));
 			};
 
 	/**
@@ -100,16 +106,16 @@ public class Electrocute2 implements Operator2 {
 	Function<Ports, Entity> fnGetTrueSource;
 
 	/**
-	 * Operator ports.
+	 * AOE ports.
 	 * 
 	 * The ports is defined as a field to reuse it across update ticks.
 	 */
-	Ports ports2;
+	Ports aoePorts;
 
 	/**
-	 * Operator instance.
+	 * AOE operator instance.
 	 */
-	Operator2 op;
+	Operator2 aoeOp;
 
 	/**
 	 * Constructor.
@@ -120,8 +126,8 @@ public class Electrocute2 implements Operator2 {
 	public Electrocute2(Function<Ports, Entity> fnGetSource, Function<Ports, Entity> fnGetTrueSource) {
 		this.fnGetSource = fnGetSource;
 		this.fnGetTrueSource = fnGetTrueSource;
-		ports2 = getInstance();
-		op = fnOp.apply(fnGetSource, fnGetTrueSource);
+		aoePorts = getInstance();
+		aoeOp = fnAoeCoreOp.apply(fnGetSource, fnGetTrueSource);
 	}
 
 	/**
@@ -140,9 +146,9 @@ public class Electrocute2 implements Operator2 {
 		Entity source = applyV(fnGetSource, ports);
 		Entity trueSource = applyV(fnGetTrueSource, ports);
 
-		ports2.setEntity1(source);
-		ports2.setEntity2(trueSource);
-		Operators2.run(ports2, op);
+		aoePorts.setEntity1(source);
+		aoePorts.setEntity2(trueSource);
+		Operators2.run(aoePorts, aoeOp);
 	}
 
 }
