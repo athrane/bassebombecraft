@@ -223,6 +223,9 @@
     "potion.potency.10": "(Somewhat explosive)",	
     "potion.potency.15": "(Weak)",  
     "potion.potency.63": "(Normal)",
-    "potion.potency.127": "(Superior)"
+    "potion.potency.127": "(Superior)",
+
+	"_comment": "kitten messages",            
+	"death.attack.composite": "A kitten died an unfortunate death."            
             
 }
