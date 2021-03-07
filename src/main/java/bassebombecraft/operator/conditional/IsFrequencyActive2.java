@@ -2,6 +2,8 @@ package bassebombecraft.operator.conditional;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
 
+import java.util.function.Function;
+
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 
@@ -10,24 +12,26 @@ import bassebombecraft.operator.Ports;
  * result port as successful if frequency is active at the server frequency
  * repository.
  */
-public class IsFrequencyIsActive2 implements Operator2 {
+public class IsFrequencyActive2 implements Operator2 {
 
 	/**
-	 * Frequency to test for.
+	 * Function to get frequency to test for.
 	 */
-	int frequency;
+	Function<Ports, Integer> fnGetFrequency;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param frequency frequency to test for.
+	 * @param fnGetFrequency function to get frequency to test for.
 	 */
-	public IsFrequencyIsActive2(int frequency) {
-		this.frequency = frequency;
+	public IsFrequencyActive2(Function<Ports, Integer> fnGetFrequency) {
+		this.fnGetFrequency = fnGetFrequency;
 	}
 
 	@Override
 	public void run(Ports ports) {
+		Integer frequency = fnGetFrequency.apply(ports);
+
 		if (getProxy().getServerFrequencyRepository().isActive(frequency))
 			ports.setResultAsSucces();
 		else
