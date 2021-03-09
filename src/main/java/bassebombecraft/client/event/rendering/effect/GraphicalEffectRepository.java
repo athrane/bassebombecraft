@@ -21,6 +21,7 @@ public interface GraphicalEffectRepository {
 	 */
 	enum Effect {
 		NO_EFFECT,
+		LINE,
 		ELECTROCUTE,
 		PROJECTILE_TRAIL		
 	};

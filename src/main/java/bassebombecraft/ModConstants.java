@@ -522,4 +522,9 @@ public class ModConstants {
 	 */
 	public static final Object[] NULL_I18N_ARGS = new Object[0];
 	
+	/**
+	 * Mob damage type. 
+	 */
+	public static final String MOB_DAMAGE = "mob";
+	
 }

@@ -1,18 +1,24 @@
 package bassebombecraft.event.potion;
 
 import static bassebombecraft.ModConstants.REFLECT_EFFECT;
+import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.potion.PotionUtils.getEffectIfActive;
 
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
-import bassebombecraft.operator.Operator;
-import bassebombecraft.operator.Operators;
-import bassebombecraft.operator.conditional.IfEffectIsActive;
-import bassebombecraft.operator.conditional.IfWorldAtServerSide;
-import bassebombecraft.operator.event.ReflectMobDamageAmplified;
+import bassebombecraft.operator.DefaultPorts;
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.Sequence2;
+import bassebombecraft.operator.conditional.IsEffectActive2;
+import bassebombecraft.operator.conditional.IsWorldAtServerSide2;
+import bassebombecraft.operator.entity.ReflectMobDamageAmplified2;
 import bassebombecraft.potion.effect.ReflectEffect;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.util.DamageSource;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -22,7 +28,7 @@ import net.minecraftforge.fml.common.Mod;
  * 
  * Logic for the {@linkplain ReflectEffect}.
  * 
- * The handler only executes events SERVER side. 
+ * The handler only executes events SERVER side.
  */
 @Mod.EventBusSubscriber
 public class ReflectEffectEventHandler {
@@ -33,23 +39,38 @@ public class ReflectEffectEventHandler {
 	static final EffectInstance NO_EFFECT = null;
 
 	/**
-	 * Operator execution.
+	 * Operator instance (can be null due to class loading).
 	 */
-	static Operators ops;
+	static Optional<Operator2> optOp = Optional.empty();
 
-	static {
-		ops = new Operators();
-		Operator reflectOp = new ReflectMobDamageAmplified(ops.getSplLivingDamageEvent(), ops.getSplEffectInstance());
-		Operator ifOp2 = new IfEffectIsActive(ops.getSplLivingEntity(), reflectOp, REFLECT_EFFECT);
-		Operator ifOp = new IfWorldAtServerSide(ops.getSplLivingEntity(), ifOp2); ;				
-		ops.setOperator(ifOp);
-	}
+	/**
+	 * Create operators.
+	 */
+	static Supplier<Operator2> splOp = () -> {
+
+		// ReflectMobDamageAmplified2: get damage source (from event)
+		Function<Ports, DamageSource> fnGetDamageSource = DefaultPorts.getFnDamageSource1();
+
+		// ReflectMobDamageAmplified2: get amplifier from effect instance
+		Function<Ports, Integer> fnGetAmplifier = p -> getEffectIfActive(p.getLivingEntity1(), REFLECT_EFFECT).get()
+				.getAmplifier();
+
+		// ReflectMobDamageAmplified2: get damage amount from event
+		Function<Ports, Float> fnGetAmount = p -> p.getDouble1().floatValue();
+
+		Operator2 op = new Sequence2(new IsWorldAtServerSide2(), new IsEffectActive2(REFLECT_EFFECT),
+				new ReflectMobDamageAmplified2(fnGetDamageSource, fnGetAmplifier, fnGetAmount));
+		optOp = Optional.of(op);
+		return optOp.get();
+	};
 
 	@SubscribeEvent
 	public static void handleLivingDamageEvent(LivingDamageEvent event) {
-		LivingEntity livingEntity = event.getEntityLiving();
-		Optional<EffectInstance> optEffect = getEffectIfActive(livingEntity, REFLECT_EFFECT);
-		ops.run(event, event.getEntityLiving(), optEffect.orElse(NO_EFFECT));
+		Ports ports = getInstance();
+		ports.setLivingEntity1(event.getEntityLiving());
+		ports.setDamageSource1(event.getSource());
+		ports.setDouble1((double) event.getAmount());
+		run(ports, optOp.orElseGet(splOp));
 	}
 
 }

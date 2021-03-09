@@ -1,9 +1,11 @@
 package bassebombecraft.client.event.rendering.effect;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.ClientModConstants.DEFAULT_LINE_COLOR;
 import static bassebombecraft.ClientModConstants.LIGHTNING_LINE_COLOR;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.LIGHTNING_LINES;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.PROJECTILE_TRAIL_LINES;
+import static bassebombecraft.client.rendering.rendertype.RenderTypes.SIMPLE_LINES;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -45,6 +47,12 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 			new RenderLine2(LIGHTNING_LINE_COLOR, PROJECTILE_TRAIL_LINES));
 
 	/**
+	 * Effect operator for line effect.
+	 */
+	final static Operator2 LINE_OPERATOR = new Sequence2(new InitLineRenderingFromPorts2(),
+			new RenderLine2(DEFAULT_LINE_COLOR, SIMPLE_LINES));
+
+	/**
 	 * Consumer to support callback when {@linkplain DurationRepository} expires a
 	 * {@linkplain GraphicalEffect} added by this repository.
 	 * 
@@ -68,12 +76,13 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 		GraphicalEffect effectObject = ClientGraphicalEffect.getInstance(source, target, duration, effectOp);
 
 		// exit if effect exits
-		if(contains(effectObject.getId())) return;
-		
+		if (contains(effectObject.getId()))
+			return;
+
 		// register effect with client duration repository
 		DurationRepository repository = getProxy().getClientDurationRepository();
 		repository.add(effectObject.getId(), duration, cRemovalCallback);
-		
+
 		// store effect
 		effects.put(effectObject.getId(), effectObject);
 	}
@@ -91,6 +100,9 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 		case NO_EFFECT:
 			return DEFAULT_OPERATOR;
 
+		case LINE:
+			return LINE_OPERATOR;
+			
 		case ELECTROCUTE:
 			return ELECTROCUTE_OPERATOR;
 

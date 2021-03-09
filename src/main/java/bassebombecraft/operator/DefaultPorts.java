@@ -9,6 +9,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -117,6 +118,11 @@ public class DefaultPorts implements Ports {
 	 */
 	MatrixStack matrixStack;
 
+	/**
+	 * Damage source.
+	 */
+	DamageSource damageSource;
+	
 	/**
 	 * Living entity #1 getter.
 	 */
@@ -288,14 +294,24 @@ public class DefaultPorts implements Ports {
 	static BiConsumer<Ports, AxisAlignedBB> bcSetAabb1 = (p, aabb) -> p.setAabb1(aabb);
 
 	/**
-	 * MatrixStack #1 getter.
+	 * Matrix stack #1 getter.
 	 */
 	static Function<Ports, MatrixStack> fnGetMatrixStack1 = p -> p.getMatrixStack1();
 
 	/**
-	 * MatrixStack #1 setter.
+	 * Matrix stack #1 setter.
 	 */
 	static BiConsumer<Ports, MatrixStack> bcSetMatrixStack1 = (p, ms) -> p.setMatrixStack1(ms);
+
+	/**
+	 * Damage source #1 getter.
+	 */
+	static Function<Ports, DamageSource> fnGetDamageSource1 = p -> p.getDamageSource1();
+
+	/**
+	 * Damage source #1 setter.
+	 */
+	static BiConsumer<Ports, DamageSource> bcSetDamageSource1 = (p, ds) -> p.setDamageSource1(ds);
 	
 	/**
 	 * Constructor
@@ -536,6 +552,17 @@ public class DefaultPorts implements Ports {
 		this.matrixStack = ms;
 		return this;
 	}
+	
+	@Override
+	public DamageSource getDamageSource1() {
+		return damageSource;
+	}
+
+	@Override
+	public Ports setDamageSource1(DamageSource ds) {
+		this.damageSource = ds;
+		return this;
+	}
 
 	public static Function<Ports, LivingEntity> getFnGetLivingEntity1() {
 		return fnGetLivingEntity1;
@@ -680,7 +707,14 @@ public class DefaultPorts implements Ports {
 	public static BiConsumer<Ports, MatrixStack> getBcSetMaxtrixStack1() {
 		return bcSetMatrixStack1;
 	}
-	
+
+	public static Function<Ports, DamageSource> getFnDamageSource1() {
+		return fnGetDamageSource1;
+	}
+
+	public static BiConsumer<Ports, DamageSource> getBcSetDamageSource1() {
+		return bcSetDamageSource1;
+	}	
 	
 	/**
 	 * Factory method.

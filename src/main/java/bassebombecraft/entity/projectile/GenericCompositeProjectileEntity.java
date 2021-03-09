@@ -25,6 +25,7 @@ import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.client.rendering.AddGraphicalEffectAtClient2;
 import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
+import bassebombecraft.operator.conditional.IsFrequencyActive2;
 import bassebombecraft.operator.entity.Electrocute2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.CircleProjectilePath;
@@ -66,6 +67,19 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 */
 	public static final String NAME = GenericCompositeProjectileEntity.class.getSimpleName();
 
+	/**
+	 * Graphical effect duration.
+	 */
+	static final double EFFECT_RENDERING_DURATION = 3.0D;
+	
+	/**
+	 * Graphical effect rendering frequency.
+	 * 
+	 * Value should match the effect duration from the configuration
+	 * in order to only to have one effect at the time.
+	 */
+	static final int EFFECT_RENDERING_FREQUENCY = 3;
+	
 	/**
 	 * Random projectile path operator.
 	 */
@@ -170,7 +184,9 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		super(type, world);
 		projectileConfig = config;
 		ParticleRenderingInfo info = createInfoFromConfig(projectileConfig.particles);
-		renderingOp = new Sequence2(new AddParticlesFromPosAtClient2(info), new AddGraphicalEffectAtClient2(PROJECTILE_TRAIL));
+		renderingOp = new Sequence2(
+				//new IsFrequencyIsActive2(EFFECT_RENDERING_FREQUENCY),
+				new AddParticlesFromPosAtClient2(info), new AddGraphicalEffectAtClient2(PROJECTILE_TRAIL));
 		duration = genericProjectileEntityProjectileDuration.get();
 		projectileModifierPorts = getInstance();
 		renderingPorts = getInstance();
@@ -552,7 +568,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 */
 	void addRendering() {
 		renderingPorts.setBlockPosition1(getPosition());
-		renderingPorts.setDouble1(5.0D);
+		renderingPorts.setDouble1(EFFECT_RENDERING_DURATION);
 		renderingPorts.setEntity1(this);
 		renderingPorts.setEntity2(getThrower());
 		run(renderingPorts, renderingOp);

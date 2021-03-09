@@ -2138,7 +2138,7 @@ public class ModConfiguration {
 		name = LlamaProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		llamaProjectileItem = getInstance(COMMON_BUILDER, name,
-				"A image of a llama , almost like something from a psychedelic shooter.", 25);
+				"A image of a llama, almost like something from a psychedelic shooter.", 25);
 		COMMON_BUILDER.pop();
 
 		/**

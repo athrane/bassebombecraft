@@ -7,6 +7,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -320,4 +321,20 @@ public interface Ports {
 	 */
 	Ports setMatrixStack1(MatrixStack ms);
 
+	/**
+	 * Get damage source #1.
+	 * 
+	 * @return matrix stack.
+	 */
+	DamageSource getDamageSource1();
+
+	/**
+	 * Set damage source #1.
+	 * 
+	 * @param ds damage source .
+	 * 
+	 * @return ports.
+	 */
+	Ports setDamageSource1(DamageSource ds);
+	
 }
