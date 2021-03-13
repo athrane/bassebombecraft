@@ -10,6 +10,7 @@ import bassebombecraft.client.particles.CircleParticle;
 import bassebombecraft.client.particles.CurseParticle;
 import bassebombecraft.client.particles.LightningParticle;
 import bassebombecraft.client.particles.PlayerAggroParticle;
+import bassebombecraft.client.particles.ReflectParticle;
 import bassebombecraft.client.particles.SkullParticle;
 import bassebombecraft.client.particles.SparkParticle;
 import net.minecraft.client.Minecraft;
@@ -81,6 +82,11 @@ public class ParticleFactoryRegistryEventHandler {
 		 * Register factory for {@linkplain CurseParticle}.
 		 */
 		particles.registerFactory(CURSE_PARTICLE.get(), sprite -> new CurseParticle.Factory(sprite));
+
+		/**
+		 * Register factory for {@linkplain ReflectParticle}.
+		 */
+		particles.registerFactory(REFLECT_PARTICLE.get(), sprite -> new ReflectParticle.Factory(sprite));
 		
 	}
 

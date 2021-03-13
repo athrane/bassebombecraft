@@ -13,6 +13,7 @@ import static bassebombecraft.ModConstants.MOB_AGGRO_POTION_NAME;
 import static bassebombecraft.ModConstants.MOB_PRIMING_POTION_NAME;
 import static bassebombecraft.ModConstants.PRIMEDCREEPERCANNON_EFFECT_NAME;
 import static bassebombecraft.ModConstants.PROCESSED_BLOCK_DIRECTIVES_NAME;
+import static bassebombecraft.ModConstants.REFLECT_EFFECT_NAME;
 import static bassebombecraft.ModConstants.SUPERIOR_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.WEAK_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.config.InventoryItemConfig.getInstance;
@@ -46,6 +47,7 @@ import bassebombecraft.entity.projectile.SkullProjectileEntity;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
 import bassebombecraft.event.charm.CharmedMobEventHandler;
 import bassebombecraft.event.charm.ServerCharmedMobsRepository;
+import bassebombecraft.event.potion.ReflectEffectEventHandler;
 import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
@@ -255,6 +257,12 @@ public class ModConfiguration {
 	 */
 	public static ParticlesConfig charmedMobParticles;
 
+	/**
+	 * Particles spawned by charmed mob, spawned by
+	 * {@linkplain ReflectEffectEventHandler}.
+	 */
+	public static ParticlesConfig reflectEffectParticles;
+	
 	/**
 	 * Particles spawned by charmed mob, spawned by
 	 * {@linkplain ProcessBlockDirectivesEventHandler}.
@@ -837,6 +845,15 @@ public class ModConfiguration {
 		charmedMobParticles = getInstance(COMMON_BUILDER, "heart", 1, 10, 0.1, 1.0, 1.0, 1.0);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Particles spawned when a damage is reflected, spawned by
+		 * {@linkplain ReflectEffectEventHandler}.
+		 */
+		name = REFLECT_EFFECT_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		reflectEffectParticles = getInstance(COMMON_BUILDER, "bassebombecraft:reflectparticle", 1, 10, 0.2, 1.0, 1.0, 1.0);
+		COMMON_BUILDER.pop();
+		
 		/**
 		 * Particles spawned when a block directive is processed, spawned by
 		 * {@linkplain ProcessBlockDirectivesEventHandler}.

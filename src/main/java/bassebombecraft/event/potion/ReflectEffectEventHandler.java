@@ -1,6 +1,8 @@
 package bassebombecraft.event.potion;
 
 import static bassebombecraft.ModConstants.REFLECT_EFFECT;
+import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
+import static bassebombecraft.config.ModConfiguration.reflectEffectParticles;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.potion.PotionUtils.getEffectIfActive;
@@ -13,6 +15,7 @@ import bassebombecraft.operator.DefaultPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.Sequence2;
+import bassebombecraft.operator.client.rendering.AddParticlesFromEntityAtClient2;
 import bassebombecraft.operator.conditional.IsEffectActive2;
 import bassebombecraft.operator.conditional.IsWorldAtServerSide2;
 import bassebombecraft.operator.entity.ReflectMobDamageAmplified2;
@@ -59,7 +62,8 @@ public class ReflectEffectEventHandler {
 		Function<Ports, Float> fnGetAmount = p -> p.getDouble1().floatValue();
 
 		Operator2 op = new Sequence2(new IsWorldAtServerSide2(), new IsEffectActive2(REFLECT_EFFECT),
-				new ReflectMobDamageAmplified2(fnGetDamageSource, fnGetAmplifier, fnGetAmount));
+				new ReflectMobDamageAmplified2(fnGetDamageSource, fnGetAmplifier, fnGetAmount),
+				new AddParticlesFromEntityAtClient2(createInfoFromConfig(reflectEffectParticles)));
 		optOp = Optional.of(op);
 		return optOp.get();
 	};

@@ -344,6 +344,11 @@ public class ModConstants {
 	public static final String CHARMED_MOB_NAME = "CharmedMob";
 
 	/**
+	 * Reflect effect configuration identifier.
+	 */
+	public static final String REFLECT_EFFECT_NAME = "ReflectEffect";
+	
+	/**
 	 * Processed block directives configuration identifier.
 	 */
 	public static final String PROCESSED_BLOCK_DIRECTIVES_NAME = "ProcessBlockDirectives";
