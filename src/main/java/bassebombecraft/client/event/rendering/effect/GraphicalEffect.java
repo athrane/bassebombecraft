@@ -17,5 +17,5 @@ public interface GraphicalEffect {
 	 * 
 	 * @return ID used to identify instance in repositories
 	 */
-	public String getId();
+	public String getId();	
 }

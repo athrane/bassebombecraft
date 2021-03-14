@@ -99,5 +99,10 @@ public class ClientModConstants {
 	 * Rendering: Line color for lightning for {@linkplain ClientGraphicalEffectRepository}.
 	 */
 	public static final Vector4f LIGHTNING_LINE_COLOR = new Vector4f(0.75F, 0.75F, 1.0F, 1);
+
+	/**
+	 * Rendering: Line color for projectile trail for {@linkplain ClientGraphicalEffectRepository}.
+	 */
+	public static final Vector4f PROJECTILE_TRAIL_LINE_COLOR = new Vector4f(1.0F, 1.0F, 1.0F, 1);
 	
 }

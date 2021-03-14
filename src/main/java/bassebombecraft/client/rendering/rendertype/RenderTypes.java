@@ -24,7 +24,7 @@ public class RenderTypes extends RenderType {
 	static final LineState THICK_LINES = new LineState(OptionalDouble.of(3.0D));
 
 	static final LineState THIN_LINES = new LineState(OptionalDouble.of(0.5D));
-	
+
 	public static final RenderType OVERLAY_LINES = get("overlay_lines", DefaultVertexFormats.POSITION_COLOR,
 			GL11.GL_LINES, 256,
 			RenderType.State.builder().line(THICK_LINES).layer(PROJECTION_LAYERING)
@@ -42,15 +42,24 @@ public class RenderTypes extends RenderType {
 			RenderType.State.builder().line(THICK_LINES).layer(PROJECTION_LAYERING)
 					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).depthTest(DEPTH_ALWAYS)
 					.cull(CULL_ENABLED).writeMask(COLOR_WRITE).build(false));
-	
-	public static final RenderType PROJECTILE_TRAIL_LINES = get("projectile_trail_lines", DefaultVertexFormats.POSITION_COLOR,
-			GL11.GL_LINES, 256,
+
+	public static final RenderType PROJECTILE_TRAIL_LINES = get("projectile_trail_lines",
+			DefaultVertexFormats.POSITION_COLOR, 
+			GL11.GL_LINES, 
+			256,
+			RenderType.State.builder()
+			.line(THIN_LINES)
+            .transparency(TRANSLUCENT_TRANSPARENCY)
+            .depthTest(DEPTH_ALWAYS)
+            .build(false));
+
+	public static final RenderType PROJECTILE_TRAIL_LINES2 = get("projectile_trail_lines",
+			DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256,
 			RenderType.State.builder().line(THIN_LINES).layer(PROJECTION_LAYERING)
 					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).depthTest(DEPTH_ALWAYS)
-					.cull(CULL_ENABLED).writeMask(COLOR_WRITE).build(false));
+					.cull(CULL_ENABLED).writeMask(COLOR_DEPTH_WRITE).build(false));
 
 	public static final RenderType SIMPLE_LINES = get("simple_lines", DefaultVertexFormats.POSITION_COLOR,
-			GL11.GL_LINES, 256,
-			RenderType.State.builder().line(THIN_LINES).build(false));
-	
+			GL11.GL_LINES, 256, RenderType.State.builder().line(THIN_LINES).build(false));
+
 }

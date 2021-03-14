@@ -25,7 +25,7 @@ import net.minecraft.util.math.Vec3d;
  * 
  * Vector array are read from ports during execution. The first vector is
  * interpreted as the start of the line. Every subsequent entity is interpreted
- * as a line segment.
+ * as a line vertex.
  */
 public class RenderLine2 implements Operator2 {
 

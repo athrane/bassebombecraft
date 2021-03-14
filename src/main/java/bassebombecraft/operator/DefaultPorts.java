@@ -69,6 +69,11 @@ public class DefaultPorts implements Ports {
 	Vec3d[] vectors1;
 
 	/**
+	 * Vector array #2.
+	 */
+	Vec3d[] vectors2;
+	
+	/**
 	 * Entity #1.
 	 */
 	Entity entitiy1;
@@ -223,6 +228,16 @@ public class DefaultPorts implements Ports {
 	 */
 	static Function<Ports, Vec3d[]> fnGetVectors1 = p -> p.getVectors1();
 
+	/**
+	 * Vector array #2 setter.
+	 */
+	static BiConsumer<Ports, Vec3d[]> bcSetVectors2 = (p, v) -> p.setVectors2(v);
+
+	/**
+	 * Vector array #2 getter.
+	 */
+	static Function<Ports, Vec3d[]> fnGetVectors2 = p -> p.getVectors2();
+	
 	/**
 	 * Entity #1 setter.
 	 */
@@ -431,6 +446,17 @@ public class DefaultPorts implements Ports {
 		return this;
 	}
 
+	@Override
+	public Vec3d[] getVectors2() {
+		return vectors2;
+	}
+
+	@Override
+	public Ports setVectors2(Vec3d[] vec) {
+		this.vectors2 = vec;
+		return this;
+	}
+	
 	@Override
 	public Entity getEntity1() {
 		return entitiy1;
@@ -644,6 +670,14 @@ public class DefaultPorts implements Ports {
 		return bcSetVectors1;
 	}
 
+	public static Function<Ports, Vec3d[]> getFnGetVectors2() {
+		return fnGetVectors2;
+	}
+
+	public static BiConsumer<Ports, Vec3d[]> getBcSetVectors2() {
+		return bcSetVectors2;
+	}
+	
 	public static Function<Ports, Entity> getFnGetEntity1() {
 		return fnGetEntity1;
 	}

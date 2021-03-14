@@ -183,6 +183,20 @@ public interface Ports {
 	Ports setVectors1(Vec3d[] vec);
 
 	/**
+	 * Set {@linkplain Vec3d[]} #2.
+	 * 
+	 * @param vec vector array #2.
+	 */
+	Ports setVectors2(Vec3d[] vec);
+
+	/**
+	 * Return {@linkplain Vec3d[]} #2.
+	 * 
+	 * @return vector array #2.
+	 */
+	Vec3d[] getVectors2();
+	
+	/**
 	 * Return {@linkplain Entity} #1.
 	 * 
 	 * @return entity #1.

@@ -22,10 +22,8 @@ import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.client.rendering.AddGraphicalEffectAtClient2;
 import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
-import bassebombecraft.operator.conditional.IsFrequencyActive2;
 import bassebombecraft.operator.entity.Electrocute2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.CircleProjectilePath;
@@ -68,18 +66,18 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	public static final String NAME = GenericCompositeProjectileEntity.class.getSimpleName();
 
 	/**
-	 * Graphical effect duration.
+	 * Client side effect rendering operator.
 	 */
-	static final double EFFECT_RENDERING_DURATION = 3.0D;
+	static final Operator2 RENDERING_TRAIL_OP = new AddGraphicalEffectAtClient2(PROJECTILE_TRAIL);
 	
 	/**
 	 * Graphical effect rendering frequency.
 	 * 
-	 * Value should match the effect duration from the configuration
-	 * in order to only to have one effect at the time.
+	 * Value should match the effect duration from the configuration in order to
+	 * only to have one effect at the time.
 	 */
 	static final int EFFECT_RENDERING_FREQUENCY = 3;
-	
+
 	/**
 	 * Random projectile path operator.
 	 */
@@ -154,14 +152,14 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * 
 	 * The ports is defined as a field to reuse it across update ticks.
 	 */
-	Ports projectileModifierPorts;
+	Ports projectileModifierPorts = getInstance();
 
 	/**
 	 * Projectile rendering ports.
 	 * 
 	 * The ports is defined as a field to reuse it across update ticks.
 	 */
-	Ports renderingPorts;
+	Ports renderingPorts = getInstance();
 
 	/**
 	 * Projectile entity configuration.
@@ -184,12 +182,8 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		super(type, world);
 		projectileConfig = config;
 		ParticleRenderingInfo info = createInfoFromConfig(projectileConfig.particles);
-		renderingOp = new Sequence2(
-				//new IsFrequencyIsActive2(EFFECT_RENDERING_FREQUENCY),
-				new AddParticlesFromPosAtClient2(info), new AddGraphicalEffectAtClient2(PROJECTILE_TRAIL));
+		renderingOp = new AddParticlesFromPosAtClient2(info);
 		duration = genericProjectileEntityProjectileDuration.get();
-		projectileModifierPorts = getInstance();
-		renderingPorts = getInstance();
 		initialiseDuration();
 	}
 
@@ -225,7 +219,8 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 				* (double) (180F / (float) Math.PI));
 		this.rotationPitch = (float) (MathHelper.atan2(motionVector.y, f) * (double) (180F / (float) Math.PI));
 		this.prevRotationYaw = this.rotationYaw;
-		this.prevRotationPitch = this.rotationPitch;
+		this.prevRotationPitch = this.rotationPitch;		
+		
 	}
 
 	/**
@@ -240,6 +235,9 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		double inaccuracy = projectileConfig.inaccuracy.get();
 		double velocity = force * orientation.length();
 		shoot(orientation.getX(), orientation.getY(), orientation.getZ(), (float) velocity, (float) inaccuracy);
+		
+		// add trail effect at clients
+		addTrailGraphicalEffect();						
 	}
 
 	/**
@@ -568,10 +566,17 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 */
 	void addRendering() {
 		renderingPorts.setBlockPosition1(getPosition());
-		renderingPorts.setDouble1(EFFECT_RENDERING_DURATION);
-		renderingPorts.setEntity1(this);
-		renderingPorts.setEntity2(getThrower());
 		run(renderingPorts, renderingOp);
 	}
 
+	/**
+	 * Send graphical effect to client
+	 */
+	void addTrailGraphicalEffect() {			
+		renderingPorts.setDouble1((double) duration);
+		renderingPorts.setEntity1(this);
+		renderingPorts.setEntity2(getThrower());
+		run(renderingPorts, RENDERING_TRAIL_OP);
+	}
+	
 }

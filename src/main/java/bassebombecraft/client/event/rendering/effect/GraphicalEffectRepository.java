@@ -35,6 +35,16 @@ public interface GraphicalEffectRepository {
 	 * @param effect effect name.
 	 */	
 	public void add(Entity source, Entity target, int duration, Effect effect);
+
+	/**
+	 * Add unresolved effect where source Id isn't sync'ed to client yet.
+	 * 
+	 * @param sourceId   source entity involved in the effect.
+	 * @param targetId   target entity involved in the effect.
+	 * @param duration effect duration.
+	 * @param effect effect name.
+	 */	
+	public void addUnresolvedSource(int sourceId, Entity target, int duration, Effect effect);
 	
 	/**
 	 * Remove effect.

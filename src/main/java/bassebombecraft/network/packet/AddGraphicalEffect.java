@@ -100,22 +100,26 @@ public class AddGraphicalEffect {
 		try {
 			// get client side entity from ID
 			Minecraft mcClient = Minecraft.getInstance();
-			Entity source = mcClient.world.getEntityByID(sourceEntityId);
-
-			// exit if entity isn't defined
-			if (source == null)
-				return;
-
-			// get client side entity from ID
 			Entity target = mcClient.world.getEntityByID(targetEntityId);
 
 			// exit if entity isn't defined
 			if (target == null)
 				return;
 
-			// register
+			// get repository
 			GraphicalEffectRepository repository = getProxy().getClientGraphicalEffectRepository();
-			repository.add(source, target, duration, effect);
+
+			// get client side entity from ID
+			Entity source = mcClient.world.getEntityByID(sourceEntityId);
+
+			// register effect
+			if (source != null) {
+				repository.add(source, target, duration, effect);
+				return;
+			}
+
+			// register unresolved effect if source entity isn't defined
+			repository.addUnresolvedSource(sourceEntityId, target, duration, effect);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
