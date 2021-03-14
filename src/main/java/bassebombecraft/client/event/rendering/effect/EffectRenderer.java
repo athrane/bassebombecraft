@@ -7,7 +7,6 @@ import static bassebombecraft.operator.DefaultPorts.getInstance;
 
 import java.util.stream.Stream;
 
-import bassebombecraft.operator.Operators2;
 import bassebombecraft.operator.Ports;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
@@ -39,11 +38,7 @@ public class EffectRenderer {
 			Stream<GraphicalEffect> effects = repository.get();
 
 			// loop over effects
-			effects.forEach(e -> {
-				ports.setEntity1(e.getSource());
-				ports.setEntity2(e.getTarget());
-				Operators2.run(ports, e.getEffectOperator());
-			});
+			effects.forEach(e -> e.render(ports));
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

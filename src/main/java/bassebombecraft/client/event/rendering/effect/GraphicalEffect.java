@@ -1,7 +1,6 @@
 package bassebombecraft.client.event.rendering.effect;
 
-import bassebombecraft.operator.Operator2;
-import net.minecraft.entity.Entity;
+import bassebombecraft.operator.Ports;
 
 /**
  * Graphical effect.
@@ -9,32 +8,9 @@ import net.minecraft.entity.Entity;
 public interface GraphicalEffect {
 
 	/**
-	 * Return source entity.
-	 * 
-	 * @return source entity.
+	 * Render effect using ports.
 	 */
-	public Entity getSource();
-
-	/**
-	 * Return target entity.
-	 * 
-	 * @return target entity.
-	 */
-	public Entity getTarget();
-
-	/**
-	 * Return remaining duration of effect (in game ticks).
-	 * 
-	 * @return remaining duration of effect (in game ticks).
-	 */
-	public int getDuration();
-
-	/**
-	 * Get effect operator.
-	 * 
-	 * @return effect operator.
-	 */
-	public Operator2 getEffectOperator();
+	public void render(Ports ports);
 
 	/**
 	 * Return ID used to identify instance in repositories.

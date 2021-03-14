@@ -1,14 +1,16 @@
 package bassebombecraft.client.event.rendering.effect;
 
-import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.entity.ai.AiUtils.getCharmDuration;
-
 import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Operators2;
+import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
 
 /**
- * CLIENT side implementation of {@linkplain GraphicalEffect} interface. Used by
- * {@linkplain ClientGraphicalEffectRepository} to store effects.
+ * CLIENT side implementation of {@linkplain GraphicalEffect} interface.
+ * 
+ * Used by {@linkplain ClientGraphicalEffectRepository} to store effects.
+ * 
+ * Used by {@linkplain EffectRenderer} to render effects.
  */
 public class ClientGraphicalEffect implements GraphicalEffect {
 
@@ -26,6 +28,11 @@ public class ClientGraphicalEffect implements GraphicalEffect {
 	 * ID used for registration and lookup of duration.
 	 */
 	String id;
+	
+	/**
+	 * Duration.
+	 */
+	int duration;
 
 	/**
 	 * Effect operator.
@@ -44,31 +51,20 @@ public class ClientGraphicalEffect implements GraphicalEffect {
 		this.source = source;
 		this.target = target;
 		this.effectOp = effectOp;
-		id = Integer.toString(hashCode());
+		this.id = Integer.toString(hashCode());
+		this.duration = duration;
 	}
 
-	@Override
-	public Entity getSource() {
-		return source;
-	}
-
-	@Override
-	public Entity getTarget() {
-		return target;
-	}
-
-	public int getDuration() {
-		return getCharmDuration(id, getProxy().getClientDurationRepository());
-	}
-
-	@Override
-	public Operator2 getEffectOperator() {
-		return effectOp;
-	}
-	
 	@Override
 	public String getId() {
 		return id;
+	}
+
+	@Override
+	public void render(Ports ports) {
+		ports.setEntity1(source);
+		ports.setEntity2(target);
+		Operators2.run(ports, effectOp);
 	}
 
 	/**
