@@ -69,15 +69,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * Client side effect rendering operator.
 	 */
 	static final Operator2 RENDERING_TRAIL_OP = new AddGraphicalEffectAtClient2(PROJECTILE_TRAIL);
-	
-	/**
-	 * Graphical effect rendering frequency.
-	 * 
-	 * Value should match the effect duration from the configuration in order to
-	 * only to have one effect at the time.
-	 */
-	static final int EFFECT_RENDERING_FREQUENCY = 3;
-
+		
 	/**
 	 * Random projectile path operator.
 	 */
