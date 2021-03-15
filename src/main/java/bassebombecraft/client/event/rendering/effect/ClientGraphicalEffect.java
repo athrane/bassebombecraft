@@ -101,9 +101,7 @@ public class ClientGraphicalEffect implements GraphicalEffect {
 			return;
 		}
 
-		// attempt to resolve
-
-		// get client side entity from ID
+		// attempt to resolve, get client side entity from ID
 		Minecraft mcClient = Minecraft.getInstance();
 		source = mcClient.world.getEntityByID(sourceId);
 	}
