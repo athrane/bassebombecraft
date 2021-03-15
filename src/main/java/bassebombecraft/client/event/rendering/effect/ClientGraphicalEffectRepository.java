@@ -2,7 +2,8 @@ package bassebombecraft.client.event.rendering.effect;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ClientModConstants.DEFAULT_LINE_COLOR;
-import static bassebombecraft.ClientModConstants.*;
+import static bassebombecraft.ClientModConstants.LIGHTNING_LINE_COLOR;
+import static bassebombecraft.ClientModConstants.PROJECTILE_TRAIL_LINE_COLOR;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.LIGHTNING_LINES;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.PROJECTILE_TRAIL_LINES;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.SIMPLE_LINES;
@@ -12,7 +13,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.client.operator.rendering.InitElectrocute2;
 import bassebombecraft.client.operator.rendering.InitLineRenderingFromPorts2;
 import bassebombecraft.client.operator.rendering.InitProjectileTrailRendering2;
@@ -92,8 +92,6 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 	@Override
 	public void addUnresolvedSource(int sourceId, Entity target, int duration, Effect effect) {
 
-		BassebombeCraft.getBassebombeCraft().getLogger().debug("addUnresolvedSource: duration=" + duration);
-
 		// resolve effect operator
 		Operator2 effectOp = resolveOperator(effect);
 
@@ -144,9 +142,6 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 	public void remove(String id) {
 		if (!contains(id))
 			return;
-
-		bassebombecraft.BassebombeCraft.getBassebombeCraft().getLogger()
-				.debug("ClientGraphicalEffectRepository(" + hashCode() + "): removed effect=" + id);
 
 		// remove effect from repository
 		effects.remove(id);
