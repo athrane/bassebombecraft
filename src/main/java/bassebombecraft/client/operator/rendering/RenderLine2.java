@@ -2,7 +2,8 @@ package bassebombecraft.client.operator.rendering;
 
 import static bassebombecraft.ClientModConstants.DEFAULT_LINE_COLOR;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.DEFAULT_LINES;
-import static bassebombecraft.operator.DefaultPorts.*;
+import static bassebombecraft.operator.DefaultPorts.getFnGetVectors1;
+import static bassebombecraft.operator.DefaultPorts.getFnMaxtrixStack1;
 import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
@@ -48,7 +49,7 @@ public class RenderLine2 implements Operator2 {
 	 * Function to get line vertexes.
 	 */
 	Function<Ports, Vec3d[]> fnGetLineVertexes;
-	
+
 	/**
 	 * Constructor.
 	 * 
@@ -59,8 +60,8 @@ public class RenderLine2 implements Operator2 {
 	public RenderLine2() {
 		this.fnGetMatrixStack = getFnMaxtrixStack1();
 		this.fnGetLineVertexes = getFnGetVectors1();
-		this.color = DEFAULT_LINE_COLOR ;
-		this.renderType = DEFAULT_LINES;				
+		this.color = DEFAULT_LINE_COLOR;
+		this.renderType = DEFAULT_LINES;
 	}
 
 	/**
@@ -74,7 +75,7 @@ public class RenderLine2 implements Operator2 {
 	 * @param renderType render type for rendering the line.
 	 */
 	public RenderLine2(Vector4f color, RenderType renderType) {
-		this();				
+		this();
 		this.color = color;
 		this.renderType = renderType;
 	}
@@ -102,10 +103,10 @@ public class RenderLine2 implements Operator2 {
 		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
 
 		// render
-		for(int index = 0; index < (positions.length-1); index++) {
+		for (int index = 0; index < (positions.length - 1); index++) {
 			Vec3d start = positions[index];
-			Vec3d end = positions[index+1];
-			renderLine(start, end, builder, positionMatrix);			
+			Vec3d end = positions[index + 1];
+			renderLine(start, end, builder, positionMatrix);
 		}
 
 		// restore matrix

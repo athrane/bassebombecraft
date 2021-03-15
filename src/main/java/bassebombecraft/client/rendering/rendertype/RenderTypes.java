@@ -44,20 +44,8 @@ public class RenderTypes extends RenderType {
 					.cull(CULL_ENABLED).writeMask(COLOR_WRITE).build(false));
 
 	public static final RenderType PROJECTILE_TRAIL_LINES = get("projectile_trail_lines",
-			DefaultVertexFormats.POSITION_COLOR, 
-			GL11.GL_LINES, 
-			256,
-			RenderType.State.builder()
-			.line(THIN_LINES)
-            .transparency(TRANSLUCENT_TRANSPARENCY)
-            .depthTest(DEPTH_ALWAYS)
-            .build(false));
-
-	public static final RenderType PROJECTILE_TRAIL_LINES2 = get("projectile_trail_lines",
 			DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256,
-			RenderType.State.builder().line(THIN_LINES).layer(PROJECTION_LAYERING)
-					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).depthTest(DEPTH_ALWAYS)
-					.cull(CULL_ENABLED).writeMask(COLOR_DEPTH_WRITE).build(false));
+			RenderType.State.builder().line(THIN_LINES).build(false));
 
 	public static final RenderType SIMPLE_LINES = get("simple_lines", DefaultVertexFormats.POSITION_COLOR,
 			GL11.GL_LINES, 256, RenderType.State.builder().line(THIN_LINES).build(false));
