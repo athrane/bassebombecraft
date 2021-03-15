@@ -10,7 +10,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
@@ -26,6 +25,16 @@ import net.minecraft.util.math.Vec3d;
  * Adds the target positions as a vector array to the ports.
  */
 public class InitProjectileTrailRendering2 implements Operator2 {
+
+	/**
+	 * First array index.
+	 */
+	static final int FIRST_INDEX = 0;
+
+	/**
+	 * Projectile trail length.
+	 */
+	static final int TRAIL_LENGTH = 15;
 
 	/**
 	 * Function to get projectile entity.
@@ -70,17 +79,47 @@ public class InitProjectileTrailRendering2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		Entity projectile = applyV(fnGetProjectile, ports);
-		Vec3d[] lineVertexes = applyV(fnGetLineVertexes, ports);
+		Vec3d[] currentVertexes = applyV(fnGetLineVertexes, ports);
 
-		// capture position
-		Vec3d newVertex = projectile.getPositionVec();
+		// get current position
+		Vec3d currentPosition = projectile.getPositionVec();
 
-		Stream<Vec3d> newPosStream = Stream.of(newVertex);
-		Stream<Vec3d> positionStream = Arrays.stream(lineVertexes);
-		Stream<Vec3d> concatStream = Stream.concat(positionStream, newPosStream);
-		Vec3d[] newLineVertexes = concatStream.toArray(Vec3d[]::new);
+		// if no previous position is defined then add position
+		if (currentVertexes.length == 0) {
+			Vec3d[] vertexes = new Vec3d[1];
+			vertexes[FIRST_INDEX] = currentPosition;
+			bcSetLineVertexes.accept(ports, vertexes);
+			return;
+		}
 
-		bcSetLineVertexes.accept(ports, newLineVertexes);
+		// get previous position
+		Vec3d previousPosition = currentVertexes[0];
+
+		// only add new position if it is different to previous position
+		if (isVertexesEqual(currentPosition, previousPosition)) {
+			bcSetLineVertexes.accept(ports, currentVertexes);
+			return;
+		}
+
+		// concatenate vertexes
+		Stream<Vec3d> vertexStream = Arrays.stream(currentVertexes);
+		Stream<Vec3d> concatStream = Stream.concat(Stream.of(currentPosition), vertexStream.limit(TRAIL_LENGTH));
+		Vec3d[] vertexes = concatStream.toArray(Vec3d[]::new);
+		bcSetLineVertexes.accept(ports, vertexes);
+	}
+
+	/**
+	 * Return if vertexes are equal.
+	 * 
+	 * @param currentPosition  current position.
+	 * @param previousPosition previous position. Might not be defined.
+	 * 
+	 * @return if vertexes are equal
+	 */
+	boolean isVertexesEqual(Vec3d currentPosition, Vec3d previousPosition) {
+		if (previousPosition == null)
+			return false;
+		return currentPosition.equals(previousPosition);
 	}
 
 }
