@@ -51,6 +51,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 /**
@@ -69,7 +71,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * Client side effect rendering operator.
 	 */
 	static final Operator2 RENDERING_TRAIL_OP = new AddGraphicalEffectAtClient2(PROJECTILE_TRAIL);
-		
+
 	/**
 	 * Random projectile path operator.
 	 */
@@ -211,8 +213,8 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 				* (double) (180F / (float) Math.PI));
 		this.rotationPitch = (float) (MathHelper.atan2(motionVector.y, f) * (double) (180F / (float) Math.PI));
 		this.prevRotationYaw = this.rotationYaw;
-		this.prevRotationPitch = this.rotationPitch;		
-		
+		this.prevRotationPitch = this.rotationPitch;
+
 	}
 
 	/**
@@ -227,9 +229,9 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		double inaccuracy = projectileConfig.inaccuracy.get();
 		double velocity = force * orientation.length();
 		shoot(orientation.getX(), orientation.getY(), orientation.getZ(), (float) velocity, (float) inaccuracy);
-		
+
 		// add trail effect at clients
-		addTrailGraphicalEffect();						
+		addTrailGraphicalEffect();
 	}
 
 	/**
@@ -248,6 +250,21 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		repository.add(getUniqueID().toString(), duration, cRemovalCallback);
 	}
 
+	/**
+	 * Updates the entity motion client side, called by packets from the server
+	 */
+	@OnlyIn(Dist.CLIENT)
+	public void setVelocity(double x, double y, double z) {
+		this.setMotion(x, y, z);
+		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
+			float f = MathHelper.sqrt(x * x + z * z);
+			this.rotationYaw = (float) (MathHelper.atan2(x, z) * (double) (180F / (float) Math.PI));
+			this.rotationPitch = (float) (MathHelper.atan2(y, (double) f) * (double) (180F / (float) Math.PI));
+			this.prevRotationYaw = this.rotationYaw;
+			this.prevRotationPitch = this.rotationPitch;
+		}
+	}
+
 	@Override
 	public void tick() {
 		super.tick();
@@ -255,27 +272,28 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		try {
 
 			// exit if on client side
-			if (isLogicalClient(getEntityWorld()))
-				return;
+			if (!isLogicalClient(getEntityWorld())) {
 
-			// calculate collision with block or entity
-			RayTraceResult result = calculateCollision();
+				// calculate collision with block or entity
+				RayTraceResult result = calculateCollision();
 
-			// if hit then process collision
-			if (result.getType() != RayTraceResult.Type.MISS)
-				onImpact(result);
+				// if hit then process collision
+				if (result.getType() != RayTraceResult.Type.MISS)
+					onImpact(result);
 
-			// process projectile modifiers
-			processCompositeModifiers();
+				// process projectile modifiers
+				processCompositeModifiers();
+
+				// send particle rendering info to client
+				addRendering();
+
+				// update ports counter
+				projectileModifierPorts.incrementCounter();
+
+			}
 
 			// Update motion and position
 			updateMotionAndPosition();
-
-			// send particle rendering info to client
-			addRendering();
-
-			// update ports counter
-			projectileModifierPorts.incrementCounter();
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -564,11 +582,11 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	/**
 	 * Send graphical effect to client
 	 */
-	void addTrailGraphicalEffect() {			
+	void addTrailGraphicalEffect() {
 		renderingPorts.setDouble1((double) duration);
 		renderingPorts.setEntity1(this);
 		renderingPorts.setEntity2(getThrower());
 		run(renderingPorts, RENDERING_TRAIL_OP);
 	}
-	
+
 }

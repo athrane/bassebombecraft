@@ -1,5 +1,6 @@
 package bassebombecraft.client.operator.rendering;
 
+import static bassebombecraft.ClientModConstants.PROJECTILE_TRAIL_LENGTH;
 import static bassebombecraft.operator.DefaultPorts.getBcSetVectors1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetVectors1;
@@ -30,11 +31,6 @@ public class InitProjectileTrailRendering2 implements Operator2 {
 	 * First array index.
 	 */
 	static final int FIRST_INDEX = 0;
-
-	/**
-	 * Projectile trail length.
-	 */
-	static final int TRAIL_LENGTH = 15;
 
 	/**
 	 * Function to get projectile entity.
@@ -103,7 +99,8 @@ public class InitProjectileTrailRendering2 implements Operator2 {
 
 		// concatenate vertexes
 		Stream<Vec3d> vertexStream = Arrays.stream(currentVertexes);
-		Stream<Vec3d> concatStream = Stream.concat(Stream.of(currentPosition), vertexStream.limit(TRAIL_LENGTH));
+		Stream<Vec3d> concatStream = Stream.concat(Stream.of(currentPosition),
+				vertexStream.limit(PROJECTILE_TRAIL_LENGTH));
 		Vec3d[] vertexes = concatStream.toArray(Vec3d[]::new);
 		bcSetLineVertexes.accept(ports, vertexes);
 	}
