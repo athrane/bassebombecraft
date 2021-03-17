@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
@@ -59,19 +60,29 @@ public class DefaultPorts implements Ports {
 	Double double1;
 
 	/**
-	 * Vector #1.
+	 * Vector3d #1.
 	 */
-	Vec3d vector1;
+	Vec3d vector3d1;
 
 	/**
-	 * Vector array #1.
+	 * Vector3d array #1.
 	 */
-	Vec3d[] vectors1;
+	Vec3d[] vectors3d1;
 
 	/**
-	 * Vector array #2.
+	 * Vector3d array #2.
 	 */
-	Vec3d[] vectors2;
+	Vec3d[] vectors3d2;
+
+	/**
+	 * Vector4f #1.
+	 */
+	Vector4f vector4f1;
+
+	/**
+	 * Vector4f #2.
+	 */
+	Vector4f vector4f2;
 	
 	/**
 	 * Entity #1.
@@ -209,34 +220,54 @@ public class DefaultPorts implements Ports {
 	static BiConsumer<Ports, Double> bcSetDouble1 = (p, d) -> p.setDouble1(d);
 
 	/**
-	 * Vector #1 getter.
+	 * Vector3d #1 getter.
 	 */
 	static Function<Ports, Vec3d> fnGetVector1 = p -> p.getVector1();
 
 	/**
-	 * Vector #1 setter.
+	 * Vector3d #1 setter.
 	 */
 	static BiConsumer<Ports, Vec3d> bcSetVector1 = (p, v) -> p.setVector1(v);
 
 	/**
-	 * Vector array #1 setter.
+	 * Vector3d array #1 setter.
 	 */
 	static BiConsumer<Ports, Vec3d[]> bcSetVectors1 = (p, v) -> p.setVectors1(v);
 
 	/**
-	 * Vector array #1 getter.
+	 * Vector3d array #1 getter.
 	 */
 	static Function<Ports, Vec3d[]> fnGetVectors1 = p -> p.getVectors1();
 
 	/**
-	 * Vector array #2 setter.
+	 * Vector3d array #2 setter.
 	 */
 	static BiConsumer<Ports, Vec3d[]> bcSetVectors2 = (p, v) -> p.setVectors2(v);
 
 	/**
-	 * Vector array #2 getter.
+	 * Vector3d array #2 getter.
 	 */
 	static Function<Ports, Vec3d[]> fnGetVectors2 = p -> p.getVectors2();
+
+	/**
+	 * Vector4f #1 getter.
+	 */
+	static Function<Ports, Vector4f> fnGetVector4f1 = p -> p.getVector4f1();
+
+	/**
+	 * Vector4f #1 setter.
+	 */
+	static BiConsumer<Ports, Vector4f> bcSetVector4f1 = (p, v) -> p.setVector4f1(v);
+
+	/**
+	 * Vector4f #2 getter.
+	 */
+	static Function<Ports, Vector4f> fnGetVector4f2 = p -> p.getVector4f2();
+
+	/**
+	 * Vector4f #2 setter.
+	 */
+	static BiConsumer<Ports, Vector4f> bcSetVector4f2 = (p, v) -> p.setVector4f2(v);
 	
 	/**
 	 * Entity #1 setter.
@@ -426,37 +457,60 @@ public class DefaultPorts implements Ports {
 
 	@Override
 	public Vec3d getVector1() {
-		return vector1;
+		return vector3d1;
 	}
 
 	@Override
 	public Ports setVector1(Vec3d vec) {
-		this.vector1 = vec;
+		this.vector3d1 = vec;
 		return this;
 	}
 
 	@Override
 	public Vec3d[] getVectors1() {
-		return vectors1;
+		return vectors3d1;
 	}
 
 	@Override
 	public Ports setVectors1(Vec3d[] vec) {
-		this.vectors1 = vec;
+		this.vectors3d1 = vec;
 		return this;
 	}
 
 	@Override
 	public Vec3d[] getVectors2() {
-		return vectors2;
+		return vectors3d2;
 	}
 
 	@Override
 	public Ports setVectors2(Vec3d[] vec) {
-		this.vectors2 = vec;
+		this.vectors3d2 = vec;
 		return this;
 	}
+		
+	@Override
+	public Vector4f getVector4f1() {
+		return vector4f1;
+	}
+
+	@Override
+	public Ports setVector4f1(Vector4f vec) {
+		this.vector4f1 = vec;
+		return this;
+	}
+
 	
+	@Override
+	public Vector4f getVector4f2() {
+		return vector4f2;
+	}
+
+	@Override
+	public Ports setVector4f2(Vector4f vec) {
+		this.vector4f2 = vec;
+		return this;
+	}
+
 	@Override
 	public Entity getEntity1() {
 		return entitiy1;
@@ -676,6 +730,22 @@ public class DefaultPorts implements Ports {
 
 	public static BiConsumer<Ports, Vec3d[]> getBcSetVectors2() {
 		return bcSetVectors2;
+	}
+
+	public static Function<Ports, Vector4f> getFnGetVector4f1() {
+		return fnGetVector4f1;
+	}
+
+	public static BiConsumer<Ports, Vector4f> getBcSetVector4f1() {
+		return bcSetVector4f1;
+	}
+
+	public static Function<Ports, Vector4f> getFnGetVector4f2() {
+		return fnGetVector4f2;
+	}
+
+	public static BiConsumer<Ports, Vector4f> getBcSetVector4f2() {
+		return bcSetVector4f2;
 	}
 	
 	public static Function<Ports, Entity> getFnGetEntity1() {

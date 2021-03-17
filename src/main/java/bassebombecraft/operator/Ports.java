@@ -4,6 +4,7 @@ import java.util.stream.Stream;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
@@ -195,6 +196,34 @@ public interface Ports {
 	 * @return vector array #2.
 	 */
 	Vec3d[] getVectors2();
+
+	/**
+	 * Return {@linkplain Vector4f} #1.
+	 * 
+	 * @return vector #1.
+	 */
+	Vector4f getVector4f1();
+
+	/**
+	 * Set {@linkplain Vector4f} #1.
+	 * 
+	 * @param vec vector #1.
+	 */
+	Ports setVector4f1(Vector4f vec);
+
+	/**
+	 * Return {@linkplain Vector4f} #2.
+	 * 
+	 * @return vector #2.
+	 */
+	Vector4f getVector4f2();
+
+	/**
+	 * Set {@linkplain Vector4f} #2.
+	 * 
+	 * @param vec vector #2.
+	 */
+	Ports setVector4f2(Vector4f vec);
 	
 	/**
 	 * Return {@linkplain Entity} #1.

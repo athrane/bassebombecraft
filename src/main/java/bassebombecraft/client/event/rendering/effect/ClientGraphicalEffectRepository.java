@@ -2,21 +2,27 @@ package bassebombecraft.client.event.rendering.effect;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ClientModConstants.DEFAULT_LINE_COLOR;
-import static bassebombecraft.ClientModConstants.LIGHTNING_LINE_COLOR;
-import static bassebombecraft.ClientModConstants.PROJECTILE_TRAIL_LINE_COLOR;
+import static bassebombecraft.ClientModConstants.LIGHTNING_LINE_COLOR1;
+import static bassebombecraft.ClientModConstants.LIGHTNING_LINE_COLOR2;
+import static bassebombecraft.ClientModConstants.PROJECTILE_TRAIL_LINE_COLOR1;
+import static bassebombecraft.ClientModConstants.PROJECTILE_TRAIL_LINE_COLOR2;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.LIGHTNING_LINES;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.PROJECTILE_TRAIL_LINES;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.SIMPLE_LINES;
+import static bassebombecraft.operator.DefaultPorts.getBcSetVector4f1;
+import static bassebombecraft.operator.DefaultPorts.getFnGetVector4f1;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
+import bassebombecraft.client.operator.rendering.InitColor2;
 import bassebombecraft.client.operator.rendering.InitElectrocute2;
 import bassebombecraft.client.operator.rendering.InitLineRenderingFromPorts2;
 import bassebombecraft.client.operator.rendering.InitProjectileTrailRendering2;
 import bassebombecraft.client.operator.rendering.RenderLine2;
+import bassebombecraft.client.operator.rendering.RenderLineWithDynamicColor2;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.operator.NullOp2;
 import bassebombecraft.operator.Operator2;
@@ -40,13 +46,15 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 	 * Effect operator for electrocute effect.
 	 */
 	final static Operator2 ELECTROCUTE_OPERATOR = new Sequence2(new InitElectrocute2(),
-			new RenderLine2(LIGHTNING_LINE_COLOR, LIGHTNING_LINES));
+			new InitColor2(getBcSetVector4f1(), LIGHTNING_LINE_COLOR1, LIGHTNING_LINE_COLOR2),
+			new RenderLineWithDynamicColor2(getFnGetVector4f1(), LIGHTNING_LINES));
 
 	/**
 	 * Effect operator for projectile trail effect.
 	 */
 	final static Operator2 PROJECTILE_TRAIL_OPERATOR = new Sequence2(new InitProjectileTrailRendering2(),
-			new RenderLine2(PROJECTILE_TRAIL_LINE_COLOR, PROJECTILE_TRAIL_LINES));
+			new InitColor2(getBcSetVector4f1(), PROJECTILE_TRAIL_LINE_COLOR1, PROJECTILE_TRAIL_LINE_COLOR2),
+			new RenderLineWithDynamicColor2(getFnGetVector4f1(), PROJECTILE_TRAIL_LINES));
 
 	/**
 	 * Effect operator for line effect.
