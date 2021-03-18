@@ -109,6 +109,7 @@ import bassebombecraft.item.composite.projectile.path.DecreaseGravityProjectileP
 import bassebombecraft.item.composite.projectile.path.IncreaseGravityProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.RandomProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.SineProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.TeleportProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.ZigZagProjectilePathItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
@@ -283,6 +284,7 @@ public class RegisteredItems {
 	public static final RegistryObject<Item> PROJECTILE_PATH6 = register(CircleProjectilePathItem::new);
 	public static final RegistryObject<Item> PROJECTILE_PATH7 = register(IncreaseGravityProjectilePathItem::new);
 	public static final RegistryObject<Item> PROJECTILE_PATH8 = register(DecreaseGravityProjectilePathItem::new);
+	public static final RegistryObject<Item> PROJECTILE_PATH9 = register(TeleportProjectilePathItem::new);	
 	public static final RegistryObject<Item> MODIFIER1 = register(TeleportInvokerProjectileModifierItem::new);
 	public static final RegistryObject<Item> MODIFIER2 = register(TeleportMobProjectileModifierItem::new);
 	public static final RegistryObject<Item> MODIFIER3 = register(CharmProjectileModifierItem::new);

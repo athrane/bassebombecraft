@@ -32,6 +32,7 @@ import bassebombecraft.operator.projectile.path.DecreaseGravityProjectilePath;
 import bassebombecraft.operator.projectile.path.IncreaseGravityProjectilePath;
 import bassebombecraft.operator.projectile.path.RandomProjectilePath;
 import bassebombecraft.operator.projectile.path.SineProjectilePath;
+import bassebombecraft.operator.projectile.path.TeleportProjectilePath;
 import bassebombecraft.operator.projectile.path.ZigZagProjectilePath;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -112,6 +113,11 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 */
 	static final Operator2 DECREASE_GRAVITY_PATH_OPERATOR = new DecreaseGravityProjectilePath();
 
+	/**
+	 * Teleport projectile path operator.
+	 */
+	static final Operator2 TELEPORT_PATH_OPERATOR = new TeleportProjectilePath();
+	
 	/**
 	 * Electrocute operator.
 	 */
@@ -420,6 +426,10 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		if (tags.contains(DecreaseGravityProjectilePath.NAME))
 			calculateDecreaseGravityPath();
 
+		// handle: teleport path
+		if (tags.contains(TeleportProjectilePath.NAME))
+			calculateTeleportPath();
+		
 		// handle: electrocute
 		if (tags.contains(Electrocute2.NAME))
 			electrocute();
@@ -491,6 +501,14 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		run(projectileModifierPorts, DECREASE_GRAVITY_PATH_OPERATOR);
 	}
 
+	/**
+	 * Execute teleport path modifier operator.
+	 */
+	void calculateTeleportPath() {
+		projectileModifierPorts.setEntity1(this);
+		run(projectileModifierPorts, TELEPORT_PATH_OPERATOR);
+	}
+	
 	/**
 	 * Execute electrocute operator.
 	 */

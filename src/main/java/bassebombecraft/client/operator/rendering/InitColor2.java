@@ -5,7 +5,7 @@ import static net.minecraft.util.math.MathHelper.lerp;
 
 import java.util.function.BiConsumer;
 
-import bassebombecraft.geom.GeometryUtils;
+import static bassebombecraft.geom.GeometryUtils.*;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.client.renderer.Vector4f;
@@ -61,7 +61,7 @@ public class InitColor2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 
-		float oscValue = GeometryUtils.oscillateFloat(0, 1);
+		float oscValue = oscillateFloat(0, 1);
 		float x = lerp(oscValue, color1.getX(), color2.getX());
 		float y = lerp(oscValue, color1.getY(), color2.getY());
 		float z = lerp(oscValue, color1.getZ(), color2.getZ());

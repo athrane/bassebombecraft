@@ -157,6 +157,7 @@ import bassebombecraft.item.composite.projectile.path.DecreaseGravityProjectileP
 import bassebombecraft.item.composite.projectile.path.IncreaseGravityProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.RandomProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.SineProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.TeleportProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.ZigZagProjectilePathItem;
 import bassebombecraft.item.inventory.AngelIdolInventoryItem;
 import bassebombecraft.item.inventory.AngryParrotsIdolInventoryItem;
@@ -488,6 +489,7 @@ public class ModConfiguration {
 	public static ItemConfig circleProjectilePathItem;
 	public static ItemConfig increaseGravityProjectilePathItem;
 	public static ItemConfig decreaseGravityProjectilePathItem;
+	public static ItemConfig teleportProjectilePathItem;
 
 	public static ItemConfig teleportInvokerProjectileModifierItem;
 	public static ItemConfig teleportMobProjectileModifierItem;
@@ -2207,13 +2209,21 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain RandomPathProjectileModifierItem} item.
+		 * Configuration for the {@linkplain RandomProjectilePathItem} item.
 		 */
 		name = RandomProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		randomProjectilePathItem = getInstance(COMMON_BUILDER, name, "The projectile will follow a random path.", 25);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the {@linkplain TeleportProjectilePathItem} item.
+		 */
+		name = TeleportProjectilePathItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		teleportProjectilePathItem = getInstance(COMMON_BUILDER, name, "The projectile will teleport around.", 25);
+		COMMON_BUILDER.pop();
+		
 		/**
 		 * Configuration for the {@linkplain ZigZagProjectilePathItem} item.
 		 */
