@@ -2,6 +2,7 @@ package bassebombecraft.operator.entity.potion.effect;
 
 import static bassebombecraft.operator.DefaultPorts.getBcSetEffectInstance1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -84,10 +85,8 @@ public class AddEffect2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get target
-		LivingEntity target = fnGetTarget.apply(ports);
+	public void run(Ports ports) {
+		LivingEntity target = applyV(fnGetTarget,ports);
 
 		// create effect instance (for outbound port)
 		EffectInstance effectInstance = new EffectInstance(effect, duration, amplifier);
@@ -97,8 +96,6 @@ public class AddEffect2 implements Operator2 {
 
 		// store effect instance
 		bcSetEffectInstance.accept(ports, effectInstance);
-
-		return ports;
 	}
 
 }

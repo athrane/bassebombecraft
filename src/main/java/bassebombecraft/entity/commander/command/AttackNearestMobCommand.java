@@ -7,7 +7,7 @@ import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.entity.EntityDistanceSorter;
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
-import bassebombecraft.predicate.DiscardTeamMembers;
+import bassebombecraft.util.function.DiscardTeamMembers;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;

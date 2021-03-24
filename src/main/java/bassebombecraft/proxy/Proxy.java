@@ -1,7 +1,8 @@
 package bassebombecraft.proxy;
 
 import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
-import bassebombecraft.client.event.particle.ParticleRenderingRepository;
+import bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository;
+import bassebombecraft.client.event.rendering.particle.ParticleRenderingRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
@@ -188,6 +189,21 @@ public interface Proxy {
 	public ParticleRenderingRepository getClientParticleRenderingRepository() throws UnsupportedOperationException;
 
 	/**
+	 * Get graphics effect repository for the logical CLIENT.
+	 * 
+	 * The server proxy implementation doesn't support this method.
+	 * 
+	 * The client proxy implementation support this method to support the
+	 * configurations: 1) physical client w/ logical server (integrated server). 2)
+	 * physical client w/ logical client.
+	 * 
+	 * @return graphics effect repository.
+	 * 
+	 * @throws UnsupportedOperationException if invoked on server proxy.
+	 */
+	public GraphicalEffectRepository getClientGraphicalEffectRepository() throws UnsupportedOperationException;
+	
+	/**
 	 * Get charmed mobs repository.
 	 * 
 	 * This repository is available at the logical SERVER.
@@ -301,5 +317,5 @@ public interface Proxy {
 	 * @return mob commander repository.
 	 */
 	public TargetRepository getServerTargetRepository();
-
+	
 }

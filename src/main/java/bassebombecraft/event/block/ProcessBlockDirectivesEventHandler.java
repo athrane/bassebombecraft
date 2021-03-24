@@ -56,19 +56,17 @@ public class ProcessBlockDirectivesEventHandler {
 	static Supplier<Operator2> splOp = () -> {
 
 		// return operator instance if defined
-		if (optOp.isPresent()) {
+		if (optOp.isPresent())
 			return optOp.get();
-		}
 
 		// if mod configuration hasn't been class loaded yet, the return null operator
-		if (spawnedBlockParticles == null) {
+		if (spawnedBlockParticles == null)
 			return new NullOp2();
-		}
 
 		// create particle config from configuration
 		ParticleRenderingInfo particleConfig = createInfoFromConfig(spawnedBlockParticles);
 
-		// create particle op from configuration
+		// create particle operator from configuration
 		Operator2 op = new AddParticlesFromPosAtClient2(particleConfig);
 		optOp = Optional.of(op);
 		return optOp.get();

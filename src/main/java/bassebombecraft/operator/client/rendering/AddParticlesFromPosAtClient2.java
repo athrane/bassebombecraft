@@ -3,6 +3,7 @@ package bassebombecraft.operator.client.rendering;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.operator.DefaultPorts.getFnGetBlockPosition1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
@@ -55,18 +56,14 @@ public class AddParticlesFromPosAtClient2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get position
-		BlockPos pos = fnBlockPos.apply(ports);
+	public void run(Ports ports) {
+		BlockPos position = applyV(fnBlockPos,ports);
 
 		// iterate over rendering info's
 		for (ParticleRenderingInfo info : infos) {
 			// send particle rendering info to client
-			ParticleRendering particle = getInstance(pos, info);
+			ParticleRendering particle = getInstance(position, info);
 			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 		}
-
-		return ports;
 	}
 }

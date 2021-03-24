@@ -5,6 +5,7 @@ import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.operator.DefaultPorts.getFnGetBlockPosition1;
 import static bassebombecraft.operator.DefaultPorts.getFnWorld1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
@@ -57,18 +58,13 @@ public class RemoveBlock2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get position
-		BlockPos groundPosition = fnGetBlockPos.apply(ports);
-
-		// get world
-		World world = fnGetWorld.apply(ports);
+	public void run(Ports ports) {
+		BlockPos groundPosition = applyV(fnGetBlockPos, ports);
+		World world = applyV(fnGetWorld, ports);
 
 		// remove block
 		BlockDirective directive = getInstance(groundPosition, Blocks.AIR, DONT_HARVEST, world);
 		getProxy().getServerBlockDirectivesRepository().add(directive);
-		return ports;
 	}
 
 }

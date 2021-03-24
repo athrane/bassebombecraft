@@ -50,10 +50,14 @@ public class ServerCharmedMobsRepository implements CharmedMobsRepository {
 			TeamRepository repository = getProxy().getServerTeamRepository();
 			if (repository.isMember(commander, entity))
 				return;
-
+			
 			// create charmed mob container
-			CharmedMob charmedMob = ServerCharmedMob.getInstance(entity, charmDuration.get(), cRemovalCallback);
-
+			Integer duration = charmDuration.get();
+			CharmedMob charmedMob = ServerCharmedMob.getInstance(entity, duration);
+			
+			// exit if mob is already charmed
+			if(contains(charmedMob.getId())) return;
+			
 			clearAllAiGoals(entity);
 			buildCharmedMobAi(entity, commander);
 
@@ -61,6 +65,10 @@ public class ServerCharmedMobsRepository implements CharmedMobsRepository {
 			String id = Integer.toString(entity.getEntityId());
 			charmedMobs.put(id, charmedMob);
 
+			// register charmed mob with server duration repository
+			DurationRepository durationRepository = getProxy().getServerDurationRepository();
+			durationRepository.add(id, duration, cRemovalCallback);
+			
 			// send charm info to client
 			getProxy().getNetworkChannel().sendAddCharmPacket(entity);
 

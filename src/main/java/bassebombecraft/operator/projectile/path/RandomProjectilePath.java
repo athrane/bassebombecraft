@@ -1,9 +1,10 @@
 package bassebombecraft.operator.projectile.path;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.geom.GeometryUtils.oscillateFloat;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
+import static bassebombecraft.operator.Operators2.applyV;
+import static net.minecraft.util.math.MathHelper.lerp;
 
-import java.util.Random;
 import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
@@ -54,28 +55,48 @@ public class RandomProjectilePath implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-		Random random = getBassebombeCraft().getRandom();
-
-		// get projectile
-		Entity projectile = fnGetProjectile.apply(ports);
-		if (projectile == null)
-			return ports;
+	public void run(Ports ports) {
+		Entity projectile = applyV(fnGetProjectile, ports);
 
 		// get motion vector
 		Vec3d motionVector = projectile.getMotion();
 		if (motionVector == null)
-			return ports;
+			return;
+
+		// calculate angle using triangle wave function
+		long x = ports.getCounter();
+
+		// different values, then rotate the projectile
+		double angleDegrees = calculateAngle(x);
+
+		// exit if no rotation
+		if (angleDegrees == 0)
+			return;
 
 		// rotate
-		float angleDegrees = random.nextInt(90) - 45;
 		float angleRadians = (float) Math.toRadians(angleDegrees);
 		Vec3d newMotionVector = motionVector.rotateYaw(angleRadians);
 
 		// update motion
 		projectile.setMotion(newMotionVector.getX(), newMotionVector.getY(), newMotionVector.getZ());
+	}
 
-		return ports;
+	/**
+	 * Calculate angle for next rotation.
+	 * 
+	 * @param x x parameter for the next function value.
+	 * 
+	 * @return angle for next rotation.
+	 */
+	double calculateAngle(long x) {
+
+		// delay rotation to after n ticks
+		if (x < 5)
+			return 0;
+
+		// calc rotation
+		float oscValue = oscillateFloat(0, 1);
+		return lerp(oscValue, -20, 20);
 	}
 
 }

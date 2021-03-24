@@ -1,5 +1,6 @@
 package bassebombecraft.client.screen;
 
+import static bassebombecraft.ModConstants.NULL_I18N_ARGS;
 import static bassebombecraft.client.rendering.RenderingUtils.createGuiTextureResourceLocation;
 import static bassebombecraft.geom.GeometryUtils.oscillateFloat;
 
@@ -63,7 +64,7 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 	 * X position for advice content text.
 	 */
 	static final float ADVICE_XPOS = 35;
-	
+
 	/**
 	 * Y position for advice content text.
 	 */
@@ -88,22 +89,22 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 	 * Decoration texture.
 	 */
 	static final ResourceLocation DECORATION2_TEXTURE = createGuiTextureResourceLocation("decoration2");
-	
+
 	/**
 	 * Item advice generator
 	 */
 	ItemAdviceGenerator adviceGenerator;
 
 	/**
-	 * Item sequence validator. 
+	 * Item sequence validator.
 	 */
 	CompositeMagicItemSequenceValidator validator;
 
 	/**
 	 * GUI header text.
 	 */
-	 String guiHeader;
-	
+	String guiHeader;
+
 	/**
 	 * Constructor
 	 * 
@@ -115,8 +116,8 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 			ITextComponent title) {
 		super(container, inventory, title);
 		adviceGenerator = new DefaultAdviceGenerator(container);
-		validator = new DefaultSequenceValidator();		
-		guiHeader = new TranslationTextComponent("gui.bassebombecraft.compositemagicscreen.header", new Object[0]).getFormattedText();
+		validator = new DefaultSequenceValidator();
+		guiHeader = new TranslationTextComponent("compositemagicscreen.header", NULL_I18N_ARGS).getFormattedText();
 	}
 
 	@Override
@@ -144,7 +145,7 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 	 */
 	void renderGuiHeader() {
 		RenderSystem.pushMatrix();
-		RenderSystem.scalef(1.0F, 1.0F, 1.0F);		
+		RenderSystem.scalef(1.0F, 1.0F, 1.0F);
 		font.drawString(guiHeader, HEADER_XPOS, HEADER_YPOS, TEXT_COLOR);
 		RenderSystem.popMatrix();
 	}
@@ -172,8 +173,8 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 	 * 
 	 * @param compositeInventory composite item inventory.
 	 */
-	void renderSequenceHighlight(CompositeMagicItemItemStackHandler compositeInventory) {		
-		int length = validator.resolveLegalSequenceLength(compositeInventory);		
+	void renderSequenceHighlight(CompositeMagicItemItemStackHandler compositeInventory) {
+		int length = validator.resolveLegalSequenceLength(compositeInventory);
 		float oscRgb = oscillateFloat(0.5F, 1);
 		RenderSystem.color4f(oscRgb, oscRgb, oscRgb, 1.0F);
 		getMinecraft().getTextureManager().bindTexture(SEQUENCE_TEXTURE);
@@ -192,11 +193,11 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 		RenderSystem.color4f(1.0F, oscRgb, 1.0F, 1.0F);
 		getMinecraft().getTextureManager().bindTexture(DECORATION_TEXTURE);
 		blit(136, 55, 0, 0, SEQUENCE_TEXTURE_SIZE, SEQUENCE_TEXTURE_SIZE, 32, 32);
-		
+
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		getMinecraft().getTextureManager().bindTexture(DECORATION2_TEXTURE);
 		blit(10, 65, 0, 0, SEQUENCE_TEXTURE_SIZE, SEQUENCE_TEXTURE_SIZE, 32, 32);
-		
+
 	}
 
 	/**

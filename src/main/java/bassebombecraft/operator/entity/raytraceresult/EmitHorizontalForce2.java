@@ -6,6 +6,7 @@ import static bassebombecraft.entity.projectile.ProjectileUtils.isNothingHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
@@ -65,28 +66,20 @@ public class EmitHorizontalForce2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get ray trace result
-		RayTraceResult result = fnGetRayTraceResult.apply(ports);
-		if (result == null)
-			return ports;
-
-		// get originator entity
-		Entity originator = fnGetRayOriginator.apply(ports);
-		if (originator == null)
-			return ports;
+	public void run(Ports ports) {
+		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
+		Entity originator = applyV(fnGetRayOriginator, ports);
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
-			return ports;
+			return;
 
 		// if entity is hit emit force
 		if (isEntityHit(result)) {
 
 			// exit if result isn't entity ray trace result
 			if (!isTypeEntityRayTraceResult(result))
-				return ports;
+				return;
 
 			// get entity
 			Entity entity = ((EntityRayTraceResult) result).getEntity();
@@ -100,8 +93,6 @@ public class EmitHorizontalForce2 implements Operator2 {
 			Vec3d motionVecForced = new Vec3d(x, y, z);
 			entity.move(MoverType.SELF, motionVecForced);
 		}
-
-		return ports;
 	}
 
 }

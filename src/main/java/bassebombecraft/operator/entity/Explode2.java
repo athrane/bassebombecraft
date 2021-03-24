@@ -1,6 +1,7 @@
 package bassebombecraft.operator.entity;
 
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
+import static bassebombecraft.operator.Operators2.applyV;
 import static net.minecraft.world.Explosion.Mode.DESTROY;
 
 import java.util.function.Function;
@@ -30,18 +31,12 @@ public class Explode2 implements Operator2 {
 	Function<Ports, Entity> fnGetTarget;
 
 	/**
-	 * Minimum explosion radius.
-	 */
-	double minExplosionRadius;
-
-	/**
 	 * Constructor.
 	 * 
 	 * @param fnGetTarget function to get target entity.
 	 */
 	public Explode2(Function<Ports, Entity> fnGetTarget) {
 		this.fnGetTarget = fnGetTarget;
-		minExplosionRadius = explodeMinExplosionRadius.get();
 	}
 
 	/**
@@ -54,12 +49,8 @@ public class Explode2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get target
-		Entity target = fnGetTarget.apply(ports);
-		if (target == null)
-			return ports;
+	public void run(Ports ports) {
+		Entity target = applyV(fnGetTarget, ports);
 
 		// get position of dead entity
 		BlockPos position = target.getPosition();
@@ -70,12 +61,10 @@ public class Explode2 implements Operator2 {
 		// calculate explosion radius
 		AxisAlignedBB aabb = target.getBoundingBox();
 		float explosionRadius = (float) Math.max(aabb.getXSize(), aabb.getZSize());
-		explosionRadius = (float) Math.max(explosionRadius, minExplosionRadius);
+		explosionRadius = (float) Math.max(explosionRadius, explodeMinExplosionRadius.get());
 
 		// create explosion
 		world.createExplosion(target, position.getX(), position.getY(), position.getZ(), explosionRadius, DESTROY);
-
-		return ports;
 	}
 
 }

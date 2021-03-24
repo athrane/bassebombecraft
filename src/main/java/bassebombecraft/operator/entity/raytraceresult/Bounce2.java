@@ -5,6 +5,7 @@ import static bassebombecraft.entity.projectile.ProjectileUtils.isNothingHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
@@ -44,8 +45,7 @@ public class Bounce2 implements Operator2 {
 	 * @param splRayTraceResult function to get ray trace result.
 	 * @param fnGetProjectile   function to get projectile entity.
 	 */
-	public Bounce2(Function<Ports, RayTraceResult> fnGetRayTraceResult,
-			Function<Ports, Entity> fnGetProjectile) {
+	public Bounce2(Function<Ports, RayTraceResult> fnGetRayTraceResult, Function<Ports, Entity> fnGetProjectile) {
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 		this.fnGetProjectile = fnGetProjectile;
 	}
@@ -62,33 +62,25 @@ public class Bounce2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get ray trace result
-		RayTraceResult result = fnGetRayTraceResult.apply(ports);
-		if (result == null)
-			return ports;
-
-		// get projectile
-		Entity projectile = fnGetProjectile.apply(ports);
-		if (projectile == null)
-			return ports;
+	public void run(Ports ports) {
+		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
+		Entity projectile = applyV(fnGetProjectile, ports);
 
 		// get motion vector
 		Vec3d motionVector = projectile.getMotion();
 		if (motionVector == null)
-			return ports;
+			return;
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
-			return ports;
+			return;
 
 		// bounce projectile motion
 		if (isBlockHit(result)) {
 
 			// exit if result isn't block ray trace result
 			if (!isTypeBlockRayTraceResult(result))
-				return ports;
+				return;
 
 			// type cast
 			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
@@ -101,10 +93,8 @@ public class Bounce2 implements Operator2 {
 			Vec3d bouncedVector = bounceMotionVector(impactAxis, motionVector);
 
 			// set bounced motion
-			projectile.setMotion(bouncedVector);			
+			projectile.setMotion(bouncedVector);
 		}
-
-		return ports;
 	}
 
 	/**
@@ -115,15 +105,15 @@ public class Bounce2 implements Operator2 {
 	 * 
 	 * @return bounced motion vector
 	 */
-	Vec3d bounceMotionVector(Axis impactAxis, Vec3d motionVector) {		
-		switch(impactAxis) { 	
-		case X: 
+	Vec3d bounceMotionVector(Axis impactAxis, Vec3d motionVector) {
+		switch (impactAxis) {
+		case X:
 			return motionVector.mul(-1, 1, 1);
-		case Y: 
+		case Y:
 			return motionVector.mul(1, -1, 1);
-		case Z: 
-			return motionVector.mul(1, 1, -1);						
-		}		
+		case Z:
+			return motionVector.mul(1, 1, -1);
+		}
 		return motionVector;
 	}
 

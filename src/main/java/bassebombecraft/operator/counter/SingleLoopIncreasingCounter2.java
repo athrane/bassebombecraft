@@ -36,14 +36,12 @@ public class SingleLoopIncreasingCounter2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
+	public void run(Ports ports) {
 		if (ports.getCounter() < max) {
 			ports.incrementCounter();
 			ports.setResultAsSucces();
 
 		} else
 			ports.setResultAsFailed();
-
-		return ports;
 	}
 }

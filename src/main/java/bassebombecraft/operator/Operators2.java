@@ -2,6 +2,8 @@ package bassebombecraft.operator;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
+import java.util.function.Function;
+
 /**
  * Class for execution of operator.
  */
@@ -12,15 +14,12 @@ public class Operators2 {
 	 * 
 	 * @param ports   input ports
 	 * @param opertor operator to execute.
-	 * 
-	 * @return ports. If execution fails then the original ports is returned.
 	 */
-	public static Ports run(Ports ports, Operator2 operator) {
+	public static void run(Ports ports, Operator2 operator) {
 		try {
-			return operator.run(ports);
+			operator.run(ports);
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
-			return ports;
 		}
 	}
 
@@ -34,16 +33,53 @@ public class Operators2 {
 	 * 
 	 * @param ports   input ports
 	 * @param opertor operators executed in sequence.
-	 * 
-	 * @return ports.
 	 */
-	public static Ports run(Ports ports, Operator2... operators) {
+	public static void run(Ports ports, Operator2... operators) {
 		for (Operator2 op : operators) {
 			run(ports, op);
 			if (!ports.getResult())
 				break;
 		}
-		return ports;
+	}
+
+	/**
+	 * Validates that object isn't null. Intended to be use to value operator input
+	 * parameter: <blockquote>
+	 * 
+	 * <pre>
+	 * Entity source = fnGetSource.apply(ports);
+	 * Operators2.validateNotNull(source);
+	 * </pre>
+	 * 
+	 * </blockquote>
+	 * 
+	 * @param obj the object reference to check for nullity
+	 * @param <T> the type of the reference
+	 * @return {@code obj} if not {@code null}
+	 * 
+	 * @throws UndefinedOperatorInputException if {@code obj} is {@code null}
+	 */
+	static <T> T validateNotNull(T obj, Function<Ports, T> fn) {
+		if (obj == null)
+			throw new UndefinedOperatorInputException(fn.toString());
+		return obj;
+	}
+
+	/**
+	 * Apply function and validate returned values isn't null.
+	 * 
+	 * @param <T>   the type of the return value of the function.
+	 * @param fn    function which is applied.
+	 * @param ports ports which is used as input to the function.
+	 * 
+	 * @return return value of the applied function
+	 * 
+	 * @throws UndefinedOperatorInputException if function returns null.
+	 */
+	public static <T> T applyV(Function<Ports, T> fn, Ports ports) {
+		T retVal = fn.apply(ports);
+		validateNotNull(retVal, fn);
+		return retVal;
 	}
 
 }

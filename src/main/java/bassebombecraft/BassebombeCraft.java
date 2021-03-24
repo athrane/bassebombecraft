@@ -11,6 +11,7 @@ import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.Consumer;
@@ -269,4 +270,12 @@ public class BassebombeCraft {
 		logger.error(msg);
 	}
 
+	/**
+	 * Log stack trace as debug.
+	 */
+	public void logStacktraceAsDebug() {
+		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
+		Arrays.asList(ste).forEach(logger::debug);		
+	}
+	
 }

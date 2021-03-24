@@ -80,7 +80,7 @@ public class CircleProjectileFormation2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
+	public void run(Ports ports) {
 		int displacement = 360 / number;
 
 		// get invoker
@@ -97,8 +97,6 @@ public class CircleProjectileFormation2 implements Operator2 {
 
 		// store vector array in ports
 		bcSetVectors.accept(ports, vectors);
-
-		return ports;
 	}
 
 }

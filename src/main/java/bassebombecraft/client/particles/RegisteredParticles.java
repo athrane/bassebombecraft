@@ -3,6 +3,7 @@ package bassebombecraft.client.particles;
 import static bassebombecraft.ModConstants.MODID;
 import static net.minecraftforge.registries.ForgeRegistries.PARTICLE_TYPES;
 
+import bassebombecraft.client.event.rendering.particle.ParticleFactoryRegistryEventHandler;
 import net.minecraft.client.particle.SpriteTexturedParticle;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
@@ -11,6 +12,9 @@ import net.minecraftforge.registries.DeferredRegister;
 
 /**
  * Registry objects for registered particle types.
+ * 
+ * Please notice: particle should be registered in
+ * {@linkplain ParticleFactoryRegistryEventHandler} as well.
  */
 public class RegisteredParticles {
 
@@ -59,6 +63,11 @@ public class RegisteredParticles {
 	 * Registry object for {@linkplain CurseParticle}.
 	 */
 	public static final RegistryObject<BasicParticleType> CURSE_PARTICLE = register(CurseParticle.class);
+
+	/**
+	 * Registry object for {@linkplain CurseParticle}.
+	 */
+	public static final RegistryObject<BasicParticleType> REFLECT_PARTICLE = register(ReflectParticle.class);
 
 	/**
 	 * Register particle as {@linkplain BasicParticleType}.

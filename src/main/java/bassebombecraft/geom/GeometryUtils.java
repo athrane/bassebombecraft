@@ -680,18 +680,6 @@ public class GeometryUtils {
 	public static float oscillateFloat(float min, float max) {
 		return (float) oscillate(min, max);
 	}
-
-	/**
-	 * Oscillate float value.
-	 * 
-	 * @param min minimum value.
-	 * @param max maximum value.
-	 * 
-	 * @return oscillated float value between min and max.
-	 */
-	public static int oscillateInt(float min, float max) {
-		return (int) oscillate(min, max);
-	}
 	
 	/**
 	 * Oscillate value.

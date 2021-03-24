@@ -2,6 +2,7 @@ package bassebombecraft.operator.projectile.modifier;
 
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntities1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetString1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.Arrays;
 import java.util.function.Function;
@@ -57,22 +58,16 @@ public class TagProjectileWithProjectileModifier implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
+	public void run(Ports ports) {
+		String tag = applyV(fnGetTag, ports);
+		Entity[] projectiles = applyV(fnGetProjectiles, ports);
 
-		// get tag
-		String tag = fnGetTag.apply(ports);
-		if (tag == null || tag.isEmpty())
-			return ports;
-
-		// get projectiles
-		Entity[] projectiles = fnGetProjectiles.apply(ports);
-		if (projectiles == null || projectiles.length == 0)
-			return ports;
+		// exit no tags are defined
+		if (tag.isEmpty())
+			return;
 
 		// tag projectiles
 		Arrays.stream(projectiles).forEach(p -> p.addTag(tag));
-
-		return ports;
 	}
 
 }

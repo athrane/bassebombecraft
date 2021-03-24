@@ -1,0 +1,14 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:prismarine_crystals"
+		},		
+		{
+			"item": "bassebombecraft:lightningprojectilemodifieritem"
+		}
+	],
+	"result": {
+		"item": "bassebombecraft:electrocuteprojectilemodifieritem"
+	}
+}

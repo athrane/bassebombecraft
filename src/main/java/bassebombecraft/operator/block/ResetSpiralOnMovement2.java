@@ -15,8 +15,6 @@ import net.minecraft.util.math.BlockPos;
  * Resetting the spiral computation consists of resetting the counter and the
  * centre of the spiral.
  * 
- * Sets the result port to true.
- * 
  * The state of the counter is maintained in the {@linkplain Ports} using its
  * counter.
  */
@@ -59,10 +57,7 @@ public class ResetSpiralOnMovement2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// clear result port
-		ports.setResultAsSucces();
+	public void run(Ports ports) {
 
 		// get positions
 		BlockPos pos1 = fnGetInvokerPos.apply(ports);
@@ -72,17 +67,15 @@ public class ResetSpiralOnMovement2 implements Operator2 {
 		if ((pos1 == null) || (pos2 == null)) {
 			ports.setCounter(min);
 			bcSetCenterPos.accept(ports, pos1);
-			return ports;
+			return;
 		}
 
 		// exit if the positions are equal
 		if (pos1.equals(pos2))
-			return ports;
+			return;
 
 		// reset
 		ports.setCounter(min);
 		bcSetCenterPos.accept(ports, pos1);
-
-		return ports;
 	}
 }

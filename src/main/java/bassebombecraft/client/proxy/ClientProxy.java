@@ -22,8 +22,6 @@ import java.io.StringWriter;
 import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
-import bassebombecraft.client.event.particle.DefaultParticleRenderingRepository;
-import bassebombecraft.client.event.particle.ParticleRenderingRepository;
 import bassebombecraft.client.event.rendering.BuildMineBookRenderer;
 import bassebombecraft.client.event.rendering.DecoyRenderer;
 import bassebombecraft.client.event.rendering.DecreaseSizeEffectRenderer;
@@ -32,6 +30,12 @@ import bassebombecraft.client.event.rendering.HudItemHighlightedBlockRenderer;
 import bassebombecraft.client.event.rendering.IncreaseSizeEffectRenderer;
 import bassebombecraft.client.event.rendering.RenderingEventHandler;
 import bassebombecraft.client.event.rendering.RespawnedRenderer;
+import bassebombecraft.client.event.rendering.effect.ClientGraphicalEffectRepository;
+import bassebombecraft.client.event.rendering.effect.EffectRenderer;
+import bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository;
+import bassebombecraft.client.event.rendering.particle.DefaultParticleRenderingRepository;
+import bassebombecraft.client.event.rendering.particle.ParticleRenderer;
+import bassebombecraft.client.event.rendering.particle.ParticleRenderingRepository;
 import bassebombecraft.client.rendering.entity.CircleProjectileEntityRenderer;
 import bassebombecraft.client.rendering.entity.EggProjectileEntityRenderer;
 import bassebombecraft.client.rendering.entity.LightningProjectileEntityRenderer;
@@ -106,6 +110,11 @@ public class ClientProxy implements Proxy {
 	ParticleRenderingRepository particleRepository;
 
 	/**
+	 * Graphical effect rendering repository.
+	 */
+	GraphicalEffectRepository graphicalEffectRepository;
+	
+	/**
 	 * Charmed Mob repository
 	 */
 	CharmedMobsRepository clientCharmedMobsRepository;
@@ -164,6 +173,9 @@ public class ClientProxy implements Proxy {
 		// Initialise particle rendering repository
 		particleRepository = DefaultParticleRenderingRepository.getInstance();
 
+		// initialise graphicsl effect repository
+		graphicalEffectRepository = ClientGraphicalEffectRepository.getInstance();
+		
 		// Initialise charmed mobs repositories
 		clientCharmedMobsRepository = ClientCharmedMobsRepository.getInstance();
 		serverCharmedMobsRepository = ServerCharmedMobsRepository.getInstance();
@@ -182,7 +194,7 @@ public class ClientProxy implements Proxy {
 
 		// initialise targeted entities repository
 		targetRepository = DefaultTargetRepository.getInstance();
-
+		
 		// initialize network
 		networkHelper = new NetworkChannelHelper();
 	}
@@ -295,9 +307,7 @@ public class ClientProxy implements Proxy {
 		// EVENT_BUS.addListener(DebugRenderer_WorldLastEvent_GuiLines::render);
 
 		// register renderer classes
-		EVENT_BUS.addListener(RenderingEventHandler::handleRenderGameOverlayEvent);
 		EVENT_BUS.addListener(RenderingEventHandler::handleRenderWorldLastEvent);
-		EVENT_BUS.addListener(RenderingEventHandler::handleHighlightBlock);
 		// EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
 		// EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
 		EVENT_BUS.addListener(HudItemCharmedInfoRenderer::handleRenderWorldLastEvent);
@@ -312,6 +322,8 @@ public class ClientProxy implements Proxy {
 		EVENT_BUS.addListener(DecoyRenderer::handleRenderLivingEventPost);
 		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPre);
 		EVENT_BUS.addListener(RespawnedRenderer::handleRenderLivingEventPost);
+		EVENT_BUS.addListener(ParticleRenderer::handleRenderWorldLastEvent);
+		EVENT_BUS.addListener(EffectRenderer::handleRenderWorldLastEvent);
 
 		// register entity rendering
 		RenderingRegistry.registerEntityRenderingHandler(EGG_PROJECTILE, EggProjectileEntityRenderer::new);
@@ -361,6 +373,11 @@ public class ClientProxy implements Proxy {
 	}
 
 	@Override
+	public GraphicalEffectRepository getClientGraphicalEffectRepository() throws UnsupportedOperationException {
+		return graphicalEffectRepository;
+	}
+	
+	@Override
 	public CharmedMobsRepository getServerCharmedMobsRepository() {
 		return serverCharmedMobsRepository;
 	}
@@ -394,7 +411,7 @@ public class ClientProxy implements Proxy {
 	public TargetRepository getServerTargetRepository() {
 		return targetRepository;
 	}
-
+	
 	@Override
 	public void doDeferredRegistration(IEventBus bus) {
 		PARTICLE_REGISTRY.register(bus);

@@ -3,6 +3,7 @@ package bassebombecraft.operator.projectile.path;
 import static bassebombecraft.config.ModConfiguration.decreaseGravityProjectilePathFactor;
 import static bassebombecraft.operator.DefaultPorts.getFnGetDouble1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
@@ -59,12 +60,8 @@ public class DecreaseGravityProjectilePath implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get projectile
-		Entity projectile = fnGetProjectile.apply(ports);
-		if (projectile == null)
-			return ports;
+	public void run(Ports ports) {
+		Entity projectile = applyV(fnGetProjectile, ports);
 
 		// get gravity
 		double gravity = fnGetGravity.apply(ports);
@@ -72,13 +69,11 @@ public class DecreaseGravityProjectilePath implements Operator2 {
 		// get motion vector
 		Vec3d motionVector = projectile.getMotion();
 		if (motionVector == null)
-			return ports;
+			return;
 
 		// update motion
 		double gravityDecrease = decreaseGravityProjectilePathFactor.get() * gravity;
 		projectile.setMotion(motionVector.getX(), motionVector.getY() + gravityDecrease, motionVector.getZ());
-
-		return ports;
 	}
 
 }

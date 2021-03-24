@@ -15,11 +15,12 @@ import static net.minecraft.util.math.RayTraceResult.Type.BLOCK;
 
 import java.util.function.Supplier;
 
-import bassebombecraft.client.op.rendering.RenderTextBillboard2;
-import bassebombecraft.client.op.rendering.RenderWireframeBoundingBox2;
+import bassebombecraft.client.operator.rendering.RenderTextBillboard2;
+import bassebombecraft.client.operator.rendering.RenderWireframeBoundingBox2;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.Sequence2;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -48,11 +49,10 @@ public class HudItemHighlightedBlockRenderer {
 	/**
 	 * Create operators.
 	 */
-	static Supplier<Operator2[]> splOp = () -> {
-		Operator2[] ops = { new RenderWireframeBoundingBox2(AABB_OSCILLIATION, HUD_LINE_COLOR, OVERLAY_LINES),
+	static Supplier<Operator2> splOp = () -> {
+		return new Sequence2(new RenderWireframeBoundingBox2(AABB_OSCILLIATION, HUD_LINE_COLOR, OVERLAY_LINES),
 				new RenderTextBillboard2(getFnGetString1(), -5, 0, TEXT_OSCILLIATION),
-				new RenderTextBillboard2(getFnGetString2(), -5, -10, TEXT_OSCILLIATION) };
-		return ops;
+				new RenderTextBillboard2(getFnGetString2(), -5, -10, TEXT_OSCILLIATION));
 	};
 
 	public static void handleHighlightBlockEvent(HighlightBlock event) {
@@ -108,8 +108,8 @@ public class HudItemHighlightedBlockRenderer {
 
 		// setup operator and execute
 		Ports ports = getInstance();
-		ports.setAabb(aabb);
-		ports.setMatrixStack(event.getMatrix());
+		ports.setAabb1(aabb);
+		ports.setMatrixStack1(event.getMatrix());
 		ports.setString1(message);
 		ports.setString2(aabbCenter.toString());
 		run(ports, splOp.get());

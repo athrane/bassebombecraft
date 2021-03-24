@@ -4,6 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.geom.GeometryUtils.rotateUnitVectorAroundYAxisAtOrigin;
 import static bassebombecraft.operator.DefaultPorts.getBcSetVectors1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetVectors1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.Random;
 import java.util.function.BiConsumer;
@@ -57,18 +58,14 @@ public class InaccuracyProjectileFormationModifier implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get orientation vectors
-		Vec3d[] vectors = fnGetOrientation.apply(ports);
-		if (vectors == null)
-			return ports;
-
-		// create new array
-		Vec3d[] randomised = new Vec3d[vectors.length];
+	public void run(Ports ports) {
+		Vec3d[] vectors = applyV(fnGetOrientation,ports);
 
 		// get random
 		Random random = getBassebombeCraft().getRandom();
+
+		// create new array
+		Vec3d[] randomised = new Vec3d[vectors.length];
 		
 		// create index
 		int index = 0;
@@ -84,8 +81,6 @@ public class InaccuracyProjectileFormationModifier implements Operator2 {
 
 		// store new vectors
 		bcSetOrientation.accept(ports, randomised);
-
-		return ports;
 	}
 
 }

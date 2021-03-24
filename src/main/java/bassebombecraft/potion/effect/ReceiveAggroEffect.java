@@ -12,7 +12,7 @@ import java.util.List;
 
 import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.entity.EntityDistanceSorter;
-import bassebombecraft.predicate.DiscardSelf;
+import bassebombecraft.util.function.DiscardSelf;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.math.AxisAlignedBB;

@@ -11,6 +11,7 @@ import static bassebombecraft.entity.projectile.ProjectileUtils.isNothingHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
+import static bassebombecraft.operator.Operators2.applyV;
 import static bassebombecraft.operator.DefaultPorts.*;
 import static net.minecraft.entity.SharedMonsterAttributes.KNOCKBACK_RESISTANCE;
 import static net.minecraft.entity.SharedMonsterAttributes.MAX_HEALTH;
@@ -85,21 +86,13 @@ public class SpawnDecoy2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get invoker
-		LivingEntity invoker = fnGetInvoker.apply(ports);
-		if (invoker == null)
-			return ports;
-
-		// get ray trace result
-		RayTraceResult result = fnGetRayTraceResult.apply(ports);
-		if (result == null)
-			return ports;
+	public void run(Ports ports) {
+		LivingEntity invoker = applyV(fnGetInvoker, ports);
+		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
-			return ports;
+			return;
 
 		// declare
 		BlockPos spawnPosition = null;
@@ -109,7 +102,7 @@ public class SpawnDecoy2 implements Operator2 {
 
 			// exit if result isn't entity ray trace result;
 			if (!isTypeEntityRayTraceResult(result))
-				return ports;
+				return;
 
 			// get entity
 			Entity entity = ((EntityRayTraceResult) result).getEntity();
@@ -123,7 +116,7 @@ public class SpawnDecoy2 implements Operator2 {
 
 			// exit if result isn't entity ray trace result
 			if (!isTypeBlockRayTraceResult(result))
-				return ports;
+				return;
 
 			// type cast
 			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
@@ -153,8 +146,6 @@ public class SpawnDecoy2 implements Operator2 {
 
 		// store decoy entity
 		bcSetDecoy.accept(ports, entity);
-		
-		return ports;
 	}
 
 }

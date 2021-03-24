@@ -2,33 +2,49 @@ package bassebombecraft.entity.projectile;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository.Effect.PROJECTILE_TRAIL;
 import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
 import static bassebombecraft.config.ModConfiguration.genericProjectileEntityProjectileDuration;
+import static bassebombecraft.config.ModConfiguration.genericProjectileEntityProjectileHomingAoeRange;
+import static bassebombecraft.operator.DefaultPorts.getBcSetEntities1;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.operator.Operators2.applyV;
 import static bassebombecraft.operator.Operators2.run;
+import static bassebombecraft.util.function.Predicates.hasDifferentIds;
+import static bassebombecraft.util.function.Predicates.isntProjectileThrower;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static bassebombecraft.world.WorldUtils.isLogicalServer;
 import static net.minecraft.entity.projectile.ProjectileHelper.rayTrace;
 import static net.minecraftforge.event.ForgeEventFactory.onProjectileImpact;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import bassebombecraft.config.ProjectileEntityConfig;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
+import bassebombecraft.operator.DefaultPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.Sequence2;
+import bassebombecraft.operator.client.rendering.AddGraphicalEffectAtClient2;
 import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
+import bassebombecraft.operator.entity.Electrocute2;
+import bassebombecraft.operator.entity.FindEntities2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.CircleProjectilePath;
 import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.DecreaseGravityProjectilePath;
+import bassebombecraft.operator.projectile.path.HomingProjectilePath;
 import bassebombecraft.operator.projectile.path.IncreaseGravityProjectilePath;
 import bassebombecraft.operator.projectile.path.RandomProjectilePath;
 import bassebombecraft.operator.projectile.path.SineProjectilePath;
+import bassebombecraft.operator.projectile.path.TeleportProjectilePath;
 import bassebombecraft.operator.projectile.path.ZigZagProjectilePath;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -48,6 +64,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 /**
@@ -61,6 +79,11 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * Entity identifier.
 	 */
 	public static final String NAME = GenericCompositeProjectileEntity.class.getSimpleName();
+
+	/**
+	 * Client side effect rendering operator.
+	 */
+	static final Operator2 RENDERING_TRAIL_OP = new AddGraphicalEffectAtClient2(PROJECTILE_TRAIL);
 
 	/**
 	 * Random projectile path operator.
@@ -98,9 +121,55 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	static final Operator2 INCREASE_GRAVITY_PATH_OPERATOR = new IncreaseGravityProjectilePath();
 
 	/**
-	 * DEcrease gravity projectile path operator.
+	 * Decrease gravity projectile path operator.
 	 */
 	static final Operator2 DECREASE_GRAVITY_PATH_OPERATOR = new DecreaseGravityProjectilePath();
+
+	/**
+	 * Teleport projectile path operator.
+	 */
+	static final Operator2 TELEPORT_PATH_OPERATOR = new TeleportProjectilePath();
+
+	/**
+	 * Homing projectile path operator.
+	 */
+	static Optional<Operator2> optHomingPathOperator = Optional.empty();
+
+	/**
+	 * Create homing path operator.
+	 */
+	static Supplier<Operator2> splHomingPathOp = () -> {
+
+		Function<Ports, Entity> fnGetSource = DefaultPorts.getFnGetEntity1();
+
+		// FindEntities2: get source position from source entity
+		Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(fnGetSource, p).getPosition();
+
+		// FindEntities2: get world from source entity
+		Function<Ports, World> fnGetWorld = p -> applyV(fnGetSource, p).getEntityWorld();
+
+		// FindEntities2: get function to create exclusion predicate using the source
+		// entity
+		Function<Ports, Predicate<Entity>> fnGetPredicate = p -> hasDifferentIds(applyV(fnGetSource, p))
+				.and(isntProjectileThrower(applyV(fnGetSource, p)));
+
+		// FindEntities2: get search range from configuration
+		Function<Ports, Integer> fnGetRange = p -> genericProjectileEntityProjectileHomingAoeRange.get().intValue();
+
+		return new Sequence2(
+				new FindEntities2(fnGetSourcePos, fnGetWorld, fnGetPredicate, fnGetRange, getBcSetEntities1()),
+				new HomingProjectilePath());
+	};
+
+	/**
+	 * Homing projectile path operator.
+	 */
+	static final Operator2 HOMING_PATH_OPERATOR = splHomingPathOp.get();
+
+	/**
+	 * Electrocute operator.
+	 */
+	static final Operator2 ELECTROCUTE_OPERATOR = new Electrocute2();
 
 	/**
 	 * Projectile duration.
@@ -131,14 +200,14 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * 
 	 * The ports is defined as a field to reuse it across update ticks.
 	 */
-	Ports projectileModifierPorts;
+	Ports projectileModifierPorts = getInstance();
 
 	/**
-	 * Projectile particle rendering ports.
+	 * Projectile rendering ports.
 	 * 
 	 * The ports is defined as a field to reuse it across update ticks.
 	 */
-	Ports addParticlesPorts;
+	Ports renderingPorts = getInstance();
 
 	/**
 	 * Projectile entity configuration.
@@ -146,9 +215,9 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	ProjectileEntityConfig projectileConfig;
 
 	/**
-	 * Client side projectile generator operator.
+	 * Client side rendering operator.
 	 */
-	Operator2 addParticlesOp;
+	Operator2 renderingOp;
 
 	/**
 	 * Constructor
@@ -161,10 +230,8 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		super(type, world);
 		projectileConfig = config;
 		ParticleRenderingInfo info = createInfoFromConfig(projectileConfig.particles);
-		addParticlesOp = new AddParticlesFromPosAtClient2(info);
+		renderingOp = new AddParticlesFromPosAtClient2(info);
 		duration = genericProjectileEntityProjectileDuration.get();
-		projectileModifierPorts = getInstance();
-		addParticlesPorts = getInstance();
 		initialiseDuration();
 	}
 
@@ -201,6 +268,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		this.rotationPitch = (float) (MathHelper.atan2(motionVector.y, f) * (double) (180F / (float) Math.PI));
 		this.prevRotationYaw = this.rotationYaw;
 		this.prevRotationPitch = this.rotationPitch;
+
 	}
 
 	/**
@@ -215,6 +283,9 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		double inaccuracy = projectileConfig.inaccuracy.get();
 		double velocity = force * orientation.length();
 		shoot(orientation.getX(), orientation.getY(), orientation.getZ(), (float) velocity, (float) inaccuracy);
+
+		// add trail effect at clients
+		addTrailGraphicalEffect();
 	}
 
 	/**
@@ -233,28 +304,50 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		repository.add(getUniqueID().toString(), duration, cRemovalCallback);
 	}
 
+	/**
+	 * Updates the entity motion client side, called by packets from the server
+	 */
+	@OnlyIn(Dist.CLIENT)
+	public void setVelocity(double x, double y, double z) {
+		this.setMotion(x, y, z);
+		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
+			float f = MathHelper.sqrt(x * x + z * z);
+			this.rotationYaw = (float) (MathHelper.atan2(x, z) * (double) (180F / (float) Math.PI));
+			this.rotationPitch = (float) (MathHelper.atan2(y, (double) f) * (double) (180F / (float) Math.PI));
+			this.prevRotationYaw = this.rotationYaw;
+			this.prevRotationPitch = this.rotationPitch;
+		}
+	}
+
 	@Override
 	public void tick() {
 		super.tick();
+
 		try {
-			// calculate collision with block or entity
-			RayTraceResult result = calculateCollision();
 
-			// if hit then process collision
-			if (result.getType() != RayTraceResult.Type.MISS)
-				onImpact(result);
+			// exit if on client side
+			if (!isLogicalClient(getEntityWorld())) {
 
-			// process projectile modifiers
-			processCompositeModifiers();
+				// calculate collision with block or entity
+				RayTraceResult result = calculateCollision();
+
+				// if hit then process collision
+				if (result.getType() != RayTraceResult.Type.MISS)
+					onImpact(result);
+
+				// process projectile modifiers
+				processCompositeModifiers();
+
+				// send particle rendering info to client
+				addRendering();
+
+				// update ports counter
+				projectileModifierPorts.incrementCounter();
+
+			}
 
 			// Update motion and position
 			updateMotionAndPosition();
-
-			// send particle rendering info to client
-			addParticles();
-
-			// update ports counter
-			projectileModifierPorts.incrementCounter();
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -380,6 +473,18 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		// handle: decrease gravity
 		if (tags.contains(DecreaseGravityProjectilePath.NAME))
 			calculateDecreaseGravityPath();
+
+		// handle: teleport path
+		if (tags.contains(TeleportProjectilePath.NAME))
+			calculateTeleportPath();
+
+		// handle: homing
+		if (tags.contains(HomingProjectilePath.NAME))
+			calculateHomingPath();
+
+		// handle: electrocute
+		if (tags.contains(Electrocute2.NAME))
+			electrocute();
 	}
 
 	/**
@@ -446,6 +551,31 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		projectileModifierPorts.setDouble1(projectileConfig.gravity.get());
 		projectileModifierPorts.setEntity1(this);
 		run(projectileModifierPorts, DECREASE_GRAVITY_PATH_OPERATOR);
+	}
+
+	/**
+	 * Execute teleport path modifier operator.
+	 */
+	void calculateTeleportPath() {
+		projectileModifierPorts.setEntity1(this);
+		run(projectileModifierPorts, TELEPORT_PATH_OPERATOR);
+	}
+
+	/**
+	 * Execute homing path modifier operator.
+	 */
+	void calculateHomingPath() {
+		projectileModifierPorts.setEntity1(this);
+		run(projectileModifierPorts, HOMING_PATH_OPERATOR);
+	}
+
+	/**
+	 * Execute electrocute operator.
+	 */
+	void electrocute() {
+		projectileModifierPorts.setEntity1(this);
+		projectileModifierPorts.setEntity2(getThrower());
+		run(projectileModifierPorts, ELECTROCUTE_OPERATOR);
 	}
 
 	/**
@@ -520,11 +650,21 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	}
 
 	/**
-	 * Add particle on update tick.
+	 * Add particle rendering on update tick.
 	 */
-	void addParticles() {
-		addParticlesPorts.setBlockPosition1(getPosition());
-		run(addParticlesPorts, addParticlesOp);
+	void addRendering() {
+		renderingPorts.setBlockPosition1(getPosition());
+		run(renderingPorts, renderingOp);
+	}
+
+	/**
+	 * Send graphical effect to client
+	 */
+	void addTrailGraphicalEffect() {
+		renderingPorts.setDouble1((double) duration);
+		renderingPorts.setEntity1(this);
+		renderingPorts.setEntity2(getThrower());
+		run(renderingPorts, RENDERING_TRAIL_OP);
 	}
 
 }

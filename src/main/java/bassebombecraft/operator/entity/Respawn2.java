@@ -11,6 +11,7 @@ import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.entity.EntityUtils.setAttribute;
 import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.Random;
 import java.util.function.Function;
@@ -66,19 +67,13 @@ public class Respawn2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get entity
-		LivingEntity deadEntity = fnGetDeadEntity.apply(ports);
-		if (deadEntity == null)
-			return ports;
+	public void run(Ports ports) {
+		LivingEntity deadEntity = applyV(fnGetDeadEntity, ports);
 
 		// spawn entities
 		Random random = getBassebombeCraft().getRandom();
 		int entities = Math.max(respawnMinEntities.get(), random.nextInt(respawnMaxEntities.get()));
 		IntStream.rangeClosed(1, entities).forEach(n -> spawnEntity(deadEntity));
-
-		return ports;
 	}
 
 	/**

@@ -16,9 +16,8 @@ public class ReceiveAggro2 implements Operator2 {
 	public static final String NAME = ReceiveAggro2.class.getSimpleName();
 
 	@Override
-	public Ports run(Ports ports) {
+	public void run(Ports ports) {
 		// NO-OP		
-		return ports;
 	}
 
 }

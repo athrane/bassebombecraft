@@ -3,6 +3,7 @@ package bassebombecraft.operator.client.rendering;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.event.particle.DefaultParticleRendering.getInstance;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
@@ -56,12 +57,8 @@ public class AddParticlesFromEntityAtClient2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get entity
-		LivingEntity entity = fnGetLivingEntity.apply(ports);
-		if (entity == null)
-			return ports;
+	public void run(Ports ports) {
+		LivingEntity entity = applyV(fnGetLivingEntity, ports);
 
 		// get entity position
 		BlockPos pos = entity.getPosition();
@@ -72,7 +69,5 @@ public class AddParticlesFromEntityAtClient2 implements Operator2 {
 			ParticleRendering particle = getInstance(pos, info);
 			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 		}
-
-		return ports;
 	}
 }

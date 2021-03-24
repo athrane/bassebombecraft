@@ -4,13 +4,16 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.MODID;
 import static net.minecraftforge.fml.network.NetworkRegistry.newSimpleChannel;
 
+import bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.network.packet.AddCharm;
-import bassebombecraft.network.packet.AddEffect;
+import bassebombecraft.network.packet.AddGraphicalEffect;
 import bassebombecraft.network.packet.AddParticleRendering;
+import bassebombecraft.network.packet.AddPotionEffect;
 import bassebombecraft.network.packet.RemoveEffect;
 import bassebombecraft.network.packet.RemoveParticleRendering;
 import bassebombecraft.proxy.Proxy;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.potion.Effect;
@@ -57,25 +60,28 @@ public class NetworkChannelHelper {
 		int msgIndex = 0;
 
 		// register messages
-		channel.registerMessage(msgIndex++, AddEffect.class, AddEffect::encode, AddEffect::new, AddEffect::handle);
+		channel.registerMessage(msgIndex++, AddPotionEffect.class, AddPotionEffect::encode, AddPotionEffect::new,
+				AddPotionEffect::handle);
 		channel.registerMessage(msgIndex++, RemoveEffect.class, RemoveEffect::encode, RemoveEffect::new,
 				RemoveEffect::handle);
 		channel.registerMessage(msgIndex++, AddParticleRendering.class, AddParticleRendering::encode,
 				AddParticleRendering::new, AddParticleRendering::handle);
 		channel.registerMessage(msgIndex++, RemoveParticleRendering.class, RemoveParticleRendering::encode,
 				RemoveParticleRendering::new, RemoveParticleRendering::handle);
-		channel.registerMessage(msgIndex++, AddCharm.class, AddCharm::encode, AddCharm::new, AddCharm::handle);		
+		channel.registerMessage(msgIndex++, AddCharm.class, AddCharm::encode, AddCharm::new, AddCharm::handle);
+		channel.registerMessage(msgIndex++, AddGraphicalEffect.class, AddGraphicalEffect::encode,
+				AddGraphicalEffect::new, AddGraphicalEffect::handle);
 	}
 
 	/**
-	 * Send {@linkplain AddEffect} network packet from server to client.
+	 * Send {@linkplain AddPotionEffect} network packet from server to client.
 	 * 
 	 * @param entity entity to add the effect to.
 	 * @param effect effect to add to entity.
 	 */
-	public void sendAddEffectPacket(LivingEntity entity, EffectInstance effectInstance) {
+	public void sendAddPotionEffectPacket(LivingEntity entity, EffectInstance effectInstance) {
 		try {
-			channel.send(PacketDistributor.ALL.noArg(), new AddEffect(entity, effectInstance));
+			channel.send(PacketDistributor.ALL.noArg(), new AddPotionEffect(entity, effectInstance));
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
@@ -132,6 +138,23 @@ public class NetworkChannelHelper {
 	public void sendAddCharmPacket(MobEntity entity) {
 		try {
 			channel.send(PacketDistributor.ALL.noArg(), new AddCharm(entity));
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
+	}
+
+	/**
+	 * Send {@linkplain AddGraphicalEffect} network packet from server to client.
+	 * 
+	 * @param source   source entity involved in the effect.
+	 * @param target   target entity involved in the effect.
+	 * @param duration effect duration (in game ticks).
+	 * @param effect   graphical effect .
+	 */
+	public void sendAddGraphicalEffectPacket(Entity source, Entity target, int duration,
+			GraphicalEffectRepository.Effect effect) {
+		try {
+			channel.send(PacketDistributor.ALL.noArg(), new AddGraphicalEffect(source, target, duration, effect));
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}

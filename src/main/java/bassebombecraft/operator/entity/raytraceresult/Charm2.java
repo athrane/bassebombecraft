@@ -6,6 +6,7 @@ import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
+import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
@@ -61,40 +62,30 @@ public class Charm2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
-
-		// get invoker
-		LivingEntity invoker = fnGetInvoker.apply(ports);
-		if (invoker == null)
-			return ports;
-
-		// get ray trace result
-		RayTraceResult result = fnGetRayTraceResult.apply(ports);
-		if (result == null)
-			return ports;
+	public void run(Ports ports) {
+		LivingEntity invoker = applyV(fnGetInvoker, ports);
+		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
 
 		// exit if no entity was hit
 		if (!isEntityHit(result))
-			return ports;
+			return;
 
 		// exit if result isn't entity ray trace result
 		if (!isTypeEntityRayTraceResult(result))
-			return ports;
+			return;
 
 		// get entity
 		Entity entity = ((EntityRayTraceResult) result).getEntity();
 
 		// skip if entity can't be charmed, i.e. is a mob entity
 		if (!isTypeMobEntity(entity))
-			return ports;
+			return;
 
 		// type cast
 		MobEntity mobEntity = (MobEntity) entity;
 
 		// register mob as charmed
 		getProxy().getServerCharmedMobsRepository().add(mobEntity, invoker);
-
-		return ports;
 	}
 
 }

@@ -1,6 +1,7 @@
 package bassebombecraft.operator.conditional;
 
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
+import static bassebombecraft.operator.Operators2.applyV;
 import static bassebombecraft.world.WorldUtils.isLogicalServer;
 
 import java.util.function.Function;
@@ -40,24 +41,18 @@ public class IsWorldAtServerSide2 implements Operator2 {
 	}
 
 	@Override
-	public Ports run(Ports ports) {
+	public void run(Ports ports) {
+		LivingEntity entity = applyV(fnGetEntity, ports);
 
-		// exit as failed if no living entity is defined
-		LivingEntity livingEntity = fnGetEntity.apply(ports);
-		if (livingEntity == null) {
+		// exit as failed if not at server side
+		if (!isLogicalServer(entity)) {
 			ports.setResultAsFailed();
-			return ports;
-		}
-
-		// exit is failed if not at server side
-		if (!isLogicalServer(ports.getLivingEntity1())) {
-			ports.setResultAsFailed();
-			return ports;
+			return;
 		}
 
 		// set as successful
 		ports.setResultAsSucces();
-		return ports;
+		return;
 	}
 
 }

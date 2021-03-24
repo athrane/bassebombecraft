@@ -13,7 +13,8 @@ import java.util.Optional;
 
 import org.apache.logging.log4j.Logger;
 
-import bassebombecraft.client.event.particle.ParticleRenderingRepository;
+import bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository;
+import bassebombecraft.client.event.rendering.particle.ParticleRenderingRepository;
 import bassebombecraft.config.VersionUtils;
 import bassebombecraft.entity.commander.DefaultMobCommanderRepository;
 import bassebombecraft.entity.commander.MobCommanderRepository;
@@ -290,6 +291,11 @@ public class ServerProxy implements Proxy {
 	}
 
 	@Override
+	public GraphicalEffectRepository getClientGraphicalEffectRepository() throws UnsupportedOperationException {
+		throw new UnsupportedOperationException("Operation not supported by server.");
+	}
+	
+	@Override
 	public CharmedMobsRepository getServerCharmedMobsRepository() {
 		return charmedMobsRepository;
 	}
@@ -323,7 +329,7 @@ public class ServerProxy implements Proxy {
 	public TargetRepository getServerTargetRepository() {
 		return targetRepository;
 	}
-
+	
 	@Override
 	public void doDeferredRegistration(IEventBus bus) {
 		CONTAINER_REGISTRY.register(bus);

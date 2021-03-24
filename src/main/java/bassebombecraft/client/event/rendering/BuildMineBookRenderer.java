@@ -15,11 +15,12 @@ import static net.minecraft.util.math.RayTraceResult.Type.BLOCK;
 
 import java.util.function.Supplier;
 
-import bassebombecraft.client.op.rendering.RenderTextBillboard2;
-import bassebombecraft.client.op.rendering.RenderWireframeBoundingBox2;
+import bassebombecraft.client.operator.rendering.RenderTextBillboard2;
+import bassebombecraft.client.operator.rendering.RenderWireframeBoundingBox2;
 import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.Sequence2;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -46,10 +47,9 @@ public class BuildMineBookRenderer {
 	/**
 	 * Create operators.
 	 */
-	static Supplier<Operator2[]> splOp = () -> {
-		Operator2[] ops = { new RenderWireframeBoundingBox2(AABB_OSCILLIATION, HUD_LINE_COLOR, OVERLAY_LINES),
-				new RenderTextBillboard2(getFnGetString1(), -5, -20, TEXT_OSCILLIATION, BUILDMINEBOOK_TEXT_COLOR) };
-		return ops;
+	static Supplier<Operator2> splOp = () -> {
+		return new Sequence2(new RenderWireframeBoundingBox2(AABB_OSCILLIATION, HUD_LINE_COLOR, OVERLAY_LINES),
+				new RenderTextBillboard2(getFnGetString1(), -5, -20, TEXT_OSCILLIATION, BUILDMINEBOOK_TEXT_COLOR));
 	};
 
 	public static void handleHighlightBlockEvent(HighlightBlock event) {
@@ -119,8 +119,8 @@ public class BuildMineBookRenderer {
 
 		// setup operator and execute
 		Ports ports = getInstance();
-		ports.setAabb(aabb);
-		ports.setMatrixStack(event.getMatrix());
+		ports.setAabb1(aabb);
+		ports.setMatrixStack1(event.getMatrix());
 		ports.setString1(message);
 		run(ports, splOp.get());
 	}

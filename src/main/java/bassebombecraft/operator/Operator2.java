@@ -8,5 +8,5 @@ public interface Operator2 {
 	/**
 	 * Execute operator.
 	 */
-	public Ports run(Ports ports); 
+	public void run(Ports ports); 
 }

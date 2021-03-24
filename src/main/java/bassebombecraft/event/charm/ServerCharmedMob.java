@@ -5,9 +5,7 @@ import static bassebombecraft.entity.ai.AiUtils.captureGoals;
 import static bassebombecraft.entity.ai.AiUtils.getCharmDuration;
 
 import java.util.Set;
-import java.util.function.Consumer;
 
-import bassebombecraft.event.duration.DurationRepository;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.PrioritizedGoal;
 
@@ -43,21 +41,14 @@ public class ServerCharmedMob implements CharmedMob {
 	/**
 	 * Constructor.
 	 * 
-	 * @param entity           charmed mob.
-	 * @param duration         duration of charm in measured in ticks.
-	 * @param cRemovalCallback removal callback function invoked by
-	 *                         {@linkplain DurationRepository} when mob charm
-	 *                         expires.
+	 * @param entity   charmed mob.
+	 * @param duration duration of charm in measured in ticks.
 	 */
-	ServerCharmedMob(MobEntity entity, int duration, Consumer<String> cRemovalCallback) {
+	ServerCharmedMob(MobEntity entity, int duration) {
 		this.entity = entity;
 		goals = captureGoals(entity.goalSelector);
 		targetGoals = captureGoals(entity.targetSelector);
 		id = Integer.toString(entity.getEntityId());
-
-		// register charmed mob with server duration repository
-		DurationRepository repository = getProxy().getServerDurationRepository();
-		repository.add(id, duration, cRemovalCallback);
 	}
 
 	public Set<PrioritizedGoal> getGoals() throws UnsupportedOperationException {
@@ -76,17 +67,19 @@ public class ServerCharmedMob implements CharmedMob {
 		return getCharmDuration(id, getProxy().getServerDurationRepository());
 	}
 
+	@Override
+	public String getId() {
+		return id;
+	}
+
 	/**
 	 * Factory method.
 	 * 
-	 * @param entity           charmed mob.
-	 * @param duration         duration of charm in measured in ticks.
-	 * @param cRemovalCallback removal callback function invoked by
-	 *                         {@linkplain DurationRepository} when mob charm
-	 *                         expires.
+	 * @param entity   charmed mob.
+	 * @param duration duration of charm in measured in ticks.
 	 */
-	public static ServerCharmedMob getInstance(MobEntity entity, int duration, Consumer<String> cRemovalCallback) {
-		return new ServerCharmedMob(entity, duration, cRemovalCallback);
+	public static ServerCharmedMob getInstance(MobEntity entity, int duration) {
+		return new ServerCharmedMob(entity, duration);
 	}
 
 }

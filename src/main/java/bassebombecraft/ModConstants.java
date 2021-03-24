@@ -56,7 +56,7 @@ public class ModConstants {
 	/**
 	 * Mod version.
 	 */
-	public static final String VERSION = "1.15.2-1.49";
+	public static final String VERSION = "1.15.2-1.50";
 
 	/**
 	 * In game tab name.
@@ -344,6 +344,11 @@ public class ModConstants {
 	public static final String CHARMED_MOB_NAME = "CharmedMob";
 
 	/**
+	 * Reflect effect configuration identifier.
+	 */
+	public static final String REFLECT_EFFECT_NAME = "ReflectEffect";
+	
+	/**
 	 * Processed block directives configuration identifier.
 	 */
 	public static final String PROCESSED_BLOCK_DIRECTIVES_NAME = "ProcessBlockDirectives";
@@ -487,4 +492,44 @@ public class ModConstants {
 	 */
 	public static final int COMPOSITE_MAX_SIZE = 6;
 
+	/**
+	 * PF class suffix for composite item.
+	 */
+	public  static final String PF_SUFFIX = "ProjectileFormationItem";
+	
+	/**
+	 * PFM class suffix for composite item.
+	 */	
+	public static final String PFM_SUFFIX = "ProjectileFormationModifierItem";
+	
+	/**
+	 * P class suffix for composite item.
+	 */		
+	public static final String P_SUFFIX = "ProjectileItem";
+	
+	/**
+	 * PP class suffix for composite item.
+	 */			
+	public static final String PP_SUFFIX = "ProjectilePathItem";
+	
+	/**
+	 * PM class suffix for composite item.
+	 */			
+	public static final String PM_SUFFIX = "ProjectileModifierItem";
+
+	/**
+	 * Unknown class suffix for composite item.
+	 */			
+	public static final String UNKNOWN_SUFFIX = "Unknown type";
+
+	/**
+	 * Null arguments for I18N.
+	 */
+	public static final Object[] NULL_I18N_ARGS = new Object[0];
+	
+	/**
+	 * Mob damage type. 
+	 */
+	public static final String MOB_DAMAGE = "mob";
+	
 }
