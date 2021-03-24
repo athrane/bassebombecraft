@@ -166,6 +166,7 @@
     "item.bassebombecraft.increasegravityprojectilepathitem": "Increase Gravity",                                
     "item.bassebombecraft.decreasegravityprojectilepathitem": "Decrease Gravity",                                
     "item.bassebombecraft.teleportprojectilepathitem": "Teleport",                            
+    "item.bassebombecraft.homingprojectilepathitem": "Homing",                            
                               
     "item.bassebombecraft.teleportinvokerprojectilemodifieritem": "Teleport Player",        
     "item.bassebombecraft.teleportmobprojectilemodifieritem": "Teleport Mob",            

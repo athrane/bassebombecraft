@@ -5,30 +5,42 @@ import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository.Effect.PROJECTILE_TRAIL;
 import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
 import static bassebombecraft.config.ModConfiguration.genericProjectileEntityProjectileDuration;
+import static bassebombecraft.config.ModConfiguration.genericProjectileEntityProjectileHomingAoeRange;
+import static bassebombecraft.operator.DefaultPorts.getBcSetEntities1;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.operator.Operators2.applyV;
 import static bassebombecraft.operator.Operators2.run;
+import static bassebombecraft.util.function.Predicates.hasDifferentIds;
+import static bassebombecraft.util.function.Predicates.isntProjectileThrower;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static bassebombecraft.world.WorldUtils.isLogicalServer;
 import static net.minecraft.entity.projectile.ProjectileHelper.rayTrace;
 import static net.minecraftforge.event.ForgeEventFactory.onProjectileImpact;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import bassebombecraft.config.ProjectileEntityConfig;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
+import bassebombecraft.operator.DefaultPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.client.rendering.AddGraphicalEffectAtClient2;
 import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
 import bassebombecraft.operator.entity.Electrocute2;
+import bassebombecraft.operator.entity.FindEntities2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.CircleProjectilePath;
 import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.DecreaseGravityProjectilePath;
+import bassebombecraft.operator.projectile.path.HomingProjectilePath;
 import bassebombecraft.operator.projectile.path.IncreaseGravityProjectilePath;
 import bassebombecraft.operator.projectile.path.RandomProjectilePath;
 import bassebombecraft.operator.projectile.path.SineProjectilePath;
@@ -117,7 +129,43 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * Teleport projectile path operator.
 	 */
 	static final Operator2 TELEPORT_PATH_OPERATOR = new TeleportProjectilePath();
-	
+
+	/**
+	 * Homing projectile path operator.
+	 */
+	static Optional<Operator2> optHomingPathOperator = Optional.empty();
+
+	/**
+	 * Create homing path operator.
+	 */
+	static Supplier<Operator2> splHomingPathOp = () -> {
+
+		Function<Ports, Entity> fnGetSource = DefaultPorts.getFnGetEntity1();
+
+		// FindEntities2: get source position from source entity
+		Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(fnGetSource, p).getPosition();
+
+		// FindEntities2: get world from source entity
+		Function<Ports, World> fnGetWorld = p -> applyV(fnGetSource, p).getEntityWorld();
+
+		// FindEntities2: get function to create exclusion predicate using the source
+		// entity
+		Function<Ports, Predicate<Entity>> fnGetPredicate = p -> hasDifferentIds(applyV(fnGetSource, p))
+				.and(isntProjectileThrower(applyV(fnGetSource, p)));
+
+		// FindEntities2: get search range from configuration
+		Function<Ports, Integer> fnGetRange = p -> genericProjectileEntityProjectileHomingAoeRange.get().intValue();
+
+		return new Sequence2(
+				new FindEntities2(fnGetSourcePos, fnGetWorld, fnGetPredicate, fnGetRange, getBcSetEntities1()),
+				new HomingProjectilePath());
+	};
+
+	/**
+	 * Homing projectile path operator.
+	 */
+	static final Operator2 HOMING_PATH_OPERATOR = splHomingPathOp.get();
+
 	/**
 	 * Electrocute operator.
 	 */
@@ -429,7 +477,11 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		// handle: teleport path
 		if (tags.contains(TeleportProjectilePath.NAME))
 			calculateTeleportPath();
-		
+
+		// handle: homing
+		if (tags.contains(HomingProjectilePath.NAME))
+			calculateHomingPath();
+
 		// handle: electrocute
 		if (tags.contains(Electrocute2.NAME))
 			electrocute();
@@ -508,7 +560,15 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		projectileModifierPorts.setEntity1(this);
 		run(projectileModifierPorts, TELEPORT_PATH_OPERATOR);
 	}
-	
+
+	/**
+	 * Execute homing path modifier operator.
+	 */
+	void calculateHomingPath() {
+		projectileModifierPorts.setEntity1(this);
+		run(projectileModifierPorts, HOMING_PATH_OPERATOR);
+	}
+
 	/**
 	 * Execute electrocute operator.
 	 */

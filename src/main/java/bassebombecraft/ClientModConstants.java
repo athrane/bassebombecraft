@@ -116,13 +116,13 @@ public class ClientModConstants {
 	 * Rendering: Line color for projectile trail for
 	 * {@linkplain ClientGraphicalEffectRepository}.
 	 */
-	public static final Vector4f PROJECTILE_TRAIL_LINE_COLOR1 = new Vector4f(0.5F, 1.0F, 1.0F, 0.2F);
+	public static final Vector4f PROJECTILE_TRAIL_LINE_COLOR1 = new Vector4f(0.5F, 1.0F, 1.0F, 0.05F);
 
 	/**
 	 * Rendering: Line color for projectile trail for
 	 * {@linkplain ClientGraphicalEffectRepository}.
 	 */
-	public static final Vector4f PROJECTILE_TRAIL_LINE_COLOR2 = new Vector4f(0.5F, 0.75F, 1.0F, 0.5F);
+	public static final Vector4f PROJECTILE_TRAIL_LINE_COLOR2 = new Vector4f(0.5F, 0.75F, 1.0F, 0.2F);
 
 	/**
 	 * Rendering: Projectile trail length, control lenght of trail calculated by the operator

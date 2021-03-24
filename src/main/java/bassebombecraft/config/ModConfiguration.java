@@ -154,6 +154,7 @@ import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathIt
 import bassebombecraft.item.composite.projectile.path.CircleProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.DeaccelerateProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.DecreaseGravityProjectilePathItem;
+import bassebombecraft.item.composite.projectile.path.HomingProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.IncreaseGravityProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.RandomProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.SineProjectilePathItem;
@@ -490,6 +491,7 @@ public class ModConfiguration {
 	public static ItemConfig increaseGravityProjectilePathItem;
 	public static ItemConfig decreaseGravityProjectilePathItem;
 	public static ItemConfig teleportProjectilePathItem;
+	public static ItemConfig homingProjectilePathItem;
 
 	public static ItemConfig teleportInvokerProjectileModifierItem;
 	public static ItemConfig teleportMobProjectileModifierItem;
@@ -763,6 +765,7 @@ public class ModConfiguration {
 	 * Properties for {@linkplain GenericCompositeProjectileEntity} operator.
 	 */
 	public static ForgeConfigSpec.IntValue genericProjectileEntityProjectileDuration;
+	public static ForgeConfigSpec.IntValue genericProjectileEntityProjectileHomingAoeRange;
 
 	static {
 
@@ -2225,6 +2228,14 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 		
 		/**
+		 * Configuration for the {@linkplain HomingProjectilePathItem} item.
+		 */
+		name = HomingProjectilePathItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		homingProjectilePathItem = getInstance(COMMON_BUILDER, name, "The projectile will home in on a mob.", 25);
+		COMMON_BUILDER.pop();				
+		
+		/**
 		 * Configuration for the {@linkplain ZigZagProjectilePathItem} item.
 		 */
 		name = ZigZagProjectilePathItem.NAME;
@@ -2497,6 +2508,8 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		genericProjectileEntityProjectileDuration = COMMON_BUILDER.comment("Duration of projectiles in game ticks.")
 				.defineInRange("duration", 125, 0, Integer.MAX_VALUE);
+		genericProjectileEntityProjectileHomingAoeRange = COMMON_BUILDER.comment("Search range for mobs for homing path.")
+				.defineInRange("homingRange", 10, 0, 20);		
 		COMMON_BUILDER.pop();
 
 		/**
