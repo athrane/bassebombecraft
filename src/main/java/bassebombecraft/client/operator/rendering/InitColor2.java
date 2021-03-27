@@ -1,11 +1,11 @@
 package bassebombecraft.client.operator.rendering;
 
-import static bassebombecraft.operator.DefaultPorts.getBcSetVector4f2;
-import static net.minecraft.util.math.MathHelper.lerp;
+import static bassebombecraft.geom.GeometryUtils.oscillateFloat;
+import static bassebombecraft.operator.DefaultPorts.getBcSetColor4f2;
 
 import java.util.function.BiConsumer;
 
-import static bassebombecraft.geom.GeometryUtils.*;
+import bassebombecraft.color.Color4f;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.client.renderer.Vector4f;
@@ -21,17 +21,17 @@ public class InitColor2 implements Operator2 {
 	/**
 	 * Function to set color.
 	 */
-	BiConsumer<Ports, Vector4f> bcSetColor;
+	BiConsumer<Ports, Color4f> bcSetColor;
 
 	/**
 	 * Base color #1.
 	 */
-	Vector4f color1;
+	Color4f color1;
 
 	/**
 	 * Base color #2.
 	 */
-	Vector4f color2;
+	Color4f color2;
 
 	/**
 	 * Constructor.
@@ -41,8 +41,8 @@ public class InitColor2 implements Operator2 {
 	 * @param color1 base color #1.
 	 * @param color1 base color #2.
 	 */
-	public InitColor2(Vector4f color1, Vector4f color2) {
-		this(getBcSetVector4f2(), color1, color2);
+	public InitColor2(Color4f color1, Color4f color2) {
+		this(getBcSetColor4f2(), color1, color2);
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class InitColor2 implements Operator2 {
 	 * @param color1     base color #1.
 	 * @param color1     base color #2.
 	 */
-	public InitColor2(BiConsumer<Ports, Vector4f> bcSetColor, Vector4f color1, Vector4f color2) {
+	public InitColor2(BiConsumer<Ports, Color4f> bcSetColor, Color4f color1, Color4f color2) {
 		this.color1 = color1;
 		this.color2 = color2;
 		this.bcSetColor = bcSetColor;
@@ -60,13 +60,8 @@ public class InitColor2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-
 		float oscValue = oscillateFloat(0, 1);
-		float x = lerp(oscValue, color1.getX(), color2.getX());
-		float y = lerp(oscValue, color1.getY(), color2.getY());
-		float z = lerp(oscValue, color1.getZ(), color2.getZ());
-		float alpha = lerp(oscValue, color1.getW(), color2.getW());
-		Vector4f color = new Vector4f(x, y, z, alpha);
+		Color4f color = color1.lerp(color2, oscValue);
 		bcSetColor.accept(ports, color);
 	}
 

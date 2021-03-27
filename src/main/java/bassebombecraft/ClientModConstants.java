@@ -7,6 +7,8 @@ import bassebombecraft.client.event.rendering.effect.ClientGraphicalEffectReposi
 import bassebombecraft.client.operator.rendering.InitProjectileTrailRendering2;
 import bassebombecraft.client.operator.rendering.RenderTextBillboard2;
 import bassebombecraft.client.rendering.RenderingUtils;
+import bassebombecraft.color.Color4f;
+import static bassebombecraft.color.DefaultColor4f.*;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.book.BuildMineBook;
 import net.minecraft.client.renderer.Vector4f;
@@ -104,25 +106,25 @@ public class ClientModConstants {
 	 * Rendering: Line color for lightning for
 	 * {@linkplain ClientGraphicalEffectRepository}.
 	 */
-	public static final Vector4f LIGHTNING_LINE_COLOR1 = new Vector4f(1.0F, 1.0F, 1.0F, 0.25F);
+	public static final Color4f LIGHTNING_LINE_COLOR1 = getInstance(1.0F, 1.0F, 1.0F, 0.25F);
 
 	/**
 	 * Rendering: Line color for lightning for
 	 * {@linkplain ClientGraphicalEffectRepository}.
 	 */
-	public static final Vector4f LIGHTNING_LINE_COLOR2 = new Vector4f(1.0F, 1.0F, 0.0F, 0.75F);
+	public static final Color4f LIGHTNING_LINE_COLOR2 = getInstance(1.0F, 1.0F, 0.0F, 0.75F);
 
 	/**
 	 * Rendering: Line color for projectile trail for
 	 * {@linkplain ClientGraphicalEffectRepository}.
 	 */
-	public static final Vector4f PROJECTILE_TRAIL_LINE_COLOR1 = new Vector4f(0.5F, 1.0F, 1.0F, 0.05F);
+	public static final Color4f PROJECTILE_TRAIL_LINE_COLOR1 = getInstance(0.5F, 1.0F, 1.0F, 0.05F);
 
 	/**
 	 * Rendering: Line color for projectile trail for
 	 * {@linkplain ClientGraphicalEffectRepository}.
 	 */
-	public static final Vector4f PROJECTILE_TRAIL_LINE_COLOR2 = new Vector4f(0.5F, 0.75F, 1.0F, 0.2F);
+	public static final Color4f PROJECTILE_TRAIL_LINE_COLOR2 = getInstance(0.5F, 0.75F, 1.0F, 0.2F);
 
 	/**
 	 * Rendering: Projectile trail length, control lenght of trail calculated by the operator

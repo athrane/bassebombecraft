@@ -6,7 +6,7 @@ import java.util.stream.Stream;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.renderer.Vector4f;
+import bassebombecraft.color.Color4f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
@@ -75,15 +75,15 @@ public class DefaultPorts implements Ports {
 	Vec3d[] vectors3d2;
 
 	/**
-	 * Vector4f #1.
+	 * Color4f #1.
 	 */
-	Vector4f vector4f1;
+	Color4f color4f1;
 
 	/**
-	 * Vector4f #2.
+	 * Color4f #2.
 	 */
-	Vector4f vector4f2;
-	
+	Color4f color4f2;
+
 	/**
 	 * Entity #1.
 	 */
@@ -138,7 +138,7 @@ public class DefaultPorts implements Ports {
 	 * Damage source.
 	 */
 	DamageSource damageSource;
-	
+
 	/**
 	 * Living entity #1 getter.
 	 */
@@ -250,25 +250,25 @@ public class DefaultPorts implements Ports {
 	static Function<Ports, Vec3d[]> fnGetVectors2 = p -> p.getVectors2();
 
 	/**
-	 * Vector4f #1 getter.
+	 * Color4f #1 getter.
 	 */
-	static Function<Ports, Vector4f> fnGetVector4f1 = p -> p.getVector4f1();
+	static Function<Ports, Color4f> fnGetColor4f1 = p -> p.getColor4f1();
 
 	/**
-	 * Vector4f #1 setter.
+	 * Color4f #1 setter.
 	 */
-	static BiConsumer<Ports, Vector4f> bcSetVector4f1 = (p, v) -> p.setVector4f1(v);
+	static BiConsumer<Ports, Color4f> bcSetColor4f1 = (p, v) -> p.setColor4f1(v);
 
 	/**
-	 * Vector4f #2 getter.
+	 * Color4f #2 getter.
 	 */
-	static Function<Ports, Vector4f> fnGetVector4f2 = p -> p.getVector4f2();
+	static Function<Ports, Color4f> fnGetColor4f2 = p -> p.getColor4f2();
 
 	/**
-	 * Vector4f #2 setter.
+	 * Color4f #2 setter.
 	 */
-	static BiConsumer<Ports, Vector4f> bcSetVector4f2 = (p, v) -> p.setVector4f2(v);
-	
+	static BiConsumer<Ports, Color4f> bcSetColor4f2 = (p, v) -> p.setColor4f2(v);
+
 	/**
 	 * Entity #1 setter.
 	 */
@@ -358,7 +358,7 @@ public class DefaultPorts implements Ports {
 	 * Damage source #1 setter.
 	 */
 	static BiConsumer<Ports, DamageSource> bcSetDamageSource1 = (p, ds) -> p.setDamageSource1(ds);
-	
+
 	/**
 	 * Constructor
 	 */
@@ -487,27 +487,26 @@ public class DefaultPorts implements Ports {
 		this.vectors3d2 = vec;
 		return this;
 	}
-		
+
 	@Override
-	public Vector4f getVector4f1() {
-		return vector4f1;
+	public Color4f getColor4f1() {
+		return color4f1;
 	}
 
 	@Override
-	public Ports setVector4f1(Vector4f vec) {
-		this.vector4f1 = vec;
+	public Ports setColor4f1(Color4f color) {
+		this.color4f1 = color;
 		return this;
 	}
 
-	
 	@Override
-	public Vector4f getVector4f2() {
-		return vector4f2;
+	public Color4f getColor4f2() {
+		return color4f2;
 	}
 
 	@Override
-	public Ports setVector4f2(Vector4f vec) {
-		this.vector4f2 = vec;
+	public Ports setColor4f2(Color4f color) {
+		this.color4f2 = color;
 		return this;
 	}
 
@@ -632,7 +631,7 @@ public class DefaultPorts implements Ports {
 		this.matrixStack = ms;
 		return this;
 	}
-	
+
 	@Override
 	public DamageSource getDamageSource1() {
 		return damageSource;
@@ -732,22 +731,22 @@ public class DefaultPorts implements Ports {
 		return bcSetVectors2;
 	}
 
-	public static Function<Ports, Vector4f> getFnGetVector4f1() {
-		return fnGetVector4f1;
+	public static Function<Ports, Color4f> getFnGetColor4f1() {
+		return fnGetColor4f1;
 	}
 
-	public static BiConsumer<Ports, Vector4f> getBcSetVector4f1() {
-		return bcSetVector4f1;
+	public static BiConsumer<Ports, Color4f> getBcSetColor4f1() {
+		return bcSetColor4f1;
 	}
 
-	public static Function<Ports, Vector4f> getFnGetVector4f2() {
-		return fnGetVector4f2;
+	public static Function<Ports, Color4f> getFnGetColor4f2() {
+		return fnGetColor4f2;
 	}
 
-	public static BiConsumer<Ports, Vector4f> getBcSetVector4f2() {
-		return bcSetVector4f2;
+	public static BiConsumer<Ports, Color4f> getBcSetColor4f2() {
+		return bcSetColor4f2;
 	}
-	
+
 	public static Function<Ports, Entity> getFnGetEntity1() {
 		return fnGetEntity1;
 	}
@@ -818,8 +817,8 @@ public class DefaultPorts implements Ports {
 
 	public static BiConsumer<Ports, DamageSource> getBcSetDamageSource1() {
 		return bcSetDamageSource1;
-	}	
-	
+	}
+
 	/**
 	 * Factory method.
 	 * 
