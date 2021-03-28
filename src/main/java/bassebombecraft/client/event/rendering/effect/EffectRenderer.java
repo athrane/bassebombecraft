@@ -2,12 +2,12 @@ package bassebombecraft.client.event.rendering.effect;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.client.operator.DefaultClientPorts.getInstance;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
-import static bassebombecraft.operator.DefaultPorts.getInstance;
 
 import java.util.stream.Stream;
 
-import bassebombecraft.operator.Ports;
+import bassebombecraft.client.operator.ClientPorts;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 /**
@@ -28,9 +28,7 @@ public class EffectRenderer {
 				return;
 
 			// create port
-			Ports ports = getInstance();
-
-			// add matrix stack
+			ClientPorts ports = getInstance();
 			ports.setMatrixStack1(event.getMatrixStack());
 
 			// get effects

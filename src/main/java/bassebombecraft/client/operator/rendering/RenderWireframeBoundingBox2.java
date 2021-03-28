@@ -1,10 +1,11 @@
 package bassebombecraft.client.operator.rendering;
 
 import static bassebombecraft.ClientModConstants.DEFAULT_LINE_COLOR;
+import static bassebombecraft.client.operator.ClientOperators2.clientApplyV;
+import static bassebombecraft.client.operator.DefaultClientPorts.getFnMaxtrixStack1;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.DEFAULT_LINES;
 import static bassebombecraft.geom.GeometryUtils.oscillate;
 import static bassebombecraft.operator.DefaultPorts.getFnAabb1;
-import static bassebombecraft.operator.DefaultPorts.getFnMaxtrixStack1;
 import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
@@ -13,6 +14,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import bassebombecraft.client.operator.ClientPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.client.Minecraft;
@@ -37,7 +39,7 @@ public class RenderWireframeBoundingBox2 implements Operator2 {
 	/**
 	 * Function to get matrix stack.
 	 */
-	Function<Ports, MatrixStack> fnGetMatrixStack;
+	Function<ClientPorts, MatrixStack> fnGetMatrixStack;
 
 	/**
 	 * oscillate max value.
@@ -104,10 +106,11 @@ public class RenderWireframeBoundingBox2 implements Operator2 {
 		this.renderType = renderType;
 	}
 
+	
 	@Override
 	public void run(Ports ports) {
 		AxisAlignedBB aabb = applyV(fnGetAabb, ports);
-		MatrixStack matrixStack = applyV(fnGetMatrixStack, ports);
+		MatrixStack matrixStack = clientApplyV(fnGetMatrixStack, ports);
 
 		// get render buffer and builder
 		Minecraft mcClient = Minecraft.getInstance();

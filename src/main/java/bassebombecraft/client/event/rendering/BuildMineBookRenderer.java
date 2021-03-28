@@ -3,23 +3,23 @@ package bassebombecraft.client.event.rendering;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ClientModConstants.BUILDMINEBOOK_TEXT_COLOR;
 import static bassebombecraft.ClientModConstants.HUD_LINE_COLOR;
+import static bassebombecraft.client.operator.DefaultClientPorts.getInstance;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.OVERLAY_LINES;
 import static bassebombecraft.item.RegisteredItems.MINE_BOOK;
 import static bassebombecraft.operator.DefaultPorts.getFnGetString1;
-import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.player.PlayerUtils.isItemHeldInEitherHands;
 import static net.minecraft.util.math.RayTraceResult.Type.BLOCK;
 
 import java.util.function.Supplier;
 
+import bassebombecraft.client.operator.ClientPorts;
 import bassebombecraft.client.operator.rendering.RenderTextBillboard2;
 import bassebombecraft.client.operator.rendering.RenderWireframeBoundingBox2;
 import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.Sequence2;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
@@ -118,7 +118,7 @@ public class BuildMineBookRenderer {
 		}
 
 		// setup operator and execute
-		Ports ports = getInstance();
+		ClientPorts ports = getInstance();
 		ports.setAabb1(aabb);
 		ports.setMatrixStack1(event.getMatrix());
 		ports.setString1(message);

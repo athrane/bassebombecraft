@@ -2,8 +2,6 @@ package bassebombecraft.operator;
 
 import java.util.stream.Stream;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-
 import bassebombecraft.color.Color4f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -347,22 +345,6 @@ public interface Ports {
 	 * @return ports.
 	 */
 	Ports setAabb1(AxisAlignedBB aabb);
-
-	/**
-	 * Get matrix stack #1.
-	 * 
-	 * @return matrix stack.
-	 */
-	MatrixStack getMatrixStack1();
-
-	/**
-	 * Set matrix stack #1.
-	 * 
-	 * @param ms matrix stack.
-	 * 
-	 * @return ports.
-	 */
-	Ports setMatrixStack1(MatrixStack ms);
 
 	/**
 	 * Get damage source #1.

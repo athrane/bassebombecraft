@@ -59,7 +59,7 @@ public class Operators2 {
 	 * 
 	 * @throws UndefinedOperatorInputException if {@code obj} is {@code null}
 	 */
-	static <T> T validateNotNull(T obj, Function<Ports, T> fn) {
+	public static <T> T validateNotNull(T obj, Function<? extends Ports, T> fn) {
 		if (obj == null)
 			throw new UndefinedOperatorInputException(fn.toString());
 		return obj;

@@ -4,13 +4,13 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ClientModConstants.HUD_TEXT_COLOR;
 import static bassebombecraft.ModConstants.TEAM_MEMBERS_TO_RENDER;
+import static bassebombecraft.client.operator.DefaultClientPorts.getInstance;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayerDefined;
 import static bassebombecraft.item.RegisteredItems.HUD;
 import static bassebombecraft.operator.DefaultPorts.getFnGetString1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetString2;
 import static bassebombecraft.operator.DefaultPorts.getFnGetStrings1;
-import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 
@@ -20,13 +20,13 @@ import java.util.stream.Stream;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import bassebombecraft.client.operator.ClientPorts;
 import bassebombecraft.client.operator.rendering.RenderMultiLineTextBillboard2;
 import bassebombecraft.client.operator.rendering.RenderTextBillboard2;
 import bassebombecraft.event.charm.CharmedMob;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.Ports;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
@@ -109,7 +109,7 @@ public class HudItemCharmedInfoRenderer {
 		Stream<String> messages2 = charmedMobs.limit(TEAM_MEMBERS_TO_RENDER).map(fnCreateMessage);
 
 		// setup operator and execute
-		Ports ports = getInstance();
+		ClientPorts ports = getInstance();
 		ports.setMatrixStack1(matrixStack);
 		ports.setString1("CHARMED MOBS");
 		ports.setString2("Number chamred: " + charmedSize);

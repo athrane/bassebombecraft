@@ -3,14 +3,16 @@ package bassebombecraft.client.operator.rendering;
 import static bassebombecraft.ClientModConstants.TEXT_COLOR;
 import static bassebombecraft.ClientModConstants.TEXT_SCALE_2;
 import static bassebombecraft.ClientModConstants.TEXT_Z_TRANSLATION;
+import static bassebombecraft.client.operator.ClientOperators2.clientApplyV;
+import static bassebombecraft.client.operator.DefaultClientPorts.getFnMaxtrixStack1;
 import static bassebombecraft.geom.GeometryUtils.oscillate;
-import static bassebombecraft.operator.DefaultPorts.getFnMaxtrixStack1;
 import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import bassebombecraft.client.operator.ClientPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.client.Minecraft;
@@ -63,7 +65,7 @@ public class RenderTextBillboard2 implements Operator2 {
 	/**
 	 * Function to get matrix stack.
 	 */
-	Function<Ports, MatrixStack> fnGetMatrixStack;
+	Function<ClientPorts, MatrixStack> fnGetMatrixStack;
 
 	/**
 	 * X coordinate for placement of billboard.
@@ -110,14 +112,13 @@ public class RenderTextBillboard2 implements Operator2 {
 	/**
 	 * Constructor.
 	 * 
-	 * @param fnGetString      function to get message.
-	 * @param x                x coordinate for placement of billboard.
-	 * @param y                y coordinate for placement of billboard.
-	 * @param oscillateMax     oscillate max value
-	 * @param textColor        text color.
+	 * @param fnGetString  function to get message.
+	 * @param x            x coordinate for placement of billboard.
+	 * @param y            y coordinate for placement of billboard.
+	 * @param oscillateMax oscillate max value
+	 * @param textColor    text color.
 	 */
-	public RenderTextBillboard2(Function<Ports, String> fnGetString,
-			int x, int y, float oscillateMax, int textColor) {
+	public RenderTextBillboard2(Function<Ports, String> fnGetString, int x, int y, float oscillateMax, int textColor) {
 		this.fnGetString = fnGetString;
 		this.fnGetMatrixStack = getFnMaxtrixStack1();
 		this.x = x;
@@ -128,7 +129,7 @@ public class RenderTextBillboard2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		MatrixStack matrixStack = applyV(fnGetMatrixStack, ports);
+		MatrixStack matrixStack = clientApplyV(fnGetMatrixStack, ports);
 		String message = applyV(fnGetString, ports);
 
 		// get render buffer

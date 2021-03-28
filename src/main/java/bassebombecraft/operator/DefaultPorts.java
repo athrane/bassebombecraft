@@ -4,8 +4,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-
 import bassebombecraft.color.Color4f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -128,11 +126,6 @@ public class DefaultPorts implements Ports {
 	 * Axis aligned bounding box.
 	 */
 	AxisAlignedBB aabb;
-
-	/**
-	 * Matrix stack.
-	 */
-	MatrixStack matrixStack;
 
 	/**
 	 * Damage source.
@@ -340,16 +333,6 @@ public class DefaultPorts implements Ports {
 	static BiConsumer<Ports, AxisAlignedBB> bcSetAabb1 = (p, aabb) -> p.setAabb1(aabb);
 
 	/**
-	 * Matrix stack #1 getter.
-	 */
-	static Function<Ports, MatrixStack> fnGetMatrixStack1 = p -> p.getMatrixStack1();
-
-	/**
-	 * Matrix stack #1 setter.
-	 */
-	static BiConsumer<Ports, MatrixStack> bcSetMatrixStack1 = (p, ms) -> p.setMatrixStack1(ms);
-
-	/**
 	 * Damage source #1 getter.
 	 */
 	static Function<Ports, DamageSource> fnGetDamageSource1 = p -> p.getDamageSource1();
@@ -362,7 +345,7 @@ public class DefaultPorts implements Ports {
 	/**
 	 * Constructor
 	 */
-	DefaultPorts() {
+	protected DefaultPorts() {
 		this.result = true;
 		this.counter = 0;
 	}
@@ -622,17 +605,6 @@ public class DefaultPorts implements Ports {
 	}
 
 	@Override
-	public MatrixStack getMatrixStack1() {
-		return matrixStack;
-	}
-
-	@Override
-	public Ports setMatrixStack1(MatrixStack ms) {
-		this.matrixStack = ms;
-		return this;
-	}
-
-	@Override
 	public DamageSource getDamageSource1() {
 		return damageSource;
 	}
@@ -801,14 +773,6 @@ public class DefaultPorts implements Ports {
 
 	public static BiConsumer<Ports, AxisAlignedBB> getBcSetAabb1() {
 		return bcSetAabb1;
-	}
-
-	public static Function<Ports, MatrixStack> getFnMaxtrixStack1() {
-		return fnGetMatrixStack1;
-	}
-
-	public static BiConsumer<Ports, MatrixStack> getBcSetMaxtrixStack1() {
-		return bcSetMatrixStack1;
 	}
 
 	public static Function<Ports, DamageSource> getFnDamageSource1() {

@@ -1,9 +1,10 @@
 package bassebombecraft.client.operator.rendering;
 
+import static bassebombecraft.client.operator.ClientOperators2.clientApplyV;
+import static bassebombecraft.client.operator.DefaultClientPorts.getFnMaxtrixStack1;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.DEFAULT_LINES;
 import static bassebombecraft.operator.DefaultPorts.getFnGetColor4f1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetVectors1;
-import static bassebombecraft.operator.DefaultPorts.getFnMaxtrixStack1;
 import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
@@ -12,6 +13,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import bassebombecraft.client.operator.ClientPorts;
 import bassebombecraft.color.Color4f;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
@@ -39,7 +41,7 @@ public class RenderLineWithDynamicColor2 implements Operator2 {
 	/**
 	 * Function to get matrix stack.
 	 */
-	Function<Ports, MatrixStack> fnGetMatrixStack;
+	Function<ClientPorts, MatrixStack> fnGetMatrixStack;
 
 	/**
 	 * Function to get line vertexes.
@@ -86,7 +88,7 @@ public class RenderLineWithDynamicColor2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		MatrixStack matrixStack = applyV(fnGetMatrixStack, ports);
+		MatrixStack matrixStack = clientApplyV(fnGetMatrixStack, ports);
 		Vec3d[] positions = applyV(fnGetLineVertexes, ports);
 		Color4f color = applyV(fnGetColor, ports);
 
