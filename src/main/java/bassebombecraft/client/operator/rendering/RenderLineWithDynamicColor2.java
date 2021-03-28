@@ -1,9 +1,10 @@
 package bassebombecraft.client.operator.rendering;
 
+import static bassebombecraft.client.operator.ClientOperators2.clientApplyV;
+import static bassebombecraft.client.operator.DefaultClientPorts.getFnMaxtrixStack1;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.DEFAULT_LINES;
-import static bassebombecraft.operator.DefaultPorts.getFnGetVector4f1;
+import static bassebombecraft.operator.DefaultPorts.getFnGetColor4f1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetVectors1;
-import static bassebombecraft.operator.DefaultPorts.getFnMaxtrixStack1;
 import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
@@ -12,13 +13,14 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
+import bassebombecraft.client.operator.ClientPorts;
+import bassebombecraft.color.Color4f;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Vector4f;
 import net.minecraft.util.math.Vec3d;
 
 /**
@@ -39,7 +41,7 @@ public class RenderLineWithDynamicColor2 implements Operator2 {
 	/**
 	 * Function to get matrix stack.
 	 */
-	Function<Ports, MatrixStack> fnGetMatrixStack;
+	Function<ClientPorts, MatrixStack> fnGetMatrixStack;
 
 	/**
 	 * Function to get line vertexes.
@@ -49,7 +51,7 @@ public class RenderLineWithDynamicColor2 implements Operator2 {
 	/**
 	 * Function to get color.
 	 */
-	Function<Ports, Vector4f> fnGetColor;
+	Function<Ports, Color4f> fnGetColor;
 
 	/**
 	 * Constructor.
@@ -63,7 +65,7 @@ public class RenderLineWithDynamicColor2 implements Operator2 {
 	public RenderLineWithDynamicColor2() {
 		this.fnGetMatrixStack = getFnMaxtrixStack1();
 		this.fnGetLineVertexes = getFnGetVectors1();
-		this.fnGetColor = getFnGetVector4f1();
+		this.fnGetColor = getFnGetColor4f1();
 		this.renderType = DEFAULT_LINES;
 	}
 
@@ -77,7 +79,7 @@ public class RenderLineWithDynamicColor2 implements Operator2 {
 	 * @param fnGetColor function to get color.
 	 * @param renderType render type for rendering the line.
 	 */
-	public RenderLineWithDynamicColor2(Function<Ports, Vector4f> fnGetColor, RenderType renderType) {
+	public RenderLineWithDynamicColor2(Function<Ports, Color4f> fnGetColor, RenderType renderType) {
 		this.fnGetMatrixStack = getFnMaxtrixStack1();
 		this.fnGetLineVertexes = getFnGetVectors1();
 		this.fnGetColor = fnGetColor;
@@ -86,9 +88,9 @@ public class RenderLineWithDynamicColor2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		MatrixStack matrixStack = applyV(fnGetMatrixStack, ports);
+		MatrixStack matrixStack = clientApplyV(fnGetMatrixStack, ports);
 		Vec3d[] positions = applyV(fnGetLineVertexes, ports);
-		Vector4f color = applyV(fnGetColor, ports);
+		Color4f color = applyV(fnGetColor, ports);
 
 		// Get start and end position
 		if (positions.length < 2)
@@ -131,19 +133,20 @@ public class RenderLineWithDynamicColor2 implements Operator2 {
 	 * @param positionMatrix position matrix.
 	 * @param color          line color as RGB+alpha
 	 */
-	void renderLine(Vec3d start, Vec3d end, IVertexBuilder builder, Matrix4f positionMatrix, Vector4f color) {
+	void renderLine(Vec3d start, Vec3d end, IVertexBuilder builder, Matrix4f positionMatrix, Color4f color) {
 
 		// AB
 		addVertex(builder, positionMatrix, start.x, start.y, start.z, color);
 		addVertex(builder, positionMatrix, end.x, end.y, end.z, color);
 	}
 
-	void addVertex(IVertexBuilder builder, Matrix4f positionMatrix, double x, double y, double z, Vector4f color) {
+	void addVertex(IVertexBuilder builder, Matrix4f positionMatrix, double x, double y, double z, Color4f color) {
 		addVertex(builder, positionMatrix, (float) x, (float) y, (float) z, color);
 	}
 
-	void addVertex(IVertexBuilder builder, Matrix4f positionMatrix, float x, float y, float z, Vector4f color) {
-		builder.pos(positionMatrix, x, y, z).color(color.getX(), color.getY(), color.getZ(), color.getW()).endVertex();
+	void addVertex(IVertexBuilder builder, Matrix4f positionMatrix, float x, float y, float z, Color4f color) {
+		builder.pos(positionMatrix, x, y, z).color(color.getR(), color.getG(), color.getB(), color.getAlpha())
+				.endVertex();
 	}
 
 }

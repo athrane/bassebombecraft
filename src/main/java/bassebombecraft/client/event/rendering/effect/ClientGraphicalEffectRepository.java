@@ -9,8 +9,7 @@ import static bassebombecraft.ClientModConstants.PROJECTILE_TRAIL_LINE_COLOR2;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.LIGHTNING_LINES;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.PROJECTILE_TRAIL_LINES;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.SIMPLE_LINES;
-import static bassebombecraft.operator.DefaultPorts.getBcSetVector4f1;
-import static bassebombecraft.operator.DefaultPorts.getFnGetVector4f1;
+import static bassebombecraft.operator.DefaultPorts.*;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -46,15 +45,15 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 	 * Effect operator for electrocute effect.
 	 */
 	final static Operator2 ELECTROCUTE_OPERATOR = new Sequence2(new InitElectrocute2(),
-			new InitColor2(getBcSetVector4f1(), LIGHTNING_LINE_COLOR1, LIGHTNING_LINE_COLOR2),
-			new RenderLineWithDynamicColor2(getFnGetVector4f1(), LIGHTNING_LINES));
+			new InitColor2(getBcSetColor4f1(), LIGHTNING_LINE_COLOR1, LIGHTNING_LINE_COLOR2),
+			new RenderLineWithDynamicColor2(getFnGetColor4f1(), LIGHTNING_LINES));
 
 	/**
 	 * Effect operator for projectile trail effect.
 	 */
 	final static Operator2 PROJECTILE_TRAIL_OPERATOR = new Sequence2(new InitProjectileTrailRendering2(),
-			new InitColor2(getBcSetVector4f1(), PROJECTILE_TRAIL_LINE_COLOR1, PROJECTILE_TRAIL_LINE_COLOR2),
-			new RenderLineWithDynamicColor2(getFnGetVector4f1(), PROJECTILE_TRAIL_LINES));
+			new InitColor2(getBcSetColor4f1(), PROJECTILE_TRAIL_LINE_COLOR1, PROJECTILE_TRAIL_LINE_COLOR2),
+			new RenderLineWithDynamicColor2(getFnGetColor4f1(), PROJECTILE_TRAIL_LINES));
 
 	/**
 	 * Effect operator for line effect.

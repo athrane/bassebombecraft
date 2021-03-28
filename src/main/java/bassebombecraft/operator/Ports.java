@@ -2,9 +2,7 @@ package bassebombecraft.operator;
 
 import java.util.stream.Stream;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-
-import net.minecraft.client.renderer.Vector4f;
+import bassebombecraft.color.Color4f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
@@ -140,7 +138,7 @@ public interface Ports {
 	 * @param strings string stream #1.
 	 */
 	Ports setStrings1(Stream<String> values);
-	
+
 	/**
 	 * Get double #1.
 	 * 
@@ -154,7 +152,7 @@ public interface Ports {
 	 * @return ports.
 	 */
 	Ports setDouble1(Double value);
-	
+
 	/**
 	 * Return {@linkplain Vec3d} #1.
 	 * 
@@ -198,33 +196,33 @@ public interface Ports {
 	Vec3d[] getVectors2();
 
 	/**
-	 * Return {@linkplain Vector4f} #1.
+	 * Return {@linkplain Color4f} #1.
 	 * 
-	 * @return vector #1.
+	 * @return color #1.
 	 */
-	Vector4f getVector4f1();
+	Color4f getColor4f1();
 
 	/**
-	 * Set {@linkplain Vector4f} #1.
+	 * Set {@linkplain Color4f} #1.
 	 * 
-	 * @param vec vector #1.
+	 * @param color color #1.
 	 */
-	Ports setVector4f1(Vector4f vec);
+	Ports setColor4f1(Color4f color);
 
 	/**
-	 * Return {@linkplain Vector4f} #2.
+	 * Return {@linkplain Color4f} #2.
 	 * 
-	 * @return vector #2.
+	 * @return color #2.
 	 */
-	Vector4f getVector4f2();
+	Color4f getColor4f2();
 
 	/**
-	 * Set {@linkplain Vector4f} #2.
+	 * Set {@linkplain Color4f} #2.
 	 * 
-	 * @param vec vector #2.
+	 * @param color color #2.
 	 */
-	Ports setVector4f2(Vector4f vec);
-	
+	Ports setColor4f2(Color4f color);
+
 	/**
 	 * Return {@linkplain Entity} #1.
 	 * 
@@ -252,7 +250,7 @@ public interface Ports {
 	 * @param entity entity #2.
 	 */
 	Ports setEntity2(Entity entity);
-	
+
 	/**
 	 * Return {@linkplain Entity[]} #1.
 	 * 
@@ -266,7 +264,7 @@ public interface Ports {
 	 * @param entities entity array #1.
 	 */
 	Ports setEntities1(Entity[] entities);
-	
+
 	/**
 	 * Return {@linkplain RayTraceResult} #1.
 	 * 
@@ -294,7 +292,7 @@ public interface Ports {
 	 * @param result effect instance #1.
 	 */
 	Ports setEffectInstance1(EffectInstance instance);
-		
+
 	/**
 	 * Return world.
 	 * 
@@ -349,22 +347,6 @@ public interface Ports {
 	Ports setAabb1(AxisAlignedBB aabb);
 
 	/**
-	 * Get matrix stack #1.
-	 * 
-	 * @return matrix stack.
-	 */
-	MatrixStack getMatrixStack1();
-
-	/**
-	 * Set matrix stack #1.
-	 * 
-	 * @param ms matrix stack.
-	 * 
-	 * @return ports.
-	 */
-	Ports setMatrixStack1(MatrixStack ms);
-
-	/**
 	 * Get damage source #1.
 	 * 
 	 * @return matrix stack.
@@ -379,5 +361,5 @@ public interface Ports {
 	 * @return ports.
 	 */
 	Ports setDamageSource1(DamageSource ds);
-	
+
 }

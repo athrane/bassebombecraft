@@ -3,8 +3,9 @@ package bassebombecraft.client.operator.rendering;
 import static bassebombecraft.ClientModConstants.TEXT_COLOR;
 import static bassebombecraft.ClientModConstants.TEXT_SCALE_2;
 import static bassebombecraft.ClientModConstants.TEXT_Z_TRANSLATION;
+import static bassebombecraft.client.operator.ClientOperators2.clientApplyV;
+import static bassebombecraft.client.operator.DefaultClientPorts.getFnMaxtrixStack1;
 import static bassebombecraft.geom.GeometryUtils.oscillate;
-import static bassebombecraft.operator.DefaultPorts.getFnMaxtrixStack1;
 import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -13,6 +14,7 @@ import java.util.stream.Stream;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
+import bassebombecraft.client.operator.ClientPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.client.Minecraft;
@@ -70,7 +72,7 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 	/**
 	 * Function to get matrix stack.
 	 */
-	Function<Ports, MatrixStack> fnGetMatrixStack;
+	Function<ClientPorts, MatrixStack> fnGetMatrixStack;
 
 	/**
 	 * X coordinate for placement of billboard.
@@ -132,7 +134,7 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		MatrixStack matrixStack = applyV(fnGetMatrixStack, ports);
+		MatrixStack matrixStack = clientApplyV(fnGetMatrixStack, ports);
 		Stream<String> messages = applyV(fnGetString, ports);
 
 		// get render buffer
