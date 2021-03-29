@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 
 import bassebombecraft.operator.Operator;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.ai.attributes.Attribute;
 
 /**
  * Implementation of the {@linkplain Operator} interface which sets an entity attribute.
@@ -26,7 +26,7 @@ public class AddAttribute implements Operator {
 	/**
 	 * Entity attribute to set.
 	 */
-	IAttribute attribute;
+	Attribute attribute;
 
 	/**
 	 * Attribute value to set.
@@ -41,7 +41,7 @@ public class AddAttribute implements Operator {
 	 * @param value     attribute value to set.
 	 * 
 	 */
-	public AddAttribute(Supplier<LivingEntity> splEntity, IAttribute attribute, double value) {
+	public AddAttribute(Supplier<LivingEntity> splEntity, Attribute attribute, double value) {
 		this.splEntity = splEntity;
 		this.attribute = attribute;
 		this.value = value;

@@ -15,8 +15,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
-import net.minecraft.entity.ai.attributes.IAttribute;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.ai.attributes.Attribute;
+import net.minecraft.entity.ai.attributes.AttributeInstance;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.passive.ParrotEntity;
@@ -451,9 +451,9 @@ public class EntityUtils {
 	 * @param attribute attribute to set.
 	 * @param value     value to set.
 	 */
-	public static void setAttribute(LivingEntity entity, IAttribute attribute, double value) {
+	public static void setAttribute(LivingEntity entity, Attribute attribute, double value) {
 		AbstractAttributeMap attributes = entity.getAttributes();
-		IAttributeInstance instance = attributes.getAttributeInstance(attribute);
+		AttributeInstance instance = attributes.getAttributeInstance(attribute);
 
 		// if undefined then register attribute
 		if (instance == null) {
@@ -470,9 +470,9 @@ public class EntityUtils {
 	 * @param entity    entity to set attribute at.
 	 * @param attribute attribute to set.
 	 */
-	public static boolean hasAttribute(LivingEntity entity, IAttribute attribute) {
+	public static boolean hasAttribute(LivingEntity entity, Attribute attribute) {
 		AbstractAttributeMap attributes = entity.getAttributes();
-		IAttributeInstance instance = attributes.getAttributeInstance(attribute);
+		AttributeInstance instance = attributes.getAttributeInstance(attribute);
 		return (instance != null);
 	}
 

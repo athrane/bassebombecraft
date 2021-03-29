@@ -9,7 +9,7 @@ import java.util.function.Function;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.ai.attributes.Attribute;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which which updates
@@ -25,7 +25,7 @@ public class IsEntityAttributeDefined2 implements Operator2 {
 	/**
 	 * Entity Attribute to test for.
 	 */
-	IAttribute attribute;
+	Attribute attribute;
 
 	/**
 	 * Constructor.
@@ -33,7 +33,7 @@ public class IsEntityAttributeDefined2 implements Operator2 {
 	 * @param fnGetEntity function to get living entity.
 	 * @param attribute   attribute to test for.
 	 */
-	public IsEntityAttributeDefined2(Function<Ports, LivingEntity> fnGetEntity, IAttribute attribute) {
+	public IsEntityAttributeDefined2(Function<Ports, LivingEntity> fnGetEntity, Attribute attribute) {
 		this.fnGetEntity = fnGetEntity;
 		this.attribute = attribute;
 	}
@@ -45,7 +45,7 @@ public class IsEntityAttributeDefined2 implements Operator2 {
 	 * 
 	 * @param attribute attribute to test for.
 	 */
-	public IsEntityAttributeDefined2(IAttribute attribute) {
+	public IsEntityAttributeDefined2(Attribute attribute) {
 		this(getFnGetLivingEntity1(), attribute);
 	}
 

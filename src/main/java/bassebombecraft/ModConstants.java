@@ -31,7 +31,7 @@ import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.MobProjectileEffect;
 import bassebombecraft.potion.effect.ReceiveAggroEffect;
 import bassebombecraft.potion.effect.ReflectEffect;
-import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectType;
@@ -472,19 +472,19 @@ public class ModConstants {
 	/**
 	 * Entity attribute to define an entity as a decoy.
 	 */
-	public static final IAttribute DECOY = (new RangedAttribute((IAttribute) null, "bassebombecraft.decoy", 1.0D, 0.0D,
+	public static final Attribute DECOY = (new RangedAttribute((Attribute) null, "bassebombecraft.decoy", 1.0D, 0.0D,
 			1.0D)).setShouldWatch(true);
 
 	/**
 	 * Entity attribute to tag an entity for respawn.
 	 */
-	public static final IAttribute RESPAWN = (new RangedAttribute((IAttribute) null, "bassebombecraft.respawn", 1.0D,
+	public static final Attribute RESPAWN = (new RangedAttribute((Attribute) null, "bassebombecraft.respawn", 1.0D,
 			0.0D, 1.0D)).setShouldWatch(true);
 
 	/**
 	 * Entity attribute to tag an entity as respawned.
 	 */
-	public static final IAttribute IS_RESPAWNED = (new RangedAttribute((IAttribute) null, "bassebombecraft.isrespawned",
+	public static final Attribute IS_RESPAWNED = (new RangedAttribute((Attribute) null, "bassebombecraft.isrespawned",
 			1.0D, 0.0D, 1.0D)).setShouldWatch(true);
 
 	/**
