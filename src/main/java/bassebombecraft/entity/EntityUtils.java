@@ -14,9 +14,9 @@ import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeInstance;
+import net.minecraft.entity.ai.attributes.AttributeModifierManager;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.passive.ParrotEntity;
@@ -452,15 +452,8 @@ public class EntityUtils {
 	 * @param value     value to set.
 	 */
 	public static void setAttribute(LivingEntity entity, Attribute attribute, double value) {
-		AbstractAttributeMap attributes = entity.getAttributes();
-		AttributeInstance instance = attributes.getAttributeInstance(attribute);
-
-		// if undefined then register attribute
-		if (instance == null) {
-			instance = attributes.registerAttribute(attribute);
-		}
-
-		// set value
+		AttributeModifierManager manager = entity.getAttributeManager();
+		ModifiableAttributeInstance instance = manager.createInstanceIfAbsent(attribute);
 		instance.setBaseValue(value);
 	}
 
@@ -471,9 +464,8 @@ public class EntityUtils {
 	 * @param attribute attribute to set.
 	 */
 	public static boolean hasAttribute(LivingEntity entity, Attribute attribute) {
-		AbstractAttributeMap attributes = entity.getAttributes();
-		AttributeInstance instance = attributes.getAttributeInstance(attribute);
-		return (instance != null);
+		AttributeModifierManager manager = entity.getAttributeManager();
+		return manager.hasAttributeInstance(attribute);
 	}
 
 }
