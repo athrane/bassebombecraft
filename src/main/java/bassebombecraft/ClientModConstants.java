@@ -11,7 +11,7 @@ import bassebombecraft.color.Color4f;
 import static bassebombecraft.color.DefaultColor4f.*;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.item.book.BuildMineBook;
-import net.minecraft.client.renderer.Vector4f;
+import net.minecraft.util.math.vector.Vector4f;
 
 /**
  * Mod constants which should only be loaded by by the configuration: physical
