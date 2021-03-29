@@ -7,7 +7,7 @@ import static net.minecraft.util.math.MathHelper.interpolateAngle;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
