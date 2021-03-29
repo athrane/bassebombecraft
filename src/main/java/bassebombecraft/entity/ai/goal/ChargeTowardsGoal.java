@@ -6,7 +6,7 @@ import static bassebombecraft.entity.ai.AiUtils.setMutexFlagsforMovementGoal;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Charge goal which moves entity towards target until target is within range.
@@ -77,8 +77,8 @@ public class ChargeTowardsGoal extends Goal {
 	public void tick() {
 
 		// move towards target
-		Vec3d vec3d = target.getEyePosition(1.0F);
-		entity.getMoveHelper().setMoveTo(vec3d.x, vec3d.y, vec3d.z, SPEED_MODIFIER);
+		Vector3d Vector3d = target.getEyePosition(1.0F);
+		entity.getMoveHelper().setMoveTo(Vector3d.x, Vector3d.y, Vector3d.z, SPEED_MODIFIER);
 
 		// update target
 		entity.setAttackTarget(target);

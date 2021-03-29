@@ -23,7 +23,7 @@ import net.minecraft.entity.passive.ParrotEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
@@ -46,7 +46,7 @@ public class EntityUtils {
 	 */
 	public static void setProjectileEntityPosition(LivingEntity entity, LivingEntity projectileEntity,
 			int spawnDisplacement) {
-		Vec3d lookVec = entity.getLookVec();
+		Vector3d lookVec = entity.getLookVec();
 
 		// calculate spawn projectile spawn position
 		double x = entity.getPosX() + (lookVec.x * spawnDisplacement);

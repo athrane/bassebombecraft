@@ -16,7 +16,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which hits a mob with
@@ -85,12 +85,12 @@ public class EmitHorizontalForce2 implements Operator2 {
 			Entity entity = ((EntityRayTraceResult) result).getEntity();
 
 			// calculate push vector
-			Vec3d motion = originator.getMotion();
-			Vec3d motionVec = new Vec3d(motion.getX(), motion.getY(), motion.getZ());
+			Vector3d motion = originator.getMotion();
+			Vector3d motionVec = new Vector3d(motion.getX(), motion.getY(), motion.getZ());
 			double x = motionVec.x * emitHorizontalForceStrength.get();
 			double y = motionVec.y * emitHorizontalForceStrength.get();
 			double z = motionVec.z * emitHorizontalForceStrength.get();
-			Vec3d motionVecForced = new Vec3d(x, y, z);
+			Vector3d motionVecForced = new Vector3d(x, y, z);
 			entity.move(MoverType.SELF, motionVecForced);
 		}
 	}

@@ -12,7 +12,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 public class DefaultPorts implements Ports {
@@ -60,17 +60,17 @@ public class DefaultPorts implements Ports {
 	/**
 	 * Vector3d #1.
 	 */
-	Vec3d vector3d1;
+	Vector3d vector3d1;
 
 	/**
 	 * Vector3d array #1.
 	 */
-	Vec3d[] vectors3d1;
+	Vector3d[] vectors3d1;
 
 	/**
 	 * Vector3d array #2.
 	 */
-	Vec3d[] vectors3d2;
+	Vector3d[] vectors3d2;
 
 	/**
 	 * Color4f #1.
@@ -215,32 +215,32 @@ public class DefaultPorts implements Ports {
 	/**
 	 * Vector3d #1 getter.
 	 */
-	static Function<Ports, Vec3d> fnGetVector1 = p -> p.getVector1();
+	static Function<Ports, Vector3d> fnGetVector1 = p -> p.getVector1();
 
 	/**
 	 * Vector3d #1 setter.
 	 */
-	static BiConsumer<Ports, Vec3d> bcSetVector1 = (p, v) -> p.setVector1(v);
+	static BiConsumer<Ports, Vector3d> bcSetVector1 = (p, v) -> p.setVector1(v);
 
 	/**
 	 * Vector3d array #1 setter.
 	 */
-	static BiConsumer<Ports, Vec3d[]> bcSetVectors1 = (p, v) -> p.setVectors1(v);
+	static BiConsumer<Ports, Vector3d[]> bcSetVectors1 = (p, v) -> p.setVectors1(v);
 
 	/**
 	 * Vector3d array #1 getter.
 	 */
-	static Function<Ports, Vec3d[]> fnGetVectors1 = p -> p.getVectors1();
+	static Function<Ports, Vector3d[]> fnGetVectors1 = p -> p.getVectors1();
 
 	/**
 	 * Vector3d array #2 setter.
 	 */
-	static BiConsumer<Ports, Vec3d[]> bcSetVectors2 = (p, v) -> p.setVectors2(v);
+	static BiConsumer<Ports, Vector3d[]> bcSetVectors2 = (p, v) -> p.setVectors2(v);
 
 	/**
 	 * Vector3d array #2 getter.
 	 */
-	static Function<Ports, Vec3d[]> fnGetVectors2 = p -> p.getVectors2();
+	static Function<Ports, Vector3d[]> fnGetVectors2 = p -> p.getVectors2();
 
 	/**
 	 * Color4f #1 getter.
@@ -439,34 +439,34 @@ public class DefaultPorts implements Ports {
 	}
 
 	@Override
-	public Vec3d getVector1() {
+	public Vector3d getVector1() {
 		return vector3d1;
 	}
 
 	@Override
-	public Ports setVector1(Vec3d vec) {
+	public Ports setVector1(Vector3d vec) {
 		this.vector3d1 = vec;
 		return this;
 	}
 
 	@Override
-	public Vec3d[] getVectors1() {
+	public Vector3d[] getVectors1() {
 		return vectors3d1;
 	}
 
 	@Override
-	public Ports setVectors1(Vec3d[] vec) {
+	public Ports setVectors1(Vector3d[] vec) {
 		this.vectors3d1 = vec;
 		return this;
 	}
 
 	@Override
-	public Vec3d[] getVectors2() {
+	public Vector3d[] getVectors2() {
 		return vectors3d2;
 	}
 
 	@Override
-	public Ports setVectors2(Vec3d[] vec) {
+	public Ports setVectors2(Vector3d[] vec) {
 		this.vectors3d2 = vec;
 		return this;
 	}
@@ -679,27 +679,27 @@ public class DefaultPorts implements Ports {
 		return bcSetDouble1;
 	}
 
-	public static Function<Ports, Vec3d> getFnGetVector1() {
+	public static Function<Ports, Vector3d> getFnGetVector1() {
 		return fnGetVector1;
 	}
 
-	public static BiConsumer<Ports, Vec3d> getBcSetVector1() {
+	public static BiConsumer<Ports, Vector3d> getBcSetVector1() {
 		return bcSetVector1;
 	}
 
-	public static Function<Ports, Vec3d[]> getFnGetVectors1() {
+	public static Function<Ports, Vector3d[]> getFnGetVectors1() {
 		return fnGetVectors1;
 	}
 
-	public static BiConsumer<Ports, Vec3d[]> getBcSetVectors1() {
+	public static BiConsumer<Ports, Vector3d[]> getBcSetVectors1() {
 		return bcSetVectors1;
 	}
 
-	public static Function<Ports, Vec3d[]> getFnGetVectors2() {
+	public static Function<Ports, Vector3d[]> getFnGetVectors2() {
 		return fnGetVectors2;
 	}
 
-	public static BiConsumer<Ports, Vec3d[]> getBcSetVectors2() {
+	public static BiConsumer<Ports, Vector3d[]> getBcSetVectors2() {
 		return bcSetVectors2;
 	}
 

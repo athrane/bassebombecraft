@@ -18,7 +18,7 @@ import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.player.PlayerUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Renderer} for rendering team information in
@@ -43,11 +43,11 @@ public class DefaultTeamInfoRenderer implements EntityRenderer {
 		PlayerEntity player = (PlayerEntity) entity;
 
 		// get player position
-		Vec3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
+		Vector3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
 
 		// calculate translation of text
-		Vec3d renderPos = RenderingUtils.getRenderPos();
-		Vec3d translation = playerPos.subtract(renderPos);
+		Vector3d renderPos = RenderingUtils.getRenderPos();
+		Vector3d translation = playerPos.subtract(renderPos);
 
 		// get team
 		TeamRepository repository = getProxy().getServerTeamRepository();
@@ -59,7 +59,7 @@ public class DefaultTeamInfoRenderer implements EntityRenderer {
 		MobCommand command = commanderRepository.getCommand(player);
 
 		// render basic info
-		Vec3d textTranslation = new Vec3d(5, 4, 4);
+		Vector3d textTranslation = new Vector3d(5, 4, 4);
 		renderHudTextBillboard(translation, textTranslation, TEAM_LABEL);
 		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 1, 0),
 				"Commander command: " + command.getTitle());

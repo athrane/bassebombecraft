@@ -21,7 +21,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawHighlightEvent.HighlightBlock;
 import static bassebombecraft.geom.GeometryUtils.oscillate;
@@ -54,7 +54,7 @@ public class DebugRenderer_Highlightblock {
 		double w = oscillate(0, 0.02F);
 		aabb = aabb.grow(w);
 
-		Vec3d projectedView = Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getProjectedView();
+		Vector3d projectedView = Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getProjectedView();
 
 		// get world
 		World world = player.world;

@@ -11,7 +11,7 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which modifies a set
@@ -28,12 +28,12 @@ public class OscillatingRotation180DProjectileFormationModifier implements Opera
 	/**
 	 * Function to get orientation vectors.
 	 */
-	Function<Ports, Vec3d[]> fnGetOrientation;
+	Function<Ports, Vector3d[]> fnGetOrientation;
 
 	/**
 	 * Function to set orientation vectors.
 	 */
-	BiConsumer<Ports, Vec3d[]> bcSetOrientation;
+	BiConsumer<Ports, Vector3d[]> bcSetOrientation;
 
 	/**
 	 * Constructor.
@@ -41,8 +41,8 @@ public class OscillatingRotation180DProjectileFormationModifier implements Opera
 	 * @param fnGetOrientation function to get orientation vectors.
 	 * @param fnGetOrientation function to set orientation vectors.
 	 */
-	public OscillatingRotation180DProjectileFormationModifier(Function<Ports, Vec3d[]> fnGetOrientation,
-			BiConsumer<Ports, Vec3d[]> bcSetOrientation) {
+	public OscillatingRotation180DProjectileFormationModifier(Function<Ports, Vector3d[]> fnGetOrientation,
+			BiConsumer<Ports, Vector3d[]> bcSetOrientation) {
 		this.fnGetOrientation = fnGetOrientation;
 		this.bcSetOrientation = bcSetOrientation;
 	}
@@ -58,7 +58,7 @@ public class OscillatingRotation180DProjectileFormationModifier implements Opera
 
 	@Override
 	public void run(Ports ports) {
-		Vec3d[] vectors = applyV(fnGetOrientation, ports);
+		Vector3d[] vectors = applyV(fnGetOrientation, ports);
 
 		// get counter
 		int time = ports.getCounter();
@@ -67,12 +67,12 @@ public class OscillatingRotation180DProjectileFormationModifier implements Opera
 		double oscillatedAngle = oscillateWithFixedTime(time, -DEGREES_90, DEGREES_90);
 
 		// create new array
-		Vec3d[] rotated = new Vec3d[vectors.length];
+		Vector3d[] rotated = new Vector3d[vectors.length];
 
 		// create index
 		int index = 0;
 
-		for (Vec3d orientation : vectors) {
+		for (Vector3d orientation : vectors) {
 
 			// calculate random angle
 			rotated[index] = rotateUnitVectorAroundYAxisAtOrigin(oscillatedAngle, orientation);

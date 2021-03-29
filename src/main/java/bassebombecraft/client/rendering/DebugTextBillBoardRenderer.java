@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import static bassebombecraft.geom.GeometryUtils.oscillate;
 
 /**
@@ -40,15 +40,15 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 		PlayerEntity player = (PlayerEntity) entity;
 
 		// get player position
-		Vec3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
+		Vector3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
 
 		// calculate translation of text
 		Minecraft mc = Minecraft.getInstance();
 		ActiveRenderInfo activeRenderInfo = mc.gameRenderer.getActiveRenderInfo();
 
-		Vec3d pv = activeRenderInfo.getProjectedView();
-		Vec3d renderPos = new Vec3d(pv.getX(), pv.getY(), pv.getZ());
-		Vec3d translation = playerPos.subtract(renderPos);
+		Vector3d pv = activeRenderInfo.getProjectedView();
+		Vector3d renderPos = new Vector3d(pv.getX(), pv.getY(), pv.getZ());
+		Vector3d translation = playerPos.subtract(renderPos);
 
 		BassebombeCraft.getBassebombeCraft().getLogger().debug("rve-translated=" + info.getRveTranslatedViewX() + ","
 				+ info.getRveTranslatedViewY() + "," + info.getRveTranslatedViewZ());
@@ -80,8 +80,8 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 		// 2, 0), "TEXT #3");
 
 		/**
-		 * renderHudTextBillboard(translation, new Vec3d(0, 0, 4), "TEXT at (0,0,4)");
-		 * Vec3d textTranslation = new Vec3d(5, 4, 4);
+		 * renderHudTextBillboard(translation, new Vector3d(0, 0, 4), "TEXT at (0,0,4)");
+		 * Vector3d textTranslation = new Vector3d(5, 4, 4);
 		 * renderHudTextBillboard(translation, textTranslation, "TEXT at (5,4,4)");
 		 * renderHudTextBillboard(translation, textTranslation.add(-2, 0, 0), "TEXT at
 		 * (3,4,4)"); renderHudTextBillboard(translation, textTranslation.add(-4, 0, 0),
@@ -90,8 +90,8 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 		 * renderHudTextBillboard(translation, textTranslation.add(0, -4, 0), "TEXT at
 		 * (5,0,4)");
 		 * 
-		 * translation = new Vec3d(0,0,0); renderHudTextBillboard(translation, new
-		 * Vec3d(0, 0, 4), "ATEXT at (0,0,4)"); renderHudTextBillboard(translation,
+		 * translation = new Vector3d(0,0,0); renderHudTextBillboard(translation, new
+		 * Vector3d(0, 0, 4), "ATEXT at (0,0,4)"); renderHudTextBillboard(translation,
 		 * textTranslation, "ATEXT at (5,4,4)"); renderHudTextBillboard(translation,
 		 * textTranslation.add(-2, 0, 0), "ATEXT at (3,4,4)");
 		 * renderHudTextBillboard(translation, textTranslation.add(-4, 0, 0), "ATEXT at
@@ -99,7 +99,7 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 		 * "ATEXT at (5,2,4)"); renderHudTextBillboard(translation,
 		 * textTranslation.add(0, -4, 0), "ATEXT at (5,0,4)");
 		 * 
-		 * renderHudTextBillboard(new Vec3d(0, 0, 4), "BTEXT at (0,0,4)");
+		 * renderHudTextBillboard(new Vector3d(0, 0, 4), "BTEXT at (0,0,4)");
 		 * renderHudTextBillboard(textTranslation, "BTEXT at (5,4,4)");
 		 * renderHudTextBillboard(textTranslation.add(-2, 0, 0), "BTEXT at (3,4,4)");
 		 * renderHudTextBillboard(textTranslation.add(-4, 0, 0), "BTEXT at (1,4,4)");
@@ -108,8 +108,8 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 		 **/
 
 		/**
-		 * renderHudTextBillboardV2(new Vec3d(0, 0, 4), "V2-TEXT at (0,0,4)"); Vec3d
-		 * textTranslation = new Vec3d(5, 4, 4);
+		 * renderHudTextBillboardV2(new Vector3d(0, 0, 4), "V2-TEXT at (0,0,4)"); Vector3d
+		 * textTranslation = new Vector3d(5, 4, 4);
 		 * renderHudTextBillboardV2(textTranslation, "V2-TEXT at (5,4,4)");
 		 * renderHudTextBillboardV2(textTranslation.add(-2, 0, 0), "V2-TEXT at
 		 * (3,4,4)"); renderHudTextBillboardV2(textTranslation.add(-4, 0, 0), "V2-TEXT
@@ -132,10 +132,10 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 		 * renderHudTextBillboardV3("V3-TEXT at (2,+3)", 2,j1+3);
 		 */
 
-		renderHudTextBillboardV2a(new Vec3d(0, 0, 4), "V2a-TEXT at (0,0,4)");
-		renderHudTextBillboardV2a(new Vec3d(2, 0, 4), "V2a-TEXT at (2,0,4)");
-		renderHudTextBillboardV2a(new Vec3d(2, 2, 4), "V2a-TEXT at (2,2,4)");
-		renderHudTextBillboardV2a(new Vec3d(0, 2, 4), "V2a-TEXT at (0,2,4)");
+		renderHudTextBillboardV2a(new Vector3d(0, 0, 4), "V2a-TEXT at (0,0,4)");
+		renderHudTextBillboardV2a(new Vector3d(2, 0, 4), "V2a-TEXT at (2,0,4)");
+		renderHudTextBillboardV2a(new Vector3d(2, 2, 4), "V2a-TEXT at (2,2,4)");
+		renderHudTextBillboardV2a(new Vector3d(0, 2, 4), "V2a-TEXT at (0,2,4)");
 	}
 
 	/**
@@ -150,7 +150,7 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 	 *                        the HUD text.
 	 * @param text            text to render
 	 */
-	void renderHudTextBillboardV2a(Vec3d textTranslation, String text) {
+	void renderHudTextBillboardV2a(Vector3d textTranslation, String text) {
 
 		RenderHelper.disableStandardItemLighting();
 		// setupBillboardRendering();
@@ -251,7 +251,7 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 	 *                        the HUD text.
 	 * @param text            text to render
 	 */
-	void renderHudTextBillboardV2(Vec3d textTranslation, String text) {
+	void renderHudTextBillboardV2(Vector3d textTranslation, String text) {
 		// setupBillboardRendering();
 		// save matrix
 		GlStateManager.pushMatrix();
@@ -309,7 +309,7 @@ public class DebugTextBillBoardRenderer implements EntityRenderer {
 	 *                          the HUD text.
 	 * @param text              text to render
 	 */
-	void renderHudTextBillboard(Vec3d cameraTranslation, Vec3d textTranslation, String text) {
+	void renderHudTextBillboard(Vector3d cameraTranslation, Vector3d textTranslation, String text) {
 		// setupBillboardRendering();
 		// save matrix
 		GlStateManager.pushMatrix();

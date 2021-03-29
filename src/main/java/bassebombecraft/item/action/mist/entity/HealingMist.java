@@ -8,7 +8,7 @@ import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of {@linkplain EntityMistActionStrategy} for construction of
@@ -49,7 +49,7 @@ public class HealingMist implements EntityMistActionStrategy {
 	}
 
 	@Override
-	public void applyEffectToEntity(LivingEntity target, Vec3d mistPos, LivingEntity invoker) {
+	public void applyEffectToEntity(LivingEntity target, Vector3d mistPos, LivingEntity invoker) {
 		target.addPotionEffect(createEffect());
 	}
 

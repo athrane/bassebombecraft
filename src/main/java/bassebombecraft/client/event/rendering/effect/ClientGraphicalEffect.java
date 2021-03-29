@@ -5,7 +5,7 @@ import bassebombecraft.operator.Operators2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * CLIENT side implementation of {@linkplain GraphicalEffect} interface.
@@ -52,7 +52,7 @@ public class ClientGraphicalEffect implements GraphicalEffect {
 	/**
 	 * Vectors used for rendering effects.
 	 */
-	Vec3d[] vectors = new Vec3d[0];
+	Vector3d[] vectors = new Vector3d[0];
 
 	/**
 	 * Constructor.

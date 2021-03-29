@@ -21,7 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 /**
@@ -95,7 +95,7 @@ public class SpawnSquid2 implements Operator2 {
 			return;
 
 		// declare variables
-		Vec3d posVec = null;
+		Vector3d posVec = null;
 		float yaw = 0;
 
 		// spawn cobweb around entity
@@ -128,7 +128,7 @@ public class SpawnSquid2 implements Operator2 {
 
 			// calculate spawn position
 			BlockPos spawnPosition = calculatePosition(blockResult);
-			posVec = new Vec3d(spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getZ());
+			posVec = new Vector3d(spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getZ());
 		}
 
 		// spawn squid

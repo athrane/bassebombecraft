@@ -45,7 +45,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 /**
@@ -183,14 +183,14 @@ public class GeometryUtils {
 	 * 
 	 * @return vector rotated around the Y-axis at origin.
 	 */
-	public static Vec3d rotateUnitVectorAroundYAxisAtOrigin(double angle, Vec3d vector) {
+	public static Vector3d rotateUnitVectorAroundYAxisAtOrigin(double angle, Vector3d vector) {
 		double originX = 0;
 		double originZ = 0;
 		AffineTransform transform = AffineTransform.getRotateInstance(Math.toRadians(angle), originX, originZ);
 
 		double[] rotationPoint = { vector.x, vector.z };
 		transform.transform(rotationPoint, 0, rotationPoint, 0, 1);
-		return new Vec3d(rotationPoint[0], vector.y, rotationPoint[1]);
+		return new Vector3d(rotationPoint[0], vector.y, rotationPoint[1]);
 	}
 
 	/**

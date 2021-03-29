@@ -21,7 +21,7 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Matrix4f;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Vector4f;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which renders a line.
@@ -50,7 +50,7 @@ public class RenderLine2 implements Operator2 {
 	/**
 	 * Function to get line vertexes.
 	 */
-	Function<Ports, Vec3d[]> fnGetLineVertexes;
+	Function<Ports, Vector3d[]> fnGetLineVertexes;
 
 	/**
 	 * Constructor.
@@ -85,7 +85,7 @@ public class RenderLine2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		MatrixStack matrixStack = clientApplyV(fnGetMatrixStack, ports);
-		Vec3d[] positions = applyV(fnGetLineVertexes, ports);
+		Vector3d[] positions = applyV(fnGetLineVertexes, ports);
 
 		// Get start and end position
 		if (positions.length < 2)
@@ -100,14 +100,14 @@ public class RenderLine2 implements Operator2 {
 		matrixStack.push();
 
 		// get position matrix
-		Vec3d projectedView = mcClient.gameRenderer.getActiveRenderInfo().getProjectedView();
+		Vector3d projectedView = mcClient.gameRenderer.getActiveRenderInfo().getProjectedView();
 		matrixStack.translate(-projectedView.x, -projectedView.y, -projectedView.z);
 		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
 
 		// render
 		for (int index = 0; index < (positions.length - 1); index++) {
-			Vec3d start = positions[index];
-			Vec3d end = positions[index + 1];
+			Vector3d start = positions[index];
+			Vector3d end = positions[index + 1];
 			renderLine(start, end, builder, positionMatrix);
 		}
 
@@ -127,7 +127,7 @@ public class RenderLine2 implements Operator2 {
 	 * @param builder        vertex builder
 	 * @param positionMatrix position matrix.
 	 */
-	void renderLine(Vec3d start, Vec3d end, IVertexBuilder builder, Matrix4f positionMatrix) {
+	void renderLine(Vector3d start, Vector3d end, IVertexBuilder builder, Matrix4f positionMatrix) {
 
 		// AB
 		addVertex(builder, positionMatrix, start.x, start.y, start.z);

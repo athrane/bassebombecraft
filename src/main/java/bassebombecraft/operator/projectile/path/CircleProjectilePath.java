@@ -8,7 +8,7 @@ import java.util.function.Function;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which move the
@@ -53,7 +53,7 @@ public class CircleProjectilePath implements Operator2 {
 		Entity projectile = applyV(fnGetProjectile, ports);
 
 		// get motion vector
-		Vec3d motionVector = projectile.getMotion();
+		Vector3d motionVector = projectile.getMotion();
 		if (motionVector == null)
 			return;
 
@@ -69,7 +69,7 @@ public class CircleProjectilePath implements Operator2 {
 
 		// rotate
 		float angleRadians = (float) Math.toRadians(angleDegrees);
-		Vec3d newMotionVector = motionVector.rotateYaw(angleRadians);
+		Vector3d newMotionVector = motionVector.rotateYaw(angleRadians);
 
 		// update motion
 		projectile.setMotion(newMotionVector.getX(), newMotionVector.getY(), newMotionVector.getZ());

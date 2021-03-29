@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which shoots arrow
@@ -24,7 +24,7 @@ public class ShootArrowProjectile2 extends GenericShootProjectile2 {
 	static final float PROJECTILE_FORCE = 15F;
 
 	@Override
-	Entity createProjectile(LivingEntity invoker, Vec3d orientation) {
+	Entity createProjectile(LivingEntity invoker, Vector3d orientation) {
 
 		ArrowEntity projectile = EntityType.ARROW.create(invoker.getEntityWorld());
 		projectile.setShooter(invoker);

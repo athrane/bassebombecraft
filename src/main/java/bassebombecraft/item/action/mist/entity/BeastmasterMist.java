@@ -10,7 +10,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of {@linkplain EntityMistActionStrategy} for construction of
@@ -31,7 +31,7 @@ public class BeastmasterMist implements EntityMistActionStrategy {
 			PARTICLE_SPEED);
 
 	@Override
-	public void applyEffectToEntity(LivingEntity target, Vec3d mistPos, LivingEntity invoker) {
+	public void applyEffectToEntity(LivingEntity target, Vector3d mistPos, LivingEntity invoker) {
 
 		try {
 			// skip if entity can't be charmed, i.e. is a mob entity

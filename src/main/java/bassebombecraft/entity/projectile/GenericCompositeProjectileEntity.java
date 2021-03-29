@@ -61,7 +61,7 @@ import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -254,7 +254,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	public void shoot(double x, double y, double z, float velocity, float inaccuracy) {
 
 		// calculate motion
-		Vec3d motionVector = (new Vec3d(x, y, z)).normalize()
+		Vector3d motionVector = (new Vector3d(x, y, z)).normalize()
 				.add(this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy,
 						this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy,
 						this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy)
@@ -277,7 +277,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * 
 	 * @param orientation orientation vector for direction of projectile.
 	 */
-	public void doShoot(Vec3d orientation) {
+	public void doShoot(Vector3d orientation) {
 		setPosition(invoker.getPosX(), invoker.getPosY() + invoker.getEyeHeight(), invoker.getPosZ());
 		double force = projectileConfig.force.get();
 		double inaccuracy = projectileConfig.inaccuracy.get();
@@ -582,16 +582,16 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * Update motion and position of the projectile.
 	 */
 	void updateMotionAndPosition() {
-		Vec3d motionVec = this.getMotion();
-		Vec3d positionVec = this.getPositionVec();
+		Vector3d motionVec = this.getMotion();
+		Vector3d positionVec = this.getPositionVec();
 
 		// calculate motion drag
 		// TODO: Add as property
 		float motionScale = this.isInWater() ? getWaterDrag() : getAirDrag();
 
 		// calculate motion and position
-		Vec3d nextMotionVec = motionVec.scale(motionScale);
-		Vec3d nextPositionVec = motionVec.add(positionVec);
+		Vector3d nextMotionVec = motionVec.scale(motionScale);
+		Vector3d nextPositionVec = motionVec.add(positionVec);
 		this.setMotion(nextMotionVec.getX(), nextMotionVec.getY() - getGravity(), nextMotionVec.getZ());
 		this.setPosition(nextPositionVec.getX(), nextPositionVec.getY(), nextPositionVec.getZ());
 	}

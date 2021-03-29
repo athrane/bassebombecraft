@@ -7,7 +7,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
@@ -244,11 +245,11 @@ public class PlayerUtils {
 	 * 
 	 * @return player position.
 	 */
-	public static Vec3d CalculatePlayerPosition(PlayerEntity player, float partialTicks) {
+	public static Vector3d CalculatePlayerPosition(PlayerEntity player, float partialTicks) {
 		double doubleX = player.lastTickPosX + (player.getPosX() - player.lastTickPosX) * partialTicks;
 		double doubleY = player.lastTickPosY + (player.getPosY() - player.lastTickPosY) * partialTicks;
 		double doubleZ = player.lastTickPosZ + (player.getPosZ() - player.lastTickPosZ) * partialTicks;
-		return new Vec3d(doubleX, doubleY, doubleZ);
+		return new Vector3d(doubleX, doubleY, doubleZ);
 	}
 
 }

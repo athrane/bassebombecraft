@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which modifies a set
@@ -28,12 +28,12 @@ public class RandomProjectileFormationModifier implements Operator2 {
 	/**
 	 * Function to get orientation vectors.
 	 */
-	Function<Ports, Vec3d[]> fnGetOrientation;
+	Function<Ports, Vector3d[]> fnGetOrientation;
 
 	/**
 	 * Function to set orientation vectors.
 	 */
-	BiConsumer<Ports, Vec3d[]> bcSetOrientation;
+	BiConsumer<Ports, Vector3d[]> bcSetOrientation;
 
 	/**
 	 * Constructor.
@@ -41,8 +41,8 @@ public class RandomProjectileFormationModifier implements Operator2 {
 	 * @param fnGetOrientation function to get orientation vectors.
 	 * @param fnGetOrientation function to set orientation vectors.
 	 */
-	public RandomProjectileFormationModifier(Function<Ports, Vec3d[]> fnGetOrientation,
-			BiConsumer<Ports, Vec3d[]> bcSetOrientation) {
+	public RandomProjectileFormationModifier(Function<Ports, Vector3d[]> fnGetOrientation,
+			BiConsumer<Ports, Vector3d[]> bcSetOrientation) {
 		this.fnGetOrientation = fnGetOrientation;
 		this.bcSetOrientation = bcSetOrientation;
 	}
@@ -58,10 +58,10 @@ public class RandomProjectileFormationModifier implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		Vec3d[] vectors = applyV(fnGetOrientation, ports);
+		Vector3d[] vectors = applyV(fnGetOrientation, ports);
 
 		// create new array
-		Vec3d[] randomised = new Vec3d[vectors.length];
+		Vector3d[] randomised = new Vector3d[vectors.length];
 
 		// get random
 		Random random = getBassebombeCraft().getRandom();
@@ -69,7 +69,7 @@ public class RandomProjectileFormationModifier implements Operator2 {
 		// create index
 		int index = 0;
 
-		for (Vec3d orientation : vectors) {
+		for (Vector3d orientation : vectors) {
 
 			// calculate random angle
 			double angle = random.nextInt(DEGREES_360);

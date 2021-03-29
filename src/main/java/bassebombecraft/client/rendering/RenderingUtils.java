@@ -28,7 +28,7 @@ import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 /**
@@ -64,12 +64,12 @@ public class RenderingUtils {
 	 * @return render position.
 	 */
 	@Deprecated
-	public static Vec3d getRenderPos() {
+	public static Vector3d getRenderPos() {
 
 		Minecraft mc = Minecraft.getInstance();
 		ActiveRenderInfo info = mc.gameRenderer.getActiveRenderInfo();
-		Vec3d pv = info.getProjectedView();
-		Vec3d renderPos = new Vec3d(pv.getX(), pv.getY(), pv.getZ());
+		Vector3d pv = info.getProjectedView();
+		Vector3d renderPos = new Vector3d(pv.getX(), pv.getY(), pv.getZ());
 		return renderPos;
 	}
 
@@ -146,7 +146,7 @@ public class RenderingUtils {
 	 * @param targetPos target position
 	 */
 	@Deprecated
-	public static void renderLineBillboard(Vec3d playerPos, Vec3d entityPos, Vec3d targetPos) {
+	public static void renderLineBillboard(Vector3d playerPos, Vector3d entityPos, Vector3d targetPos) {
 		setupBillboardRendering();
 
 		// set line width & color
@@ -184,7 +184,7 @@ public class RenderingUtils {
 	 * @param entityPos entity position
 	 */
 	@Deprecated
-	public static void renderRectangleBillboard(Vec3d playerPos, Vec3d entityPos) {
+	public static void renderRectangleBillboard(Vector3d playerPos, Vector3d entityPos) {
 		setupBillboardRendering();
 
 		// set line width & color
@@ -233,7 +233,7 @@ public class RenderingUtils {
 	 * @param rotation  rotation
 	 */
 	@Deprecated
-	public static void renderTriangleBillboard(Vec3d playerPos, Vec3d entityPos, Vector4f rotation) {
+	public static void renderTriangleBillboard(Vector3d playerPos, Vector3d entityPos, Vector4f rotation) {
 		setupBillboardRendering();
 
 		// set line width & color
@@ -280,7 +280,7 @@ public class RenderingUtils {
 	 * @param entityPos entity position
 	 */
 	@Deprecated
-	public static void renderDebugBillboard(Vec3d playerPos, Vec3d entityPos) {
+	public static void renderDebugBillboard(Vector3d playerPos, Vector3d entityPos) {
 		setupBillboardRendering();
 
 		// X/R
@@ -373,7 +373,7 @@ public class RenderingUtils {
 	 * @param rotation  rotation
 	 */
 	@Deprecated
-	public static void renderTextBillboard(Vec3d playerPos, Vec3d entityPos, String text, Vector4f rotation) {
+	public static void renderTextBillboard(Vector3d playerPos, Vector3d entityPos, String text, Vector4f rotation) {
 		renderTextBillboard(playerPos, entityPos, text, rotation, ClientModConstants.TEXT_COLOR);
 	}
 
@@ -386,7 +386,7 @@ public class RenderingUtils {
 	 * @param rotation  rotation
 	 * @param textColor text color
 	 */
-	public static void renderTextBillboard(Vec3d playerPos, Vec3d entityPos, String text, Vector4f rotation,
+	public static void renderTextBillboard(Vector3d playerPos, Vector3d entityPos, String text, Vector4f rotation,
 			int textColor) {
 		setupBillboardRendering();
 
@@ -428,7 +428,7 @@ public class RenderingUtils {
 	 * @param text              text to render
 	 */
 	@Deprecated
-	public static void renderHudTextBillboard(Vec3d cameraTranslation, Vec3d textTranslation, String text) {
+	public static void renderHudTextBillboard(Vector3d cameraTranslation, Vector3d textTranslation, String text) {
 		setupBillboardRendering();
 
 		// get minecraft
@@ -468,7 +468,7 @@ public class RenderingUtils {
 	 *                        the HUD text.
 	 * @param text            text to render
 	 */
-	public static void renderHudTextBillboard(Vec3d textTranslation, String text) {
+	public static void renderHudTextBillboard(Vector3d textTranslation, String text) {
 		setupBillboardRendering();
 
 		// get minecraft
@@ -506,7 +506,7 @@ public class RenderingUtils {
 	 *                          relative to view direction.
 	 */
 	@Deprecated
-	public static void renderRotatedTextBillboard(Vec3d cameraTranslation, Vector4f rotation, String text) {
+	public static void renderRotatedTextBillboard(Vector3d cameraTranslation, Vector4f rotation, String text) {
 		setupBillboardRendering();
 
 		// get minecraft
@@ -791,7 +791,7 @@ public class RenderingUtils {
 	 * @param start start position.
 	 * @param end   end position.
 	 */
-	public static void renderLine(Vec3d start, Vec3d end) {
+	public static void renderLine(Vector3d start, Vector3d end) {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuffer();
 		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);

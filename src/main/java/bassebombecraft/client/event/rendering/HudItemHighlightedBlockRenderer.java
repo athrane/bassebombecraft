@@ -26,7 +26,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawHighlightEvent.HighlightBlock;
 
@@ -104,7 +104,7 @@ public class HudItemHighlightedBlockRenderer {
 		String message = blockstate.getBlock().getNameTextComponent().getUnformattedComponentText();
 
 		// get aabb center
-		Vec3d aabbCenter = aabb.getCenter();
+		Vector3d aabbCenter = aabb.getCenter();
 
 		// setup operator and execute
 		ClientPorts ports = getInstance();

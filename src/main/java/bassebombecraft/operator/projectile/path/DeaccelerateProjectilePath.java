@@ -9,7 +9,7 @@ import java.util.function.Function;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which de-accelerate
@@ -55,7 +55,7 @@ public class DeaccelerateProjectilePath implements Operator2 {
 		Entity projectile = applyV(fnGetProjectile, ports);
 
 		// get motion vector
-		Vec3d motionVector = projectile.getMotion();
+		Vector3d motionVector = projectile.getMotion();
 		if (motionVector == null)
 			return;
 
@@ -64,7 +64,7 @@ public class DeaccelerateProjectilePath implements Operator2 {
 
 		// calculate target motion
 		double targetLength = length * deaccelerateProjectilePathAcceleration.get();
-		Vec3d newMotionVector = motionVector.normalize().scale(targetLength);
+		Vector3d newMotionVector = motionVector.normalize().scale(targetLength);
 
 		// update motion
 		projectile.setMotion(newMotionVector.getX(), newMotionVector.getY(), newMotionVector.getZ());

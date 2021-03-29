@@ -21,7 +21,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 /**
@@ -57,7 +57,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 	/**
 	 * Mist position.
 	 */
-	Vec3d mistPos;
+	Vector3d mistPos;
 
 	/*
 	 * Invoking entity.
@@ -67,7 +67,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 	/**
 	 * Invoking entity look unit vector.
 	 */
-	Vec3d entityLook;
+	Vector3d entityLook;
 
 	/**
 	 * Defines whether behaviour is active.
@@ -200,9 +200,9 @@ public class GenericEntityMist implements RightClickedItemAction {
 
 	void calculateMistPostition(World world, LivingEntity entity) {
 		entityLook = entity.getLook(1);
-		Vec3d entityLookX4 = new Vec3d(entityLook.x * INVOCATION_DIST, entityLook.y * INVOCATION_DIST,
+		Vector3d entityLookX4 = new Vector3d(entityLook.x * INVOCATION_DIST, entityLook.y * INVOCATION_DIST,
 				entityLook.z * INVOCATION_DIST);
-		Vec3d entityPos = new Vec3d(entity.getPosX(), entity.getPosY(), entity.getPosZ());
+		Vector3d entityPos = new Vector3d(entity.getPosX(), entity.getPosY(), entity.getPosZ());
 		double x = entityLookX4.x;
 		float y = entity.getEyeHeight();
 		double z = entityLookX4.z;
