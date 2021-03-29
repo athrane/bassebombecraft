@@ -92,7 +92,7 @@ public class TeleportProjectilePath implements Operator2 {
 		// calculate position delta vector
 		float length = lerp(oscValue, 1, 3);
 		Vector3d deltaVector = newMotionVector.normalize().scale(length);
-		Vector3d newPosVector = projectile.getPositionVector().add(deltaVector);
+		Vector3d newPosVector = projectile.getPositionVec().add(deltaVector);
 
 		// update position
 		projectile.setPositionAndUpdate(newPosVector.getX(), newPosVector.getY(), newPosVector.getZ());

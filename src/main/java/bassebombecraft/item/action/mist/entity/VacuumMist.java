@@ -50,7 +50,7 @@ public class VacuumMist implements EntityMistActionStrategy {
 	public void applyEffectToEntity(LivingEntity target, Vector3d mistPos, LivingEntity invoker) {
 
 		// calculate pull vector
-		Vector3d targetPosVec = target.getPositionVector();
+		Vector3d targetPosVec = target.getPositionVec();
 		Vector3d pullVec = mistPos.subtract(targetPosVec);
 		pullVec = pullVec.normalize();
 

@@ -109,7 +109,7 @@ public class SpawnSquid2 implements Operator2 {
 			Entity entity = ((EntityRayTraceResult) result).getEntity();
 
 			// get entity position
-			posVec = entity.getPositionVector();
+			posVec = entity.getPositionVec();
 			posVec = posVec.add(0, entity.getHeight(), 0);
 
 			// get entity yaw

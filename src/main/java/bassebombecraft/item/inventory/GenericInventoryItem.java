@@ -189,7 +189,7 @@ public class GenericInventoryItem extends Item {
 			// apply and render effect
 			if (strategy.shouldApplyEffect(foundEntity, isInvoker)) {
 				strategy.applyEffect(foundEntity, world, invokingEntity);
-				addParticles(foundEntity.getPositionVector());
+				addParticles(foundEntity.getPositionVec());
 			}
 		}
 	}
