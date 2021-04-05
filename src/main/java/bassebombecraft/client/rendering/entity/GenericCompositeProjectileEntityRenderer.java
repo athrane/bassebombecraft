@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 
 /**
@@ -95,8 +96,9 @@ public abstract class GenericCompositeProjectileEntityRenderer<T extends Entity>
 				.normal(matrix3f, (float) normalX, (float) normalY, (float) normalZ).endVertex();
 	}
 
+	
 	@Override
-	protected int getBlockLight(T entitt, float partialTicks) {
+	protected int getBlockLight(T entityIn, BlockPos pos) {
 		return 15;
 	}
 
