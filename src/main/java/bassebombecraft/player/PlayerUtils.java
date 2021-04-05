@@ -8,7 +8,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
@@ -121,7 +120,7 @@ public class PlayerUtils {
 		PlayerEntity targetAsPlayer = (PlayerEntity) entity;
 		return targetAsPlayer.isAlive();
 	}
-	
+
 	/**
 	 * Returns true if item is held in player off hand.
 	 * 
@@ -162,12 +161,12 @@ public class PlayerUtils {
 		ItemStack heldItemStack = player.getHeldItemOffhand();
 		if (heldItemStack == null)
 			return false;
-		
+
 		// get item
 		Item heldItem = heldItemStack.getItem();
 		if (heldItem == null)
 			return false;
-		
+
 		return item.equals(heldItem);
 	}
 
@@ -189,15 +188,15 @@ public class PlayerUtils {
 		ItemStack heldItemStack = player.getHeldItemMainhand();
 		if (heldItemStack == null)
 			return false;
-		
+
 		// get item
 		Item heldItem = heldItemStack.getItem();
 		if (heldItem == null)
 			return false;
-		
+
 		return item.equals(heldItem);
 	}
-	
+
 	/**
 	 * Returns true if item is held in either player hands.
 	 * 
@@ -207,8 +206,10 @@ public class PlayerUtils {
 	 * @return true if item is held by player in either hand.
 	 */
 	public static boolean isItemHeldInEitherHands(PlayerEntity player, Item item) {
-		if(isItemHeldInMainHand(player, item)) return true;
-		if(isItemHeldInOffHand(player, item)) return true;		
+		if (isItemHeldInMainHand(player, item))
+			return true;
+		if (isItemHeldInOffHand(player, item))
+			return true;
 		return false;
 	}
 

@@ -3,7 +3,7 @@ package bassebombecraft.projectile.action;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
 import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 import static bassebombecraft.entity.EntityUtils.calculateEntityFeetPosititionAsInt;
-import static bassebombecraft.entity.EntityUtils.getPlayerDirection;
+import static bassebombecraft.entity.EntityUtils.getEntityDirection;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isBlockHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
@@ -23,7 +23,7 @@ import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.CompositeStructure;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.StairsBlock;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -69,11 +69,11 @@ public class SpawnStairs implements ProjectileAction {
 		// type cast
 		BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
 
-		// get thrower
-		LivingEntity owner = projectile.getThrower();
+		// get shooter
+		Entity shooter = projectile.getShooter();
 
 		// get thrower feet position
-		int yFeetPosition = calculateEntityFeetPosititionAsInt(owner);
+		int yFeetPosition = calculateEntityFeetPosititionAsInt(shooter);
 
 		// calculate target position
 		BlockPos targetPosition = BlockUtils.calculatePosition(blockResult);
@@ -93,7 +93,7 @@ public class SpawnStairs implements ProjectileAction {
 		addSolidStairUp(stairsHeight, stairsMaterial, composite, stairOffset);
 
 		// get owner direction
-		PlayerDirection playerDirection = getPlayerDirection(owner);
+		PlayerDirection playerDirection = getEntityDirection(shooter);
 
 		// calculate set of block directives
 		BlockPos offset = targetPosition;

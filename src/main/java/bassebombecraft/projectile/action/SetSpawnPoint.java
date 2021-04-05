@@ -37,7 +37,8 @@ public class SetSpawnPoint implements ProjectileAction {
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
 		
 		// exit if thrower isn't a player
-		LivingEntity thrower = projectile.getThrower();
+		Entity thrower = projectile.getShooter();
+		
 		if (!isTypePlayerEntity(thrower))
 			return;
 

@@ -184,22 +184,22 @@ public class EntityUtils {
 	/**
 	 * Calculate entity feet position (as a Y coordinate).
 	 * 
-	 * @param entity player object.
+	 * @param entity entity object.
 	 * 
-	 * @return player feet position (as a Y coordinate).
+	 * @return entity feet position (as a Y coordinate).
 	 */
-	public static double calculateEntityFeetPositition(LivingEntity entity) {
+	public static double calculateEntityFeetPositition(Entity entity) {
 		return entity.getPosY() - entity.getYOffset();
 	}
 
 	/**
 	 * Calculate entity feet position (as a Y coordinate).
 	 * 
-	 * @param entity player object.
+	 * @param entity entity object.
 	 * 
-	 * @return player feet position (as a Y coordinate).
+	 * @return entity feet position (as a Y coordinate).
 	 */
-	public static int calculateEntityFeetPosititionAsInt(LivingEntity entity) {
+	public static int calculateEntityFeetPosititionAsInt(Entity entity) {
 		return (int) calculateEntityFeetPositition(entity);
 	}
 
@@ -211,7 +211,7 @@ public class EntityUtils {
 	 * 
 	 * @return player direction as an integer between 0 to 3.
 	 */
-	public static PlayerDirection getPlayerDirection(LivingEntity entity) {
+	public static PlayerDirection getEntityDirection(Entity entity) {
 		int direction = MathHelper.floor((double) ((entity.rotationYaw * 4F) / 360F) + 0.5D) & 3;
 		return PlayerDirection.getById(direction);
 	}
