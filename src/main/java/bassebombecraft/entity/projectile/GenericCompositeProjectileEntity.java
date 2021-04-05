@@ -48,8 +48,8 @@ import bassebombecraft.operator.projectile.path.TeleportProjectilePath;
 import bassebombecraft.operator.projectile.path.ZigZagProjectilePath;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -73,7 +73,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
  * 
  * This is a super class for actual projectile implementations.
  */
-public class GenericCompositeProjectileEntity extends Entity implements IProjectile {
+public class GenericCompositeProjectileEntity extends ProjectileEntity {
 
 	/**
 	 * Entity identifier.
@@ -226,7 +226,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * @param world  world object.
 	 * @param config projectile entity configuration.
 	 */
-	public GenericCompositeProjectileEntity(EntityType<?> type, World world, ProjectileEntityConfig config) {
+	public GenericCompositeProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, World world, ProjectileEntityConfig config) {		
 		super(type, world);
 		projectileConfig = config;
 		ParticleRenderingInfo info = createInfoFromConfig(projectileConfig.particles);
@@ -239,15 +239,14 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * Constructor
 	 * 
 	 * @param type    entity type.
-	 * @param invoker projectile invoker.
+	 * @param shooter projectile shooter.
 	 * @param world   world object.
 	 * @param config  projectile entity configuration.
 	 */
-	public GenericCompositeProjectileEntity(EntityType<?> type, LivingEntity invoker, ProjectileEntityConfig config) {
-		this(type, invoker.getEntityWorld(), config);
-		this.setPosition(invoker.getPosX(), invoker.getPosYEye() - 0.1, invoker.getPosZ());
-		this.invokerUUID = invoker.getUniqueID();
-		this.invoker = invoker;
+	public GenericCompositeProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, LivingEntity shooter, ProjectileEntityConfig config) {
+		this(type, shooter.getEntityWorld(), config);
+		this.setPosition(shooter.getPosX(), shooter.getPosYEye() - 0.1, shooter.getPosZ());
+		this.setShooter(shooter);
 	}
 
 	@Override
