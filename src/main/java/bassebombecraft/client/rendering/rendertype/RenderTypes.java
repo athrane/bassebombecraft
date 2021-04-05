@@ -27,34 +27,27 @@ public class RenderTypes extends RenderType {
 	
 	public static final RenderType OVERLAY_LINES = get("overlay_lines", DefaultVertexFormats.POSITION_COLOR,
 			GL11.GL_LINES, 256,
-			RenderType.State.builder().line(THICK_LINES).layer(PROJECTION_LAYERING)
+			RenderType.State.builder().line(THICK_LINES)
 					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).depthTest(DEPTH_ALWAYS)
 					.cull(CULL_DISABLED).lightmap(LIGHTMAP_DISABLED).writeMask(COLOR_WRITE).build(false));
 
 	public static final RenderType DEFAULT_LINES = get("default_lines", DefaultVertexFormats.POSITION_COLOR,
 			GL11.GL_LINES, 256,
-			RenderType.State.builder().line(THICK_LINES).layer(PROJECTION_LAYERING)
+			RenderType.State.builder().line(THICK_LINES)
 					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).depthTest(DEPTH_ALWAYS)
 					.cull(CULL_DISABLED).lightmap(LIGHTMAP_DISABLED).writeMask(COLOR_WRITE).build(false));
 
 	public static final RenderType LIGHTNING_LINES = get("lightning_lines", DefaultVertexFormats.POSITION_COLOR,
 			GL11.GL_LINES, 256,
 			RenderType.State.builder().line(THICK_LINES)
-					//.layer(PROJECTION_LAYERING)
 					.transparency(TRANSLUCENT_TRANSPARENCY)
 					.texture(NO_TEXTURE)
-					//.depthTest(DEPTH_ALWAYS)
-					//.cull(CULL_ENABLED)
 					.writeMask(COLOR_WRITE).build(false));
 
 	public static final RenderType PROJECTILE_TRAIL_LINES = get("projectile_trail_lines",
 			DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256, RenderType.State.builder().line(THIN_LINES)
-					// .layer(PROJECTION_LAYERING)
 					.transparency(TRANSLUCENT_TRANSPARENCY)
 					.texture(NO_TEXTURE)
-					// .depthTest(DEPTH_ALWAYS)
-					// .cull(CULL_DISABLED)
-					// .lightmap(LIGHTMAP_DISABLED)
 					.writeMask(COLOR_WRITE).build(false));
 
 	public static final RenderType SIMPLE_LINES = get("simple_lines", DefaultVertexFormats.POSITION_COLOR,
