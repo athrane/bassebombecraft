@@ -347,7 +347,7 @@ public class ModConstants {
 	 * Reflect effect configuration identifier.
 	 */
 	public static final String REFLECT_EFFECT_NAME = "ReflectEffect";
-	
+
 	/**
 	 * Processed block directives configuration identifier.
 	 */
@@ -472,20 +472,20 @@ public class ModConstants {
 	/**
 	 * Entity attribute to define an entity as a decoy.
 	 */
-	public static final Attribute DECOY = (new RangedAttribute((Attribute) null, "bassebombecraft.decoy", 1.0D, 0.0D,
-			1.0D)).setShouldWatch(true);
+	public static final Attribute DECOY = new RangedAttribute("bassebombecraft.decoy", 1.0D, 0.0D, 1.0D)
+			.setShouldWatch(true);
 
 	/**
 	 * Entity attribute to tag an entity for respawn.
 	 */
-	public static final Attribute RESPAWN = (new RangedAttribute((Attribute) null, "bassebombecraft.respawn", 1.0D,
-			0.0D, 1.0D)).setShouldWatch(true);
+	public static final Attribute RESPAWN = new RangedAttribute("bassebombecraft.respawn", 1.0D, 0.0D, 1.0D)
+			.setShouldWatch(true);
 
 	/**
 	 * Entity attribute to tag an entity as respawned.
 	 */
-	public static final Attribute IS_RESPAWNED = (new RangedAttribute((Attribute) null, "bassebombecraft.isrespawned",
-			1.0D, 0.0D, 1.0D)).setShouldWatch(true);
+	public static final Attribute IS_RESPAWNED = new RangedAttribute("bassebombecraft.isrespawned", 1.0D, 0.0D, 1.0D)
+			.setShouldWatch(true);
 
 	/**
 	 * Maximum size composite magic. Used in {@linkplain CompositeMagicItem}.
@@ -495,41 +495,41 @@ public class ModConstants {
 	/**
 	 * PF class suffix for composite item.
 	 */
-	public  static final String PF_SUFFIX = "ProjectileFormationItem";
-	
+	public static final String PF_SUFFIX = "ProjectileFormationItem";
+
 	/**
 	 * PFM class suffix for composite item.
-	 */	
+	 */
 	public static final String PFM_SUFFIX = "ProjectileFormationModifierItem";
-	
+
 	/**
 	 * P class suffix for composite item.
-	 */		
+	 */
 	public static final String P_SUFFIX = "ProjectileItem";
-	
+
 	/**
 	 * PP class suffix for composite item.
-	 */			
+	 */
 	public static final String PP_SUFFIX = "ProjectilePathItem";
-	
+
 	/**
 	 * PM class suffix for composite item.
-	 */			
+	 */
 	public static final String PM_SUFFIX = "ProjectileModifierItem";
 
 	/**
 	 * Unknown class suffix for composite item.
-	 */			
+	 */
 	public static final String UNKNOWN_SUFFIX = "Unknown type";
 
 	/**
 	 * Null arguments for I18N.
 	 */
 	public static final Object[] NULL_I18N_ARGS = new Object[0];
-	
+
 	/**
-	 * Mob damage type. 
+	 * Mob damage type.
 	 */
 	public static final String MOB_DAMAGE = "mob";
-	
+
 }
