@@ -50,7 +50,7 @@ public class DebugRenderer_WorldLastEventText_v1 {
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
 		matrixStack.translate(0, 0, w);
 
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 		fontrenderer.renderString(text, (float) (x * 10 / scale - 40 / scale), (float) (y * 10 / scale - 40 / scale),
 				color, false, positionMatrix, buffer, false, 0, 0xf000f0);
 		matrixStack.pop();

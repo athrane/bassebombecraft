@@ -36,7 +36,7 @@ public class DebugRenderer_MobLines {
 		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
 		IVertexBuilder builder = buffer.getBuffer(RenderTypes.OVERLAY_LINES);
 
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 
 		if (entity instanceof IMob) {
 			redLine(builder, positionMatrix, 0, .5f, 0, 0, 6, 0);

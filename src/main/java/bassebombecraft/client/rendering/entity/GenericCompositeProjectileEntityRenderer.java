@@ -54,7 +54,7 @@ public abstract class GenericCompositeProjectileEntityRenderer<T extends Entity>
 
 		IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.entityCutout(getEntityTexture(entity)));
 		MatrixStack.Entry matrixstack$entry = matrixStackIn.getLast();
-		Matrix4f matrix4f = matrixstack$entry.getPositionMatrix(); // getMatrix();
+		Matrix4f matrix4f = matrixstack$entry.getMatrix(); // getMatrix();
 		Matrix3f matrix3f = matrixstack$entry.getNormalMatrix(); // getNormal();
 
 		for (int j = 0; j < 4; ++j) {

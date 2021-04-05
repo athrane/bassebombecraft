@@ -151,7 +151,7 @@ public class RenderTextBillboard2 implements Operator2 {
 		matrixStack.translate(0, 0, zTranslation);
 
 		// render message
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 		fontRenderer.renderString(message, x, y, textColor, DROP_SHADOW, positionMatrix, buffer, IS_TRANSPARENT,
 				TEXT_EFFECT, PACKED_LIGHT);
 

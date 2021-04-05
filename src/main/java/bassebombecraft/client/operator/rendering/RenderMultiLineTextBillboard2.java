@@ -154,7 +154,7 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
 		double zTranslation = TEXT_Z_TRANSLATION + oscillate(0, oscillateMax);
 		matrixStack.translate(0, 0, zTranslation);
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 
 		// create index to use inside loop
 		final AtomicInteger index = new AtomicInteger();

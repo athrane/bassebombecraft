@@ -66,7 +66,7 @@ public class DebugRenderer_Highlightblock {
 		MatrixStack matrixStack = event.getMatrix();
 		matrixStack.push();
 		matrixStack.translate(-projectedView.x, -projectedView.y, -projectedView.z);
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 		renderWireframeBox(aabb, builder, positionMatrix);
 		matrixStack.pop();
 
@@ -93,7 +93,7 @@ public class DebugRenderer_Highlightblock {
 		matrixStack.rotate(renderManager.getCameraOrientation());
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
 		matrixStack.translate(0, 0, 100);
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 		fontrenderer.renderString(text, x, y, TEXT_COLOR, false, positionMatrix, buffer, false, 0, 0xf000f0);
 		matrixStack.pop();
 

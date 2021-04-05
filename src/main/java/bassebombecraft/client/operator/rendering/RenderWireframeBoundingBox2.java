@@ -123,7 +123,7 @@ public class RenderWireframeBoundingBox2 implements Operator2 {
 		// get position matrix
 		Vector3d projectedView = mcClient.gameRenderer.getActiveRenderInfo().getProjectedView();
 		matrixStack.translate(-projectedView.x, -projectedView.y, -projectedView.z);
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 
 		// grow aabb
 		aabb = aabb.grow(oscillate(0, oscillateMax));

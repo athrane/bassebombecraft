@@ -85,7 +85,7 @@ public class TeamEnityRenderer {
 		matrixStack.push();
 		matrixStack.translate(0, height, 0);
 		matrixStack.rotate(Vector3f.YP.rotationDegrees(180));
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 		IVertexBuilder builder = buffer.getBuffer(RenderTypes.OVERLAY_LINES);
 		renderTriangle(builder, positionMatrix);
 		matrixStack.pop();
@@ -103,7 +103,7 @@ public class TeamEnityRenderer {
 		matrixStack.scale(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 		matrixStack.rotate(renderManager.getCameraOrientation());
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 		fontrenderer.renderString(text, x, y, TEXT_COLOR, false, positionMatrix, buffer, false, 0, 0xf000f0);
 		matrixStack.pop();
 

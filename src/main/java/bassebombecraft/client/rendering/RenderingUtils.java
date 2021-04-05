@@ -563,7 +563,7 @@ public class RenderingUtils {
 		matrixStack.rotate(renderManager.getCameraOrientation());
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
 		matrixStack.translate(0, 0, ClientModConstants.TEXT_Z_TRANSLATION);
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 		fontRenderer.renderString(text, x, y, ClientModConstants.TEXT_COLOR, DROP_SHADOW, positionMatrix, buffer,
 				IS_TRANSPARENT, TEXT_EFFECT, PACKED_LIGHT);
 		matrixStack.pop();

@@ -47,7 +47,7 @@ public class DebugRenderer_WorldLastEventText {
 		matrixStack.rotate(renderManager.getCameraOrientation());
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
 		matrixStack.translate(0, 0, 200);
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 		fontrenderer.renderString(text, x, y, TEXT_COLOR, false, positionMatrix, buffer, false, 0, 0xf000f0);
 		matrixStack.pop();
 	}
