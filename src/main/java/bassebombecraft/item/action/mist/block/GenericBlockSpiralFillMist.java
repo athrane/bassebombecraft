@@ -101,7 +101,8 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 		ports.setCounter(strategy.getSpiralOffset());
 
 		// set spiral centre
-		ports.setBlockPosition1(new BlockPos(entity));
+		BlockPos center = new BlockPos(entity.getPosX(), entity.getPosY(), entity.getPosZ());		
+		ports.setBlockPosition1(center);
 
 		// create and register job
 		Job job = new ExecuteOperatorAsJob2(ports, spiralOp);
