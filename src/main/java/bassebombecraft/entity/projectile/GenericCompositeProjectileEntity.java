@@ -332,7 +332,7 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 
 				// if hit then process collision
 				if (result.getType() != RayTraceResult.Type.MISS)
-					onImpact(result);
+					handleImpact(result);
 
 				// process projectile modifiers
 				processCompositeModifiers();
@@ -358,7 +358,7 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 * 
 	 * @param result ray trace result with collision information.
 	 */
-	void onImpact(RayTraceResult result) {
+	void handleImpact(RayTraceResult result) {
 
 		// exit if on client side
 		if (isLogicalClient(getEntityWorld()))
