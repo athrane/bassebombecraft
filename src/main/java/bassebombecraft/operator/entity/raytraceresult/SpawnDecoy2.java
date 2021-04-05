@@ -10,12 +10,13 @@ import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isNothingHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeBlockRayTraceResult;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayTraceResult;
+import static bassebombecraft.operator.DefaultPorts.getBcSetLivingEntity2;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
+import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
 import static bassebombecraft.operator.Operators2.applyV;
-import static bassebombecraft.operator.DefaultPorts.*;
-import static net.minecraft.entity.SharedMonsterAttributes.KNOCKBACK_RESISTANCE;
-import static net.minecraft.entity.SharedMonsterAttributes.MAX_HEALTH;
-import static net.minecraft.entity.SharedMonsterAttributes.MOVEMENT_SPEED;
+import static net.minecraft.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE;
+import static net.minecraft.entity.ai.attributes.Attributes.MAX_HEALTH;
+import static net.minecraft.entity.ai.attributes.Attributes.MOVEMENT_SPEED;
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -65,8 +66,8 @@ public class SpawnDecoy2 implements Operator2 {
 	 * @param fnGetRayTraceResult function to get ray trace result.
 	 * @param bcSetDecoy          function to set decoy entity.
 	 */
-	public SpawnDecoy2(Function<Ports, LivingEntity> fnGetInvoker,
-			Function<Ports, RayTraceResult> fnGetRayTraceResult, BiConsumer<Ports, LivingEntity> bcSetDecoy) {
+	public SpawnDecoy2(Function<Ports, LivingEntity> fnGetInvoker, Function<Ports, RayTraceResult> fnGetRayTraceResult,
+			BiConsumer<Ports, LivingEntity> bcSetDecoy) {
 		this.fnGetInvoker = fnGetInvoker;
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 		this.bcSetDecoy = bcSetDecoy;
