@@ -14,7 +14,7 @@ import static bassebombecraft.util.function.Predicates.hasDifferentIds;
 import static bassebombecraft.util.function.Predicates.isntProjectileThrower;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static bassebombecraft.world.WorldUtils.isLogicalServer;
-import static net.minecraft.entity.projectile.ProjectileHelper.rayTrace;
+import static net.minecraft.entity.projectile.ProjectileHelper.func_234618_a_;
 import static net.minecraftforge.event.ForgeEventFactory.onProjectileImpact;
 
 import java.util.Optional;
@@ -54,12 +54,10 @@ import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -226,7 +224,8 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 * @param world  world object.
 	 * @param config projectile entity configuration.
 	 */
-	public GenericCompositeProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, World world, ProjectileEntityConfig config) {		
+	public GenericCompositeProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, World world,
+			ProjectileEntityConfig config) {
 		super(type, world);
 		projectileConfig = config;
 		ParticleRenderingInfo info = createInfoFromConfig(projectileConfig.particles);
@@ -243,7 +242,8 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 * @param world   world object.
 	 * @param config  projectile entity configuration.
 	 */
-	public GenericCompositeProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, LivingEntity shooter, ProjectileEntityConfig config) {
+	public GenericCompositeProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type,
+			LivingEntity shooter, ProjectileEntityConfig config) {
 		this(type, shooter.getEntityWorld(), config);
 		this.setPosition(shooter.getPosX(), shooter.getPosYEye() - 0.1, shooter.getPosZ());
 		this.setShooter(shooter);
@@ -418,15 +418,12 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 */
 	RayTraceResult calculateCollision() {
 
-		// get AABB for collision
-		AxisAlignedBB aabb = this.getBoundingBox().expand(this.getMotion()).grow(1);
-
 		// define filter
 		Predicate<Entity> filter = entity -> !entity.isSpectator() && entity.canBeCollidedWith()
-				&& entity != this.invoker;
+				&& entity != getShooter();
 
 		// ray trace for collision
-		return rayTrace(this, aabb, filter, RayTraceContext.BlockMode.COLLIDER, true);
+		return func_234618_a_(this, filter);
 	}
 
 	/**
