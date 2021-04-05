@@ -22,7 +22,7 @@ public class SkullProjectileEntity extends GenericCompositeProjectileEntity {
 	 * @param type  entity type.
 	 * @param world world object.
 	 */
-	public SkullProjectileEntity(EntityType<?> type, World world) {
+	public SkullProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, World world) {
 		super(type, world, skullProjectileEntity);
 	}
 
@@ -32,7 +32,7 @@ public class SkullProjectileEntity extends GenericCompositeProjectileEntity {
 	 * @param type    entity type.
 	 * @param invoker projectile invoker.
 	 */
-	public SkullProjectileEntity(EntityType<?> type, LivingEntity invoker) {
+	public SkullProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, LivingEntity invoker) {
 		super(type, invoker, skullProjectileEntity);
 	}
 

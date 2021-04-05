@@ -22,7 +22,7 @@ public class LightningProjectileEntity extends GenericCompositeProjectileEntity 
 	 * @param type  entity type.
 	 * @param world world object.
 	 */
-	public LightningProjectileEntity(EntityType<?> type, World world) {
+	public LightningProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, World world) {
 		super(type, world, lightningProjectileEntity);
 	}
 
@@ -32,7 +32,7 @@ public class LightningProjectileEntity extends GenericCompositeProjectileEntity 
 	 * @param type    entity type.
 	 * @param invoker projectile invoker.
 	 */
-	public LightningProjectileEntity(EntityType<?> type, LivingEntity invoker) {
+	public LightningProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, LivingEntity invoker) {
 		super(type, invoker, lightningProjectileEntity);
 	}
 
