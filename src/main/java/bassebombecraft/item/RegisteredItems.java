@@ -52,7 +52,6 @@ import bassebombecraft.item.book.NaturalizeBook;
 import bassebombecraft.item.book.PrimedCreeperCannonBook;
 import bassebombecraft.item.book.RainbownizeBook;
 import bassebombecraft.item.book.ReceiveAggroBook;
-import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.SmallFireballRingBook;
 import bassebombecraft.item.book.Spawn100ChickensBook;
@@ -168,7 +167,6 @@ public class RegisteredItems {
 	 * Books
 	 */
 	public static final RegistryObject<Item> TELEPORT_BOOK = register(TeleportBook::new);
-	public static final RegistryObject<Item> SPAWNPOINT_BOOK = register(SetSpawnPointBook::new);
 	public static final RegistryObject<Item> FIREBALL_BOOK = register(SmallFireballBook::new);
 	public static final RegistryObject<Item> FIREBALL2_BOOK = register(LargeFireballBook::new);
 	public static final RegistryObject<Item> FIREBALL_RING_BOOK = register(SmallFireballRingBook::new);
