@@ -18,6 +18,7 @@ import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
 /**
@@ -103,7 +104,7 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 	/**
 	 * GUI header text.
 	 */
-	String guiHeader;
+	TextComponent guiHeader;
 
 	/**
 	 * Constructor
@@ -117,7 +118,7 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 		super(container, inventory, title);
 		adviceGenerator = new DefaultAdviceGenerator(container);
 		validator = new DefaultSequenceValidator();
-		guiHeader = new TranslationTextComponent("compositemagicscreen.header", NULL_I18N_ARGS).getFormattedText();
+		guiHeader = new TranslationTextComponent("compositemagicscreen.header", NULL_I18N_ARGS);
 	}
 
 	@Override
@@ -134,26 +135,30 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 		CompositeMagicItemContainer compositeContainer = (CompositeMagicItemContainer) this.container;
 		CompositeMagicItemItemStackHandler compositeInventory = compositeContainer.getCompositeItemInventory();
 
-		renderGuiHeader();
-		renderAdvice();
+		renderGuiHeader(matrixStack);
+		renderAdvice(matrixStack);
 		renderSequenceHighlight(matrixStack, compositeInventory);
-		renderDecoration();
+		renderDecoration(matrixStack);
 	}
 
 	/**
 	 * Render advice header.
+	 * 
+	 * @param matrixStack matrix stack.
 	 */
-	void renderGuiHeader() {
+	void renderGuiHeader(MatrixStack matrixStack) {
 		RenderSystem.pushMatrix();
 		RenderSystem.scalef(1.0F, 1.0F, 1.0F);
-		font.drawString(guiHeader, HEADER_XPOS, HEADER_YPOS, TEXT_COLOR);
+		font.drawText(matrixStack, guiHeader, HEADER_XPOS, HEADER_YPOS, TEXT_COLOR);		
 		RenderSystem.popMatrix();
 	}
 
 	/**
 	 * Render advice.
+	 * 
+	 * @param matrixStack matrix stack.
 	 */
-	void renderAdvice() {
+	void renderAdvice(MatrixStack matrixStack) {
 		String[] advice = adviceGenerator.generate();
 		RenderSystem.pushMatrix();
 		RenderSystem.scalef(0.6F, 0.6F, 1.0F);
@@ -161,7 +166,7 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 		int index = 0;
 		for (String message : advice) {
 			float yPos = ADVICE_YPOS + (index * 10);
-			font.drawString(message, ADVICE_XPOS, yPos, TEXT_COLOR);
+			font.drawString(matrixStack, message, ADVICE_XPOS, yPos, TEXT_COLOR);
 			index++;
 		}
 
@@ -171,7 +176,7 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 	/**
 	 * Render sequence highlight.
 	 * 
-	 * @param matrixStack matrix stack.
+	 * @param matrixStack        matrix stack.
 	 * @param compositeInventory composite item inventory.
 	 */
 	void renderSequenceHighlight(MatrixStack matrixStack, CompositeMagicItemItemStackHandler compositeInventory) {
@@ -208,6 +213,7 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 	 */
 	@Override
 	protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
+		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		getMinecraft().getTextureManager().bindTexture(BACKGROUND_TEXTURE);
 		this.blit(matrixStack, getGuiLeft(), getGuiTop(), 0, 0, this.xSize, this.ySize);
 	}
