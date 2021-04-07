@@ -15,7 +15,6 @@ import bassebombecraft.inventory.container.CompositeMagicItemSequenceValidator;
 import bassebombecraft.inventory.container.DefaultSequenceValidator;
 import bassebombecraft.item.composite.CompositeMagicItem;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -121,7 +120,6 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 		guiHeader = new TranslationTextComponent("compositemagicscreen.header", NULL_I18N_ARGS).getFormattedText();
 	}
 
-	
 	@Override
 	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		renderBackground(matrixStack);
@@ -131,17 +129,17 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
-		
+
 		// get inventory
 		CompositeMagicItemContainer compositeContainer = (CompositeMagicItemContainer) this.container;
 		CompositeMagicItemItemStackHandler compositeInventory = compositeContainer.getCompositeItemInventory();
 
 		renderGuiHeader();
 		renderAdvice();
-		renderSequenceHighlight(compositeInventory);
+		renderSequenceHighlight(matrixStack, compositeInventory);
 		renderDecoration();
 	}
-	
+
 	/**
 	 * Render advice header.
 	 */
@@ -173,9 +171,10 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 	/**
 	 * Render sequence highlight.
 	 * 
+	 * @param matrixStack matrix stack.
 	 * @param compositeInventory composite item inventory.
 	 */
-	void renderSequenceHighlight(CompositeMagicItemItemStackHandler compositeInventory) {
+	void renderSequenceHighlight(MatrixStack matrixStack, CompositeMagicItemItemStackHandler compositeInventory) {
 		int length = validator.resolveLegalSequenceLength(compositeInventory);
 		float oscRgb = oscillateFloat(0.5F, 1);
 		RenderSystem.color4f(oscRgb, oscRgb, oscRgb, 1.0F);
@@ -183,22 +182,24 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 		for (int index = 0; index < length; index++) {
 			int inventoryIndex = compositeInventory.getCompositeInventoryIndex() + index;
 			int xPos = SEQUENCE_ICON_XPOS + (inventoryIndex * SEQUENCE_ICON_XDELTA);
-			blit(xPos, SEQUENCE_ICON_YPOS, 0, 0, SEQUENCE_TEXTURE_SIZE, SEQUENCE_TEXTURE_SIZE, 32, 32);
+			blit(matrixStack, xPos, SEQUENCE_ICON_YPOS, 0, 0, SEQUENCE_TEXTURE_SIZE, SEQUENCE_TEXTURE_SIZE, 32, 32);
 		}
 	}
 
 	/**
 	 * Render decoration.
+	 * 
+	 * @param matrixStack matrix stack.
 	 */
-	void renderDecoration() {
+	void renderDecoration(MatrixStack matrixStack) {
 		float oscRgb = oscillateFloat(0.5F, 1);
 		RenderSystem.color4f(1.0F, oscRgb, 1.0F, 1.0F);
 		getMinecraft().getTextureManager().bindTexture(DECORATION_TEXTURE);
-		blit(136, 55, 0, 0, SEQUENCE_TEXTURE_SIZE, SEQUENCE_TEXTURE_SIZE, 32, 32);
+		blit(matrixStack, 136, 55, 0, 0, SEQUENCE_TEXTURE_SIZE, SEQUENCE_TEXTURE_SIZE, 32, 32);
 
 		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 		getMinecraft().getTextureManager().bindTexture(DECORATION2_TEXTURE);
-		blit(10, 65, 0, 0, SEQUENCE_TEXTURE_SIZE, SEQUENCE_TEXTURE_SIZE, 32, 32);
+		blit(matrixStack, 10, 65, 0, 0, SEQUENCE_TEXTURE_SIZE, SEQUENCE_TEXTURE_SIZE, 32, 32);
 
 	}
 
@@ -208,7 +209,7 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 	@Override
 	protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
 		getMinecraft().getTextureManager().bindTexture(BACKGROUND_TEXTURE);
-	      this.blit(matrixStack, getGuiLeft(), getGuiTop(), 0, 0, this.xSize, this.ySize);
+		this.blit(matrixStack, getGuiLeft(), getGuiTop(), 0, 0, this.xSize, this.ySize);
 	}
-	
+
 }
