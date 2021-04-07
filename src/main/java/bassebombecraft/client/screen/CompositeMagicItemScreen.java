@@ -6,6 +6,7 @@ import static bassebombecraft.geom.GeometryUtils.oscillateFloat;
 
 import java.awt.Color;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import bassebombecraft.inventory.container.CompositeMagicItemContainer;
@@ -128,6 +129,12 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 	}
 
 	@Override
+	protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
+		// TODO Auto-generated method stub
+		super.drawGuiContainerForegroundLayer(matrixStack, x, y);
+	}
+	
+	@Override
 	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 
 		// get inventory
@@ -203,15 +210,10 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 	/**
 	 * Render advice header.
 	 */
-
 	@Override
-	protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-		RenderHelper.setupGuiFlatDiffuseLighting();
-		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-
-		// bind and render texture
+	protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
 		getMinecraft().getTextureManager().bindTexture(BACKGROUND_TEXTURE);
-		blit(getGuiLeft(), getGuiTop(), 0, 0, this.xSize, this.ySize);
+	      this.blit(matrixStack, getGuiLeft(), getGuiTop(), 0, 0, this.xSize, this.ySize);
 	}
-
+	
 }
