@@ -121,11 +121,12 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 		guiHeader = new TranslationTextComponent("compositemagicscreen.header", NULL_I18N_ARGS).getFormattedText();
 	}
 
+	
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks) {
-		renderBackground();
-		super.render(mouseX, mouseY, partialTicks);
-		renderHoveredToolTip(mouseX, mouseY);
+	public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+		renderBackground(matrixStack);
+		super.render(matrixStack, mouseX, mouseY, partialTicks);
+		renderHoveredTooltip(matrixStack, mouseX, mouseY);
 	}
 
 	@Override
