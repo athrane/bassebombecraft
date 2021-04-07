@@ -130,13 +130,7 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 
 	@Override
 	protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
-		// TODO Auto-generated method stub
-		super.drawGuiContainerForegroundLayer(matrixStack, x, y);
-	}
-	
-	@Override
-	protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-
+		
 		// get inventory
 		CompositeMagicItemContainer compositeContainer = (CompositeMagicItemContainer) this.container;
 		CompositeMagicItemItemStackHandler compositeInventory = compositeContainer.getCompositeItemInventory();
@@ -146,7 +140,7 @@ public class CompositeMagicItemScreen extends ContainerScreen<CompositeMagicItem
 		renderSequenceHighlight(compositeInventory);
 		renderDecoration();
 	}
-
+	
 	/**
 	 * Render advice header.
 	 */
