@@ -4,7 +4,7 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.RECEIVE_AGGRO_EFFECT;
 import static bassebombecraft.config.ModConfiguration.receiveAggroEffectAmplifier;
 import static bassebombecraft.config.ModConfiguration.receiveAggroEffectDuration;
-import static bassebombecraft.entity.projectile.ProjectileUtils.resolveInvoker;
+import static bassebombecraft.entity.projectile.ProjectileUtils.resolveShooter;
 import static bassebombecraft.operator.DefaultPorts.getBcSetEffectInstance1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity2;
@@ -371,14 +371,14 @@ public class ProjectileModifierEventHandler {
 	 */
 	static void teleportInvoker(ProjectileImpactEvent event) {
 
-		// exit if invoker couldn't be resolved
-		Optional<LivingEntity> optInvoker = resolveInvoker(event);
-		if (!optInvoker.isPresent())
+		// exit if shooter couldn't be resolved
+		Optional<LivingEntity> optShooter = resolveShooter(event);
+		if (!optShooter.isPresent())
 			return;
 
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-		ports.setLivingEntity1(optInvoker.get());
+		ports.setLivingEntity1(optShooter.get());
 		run(ports, TELEPORT_INVOKER_OPERATOR);
 	}
 
@@ -400,14 +400,14 @@ public class ProjectileModifierEventHandler {
 	 */
 	static void charmMob(ProjectileImpactEvent event) {
 
-		// exit if invoker couldn't be resolved
-		Optional<LivingEntity> optInvoker = resolveInvoker(event);
-		if (!optInvoker.isPresent())
+		// exit if shooter couldn't be resolved
+		Optional<LivingEntity> optShooter = resolveShooter(event);
+		if (!optShooter.isPresent())
 			return;
 
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-		ports.setLivingEntity1(optInvoker.get());
+		ports.setLivingEntity1(optShooter.get());
 		run(ports, CHARM_OPERATOR);
 	}
 
@@ -418,14 +418,14 @@ public class ProjectileModifierEventHandler {
 	 */
 	static void shootMeteor(ProjectileImpactEvent event) {
 
-		// exit if invoker couldn't be resolved
-		Optional<LivingEntity> optInvoker = resolveInvoker(event);
-		if (!optInvoker.isPresent())
+		// exit if shooter couldn't be resolved
+		Optional<LivingEntity> optShooter = resolveShooter(event);
+		if (!optShooter.isPresent())
 			return;
 
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-		ports.setLivingEntity1(optInvoker.get());
+		ports.setLivingEntity1(optShooter.get());
 		run(ports, METEOR_OPERATOR);
 	}
 
@@ -436,14 +436,14 @@ public class ProjectileModifierEventHandler {
 	 */
 	static void spawnDecoy(ProjectileImpactEvent event) {
 
-		// exit if invoker couldn't be resolved
-		Optional<LivingEntity> optInvoker = resolveInvoker(event);
-		if (!optInvoker.isPresent())
+		// exit if shooter couldn't be resolved
+		Optional<LivingEntity> optShooter = resolveShooter(event);
+		if (!optShooter.isPresent())
 			return;
 
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-		ports.setLivingEntity1(optInvoker.get());
+		ports.setLivingEntity1(optShooter.get());
 		run(ports, DECOY_OPERATOR);
 	}
 

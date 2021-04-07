@@ -21,7 +21,7 @@ public class ShootWitherSkullProjectile2 extends GenericShootProjectile2 {
 
 		// create and spawn projectile
 		DamagingProjectileEntity projectile = EntityType.WITHER_SKULL.create(invoker.getEntityWorld());
-		projectile.shootingEntity = invoker;
+		projectile.setShooter(invoker);		
 		projectile.setPosition(invoker.getPosX(), invoker.getPosY() + invoker.getEyeHeight(), invoker.getPosZ());
 		projectile.setMotion(orientation);
 

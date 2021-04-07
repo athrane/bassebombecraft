@@ -9,7 +9,6 @@ import bassebombecraft.entity.EntityUtils;
 import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 
 /**
  * Reusable predicates.
@@ -69,16 +68,16 @@ public class Predicates {
 
 	/**
 	 * Returns {@linkplain Predicate} which returns true if entity #1 isn't a
-	 * {@linkplain GenericCompositeProjectileEntity} AND the projectile thrower
+	 * {@linkplain GenericCompositeProjectileEntity} AND the projectile shooter
 	 * hasn't the same ID as entity #2.
 	 * 
 	 * @param e1 entity to test.
 	 * 
 	 * @return {@linkplain Predicate} which returns true if if entity #1 isn't a
 	 *         {@linkplain GenericCompositeProjectileEntity} AND the projectile
-	 *         thrower hasn't the same ID as entity #2.
+	 *         shooter hasn't the same ID as entity #2.
 	 */
-	public static Predicate<Entity> isntProjectileThrower(Entity e1) {
+	public static Predicate<Entity> isntProjectileShooter(Entity e1) {
 		return (e2) -> {
 
 			// exit if e1 isn't a composite projectile
@@ -86,8 +85,8 @@ public class Predicates {
 				return true;
 
 			GenericCompositeProjectileEntity projectile = (GenericCompositeProjectileEntity) e1;
-			LivingEntity thrower = projectile.getThrower();
-			return !hasIdenticalUniqueID(thrower, e2);
+			Entity shooter = projectile.getShooter();
+			return !hasIdenticalUniqueID(shooter, e2);
 		};
 	}
 

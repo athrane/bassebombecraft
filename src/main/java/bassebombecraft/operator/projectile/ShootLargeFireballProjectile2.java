@@ -17,7 +17,7 @@ public class ShootLargeFireballProjectile2 extends GenericShootProjectile2 {
 	Entity createProjectile(LivingEntity invoker, Vector3d orientation) {
 		
 		DamagingProjectileEntity projectile = EntityType.FIREBALL.create(invoker.getEntityWorld());
-		projectile.shootingEntity = invoker;		
+		projectile.setShooter(invoker);		
 		projectile.setPosition(invoker.getPosX(), invoker.getPosY() + invoker.getEyeHeight(), invoker.getPosZ());
 		projectile.setMotion(orientation);
 

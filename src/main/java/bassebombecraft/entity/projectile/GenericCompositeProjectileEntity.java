@@ -11,7 +11,7 @@ import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.applyV;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.util.function.Predicates.hasDifferentIds;
-import static bassebombecraft.util.function.Predicates.isntProjectileThrower;
+import static bassebombecraft.util.function.Predicates.isntProjectileShooter;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static bassebombecraft.world.WorldUtils.isLogicalServer;
 import static net.minecraft.entity.projectile.ProjectileHelper.func_234618_a_;
@@ -149,7 +149,7 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 		// FindEntities2: get function to create exclusion predicate using the source
 		// entity
 		Function<Ports, Predicate<Entity>> fnGetPredicate = p -> hasDifferentIds(applyV(fnGetSource, p))
-				.and(isntProjectileThrower(applyV(fnGetSource, p)));
+				.and(isntProjectileShooter(applyV(fnGetSource, p)));
 
 		// FindEntities2: get search range from configuration
 		Function<Ports, Integer> fnGetRange = p -> genericProjectileEntityProjectileHomingAoeRange.get().intValue();
@@ -570,7 +570,7 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 */
 	void electrocute() {
 		projectileModifierPorts.setEntity1(this);
-		projectileModifierPorts.setEntity2(getThrower());
+		projectileModifierPorts.setEntity2(getShooter());
 		run(projectileModifierPorts, ELECTROCUTE_OPERATOR);
 	}
 
@@ -617,10 +617,6 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
-	public LivingEntity getThrower() {
-		return this.invoker;
-	}
-
 	float getWaterDrag() {
 		return 0.6f;
 	}
@@ -659,7 +655,7 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	void addTrailGraphicalEffect() {
 		renderingPorts.setDouble1((double) duration);
 		renderingPorts.setEntity1(this);
-		renderingPorts.setEntity2(getThrower());
+		renderingPorts.setEntity2(getShooter());
 		run(renderingPorts, RENDERING_TRAIL_OP);
 	}
 
