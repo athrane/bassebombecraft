@@ -5,8 +5,11 @@ import java.util.Optional;
 import bassebombecraft.ModConstants;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.effect.LightningBoltEntity;
+import static net.minecraft.util.SoundEvents.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
@@ -14,6 +17,16 @@ import net.minecraft.world.server.ServerWorld;
  * World utility class.
  */
 public class WorldUtils {
+
+	/**
+	 * Sound volume.
+	 */
+	static final float SOUND_VOLUME = 0.5F;
+	
+	/**
+	 * Sound pitch.
+	 */	
+	static final float SOUND_PITCH = 1.0F;
 
 	/**
 	 * Return true if world is at logical client side (i.e. remote).
@@ -96,39 +109,15 @@ public class WorldUtils {
 	 * @param pos   block position where lightning is added.
 	 */
 	public static void addLightningAtBlockPos(World world, BlockPos pos) {
-		LightningBoltEntity bolt = new LightningBoltEntity(world, pos.getX(), pos.getY(), pos.getZ(),
-				ModConstants.LIGHTNING_BOLT_NOT_EFFECT_ONLY);
-		addLightning(bolt, world);
+		
+		// create lightning bolt entity
+        LightningBoltEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(world);
+        lightningboltentity.moveForced(Vector3d.copyCenteredHorizontally(pos));
+        lightningboltentity.setEffectOnly(ModConstants.LIGHTNING_BOLT_NOT_EFFECT_ONLY);
+        world.addEntity(lightningboltentity);
+
+        // play sound
+        lightningboltentity.playSound(ENTITY_LIGHTNING_BOLT_THUNDER, SOUND_VOLUME, SOUND_PITCH);       
 	}
-
-	/**
-	 * Add lightning bolt to the world if the world is either a
-	 * {@linkplain ServerWorld} or a {@linkplain ClientWorld}.
-	 * 
-	 * @param entity lightning bolt which is added to the world.
-	 * @param world  the world where the bolt is added to.
-	 */
-	public static void addLightning(LightningBoltEntity entity, World world) {
-
-		if (isTypeServerWorld(world)) {
-
-			// type cast
-			ServerWorld serverWorld = (ServerWorld) world;
-
-			// add lightning
-			serverWorld.addLightningBolt(entity);
-			return;
-		}
-
-		if (isTypeClientWorld(world)) {
-
-			// type cast
-			ClientWorld serverWorld = (ClientWorld) world;
-
-			// add lightning
-			serverWorld.addLightning(entity);
-			return;
-		}
-
-	}
+	
 }
