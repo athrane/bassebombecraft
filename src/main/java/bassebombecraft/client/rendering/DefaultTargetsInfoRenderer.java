@@ -1,9 +1,7 @@
 package bassebombecraft.client.rendering;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.ModConstants.HUD_TEXT_DISP;
 import static bassebombecraft.ModConstants.TEAM_MEMBERS_TO_RENDER;
-import static bassebombecraft.client.rendering.RenderingUtils.renderHudTextBillboard;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 
 import java.util.Optional;
@@ -55,11 +53,13 @@ public class DefaultTargetsInfoRenderer implements EntityRenderer {
 
 		// render basic info
 		Vector3d textTranslation = new Vector3d(-3, 4, 4);
-		renderHudTextBillboard(translation, textTranslation, TARGETS_LABEL);
-		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 1, 0),
-				"Commander target: " + commanderTargetName);
-		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 2, 0),
-				"Number targets: " + targetsSize);
+		// renderHudTextBillboard(translation, textTranslation, TARGETS_LABEL);
+		// renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP *
+		// 1, 0),
+		// "Commander target: " + commanderTargetName);
+		// renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP *
+		// 2, 0),
+		// "Number targets: " + targetsSize);
 
 		// create counter to use inside loop
 		final AtomicInteger count = new AtomicInteger();
@@ -75,7 +75,8 @@ public class DefaultTargetsInfoRenderer implements EntityRenderer {
 			int disp = 2 + counter;
 			String targetName = m.getName().getUnformattedComponentText();
 			String text = "Target: " + targetName;
-			renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * disp, 0), text);
+			// renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP *
+			// disp, 0), text);
 		});
 
 	}

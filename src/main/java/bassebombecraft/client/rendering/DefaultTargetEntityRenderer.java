@@ -1,13 +1,9 @@
 package bassebombecraft.client.rendering;
 
-import static bassebombecraft.ClientModConstants.TEXT_BILLBOARD_ROTATION;
-import static bassebombecraft.ModConstants.TARGET_LABEL;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.rendering.RenderingUtils.completeSimpleRendering;
 import static bassebombecraft.client.rendering.RenderingUtils.prepareSimpleRendering;
 import static bassebombecraft.client.rendering.RenderingUtils.renderLine;
-import static bassebombecraft.client.rendering.RenderingUtils.renderRectangleBillboard;
-import static bassebombecraft.client.rendering.RenderingUtils.renderTextBillboard;
 import static bassebombecraft.entity.EntityUtils.getTarget;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 
@@ -51,8 +47,9 @@ public class DefaultTargetEntityRenderer implements EntityRenderer {
 
 		// render target billboards
 		Vector3d targetPos = target.getBoundingBox().getCenter();
-		renderRectangleBillboard(playerPos, targetPos);
-		renderTextBillboard(playerPos, targetPos, TARGET_LABEL, TEXT_BILLBOARD_ROTATION);
+		// renderRectangleBillboard(playerPos, targetPos);
+		// renderTextBillboard(playerPos, targetPos, TARGET_LABEL,
+		// TEXT_BILLBOARD_ROTATION);
 
 		// render targeting line
 		double x = info.getRveTranslatedViewX();

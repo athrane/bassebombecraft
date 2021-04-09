@@ -2,12 +2,8 @@ package bassebombecraft.client.rendering;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ClientModConstants.ICON_BILLBOARD_ROTATION;
-import static bassebombecraft.ClientModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.HUD_TEXT_DISP;
-import static bassebombecraft.client.rendering.RenderingUtils.renderTextBillboard;
 import static bassebombecraft.client.rendering.RenderingUtils.renderTriangleBillboard;
-import static bassebombecraft.entity.ai.AiUtils.getFirstRunningAiGoalName;
-import static bassebombecraft.entity.ai.AiUtils.getFirstRunningAiTargetGoalName;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 
 import java.util.Collection;
@@ -70,11 +66,14 @@ public class DefaultTeamRenderer implements EntityRenderer {
 
 		Vector3d entityPos = entity.getBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, ICON_BILLBOARD_ROTATION);
-		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
+		// renderTextBillboard(playerPos, entityPos, TEAM_LABEL,
+		// TEXT_BILLBOARD_ROTATION);
 		entityPos = entityPos.add(0, -HUD_TEXT_DISP, 0);
-		renderTextBillboard(playerPos, entityPos, getFirstRunningAiGoalName(entity), TEXT_BILLBOARD_ROTATION);
+		// renderTextBillboard(playerPos, entityPos, getFirstRunningAiGoalName(entity),
+		// TEXT_BILLBOARD_ROTATION);
 		entityPos = entityPos.add(0, -HUD_TEXT_DISP, 0);
-		renderTextBillboard(playerPos, entityPos, getFirstRunningAiTargetGoalName(entity), TEXT_BILLBOARD_ROTATION);
+		// renderTextBillboard(playerPos, entityPos,
+		// getFirstRunningAiTargetGoalName(entity), TEXT_BILLBOARD_ROTATION);
 		targetRenderer.render(entity, info);
 	}
 

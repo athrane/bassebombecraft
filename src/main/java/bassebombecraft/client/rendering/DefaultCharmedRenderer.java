@@ -1,10 +1,6 @@
 package bassebombecraft.client.rendering;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.ClientModConstants.ICON_BILLBOARD_ROTATION;
-import static bassebombecraft.ClientModConstants.TEXT_BILLBOARD_ROTATION;
-import static bassebombecraft.client.rendering.RenderingUtils.renderTextBillboard;
-import static bassebombecraft.client.rendering.RenderingUtils.renderTriangleBillboard;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 
 import java.util.stream.Stream;
@@ -71,10 +67,11 @@ public class DefaultCharmedRenderer implements EntityRenderer {
 	void renderTeamEntity(CharmedMob charmedMob, Vector3d playerPos, RenderingInfo info) {
 		LivingEntity entity = charmedMob.getEntity();
 		Vector3d entityPos = entity.getBoundingBox().getCenter();
-		renderTriangleBillboard(playerPos, entityPos, ICON_BILLBOARD_ROTATION);
-		renderTextBillboard(playerPos, entityPos, CHARMED_LABEL, TEXT_BILLBOARD_ROTATION);
-		boundingBoxRenderer.render(entity, info);
-		targetRenderer.render(entity, info);
+		// renderTriangleBillboard(playerPos, entityPos, ICON_BILLBOARD_ROTATION);
+		// renderTextBillboard(playerPos, entityPos, CHARMED_LABEL,
+		// TEXT_BILLBOARD_ROTATION);
+		// boundingBoxRenderer.render(entity, info);
+		// targetRenderer.render(entity, info);
 	}
 
 }
