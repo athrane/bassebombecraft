@@ -61,8 +61,7 @@ public abstract class GenericCompositeNullProjectileItem extends GenericComposit
 				projectileConfig.gravity.get()));
 		tooltip.add(new TranslationTextComponent("genericcompositenullprojectileitem.inaccuracy",
 				projectileConfig.inaccuracy.get()));
-		tooltip.add(new TranslationTextComponent("genericcompositenullitem.usage", NULL_I18N_ARGS)
-				.applyTextStyle(DARK_BLUE));
+		tooltip.add(new TranslationTextComponent("genericcompositenullitem.usage", NULL_I18N_ARGS).mergeStyle(DARK_BLUE));
 	}
 
 }
