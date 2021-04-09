@@ -231,7 +231,7 @@ public class BlockUtils {
 	 * @return true if block state has the FACING property defined.
 	 */
 	public static boolean hasFacingProperty(BlockState state) {
-		return state.has(FACING);
+		return state.hasProperty(FACING);
 	}
 
 	/**
@@ -243,7 +243,7 @@ public class BlockUtils {
 	 * @return true if block state has the HORIZONTAL_FACING property defined.
 	 */
 	public static boolean hasHorizontalFacingProperty(BlockState state) {
-		return state.has(HORIZONTAL_FACING);
+		return state.hasProperty(HORIZONTAL_FACING);
 	}
 
 	/**
