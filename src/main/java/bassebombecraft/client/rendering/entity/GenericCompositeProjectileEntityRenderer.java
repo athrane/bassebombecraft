@@ -1,20 +1,21 @@
 package bassebombecraft.client.rendering.entity;
 
+import static net.minecraft.client.renderer.RenderType.getEntityCutout;
+
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 
 import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.util.math.vector.Matrix3f;
-import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Matrix3f;
+import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Vector3f;
 
 /**
  * Client side renderer for generic projectiles
@@ -53,10 +54,10 @@ public abstract class GenericCompositeProjectileEntityRenderer<T extends Entity>
 		matrixStackIn.rotate(Vector3f.YP.rotationDegrees(90.0F));
 		matrixStackIn.scale(SCALE, SCALE, SCALE);
 
-		IVertexBuilder ivertexbuilder = bufferIn.getBuffer(RenderType.entityCutout(getEntityTexture(entity)));
+		IVertexBuilder ivertexbuilder = bufferIn.getBuffer(getEntityCutout(getEntityTexture(entity)));
 		MatrixStack.Entry matrixstack$entry = matrixStackIn.getLast();
-		Matrix4f matrix4f = matrixstack$entry.getMatrix(); 
-		Matrix3f matrix3f = matrixstack$entry.getNormal(); 
+		Matrix4f matrix4f = matrixstack$entry.getMatrix();
+		Matrix3f matrix3f = matrixstack$entry.getNormal();
 
 		for (int j = 0; j < 4; ++j) {
 			matrixStackIn.rotate(Vector3f.YP.rotationDegrees(90.0F));
@@ -96,7 +97,6 @@ public abstract class GenericCompositeProjectileEntityRenderer<T extends Entity>
 				.normal(matrix3f, (float) normalX, (float) normalY, (float) normalZ).endVertex();
 	}
 
-	
 	@Override
 	protected int getBlockLight(T entityIn, BlockPos pos) {
 		return 15;
