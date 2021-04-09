@@ -16,41 +16,36 @@ import net.minecraft.client.renderer.vertex.VertexFormat;
  */
 public class RenderTypes extends RenderType {
 
-	public RenderTypes(String name, VertexFormat format, int p_i225992_3_, int p_i225992_4_, boolean p_i225992_5_,
-			boolean p_i225992_6_, Runnable runnablePre, Runnable runnablePost) {
-		super(name, format, p_i225992_3_, p_i225992_4_, p_i225992_5_, p_i225992_6_, runnablePre, runnablePost);
+	public RenderTypes(String nameIn, VertexFormat formatIn, int drawModeIn, int bufferSizeIn, boolean useDelegateIn,
+			boolean needsSortingIn, Runnable setupTaskIn, Runnable clearTaskIn) {
+		super(nameIn, formatIn, drawModeIn, bufferSizeIn, useDelegateIn, needsSortingIn, setupTaskIn, clearTaskIn);
 	}
 
 	static final LineState THICK_LINES = new LineState(OptionalDouble.of(3.0D));
 
 	static final LineState THIN_LINES = new LineState(OptionalDouble.of(0.5D));
-	
-	public static final RenderType OVERLAY_LINES = get("overlay_lines", DefaultVertexFormats.POSITION_COLOR,
+
+	public static final RenderType OVERLAY_LINES = makeType("overlay_lines", DefaultVertexFormats.POSITION_COLOR,
 			GL11.GL_LINES, 256,
-			RenderType.State.builder().line(THICK_LINES)
-					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).depthTest(DEPTH_ALWAYS)
-					.cull(CULL_DISABLED).lightmap(LIGHTMAP_DISABLED).writeMask(COLOR_WRITE).build(false));
+			RenderType.State.getBuilder().line(THICK_LINES).transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE)
+					.depthTest(DEPTH_ALWAYS).cull(CULL_DISABLED).lightmap(LIGHTMAP_DISABLED).writeMask(COLOR_WRITE)
+					.build(false));
 
-	public static final RenderType DEFAULT_LINES = get("default_lines", DefaultVertexFormats.POSITION_COLOR,
+	public static final RenderType DEFAULT_LINES = makeType("default_lines", DefaultVertexFormats.POSITION_COLOR,
 			GL11.GL_LINES, 256,
-			RenderType.State.builder().line(THICK_LINES)
-					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).depthTest(DEPTH_ALWAYS)
-					.cull(CULL_DISABLED).lightmap(LIGHTMAP_DISABLED).writeMask(COLOR_WRITE).build(false));
+			RenderType.State.getBuilder().line(THICK_LINES).transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE)
+					.depthTest(DEPTH_ALWAYS).cull(CULL_DISABLED).lightmap(LIGHTMAP_DISABLED).writeMask(COLOR_WRITE)
+					.build(false));
 
-	public static final RenderType LIGHTNING_LINES = get("lightning_lines", DefaultVertexFormats.POSITION_COLOR,
-			GL11.GL_LINES, 256,
-			RenderType.State.builder().line(THICK_LINES)
-					.transparency(TRANSLUCENT_TRANSPARENCY)
-					.texture(NO_TEXTURE)
-					.writeMask(COLOR_WRITE).build(false));
+	public static final RenderType LIGHTNING_LINES = makeType("lightning_lines", DefaultVertexFormats.POSITION_COLOR,
+			GL11.GL_LINES, 256, RenderType.State.getBuilder().line(THICK_LINES).transparency(TRANSLUCENT_TRANSPARENCY)
+					.texture(NO_TEXTURE).writeMask(COLOR_WRITE).build(false));
 
-	public static final RenderType PROJECTILE_TRAIL_LINES = get("projectile_trail_lines",
-			DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256, RenderType.State.builder().line(THIN_LINES)
-					.transparency(TRANSLUCENT_TRANSPARENCY)
-					.texture(NO_TEXTURE)
-					.writeMask(COLOR_WRITE).build(false));
+	public static final RenderType PROJECTILE_TRAIL_LINES = makeType("projectile_trail_lines",
+			DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256, RenderType.State.getBuilder().line(THIN_LINES)
+					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).writeMask(COLOR_WRITE).build(false));
 
-	public static final RenderType SIMPLE_LINES = get("simple_lines", DefaultVertexFormats.POSITION_COLOR,
-			GL11.GL_LINES, 256, RenderType.State.builder().line(THIN_LINES).build(false));
+	public static final RenderType SIMPLE_LINES = makeType("simple_lines", DefaultVertexFormats.POSITION_COLOR,
+			GL11.GL_LINES, 256, RenderType.State.getBuilder().line(THIN_LINES).build(false));
 
 }
