@@ -18,7 +18,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 /**
@@ -135,6 +137,20 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 	@Override
 	protected Item getDefaultItem() {
 		return Items.EGG;
+	}
+
+	public void shoot(double x, double y, double z, float velocity, float inaccuracy) {
+		Vector3d vector3d = (new Vector3d(x, y, z)).normalize()
+				.add(this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy,
+						this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy,
+						this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy)
+				.scale((double) velocity);
+		this.setMotion(vector3d);
+		float f = MathHelper.sqrt(horizontalMag(vector3d));
+		this.rotationYaw = (float) (MathHelper.atan2(vector3d.x, vector3d.z) * (double) (180F / (float) Math.PI));
+		this.rotationPitch = (float) (MathHelper.atan2(vector3d.y, (double) f) * (double) (180F / (float) Math.PI));
+		this.prevRotationYaw = this.rotationYaw;
+		this.prevRotationPitch = this.rotationPitch;
 	}
 
 }
