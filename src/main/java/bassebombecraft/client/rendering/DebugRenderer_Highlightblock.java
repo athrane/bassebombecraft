@@ -61,7 +61,7 @@ public class DebugRenderer_Highlightblock {
 
 		// Get block type
 		BlockState blockstate = world.getBlockState(blockPos);
-		String message = blockstate.getBlock().getNameTextComponent().getUnformattedComponentText();
+		String message = blockstate.getBlock().getTranslatedName().getUnformattedComponentText();
 
 		MatrixStack matrixStack = event.getMatrix();
 		matrixStack.push();
