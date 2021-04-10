@@ -7,7 +7,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of {@linkplain EntityMistActionStrategy} for construction of
@@ -30,9 +30,9 @@ public class EmitVerticalForceMist implements EntityMistActionStrategy {
 			PARTICLE_SPEED);
 
 	@Override
-	public void applyEffectToEntity(LivingEntity target, Vec3d mistPos, LivingEntity invoker) {
+	public void applyEffectToEntity(LivingEntity target, Vector3d mistPos, LivingEntity invoker) {
 		// push mob
-		Vec3d motionVecForced = new Vec3d(0, FORCE, 0);
+		Vector3d motionVecForced = new Vector3d(0, FORCE, 0);
 		target.move(MoverType.SELF, motionVecForced);
 	}
 

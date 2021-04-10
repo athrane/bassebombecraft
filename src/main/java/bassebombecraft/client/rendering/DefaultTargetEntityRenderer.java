@@ -1,13 +1,9 @@
 package bassebombecraft.client.rendering;
 
-import static bassebombecraft.ClientModConstants.TEXT_BILLBOARD_ROTATION;
-import static bassebombecraft.ModConstants.TARGET_LABEL;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 import static bassebombecraft.client.rendering.RenderingUtils.completeSimpleRendering;
 import static bassebombecraft.client.rendering.RenderingUtils.prepareSimpleRendering;
 import static bassebombecraft.client.rendering.RenderingUtils.renderLine;
-import static bassebombecraft.client.rendering.RenderingUtils.renderRectangleBillboard;
-import static bassebombecraft.client.rendering.RenderingUtils.renderTextBillboard;
 import static bassebombecraft.entity.EntityUtils.getTarget;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 
@@ -16,7 +12,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import bassebombecraft.entity.EntityUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Renderer} for rendering the target of
@@ -47,19 +43,20 @@ public class DefaultTargetEntityRenderer implements EntityRenderer {
 		PlayerEntity player = getClientSidePlayer();
 
 		// get player position
-		Vec3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
+		Vector3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
 
 		// render target billboards
-		Vec3d targetPos = target.getBoundingBox().getCenter();
-		renderRectangleBillboard(playerPos, targetPos);
-		renderTextBillboard(playerPos, targetPos, TARGET_LABEL, TEXT_BILLBOARD_ROTATION);
+		Vector3d targetPos = target.getBoundingBox().getCenter();
+		// renderRectangleBillboard(playerPos, targetPos);
+		// renderTextBillboard(playerPos, targetPos, TARGET_LABEL,
+		// TEXT_BILLBOARD_ROTATION);
 
 		// render targeting line
 		double x = info.getRveTranslatedViewX();
 		double y = info.getRveTranslatedViewYOffsetWithPlayerEyeHeight();
 		double z = info.getRveTranslatedViewZ();
-		Vec3d start = entity.getBoundingBox().getCenter();
-		Vec3d end = target.getBoundingBox().getCenter();
+		Vector3d start = entity.getBoundingBox().getCenter();
+		Vector3d end = target.getBoundingBox().getCenter();
 
 		prepareSimpleRendering(x, y, z);
 		GlStateManager.color4f(1F, 1F, 1F, 1F);

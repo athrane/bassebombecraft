@@ -6,6 +6,7 @@ import static bassebombecraft.config.ModConfiguration.spawnKittenArmyAge;
 import static bassebombecraft.config.ModConfiguration.spawnKittenArmyEntities;
 import static bassebombecraft.config.ModConfiguration.spawnKittenArmyNames;
 import static bassebombecraft.config.ModConfiguration.spawnKittenArmySpawnArea;
+import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
 import static bassebombecraft.entity.ai.AiUtils.buildKittenArmyAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
@@ -14,6 +15,7 @@ import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.CatEntity;
@@ -71,6 +73,9 @@ public class SpawnKittenArmy implements ProjectileAction {
 	@Override
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
 		try {
+			// get shooter
+			Entity shooter = projectile.getShooter();
+			
 			for (int i = 0; i < kittens; i++) {
 
 				// create cat
@@ -82,25 +87,26 @@ public class SpawnKittenArmy implements ProjectileAction {
 				else
 					entity.setGrowingAge(age);
 
-				// set owner
-				LivingEntity owner = projectile.getThrower();
-
 				// set tamed by player
-				if (isTypePlayerEntity(owner)) {
-					PlayerEntity player = (PlayerEntity) owner;
+				if (isTypePlayerEntity(shooter)) {
+					PlayerEntity player = (PlayerEntity) shooter;
 					entity.setTamedBy(player);
 				}
 
 				// calculate random spawn position
 				setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnSize, entity);
 
-				// add entity to team
-				getProxy().getServerTeamRepository().add(owner, entity);
+				// if shooter is a living entity then add entity to shooters team
+				if (isTypeLivingEntity(shooter)) {
+					getProxy().getServerTeamRepository().add((LivingEntity) shooter, entity);
+				}
 
-				// set AI
-				clearAllAiGoals(entity);
-				buildKittenArmyAi(entity, owner);
-
+				// if shooter is a living entity then configure AI
+				if (isTypeLivingEntity(shooter)) {
+					clearAllAiGoals(entity);
+					buildKittenArmyAi(entity, (LivingEntity) shooter);					
+				}
+				
 				// set name
 				Random random = getBassebombeCraft().getRandom();
 				ITextComponent name = new StringTextComponent(getKittenName(random, i));

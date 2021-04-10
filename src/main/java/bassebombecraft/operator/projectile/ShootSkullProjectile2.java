@@ -7,7 +7,7 @@ import bassebombecraft.entity.projectile.SkullProjectileEntity;
 import bassebombecraft.operator.Operator2;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which shoots composite
@@ -19,7 +19,7 @@ import net.minecraft.util.math.Vec3d;
 public class ShootSkullProjectile2 extends GenericShootProjectile2 {
 
 	@Override
-	Entity createProjectile(LivingEntity invoker, Vec3d orientation) {
+	Entity createProjectile(LivingEntity invoker, Vector3d orientation) {
 		GenericCompositeProjectileEntity projectile = new SkullProjectileEntity(SKULL_PROJECTILE, invoker);
 		projectile.doShoot(orientation);
 		return projectile;

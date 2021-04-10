@@ -1,6 +1,8 @@
 package bassebombecraft.item;
 
 import static bassebombecraft.ModConstants.MODID;
+import static net.minecraftforge.registries.DeferredRegister.create;
+import static net.minecraftforge.registries.ForgeRegistries.ITEMS;
 
 import java.util.function.Supplier;
 
@@ -50,7 +52,6 @@ import bassebombecraft.item.book.NaturalizeBook;
 import bassebombecraft.item.book.PrimedCreeperCannonBook;
 import bassebombecraft.item.book.RainbownizeBook;
 import bassebombecraft.item.book.ReceiveAggroBook;
-import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.SmallFireballRingBook;
 import bassebombecraft.item.book.Spawn100ChickensBook;
@@ -144,7 +145,6 @@ import bassebombecraft.item.inventory.WarPigsIdolInventoryItem;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
-import static net.minecraftforge.registries.ForgeRegistries.*;
 
 /**
  * Registry objects for registered items.
@@ -154,7 +154,7 @@ public class RegisteredItems {
 	/**
 	 * Deferred registry for registration of items.
 	 */
-	public static final DeferredRegister<Item> ITEMS_REGISTRY = new DeferredRegister<>(ITEMS, MODID);
+	public static final DeferredRegister<Item> ITEMS_REGISTRY = create(ITEMS, MODID);
 
 	/**
 	 * Other items
@@ -167,7 +167,6 @@ public class RegisteredItems {
 	 * Books
 	 */
 	public static final RegistryObject<Item> TELEPORT_BOOK = register(TeleportBook::new);
-	public static final RegistryObject<Item> SPAWNPOINT_BOOK = register(SetSpawnPointBook::new);
 	public static final RegistryObject<Item> FIREBALL_BOOK = register(SmallFireballBook::new);
 	public static final RegistryObject<Item> FIREBALL2_BOOK = register(LargeFireballBook::new);
 	public static final RegistryObject<Item> FIREBALL_RING_BOOK = register(SmallFireballRingBook::new);
@@ -273,7 +272,8 @@ public class RegisteredItems {
 	public static final RegistryObject<Item> FORMATION5 = register(FrontAndBackProjectileFormationItem::new);
 	public static final RegistryObject<Item> FORMATION_MOD1 = register(RandomProjectileFormationModifierItem::new);
 	public static final RegistryObject<Item> FORMATION_MOD2 = register(InaccuracyProjectileFormationModifierItem::new);
-	public static final RegistryObject<Item> FORMATION_MOD3 = register(OscillatingRotation180DProjectileFormationModifierItem::new);
+	public static final RegistryObject<Item> FORMATION_MOD3 = register(
+			OscillatingRotation180DProjectileFormationModifierItem::new);
 	public static final RegistryObject<Item> PROJECTILE1 = register(LlamaProjectileItem::new);
 	public static final RegistryObject<Item> PROJECTILE2 = register(EggProjectileItem::new);
 	public static final RegistryObject<Item> PROJECTILE3 = register(LightningProjectileItem::new);
@@ -285,8 +285,8 @@ public class RegisteredItems {
 	public static final RegistryObject<Item> PROJECTILE_PATH6 = register(CircleProjectilePathItem::new);
 	public static final RegistryObject<Item> PROJECTILE_PATH7 = register(IncreaseGravityProjectilePathItem::new);
 	public static final RegistryObject<Item> PROJECTILE_PATH8 = register(DecreaseGravityProjectilePathItem::new);
-	public static final RegistryObject<Item> PROJECTILE_PATH9 = register(TeleportProjectilePathItem::new);	
-	public static final RegistryObject<Item> PROJECTILE_PATH10 = register(HomingProjectilePathItem::new);	
+	public static final RegistryObject<Item> PROJECTILE_PATH9 = register(TeleportProjectilePathItem::new);
+	public static final RegistryObject<Item> PROJECTILE_PATH10 = register(HomingProjectilePathItem::new);
 	public static final RegistryObject<Item> MODIFIER1 = register(TeleportInvokerProjectileModifierItem::new);
 	public static final RegistryObject<Item> MODIFIER2 = register(TeleportMobProjectileModifierItem::new);
 	public static final RegistryObject<Item> MODIFIER3 = register(CharmProjectileModifierItem::new);

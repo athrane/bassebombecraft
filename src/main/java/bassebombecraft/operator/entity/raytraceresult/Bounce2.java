@@ -16,7 +16,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.Direction.Axis;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which bounces
@@ -67,7 +67,7 @@ public class Bounce2 implements Operator2 {
 		Entity projectile = applyV(fnGetProjectile, ports);
 
 		// get motion vector
-		Vec3d motionVector = projectile.getMotion();
+		Vector3d motionVector = projectile.getMotion();
 		if (motionVector == null)
 			return;
 
@@ -90,7 +90,7 @@ public class Bounce2 implements Operator2 {
 			Axis impactAxis = impactFace.getAxis();
 
 			// calculate bounced motion vector
-			Vec3d bouncedVector = bounceMotionVector(impactAxis, motionVector);
+			Vector3d bouncedVector = bounceMotionVector(impactAxis, motionVector);
 
 			// set bounced motion
 			projectile.setMotion(bouncedVector);
@@ -105,7 +105,7 @@ public class Bounce2 implements Operator2 {
 	 * 
 	 * @return bounced motion vector
 	 */
-	Vec3d bounceMotionVector(Axis impactAxis, Vec3d motionVector) {
+	Vector3d bounceMotionVector(Axis impactAxis, Vector3d motionVector) {
 		switch (impactAxis) {
 		case X:
 			return motionVector.mul(-1, 1, 1);

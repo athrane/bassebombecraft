@@ -5,7 +5,7 @@ import java.util.function.Supplier;
 import bassebombecraft.entity.EntityUtils;
 import bassebombecraft.operator.Operator;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.ai.attributes.Attribute;
 
 /**
  * Implementation of the {@linkplain Operator} interface which executes the
@@ -26,7 +26,7 @@ public class IfEntityAttributeIsDefined implements Operator {
 	/**
 	 * Entity Attribute to test for.
 	 */
-	IAttribute attribute;
+	Attribute attribute;
 
 	/**
 	 * Constructor.
@@ -35,7 +35,7 @@ public class IfEntityAttributeIsDefined implements Operator {
 	 * @param operator  embedded operator which is executed if effect is active.
 	 * @param attribute attribute to test for.
 	 */
-	public IfEntityAttributeIsDefined(Supplier<LivingEntity> splEntity, Operator operator, IAttribute attribute) {
+	public IfEntityAttributeIsDefined(Supplier<LivingEntity> splEntity, Operator operator, Attribute attribute) {
 		this.splEntity = splEntity;
 		this.operator = operator;
 		this.attribute = attribute;

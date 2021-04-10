@@ -2,11 +2,14 @@ package bassebombecraft.projectile.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.config.ModConfiguration.spawnCreeperArmyEntities;
+import static bassebombecraft.config.ModConfiguration.spawnCreeperArmySpawnArea;
+import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
 import static bassebombecraft.entity.ai.AiUtils.buildCreeperArmyAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 
-import static bassebombecraft.config.ModConfiguration.*;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.CreeperEntity;
@@ -45,13 +48,16 @@ public class SpawnCreeperArmy implements ProjectileAction {
 	 */
 	public SpawnCreeperArmy() {
 		entities = spawnCreeperArmyEntities.get();
-		spawnArea =spawnCreeperArmySpawnArea.get();
+		spawnArea = spawnCreeperArmySpawnArea.get();
 	}
 
 	@Override
 	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
 
 		try {
+
+			// get shooter
+			Entity shooter = projectile.getShooter();
 
 			for (int i = 0; i < entities; i++) {
 
@@ -61,15 +67,16 @@ public class SpawnCreeperArmy implements ProjectileAction {
 				// calculate random spawn position
 				setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnArea, entity);
 
-				// get owner
-				LivingEntity thrower = projectile.getThrower();
+				// if shooter is a living entity then add entity to shooters team
+				if (isTypeLivingEntity(shooter)) {
+					getProxy().getServerTeamRepository().add((LivingEntity) shooter, entity);
+				}
 
-				// add entity to team
-				getProxy().getServerTeamRepository().add(thrower, entity);
-
-				// set AI
-				clearAllAiGoals(entity);
-				buildCreeperArmyAi(entity, thrower);
+				// if shooter is a living entity then configure AI
+				if (isTypeLivingEntity(shooter)) {
+					clearAllAiGoals(entity);
+					buildCreeperArmyAi(entity, (LivingEntity) shooter);					
+				}
 
 				// spawn
 				world.addEntity(entity);

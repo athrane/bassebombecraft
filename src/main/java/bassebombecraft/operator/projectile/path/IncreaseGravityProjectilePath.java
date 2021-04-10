@@ -9,7 +9,7 @@ import java.util.function.Function;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which increases the
@@ -64,7 +64,7 @@ public class IncreaseGravityProjectilePath implements Operator2 {
 		double gravity = applyV(fnGetGravity, ports);
 
 		// get motion vector
-		Vec3d motionVector = projectile.getMotion();
+		Vector3d motionVector = projectile.getMotion();
 		if (motionVector == null)
 			return;
 

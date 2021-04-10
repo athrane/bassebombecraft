@@ -20,15 +20,15 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.Vector3f;
-import net.minecraft.client.renderer.Vector4f;
+import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.util.math.vector.Vector4f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 /**
@@ -64,12 +64,12 @@ public class RenderingUtils {
 	 * @return render position.
 	 */
 	@Deprecated
-	public static Vec3d getRenderPos() {
+	public static Vector3d getRenderPos() {
 
 		Minecraft mc = Minecraft.getInstance();
 		ActiveRenderInfo info = mc.gameRenderer.getActiveRenderInfo();
-		Vec3d pv = info.getProjectedView();
-		Vec3d renderPos = new Vec3d(pv.getX(), pv.getY(), pv.getZ());
+		Vector3d pv = info.getProjectedView();
+		Vector3d renderPos = new Vector3d(pv.getX(), pv.getY(), pv.getZ());
 		return renderPos;
 	}
 
@@ -146,7 +146,7 @@ public class RenderingUtils {
 	 * @param targetPos target position
 	 */
 	@Deprecated
-	public static void renderLineBillboard(Vec3d playerPos, Vec3d entityPos, Vec3d targetPos) {
+	public static void renderLineBillboard(Vector3d playerPos, Vector3d entityPos, Vector3d targetPos) {
 		setupBillboardRendering();
 
 		// set line width & color
@@ -184,7 +184,7 @@ public class RenderingUtils {
 	 * @param entityPos entity position
 	 */
 	@Deprecated
-	public static void renderRectangleBillboard(Vec3d playerPos, Vec3d entityPos) {
+	public static void renderRectangleBillboard(Vector3d playerPos, Vector3d entityPos) {
 		setupBillboardRendering();
 
 		// set line width & color
@@ -233,7 +233,7 @@ public class RenderingUtils {
 	 * @param rotation  rotation
 	 */
 	@Deprecated
-	public static void renderTriangleBillboard(Vec3d playerPos, Vec3d entityPos, Vector4f rotation) {
+	public static void renderTriangleBillboard(Vector3d playerPos, Vector3d entityPos, Vector4f rotation) {
 		setupBillboardRendering();
 
 		// set line width & color
@@ -280,7 +280,7 @@ public class RenderingUtils {
 	 * @param entityPos entity position
 	 */
 	@Deprecated
-	public static void renderDebugBillboard(Vec3d playerPos, Vec3d entityPos) {
+	public static void renderDebugBillboard(Vector3d playerPos, Vector3d entityPos) {
 		setupBillboardRendering();
 
 		// X/R
@@ -365,182 +365,6 @@ public class RenderingUtils {
 	}
 
 	/**
-	 * Render text at origin.
-	 * 
-	 * @param playerPos player position
-	 * @param entityPos entity position
-	 * @param text      text to render
-	 * @param rotation  rotation
-	 */
-	@Deprecated
-	public static void renderTextBillboard(Vec3d playerPos, Vec3d entityPos, String text, Vector4f rotation) {
-		renderTextBillboard(playerPos, entityPos, text, rotation, ClientModConstants.TEXT_COLOR);
-	}
-
-	/**
-	 * Render text at origin.
-	 * 
-	 * @param playerPos player position
-	 * @param entityPos entity position
-	 * @param text      text to render
-	 * @param rotation  rotation
-	 * @param textColor text color
-	 */
-	public static void renderTextBillboard(Vec3d playerPos, Vec3d entityPos, String text, Vector4f rotation,
-			int textColor) {
-		setupBillboardRendering();
-
-		// get minecraft
-		Minecraft mcClient = Minecraft.getInstance();
-
-		// enable for rendering of text
-		GlStateManager.enableTexture();
-
-		// translate to camera position
-		GlStateManager.translated(entityPos.x - playerPos.x, entityPos.y - playerPos.y, entityPos.z - playerPos.z);
-
-		// set up billboard rotation
-		setupBillboardRotation();
-
-		// scale text
-		GlStateManager.scalef(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
-
-		// add addition rotation
-		GlStateManager.rotatef(rotation.getW(), rotation.getX(), rotation.getY(), rotation.getZ());
-
-		// draw
-		mcClient.fontRenderer.drawString(text, 0, 0, textColor);
-
-		resetBillboardRendering();
-	}
-
-	/**
-	 * Render text at origin for rendering of HUD text.
-	 * 
-	 * This method supports translation of the text relative to the player view
-	 * direction and independent of the camera (or player) orientation and
-	 * placement.
-	 * 
-	 * @param cameraTranslation camera translation vector.
-	 * @param textTranslation   text translation vector for translation of text
-	 *                          relative to view direction. Defines the placement of
-	 *                          the HUD text.
-	 * @param text              text to render
-	 */
-	@Deprecated
-	public static void renderHudTextBillboard(Vec3d cameraTranslation, Vec3d textTranslation, String text) {
-		setupBillboardRendering();
-
-		// get minecraft
-		Minecraft mc = Minecraft.getInstance();
-
-		// translate to camera position
-		RenderSystem.translated(cameraTranslation.x, cameraTranslation.y, cameraTranslation.z);
-
-		// set up billboard rotation
-		setupBillboardRotation();
-
-		// translation of text relative to view direction.
-		// Defines the placement of the HUD text
-		RenderSystem.translated(textTranslation.x, textTranslation.y, textTranslation.z);
-
-		// scale text
-		RenderSystem.scaled(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
-
-		// add billboard rotation for text readability
-		RenderSystem.rotatef(180, 0, 0, 1);
-
-		// draw
-		mc.fontRenderer.drawString(text, 0, 0, ClientModConstants.TEXT_COLOR);
-
-		resetBillboardRendering();
-	}
-
-	/**
-	 * Render text at origin for rendering of HUD text.
-	 * 
-	 * This method supports translation of the text relative to the player view
-	 * direction and independent of the camera (or player) orientation and
-	 * placement.
-	 * 
-	 * @param textTranslation text translation vector for translation of text
-	 *                        relative to view direction. Defines the placement of
-	 *                        the HUD text.
-	 * @param text            text to render
-	 */
-	public static void renderHudTextBillboard(Vec3d textTranslation, String text) {
-		setupBillboardRendering();
-
-		// get minecraft
-		Minecraft mcClient = Minecraft.getInstance();
-
-		// set up billboard rotation
-		setupBillboardRotation();
-
-		// translation of text relative to view direction.
-		// Defines the placement of the HUD text
-		RenderSystem.translated(textTranslation.x, textTranslation.y, textTranslation.z);
-
-		// scale text
-		RenderSystem.scaled(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
-
-		// add billboard rotation around z-axis for text readability
-		RenderSystem.rotatef(180, 0, 0, 1);
-
-		// draw
-		mcClient.fontRenderer.drawString(text, 0, 0, ClientModConstants.TEXT_COLOR);
-
-		resetBillboardRendering();
-	}
-
-	/**
-	 * Render rotated text at origin for rendering compass.
-	 * 
-	 * This method supports rotation of the text relative to the player view
-	 * direction and independent of the camera (or) player orientation and
-	 * placement.
-	 * 
-	 * @param cameraTranslation camera translation vector.
-	 * @param text              text to render
-	 * @param rotation          rotation rotation vector for rotation of text
-	 *                          relative to view direction.
-	 */
-	@Deprecated
-	public static void renderRotatedTextBillboard(Vec3d cameraTranslation, Vector4f rotation, String text) {
-		setupBillboardRendering();
-
-		// get minecraft
-		Minecraft mcClient = Minecraft.getInstance();
-
-		// enable for rendering of text
-		GlStateManager.enableTexture();
-
-		// add addition rotation
-		GlStateManager.rotatef(rotation.getW(), rotation.getX(), rotation.getY(), rotation.getZ());
-
-		// translate to camera position
-		GlStateManager.translated(cameraTranslation.x, cameraTranslation.y, cameraTranslation.z);
-
-		// add addition rotation
-		GlStateManager.rotatef(rotation.getW(), -rotation.getX(), -rotation.getY(), -rotation.getZ());
-
-		// set up billboard rotation
-		setupBillboardRotation();
-
-		// scale text
-		GlStateManager.scalef(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
-
-		// add billboard rotation for text readability
-		GlStateManager.rotatef(TEXT_BILLBOARD_ROTATION.getW(), TEXT_BILLBOARD_ROTATION.getX(),
-				TEXT_BILLBOARD_ROTATION.getY(), TEXT_BILLBOARD_ROTATION.getZ());
-
-		// draw
-		mcClient.fontRenderer.drawString(text, 0, 0, ClientModConstants.TEXT_COLOR);
-
-		resetBillboardRendering();
-	}
-
-	/**
 	 * Render billboard text.
 	 * 
 	 * Supports rendering of billboard text in the renderer instances handling
@@ -563,7 +387,7 @@ public class RenderingUtils {
 		matrixStack.rotate(renderManager.getCameraOrientation());
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
 		matrixStack.translate(0, 0, ClientModConstants.TEXT_Z_TRANSLATION);
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 		fontRenderer.renderString(text, x, y, ClientModConstants.TEXT_COLOR, DROP_SHADOW, positionMatrix, buffer,
 				IS_TRANSPARENT, TEXT_EFFECT, PACKED_LIGHT);
 		matrixStack.pop();
@@ -791,7 +615,7 @@ public class RenderingUtils {
 	 * @param start start position.
 	 * @param end   end position.
 	 */
-	public static void renderLine(Vec3d start, Vec3d end) {
+	public static void renderLine(Vector3d start, Vector3d end) {
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuffer();
 		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);

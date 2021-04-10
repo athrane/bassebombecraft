@@ -2,7 +2,7 @@ package bassebombecraft.item.action.mist.entity;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Strategy for entity mist action.
@@ -19,7 +19,7 @@ public interface EntityMistActionStrategy {
 	 * @param invoker
 	 *            invoker entity.
 	 */
-	void applyEffectToEntity(LivingEntity target, Vec3d mistPos, LivingEntity invoker);
+	void applyEffectToEntity(LivingEntity target, Vector3d mistPos, LivingEntity invoker);
 
 	/**
 	 * Return effect duration.

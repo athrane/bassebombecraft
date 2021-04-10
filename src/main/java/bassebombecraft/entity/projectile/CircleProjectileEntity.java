@@ -22,7 +22,7 @@ public class CircleProjectileEntity extends GenericCompositeProjectileEntity {
 	 * @param type  entity type.
 	 * @param world world object.
 	 */
-	public CircleProjectileEntity(EntityType<?> type, World world) {
+	public CircleProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, World world) {
 		super(type, world, circleProjectileEntity);
 	}
 
@@ -32,7 +32,7 @@ public class CircleProjectileEntity extends GenericCompositeProjectileEntity {
 	 * @param type    entity type.
 	 * @param invoker projectile invoker.
 	 */
-	public CircleProjectileEntity(EntityType<?> type, LivingEntity invoker) {
+	public CircleProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, LivingEntity invoker) {
 		super(type, invoker, circleProjectileEntity);
 	}
 

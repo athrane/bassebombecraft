@@ -9,7 +9,7 @@ import java.util.function.Function;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which computes random
@@ -78,7 +78,7 @@ public class HomingProjectilePath implements Operator2 {
 		Entity[] entities = applyV(fnGetEntities1, ports);
 
 		// get motion vector
-		Vec3d motionVector = projectile.getMotion();
+		Vector3d motionVector = projectile.getMotion();
 		if (motionVector == null)
 			return;
 
@@ -98,21 +98,21 @@ public class HomingProjectilePath implements Operator2 {
 		double motionVectorLength = motionVector.length();
 
 		// normalize motion vector vector
-		Vec3d motionVectorNormalized = motionVector.normalize();
+		Vector3d motionVectorNormalized = motionVector.normalize();
 
 		// calculate direction vector
-		Vec3d targetPos = target.getPositionVec();
-		Vec3d projectilePos = projectile.getPositionVec();
-		Vec3d desiredDirection = targetPos.subtract(projectilePos);
+		Vector3d targetPos = target.getPositionVec();
+		Vector3d projectilePos = projectile.getPositionVec();
+		Vector3d desiredDirection = targetPos.subtract(projectilePos);
 
 		// normalize direction vector
-		Vec3d desiredDirectionNormalized = desiredDirection.normalize();
+		Vector3d desiredDirectionNormalized = desiredDirection.normalize();
 
 		// calculate steering vector
-		Vec3d steeringForce = desiredDirectionNormalized.subtract(motionVectorNormalized);
+		Vector3d steeringForce = desiredDirectionNormalized.subtract(motionVectorNormalized);
 
-		Vec3d steeringForceScaled = steeringForce.scale(HOMING_FACTOR);
-		Vec3d newMotionVector = motionVectorNormalized.add(steeringForceScaled);
+		Vector3d steeringForceScaled = steeringForce.scale(HOMING_FACTOR);
+		Vector3d newMotionVector = motionVectorNormalized.add(steeringForceScaled);
 
 		// normalize and scale motion vector to preserve original length
 		newMotionVector = newMotionVector.normalize();

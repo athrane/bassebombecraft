@@ -1,6 +1,7 @@
 package bassebombecraft.inventory.container;
 
 import static bassebombecraft.ModConstants.MODID;
+import static net.minecraftforge.registries.DeferredRegister.create;
 import static net.minecraftforge.registries.ForgeRegistries.CONTAINERS;
 
 import net.minecraft.inventory.container.ContainerType;
@@ -16,8 +17,7 @@ public class RegisteredContainers {
 	/**
 	 * Deferred registry for registration of container.
 	 */
-	public static final DeferredRegister<ContainerType<?>> CONTAINER_REGISTRY = new DeferredRegister<>(CONTAINERS,
-			MODID);
+	public static final DeferredRegister<ContainerType<?>> CONTAINER_REGISTRY = create(CONTAINERS, MODID);
 
 	/**
 	 * Registry object for {@linkplain CompositeMagicItemContainer}.

@@ -22,7 +22,7 @@ public class EggProjectileEntity extends GenericCompositeProjectileEntity {
 	 * @param type  entity type.
 	 * @param world world object.
 	 */
-	public EggProjectileEntity(EntityType<?> type, World world) {
+	public EggProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, World world) {
 		super(type, world, eggProjectileEntity);
 	}
 
@@ -32,7 +32,7 @@ public class EggProjectileEntity extends GenericCompositeProjectileEntity {
 	 * @param type    entity type.
 	 * @param invoker projectile invoker.
 	 */
-	public EggProjectileEntity(EntityType<?> type, LivingEntity invoker) {
+	public EggProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, LivingEntity invoker) {
 		super(type, invoker, eggProjectileEntity);
 	}
 

@@ -10,7 +10,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 /**
@@ -154,46 +154,46 @@ public interface Ports {
 	Ports setDouble1(Double value);
 
 	/**
-	 * Return {@linkplain Vec3d} #1.
+	 * Return {@linkplain Vector3d} #1.
 	 * 
 	 * @return vector #1.
 	 */
-	Vec3d getVector1();
+	Vector3d getVector1();
 
 	/**
-	 * Set {@linkplain Vec3d} #1.
+	 * Set {@linkplain Vector3d} #1.
 	 * 
 	 * @param vec vector #1.
 	 */
-	Ports setVector1(Vec3d vec);
+	Ports setVector1(Vector3d vec);
 
 	/**
-	 * Return {@linkplain Vec3d[]} #1.
+	 * Return {@linkplain Vector3d[]} #1.
 	 * 
 	 * @return vector array #1.
 	 */
-	Vec3d[] getVectors1();
+	Vector3d[] getVectors1();
 
 	/**
-	 * Set {@linkplain Vec3d[]} #1.
+	 * Set {@linkplain Vector3d[]} #1.
 	 * 
 	 * @param vec vector array #1.
 	 */
-	Ports setVectors1(Vec3d[] vec);
+	Ports setVectors1(Vector3d[] vec);
 
 	/**
-	 * Set {@linkplain Vec3d[]} #2.
+	 * Set {@linkplain Vector3d[]} #2.
 	 * 
 	 * @param vec vector array #2.
 	 */
-	Ports setVectors2(Vec3d[] vec);
+	Ports setVectors2(Vector3d[] vec);
 
 	/**
-	 * Return {@linkplain Vec3d[]} #2.
+	 * Return {@linkplain Vector3d[]} #2.
 	 * 
 	 * @return vector array #2.
 	 */
-	Vec3d[] getVectors2();
+	Vector3d[] getVectors2();
 
 	/**
 	 * Return {@linkplain Color4f} #1.

@@ -1,10 +1,6 @@
 package bassebombecraft.client.rendering;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.ClientModConstants.ICON_BILLBOARD_ROTATION;
-import static bassebombecraft.ClientModConstants.TEXT_BILLBOARD_ROTATION;
-import static bassebombecraft.client.rendering.RenderingUtils.renderTextBillboard;
-import static bassebombecraft.client.rendering.RenderingUtils.renderTriangleBillboard;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 
 import java.util.stream.Stream;
@@ -14,7 +10,7 @@ import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.player.PlayerUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Renderer} for rendering targeted entities
@@ -49,7 +45,7 @@ public class DefaultCharmedRenderer implements EntityRenderer {
 		PlayerEntity player = (PlayerEntity) entity;
 
 		// get player position
-		Vec3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
+		Vector3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
 
 		// get charmed entities
 		CharmedMobsRepository repository = getProxy().getClientCharmedMobsRepository();
@@ -68,13 +64,14 @@ public class DefaultCharmedRenderer implements EntityRenderer {
 	 * @param playerPos player position
 	 * @param info      rendering info.
 	 */
-	void renderTeamEntity(CharmedMob charmedMob, Vec3d playerPos, RenderingInfo info) {
+	void renderTeamEntity(CharmedMob charmedMob, Vector3d playerPos, RenderingInfo info) {
 		LivingEntity entity = charmedMob.getEntity();
-		Vec3d entityPos = entity.getBoundingBox().getCenter();
-		renderTriangleBillboard(playerPos, entityPos, ICON_BILLBOARD_ROTATION);
-		renderTextBillboard(playerPos, entityPos, CHARMED_LABEL, TEXT_BILLBOARD_ROTATION);
-		boundingBoxRenderer.render(entity, info);
-		targetRenderer.render(entity, info);
+		Vector3d entityPos = entity.getBoundingBox().getCenter();
+		// renderTriangleBillboard(playerPos, entityPos, ICON_BILLBOARD_ROTATION);
+		// renderTextBillboard(playerPos, entityPos, CHARMED_LABEL,
+		// TEXT_BILLBOARD_ROTATION);
+		// boundingBoxRenderer.render(entity, info);
+		// targetRenderer.render(entity, info);
 	}
 
 }

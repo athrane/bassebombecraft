@@ -84,8 +84,7 @@ public abstract class GenericCompositeNullItem extends Item {
 		String typeName = resolveCompositeItemTypeFromString(this);
 		tooltip.add(new TranslationTextComponent(GREEN + this.tooltip));
 		tooltip.add(new TranslationTextComponent("genericcompositenullitem.type", typeName));
-		tooltip.add(new TranslationTextComponent("genericcompositenullitem.usage", NULL_I18N_ARGS)
-				.applyTextStyle(DARK_BLUE));
+		tooltip.add(new TranslationTextComponent("genericcompositenullitem.usage", NULL_I18N_ARGS).mergeStyle(DARK_BLUE));
 	}
 
 	/**

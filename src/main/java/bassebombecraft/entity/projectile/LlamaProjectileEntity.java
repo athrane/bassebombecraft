@@ -22,7 +22,7 @@ public class LlamaProjectileEntity extends GenericCompositeProjectileEntity {
 	 * @param type  entity type.
 	 * @param world world object.
 	 */
-	public LlamaProjectileEntity(EntityType<?> type, World world) {
+	public LlamaProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, World world) {
 		super(type, world, llamaProjectileEntity);
 	}
 
@@ -32,7 +32,7 @@ public class LlamaProjectileEntity extends GenericCompositeProjectileEntity {
 	 * @param type    entity type.
 	 * @param invoker projectile invoker.
 	 */
-	public LlamaProjectileEntity(EntityType<?> type, LivingEntity invoker) {
+	public LlamaProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, LivingEntity invoker) {
 		super(type, invoker, llamaProjectileEntity);
 	}
 	

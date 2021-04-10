@@ -11,10 +11,10 @@ import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.applyV;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.util.function.Predicates.hasDifferentIds;
-import static bassebombecraft.util.function.Predicates.isntProjectileThrower;
+import static bassebombecraft.util.function.Predicates.isntProjectileShooter;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static bassebombecraft.world.WorldUtils.isLogicalServer;
-import static net.minecraft.entity.projectile.ProjectileHelper.rayTrace;
+import static net.minecraft.entity.projectile.ProjectileHelper.func_234618_a_;
 import static net.minecraftforge.event.ForgeEventFactory.onProjectileImpact;
 
 import java.util.Optional;
@@ -48,20 +48,18 @@ import bassebombecraft.operator.projectile.path.TeleportProjectilePath;
 import bassebombecraft.operator.projectile.path.ZigZagProjectilePath;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -73,7 +71,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
  * 
  * This is a super class for actual projectile implementations.
  */
-public class GenericCompositeProjectileEntity extends Entity implements IProjectile {
+public class GenericCompositeProjectileEntity extends ProjectileEntity {
 
 	/**
 	 * Entity identifier.
@@ -151,7 +149,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 		// FindEntities2: get function to create exclusion predicate using the source
 		// entity
 		Function<Ports, Predicate<Entity>> fnGetPredicate = p -> hasDifferentIds(applyV(fnGetSource, p))
-				.and(isntProjectileThrower(applyV(fnGetSource, p)));
+				.and(isntProjectileShooter(applyV(fnGetSource, p)));
 
 		// FindEntities2: get search range from configuration
 		Function<Ports, Integer> fnGetRange = p -> genericProjectileEntityProjectileHomingAoeRange.get().intValue();
@@ -226,7 +224,8 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * @param world  world object.
 	 * @param config projectile entity configuration.
 	 */
-	public GenericCompositeProjectileEntity(EntityType<?> type, World world, ProjectileEntityConfig config) {
+	public GenericCompositeProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, World world,
+			ProjectileEntityConfig config) {
 		super(type, world);
 		projectileConfig = config;
 		ParticleRenderingInfo info = createInfoFromConfig(projectileConfig.particles);
@@ -239,22 +238,22 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * Constructor
 	 * 
 	 * @param type    entity type.
-	 * @param invoker projectile invoker.
+	 * @param shooter projectile shooter.
 	 * @param world   world object.
 	 * @param config  projectile entity configuration.
 	 */
-	public GenericCompositeProjectileEntity(EntityType<?> type, LivingEntity invoker, ProjectileEntityConfig config) {
-		this(type, invoker.getEntityWorld(), config);
-		this.setPosition(invoker.getPosX(), invoker.getPosYEye() - 0.1, invoker.getPosZ());
-		this.invokerUUID = invoker.getUniqueID();
-		this.invoker = invoker;
+	public GenericCompositeProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type,
+			LivingEntity shooter, ProjectileEntityConfig config) {
+		this(type, shooter.getEntityWorld(), config);
+		this.setPosition(shooter.getPosX(), shooter.getPosYEye() - 0.1, shooter.getPosZ());
+		this.setShooter(shooter);
 	}
 
 	@Override
 	public void shoot(double x, double y, double z, float velocity, float inaccuracy) {
 
 		// calculate motion
-		Vec3d motionVector = (new Vec3d(x, y, z)).normalize()
+		Vector3d motionVector = (new Vector3d(x, y, z)).normalize()
 				.add(this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy,
 						this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy,
 						this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy)
@@ -277,7 +276,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * 
 	 * @param orientation orientation vector for direction of projectile.
 	 */
-	public void doShoot(Vec3d orientation) {
+	public void doShoot(Vector3d orientation) {
 		setPosition(invoker.getPosX(), invoker.getPosY() + invoker.getEyeHeight(), invoker.getPosZ());
 		double force = projectileConfig.force.get();
 		double inaccuracy = projectileConfig.inaccuracy.get();
@@ -333,7 +332,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 
 				// if hit then process collision
 				if (result.getType() != RayTraceResult.Type.MISS)
-					onImpact(result);
+					handleImpact(result);
 
 				// process projectile modifiers
 				processCompositeModifiers();
@@ -359,7 +358,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * 
 	 * @param result ray trace result with collision information.
 	 */
-	void onImpact(RayTraceResult result) {
+	void handleImpact(RayTraceResult result) {
 
 		// exit if on client side
 		if (isLogicalClient(getEntityWorld()))
@@ -419,15 +418,12 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 */
 	RayTraceResult calculateCollision() {
 
-		// get AABB for collision
-		AxisAlignedBB aabb = this.getBoundingBox().expand(this.getMotion()).grow(1);
-
 		// define filter
 		Predicate<Entity> filter = entity -> !entity.isSpectator() && entity.canBeCollidedWith()
-				&& entity != this.invoker;
+				&& entity != getShooter();
 
 		// ray trace for collision
-		return rayTrace(this, aabb, filter, RayTraceContext.BlockMode.COLLIDER, true);
+		return func_234618_a_(this, filter);
 	}
 
 	/**
@@ -574,7 +570,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 */
 	void electrocute() {
 		projectileModifierPorts.setEntity1(this);
-		projectileModifierPorts.setEntity2(getThrower());
+		projectileModifierPorts.setEntity2(getShooter());
 		run(projectileModifierPorts, ELECTROCUTE_OPERATOR);
 	}
 
@@ -582,16 +578,16 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	 * Update motion and position of the projectile.
 	 */
 	void updateMotionAndPosition() {
-		Vec3d motionVec = this.getMotion();
-		Vec3d positionVec = this.getPositionVec();
+		Vector3d motionVec = this.getMotion();
+		Vector3d positionVec = this.getPositionVec();
 
 		// calculate motion drag
 		// TODO: Add as property
 		float motionScale = this.isInWater() ? getWaterDrag() : getAirDrag();
 
 		// calculate motion and position
-		Vec3d nextMotionVec = motionVec.scale(motionScale);
-		Vec3d nextPositionVec = motionVec.add(positionVec);
+		Vector3d nextMotionVec = motionVec.scale(motionScale);
+		Vector3d nextPositionVec = motionVec.add(positionVec);
 		this.setMotion(nextMotionVec.getX(), nextMotionVec.getY() - getGravity(), nextMotionVec.getZ());
 		this.setPosition(nextPositionVec.getX(), nextPositionVec.getY(), nextPositionVec.getZ());
 	}
@@ -619,10 +615,6 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	@Override
 	public IPacket<?> createSpawnPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
-	}
-
-	public LivingEntity getThrower() {
-		return this.invoker;
 	}
 
 	float getWaterDrag() {
@@ -663,7 +655,7 @@ public class GenericCompositeProjectileEntity extends Entity implements IProject
 	void addTrailGraphicalEffect() {
 		renderingPorts.setDouble1((double) duration);
 		renderingPorts.setEntity1(this);
-		renderingPorts.setEntity2(getThrower());
+		renderingPorts.setEntity2(getShooter());
 		run(renderingPorts, RENDERING_TRAIL_OP);
 	}
 

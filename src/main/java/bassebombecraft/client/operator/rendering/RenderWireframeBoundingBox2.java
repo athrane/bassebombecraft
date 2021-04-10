@@ -19,11 +19,11 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Vector4f;
+import net.minecraft.util.math.vector.Vector4f;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which renders a wire
@@ -121,9 +121,9 @@ public class RenderWireframeBoundingBox2 implements Operator2 {
 		matrixStack.push();
 
 		// get position matrix
-		Vec3d projectedView = mcClient.gameRenderer.getActiveRenderInfo().getProjectedView();
+		Vector3d projectedView = mcClient.gameRenderer.getActiveRenderInfo().getProjectedView();
 		matrixStack.translate(-projectedView.x, -projectedView.y, -projectedView.z);
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 
 		// grow aabb
 		aabb = aabb.grow(oscillate(0, oscillateMax));

@@ -13,7 +13,7 @@ import java.util.function.Function;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which reads the source
@@ -47,12 +47,12 @@ public class InitElectrocute2 implements Operator2 {
 	/**
 	 * Function to set line vertexes (as vectors).
 	 */
-	BiConsumer<Ports, Vec3d[]> bcSetLineVertexes;
-	
+	BiConsumer<Ports, Vector3d[]> bcSetLineVertexes;
+
 	/**
 	 * Vector array for line vertexes.
 	 */
-	Vec3d[] lineVertexes = new Vec3d[5];
+	Vector3d[] lineVertexes = new Vector3d[5];
 
 	/**
 	 * Constructor.
@@ -70,14 +70,15 @@ public class InitElectrocute2 implements Operator2 {
 	/**
 	 * Constructor.
 	 * 
-	 * @param fnGetSource function to get source entity.
-	 * @param fnGetTarget function to get target entity.
+	 * @param fnGetSource       function to get source entity.
+	 * @param fnGetTarget       function to get target entity.
 	 * @param bcSetLineVertexes function to set line vertexes.
 	 */
-	public InitElectrocute2(Function<Ports, Entity> fnGetSource, Function<Ports, Entity> fnGetTarget, BiConsumer<Ports, Vec3d[]> bcSetLineVertexes) {
+	public InitElectrocute2(Function<Ports, Entity> fnGetSource, Function<Ports, Entity> fnGetTarget,
+			BiConsumer<Ports, Vector3d[]> bcSetLineVertexes) {
 		this.fnGetSource = fnGetSource;
 		this.fnGetTarget = fnGetTarget;
-		this.bcSetLineVertexes = bcSetLineVertexes;		
+		this.bcSetLineVertexes = bcSetLineVertexes;
 	}
 
 	@Override
@@ -89,16 +90,16 @@ public class InitElectrocute2 implements Operator2 {
 		Random random = getBassebombeCraft().getRandom();
 
 		// add start point
-		Vec3d sourcePos = source.getBoundingBox().getCenter();
+		Vector3d sourcePos = source.getBoundingBox().getCenter();
 		sourcePos = addNoiseToPosition(sourcePos, ENDPOINT_NOISE, random);
 
 		lineVertexes[0] = sourcePos;
 
 		// calculate midpoints
-		Vec3d targetPos = target.getBoundingBox().getCenter();
-		Vec3d midpoint0 = calculateArcNode(sourcePos, targetPos, MIDPOINT_NOISE, random);
-		Vec3d midpoint1 = calculateArcNode(sourcePos, midpoint0, MIDPOINT_NOISE, random);
-		Vec3d midpoint2 = calculateArcNode(midpoint0, targetPos, MIDPOINT_NOISE, random);
+		Vector3d targetPos = target.getBoundingBox().getCenter();
+		Vector3d midpoint0 = calculateArcNode(sourcePos, targetPos, MIDPOINT_NOISE, random);
+		Vector3d midpoint1 = calculateArcNode(sourcePos, midpoint0, MIDPOINT_NOISE, random);
+		Vector3d midpoint2 = calculateArcNode(midpoint0, targetPos, MIDPOINT_NOISE, random);
 
 		// add midpoints
 		lineVertexes[1] = midpoint1;
@@ -111,7 +112,7 @@ public class InitElectrocute2 implements Operator2 {
 		ports.setVectors1(lineVertexes);
 
 		// set line vertexes
-		bcSetLineVertexes.accept(ports, lineVertexes);		
+		bcSetLineVertexes.accept(ports, lineVertexes);
 	}
 
 	/**
@@ -124,8 +125,8 @@ public class InitElectrocute2 implements Operator2 {
 	 * 
 	 * @return displaced arc vertex.
 	 */
-	Vec3d calculateArcNode(Vec3d source, Vec3d target, double noise, Random random) {
-		Vec3d midpoint = source.add(target).scale(0.5D);
+	Vector3d calculateArcNode(Vector3d source, Vector3d target, double noise, Random random) {
+		Vector3d midpoint = source.add(target).scale(0.5D);
 		return addNoiseToPosition(midpoint, noise, random);
 	}
 
@@ -138,7 +139,7 @@ public class InitElectrocute2 implements Operator2 {
 	 * 
 	 * @return noisy position.
 	 */
-	Vec3d addNoiseToPosition(Vec3d source, double noise, Random random) {
+	Vector3d addNoiseToPosition(Vector3d source, double noise, Random random) {
 		double randomX = random.nextDouble() - 0.5F;
 		double randomY = random.nextDouble() - 0.5F;
 		double randomZ = random.nextDouble() - 0.5F;

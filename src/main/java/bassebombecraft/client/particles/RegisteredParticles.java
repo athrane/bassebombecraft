@@ -1,6 +1,7 @@
 package bassebombecraft.client.particles;
 
 import static bassebombecraft.ModConstants.MODID;
+import static net.minecraftforge.registries.DeferredRegister.create;
 import static net.minecraftforge.registries.ForgeRegistries.PARTICLE_TYPES;
 
 import bassebombecraft.client.event.rendering.particle.ParticleFactoryRegistryEventHandler;
@@ -21,8 +22,7 @@ public class RegisteredParticles {
 	/**
 	 * Deferred registry for registration of particles.
 	 */
-	public static final DeferredRegister<ParticleType<?>> PARTICLE_REGISTRY = new DeferredRegister<>(PARTICLE_TYPES,
-			MODID);
+	public static final DeferredRegister<ParticleType<?>> PARTICLE_REGISTRY = create(PARTICLE_TYPES, MODID);
 
 	/**
 	 * Registry object for {@linkplain LightningParticle}.

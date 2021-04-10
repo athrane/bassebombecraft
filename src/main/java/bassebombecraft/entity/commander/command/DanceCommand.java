@@ -9,7 +9,7 @@ import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Dance command.
@@ -63,7 +63,7 @@ public class DanceCommand implements MobCommand {
 			float strafe = random.nextInt(10) - 5;
 			float vertical = 0;
 			float forward = random.nextInt(10) - 5;
-			Vec3d danceVec = new Vec3d(strafe, vertical, forward);
+			Vector3d danceVec = new Vector3d(strafe, vertical, forward);
 			entity.travel(danceVec);
 		}
 

@@ -20,7 +20,6 @@ import net.minecraft.world.World;
 @Deprecated
 public class ShootGenericEggProjectile implements RightClickedItemAction {
 
-	static final float PITCH_OFFSET = 0.0F;
 	static final float VELOCITY = 3.0F;
 	static final float INACCURANCY = 1.0F;
 	static final SoundEvent SOUND = SoundEvents.ENTITY_EVOKER_CAST_SPELL;
@@ -40,7 +39,7 @@ public class ShootGenericEggProjectile implements RightClickedItemAction {
 		Random random = getBassebombeCraft().getRandom();
 
 		GenericEggProjectile projectile = new GenericEggProjectile(world, entity, action);
-		projectile.shoot(entity, entity.rotationPitch, entity.rotationYaw, PITCH_OFFSET, VELOCITY, INACCURANCY);
+		projectile.shoot(entity.getPosX(), entity.getPosY(), entity.getPosZ(), VELOCITY, INACCURANCY);
 		entity.playSound(SOUND, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 0.8F));
 		world.addEntity(projectile);
 	}

@@ -19,7 +19,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 /**
@@ -87,7 +87,7 @@ public class SpawnAnvil2 implements Operator2 {
 			Entity entity = ((EntityRayTraceResult) result).getEntity();
 
 			// get entity position
-			Vec3d posVec = entity.getPositionVector();
+			Vector3d posVec = entity.getPositionVec();
 			float height = entity.getHeight();
 			double lx = posVec.x;
 			double ly = posVec.y + height + spawnAnvilOffset.get();

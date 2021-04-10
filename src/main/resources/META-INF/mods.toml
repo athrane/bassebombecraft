@@ -12,6 +12,9 @@ loaderVersion="[27,)" #mandatory (24 is 1.13-pre, 25 is 1.13.1-re, 26 is 1.13.2,
 # A URL to refer people to when problems occur with this mod
 issueTrackerURL="https://github.com/athrane/bassebombecraft/issues" #optional
 
+# MOD license
+license="GNU General Public License v3.0"
+
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
 	# The modid of the mod
@@ -39,4 +42,4 @@ issueTrackerURL="https://github.com/athrane/bassebombecraft/issues" #optional
 	authors="Allan & Andreas Thrane Andersen (einheriii@gmail.com)" #optional
 	
 	# The description text for the mod (multi line!) (#mandatory)
-	description='''A collection of 80+ magical books, idols and potions for adventuring and construction in Minecraft.'''
+	description='''A collection of 100+ magical books, idols and potions for adventuring and construction in Minecraft.'''

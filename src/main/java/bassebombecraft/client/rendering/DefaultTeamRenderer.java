@@ -2,12 +2,8 @@ package bassebombecraft.client.rendering;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ClientModConstants.ICON_BILLBOARD_ROTATION;
-import static bassebombecraft.ClientModConstants.TEXT_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.HUD_TEXT_DISP;
-import static bassebombecraft.client.rendering.RenderingUtils.renderTextBillboard;
 import static bassebombecraft.client.rendering.RenderingUtils.renderTriangleBillboard;
-import static bassebombecraft.entity.ai.AiUtils.getFirstRunningAiGoalName;
-import static bassebombecraft.entity.ai.AiUtils.getFirstRunningAiTargetGoalName;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 
 import java.util.Collection;
@@ -16,7 +12,7 @@ import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.player.PlayerUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Renderer} for rendering team entities in
@@ -46,7 +42,7 @@ public class DefaultTeamRenderer implements EntityRenderer {
 		PlayerEntity player = (PlayerEntity) entity;
 
 		// get player position
-		Vec3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
+		Vector3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
 
 		// get team members
 		TeamRepository repository = getProxy().getServerTeamRepository();
@@ -66,15 +62,18 @@ public class DefaultTeamRenderer implements EntityRenderer {
 	 * @param playerPos player position
 	 * @param info      rendering info.
 	 */
-	void renderTeamEntity(LivingEntity entity, Vec3d playerPos, RenderingInfo info) {
+	void renderTeamEntity(LivingEntity entity, Vector3d playerPos, RenderingInfo info) {
 
-		Vec3d entityPos = entity.getBoundingBox().getCenter();
+		Vector3d entityPos = entity.getBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, ICON_BILLBOARD_ROTATION);
-		renderTextBillboard(playerPos, entityPos, TEAM_LABEL, TEXT_BILLBOARD_ROTATION);
+		// renderTextBillboard(playerPos, entityPos, TEAM_LABEL,
+		// TEXT_BILLBOARD_ROTATION);
 		entityPos = entityPos.add(0, -HUD_TEXT_DISP, 0);
-		renderTextBillboard(playerPos, entityPos, getFirstRunningAiGoalName(entity), TEXT_BILLBOARD_ROTATION);
+		// renderTextBillboard(playerPos, entityPos, getFirstRunningAiGoalName(entity),
+		// TEXT_BILLBOARD_ROTATION);
 		entityPos = entityPos.add(0, -HUD_TEXT_DISP, 0);
-		renderTextBillboard(playerPos, entityPos, getFirstRunningAiTargetGoalName(entity), TEXT_BILLBOARD_ROTATION);
+		// renderTextBillboard(playerPos, entityPos,
+		// getFirstRunningAiTargetGoalName(entity), TEXT_BILLBOARD_ROTATION);
 		targetRenderer.render(entity, info);
 	}
 

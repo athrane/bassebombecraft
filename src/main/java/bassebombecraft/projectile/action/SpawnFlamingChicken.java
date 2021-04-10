@@ -3,6 +3,8 @@ package bassebombecraft.projectile.action;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 
+import static bassebombecraft.entity.EntityUtils.*;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.ChickenEntity;
@@ -28,11 +30,13 @@ public class SpawnFlamingChicken implements ProjectileAction {
 					projectile.rotationYaw, PITCH);
 			entity.setFire(3);
 
-			// get owner
-			LivingEntity owner = projectile.getThrower();
+			// get shooter
+			Entity shooter = projectile.getShooter();
 
-			// add entity to team
-			getProxy().getServerTeamRepository().add(owner, entity);
+			// if shooter is a living entity then add entity to shooters team
+			if (isTypeLivingEntity(shooter)) {
+				getProxy().getServerTeamRepository().add((LivingEntity) shooter, entity);
+			}
 
 			// set AI
 			// NO-OP

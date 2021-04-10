@@ -11,7 +11,7 @@ import java.util.function.Function;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which reads the source
@@ -34,12 +34,12 @@ public class InitLineRenderingFromPorts2 implements Operator2 {
 	/**
 	 * Function to set line vertexes (as vectors).
 	 */
-	BiConsumer<Ports, Vec3d[]> bcSetLineVertexes;
+	BiConsumer<Ports, Vector3d[]> bcSetLineVertexes;
 
 	/**
 	 * Vector array for line vertexes.
 	 */
-	Vec3d[] lineVertexes = new Vec3d[2];
+	Vector3d[] lineVertexes = new Vector3d[2];
 
 	/**
 	 * Constructor.
@@ -62,7 +62,7 @@ public class InitLineRenderingFromPorts2 implements Operator2 {
 	 * @param bcSetLineVertexes function to set line vertexes.
 	 */
 	public InitLineRenderingFromPorts2(Function<Ports, Entity> fnGetSource, Function<Ports, Entity> fnGetTarget,
-			BiConsumer<Ports, Vec3d[]> bcSetLineVertexes) {
+			BiConsumer<Ports, Vector3d[]> bcSetLineVertexes) {
 		this.fnGetSource = fnGetSource;
 		this.fnGetTarget = fnGetTarget;
 		this.bcSetLineVertexes = bcSetLineVertexes;

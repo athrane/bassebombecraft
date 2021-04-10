@@ -19,9 +19,9 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Matrix4f;
+import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which renders a line
@@ -46,7 +46,7 @@ public class RenderLineWithDynamicColor2 implements Operator2 {
 	/**
 	 * Function to get line vertexes.
 	 */
-	Function<Ports, Vec3d[]> fnGetLineVertexes;
+	Function<Ports, Vector3d[]> fnGetLineVertexes;
 
 	/**
 	 * Function to get color.
@@ -89,7 +89,7 @@ public class RenderLineWithDynamicColor2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		MatrixStack matrixStack = clientApplyV(fnGetMatrixStack, ports);
-		Vec3d[] positions = applyV(fnGetLineVertexes, ports);
+		Vector3d[] positions = applyV(fnGetLineVertexes, ports);
 		Color4f color = applyV(fnGetColor, ports);
 
 		// Get start and end position
@@ -105,14 +105,14 @@ public class RenderLineWithDynamicColor2 implements Operator2 {
 		matrixStack.push();
 
 		// get position matrix
-		Vec3d projectedView = mcClient.gameRenderer.getActiveRenderInfo().getProjectedView();
+		Vector3d projectedView = mcClient.gameRenderer.getActiveRenderInfo().getProjectedView();
 		matrixStack.translate(-projectedView.x, -projectedView.y, -projectedView.z);
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 
 		// render
 		for (int index = 0; index < (positions.length - 1); index++) {
-			Vec3d start = positions[index];
-			Vec3d end = positions[index + 1];
+			Vector3d start = positions[index];
+			Vector3d end = positions[index + 1];
 			renderLine(start, end, builder, positionMatrix, color);
 		}
 
@@ -133,7 +133,7 @@ public class RenderLineWithDynamicColor2 implements Operator2 {
 	 * @param positionMatrix position matrix.
 	 * @param color          line color as RGB+alpha
 	 */
-	void renderLine(Vec3d start, Vec3d end, IVertexBuilder builder, Matrix4f positionMatrix, Color4f color) {
+	void renderLine(Vector3d start, Vector3d end, IVertexBuilder builder, Matrix4f positionMatrix, Color4f color) {
 
 		// AB
 		addVertex(builder, positionMatrix, start.x, start.y, start.z, color);

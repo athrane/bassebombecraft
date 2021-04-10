@@ -86,55 +86,67 @@ public class ProjectileUtils {
 	}
 
 	/**
-	 * Resolve invoker entity from projectile impact event
+	 * Resolve shooter entity from projectile impact event
 	 * {@linkplain ProjectileImpactEvent}.
 	 * 
-	 * @param event event to resolve projectile invoker from.
+	 * @param event event to resolve projectile shooter from.
 	 * 
-	 * @return return the invoker entity as a {@linkplain LivingEntity}. If the
+	 * @return return the shooter entity as a {@linkplain LivingEntity}. If the
 	 *         invoker can't be resolved as a living entity then a the returned
 	 *         optional is empty.
 	 */
-	public static Optional<LivingEntity> resolveInvoker(ProjectileImpactEvent event) {
+	public static Optional<LivingEntity> resolveShooter(ProjectileImpactEvent event) {
 
-		// resolve invoker from arrow projectile
+		// resolve from arrow projectile
 		if (event instanceof ProjectileImpactEvent.Arrow) {
 
 			// type cast event and get invoker
 			Arrow arrowEvent = (ProjectileImpactEvent.Arrow) event;
 			AbstractArrowEntity arrowProjectile = arrowEvent.getArrow();
-			Entity invoker = arrowProjectile.getShooter();
+			Entity shooter = arrowProjectile.getShooter();
 
 			// return invoker as LivingEntity
-			if (invoker instanceof LivingEntity)
-				return Optional.of((LivingEntity) invoker);
+			if (shooter instanceof LivingEntity)
+				return Optional.of((LivingEntity) shooter);
 			else
 				return Optional.empty();
 		}
 
-		// resolve invoker from fireball projectile
+		// resolve from fireball projectile
 		if (event instanceof ProjectileImpactEvent.Fireball) {
 
 			// type cast event and get invoker
 			Fireball fireballEvent = (ProjectileImpactEvent.Fireball) event;
 			DamagingProjectileEntity fireballProjectile = fireballEvent.getFireball();
-			return Optional.of(fireballProjectile.shootingEntity);
+			Entity shooter = fireballProjectile.getShooter();
+			
+			// return invoker as LivingEntity
+			if (shooter instanceof LivingEntity)
+				return Optional.of((LivingEntity) shooter);
+			else
+				return Optional.empty();
 		}
 
-		// resolve invoker from throwable projectile
+		// resolve from throwable projectile
 		if (event instanceof ProjectileImpactEvent.Throwable) {
 
 			// type cast event and get invoker
 			Throwable throwableEvent = (ProjectileImpactEvent.Throwable) event;
 			ThrowableEntity throwableProjectile = throwableEvent.getThrowable();
-			return Optional.of(throwableProjectile.getThrower());
+			Entity shooter = throwableProjectile.getShooter();
+			
+			// return invoker as LivingEntity
+			if (shooter instanceof LivingEntity)
+				return Optional.of((LivingEntity) shooter);
+			else
+				return Optional.empty();
 		}
 
-		// resolve invoker from GenericProjectileEntity
+		// resolve from GenericProjectileEntity
 		Entity projectile = event.getEntity();
 		if(projectile instanceof GenericCompositeProjectileEntity) {			
 			GenericCompositeProjectileEntity genericProjectile = (GenericCompositeProjectileEntity) projectile;
-			return Optional.of(genericProjectile.getThrower());
+			return Optional.of((LivingEntity) genericProjectile.getShooter());
 		}
 				
 		// return unhandled case

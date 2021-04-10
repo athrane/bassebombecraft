@@ -7,8 +7,8 @@ import static bassebombecraft.entity.EntityUtils.resolveTarget;
 import static bassebombecraft.entity.EntityUtils.setAttribute;
 import static bassebombecraft.entity.ai.AiUtils.buildChargingAi;
 import static bassebombecraft.operator.Operators2.applyV;
-import static net.minecraft.entity.SharedMonsterAttributes.ATTACK_DAMAGE;
-import static net.minecraft.entity.SharedMonsterAttributes.MOVEMENT_SPEED;
+import static net.minecraft.entity.ai.attributes.Attributes.ATTACK_DAMAGE;
+import static net.minecraft.entity.ai.attributes.Attributes.MOVEMENT_SPEED;
 
 import java.util.Random;
 import java.util.function.Function;
@@ -73,7 +73,7 @@ public class SpawnWarPig2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		LivingEntity invoker = applyV(fnGetInvoker, ports);		
+		LivingEntity invoker = applyV(fnGetInvoker, ports);
 		LivingEntity target = applyV(fnGetTarget, ports);
 
 		// get world

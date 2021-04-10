@@ -1,9 +1,7 @@
 package bassebombecraft.client.rendering;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static bassebombecraft.ModConstants.HUD_TEXT_DISP;
 import static bassebombecraft.ModConstants.TEAM_MEMBERS_TO_RENDER;
-import static bassebombecraft.client.rendering.RenderingUtils.renderHudTextBillboard;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 
 import java.util.Optional;
@@ -14,7 +12,7 @@ import bassebombecraft.event.entity.target.TargetRepository;
 import bassebombecraft.player.PlayerUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Renderer} for rendering target information
@@ -39,11 +37,11 @@ public class DefaultTargetsInfoRenderer implements EntityRenderer {
 		PlayerEntity player = (PlayerEntity) entity;
 
 		// get player position
-		Vec3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
+		Vector3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
 
 		// calculate translation of text
-		Vec3d renderPos = RenderingUtils.getRenderPos();
-		Vec3d translation = playerPos.subtract(renderPos);
+		Vector3d renderPos = RenderingUtils.getRenderPos();
+		Vector3d translation = playerPos.subtract(renderPos);
 
 		// get targets
 		TargetRepository repository = getProxy().getServerTargetRepository();
@@ -54,12 +52,14 @@ public class DefaultTargetsInfoRenderer implements EntityRenderer {
 		String commanderTargetName = getCommanderTargetName(player);
 
 		// render basic info
-		Vec3d textTranslation = new Vec3d(-3, 4, 4);
-		renderHudTextBillboard(translation, textTranslation, TARGETS_LABEL);
-		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 1, 0),
-				"Commander target: " + commanderTargetName);
-		renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * 2, 0),
-				"Number targets: " + targetsSize);
+		Vector3d textTranslation = new Vector3d(-3, 4, 4);
+		// renderHudTextBillboard(translation, textTranslation, TARGETS_LABEL);
+		// renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP *
+		// 1, 0),
+		// "Commander target: " + commanderTargetName);
+		// renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP *
+		// 2, 0),
+		// "Number targets: " + targetsSize);
 
 		// create counter to use inside loop
 		final AtomicInteger count = new AtomicInteger();
@@ -75,7 +75,8 @@ public class DefaultTargetsInfoRenderer implements EntityRenderer {
 			int disp = 2 + counter;
 			String targetName = m.getName().getUnformattedComponentText();
 			String text = "Target: " + targetName;
-			renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP * disp, 0), text);
+			// renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP *
+			// disp, 0), text);
 		});
 
 	}

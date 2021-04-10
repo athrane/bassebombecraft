@@ -104,7 +104,6 @@ import bassebombecraft.item.book.NaturalizeBook;
 import bassebombecraft.item.book.PrimedCreeperCannonBook;
 import bassebombecraft.item.book.RainbownizeBook;
 import bassebombecraft.item.book.ReceiveAggroBook;
-import bassebombecraft.item.book.SetSpawnPointBook;
 import bassebombecraft.item.book.SmallFireballBook;
 import bassebombecraft.item.book.SpawnCreeperArmyBook;
 import bassebombecraft.item.book.SpawnFlamingChickenBook;
@@ -264,7 +263,7 @@ public class ModConfiguration {
 	 * {@linkplain ReflectEffectEventHandler}.
 	 */
 	public static ParticlesConfig reflectEffectParticles;
-	
+
 	/**
 	 * Particles spawned by charmed mob, spawned by
 	 * {@linkplain ProcessBlockDirectivesEventHandler}.
@@ -367,10 +366,6 @@ public class ModConfiguration {
 
 	// TeleportBook
 	public static ItemConfig teleportBook;
-
-	// SetSpawnPointBook
-	public static ForgeConfigSpec.ConfigValue<String> setSpawnPointBookTooltip;
-	public static ForgeConfigSpec.IntValue setSpawnPointBookCooldown;
 
 	// BeastmasterBook
 	public static ItemConfig beastmasterBook;
@@ -856,9 +851,10 @@ public class ModConfiguration {
 		 */
 		name = REFLECT_EFFECT_NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		reflectEffectParticles = getInstance(COMMON_BUILDER, "bassebombecraft:reflectparticle", 1, 10, 0.2, 1.0, 1.0, 1.0);
+		reflectEffectParticles = getInstance(COMMON_BUILDER, "bassebombecraft:reflectparticle", 1, 10, 0.2, 1.0, 1.0,
+				1.0);
 		COMMON_BUILDER.pop();
-		
+
 		/**
 		 * Particles spawned when a block directive is processed, spawned by
 		 * {@linkplain ProcessBlockDirectivesEventHandler}.
@@ -1400,11 +1396,13 @@ public class ModConfiguration {
 		 */
 		name = Electrocute2.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		electrocuteAoeFrequency = COMMON_BUILDER.comment("AOE frequency in game ticks, i.e. pause between triggering.").defineInRange("frequency", 5, 0, 20);		
+		electrocuteAoeFrequency = COMMON_BUILDER.comment("AOE frequency in game ticks, i.e. pause between triggering.")
+				.defineInRange("frequency", 5, 0, 20);
 		electrocuteAoeRange = COMMON_BUILDER.comment("AOE range for effect.").defineInRange("range", 5, 0, 10);
 		electrocuteDuration = COMMON_BUILDER.comment("Duration of visual effect in game ticks.")
 				.defineInRange("duration", 7, 0, 20);
-		electrocuteDamage = COMMON_BUILDER.comment("Damage done by effect when trigged.").defineInRange("damage", 10.0D, 0, 100.0D);
+		electrocuteDamage = COMMON_BUILDER.comment("Damage done by effect when trigged.").defineInRange("damage", 10.0D,
+				0, 100.0D);
 
 		COMMON_BUILDER.pop();
 
@@ -1672,15 +1670,6 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		teleportBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to shoot projectile and teleport to the position where the projectile hits.", 25);
-		COMMON_BUILDER.pop();
-
-		// SetSpawnPointBook
-		name = SetSpawnPointBook.ITEM_NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		setSpawnPointBookTooltip = COMMON_BUILDER.comment("Tooltip for item.").define("tooltip",
-				"Right-click to set the player spawn point.");
-		setSpawnPointBookCooldown = COMMON_BUILDER.comment("Game ticks between item activation.")
-				.defineInRange("cooldown", 25, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2226,15 +2215,15 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		teleportProjectilePathItem = getInstance(COMMON_BUILDER, name, "The projectile will teleport around.", 25);
 		COMMON_BUILDER.pop();
-		
+
 		/**
 		 * Configuration for the {@linkplain HomingProjectilePathItem} item.
 		 */
 		name = HomingProjectilePathItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		homingProjectilePathItem = getInstance(COMMON_BUILDER, name, "The projectile will home in on a mob.", 25);
-		COMMON_BUILDER.pop();				
-		
+		COMMON_BUILDER.pop();
+
 		/**
 		 * Configuration for the {@linkplain ZigZagProjectilePathItem} item.
 		 */
@@ -2508,8 +2497,8 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		genericProjectileEntityProjectileDuration = COMMON_BUILDER.comment("Duration of projectiles in game ticks.")
 				.defineInRange("duration", 125, 0, Integer.MAX_VALUE);
-		genericProjectileEntityProjectileHomingAoeRange = COMMON_BUILDER.comment("Search range for mobs for homing path.")
-				.defineInRange("homingRange", 10, 0, 20);		
+		genericProjectileEntityProjectileHomingAoeRange = COMMON_BUILDER
+				.comment("Search range for mobs for homing path.").defineInRange("homingRange", 10, 0, 20);
 		COMMON_BUILDER.pop();
 
 		/**

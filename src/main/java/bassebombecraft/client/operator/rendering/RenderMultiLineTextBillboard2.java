@@ -20,8 +20,8 @@ import bassebombecraft.operator.Ports;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Matrix4f;
-import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
@@ -154,7 +154,7 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
 		double zTranslation = TEXT_Z_TRANSLATION + oscillate(0, oscillateMax);
 		matrixStack.translate(0, 0, zTranslation);
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 
 		// create index to use inside loop
 		final AtomicInteger index = new AtomicInteger();

@@ -132,7 +132,7 @@ public class Naturalize implements InventoryItemActionStrategy {
 	 */
 	void initializeSpiral(Entity target) {
 		spiralCounter = 0;
-		spiralCenter = new BlockPos(target);
+		spiralCenter = new BlockPos(target.getPosX(), target.getPosY(), target.getPosZ());
 	}
 
 }

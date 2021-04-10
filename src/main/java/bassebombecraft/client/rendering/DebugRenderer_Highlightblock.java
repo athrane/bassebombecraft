@@ -14,14 +14,14 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Matrix4f;
-import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.DrawHighlightEvent.HighlightBlock;
 import static bassebombecraft.geom.GeometryUtils.oscillate;
@@ -54,19 +54,19 @@ public class DebugRenderer_Highlightblock {
 		double w = oscillate(0, 0.02F);
 		aabb = aabb.grow(w);
 
-		Vec3d projectedView = Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getProjectedView();
+		Vector3d projectedView = Minecraft.getInstance().gameRenderer.getActiveRenderInfo().getProjectedView();
 
 		// get world
 		World world = player.world;
 
 		// Get block type
 		BlockState blockstate = world.getBlockState(blockPos);
-		String message = blockstate.getBlock().getNameTextComponent().getUnformattedComponentText();
+		String message = blockstate.getBlock().getTranslatedName().getUnformattedComponentText();
 
 		MatrixStack matrixStack = event.getMatrix();
 		matrixStack.push();
 		matrixStack.translate(-projectedView.x, -projectedView.y, -projectedView.z);
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 		renderWireframeBox(aabb, builder, positionMatrix);
 		matrixStack.pop();
 
@@ -93,7 +93,7 @@ public class DebugRenderer_Highlightblock {
 		matrixStack.rotate(renderManager.getCameraOrientation());
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
 		matrixStack.translate(0, 0, 100);
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 		fontrenderer.renderString(text, x, y, TEXT_COLOR, false, positionMatrix, buffer, false, 0, 0xf000f0);
 		matrixStack.pop();
 

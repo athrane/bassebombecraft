@@ -9,8 +9,8 @@ import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.IParticleRenderType;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.SpriteTexturedParticle;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particles.BasicParticleType;
-import net.minecraft.world.World;
 
 /**
  * Player aggro particle.
@@ -31,11 +31,11 @@ public class PlayerAggroParticle extends SpriteTexturedParticle {
 	 */
 	IAnimatedSprite spriteSet;;
 
-	protected PlayerAggroParticle(World worldIn, double posXIn, double posYIn, double posZIn) {
+	PlayerAggroParticle(ClientWorld worldIn, double posXIn, double posYIn, double posZIn) {
 		super(worldIn, posXIn, posYIn, posZIn);
 	}
 
-	protected PlayerAggroParticle(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn,
+	PlayerAggroParticle(ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn,
 			double ySpeedIn, double zSpeedIn, IAnimatedSprite spriteSet) {
 		super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
 		this.spriteSet = spriteSet;
@@ -83,8 +83,8 @@ public class PlayerAggroParticle extends SpriteTexturedParticle {
 		}
 
 		@Override
-		public Particle makeParticle(BasicParticleType typeIn, World world, double x, double y, double z, double xSpeed,
-				double ySpeed, double zSpeed) {
+		public Particle makeParticle(BasicParticleType typeIn, ClientWorld world, double x, double y, double z,
+				double xSpeed, double ySpeed, double zSpeed) {
 			PlayerAggroParticle particle = new PlayerAggroParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
 			particle.setColor(1.0f, 1.0f, 1.0f);
 			particle.selectSpriteWithAge(spriteSet);

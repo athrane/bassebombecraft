@@ -20,6 +20,7 @@ import bassebombecraft.inventory.container.CompositeMagicItemItemStackHandler;
 import bassebombecraft.operator.DefaultPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -156,7 +157,7 @@ public class CompositeMagicItem extends Item {
 			return false;
 
 		// exit if SHIFT isn't pressed
-		if (!player.isShiftKeyDown())
+		if (!Screen.hasShiftDown())
 			return false;
 
 		// get held item

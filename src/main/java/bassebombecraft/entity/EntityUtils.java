@@ -14,16 +14,16 @@ import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
-import net.minecraft.entity.ai.attributes.IAttribute;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.ai.attributes.Attribute;
+import net.minecraft.entity.ai.attributes.AttributeModifierManager;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.passive.BeeEntity;
 import net.minecraft.entity.passive.ParrotEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
@@ -46,7 +46,7 @@ public class EntityUtils {
 	 */
 	public static void setProjectileEntityPosition(LivingEntity entity, LivingEntity projectileEntity,
 			int spawnDisplacement) {
-		Vec3d lookVec = entity.getLookVec();
+		Vector3d lookVec = entity.getLookVec();
 
 		// calculate spawn projectile spawn position
 		double x = entity.getPosX() + (lookVec.x * spawnDisplacement);
@@ -184,22 +184,22 @@ public class EntityUtils {
 	/**
 	 * Calculate entity feet position (as a Y coordinate).
 	 * 
-	 * @param entity player object.
+	 * @param entity entity object.
 	 * 
-	 * @return player feet position (as a Y coordinate).
+	 * @return entity feet position (as a Y coordinate).
 	 */
-	public static double calculateEntityFeetPositition(LivingEntity entity) {
+	public static double calculateEntityFeetPositition(Entity entity) {
 		return entity.getPosY() - entity.getYOffset();
 	}
 
 	/**
 	 * Calculate entity feet position (as a Y coordinate).
 	 * 
-	 * @param entity player object.
+	 * @param entity entity object.
 	 * 
-	 * @return player feet position (as a Y coordinate).
+	 * @return entity feet position (as a Y coordinate).
 	 */
-	public static int calculateEntityFeetPosititionAsInt(LivingEntity entity) {
+	public static int calculateEntityFeetPosititionAsInt(Entity entity) {
 		return (int) calculateEntityFeetPositition(entity);
 	}
 
@@ -211,7 +211,7 @@ public class EntityUtils {
 	 * 
 	 * @return player direction as an integer between 0 to 3.
 	 */
-	public static PlayerDirection getPlayerDirection(LivingEntity entity) {
+	public static PlayerDirection getEntityDirection(Entity entity) {
 		int direction = MathHelper.floor((double) ((entity.rotationYaw * 4F) / 360F) + 0.5D) & 3;
 		return PlayerDirection.getById(direction);
 	}
@@ -451,16 +451,9 @@ public class EntityUtils {
 	 * @param attribute attribute to set.
 	 * @param value     value to set.
 	 */
-	public static void setAttribute(LivingEntity entity, IAttribute attribute, double value) {
-		AbstractAttributeMap attributes = entity.getAttributes();
-		IAttributeInstance instance = attributes.getAttributeInstance(attribute);
-
-		// if undefined then register attribute
-		if (instance == null) {
-			instance = attributes.registerAttribute(attribute);
-		}
-
-		// set value
+	public static void setAttribute(LivingEntity entity, Attribute attribute, double value) {
+		AttributeModifierManager manager = entity.getAttributeManager();
+		ModifiableAttributeInstance instance = manager.createInstanceIfAbsent(attribute);
 		instance.setBaseValue(value);
 	}
 
@@ -470,10 +463,9 @@ public class EntityUtils {
 	 * @param entity    entity to set attribute at.
 	 * @param attribute attribute to set.
 	 */
-	public static boolean hasAttribute(LivingEntity entity, IAttribute attribute) {
-		AbstractAttributeMap attributes = entity.getAttributes();
-		IAttributeInstance instance = attributes.getAttributeInstance(attribute);
-		return (instance != null);
+	public static boolean hasAttribute(LivingEntity entity, Attribute attribute) {
+		AttributeModifierManager manager = entity.getAttributeManager();
+		return manager.hasAttributeInstance(attribute);
 	}
 
 }

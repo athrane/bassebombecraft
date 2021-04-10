@@ -1,13 +1,14 @@
 package bassebombecraft.player;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
@@ -73,7 +74,8 @@ public class PlayerUtils {
 	 */
 	public static void sendChatMessageToPlayer(PlayerEntity player, String string) {
 		ITextComponent message = new StringTextComponent(string);
-		player.sendMessage(message);
+		UUID uuid = player.getUniqueID();
+		player.sendMessage(message, uuid);
 	}
 
 	/**
@@ -120,7 +122,7 @@ public class PlayerUtils {
 		PlayerEntity targetAsPlayer = (PlayerEntity) entity;
 		return targetAsPlayer.isAlive();
 	}
-	
+
 	/**
 	 * Returns true if item is held in player off hand.
 	 * 
@@ -161,12 +163,12 @@ public class PlayerUtils {
 		ItemStack heldItemStack = player.getHeldItemOffhand();
 		if (heldItemStack == null)
 			return false;
-		
+
 		// get item
 		Item heldItem = heldItemStack.getItem();
 		if (heldItem == null)
 			return false;
-		
+
 		return item.equals(heldItem);
 	}
 
@@ -188,15 +190,15 @@ public class PlayerUtils {
 		ItemStack heldItemStack = player.getHeldItemMainhand();
 		if (heldItemStack == null)
 			return false;
-		
+
 		// get item
 		Item heldItem = heldItemStack.getItem();
 		if (heldItem == null)
 			return false;
-		
+
 		return item.equals(heldItem);
 	}
-	
+
 	/**
 	 * Returns true if item is held in either player hands.
 	 * 
@@ -206,8 +208,10 @@ public class PlayerUtils {
 	 * @return true if item is held by player in either hand.
 	 */
 	public static boolean isItemHeldInEitherHands(PlayerEntity player, Item item) {
-		if(isItemHeldInMainHand(player, item)) return true;
-		if(isItemHeldInOffHand(player, item)) return true;		
+		if (isItemHeldInMainHand(player, item))
+			return true;
+		if (isItemHeldInOffHand(player, item))
+			return true;
 		return false;
 	}
 
@@ -244,11 +248,11 @@ public class PlayerUtils {
 	 * 
 	 * @return player position.
 	 */
-	public static Vec3d CalculatePlayerPosition(PlayerEntity player, float partialTicks) {
+	public static Vector3d CalculatePlayerPosition(PlayerEntity player, float partialTicks) {
 		double doubleX = player.lastTickPosX + (player.getPosX() - player.lastTickPosX) * partialTicks;
 		double doubleY = player.lastTickPosY + (player.getPosY() - player.lastTickPosY) * partialTicks;
 		double doubleZ = player.lastTickPosZ + (player.getPosZ() - player.lastTickPosZ) * partialTicks;
-		return new Vec3d(doubleX, doubleY, doubleZ);
+		return new Vector3d(doubleX, doubleY, doubleZ);
 	}
 
 }

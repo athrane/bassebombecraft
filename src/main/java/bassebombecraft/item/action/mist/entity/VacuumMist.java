@@ -8,7 +8,7 @@ import static bassebombecraft.config.ModConfiguration.vacuumMistParticleInfo;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of {@linkplain EntityMistActionStrategy} for construction of
@@ -47,18 +47,18 @@ public class VacuumMist implements EntityMistActionStrategy {
 	}
 
 	@Override
-	public void applyEffectToEntity(LivingEntity target, Vec3d mistPos, LivingEntity invoker) {
+	public void applyEffectToEntity(LivingEntity target, Vector3d mistPos, LivingEntity invoker) {
 
 		// calculate pull vector
-		Vec3d targetPosVec = target.getPositionVector();
-		Vec3d pullVec = mistPos.subtract(targetPosVec);
+		Vector3d targetPosVec = target.getPositionVec();
+		Vector3d pullVec = mistPos.subtract(targetPosVec);
 		pullVec = pullVec.normalize();
 
 		// pull mob
 		double x = pullVec.x * force;
 		double y = pullVec.y * force;
 		double z = pullVec.z * force;
-		Vec3d motionVecForced = new Vec3d(x, y, z);
+		Vector3d motionVecForced = new Vector3d(x, y, z);
 		target.move(MoverType.SELF, motionVecForced);
 	}
 

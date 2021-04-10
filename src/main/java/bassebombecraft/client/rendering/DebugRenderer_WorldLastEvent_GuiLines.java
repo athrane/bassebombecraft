@@ -7,8 +7,8 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import bassebombecraft.client.rendering.rendertype.RenderTypes;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Matrix4f;
-import net.minecraft.client.renderer.Vector3f;
+import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
@@ -45,7 +45,7 @@ public class DebugRenderer_WorldLastEvent_GuiLines {
 		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
 		// matrixStack.translate(0, 0, TEXT_Z_TRANSLATION);
 		matrixStack.translate(0, 0, 1);
-		Matrix4f positionMatrix = matrixStack.getLast().getPositionMatrix();
+		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
 		drawLine(builder, positionMatrix, pos.getX(), pos.getY(), pos.getZ(), pos.getX() + size.getX(), pos.getY(),
 				pos.getZ());
 		drawLine(builder, positionMatrix, pos.getX() + size.getX(), pos.getY(), pos.getZ(), pos.getX() + size.getX(),

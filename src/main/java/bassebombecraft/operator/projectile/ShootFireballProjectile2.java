@@ -5,7 +5,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.DamagingProjectileEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which shoots small
@@ -16,10 +16,10 @@ import net.minecraft.util.math.Vec3d;
 public class ShootFireballProjectile2 extends GenericShootProjectile2 {
 
 	@Override
-	Entity createProjectile(LivingEntity invoker, Vec3d orientation) {
+	Entity createProjectile(LivingEntity invoker, Vector3d orientation) {
 
 		DamagingProjectileEntity projectile = EntityType.SMALL_FIREBALL.create(invoker.getEntityWorld());
-		projectile.shootingEntity = invoker;
+		projectile.setShooter(invoker);		
 		projectile.setPosition(invoker.getPosX(), invoker.getPosY() + invoker.getEyeHeight(), invoker.getPosZ());
 		projectile.setMotion(orientation);
 

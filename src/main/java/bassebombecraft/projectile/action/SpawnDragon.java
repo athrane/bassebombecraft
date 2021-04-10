@@ -1,5 +1,7 @@
 package bassebombecraft.projectile.action;
 
+import static bassebombecraft.entity.EntityUtils.*;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
@@ -20,12 +22,19 @@ public class SpawnDragon implements ProjectileAction {
 		entity.setLocationAndAngles(projectile.getPosX(), projectile.getPosY(), projectile.getPosZ(), projectile.rotationYaw,
 				projectile.rotationPitch);
 
-		// get owner
-		LivingEntity commander = projectile.getThrower();
+		// get shooter
+		Entity shooter = projectile.getShooter();
 
-		// set phase and player as target
+		// set phase 		
 		entity.getPhaseManager().setPhase(PhaseType.STRAFE_PLAYER);
-		entity.getPhaseManager().getPhase(PhaseType.STRAFE_PLAYER).setTarget(commander);
+		
+		// if shooter is a living entity then set it as target		
+		if(isTypeLivingEntity(shooter)) {
+
+			// type cast and set
+			LivingEntity livingEntity = (LivingEntity) shooter;
+			entity.getPhaseManager().getPhase(PhaseType.STRAFE_PLAYER).setTarget(livingEntity);			
+		}
 
 		// spawn
 		world.addEntity(entity);

@@ -13,7 +13,7 @@ import net.minecraft.entity.MoverType;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 /**
@@ -61,13 +61,13 @@ public class MobProjectileEffect extends Effect {
 			return;
 
 		// get look vector
-		Vec3d lookVec = entity.getLookVec();
+		Vector3d lookVec = entity.getLookVec();
 
 		// move entity i view direction
 		double x = lookVec.x * force;
 		double y = lookVec.y * force;
 		double z = lookVec.z * force;
-		Vec3d moveVec = new Vec3d(x, y, z);
+		Vector3d moveVec = new Vector3d(x, y, z);
 		entity.move(MoverType.SELF, moveVec);
 
 		// get hit entities

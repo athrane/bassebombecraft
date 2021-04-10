@@ -12,7 +12,7 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 /**
@@ -29,7 +29,7 @@ abstract public class GenericShootProjectile2 implements Operator2 {
 	/**
 	 * Function to get orientation vectors.
 	 */
-	Function<Ports, Vec3d[]> fnGetOrientation;
+	Function<Ports, Vector3d[]> fnGetOrientation;
 
 	/**
 	 * Function to set projectiles.
@@ -44,7 +44,7 @@ abstract public class GenericShootProjectile2 implements Operator2 {
 	 * @param bcSetProjectiles function to set projectiles.
 	 */
 	public GenericShootProjectile2(Function<Ports, LivingEntity> fnGetInvoker,
-			Function<Ports, Vec3d[]> fnGetOrientation, BiConsumer<Ports, Entity[]> bcSetProjectiles) {
+			Function<Ports, Vector3d[]> fnGetOrientation, BiConsumer<Ports, Entity[]> bcSetProjectiles) {
 		this.fnGetInvoker = fnGetInvoker;
 		this.fnGetOrientation = fnGetOrientation;
 		this.bcSetProjectiles = bcSetProjectiles;
@@ -66,7 +66,7 @@ abstract public class GenericShootProjectile2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		LivingEntity invoker = applyV(fnGetInvoker, ports);
-		Vec3d[] vectors = applyV(fnGetOrientation, ports);
+		Vector3d[] vectors = applyV(fnGetOrientation, ports);
 
 		// get world
 		World world = invoker.getEntityWorld();
@@ -78,7 +78,7 @@ abstract public class GenericShootProjectile2 implements Operator2 {
 		int index = 0;
 
 		// create projectiles
-		for (Vec3d orientation : vectors) {
+		for (Vector3d orientation : vectors) {
 
 			// create and spawn projectile
 			Entity projectile = createProjectile(invoker, orientation);
@@ -104,6 +104,6 @@ abstract public class GenericShootProjectile2 implements Operator2 {
 	 * 
 	 * @return created projectile
 	 */
-	abstract Entity createProjectile(LivingEntity invoker, Vec3d orientation);
+	abstract Entity createProjectile(LivingEntity invoker, Vector3d orientation);
 
 }
