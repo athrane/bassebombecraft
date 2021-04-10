@@ -23,6 +23,9 @@ issueTrackerURL="https://github.com/athrane/bassebombecraft/issues" #optional
 	# A display name for the mod
 	displayName="BasseBombeCraft Mod" #mandatory
 	
+	# MOD license
+	license=GNU General Public License v3.0
+	
 	# A URL to query for updates for this mod. See the JSON update specification <here>
 	updateJSONURL="https://raw.githubusercontent.com/athrane/bassebombecraft/master/bassebombecraft_update.json" #optional
 	
