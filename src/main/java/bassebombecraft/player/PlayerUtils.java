@@ -1,6 +1,7 @@
 package bassebombecraft.player;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -73,7 +74,8 @@ public class PlayerUtils {
 	 */
 	public static void sendChatMessageToPlayer(PlayerEntity player, String string) {
 		ITextComponent message = new StringTextComponent(string);
-		player.sendMessage(message);
+		UUID uuid = player.getUniqueID();
+		player.sendMessage(message, uuid);
 	}
 
 	/**
