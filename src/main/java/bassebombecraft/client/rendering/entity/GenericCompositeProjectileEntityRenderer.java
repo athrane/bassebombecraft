@@ -66,11 +66,9 @@ public abstract class GenericCompositeProjectileEntityRenderer<T extends Entity>
 			this.drawTexture(matrix4f, matrix3f, ivertexbuilder, -10, -10, 0, 1, 1, 0, 1, 0, packedLightIn);
 			this.drawTexture(matrix4f, matrix3f, ivertexbuilder, 10, -10, 0, 0.0F, 1, 0, 1, 0, packedLightIn);
 		}
-
 		matrixStackIn.pop();
 
 		super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
-
 	}
 
 	/**
@@ -93,7 +91,7 @@ public abstract class GenericCompositeProjectileEntityRenderer<T extends Entity>
 			float u, float v, int normalX, int normalZ, int normalY, int lightmapUV) {
 
 		vertexBuilder.pos(matrix4f, (float) x, (float) y, (float) z).color(255, 255, 255, 255).tex(u, v)
-				.overlay(OverlayTexture.DEFAULT_LIGHT).lightmap(lightmapUV)
+				.overlay(OverlayTexture.NO_OVERLAY).lightmap(lightmapUV)
 				.normal(matrix3f, (float) normalX, (float) normalY, (float) normalZ).endVertex();
 	}
 
