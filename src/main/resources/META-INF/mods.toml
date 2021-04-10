@@ -12,6 +12,9 @@ loaderVersion="[27,)" #mandatory (24 is 1.13-pre, 25 is 1.13.1-re, 26 is 1.13.2,
 # A URL to refer people to when problems occur with this mod
 issueTrackerURL="https://github.com/athrane/bassebombecraft/issues" #optional
 
+# MOD license
+license="GNU General Public License v3.0"
+
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
 	# The modid of the mod
@@ -22,9 +25,6 @@ issueTrackerURL="https://github.com/athrane/bassebombecraft/issues" #optional
 	
 	# A display name for the mod
 	displayName="BasseBombeCraft Mod" #mandatory
-	
-	# MOD license
-	license=GNU General Public License v3.0
 	
 	# A URL to query for updates for this mod. See the JSON update specification <here>
 	updateJSONURL="https://raw.githubusercontent.com/athrane/bassebombecraft/master/bassebombecraft_update.json" #optional
