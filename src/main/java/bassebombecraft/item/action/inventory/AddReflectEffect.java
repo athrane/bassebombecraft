@@ -5,8 +5,6 @@ import static bassebombecraft.config.ModConfiguration.addReflectEffectAmplifier;
 import static bassebombecraft.config.ModConfiguration.addReflectEffectDuration;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 
-import java.util.function.Supplier;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
