@@ -24,7 +24,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.config.ProjectileEntityConfig;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
@@ -257,10 +256,6 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 
 		// add trail effect at clients
 		addTrailGraphicalEffect();
-
-		BassebombeCraft.getBassebombeCraft().getLogger().debug("shootUsingProjectileConfig: " + this);
-		BassebombeCraft.getBassebombeCraft().getLogger()
-				.debug("shootUsingProjectileConfig: orientation=" + orientation);
 	}
 
 	/**
