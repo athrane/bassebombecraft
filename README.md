@@ -19,12 +19,8 @@ The image is derived from the [itzg/minecraft-server](https://github.com/itzg/do
 The image is published to DockerHub by the name: [bassebombecraft/minecraft](https://hub.docker.com/r/bassebombecraft/minecraft).
 
 The image can be used by:
-
-start by pulling the image from a registry:
-`docker pull bassebombecraft/minecraft`
-
-and then start the image:
-`docker run bassebombecraft/minecraft`
+Start by pulling the image from a registry: `docker pull bassebombecraft/minecraft`
+and then start the image: `docker run bassebombecraft/minecraft`
 
 The container will start with a random name. The Minecraft server will listen on port 25565.
 
