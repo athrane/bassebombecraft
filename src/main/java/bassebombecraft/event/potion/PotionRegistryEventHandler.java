@@ -1,6 +1,5 @@
 package bassebombecraft.event.potion;
 
-import static bassebombecraft.ModConstants.AGGRO_MOB_EFFECT;
 import static bassebombecraft.ModConstants.AGGRO_PLAYER_EFFECT;
 import static bassebombecraft.ModConstants.AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.AMPLIFIER_EFFECT;
@@ -16,6 +15,7 @@ import static bassebombecraft.ModConstants.SUPERIOR_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.WEAK_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.potion.PotionUtils.getInstance;
 import static bassebombecraft.potion.PotionUtils.registerPotionRecipe;
+import static bassebombecraft.potion.effect.RegisteredEffects.AGGRO_MOB_EFFECT;
 import static net.minecraft.item.Items.CHORUS_FRUIT;
 import static net.minecraft.item.Items.EMERALD;
 import static net.minecraft.item.Items.ENDER_PEARL;
@@ -70,7 +70,7 @@ public class PotionRegistryEventHandler {
 		// create and register mob aggro potion
 		name = MOB_AGGRO_POTION_NAME.toLowerCase();
 		configPath = POTIONS_CONFIGPATH + MOB_AGGRO_POTION_NAME;
-		Potion mobAggroPotion = getInstance(name, configPath, AGGRO_MOB_EFFECT);
+		Potion mobAggroPotion = getInstance(name, configPath, AGGRO_MOB_EFFECT.get());
 		registry.register(mobAggroPotion);
 		registerPotionRecipe(Potions.AWKWARD, EMERALD, mobAggroPotion);
 
@@ -92,7 +92,7 @@ public class PotionRegistryEventHandler {
 	public static void registerEffects(RegistryEvent.Register<Effect> event) {
 		IForgeRegistry<Effect> registry = event.getRegistry();
 		registry.register(AMPLIFIER_EFFECT);
-		registry.register(AGGRO_MOB_EFFECT);
+		// registry.register(AGGRO_MOB_EFFECT);
 		registry.register(RECEIVE_AGGRO_EFFECT);
 		registry.register(AGGRO_PLAYER_EFFECT);
 		registry.register(MOB_PRIMING_EFFECT);

@@ -6,6 +6,7 @@ import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startServerSession;
 import static bassebombecraft.inventory.container.RegisteredContainers.CONTAINER_REGISTRY;
 import static bassebombecraft.item.RegisteredItems.ITEMS_REGISTRY;
+import static bassebombecraft.potion.effect.RegisteredEffects.POTION_REGISTRY;
 import static bassebombecraft.sound.RegisteredSounds.SOUNDS_REGISTRY;
 
 import java.io.PrintWriter;
@@ -336,6 +337,7 @@ public class ServerProxy implements Proxy {
 		CONTAINER_REGISTRY.register(bus);
 		ITEMS_REGISTRY.register(bus);
 		SOUNDS_REGISTRY.register(bus);
+		POTION_REGISTRY.register(bus);		
 	}
 
 }

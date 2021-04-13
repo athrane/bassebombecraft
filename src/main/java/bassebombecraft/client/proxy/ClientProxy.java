@@ -14,6 +14,7 @@ import static bassebombecraft.event.projectile.RegisteredEntityTypes.SKULL_PROJE
 import static bassebombecraft.inventory.container.RegisteredContainers.COMPOSITE_ITEM_COMTAINER;
 import static bassebombecraft.inventory.container.RegisteredContainers.CONTAINER_REGISTRY;
 import static bassebombecraft.item.RegisteredItems.ITEMS_REGISTRY;
+import static bassebombecraft.potion.effect.RegisteredEffects.POTION_REGISTRY;
 import static bassebombecraft.sound.RegisteredSounds.SOUNDS_REGISTRY;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
@@ -419,6 +420,7 @@ public class ClientProxy implements Proxy {
 		CONTAINER_REGISTRY.register(bus);
 		ITEMS_REGISTRY.register(bus);
 		SOUNDS_REGISTRY.register(bus);
+		POTION_REGISTRY.register(bus);
 	}
 
 }

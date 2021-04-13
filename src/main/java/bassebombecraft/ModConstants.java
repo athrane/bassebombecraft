@@ -399,11 +399,6 @@ public class ModConstants {
 	public static final String PRIMEDCREEPERCANNON_EFFECT_NAME = "PrimedCreeperCannonProjectileEffect";
 
 	/**
-	 * Aggro mob effect, used by {@linkplain MobsAggroIdolInventoryItem}.
-	 */
-	public static final Effect AGGRO_MOB_EFFECT = new AggroMobEffect();
-
-	/**
 	 * Receive mob aggro effect, used by {@linkplain MobsAggroIdolInventoryItem} and
 	 * {@linkplain ProjectileModifierEventHandler}.
 	 */
