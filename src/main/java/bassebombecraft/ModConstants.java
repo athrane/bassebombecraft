@@ -1,9 +1,5 @@
 package bassebombecraft;
 
-import static bassebombecraft.config.ModConfiguration.baconBazookaProjectileEffectExplosion;
-import static bassebombecraft.config.ModConfiguration.baconBazookaProjectileEffectForce;
-import static bassebombecraft.config.ModConfiguration.bearBlasterProjectileEffectExplosion;
-import static bassebombecraft.config.ModConfiguration.bearBlasterProjectileEffectForce;
 import static bassebombecraft.config.ModConfiguration.creeperCannonProjectileEffectExplosion;
 import static bassebombecraft.config.ModConfiguration.creeperCannonProjectileEffectForce;
 import static bassebombecraft.config.ModConfiguration.primedCreeperCannonProjectileEffectExplosion;
@@ -12,18 +8,14 @@ import static bassebombecraft.config.ModConfiguration.primedCreeperCannonProject
 import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
-import bassebombecraft.item.action.ShootBaconBazooka;
-import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.composite.CompositeMagicItem;
-import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.DecreaseSizeEffect;
 import bassebombecraft.potion.effect.IncreaseSizeEffect;
-import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.MobProjectileEffect;
 import bassebombecraft.potion.effect.ReflectEffect;
 import net.minecraft.entity.ai.attributes.Attribute;
@@ -392,35 +384,6 @@ public class ModConstants {
 	 * Primed creeper cannon projectile effect name.
 	 */
 	public static final String PRIMEDCREEPERCANNON_EFFECT_NAME = "PrimedCreeperCannonProjectileEffect";
-
-	/**
-	 * Primed mob effect, used by {@linkplain PrimeMobIdolInventoryItem}.
-	 */
-	public static final Effect MOB_PRIMING_EFFECT = new MobPrimingEffect();
-
-	/**
-	 * Bacon Bazooka effect, used by {@linkplain ShootBaconBazooka}.
-	 */
-	public static final Effect BACON_BAZOOKA_EFFECT = new MobProjectileEffect(baconBazookaProjectileEffectForce.get(),
-			baconBazookaProjectileEffectExplosion.get());
-
-	/**
-	 * Bear blaster effect, used by {@linkplain ShootBearBlaster}.
-	 */
-	public static final Effect BEAR_BLASTER_EFFECT = new MobProjectileEffect(bearBlasterProjectileEffectForce.get(),
-			bearBlasterProjectileEffectExplosion.get());
-
-	/**
-	 * Creeper cannon effect, used by {@linkplain ShootCreeperCannon}.
-	 */
-	public static final Effect CREEPER_CANNON_EFFECT = new MobProjectileEffect(creeperCannonProjectileEffectForce.get(),
-			creeperCannonProjectileEffectExplosion.get());
-
-	/**
-	 * Creeper cannon effect, used by {@linkplain ShootCreeperCannon}.
-	 */
-	public static final Effect PRIMED_CREEPER_CANNON_EFFECT = new MobProjectileEffect(
-			primedCreeperCannonProjectileEffectForce.get(), primedCreeperCannonProjectileEffectExplosion.get());
 
 	/**
 	 * Potion amplifier effect.

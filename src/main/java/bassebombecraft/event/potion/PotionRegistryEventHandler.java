@@ -5,7 +5,6 @@ import static bassebombecraft.ModConstants.AMPLIFIER_EFFECT;
 import static bassebombecraft.ModConstants.DECREASE_SIZE_EFFECT;
 import static bassebombecraft.ModConstants.INCREASE_SIZE_EFFECT;
 import static bassebombecraft.ModConstants.MOB_AGGRO_POTION_NAME;
-import static bassebombecraft.ModConstants.MOB_PRIMING_EFFECT;
 import static bassebombecraft.ModConstants.MOB_PRIMING_POTION_NAME;
 import static bassebombecraft.ModConstants.POTIONS_CONFIGPATH;
 import static bassebombecraft.ModConstants.REFLECT_EFFECT;
@@ -14,6 +13,7 @@ import static bassebombecraft.ModConstants.WEAK_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.potion.PotionUtils.getInstance;
 import static bassebombecraft.potion.PotionUtils.registerPotionRecipe;
 import static bassebombecraft.potion.effect.RegisteredEffects.AGGRO_MOB_EFFECT;
+import static bassebombecraft.potion.effect.RegisteredEffects.MOB_PRIMING_EFFECT;
 import static net.minecraft.item.Items.CHORUS_FRUIT;
 import static net.minecraft.item.Items.EMERALD;
 import static net.minecraft.item.Items.ENDER_PEARL;
@@ -75,7 +75,7 @@ public class PotionRegistryEventHandler {
 		// create and register mob priming potion
 		name = MOB_PRIMING_POTION_NAME.toLowerCase();
 		configPath = POTIONS_CONFIGPATH + MOB_PRIMING_POTION_NAME;
-		Potion primedMobPotion = getInstance(name, configPath, MOB_PRIMING_EFFECT);
+		Potion primedMobPotion = getInstance(name, configPath, MOB_PRIMING_EFFECT.get());
 		registry.register(primedMobPotion);
 		registerPotionRecipe(Potions.AWKWARD, FIRE_CHARGE, mobAggroPotion);
 	}
@@ -90,14 +90,9 @@ public class PotionRegistryEventHandler {
 	public static void registerEffects(RegistryEvent.Register<Effect> event) {
 		IForgeRegistry<Effect> registry = event.getRegistry();
 		registry.register(AMPLIFIER_EFFECT);
-		registry.register(MOB_PRIMING_EFFECT);
 		registry.register(REFLECT_EFFECT);
 		registry.register(DECREASE_SIZE_EFFECT);
 		registry.register(INCREASE_SIZE_EFFECT);
-		// registry.register(BEAR_BLASTER_EFFECT);
-		// registry.register(PRIMED_CREEPER_CANNON_EFFECT);
-		// registry.register(CREEPER_CANNON_EFFECT);
-		// registry.register(BACON_BAZOOKA_EFFECT);
 	}
 
 }

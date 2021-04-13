@@ -12,7 +12,7 @@ import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 import java.util.Collections;
 import java.util.List;
 
-import bassebombecraft.config.ModConfiguration;
+import static bassebombecraft.config.ModConfiguration.*;
 import bassebombecraft.entity.EntityDistanceSorter;
 import bassebombecraft.util.function.DiscardSelf;
 import net.minecraft.entity.CreatureEntity;
@@ -31,21 +31,11 @@ public class AggroMobEffect extends Effect {
 	 * Effect identifier.
 	 */
 	public static final String NAME = AggroMobEffect.class.getSimpleName();
-
-	/**
-	 * Update frequency for effect.
-	 */
-	int updateFrequency;
 	
 	/**
 	 * First list index.
 	 */
 	static final int FIRST_INDEX = 0;
-
-	/**
-	 * Area of effect.
-	 */
-	final int arreaOfEffect;
 
 	/**
 	 * Entity distance sorter.
@@ -63,8 +53,6 @@ public class AggroMobEffect extends Effect {
 	public AggroMobEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
 		doCommonEffectInitialization(this, NAME);
-		arreaOfEffect = ModConfiguration.aggroMobEffectAreaOfEffect.get();
-		updateFrequency = ModConfiguration.aggroMobEffectUpdateFrequency.get();
 	}
 
 	@Override
@@ -100,6 +88,7 @@ public class AggroMobEffect extends Effect {
 		discardSelfFilter.set(entity);
 
 		// get list of mobs
+		int arreaOfEffect = aggroMobEffectAreaOfEffect.get();		
 		AxisAlignedBB aabb = entity.getBoundingBox().grow(arreaOfEffect, arreaOfEffect, arreaOfEffect);
 		List<LivingEntity> targetList = entity.world.getEntitiesWithinAABB(LivingEntity.class, aabb, discardSelfFilter);
 
@@ -123,6 +112,7 @@ public class AggroMobEffect extends Effect {
 
 	@Override
 	public boolean isReady(int duration, int amplifier) {
+		int updateFrequency = aggroMobEffectUpdateFrequency.get();		
 		int moduloValue = duration % updateFrequency; 
 		return (moduloValue == 0);
 	}
