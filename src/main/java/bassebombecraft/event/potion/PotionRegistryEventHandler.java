@@ -9,7 +9,6 @@ import static bassebombecraft.ModConstants.MOB_AGGRO_POTION_NAME;
 import static bassebombecraft.ModConstants.MOB_PRIMING_EFFECT;
 import static bassebombecraft.ModConstants.MOB_PRIMING_POTION_NAME;
 import static bassebombecraft.ModConstants.POTIONS_CONFIGPATH;
-import static bassebombecraft.ModConstants.RECEIVE_AGGRO_EFFECT;
 import static bassebombecraft.ModConstants.REFLECT_EFFECT;
 import static bassebombecraft.ModConstants.SUPERIOR_AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.WEAK_AMPLIFICATION_POTION_NAME;
@@ -92,8 +91,6 @@ public class PotionRegistryEventHandler {
 	public static void registerEffects(RegistryEvent.Register<Effect> event) {
 		IForgeRegistry<Effect> registry = event.getRegistry();
 		registry.register(AMPLIFIER_EFFECT);
-		// registry.register(AGGRO_MOB_EFFECT);
-		registry.register(RECEIVE_AGGRO_EFFECT);
 		registry.register(AGGRO_PLAYER_EFFECT);
 		registry.register(MOB_PRIMING_EFFECT);
 		registry.register(REFLECT_EFFECT);

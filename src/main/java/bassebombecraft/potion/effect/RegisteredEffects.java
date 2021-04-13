@@ -21,9 +21,10 @@ public class RegisteredEffects {
 	public static final DeferredRegister<Effect> POTION_REGISTRY = create(POTIONS, MODID);
 
 	/**
-	 * Sounds.
+	 * Registered Effects.
 	 */
 	public static final RegistryObject<Effect> AGGRO_MOB_EFFECT = register(AggroMobEffect::new);
+	public static final RegistryObject<Effect> RECEIVE_AGGRO_EFFECT = register(ReceiveAggroEffect::new);
 
 	/**
 	 * Register item.

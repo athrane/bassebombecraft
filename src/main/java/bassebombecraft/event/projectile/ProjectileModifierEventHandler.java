@@ -1,7 +1,6 @@
 package bassebombecraft.event.projectile;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.ModConstants.RECEIVE_AGGRO_EFFECT;
 import static bassebombecraft.config.ModConfiguration.receiveAggroEffectAmplifier;
 import static bassebombecraft.config.ModConfiguration.receiveAggroEffectDuration;
 import static bassebombecraft.entity.projectile.ProjectileUtils.resolveShooter;
@@ -10,6 +9,7 @@ import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity2;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
+import static bassebombecraft.potion.effect.RegisteredEffects.RECEIVE_AGGRO_EFFECT;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import java.util.Optional;
@@ -43,10 +43,13 @@ import bassebombecraft.operator.entity.raytraceresult.SpawnSquid2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportMob2;
 import bassebombecraft.operator.projectile.modifier.tag.ReceiveAggro2;
+import bassebombecraft.operator.sound.PlaySound2;
+import bassebombecraft.sound.RegisteredSounds;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
@@ -62,10 +65,20 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber
 public class ProjectileModifierEventHandler {
 
+	public static final String NAME = ProjectileModifierEventHandler.class.getSimpleName();
+
 	/**
 	 * Teleport invoker operator.
 	 */
 	static final Operator2 TELEPORT_INVOKER_OPERATOR = new TeleportInvoker2();
+
+	/**
+	 * Create teleport invoker operator.
+	 */
+	static Supplier<Operator2> splTeleportInvokerOp = () -> {
+		Supplier<SoundEvent> splGetSound = RegisteredSounds.SHOOT_SKULL_PROJECTILE;
+		return new Sequence2(new TeleportInvoker2(), new PlaySound2(splGetSound));
+	};
 
 	/**
 	 * Teleport mob operator.
@@ -122,8 +135,8 @@ public class ProjectileModifierEventHandler {
 	static Supplier<Operator2> splDecoyOp = () -> {
 		Function<Ports, LivingEntity> fnGetTarget = getFnGetLivingEntity2();
 		BiConsumer<Ports, EffectInstance> bcSetEffectInstance = getBcSetEffectInstance1();
-		return new Sequence2(new SpawnDecoy2(), new AddEffect2(fnGetTarget, bcSetEffectInstance, RECEIVE_AGGRO_EFFECT,
-				receiveAggroEffectDuration.get(), receiveAggroEffectAmplifier.get()));
+		return new Sequence2(new SpawnDecoy2(), new AddEffect2(fnGetTarget, bcSetEffectInstance,
+				RECEIVE_AGGRO_EFFECT.get(), receiveAggroEffectDuration.get(), receiveAggroEffectAmplifier.get()));
 	};
 
 	/**
@@ -198,7 +211,7 @@ public class ProjectileModifierEventHandler {
 		};
 		BiConsumer<Ports, EffectInstance> bcSetEffectInstance = getBcSetEffectInstance1();
 		return new Sequence2(new IsLivingEntityHitInRaytraceResult2(), new AddEffect2(fnGetTarget, bcSetEffectInstance,
-				RECEIVE_AGGRO_EFFECT, receiveAggroEffectDuration.get(), receiveAggroEffectAmplifier.get()));
+				RECEIVE_AGGRO_EFFECT.get(), receiveAggroEffectDuration.get(), receiveAggroEffectAmplifier.get()));
 	};
 
 	/**
@@ -606,7 +619,7 @@ public class ProjectileModifierEventHandler {
 		ports.setWorld(event.getEntity().getEntityWorld());
 		run(ports, SQUID_OPERATOR);
 	}
-	
+
 	/**
 	 * Execute explode when killed operator.
 	 * 

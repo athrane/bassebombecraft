@@ -12,7 +12,6 @@ import static bassebombecraft.config.ModConfiguration.primedCreeperCannonProject
 import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
-import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootBearBlaster;
 import bassebombecraft.item.action.ShootCreeperCannon;
@@ -20,16 +19,13 @@ import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.composite.CompositeMagicItem;
-import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
-import bassebombecraft.potion.effect.AggroMobEffect;
 import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.DecreaseSizeEffect;
 import bassebombecraft.potion.effect.IncreaseSizeEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.MobProjectileEffect;
-import bassebombecraft.potion.effect.ReceiveAggroEffect;
 import bassebombecraft.potion.effect.ReflectEffect;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
@@ -397,12 +393,6 @@ public class ModConstants {
 	 * Primed creeper cannon projectile effect name.
 	 */
 	public static final String PRIMEDCREEPERCANNON_EFFECT_NAME = "PrimedCreeperCannonProjectileEffect";
-
-	/**
-	 * Receive mob aggro effect, used by {@linkplain MobsAggroIdolInventoryItem} and
-	 * {@linkplain ProjectileModifierEventHandler}.
-	 */
-	public static final Effect RECEIVE_AGGRO_EFFECT = new ReceiveAggroEffect();
 
 	/**
 	 * Aggro player effect, used by {@linkplain MobRespawningEffectEventHandler}.
