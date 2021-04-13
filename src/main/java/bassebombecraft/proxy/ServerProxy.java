@@ -6,6 +6,7 @@ import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startServerSession;
 import static bassebombecraft.inventory.container.RegisteredContainers.CONTAINER_REGISTRY;
 import static bassebombecraft.item.RegisteredItems.ITEMS_REGISTRY;
+import static bassebombecraft.sound.RegisteredSounds.SOUNDS_REGISTRY;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -294,7 +295,7 @@ public class ServerProxy implements Proxy {
 	public GraphicalEffectRepository getClientGraphicalEffectRepository() throws UnsupportedOperationException {
 		throw new UnsupportedOperationException("Operation not supported by server.");
 	}
-	
+
 	@Override
 	public CharmedMobsRepository getServerCharmedMobsRepository() {
 		return charmedMobsRepository;
@@ -329,11 +330,12 @@ public class ServerProxy implements Proxy {
 	public TargetRepository getServerTargetRepository() {
 		return targetRepository;
 	}
-	
+
 	@Override
 	public void doDeferredRegistration(IEventBus bus) {
 		CONTAINER_REGISTRY.register(bus);
 		ITEMS_REGISTRY.register(bus);
+		SOUNDS_REGISTRY.register(bus);
 	}
 
 }

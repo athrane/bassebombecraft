@@ -1,0 +1,20 @@
+{
+  "item.shoot_skull_projectile": {
+    "category" : "player",
+    "sounds": [{
+        "name": "bassebombecraft:gits_2xdrums",
+        "stream": true
+      }
+    ]
+  },
+  
+  "default_sound": {
+    "category" : "player",
+    "sounds": [{
+        "name": "bassebombecraft:shootwhoosh",
+        "stream": true
+      }
+    ]
+  }
+  
+}

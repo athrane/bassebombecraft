@@ -6,6 +6,7 @@ import static net.minecraft.util.SoundCategory.NEUTRAL;
 
 import java.util.Random;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import bassebombecraft.BassebombeCraft;
 import bassebombecraft.operator.Operator2;
@@ -19,7 +20,7 @@ import net.minecraft.world.World;
  * Generic implementation of the {@linkplain Operator2} interface which plays a
  * sound at the location of the entity.
  */
-abstract public class PlaySound2 implements Operator2 {
+public class PlaySound2 implements Operator2 {
 
 	/**
 	 * Pitch variance.
@@ -42,19 +43,19 @@ abstract public class PlaySound2 implements Operator2 {
 	Function<Ports, LivingEntity> fnGetEntity;
 
 	/**
-	 * The sound.
+	 * Function to get sound.
 	 */
-	SoundEvent sound;
+	Supplier<SoundEvent> splGetSound;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param fnGetEntity function to get entity.
-	 * @param sound       the sound which is played.
+	 * @param splGetSound function to get sound player by operator.
 	 */
-	public PlaySound2(Function<Ports, LivingEntity> fnGetEntity, SoundEvent sound) {
+	public PlaySound2(Function<Ports, LivingEntity> fnGetEntity, Supplier<SoundEvent> splGetSound) {
 		this.fnGetEntity = fnGetEntity;
-		this.sound = sound;
+		this.splGetSound = splGetSound;
 	}
 
 	/**
@@ -62,19 +63,23 @@ abstract public class PlaySound2 implements Operator2 {
 	 * 
 	 * Instance is configured with living entity #1 as entity from ports.
 	 * 
-	 * @param sound the sound which is played.
+	 * @param splGetSound function to get sound player by operator.
 	 */
-	public PlaySound2(SoundEvent sound) {
-		this(getFnGetLivingEntity1(), sound);
+	public PlaySound2(Supplier<SoundEvent> splGetSound) {
+		this(getFnGetLivingEntity1(), splGetSound);
 	}
 
 	@Override
 	public void run(Ports ports) {
 		LivingEntity entity = applyV(fnGetEntity, ports);
 
+		// get sound 
+		SoundEvent sound = splGetSound.get();
+		if(sound == null) return; 
+		
 		// get world
 		World world = entity.getEntityWorld();
-
+		
 		// get random
 		Random random = BassebombeCraft.getBassebombeCraft().getRandom();
 

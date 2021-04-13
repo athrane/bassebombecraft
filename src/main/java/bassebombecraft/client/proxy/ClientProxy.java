@@ -14,6 +14,7 @@ import static bassebombecraft.event.projectile.RegisteredEntityTypes.SKULL_PROJE
 import static bassebombecraft.inventory.container.RegisteredContainers.COMPOSITE_ITEM_COMTAINER;
 import static bassebombecraft.inventory.container.RegisteredContainers.CONTAINER_REGISTRY;
 import static bassebombecraft.item.RegisteredItems.ITEMS_REGISTRY;
+import static bassebombecraft.sound.RegisteredSounds.SOUNDS_REGISTRY;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 import java.io.PrintWriter;
@@ -113,7 +114,7 @@ public class ClientProxy implements Proxy {
 	 * Graphical effect rendering repository.
 	 */
 	GraphicalEffectRepository graphicalEffectRepository;
-	
+
 	/**
 	 * Charmed Mob repository
 	 */
@@ -175,7 +176,7 @@ public class ClientProxy implements Proxy {
 
 		// initialise graphicsl effect repository
 		graphicalEffectRepository = ClientGraphicalEffectRepository.getInstance();
-		
+
 		// Initialise charmed mobs repositories
 		clientCharmedMobsRepository = ClientCharmedMobsRepository.getInstance();
 		serverCharmedMobsRepository = ServerCharmedMobsRepository.getInstance();
@@ -194,7 +195,7 @@ public class ClientProxy implements Proxy {
 
 		// initialise targeted entities repository
 		targetRepository = DefaultTargetRepository.getInstance();
-		
+
 		// initialize network
 		networkHelper = new NetworkChannelHelper();
 	}
@@ -376,7 +377,7 @@ public class ClientProxy implements Proxy {
 	public GraphicalEffectRepository getClientGraphicalEffectRepository() throws UnsupportedOperationException {
 		return graphicalEffectRepository;
 	}
-	
+
 	@Override
 	public CharmedMobsRepository getServerCharmedMobsRepository() {
 		return serverCharmedMobsRepository;
@@ -411,12 +412,13 @@ public class ClientProxy implements Proxy {
 	public TargetRepository getServerTargetRepository() {
 		return targetRepository;
 	}
-	
+
 	@Override
 	public void doDeferredRegistration(IEventBus bus) {
 		PARTICLE_REGISTRY.register(bus);
 		CONTAINER_REGISTRY.register(bus);
 		ITEMS_REGISTRY.register(bus);
+		SOUNDS_REGISTRY.register(bus);
 	}
 
 }

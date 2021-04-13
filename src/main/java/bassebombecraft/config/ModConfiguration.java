@@ -21,6 +21,7 @@ import static bassebombecraft.config.InventoryItemConfig.getInstanceWithNoRange;
 import static bassebombecraft.config.ItemConfig.getInstance;
 import static bassebombecraft.config.ParticlesConfig.getInstance;
 import static bassebombecraft.config.ProjectileEntityConfig.getInstance;
+import static bassebombecraft.sound.RegisteredSounds.SHOOT_SKULL_PROJECTILE;
 import static net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR;
 
 import java.nio.file.Path;
@@ -1585,10 +1586,8 @@ public class ModConfiguration {
 		 * Configuration for the {@linkplain MobCommandersBaton} item.
 		 */
 		String name = MobCommandersBaton.ITEM_NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
 		mobCommandersBaton = getInstance(COMMON_BUILDER, name,
 				"Right-click to issue commands to charmed and commanded mobs.", 25);
-		COMMON_BUILDER.pop();
 
 		/**
 		 * Configuration for the {@linkplain MultipleArrowsBook} item.
@@ -1665,12 +1664,13 @@ public class ModConfiguration {
 				.defineInRange("cooldown", 25, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// TeleportBook
+		/**
+		 * Configuration for the {@linkplain TeleportBook} item.
+		 */
 		name = TeleportBook.ITEM_NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
 		teleportBook = getInstance(COMMON_BUILDER, name,
-				"Right-click to shoot projectile and teleport to the position where the projectile hits.", 25);
-		COMMON_BUILDER.pop();
+				"Right-click to shoot projectile and teleport to the position where the projectile hits.", 25,
+				SHOOT_SKULL_PROJECTILE);
 
 		/**
 		 * Configuration for the {@linkplain BeastmasterBook} item.
