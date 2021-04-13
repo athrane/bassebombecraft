@@ -1,7 +1,6 @@
 package bassebombecraft.operator.entity;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.ModConstants.AGGRO_PLAYER_EFFECT;
 import static bassebombecraft.ModConstants.IS_RESPAWNED;
 import static bassebombecraft.config.ModConfiguration.respawnMaxEntities;
 import static bassebombecraft.config.ModConfiguration.respawnMinEntities;
@@ -12,6 +11,7 @@ import static bassebombecraft.entity.EntityUtils.setAttribute;
 import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 import static bassebombecraft.operator.Operators2.applyV;
+import static bassebombecraft.potion.effect.RegisteredEffects.AGGRO_PLAYER_EFFECT;
 
 import java.util.Random;
 import java.util.function.Function;
@@ -114,7 +114,7 @@ public class Respawn2 implements Operator2 {
 	 * @return potion effect
 	 */
 	EffectInstance createEffect() {
-		return new EffectInstance(AGGRO_PLAYER_EFFECT, Integer.MAX_VALUE);
+		return new EffectInstance(AGGRO_PLAYER_EFFECT.get(), Integer.MAX_VALUE);
 	}
 
 }

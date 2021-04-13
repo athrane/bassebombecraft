@@ -1,6 +1,5 @@
 package bassebombecraft.event.potion;
 
-import static bassebombecraft.ModConstants.AGGRO_PLAYER_EFFECT;
 import static bassebombecraft.ModConstants.AMPLIFICATION_POTION_NAME;
 import static bassebombecraft.ModConstants.AMPLIFIER_EFFECT;
 import static bassebombecraft.ModConstants.DECREASE_SIZE_EFFECT;
@@ -91,7 +90,6 @@ public class PotionRegistryEventHandler {
 	public static void registerEffects(RegistryEvent.Register<Effect> event) {
 		IForgeRegistry<Effect> registry = event.getRegistry();
 		registry.register(AMPLIFIER_EFFECT);
-		registry.register(AGGRO_PLAYER_EFFECT);
 		registry.register(MOB_PRIMING_EFFECT);
 		registry.register(REFLECT_EFFECT);
 		registry.register(DECREASE_SIZE_EFFECT);

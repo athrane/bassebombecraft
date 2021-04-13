@@ -20,7 +20,6 @@ import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.composite.CompositeMagicItem;
 import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
-import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.DecreaseSizeEffect;
 import bassebombecraft.potion.effect.IncreaseSizeEffect;
@@ -393,11 +392,6 @@ public class ModConstants {
 	 * Primed creeper cannon projectile effect name.
 	 */
 	public static final String PRIMEDCREEPERCANNON_EFFECT_NAME = "PrimedCreeperCannonProjectileEffect";
-
-	/**
-	 * Aggro player effect, used by {@linkplain MobRespawningEffectEventHandler}.
-	 */
-	public static final Effect AGGRO_PLAYER_EFFECT = new AggroPlayerEffect();
 
 	/**
 	 * Primed mob effect, used by {@linkplain PrimeMobIdolInventoryItem}.
