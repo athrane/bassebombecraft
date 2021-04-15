@@ -55,17 +55,11 @@ public class MobPrimingEffect extends Effect {
 	Map<LivingEntity, PrimedEntity> primed = new HashMap<LivingEntity, PrimedEntity>();
 
 	/**
-	 * Priming count down
-	 */
-	final int countDown;
-
-	/**
 	 * MobPrimingEffect constructor.
 	 */
 	public MobPrimingEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
 		doCommonEffectInitialization(this, NAME);
-		countDown = mobPrimingEffectCountdown.get();
 	}
 
 	@Override
@@ -80,6 +74,7 @@ public class MobPrimingEffect extends Effect {
 			return;
 
 		// create primed entity
+		int countDown = mobPrimingEffectCountdown.get();		
 		if (!primed.containsKey(entity)) {
 			PrimedEntity value = new PrimedEntity(countDown);
 			primed.put(entity, value);

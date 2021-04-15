@@ -1,26 +1,14 @@
 package bassebombecraft;
 
-import static bassebombecraft.config.ModConfiguration.creeperCannonProjectileEffectExplosion;
-import static bassebombecraft.config.ModConfiguration.creeperCannonProjectileEffectForce;
-import static bassebombecraft.config.ModConfiguration.primedCreeperCannonProjectileEffectExplosion;
-import static bassebombecraft.config.ModConfiguration.primedCreeperCannonProjectileEffectForce;
-
 import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
-import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.composite.CompositeMagicItem;
-import bassebombecraft.potion.effect.AmplifierEffect;
-import bassebombecraft.potion.effect.DecreaseSizeEffect;
-import bassebombecraft.potion.effect.IncreaseSizeEffect;
-import bassebombecraft.potion.effect.MobProjectileEffect;
-import bassebombecraft.potion.effect.ReflectEffect;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
-import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -384,26 +372,6 @@ public class ModConstants {
 	 * Primed creeper cannon projectile effect name.
 	 */
 	public static final String PRIMEDCREEPERCANNON_EFFECT_NAME = "PrimedCreeperCannonProjectileEffect";
-
-	/**
-	 * Potion amplifier effect.
-	 */
-	public static final Effect AMPLIFIER_EFFECT = new AmplifierEffect();
-
-	/**
-	 * Reflect effect.
-	 */
-	public static final Effect REFLECT_EFFECT = new ReflectEffect();
-
-	/**
-	 * Increase size effect.
-	 */
-	public static final Effect INCREASE_SIZE_EFFECT = new IncreaseSizeEffect();
-
-	/**
-	 * Decrease size effect.
-	 */
-	public static final Effect DECREASE_SIZE_EFFECT = new DecreaseSizeEffect();
 
 	/**
 	 * Range value for non-AOE effect in {@linkplain InventoryItemActionStrategy}

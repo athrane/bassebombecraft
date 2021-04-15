@@ -7,6 +7,7 @@ import static bassebombecraft.entity.EntityUtils.explode;
 import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MoverType;
@@ -32,28 +33,28 @@ public class MobProjectileEffect extends Effect {
 	static final boolean IS_SMOKING = true;
 
 	/**
-	 * Projectile force
-	 */
-	final int force;
+	 * Function to get projectile force.
+	 */	
+	Supplier<Integer> splForce;
 
 	/**
-	 * Projectile impact explosion size.
-	 */
-	final int explosion;
-
+	 * Function to get projectile impact explosion size.
+	 */		
+	Supplier<Integer> splExplosion;
+	
 	/**
-	 * MobProjectilePotion constructor.
+	 * Constructor.
 	 * 
-	 * @param force     projectile force.
-	 * @param explosion explosion size.
+	 * @param splForce function to get projectile force.
+	 * @param splExplosion function to get explosion size.
 	 */
-	public MobProjectileEffect(int force, int explosion) {
+	public MobProjectileEffect(Supplier<Integer> splForce, Supplier<Integer> splExplosion) {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
 		doCommonEffectInitialization(this, NAME);
-		this.force = force;
-		this.explosion = explosion;
+		this.splForce = splForce;
+		this.splExplosion = splExplosion;
 	}
-
+	
 	@Override
 	public void performEffect(LivingEntity entity, int amplifier) {
 
@@ -64,6 +65,7 @@ public class MobProjectileEffect extends Effect {
 		Vector3d lookVec = entity.getLookVec();
 
 		// move entity i view direction
+		int force = splForce.get();
 		double x = lookVec.x * force;
 		double y = lookVec.y * force;
 		double z = lookVec.z * force;
@@ -75,6 +77,8 @@ public class MobProjectileEffect extends Effect {
 		AxisAlignedBB aabb = entity.getBoundingBox();
 		List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class, aabb);
 
+		splExplosion.get();
+		
 		// explosion if any entities where hit
 		if (!entities.isEmpty()) {
 
@@ -85,7 +89,7 @@ public class MobProjectileEffect extends Effect {
 					continue;
 
 				// trigger explosion
-				explode(entity, world, explosion);
+				explode(entity, world, splExplosion.get());
 
 				// kill projectile mob
 				DamageSource cause = DamageSource.MAGIC;
@@ -98,7 +102,7 @@ public class MobProjectileEffect extends Effect {
 
 		// explode at the end of duration
 		if (entity.deathTime > POTION_MOB_DEATH_TIME_TRIGGER) {
-			explode(entity, world, explosion);
+			explode(entity, world, splExplosion.get());
 		}
 	}
 

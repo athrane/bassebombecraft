@@ -44,7 +44,7 @@ import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportMob2;
 import bassebombecraft.operator.projectile.modifier.tag.ReceiveAggro2;
 import bassebombecraft.operator.sound.PlaySound2;
-import bassebombecraft.sound.RegisteredSounds;
+import static bassebombecraft.sound.RegisteredSounds.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
@@ -76,7 +76,7 @@ public class ProjectileModifierEventHandler {
 	 * Create teleport invoker operator.
 	 */
 	static Supplier<Operator2> splTeleportInvokerOp = () -> {
-		Supplier<SoundEvent> splGetSound = RegisteredSounds.SHOOT_SKULL_PROJECTILE;
+		Supplier<SoundEvent> splGetSound = SHOOT_SKULL_PROJECTILE;
 		return new Sequence2(new TeleportInvoker2(), new PlaySound2(splGetSound));
 	};
 

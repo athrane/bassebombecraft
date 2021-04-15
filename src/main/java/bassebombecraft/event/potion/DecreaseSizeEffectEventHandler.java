@@ -1,6 +1,6 @@
 package bassebombecraft.event.potion;
 
-import static bassebombecraft.ModConstants.DECREASE_SIZE_EFFECT;
+import static bassebombecraft.potion.effect.RegisteredEffects.DECREASE_SIZE_EFFECT;
 
 import bassebombecraft.operator.Operator;
 import bassebombecraft.operator.Operators;
@@ -12,13 +12,13 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 /**
- * Event handler for the decrease size potion effect.
- * Logic for the {@linkplain DecreaseSizeEffect}.
+ * Event handler for the decrease size potion effect. Logic for the
+ * {@linkplain DecreaseSizeEffect}.
  * 
  * When {@linkplain PotionExpiryEvent} is received at server side then the
  * removal of the effect is sync'ed to the client side.
  * 
- * The handler only executes events SERVER side. 
+ * The handler only executes events SERVER side.
  */
 @Mod.EventBusSubscriber
 public class DecreaseSizeEffectEventHandler {
@@ -30,8 +30,8 @@ public class DecreaseSizeEffectEventHandler {
 
 	static {
 		ops = new Operators();
-		Operator removeOp = new RemoveEffectAtClient(ops.getSplLivingEntity(), DECREASE_SIZE_EFFECT);
-		Operator ifOp = new IfEffectIsActive(ops.getSplLivingEntity(), removeOp, DECREASE_SIZE_EFFECT);
+		Operator removeOp = new RemoveEffectAtClient(ops.getSplLivingEntity(), DECREASE_SIZE_EFFECT.get());
+		Operator ifOp = new IfEffectIsActive(ops.getSplLivingEntity(), removeOp, DECREASE_SIZE_EFFECT.get());
 		ops.setOperator(ifOp);
 	}
 

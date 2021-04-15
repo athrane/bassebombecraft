@@ -1,16 +1,15 @@
 package bassebombecraft.item.inventory;
 
-import static bassebombecraft.ModConstants.DECREASE_SIZE_EFFECT;
 import static bassebombecraft.config.ModConfiguration.decreaseSizeEffectAmplifier;
 import static bassebombecraft.config.ModConfiguration.decreaseSizeEffectDuration;
 import static bassebombecraft.config.ModConfiguration.decreaseSizeIdolInventoryItem;
+import static bassebombecraft.potion.effect.RegisteredEffects.DECREASE_SIZE_EFFECT;
 
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
 import bassebombecraft.item.action.inventory.ExecuteOperatorOnTarget;
 import bassebombecraft.operator.Operator;
-import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.Operators;
 import bassebombecraft.operator.Sequence;
 import bassebombecraft.operator.conditional.IfEntityIsntType;
@@ -30,7 +29,8 @@ public class DecreaseSizeIdolInventoryItem extends GenericInventoryItem {
 
 	static Supplier<Operators> splOp = () -> {
 		Operators ops = new Operators();
-		AddEffect addOp = new AddEffect(ops.getSplTargetEntity(), DECREASE_SIZE_EFFECT, splDuration, splAmplifier);
+		AddEffect addOp = new AddEffect(ops.getSplTargetEntity(), DECREASE_SIZE_EFFECT.get(), splDuration,
+				splAmplifier);
 		AddEffectAtClient addOp2 = new AddEffectAtClient(ops.getSplTargetEntity(), addOp.getSplEffectInstance());
 		Sequence seqOp = new Sequence(addOp, addOp2);
 		Operator ifOp = new IfEntityIsntType(ops.getSplTargetEntity(), seqOp, PlayerEntity.class);

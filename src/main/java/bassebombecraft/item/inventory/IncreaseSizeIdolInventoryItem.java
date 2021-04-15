@@ -1,9 +1,9 @@
 package bassebombecraft.item.inventory;
 
-import static bassebombecraft.ModConstants.INCREASE_SIZE_EFFECT;
 import static bassebombecraft.config.ModConfiguration.increaseSizeEffectAmplifier;
 import static bassebombecraft.config.ModConfiguration.increaseSizeEffectDuration;
 import static bassebombecraft.config.ModConfiguration.increaseSizeIdolInventoryItem;
+import static bassebombecraft.potion.effect.RegisteredEffects.INCREASE_SIZE_EFFECT;
 
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
@@ -29,7 +29,8 @@ public class IncreaseSizeIdolInventoryItem extends GenericInventoryItem {
 
 	static Supplier<Operators> splOp = () -> {
 		Operators ops = new Operators();
-		AddEffect addOp = new AddEffect(ops.getSplTargetEntity(), INCREASE_SIZE_EFFECT, splDuration, splAmplifier);
+		AddEffect addOp = new AddEffect(ops.getSplTargetEntity(), INCREASE_SIZE_EFFECT.get(), splDuration,
+				splAmplifier);
 		AddEffectAtClient addOp2 = new AddEffectAtClient(ops.getSplTargetEntity(), addOp.getSplEffectInstance());
 		Sequence seqOp = new Sequence(addOp, addOp2);
 		Operator ifOp = new IfEntityIsntType(ops.getSplTargetEntity(), seqOp, PlayerEntity.class);

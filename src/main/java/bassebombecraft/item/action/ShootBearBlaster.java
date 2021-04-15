@@ -2,11 +2,11 @@ package bassebombecraft.item.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.entity.EntityUtils.setProjectileEntityPosition;
+import static bassebombecraft.potion.effect.RegisteredEffects.BEAR_BLASTER_EFFECT;
 
 import java.util.Random;
 
 import bassebombecraft.config.ModConfiguration;
-import bassebombecraft.potion.effect.RegisteredEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -76,7 +76,7 @@ public class ShootBearBlaster implements RightClickedItemAction {
 		setProjectileEntityPosition(entity, projectileEntity, spawnDisplacement);
 
 		// add potion effect
-		EffectInstance effect = new EffectInstance(RegisteredEffects.BEAR_BLASTER_EFFECT.get(), duration);
+		EffectInstance effect = new EffectInstance(BEAR_BLASTER_EFFECT.get(), duration);
 		projectileEntity.addPotionEffect(effect);
 
 		// set no health to trigger death (in max 20 ticks)

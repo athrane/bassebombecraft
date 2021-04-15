@@ -1,11 +1,11 @@
 package bassebombecraft.event.potion;
 
-import static bassebombecraft.ModConstants.REFLECT_EFFECT;
 import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
 import static bassebombecraft.config.ModConfiguration.reflectEffectParticles;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.potion.PotionUtils.getEffectIfActive;
+import static bassebombecraft.potion.effect.RegisteredEffects.REFLECT_EFFECT;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -55,13 +55,13 @@ public class ReflectEffectEventHandler {
 		Function<Ports, DamageSource> fnGetDamageSource = DefaultPorts.getFnDamageSource1();
 
 		// ReflectMobDamageAmplified2: get amplifier from effect instance
-		Function<Ports, Integer> fnGetAmplifier = p -> getEffectIfActive(p.getLivingEntity1(), REFLECT_EFFECT).get()
-				.getAmplifier();
+		Function<Ports, Integer> fnGetAmplifier = p -> getEffectIfActive(p.getLivingEntity1(), REFLECT_EFFECT.get())
+				.get().getAmplifier();
 
 		// ReflectMobDamageAmplified2: get damage amount from event
 		Function<Ports, Float> fnGetAmount = p -> p.getDouble1().floatValue();
 
-		Operator2 op = new Sequence2(new IsWorldAtServerSide2(), new IsEffectActive2(REFLECT_EFFECT),
+		Operator2 op = new Sequence2(new IsWorldAtServerSide2(), new IsEffectActive2(REFLECT_EFFECT.get()),
 				new ReflectMobDamageAmplified2(fnGetDamageSource, fnGetAmplifier, fnGetAmount),
 				new AddParticlesFromEntityAtClient2(createInfoFromConfig(reflectEffectParticles)));
 		optOp = Optional.of(op);
