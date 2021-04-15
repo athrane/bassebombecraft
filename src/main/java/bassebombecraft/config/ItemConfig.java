@@ -1,13 +1,15 @@
 package bassebombecraft.config;
 
-import static bassebombecraft.sound.RegisteredSounds.DEFAULT;
+import static bassebombecraft.sound.RegisteredSounds.DEFAULT_SOUND;
 
 import java.util.function.Supplier;
 
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
-import net.minecraftforge.fml.RegistryObject;;
+import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.registries.ForgeRegistries;;
 
 /**
  * Class for defining item information in configuration files.
@@ -17,7 +19,6 @@ public class ItemConfig {
 	public ForgeConfigSpec.ConfigValue<String> tooltip;
 	public ForgeConfigSpec.IntValue cooldown;
 	public ForgeConfigSpec.ConfigValue<String> sound;
-	RegistryObject<SoundEvent> soundResolved;
 
 	/**
 	 * ItemConfig constructor.
@@ -35,10 +36,9 @@ public class ItemConfig {
 		this.tooltip = builder.comment("Tooltip for item.").define("tooltip", tooltip);
 		this.cooldown = builder.comment("Game ticks between item activation.").defineInRange("cooldown", cooldown, 0,
 				Integer.MAX_VALUE);
-		this.soundResolved = sound;
 		String soundAsString = sound.getId().getPath();
-		this.sound = builder.comment(
-				"Sound when using item. The names of the legal sounds are defined in bassebombecraft.sound.RegisteredSounds.")
+		this.sound = builder
+				.comment("Sound when using item. Legal sounds are defined in bassebombecraft.sound.RegisteredSounds.")
 				.define("sound", soundAsString);
 		builder.pop();
 	}
@@ -67,7 +67,8 @@ public class ItemConfig {
 	 * @return item sound.
 	 */
 	public Supplier<SoundEvent> splGetSound() {
-		return () -> soundResolved.get();
+		ResourceLocation key = new ResourceLocation(sound.get());
+		return () -> ForgeRegistries.SOUND_EVENTS.getValue(key);
 	}
 
 	/**
@@ -79,7 +80,7 @@ public class ItemConfig {
 	 * @param cooldown book cooldown.
 	 */
 	public static ItemConfig getInstance(Builder builder, String name, String tooltip, int cooldown) {
-		return new ItemConfig(builder, name, tooltip, cooldown, DEFAULT);
+		return new ItemConfig(builder, name, tooltip, cooldown, DEFAULT_SOUND);
 	}
 
 	/**

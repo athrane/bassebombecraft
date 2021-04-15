@@ -23,18 +23,24 @@ public class LazyInitOp2 implements Operator2 {
 	Supplier<Operator2> splOp = null;
 
 	/**
+	 * Constructor.
 	 * 
-	 * @param splOp
+	 * @param splOp function to initialize operator.
 	 */
 	LazyInitOp2(Supplier<Operator2> splOp) {
 		this.splOp = splOp;
 	}
 
 	/**
+	 * Resolves operator.
 	 * 
-	 * @return
+	 * If operator isn't result then the initializer function is invoked and the
+	 * operator is stored. If the operator was resolved the the instance is
+	 * returned.
+	 * 
+	 * @return return resolved operator.
 	 */
-	public Operator2 get() {
+	Operator2 resolveOperator() {
 		if (optOp.isPresent())
 			return optOp.get();
 		optOp = Optional.of(splOp.get());
@@ -43,14 +49,15 @@ public class LazyInitOp2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		Operators2.run(ports, get());
+		Operators2.run(ports, resolveOperator());
 	}
 
 	/**
 	 * Factory method.
 	 * 
-	 * @param splOp
-	 * @return
+	 * @param splOp function to initialize operator.
+	 * 
+	 * @return operator instance which supports lazy initialize if operator.
 	 */
 	public static LazyInitOp2 of(Supplier<Operator2> splOp) {
 		return new LazyInitOp2(splOp);

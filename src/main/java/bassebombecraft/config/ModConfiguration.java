@@ -21,7 +21,6 @@ import static bassebombecraft.config.InventoryItemConfig.getInstanceWithNoRange;
 import static bassebombecraft.config.ItemConfig.getInstance;
 import static bassebombecraft.config.ParticlesConfig.getInstance;
 import static bassebombecraft.config.ProjectileEntityConfig.getInstance;
-import static bassebombecraft.sound.RegisteredSounds.SHOOT_SKULL_PROJECTILE;
 import static net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR;
 
 import java.nio.file.Path;
@@ -204,6 +203,7 @@ import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnIceBlock2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnLavaBlock2;
+import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
 import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
@@ -264,6 +264,12 @@ public class ModConfiguration {
 	 * {@linkplain ReflectEffectEventHandler}.
 	 */
 	public static ParticlesConfig reflectEffectParticles;
+
+	/**
+	 * Sound effect play for the {@linkplain TeleportInvoker2} operator in the
+	 * {@linkplain ProjectileModifierEventHandler}.
+	 */
+	public static ForgeConfigSpec.ConfigValue<String> teleportInvokerSound;
 
 	/**
 	 * Particles spawned by charmed mob, spawned by
@@ -864,6 +870,18 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnedBlockParticles = getInstance(COMMON_BUILDER, "bassebombecraft:blockparticle", 5, 10, 0.1, 1.0, 1.0, 1.0);
 		COMMON_BUILDER.pop();
+
+		/**
+		 * Sound effect play for the {@linkplain TeleportInvoker2} operator in the
+		 * {@linkplain ProjectileModifierEventHandler}.
+		 */
+		name = ProjectileModifierEventHandler.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		teleportInvokerSound = COMMON_BUILDER.comment(
+				"Sound when operator teleport invoker operator is executed. Legal sounds are defined in bassebombecraft.sound.RegisteredSounds.")
+				.define("sound", "operator.teleport_invoker");
+		COMMON_BUILDER.pop();
+
 	}
 
 	/**
@@ -1669,8 +1687,7 @@ public class ModConfiguration {
 		 */
 		name = TeleportBook.ITEM_NAME;
 		teleportBook = getInstance(COMMON_BUILDER, name,
-				"Right-click to shoot projectile and teleport to the position where the projectile hits.", 25,
-				SHOOT_SKULL_PROJECTILE);
+				"Right-click to shoot projectile and teleport to the position where the projectile hits.", 25);
 
 		/**
 		 * Configuration for the {@linkplain BeastmasterBook} item.
