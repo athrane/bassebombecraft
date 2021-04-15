@@ -8,8 +8,10 @@ import static bassebombecraft.operator.DefaultPorts.getBcSetEffectInstance1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity2;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.operator.LazyInitOp2.of;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.potion.effect.RegisteredEffects.RECEIVE_AGGRO_EFFECT;
+import static bassebombecraft.sound.RegisteredSounds.SHOOT_SKULL_PROJECTILE;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import java.util.Optional;
@@ -44,7 +46,6 @@ import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportMob2;
 import bassebombecraft.operator.projectile.modifier.tag.ReceiveAggro2;
 import bassebombecraft.operator.sound.PlaySound2;
-import static bassebombecraft.sound.RegisteredSounds.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
@@ -142,7 +143,7 @@ public class ProjectileModifierEventHandler {
 	/**
 	 * Spawn decoy operator.
 	 */
-	static final Operator2 DECOY_OPERATOR = splDecoyOp.get();
+	static final Operator2 decoyOp = of(splDecoyOp);
 
 	/**
 	 * Explode when killed operator.
@@ -217,7 +218,7 @@ public class ProjectileModifierEventHandler {
 	/**
 	 * Receive aggro operator
 	 */
-	static final Operator2 RECEIVE_AGGGRO_OPERATOR = splReceiveAggroOp.get();
+	static final Operator2 receiveAggroOp = of(splReceiveAggroOp);
 
 	/**
 	 * Bounce on impact operator.
@@ -457,7 +458,7 @@ public class ProjectileModifierEventHandler {
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
 		ports.setLivingEntity1(optShooter.get());
-		run(ports, DECOY_OPERATOR);
+		run(ports, decoyOp);
 	}
 
 	/**
@@ -578,7 +579,7 @@ public class ProjectileModifierEventHandler {
 	static void receiveAggro(ProjectileImpactEvent event) {
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-		run(ports, RECEIVE_AGGGRO_OPERATOR);
+		run(ports, receiveAggroOp);
 	}
 
 	/**

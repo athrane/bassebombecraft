@@ -54,7 +54,6 @@ public class AddEffect2 implements Operator2 {
 	 * 
 	 * @param fnGetTarget         function to get target entity.
 	 * @param bcSetEffectInstance function to set effect instance.
-	 * 
 	 * @param effect              effect.
 	 * @param duration            duration of the potion effect.
 	 * @param amplifier           amplifier of the potion effect.
@@ -86,7 +85,7 @@ public class AddEffect2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		LivingEntity target = applyV(fnGetTarget,ports);
+		LivingEntity target = applyV(fnGetTarget, ports);
 
 		// create effect instance (for outbound port)
 		EffectInstance effectInstance = new EffectInstance(effect, duration, amplifier);
