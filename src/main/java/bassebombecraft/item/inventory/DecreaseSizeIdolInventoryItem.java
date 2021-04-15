@@ -7,7 +7,7 @@ import static bassebombecraft.operator.DefaultPorts.getBcSetEffectInstance1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity2;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.LazyInitOp2.of;
-import static bassebombecraft.potion.effect.RegisteredEffects.RECEIVE_AGGRO_EFFECT;
+import static bassebombecraft.potion.effect.RegisteredEffects.*;
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -38,7 +38,7 @@ public class DecreaseSizeIdolInventoryItem extends GenericInventoryItem {
 		Function<Ports, LivingEntity> fnGetTarget = getFnGetLivingEntity2();
 		BiConsumer<Ports, EffectInstance> bcSetEffectInstance = getBcSetEffectInstance1();
 		return new Sequence2(new IsNot2(new IsEntityOfType2(fnGetTarget, PlayerEntity.class)),
-				new AddEffect2(fnGetTarget, bcSetEffectInstance, RECEIVE_AGGRO_EFFECT.get(),
+				new AddEffect2(fnGetTarget, bcSetEffectInstance, DECREASE_SIZE_EFFECT.get(),
 						decreaseSizeEffectDuration.get(), decreaseSizeEffectAmplifier.get()));
 	};
 
