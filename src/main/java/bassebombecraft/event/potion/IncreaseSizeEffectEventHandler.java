@@ -32,7 +32,7 @@ public class IncreaseSizeEffectEventHandler {
 	/**
 	 * Create operators.
 	 */
-	static Supplier<Operator2> splOp2 = () -> {
+	static Supplier<Operator2> splOp = () -> {
 		return new Sequence2(new IsEffectActive2(INCREASE_SIZE_EFFECT.get()),
 				new RemoveEffectAtClient2(INCREASE_SIZE_EFFECT.get()));
 	};
@@ -40,7 +40,7 @@ public class IncreaseSizeEffectEventHandler {
 	/**
 	 * Operator to setup operator initializer function for lazy initialisation.
 	 */
-	static final Operator2 lazyInitOp = of(splOp2);
+	static final Operator2 lazyInitOp = of(splOp);
 
 	/**
 	 * Handle {@linkplain PotionExpiryEvent} at server side.
