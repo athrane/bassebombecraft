@@ -11,6 +11,7 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.conditional.IsEffectActive2;
+import bassebombecraft.operator.conditional.IsWorldAtServerSide2;
 import bassebombecraft.operator.entity.potion.effect.RemoveEffectAtClient2;
 import bassebombecraft.potion.effect.DecreaseSizeEffect;
 import net.minecraftforge.event.entity.living.PotionEvent.PotionExpiryEvent;
@@ -33,7 +34,7 @@ public class DecreaseSizeEffectEventHandler {
 	 * Create operators.
 	 */
 	static Supplier<Operator2> splOp = () -> {
-		return new Sequence2(new IsEffectActive2(DECREASE_SIZE_EFFECT.get()),
+		return new Sequence2(new IsWorldAtServerSide2(), new IsEffectActive2(DECREASE_SIZE_EFFECT.get()),
 				new RemoveEffectAtClient2(DECREASE_SIZE_EFFECT.get()));
 	};
 
