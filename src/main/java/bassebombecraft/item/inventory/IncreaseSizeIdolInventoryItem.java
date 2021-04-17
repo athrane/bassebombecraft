@@ -11,7 +11,6 @@ import static bassebombecraft.potion.effect.RegisteredEffects.INCREASE_SIZE_EFFE
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;
-import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
 import bassebombecraft.item.action.inventory.ExecuteOperatorOnTarget2;
@@ -31,9 +30,6 @@ import net.minecraft.potion.EffectInstance;
 public class IncreaseSizeIdolInventoryItem extends GenericInventoryItem {
 
 	public static final String ITEM_NAME = IncreaseSizeIdolInventoryItem.class.getSimpleName();
-
-	static IntSupplier splDuration = () -> increaseSizeEffectDuration.get();
-	static IntSupplier splAmplifier = () -> increaseSizeEffectAmplifier.get();
 
 	/**
 	 * Create operators.

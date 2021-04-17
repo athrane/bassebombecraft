@@ -1,11 +1,17 @@
 package bassebombecraft.event.potion;
 
+import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.operator.LazyInitOp2.of;
+import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.potion.effect.RegisteredEffects.INCREASE_SIZE_EFFECT;
 
-import bassebombecraft.operator.Operator;
-import bassebombecraft.operator.Operators;
-import bassebombecraft.operator.conditional.IfEffectIsActive;
-import bassebombecraft.operator.entity.potion.effect.RemoveEffectAtClient;
+import java.util.function.Supplier;
+
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.Sequence2;
+import bassebombecraft.operator.conditional.IsEffectActive2;
+import bassebombecraft.operator.entity.potion.effect.RemoveEffectAtClient2;
 import bassebombecraft.potion.effect.IncreaseSizeEffect;
 import net.minecraftforge.event.entity.living.PotionEvent.PotionExpiryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -24,16 +30,17 @@ import net.minecraftforge.fml.common.Mod;
 public class IncreaseSizeEffectEventHandler {
 
 	/**
-	 * Operator execution.
+	 * Create operators.
 	 */
-	static Operators ops;
+	static Supplier<Operator2> splOp2 = () -> {
+		return new Sequence2(new IsEffectActive2(INCREASE_SIZE_EFFECT.get()),
+				new RemoveEffectAtClient2(INCREASE_SIZE_EFFECT.get()));
+	};
 
-	static {
-		ops = new Operators();
-		Operator removeOp = new RemoveEffectAtClient(ops.getSplLivingEntity(), INCREASE_SIZE_EFFECT.get());
-		Operator ifOp = new IfEffectIsActive(ops.getSplLivingEntity(), removeOp, INCREASE_SIZE_EFFECT.get());
-		ops.setOperator(ifOp);
-	}
+	/**
+	 * Operator to setup operator initializer function for lazy initialisation.
+	 */
+	static final Operator2 lazyInitOp = of(splOp2);
 
 	/**
 	 * Handle {@linkplain PotionExpiryEvent} at server side.
@@ -42,7 +49,9 @@ public class IncreaseSizeEffectEventHandler {
 	 */
 	@SubscribeEvent
 	public static void handlePotionExpiryEvent(PotionExpiryEvent event) {
-		ops.run(event.getEntityLiving());
+		Ports ports = getInstance();
+		ports.setLivingEntity1(event.getEntityLiving());
+		run(ports, lazyInitOp);
 	}
 
 }
