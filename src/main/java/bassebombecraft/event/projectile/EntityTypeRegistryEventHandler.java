@@ -2,6 +2,7 @@ package bassebombecraft.event.projectile;
 
 import static bassebombecraft.ModConstants.MODID;
 import static net.minecraft.entity.EntityClassification.MISC;
+import static net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus.MOD;
 
 import bassebombecraft.entity.projectile.CircleProjectileEntity;
 import bassebombecraft.entity.projectile.EggProjectileEntity;
@@ -11,13 +12,13 @@ import bassebombecraft.entity.projectile.SkullProjectileEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.registries.IForgeRegistry;
 
 /**
- * Event handler for registration of entity types, projectiles.
+ * Event handler for registration of potion recipes.
  */
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(bus = MOD)
 public class EntityTypeRegistryEventHandler {
 
 	/**
@@ -47,9 +48,9 @@ public class EntityTypeRegistryEventHandler {
 				.build(name).setRegistryName(MODID, name));
 
 		name = SkullProjectileEntity.NAME.toLowerCase();
-		registry.register(EntityType.Builder.<SkullProjectileEntity>create(SkullProjectileEntity::new, MISC)
-				.build(name).setRegistryName(MODID, name));
-		
+		registry.register(EntityType.Builder.<SkullProjectileEntity>create(SkullProjectileEntity::new, MISC).build(name)
+				.setRegistryName(MODID, name));
+
 	}
 
 }
