@@ -2,9 +2,15 @@ package bassebombecraft;
 
 import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.ModConstants.TAB_NAME;
+import static bassebombecraft.client.particles.RegisteredParticles.PARTICLE_REGISTRY;
 import static bassebombecraft.config.ModConfiguration.loadConfig;
 import static bassebombecraft.config.VersionUtils.validateVersion;
+import static bassebombecraft.inventory.container.RegisteredContainers.CONTAINER_REGISTRY;
 import static bassebombecraft.item.RegisteredItems.COMPOSITE;
+import static bassebombecraft.item.RegisteredItems.ITEMS_REGISTRY;
+import static bassebombecraft.potion.RegisteredPotions.POTION_REGISTRY;
+import static bassebombecraft.potion.effect.RegisteredEffects.EFFECT_REGISTRY;
+import static bassebombecraft.sound.RegisteredSounds.SOUNDS_REGISTRY;
 import static bassebombecraft.tab.ItemGroupFactory.createItemGroup;
 import static java.util.Optional.ofNullable;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
@@ -108,7 +114,12 @@ public class BassebombeCraft {
 			modEventBus.addListener(clientSetupEventHandler);
 
 			// do deferred registration of objects
-			proxy.doDeferredRegistration(get().getModEventBus());
+			PARTICLE_REGISTRY.register(modEventBus);
+			CONTAINER_REGISTRY.register(modEventBus);
+			ITEMS_REGISTRY.register(modEventBus);
+			SOUNDS_REGISTRY.register(modEventBus);
+			EFFECT_REGISTRY.register(modEventBus);
+			POTION_REGISTRY.register(modEventBus);
 
 		} catch (ExceptionInInitializerError e) {
 			reportAndLogException(e);

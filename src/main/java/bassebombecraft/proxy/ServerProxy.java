@@ -4,10 +4,6 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.config.VersionUtils.endServerSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startServerSession;
-import static bassebombecraft.inventory.container.RegisteredContainers.CONTAINER_REGISTRY;
-import static bassebombecraft.item.RegisteredItems.ITEMS_REGISTRY;
-import static bassebombecraft.potion.effect.RegisteredEffects.POTION_REGISTRY;
-import static bassebombecraft.sound.RegisteredSounds.SOUNDS_REGISTRY;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -39,7 +35,6 @@ import bassebombecraft.event.job.JobRepository;
 import bassebombecraft.network.NetworkChannelHelper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.IEventBus;
 
 /**
  * Implementation of the {@linkplain Proxy} interface for the physical server.
@@ -330,14 +325,6 @@ public class ServerProxy implements Proxy {
 	@Override
 	public TargetRepository getServerTargetRepository() {
 		return targetRepository;
-	}
-
-	@Override
-	public void doDeferredRegistration(IEventBus bus) {
-		CONTAINER_REGISTRY.register(bus);
-		ITEMS_REGISTRY.register(bus);
-		SOUNDS_REGISTRY.register(bus);
-		POTION_REGISTRY.register(bus);		
 	}
 
 }

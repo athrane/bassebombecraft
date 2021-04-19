@@ -7,7 +7,6 @@ import static bassebombecraft.config.ModConfiguration.receiveAggroEffectUpdateFr
 import static bassebombecraft.entity.EntityUtils.setMobEntityAggroed;
 import static bassebombecraft.entity.EntityUtils.setTarget;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
-import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 
 import java.util.Collections;
 import java.util.List;
@@ -51,7 +50,6 @@ public class ReceiveAggroEffect extends Effect {
 	 */
 	public ReceiveAggroEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
-		doCommonEffectInitialization(this, NAME);
 	}
 
 	@Override

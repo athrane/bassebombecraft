@@ -7,7 +7,6 @@ import static bassebombecraft.entity.EntityUtils.explode;
 import static bassebombecraft.entity.EntityUtils.isTypeCreeperEntity;
 import static bassebombecraft.entity.EntityUtils.killEntity;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
-import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -59,7 +58,6 @@ public class MobPrimingEffect extends Effect {
 	 */
 	public MobPrimingEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
-		doCommonEffectInitialization(this, NAME);
 	}
 
 	@Override
@@ -74,7 +72,7 @@ public class MobPrimingEffect extends Effect {
 			return;
 
 		// create primed entity
-		int countDown = mobPrimingEffectCountdown.get();		
+		int countDown = mobPrimingEffectCountdown.get();
 		if (!primed.containsKey(entity)) {
 			PrimedEntity value = new PrimedEntity(countDown);
 			primed.put(entity, value);

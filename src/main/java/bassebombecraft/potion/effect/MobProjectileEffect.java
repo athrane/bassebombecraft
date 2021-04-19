@@ -4,7 +4,6 @@ import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
 import static bassebombecraft.ModConstants.POTION_MOB_DEATH_TIME_TRIGGER;
 import static bassebombecraft.entity.EntityUtils.explode;
-import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -34,27 +33,26 @@ public class MobProjectileEffect extends Effect {
 
 	/**
 	 * Function to get projectile force.
-	 */	
+	 */
 	Supplier<Integer> splForce;
 
 	/**
 	 * Function to get projectile impact explosion size.
-	 */		
+	 */
 	Supplier<Integer> splExplosion;
-	
+
 	/**
 	 * Constructor.
 	 * 
-	 * @param splForce function to get projectile force.
+	 * @param splForce     function to get projectile force.
 	 * @param splExplosion function to get explosion size.
 	 */
 	public MobProjectileEffect(Supplier<Integer> splForce, Supplier<Integer> splExplosion) {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
-		doCommonEffectInitialization(this, NAME);
 		this.splForce = splForce;
 		this.splExplosion = splExplosion;
 	}
-	
+
 	@Override
 	public void performEffect(LivingEntity entity, int amplifier) {
 
@@ -78,7 +76,7 @@ public class MobProjectileEffect extends Effect {
 		List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class, aabb);
 
 		splExplosion.get();
-		
+
 		// explosion if any entities where hit
 		if (!entities.isEmpty()) {
 

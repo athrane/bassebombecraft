@@ -1,7 +1,6 @@
 package bassebombecraft.client.proxy;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.client.particles.RegisteredParticles.PARTICLE_REGISTRY;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayerUId;
 import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
@@ -12,10 +11,6 @@ import static bassebombecraft.event.projectile.RegisteredEntityTypes.LIGHTNING_P
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.LLAMA_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.SKULL_PROJECTILE;
 import static bassebombecraft.inventory.container.RegisteredContainers.COMPOSITE_ITEM_COMTAINER;
-import static bassebombecraft.inventory.container.RegisteredContainers.CONTAINER_REGISTRY;
-import static bassebombecraft.item.RegisteredItems.ITEMS_REGISTRY;
-import static bassebombecraft.potion.effect.RegisteredEffects.POTION_REGISTRY;
-import static bassebombecraft.sound.RegisteredSounds.SOUNDS_REGISTRY;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 import java.io.PrintWriter;
@@ -67,7 +62,6 @@ import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.proxy.Proxy;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 /**
@@ -412,15 +406,6 @@ public class ClientProxy implements Proxy {
 	@Override
 	public TargetRepository getServerTargetRepository() {
 		return targetRepository;
-	}
-
-	@Override
-	public void doDeferredRegistration(IEventBus bus) {
-		PARTICLE_REGISTRY.register(bus);
-		CONTAINER_REGISTRY.register(bus);
-		ITEMS_REGISTRY.register(bus);
-		SOUNDS_REGISTRY.register(bus);
-		POTION_REGISTRY.register(bus);
 	}
 
 }

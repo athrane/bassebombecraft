@@ -16,35 +16,37 @@ import net.minecraftforge.registries.DeferredRegister;
 public class RegisteredEffects {
 
 	/**
-	 * Deferred registry for registration of sounds.
+	 * Deferred registry for registration of effects.
 	 */
-	public static final DeferredRegister<Effect> POTION_REGISTRY = create(POTIONS, MODID);
+	public static final DeferredRegister<Effect> EFFECT_REGISTRY = create(POTIONS, MODID);
 
 	/**
-	 * Registered Effects.
+	 * Registered effects.
 	 */
-	public static final RegistryObject<Effect> AGGRO_MOB_EFFECT = register(AggroMobEffect::new);
-	public static final RegistryObject<Effect> RECEIVE_AGGRO_EFFECT = register(ReceiveAggroEffect::new);
-	public static final RegistryObject<Effect> AGGRO_PLAYER_EFFECT = register(AggroPlayerEffect::new);
-	public static final RegistryObject<Effect> MOB_PRIMING_EFFECT = register(MobPrimingEffect::new);
-	public static final RegistryObject<Effect> BACON_BAZOOKA_EFFECT = register(BaconBazookaEffect::new);
-	public static final RegistryObject<Effect> BEAR_BLASTER_EFFECT = register(BearBlasterEffect::new);
-	public static final RegistryObject<Effect> CREEPER_CANNON_EFFECT = register(CreeperCannonEffect::new);
-	public static final RegistryObject<Effect> PRIMED_CREEPER_CANNON_EFFECT = register(PrimedCreeperCannonEffect::new);
-	public static final RegistryObject<Effect> AMPLIFIER_EFFECT = register(AmplifierEffect::new);
-	public static final RegistryObject<Effect> REFLECT_EFFECT = register(ReflectEffect::new);
-	public static final RegistryObject<Effect> INCREASE_SIZE_EFFECT = register(IncreaseSizeEffect::new);
-	public static final RegistryObject<Effect> DECREASE_SIZE_EFFECT = register(DecreaseSizeEffect::new);
+	public static final RegistryObject<Effect> AGGRO_MOB_EFFECT = register(AggroMobEffect.NAME, AggroMobEffect::new);
+	public static final RegistryObject<Effect> RECEIVE_AGGRO_EFFECT = register(ReceiveAggroEffect.NAME,ReceiveAggroEffect::new);
+	public static final RegistryObject<Effect> AGGRO_PLAYER_EFFECT = register(AggroPlayerEffect.NAME, AggroPlayerEffect::new);
+	public static final RegistryObject<Effect> MOB_PRIMING_EFFECT = register(MobPrimingEffect.NAME, MobPrimingEffect::new);
+	public static final RegistryObject<Effect> BACON_BAZOOKA_EFFECT = register(BaconBazookaEffect.NAME, BaconBazookaEffect::new);
+	public static final RegistryObject<Effect> BEAR_BLASTER_EFFECT = register(BearBlasterEffect.NAME, BearBlasterEffect::new);
+	public static final RegistryObject<Effect> CREEPER_CANNON_EFFECT = register(CreeperCannonEffect.NAME, CreeperCannonEffect::new);
+	public static final RegistryObject<Effect> PRIMED_CREEPER_CANNON_EFFECT = register(PrimedCreeperCannonEffect.NAME, PrimedCreeperCannonEffect::new);
+	public static final RegistryObject<Effect> AMPLIFIER_EFFECT = register(AmplifierEffect.NAME, AmplifierEffect::new);
+	public static final RegistryObject<Effect> REFLECT_EFFECT = register(ReflectEffect.NAME, ReflectEffect::new);
+	public static final RegistryObject<Effect> INCREASE_SIZE_EFFECT = register(IncreaseSizeEffect.NAME, IncreaseSizeEffect::new);
+	public static final RegistryObject<Effect> DECREASE_SIZE_EFFECT = register(DecreaseSizeEffect.NAME, DecreaseSizeEffect::new);
 
 	/**
-	 * Register item.
+	 * Register object.
 	 * 
-	 * @param splItem supplier used to create item instance..
+	 * @param key registry object name.
+	 * @param splEffect supplier used to create effect instance.
 	 * 
 	 * @return registry object.
 	 */
-	static RegistryObject<Effect> register(Supplier<Effect> splEffect) {
-		String key = splEffect.get().getClass().getSimpleName().toLowerCase();
-		return POTION_REGISTRY.register(key, splEffect);
+	static RegistryObject<Effect> register(String key, Supplier<Effect> splEffect) {
+		return EFFECT_REGISTRY.register(key.toLowerCase(), splEffect);
 	}
+		
 }
+

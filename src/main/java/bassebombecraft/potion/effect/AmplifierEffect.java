@@ -3,7 +3,6 @@ package bassebombecraft.potion.effect;
 import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
 import static bassebombecraft.config.ModConfiguration.amplifierEffectUpdateFrequency;
-import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,7 +27,6 @@ public class AmplifierEffect extends Effect {
 	 */
 	public AmplifierEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
-		doCommonEffectInitialization(this, NAME);
 	}
 
 	@Override

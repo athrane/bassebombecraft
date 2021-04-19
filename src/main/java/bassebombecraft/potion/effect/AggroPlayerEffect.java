@@ -10,7 +10,6 @@ import static bassebombecraft.entity.EntityUtils.setTarget;
 import static bassebombecraft.entity.EntityUtils.supportTargeting;
 import static bassebombecraft.player.PlayerUtils.isPlayerEntityAlive;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
-import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 import static java.util.Optional.ofNullable;
 
 import java.util.Optional;
@@ -39,7 +38,6 @@ public class AggroPlayerEffect extends Effect {
 	 */
 	public AggroPlayerEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
-		doCommonEffectInitialization(this, NAME);
 	}
 
 	@Override
