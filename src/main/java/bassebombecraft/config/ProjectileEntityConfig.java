@@ -54,6 +54,8 @@ public class ProjectileEntityConfig {
 	 * @param damage       projectile damage when hitting a mob.
 	 * @param gravity      projectile gravity pull. Meaningful range = [0..1].
 	 * @param splParticles {@linkplain ParticlesConfig} supplier.
+	 * 
+	 * @return projectile entity configuration
 	 */
 	public static ProjectileEntityConfig getInstance(Builder builder, String name, double inaccuracy, double force,
 			double damage, double gravity, Supplier<ParticlesConfig> splParticles) {

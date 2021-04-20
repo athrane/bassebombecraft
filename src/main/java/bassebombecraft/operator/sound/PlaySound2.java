@@ -1,5 +1,6 @@
 package bassebombecraft.operator.sound;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 import static bassebombecraft.operator.Operators2.applyV;
 import static net.minecraft.util.SoundCategory.NEUTRAL;
@@ -8,7 +9,6 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.LivingEntity;
@@ -73,15 +73,16 @@ public class PlaySound2 implements Operator2 {
 	public void run(Ports ports) {
 		LivingEntity entity = applyV(fnGetEntity, ports);
 
-		// get sound 
+		// get sound
 		SoundEvent sound = splGetSound.get();
-		if(sound == null) return; 
-		
+		if (sound == null)
+			return;
+
 		// get world
 		World world = entity.getEntityWorld();
-		
+
 		// get random
-		Random random = BassebombeCraft.getBassebombeCraft().getRandom();
+		Random random = getBassebombeCraft().getRandom();
 
 		// calculcate pitch
 		float pitch = PITCH_BASE + (random.nextFloat() - random.nextFloat()) * PITCH_VARIANCE;

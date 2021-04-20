@@ -21,6 +21,9 @@ import static bassebombecraft.config.InventoryItemConfig.getInstanceWithNoRange;
 import static bassebombecraft.config.ItemConfig.getInstance;
 import static bassebombecraft.config.ParticlesConfig.getInstance;
 import static bassebombecraft.config.ProjectileEntityConfig.getInstance;
+import static bassebombecraft.config.SoundConfig.getInstance;
+import static bassebombecraft.sound.RegisteredSounds.SHOOT_SKULL_PROJECTILE_SOUND;
+import static bassebombecraft.sound.RegisteredSounds.TELEPORT_INVOKER_SOUND;
 import static net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR;
 
 import java.nio.file.Path;
@@ -269,7 +272,7 @@ public class ModConfiguration {
 	 * Sound effect play for the {@linkplain TeleportInvoker2} operator in the
 	 * {@linkplain ProjectileModifierEventHandler}.
 	 */
-	public static ForgeConfigSpec.ConfigValue<String> teleportInvokerSound;
+	public static SoundConfig teleportInvokerSound;
 
 	/**
 	 * Particles spawned by charmed mob, spawned by
@@ -877,9 +880,7 @@ public class ModConfiguration {
 		 */
 		name = ProjectileModifierEventHandler.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		teleportInvokerSound = COMMON_BUILDER.comment(
-				"Sound when operator teleport invoker operator is executed. Legal sounds are defined in bassebombecraft.sound.RegisteredSounds.")
-				.define("sound", "operator.teleport_invoker");
+		teleportInvokerSound = getInstance(COMMON_BUILDER, TELEPORT_INVOKER_SOUND);
 		COMMON_BUILDER.pop();
 
 	}
@@ -1686,8 +1687,10 @@ public class ModConfiguration {
 		 * Configuration for the {@linkplain TeleportBook} item.
 		 */
 		name = TeleportBook.ITEM_NAME;
+		Supplier<SoundConfig> splSound = () -> getInstance(COMMON_BUILDER, SHOOT_SKULL_PROJECTILE_SOUND);
 		teleportBook = getInstance(COMMON_BUILDER, name,
-				"Right-click to shoot projectile and teleport to the position where the projectile hits.", 25);
+				"Right-click to shoot projectile and teleport to the position where the projectile hits.", 25,
+				splSound);
 
 		/**
 		 * Configuration for the {@linkplain BeastmasterBook} item.

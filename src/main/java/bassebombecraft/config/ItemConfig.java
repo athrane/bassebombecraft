@@ -4,12 +4,8 @@ import static bassebombecraft.sound.RegisteredSounds.DEFAULT_SOUND;
 
 import java.util.function.Supplier;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.registries.ForgeRegistries;;
 
 /**
  * Class for defining item information in configuration files.
@@ -18,10 +14,10 @@ public class ItemConfig {
 
 	public ForgeConfigSpec.ConfigValue<String> tooltip;
 	public ForgeConfigSpec.IntValue cooldown;
-	public ForgeConfigSpec.ConfigValue<String> sound;
+	public SoundConfig sound;
 
 	/**
-	 * ItemConfig constructor.
+	 * Constructor.
 	 * 
 	 * Doesn't add any subsections.
 	 * 
@@ -29,17 +25,14 @@ public class ItemConfig {
 	 * @param name     item name.
 	 * @param tooltip  book tooltip.
 	 * @param cooldown book cooldown.
-	 * @param sound    sound when using item.
+	 * @param splSound {@linkplain SoundConfig} supplier.
 	 */
-	public ItemConfig(Builder builder, String name, String tooltip, int cooldown, RegistryObject<SoundEvent> sound) {
+	public ItemConfig(Builder builder, String name, String tooltip, int cooldown, Supplier<SoundConfig> splSound) {
 		builder.comment(name + " settings").push(name);
 		this.tooltip = builder.comment("Tooltip for item.").define("tooltip", tooltip);
 		this.cooldown = builder.comment("Game ticks between item activation.").defineInRange("cooldown", cooldown, 0,
 				Integer.MAX_VALUE);
-		String soundAsString = sound.getId().getPath();
-		this.sound = builder
-				.comment("Sound when using item. Legal sounds are defined in bassebombecraft.sound.RegisteredSounds.")
-				.define("sound", soundAsString);
+		this.sound = splSound.get();
 		builder.pop();
 	}
 
@@ -62,40 +55,33 @@ public class ItemConfig {
 	}
 
 	/**
-	 * Get item sound.
-	 * 
-	 * @return item sound.
-	 */
-	public Supplier<SoundEvent> splGetSound() {
-		ResourceLocation key = new ResourceLocation(sound.get());
-		return () -> ForgeRegistries.SOUND_EVENTS.getValue(key);
-	}
-
-	/**
-	 * ItemConfig factory method.
+	 * Factory method.
 	 * 
 	 * @param builder  configuration spec builder.
 	 * @param name     book name.
 	 * @param tooltip  book tooltip.
 	 * @param cooldown book cooldown.
+	 * 
+	 * @return item configuration
 	 */
 	public static ItemConfig getInstance(Builder builder, String name, String tooltip, int cooldown) {
-		return new ItemConfig(builder, name, tooltip, cooldown, DEFAULT_SOUND);
+		return new ItemConfig(builder, name, tooltip, cooldown, () -> new SoundConfig(builder, DEFAULT_SOUND));
 	}
 
 	/**
-	 * ItemConfig factory method.
+	 * Factory method.
 	 * 
 	 * @param builder  configuration spec builder.
 	 * @param name     book name.
 	 * @param tooltip  book tooltip.
 	 * @param cooldown book cooldown.
-	 * @param sound    sound when using item.
+	 * @param splSound {@linkplain SoundConfig} supplier.
 	 * 
+	 * @return item configuration
 	 */
 	public static ItemConfig getInstance(Builder builder, String name, String tooltip, int cooldown,
-			RegistryObject<SoundEvent> sound) {
-		return new ItemConfig(builder, name, tooltip, cooldown, sound);
+			Supplier<SoundConfig> splSound) {
+		return new ItemConfig(builder, name, tooltip, cooldown, splSound);
 	}
 
 }

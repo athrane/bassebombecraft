@@ -14,7 +14,8 @@ import net.minecraftforge.registries.DeferredRegister;
 /**
  * Registry objects for registered sounds.
  * 
- * Sound ID's are registered in src/main/resources/assets/bassebombecraft/sound.json.
+ * Sound ID's are registered in
+ * src/main/resources/assets/bassebombecraft/sound.json.
  */
 public class RegisteredSounds {
 
@@ -24,17 +25,18 @@ public class RegisteredSounds {
 	public static final DeferredRegister<SoundEvent> SOUNDS_REGISTRY = create(SOUND_EVENTS, MODID);
 
 	/**
-	 * Sounds.
+	 * Registered sounds.
 	 * 
 	 * Defined in sounds.json
 	 */
-	public static final RegistryObject<SoundEvent> DEFAULT = register("default_sound");
-	public static final RegistryObject<SoundEvent> SHOOT_SKULL_PROJECTILE = register("item.shoot_skull_projectile");
+	public static final RegistryObject<SoundEvent> DEFAULT_SOUND = register("default_sound");
+	public static final RegistryObject<SoundEvent> SHOOT_SKULL_PROJECTILE_SOUND = register("item.shoot_skull_projectile");
+	public static final RegistryObject<SoundEvent> TELEPORT_INVOKER_SOUND = register("operator.teleport_invoker");
 
 	/**
 	 * Register sound.
 	 * 
-	 * @param splItem supplier used to create item instance..
+	 * @param key registry object name.
 	 * 
 	 * @return registry object.
 	 */

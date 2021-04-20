@@ -3,6 +3,7 @@ package bassebombecraft.event.projectile;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.config.ModConfiguration.receiveAggroEffectAmplifier;
 import static bassebombecraft.config.ModConfiguration.receiveAggroEffectDuration;
+import static bassebombecraft.config.ModConfiguration.teleportInvokerSound;
 import static bassebombecraft.entity.projectile.ProjectileUtils.resolveShooter;
 import static bassebombecraft.operator.DefaultPorts.getBcSetEffectInstance1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
@@ -11,7 +12,6 @@ import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.LazyInitOp2.of;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.potion.effect.RegisteredEffects.RECEIVE_AGGRO_EFFECT;
-import static bassebombecraft.sound.RegisteredSounds.SHOOT_SKULL_PROJECTILE;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import java.util.Optional;
@@ -50,7 +50,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
@@ -69,17 +68,16 @@ public class ProjectileModifierEventHandler {
 	public static final String NAME = ProjectileModifierEventHandler.class.getSimpleName();
 
 	/**
-	 * Teleport invoker operator.
-	 */
-	static final Operator2 TELEPORT_INVOKER_OPERATOR = new TeleportInvoker2();
-
-	/**
 	 * Create teleport invoker operator.
 	 */
 	static Supplier<Operator2> splTeleportInvokerOp = () -> {
-		Supplier<SoundEvent> splGetSound = SHOOT_SKULL_PROJECTILE;
-		return new Sequence2(new TeleportInvoker2(), new PlaySound2(splGetSound));
+		return new Sequence2(new TeleportInvoker2(), new PlaySound2(teleportInvokerSound.getSplSound()));
 	};
+
+	/**
+	 * Teleport invoker operator.
+	 */
+	static final Operator2 teleportInvokerOp = of(splTeleportInvokerOp);
 
 	/**
 	 * Teleport mob operator.
@@ -393,7 +391,7 @@ public class ProjectileModifierEventHandler {
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
 		ports.setLivingEntity1(optShooter.get());
-		run(ports, TELEPORT_INVOKER_OPERATOR);
+		run(ports, teleportInvokerOp);
 	}
 
 	/**

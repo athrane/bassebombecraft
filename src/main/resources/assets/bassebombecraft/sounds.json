@@ -2,8 +2,17 @@
   "item.shoot_skull_projectile": {
     "category" : "player",
     "sounds": [{
-        "name": "bassebombecraft:gits_2xdrums",
+        "name": "bassebombecraft:2xdrums",
         "stream": true
+      }
+    ]
+  },
+
+  "operator.teleport_invoker": {
+    "category" : "player",
+    "sounds": [{
+        "name": "bassebombecraft:teleport",
+        "stream": false
       }
     ]
   },
