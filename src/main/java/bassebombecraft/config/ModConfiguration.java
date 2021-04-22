@@ -9,6 +9,7 @@ import static bassebombecraft.ModConstants.CREEPERCANNON_EFFECT_NAME;
 import static bassebombecraft.ModConstants.INTERNAL_TOML_CONFIG_FILE_NAME;
 import static bassebombecraft.ModConstants.ITEM_BASICITEM_DEFAULT_COOLDOWN;
 import static bassebombecraft.ModConstants.ITEM_DEFAULT_TOOLTIP;
+import static bassebombecraft.ModConstants.LEVITATION_EFFECT_NAME;
 import static bassebombecraft.ModConstants.MOB_AGGRO_POTION_NAME;
 import static bassebombecraft.ModConstants.MOB_PRIMING_POTION_NAME;
 import static bassebombecraft.ModConstants.PRIMEDCREEPERCANNON_EFFECT_NAME;
@@ -22,6 +23,7 @@ import static bassebombecraft.config.ItemConfig.getInstance;
 import static bassebombecraft.config.ParticlesConfig.getInstance;
 import static bassebombecraft.config.ProjectileEntityConfig.getInstance;
 import static bassebombecraft.config.SoundConfig.getInstance;
+import static bassebombecraft.sound.RegisteredSounds.LEVITATE_PLAYER_SOUND;
 import static bassebombecraft.sound.RegisteredSounds.SHOOT_SKULL_PROJECTILE_SOUND;
 import static bassebombecraft.sound.RegisteredSounds.TELEPORT_INVOKER_SOUND;
 import static net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR;
@@ -61,7 +63,6 @@ import bassebombecraft.item.action.inventory.AddAggroPlayerEffect;
 import bassebombecraft.item.action.inventory.AddBlindingEffect;
 import bassebombecraft.item.action.inventory.AddFlameEffect;
 import bassebombecraft.item.action.inventory.AddHealingEffect;
-import bassebombecraft.item.action.inventory.AddLevitationEffect;
 import bassebombecraft.item.action.inventory.AddMobsLevitationEffect;
 import bassebombecraft.item.action.inventory.AddMobsPrimingEffect;
 import bassebombecraft.item.action.inventory.AddReflectEffect;
@@ -348,6 +349,21 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue primedCreeperCannonProjectileEffectForce;
 	public static ForgeConfigSpec.IntValue primedCreeperCannonProjectileEffectExplosion;
 
+	/**
+	 * Properties for {@linkplain ReceiveAggroEffect} effect which is used by the
+	 * operators in {@linkplain ReceiveAggroBook} and
+	 * {@linkplain ProjectileModifierEventHandler}.
+	 */
+	public static ForgeConfigSpec.IntValue receiveAggroEffectDuration;
+	public static ForgeConfigSpec.IntValue receiveAggroEffectAmplifier;
+
+	/**
+	 * Properties for levitation effect is used by the operators in
+	 * {@linkplain LevitationIdolInventoryItem} .
+	 */
+	public static ForgeConfigSpec.IntValue addLevitationEffectDuration;
+	public static ForgeConfigSpec.IntValue addLevitationEffectAmplifier;
+
 	// Books..
 
 	public static ItemConfig mobCommandersBaton;
@@ -376,8 +392,6 @@ public class ModConfiguration {
 
 	// TeleportBook
 	public static ItemConfig teleportBook;
-
-	// BeastmasterBook
 	public static ItemConfig beastmasterBook;
 	public static ItemConfig decoyBook;
 	public static ItemConfig receiveAggroBook;
@@ -583,10 +597,6 @@ public class ModConfiguration {
 	// CopyPasteBlocks action
 	public static ParticlesConfig copyPasteBlocksParticleInfo;
 
-	// AddLevitationEffect action
-	public static ForgeConfigSpec.IntValue addLevitationEffectDuration;
-	public static ForgeConfigSpec.IntValue addLevitationEffectAmplifier;
-
 	// AddMobsLevitationEffect action
 	public static ForgeConfigSpec.IntValue addMobsLevitationEffectDuration;
 	public static ForgeConfigSpec.IntValue addMobsLevitationEffectAmplifier;
@@ -709,14 +719,6 @@ public class ModConfiguration {
 	// Increase size effect operator
 	public static ForgeConfigSpec.IntValue increaseSizeEffectDuration;
 	public static ForgeConfigSpec.IntValue increaseSizeEffectAmplifier;
-
-	/**
-	 * Properties for {@linkplain ReceiveAggroEffect} effect which is used by the
-	 * operators in {@linkplain ReceiveAggroBook} and
-	 * {@linkplain ProjectileModifierEventHandler}.
-	 */
-	public static ForgeConfigSpec.IntValue receiveAggroEffectDuration;
-	public static ForgeConfigSpec.IntValue receiveAggroEffectAmplifier;
 
 	/**
 	 * Properties for {@linkplain Respawn2} operator.
@@ -1023,6 +1025,33 @@ public class ModConfiguration {
 				"Projectile impact explosion size. Please notice: default creeper explosion radius is 3, powered creeper explosion radius is 6.")
 				.defineInRange("explosion", 6, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain ReceiveAggroEffect} effect for the
+		 * {@linkplain DecoyBook} item.
+		 */
+		name = ReceiveAggroEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		receiveAggroEffectAmplifier = COMMON_BUILDER
+				.comment("Potency of the effect (as a potion effect), has no fuction for this effect. ")
+				.defineInRange("amplifier", 1, 1, 1);
+		receiveAggroEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 500, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Properties for levitation effect is used by the operators in
+		 * {@linkplain LevitationIdolInventoryItem} .
+		 */
+		name = LEVITATION_EFFECT_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		addLevitationEffectAmplifier = COMMON_BUILDER
+				.comment("Potency of the effect (as a potion effect), i.e. the resulting levitation.")
+				.defineInRange("amplifier", 1, 0, Integer.MAX_VALUE);
+		addLevitationEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 100, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
 	}
 
 	/**
@@ -1226,16 +1255,6 @@ public class ModConfiguration {
 		copyPasteBlocksParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 2, -10, 0.3, 1.0, 1.0, 1.0);
 		COMMON_BUILDER.pop();
 
-		// AddLevitationEffect
-		name = AddLevitationEffect.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		addLevitationEffectAmplifier = COMMON_BUILDER
-				.comment("Potency of the effect (as a potion effect), i.e. the resulting levitation.")
-				.defineInRange("amplifier", 1, 0, Integer.MAX_VALUE);
-		addLevitationEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
-				.defineInRange("duration", 40, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
 		// AddMobsLevitationEffect
 		name = AddMobsLevitationEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1383,19 +1402,6 @@ public class ModConfiguration {
 				Integer.MAX_VALUE);
 		spawnDecoyKnockBackResistance = COMMON_BUILDER.comment("Decoy knockback resistance in %.")
 				.defineInRange("knockbackResistance ", 1.0D, 0, 1.0D);
-		COMMON_BUILDER.pop();
-
-		/**
-		 * Configuration for the {@linkplain ReceiveAggroEffect} effect for the
-		 * {@linkplain DecoyBook} item.
-		 */
-		name = ReceiveAggroEffect.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		receiveAggroEffectAmplifier = COMMON_BUILDER
-				.comment("Potency of the effect (as a potion effect), has no fuction for this effect. ")
-				.defineInRange("amplifier", 1, 1, 1);
-		receiveAggroEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
-				.defineInRange("duration", 500, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -1903,8 +1909,9 @@ public class ModConfiguration {
 		// LevitationIdolInventoryItem
 		name = LevitationIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "cloud", 5, 20, 0.3, 0.0, 0.0, 1.0);
+		Supplier<SoundConfig> splSound = () -> getInstance(COMMON_BUILDER, LEVITATE_PLAYER_SOUND);
 		levitationIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol will levitate the player.", 4, splParticles);
+				"Equip in either hand to activate. The idol will levitate the player.", 100, splParticles, splSound);
 
 		// MobsLevitationIdolInventoryItem
 		name = MobsLevitationIdolInventoryItem.ITEM_NAME;

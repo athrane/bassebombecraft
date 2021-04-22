@@ -30,8 +30,9 @@ public class RegisteredSounds {
 	 * Defined in sounds.json
 	 */
 	public static final RegistryObject<SoundEvent> DEFAULT_SOUND = register("default_sound");
-	public static final RegistryObject<SoundEvent> SHOOT_SKULL_PROJECTILE_SOUND = register("item.shoot_skull_projectile");
-	public static final RegistryObject<SoundEvent> TELEPORT_INVOKER_SOUND = register("operator.teleport_invoker");
+	public static final RegistryObject<SoundEvent> SHOOT_SKULL_PROJECTILE_SOUND = register("shoot_skull_projectile");
+	public static final RegistryObject<SoundEvent> TELEPORT_INVOKER_SOUND = register("teleport_invoker");
+	public static final RegistryObject<SoundEvent> LEVITATE_PLAYER_SOUND = register("levitate_player");
 
 	/**
 	 * Register sound.

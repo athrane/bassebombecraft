@@ -28,7 +28,7 @@ public class TeleportBook extends GenericRightClickedBook2 {
 		Operator2 formationOp = new SingleProjectileFormation2();
 		Operator2 projectileOp = new ShootSkullProjectile2();
 		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> TeleportInvoker2.NAME);
-		Operator2 soundOp = new PlaySound2(teleportBook.sound.getSplSound());
+		Operator2 soundOp = new PlaySound2(teleportBook.getSplSound());
 		return new Sequence2(formationOp, projectileOp, modifierOp, soundOp);
 	};
 

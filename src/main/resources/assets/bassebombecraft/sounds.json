@@ -1,5 +1,5 @@
 {
-  "item.shoot_skull_projectile": {
+  "shoot_skull_projectile": {
     "category" : "player",
     "sounds": [{
         "name": "bassebombecraft:2xdrums",
@@ -8,12 +8,29 @@
     ]
   },
 
-  "operator.teleport_invoker": {
+  "teleport_invoker": {
     "category" : "player",
     "sounds": [{
         "name": "bassebombecraft:teleport",
         "stream": false
       }
+    ]
+  },
+
+  "levitate_player": {
+    "category" : "player",
+    "sounds": [{
+        "name": "bassebombecraft:tibetan1",
+        "stream": true
+      },
+	{
+        "name": "bassebombecraft:tibetan2",
+        "stream": true
+      },      
+	{
+        "name": "bassebombecraft:tibetan3",
+        "stream": true
+      }            
     ]
   },
   

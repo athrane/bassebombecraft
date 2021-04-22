@@ -324,6 +324,11 @@ public class ModConstants {
 	public static final String REFLECT_EFFECT_NAME = "ReflectEffect";
 
 	/**
+	 * Reflect effect configuration identifier.
+	 */
+	public static final String LEVITATION_EFFECT_NAME = "Levitation";
+	
+	/**
 	 * Processed block directives configuration identifier.
 	 */
 	public static final String PROCESSED_BLOCK_DIRECTIVES_NAME = "ProcessBlockDirectives";

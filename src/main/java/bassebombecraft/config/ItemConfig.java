@@ -4,6 +4,7 @@ import static bassebombecraft.sound.RegisteredSounds.DEFAULT_SOUND;
 
 import java.util.function.Supplier;
 
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
 
@@ -55,7 +56,18 @@ public class ItemConfig {
 	}
 
 	/**
+	 * Get function to resolve sound.
+	 * 
+	 * @return function to resolve sound.
+	 */
+	public Supplier<SoundEvent> getSplSound() {
+		return sound.getSplSound();
+	}
+	
+	/**
 	 * Factory method.
+	 * 
+	 * Item is defined to use default sound.
 	 * 
 	 * @param builder  configuration spec builder.
 	 * @param name     book name.
