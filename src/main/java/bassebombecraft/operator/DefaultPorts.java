@@ -813,7 +813,6 @@ public class DefaultPorts implements Ports {
 	public static Ports getInstance(BlockPos pos) {
 		DefaultPorts ports = new DefaultPorts();
 		ports.setBlockPosition1(pos);
-		;
 		return ports;
 	}
 
