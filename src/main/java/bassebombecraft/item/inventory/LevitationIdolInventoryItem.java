@@ -1,7 +1,7 @@
 package bassebombecraft.item.inventory;
 
-import static bassebombecraft.config.ModConfiguration.addLevitationEffectAmplifier;
-import static bassebombecraft.config.ModConfiguration.addLevitationEffectDuration;
+import static bassebombecraft.config.ModConfiguration.levitationEffectAmplifier;
+import static bassebombecraft.config.ModConfiguration.levitationEffectDuration;
 import static bassebombecraft.config.ModConfiguration.levitationIdolInventoryItem;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
@@ -34,7 +34,7 @@ public class LevitationIdolInventoryItem extends GenericInventoryItem {
 	static Supplier<Operator2> splOp = () -> {
 		Function<Ports, LivingEntity> fnGetInvoker = getFnGetLivingEntity1();
 		return new Sequence2(new IsEntityOfType2(fnGetInvoker, PlayerEntity.class),
-				new AddEffect2(LEVITATION, addLevitationEffectDuration.get(), addLevitationEffectAmplifier.get()),
+				new AddEffect2(LEVITATION, levitationEffectDuration.get(), levitationEffectAmplifier.get()),
 				new PlaySound2(levitationIdolInventoryItem.getSplSound()));
 	};
 
