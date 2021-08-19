@@ -33,6 +33,7 @@ public class RegisteredSounds {
 	public static final RegistryObject<SoundEvent> SHOOT_SKULL_PROJECTILE_SOUND = register("shoot_skull_projectile");
 	public static final RegistryObject<SoundEvent> TELEPORT_INVOKER_SOUND = register("teleport_invoker");
 	public static final RegistryObject<SoundEvent> LEVITATE_PLAYER_SOUND = register("levitate_player");
+	public static final RegistryObject<SoundEvent> RESIZE_TARGET_SOUND = register("resize_target");
 
 	/**
 	 * Register sound.

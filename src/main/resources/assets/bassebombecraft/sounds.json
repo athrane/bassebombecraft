@@ -17,6 +17,15 @@
     ]
   },
 
+  "resize_target": {
+    "category" : "player",
+    "sounds": [{
+        "name": "bassebombecraft:resize",
+        "stream": false
+      }
+    ]
+  },
+
   "levitate_player": {
     "category" : "player",
     "sounds": [{
