@@ -322,11 +322,6 @@ public class ModConstants {
 	 * Reflect effect configuration identifier.
 	 */
 	public static final String REFLECT_EFFECT_NAME = "ReflectEffect";
-
-	/**
-	 * Reflect effect configuration identifier.
-	 */
-	public static final String LEVITATION_EFFECT_NAME = "Levitation";
 	
 	/**
 	 * Processed block directives configuration identifier.
@@ -387,18 +382,21 @@ public class ModConstants {
 	/**
 	 * Entity attribute to define an entity as a decoy.
 	 */
+	@Deprecated
 	public static final Attribute DECOY = new RangedAttribute("bassebombecraft.decoy", 1.0D, 0.0D, 1.0D)
 			.setShouldWatch(true);
 
 	/**
 	 * Entity attribute to tag an entity for respawn.
 	 */
+	@Deprecated	
 	public static final Attribute RESPAWN = new RangedAttribute("bassebombecraft.respawn", 1.0D, 0.0D, 1.0D)
 			.setShouldWatch(true);
 
 	/**
 	 * Entity attribute to tag an entity as respawned.
 	 */
+	@Deprecated	
 	public static final Attribute IS_RESPAWNED = new RangedAttribute("bassebombecraft.isrespawned", 1.0D, 0.0D, 1.0D)
 			.setShouldWatch(true);
 

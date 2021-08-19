@@ -15,6 +15,7 @@ import static bassebombecraft.tab.ItemGroupFactory.createItemGroup;
 import static java.util.Optional.ofNullable;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 import static net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext.get;
+import static bassebombecraft.entity.attribute.RegisteredAttributes.ATTRIBUTE_REGISTRY;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -120,6 +121,7 @@ public class BassebombeCraft {
 			SOUNDS_REGISTRY.register(modEventBus);
 			EFFECT_REGISTRY.register(modEventBus);
 			POTION_REGISTRY.register(modEventBus);
+			ATTRIBUTE_REGISTRY.register(modEventBus);
 
 		} catch (ExceptionInInitializerError e) {
 			reportAndLogException(e);
