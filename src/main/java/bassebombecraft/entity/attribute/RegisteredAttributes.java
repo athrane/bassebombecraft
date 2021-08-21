@@ -30,9 +30,9 @@ public class RegisteredAttributes {
 	/**
 	 * Attributes
 	 */
-	public static final RegistryObject<Attribute> IS_DECOY_ATTRIBUTE = register("bassebombecraft.decoy");
-	public static final RegistryObject<Attribute> RESPAWN_ATTRIBUTE = register("bassebombecraft.respawn");
-	public static final RegistryObject<Attribute> IS_RESPAWNED_ATTRIBUTE = register("bassebombecraft.isrespawned");
+	public static final RegistryObject<Attribute> IS_DECOY_ATTRIBUTE = register("bassebombecraft.attribute.decoy");
+	public static final RegistryObject<Attribute> RESPAWN_ATTRIBUTE = register("bassebombecraft.attribute.respawn");
+	public static final RegistryObject<Attribute> IS_RESPAWNED_ATTRIBUTE = register("bassebombecraft.attribute.isrespawned");
 
 	/**
 	 * Register marker attribute.

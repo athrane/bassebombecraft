@@ -5,7 +5,7 @@ import static net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus.MOD;
 
 import java.util.List;
 
-import bassebombecraft.entity.attribute.RegisteredAttributes;
+import static bassebombecraft.entity.attribute.RegisteredAttributes.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
@@ -26,7 +26,11 @@ public class EntityAttributeEventHandler {
 	@SubscribeEvent
 	static public void handleEntityAttributeModificationEvent(EntityAttributeModificationEvent event) {
 		List<EntityType<? extends LivingEntity>> types = event.getTypes();
-		types.stream().forEach(t -> event.add(t, RegisteredAttributes.IS_DECOY_ATTRIBUTE.get()));
+		types.stream().forEach(t -> {
+			event.add(t, IS_DECOY_ATTRIBUTE.get());
+			event.add(t, RESPAWN_ATTRIBUTE.get());			
+			event.add(t, IS_RESPAWNED_ATTRIBUTE.get());						
+		});
 	}
 
 }

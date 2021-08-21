@@ -380,20 +380,6 @@ public class ModConstants {
 	public static final int NOT_AN_AOE_EFFECT = 1;
 
 	/**
-	 * Entity attribute to tag an entity for respawn.
-	 */
-	@Deprecated	
-	public static final Attribute RESPAWN = new RangedAttribute("bassebombecraft.respawn", 1.0D, 0.0D, 1.0D)
-			.setShouldWatch(true);
-
-	/**
-	 * Entity attribute to tag an entity as respawned.
-	 */
-	@Deprecated	
-	public static final Attribute IS_RESPAWNED = new RangedAttribute("bassebombecraft.isrespawned", 1.0D, 0.0D, 1.0D)
-			.setShouldWatch(true);
-
-	/**
 	 * Attribute value if custom entity attribute is set.
 	 */
 	public static final double MARKER_ATTRIBUTE_IS_SET = 1.0D;

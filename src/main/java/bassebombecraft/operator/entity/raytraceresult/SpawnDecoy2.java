@@ -36,7 +36,7 @@ import net.minecraft.world.World;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which spawn a decoy
- * (2D Panda). The decoy is spawned at the hit entity or block .
+ * (2D Panda). The decoy is spawned at the hit entity or block.
  */
 public class SpawnDecoy2 implements Operator2 {
 

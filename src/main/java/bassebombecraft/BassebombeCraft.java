@@ -117,11 +117,11 @@ public class BassebombeCraft {
 			// do deferred registration of objects
 			PARTICLE_REGISTRY.register(modEventBus);
 			CONTAINER_REGISTRY.register(modEventBus);
+			ATTRIBUTE_REGISTRY.register(modEventBus);			
 			ITEMS_REGISTRY.register(modEventBus);
 			SOUNDS_REGISTRY.register(modEventBus);
 			EFFECT_REGISTRY.register(modEventBus);
 			POTION_REGISTRY.register(modEventBus);
-			ATTRIBUTE_REGISTRY.register(modEventBus);
 
 		} catch (ExceptionInInitializerError e) {
 			reportAndLogException(e);

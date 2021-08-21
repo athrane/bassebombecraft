@@ -1,7 +1,7 @@
 package bassebombecraft.operator.entity;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.ModConstants.IS_RESPAWNED;
+import static bassebombecraft.ModConstants.MARKER_ATTRIBUTE_IS_SET;
 import static bassebombecraft.config.ModConfiguration.respawnMaxEntities;
 import static bassebombecraft.config.ModConfiguration.respawnMinEntities;
 import static bassebombecraft.config.ModConfiguration.respawnSpawnArea;
@@ -9,6 +9,7 @@ import static bassebombecraft.entity.EntityUtils.calculateRandomYaw;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.entity.EntityUtils.setAttribute;
 import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
+import static bassebombecraft.entity.attribute.RegisteredAttributes.IS_RESPAWNED_ATTRIBUTE;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 import static bassebombecraft.operator.Operators2.applyV;
 import static bassebombecraft.potion.effect.RegisteredEffects.AGGRO_PLAYER_EFFECT;
@@ -17,7 +18,6 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.IntStream;
 
-import bassebombecraft.ModConstants;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
@@ -29,6 +29,8 @@ import net.minecraft.world.World;
 /**
  * Implementation of the {@linkplain Operator2} interface which respawns any
  * number of instances of an (dead) entity .
+ * 
+ * Spawned entities aggros the player.
  */
 public class Respawn2 implements Operator2 {
 
@@ -36,12 +38,6 @@ public class Respawn2 implements Operator2 {
 	 * Operator identifier.
 	 */
 	public static final String NAME = Respawn2.class.getSimpleName();
-
-	/**
-	 * Value for {@linkplain ModConstants.IS_RESPAWNED}. The value doesn't carry any
-	 * significance
-	 */
-	static final double IS_RESPAWNED_VALUE = 1.0D;
 
 	/**
 	 * Function to get dead entity.
@@ -94,9 +90,9 @@ public class Respawn2 implements Operator2 {
 		int spawnArea = respawnSpawnArea.get();
 		setRandomSpawnPosition(deadEntity.getPosition(), calculateRandomYaw(), spawnArea, spawnedEntity);
 
-		// entity is a living entity then set RESPAWNED attribute for rendering
+		// entity is a living entity then set IS_RESPAWNED attribute for rendering
 		if (isTypeLivingEntity(spawnedEntity))
-			setAttribute((LivingEntity) spawnedEntity, IS_RESPAWNED, IS_RESPAWNED_VALUE);
+			setAttribute((LivingEntity) spawnedEntity, IS_RESPAWNED_ATTRIBUTE.get(), MARKER_ATTRIBUTE_IS_SET);
 
 		// spawn
 		world.addEntity(spawnedEntity);
