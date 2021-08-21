@@ -1,5 +1,6 @@
 package bassebombecraft.operator.entity.raytraceresult;
 
+import static bassebombecraft.ModConstants.MARKER_ATTRIBUTE_IS_SET;
 import static bassebombecraft.block.BlockUtils.calculatePosition;
 import static bassebombecraft.config.ModConfiguration.spawnDecoyKnockBackResistance;
 import static bassebombecraft.config.ModConfiguration.spawnDecoyMaxHealth;
@@ -138,7 +139,7 @@ public class SpawnDecoy2 implements Operator2 {
 		setAttribute(entity, MOVEMENT_SPEED, 0);
 		setAttribute(entity, MAX_HEALTH, spawnDecoyMaxHealth.get());
 		setAttribute(entity, KNOCKBACK_RESISTANCE, spawnDecoyKnockBackResistance.get());
-		setAttribute(entity, IS_DECOY_ATTRIBUTE.get(), 1.0D);
+		setAttribute(entity, IS_DECOY_ATTRIBUTE.get(), MARKER_ATTRIBUTE_IS_SET);
 
 		// AI not set
 

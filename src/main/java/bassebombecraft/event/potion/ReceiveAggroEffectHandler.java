@@ -1,6 +1,6 @@
 package bassebombecraft.event.potion;
 
-import static bassebombecraft.ModConstants.DECOY;
+import static bassebombecraft.entity.attribute.RegisteredAttributes.IS_DECOY_ATTRIBUTE;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.LazyInitOp2.of;
 import static bassebombecraft.operator.Operators2.run;
@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.Sequence2;
-import bassebombecraft.operator.conditional.IsEntityAttributeDefined2;
+import bassebombecraft.operator.conditional.IsEntityAttributeSet2;
 import bassebombecraft.operator.conditional.IsWorldAtServerSide2;
 import bassebombecraft.operator.entity.SelfDestruct2;
 import bassebombecraft.potion.effect.ReceiveAggroEffect;
@@ -35,7 +35,8 @@ public class ReceiveAggroEffectHandler {
 	 * Create operators.
 	 */
 	static Supplier<Operator2> splOp = () -> {
-		return new Sequence2(new IsWorldAtServerSide2(), new IsEntityAttributeDefined2(DECOY), new SelfDestruct2());
+		return new Sequence2(new IsWorldAtServerSide2(), new IsEntityAttributeSet2(IS_DECOY_ATTRIBUTE.get()),
+				new SelfDestruct2());
 	};
 
 	/**

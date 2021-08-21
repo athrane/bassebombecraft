@@ -1,6 +1,6 @@
 package bassebombecraft.client.event.rendering;
 
-import static bassebombecraft.entity.EntityUtils.isCustomAttributeSet;
+import static bassebombecraft.entity.EntityUtils.isEntityAttributeSet;
 import static bassebombecraft.entity.attribute.RegisteredAttributes.IS_DECOY_ATTRIBUTE;
 import static bassebombecraft.geom.GeometryUtils.oscillateWithDeltaTime;
 import static net.minecraft.util.math.MathHelper.interpolateAngle;
@@ -39,7 +39,7 @@ public class DecoyRenderer {
 		LivingEntity entity = event.getEntity();
 
 		// exit if entity attribute isn't defined
-		if (!isCustomAttributeSet(entity, IS_DECOY_ATTRIBUTE.get()))
+		if (!isEntityAttributeSet(entity, IS_DECOY_ATTRIBUTE.get()))
 			return;
 
 		// get calculated size
@@ -78,7 +78,7 @@ public class DecoyRenderer {
 		LivingEntity entity = event.getEntity();
 
 		// exit if entity attribute isn't defined
-		if (!isCustomAttributeSet(entity, IS_DECOY_ATTRIBUTE.get()))
+		if (!isEntityAttributeSet(entity, IS_DECOY_ATTRIBUTE.get()))
 			return;
 
 		// get and pop matrix stack

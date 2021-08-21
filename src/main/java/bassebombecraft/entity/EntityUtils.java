@@ -3,6 +3,7 @@ package bassebombecraft.entity;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE;
+import static bassebombecraft.ModConstants.MARKER_ATTRIBUTE_IS_SET;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
 import java.util.Optional;
@@ -32,10 +33,6 @@ import net.minecraft.world.World;
  */
 public class EntityUtils {
 
-	/**
-	 * Attribute value if custom attribute is set.
-	 */
-	static final double IS_SET_VALUE = 1.0D;
 	/*
 	 * Spawn location rotation pitch
 	 */
@@ -473,14 +470,14 @@ public class EntityUtils {
 	}
 
 	/**
-	 * Returns true if custom attribute is set, e.g. has value 1.0D.
+	 * Returns true if custom entity attribute is set, e.g. has value 1.0D.
 	 * 
 	 * @param entity    entity to test attribute at.
 	 * @param attribute attribute test set.
 	 */
-	public static boolean isCustomAttributeSet(LivingEntity entity, Attribute attribute) {
+	public static boolean isEntityAttributeSet(LivingEntity entity, Attribute attribute) {
 		ModifiableAttributeInstance instance = entity.getAttribute(attribute);
-		return (instance.getValue() == IS_SET_VALUE);
+		return (instance.getValue() == MARKER_ATTRIBUTE_IS_SET);
 	}
 
 }

@@ -1,5 +1,7 @@
 package bassebombecraft.entity.attribute;
 
+import static bassebombecraft.ModConstants.MARKER_ATTRIBUTE_ISNT_SET;
+import static bassebombecraft.ModConstants.MARKER_ATTRIBUTE_IS_SET;
 import static bassebombecraft.ModConstants.MODID;
 import static net.minecraftforge.registries.DeferredRegister.create;
 import static net.minecraftforge.registries.ForgeRegistries.ATTRIBUTES;
@@ -43,7 +45,8 @@ public class RegisteredAttributes {
 	 * @return registry object.
 	 */
 	static RegistryObject<Attribute> register(String key) {
-		Attribute attribute = new RangedAttribute(key, 0.0D, 0.0D, 1.0D).setShouldWatch(true);
+		Attribute attribute = new RangedAttribute(key, MARKER_ATTRIBUTE_ISNT_SET, MARKER_ATTRIBUTE_ISNT_SET,
+				MARKER_ATTRIBUTE_IS_SET).setShouldWatch(true);
 		Supplier<Attribute> splAttribute = () -> attribute;
 		return ATTRIBUTE_REGISTRY.register(key, splAttribute);
 	}

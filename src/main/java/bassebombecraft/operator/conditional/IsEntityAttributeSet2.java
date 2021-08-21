@@ -57,8 +57,8 @@ public class IsEntityAttributeSet2 implements Operator2 {
 			return;
 		}
 
-		// exit as failed if attribute isn't defined
-		if (!isCustomAttributeSet(livingEntity, attribute)) {
+		// exit as failed if attribute isn't set
+		if (!isEntityAttributeSet(livingEntity, attribute)) {
 			ports.setResultAsFailed();
 			return;
 		}

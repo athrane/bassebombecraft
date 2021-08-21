@@ -380,13 +380,6 @@ public class ModConstants {
 	public static final int NOT_AN_AOE_EFFECT = 1;
 
 	/**
-	 * Entity attribute to define an entity as a decoy.
-	 */
-	@Deprecated
-	public static final Attribute DECOY = new RangedAttribute("bassebombecraft.decoy", 1.0D, 0.0D, 1.0D)
-			.setShouldWatch(true);
-
-	/**
 	 * Entity attribute to tag an entity for respawn.
 	 */
 	@Deprecated	
@@ -400,6 +393,16 @@ public class ModConstants {
 	public static final Attribute IS_RESPAWNED = new RangedAttribute("bassebombecraft.isrespawned", 1.0D, 0.0D, 1.0D)
 			.setShouldWatch(true);
 
+	/**
+	 * Attribute value if custom entity attribute is set.
+	 */
+	public static final double MARKER_ATTRIBUTE_IS_SET = 1.0D;
+	
+	/**
+	 * Attribute value if custom entity attribute isn't set.
+	 */
+	public static final double MARKER_ATTRIBUTE_ISNT_SET = 0.0D;
+	
 	/**
 	 * Maximum size composite magic. Used in {@linkplain CompositeMagicItem}.
 	 */
