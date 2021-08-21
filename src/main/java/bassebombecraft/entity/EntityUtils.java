@@ -458,18 +458,6 @@ public class EntityUtils {
 	}
 
 	/**
-	 * Returns true if entity has attribute.
-	 * 
-	 * @param entity    entity to test attribute at.
-	 * @param attribute attribute to test.
-	 */
-	@Deprecated
-	public static boolean hasAttribute(LivingEntity entity, Attribute attribute) {
-		AttributeModifierManager manager = entity.getAttributeManager();
-		return manager.hasAttributeInstance(attribute);
-	}
-
-	/**
 	 * Returns true if custom entity attribute is set, e.g. has value 1.0D.
 	 * 
 	 * @param entity    entity to test attribute at.
