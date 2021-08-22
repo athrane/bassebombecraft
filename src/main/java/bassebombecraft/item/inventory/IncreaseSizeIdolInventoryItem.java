@@ -20,9 +20,11 @@ import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.conditional.IsEntityOfType2;
 import bassebombecraft.operator.conditional.IsNot2;
 import bassebombecraft.operator.entity.potion.effect.AddEffect2;
+import bassebombecraft.operator.entity.potion.effect.AddEffectAtClient2;
 import bassebombecraft.operator.sound.PlaySound2;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 
 /**
@@ -38,9 +40,12 @@ public class IncreaseSizeIdolInventoryItem extends GenericInventoryItem {
 	static Supplier<Operator2> splOp = () -> {
 		Function<Ports, LivingEntity> fnGetTarget = getFnGetLivingEntity2();
 		BiConsumer<Ports, EffectInstance> bcSetEffectInstance = getBcSetEffectInstance1();
+		Effect effect = INCREASE_SIZE_EFFECT.get();
+		int duration = increaseSizeEffectDuration.get();
+		int amplifier = increaseSizeEffectAmplifier.get();
 		return new Sequence2(new IsNot2(new IsEntityOfType2(fnGetTarget, PlayerEntity.class)),
-				new AddEffect2(fnGetTarget, bcSetEffectInstance, INCREASE_SIZE_EFFECT.get(),
-						increaseSizeEffectDuration.get(), increaseSizeEffectAmplifier.get()),
+				new AddEffect2(fnGetTarget, bcSetEffectInstance, effect, duration, amplifier),
+				new AddEffectAtClient2(),
 				new PlaySound2(increaseSizeIdolInventoryItem.getSplSound()));
 	};
 
