@@ -25,7 +25,6 @@ import bassebombecraft.client.event.rendering.DecreaseSizeEffectRenderer;
 import bassebombecraft.client.event.rendering.HudItemCharmedInfoRenderer;
 import bassebombecraft.client.event.rendering.HudItemHighlightedBlockRenderer;
 import bassebombecraft.client.event.rendering.IncreaseSizeEffectRenderer;
-import bassebombecraft.client.event.rendering.RenderingEventHandler;
 import bassebombecraft.client.event.rendering.RespawnedRenderer;
 import bassebombecraft.client.event.rendering.effect.ClientGraphicalEffectRepository;
 import bassebombecraft.client.event.rendering.effect.EffectRenderer;
@@ -295,6 +294,8 @@ public class ClientProxy implements Proxy {
 		// register debug renderer classes
 		// EVENT_BUS.addListener(DebugRenderer_MobLines::render);
 		// EVENT_BUS.addListener(DebugRenderer_EntityText_v3::render);
+		// EVENT_BUS.addListener(DebugRenderer_EntityText_v2::render);
+		// EVENT_BUS.addListener(DebugRenderer_EntityText_v1::render);
 		// MinecraftForge.EVENT_BUS.addListener(DebugRenderer_WorldLastEventText::render);
 		// EVENT_BUS.addListener(DebugRenderer_Highlightblock::render);
 		// EVENT_BUS.addListener(DebugRenderer_StrangeSize::render);
@@ -303,7 +304,6 @@ public class ClientProxy implements Proxy {
 		// EVENT_BUS.addListener(DebugRenderer_WorldLastEvent_GuiLines::render);
 
 		// register renderer classes
-		EVENT_BUS.addListener(RenderingEventHandler::handleRenderWorldLastEvent);
 		// EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
 		// EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
 		EVENT_BUS.addListener(HudItemCharmedInfoRenderer::handleRenderWorldLastEvent);
