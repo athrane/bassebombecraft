@@ -24,6 +24,11 @@ public class ServerCharmedMob implements CharmedMob {
 	String id;
 
 	/**
+	 * Display name used for rendering.
+	 */
+	String name;
+	
+	/**
 	 * Captured AI goals.
 	 */
 	final Set<PrioritizedGoal> goals;
@@ -49,6 +54,7 @@ public class ServerCharmedMob implements CharmedMob {
 		goals = captureGoals(entity.goalSelector);
 		targetGoals = captureGoals(entity.targetSelector);
 		id = Integer.toString(entity.getEntityId());
+		name = entity.getName().getString() + "/" + id;		
 	}
 
 	public Set<PrioritizedGoal> getGoals() throws UnsupportedOperationException {
@@ -72,6 +78,11 @@ public class ServerCharmedMob implements CharmedMob {
 		return id;
 	}
 
+	@Override
+	public String getName() {
+		return name;
+	}
+	
 	/**
 	 * Factory method.
 	 * 

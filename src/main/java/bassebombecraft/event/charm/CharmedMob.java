@@ -54,4 +54,11 @@ public interface CharmedMob {
 	 */
 	public String getId();
 	
+	/**
+	 * Return a display name.
+	 * 
+	 * @return a display name
+	 */
+	public String getName();
+	
 }
