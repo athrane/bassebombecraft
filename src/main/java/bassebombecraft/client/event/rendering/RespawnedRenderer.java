@@ -1,14 +1,14 @@
 package bassebombecraft.client.event.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.ModConstants.IS_RESPAWNED;
-import static bassebombecraft.entity.EntityUtils.hasAttribute;
+import static bassebombecraft.entity.EntityUtils.isEntityAttributeSet;
+import static bassebombecraft.entity.attribute.RegisteredAttributes.IS_RESPAWNED_ATTRIBUTE;
+import static bassebombecraft.geom.GeometryUtils.oscillate;
 
 import java.util.concurrent.locks.ReentrantLock;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import static bassebombecraft.geom.GeometryUtils.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.OutlineLayerBuffer;
 import net.minecraft.client.renderer.entity.LivingRenderer;
@@ -32,22 +32,22 @@ public class RespawnedRenderer {
 	 * Outline color, red component.
 	 */
 	static final int RGB_RED = 128;
-	
+
 	/**
 	 * Outline color, green component.
-	 */	
+	 */
 	static final int RGB_GREEN = 192;
-	
+
 	/**
 	 * Outline color, blue component.
-	 */	
+	 */
 	static final int RGB_BLUE = 128;
-	
+
 	/**
 	 * Outline color, alpha offset.
-	 */	
+	 */
 	static final int ALPHA_OFFSET = 127;
-	
+
 	/**
 	 * Lock used to avoid stack over flow of {@linkplain RenderLivingEvent} events.
 	 */
@@ -61,7 +61,7 @@ public class RespawnedRenderer {
 	public static void handleRenderLivingEventPre(Pre<? super LivingEntity, ?> event) {
 
 		// exit if entity attribute isn't defined
-		if (!hasAttribute(event.getEntity(), IS_RESPAWNED))
+		if (!isEntityAttributeSet(event.getEntity(), IS_RESPAWNED_ATTRIBUTE.get()))
 			return;
 
 		// exit if lock is already locked
@@ -130,10 +130,9 @@ public class RespawnedRenderer {
 	 * @param event rendering event.
 	 */
 	public static void handleRenderLivingEventPost(Post<?, PlayerModel<?>> event) {
-		LivingEntity entity = event.getEntity();
 
 		// exit if entity attribute isn't defined
-		if (!hasAttribute(entity, IS_RESPAWNED))
+		if (!isEntityAttributeSet(event.getEntity(), IS_RESPAWNED_ATTRIBUTE.get()))
 			return;
 
 		// NO-OP

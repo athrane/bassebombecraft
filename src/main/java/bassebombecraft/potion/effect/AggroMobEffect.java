@@ -2,17 +2,17 @@ package bassebombecraft.potion.effect;
 
 import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
+import static bassebombecraft.config.ModConfiguration.aggroMobEffectAreaOfEffect;
+import static bassebombecraft.config.ModConfiguration.aggroMobEffectUpdateFrequency;
 import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
 import static bassebombecraft.entity.EntityUtils.setMobEntityAggroed;
 import static bassebombecraft.entity.EntityUtils.setTarget;
 import static bassebombecraft.entity.EntityUtils.supportTargeting;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
-import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 
 import java.util.Collections;
 import java.util.List;
 
-import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.entity.EntityDistanceSorter;
 import bassebombecraft.util.function.DiscardSelf;
 import net.minecraft.entity.CreatureEntity;
@@ -21,7 +21,8 @@ import net.minecraft.potion.Effect;
 import net.minecraft.util.math.AxisAlignedBB;
 
 /**
- * Effect which make the entity with the effect, "aggro" any mob, e.g. attack the mob on sight.
+ * Effect which make the entity with the effect, "aggro" any mob, e.g. attack
+ * the mob on sight.
  * 
  * The effect has no effect on the player.
  */
@@ -33,19 +34,9 @@ public class AggroMobEffect extends Effect {
 	public static final String NAME = AggroMobEffect.class.getSimpleName();
 
 	/**
-	 * Update frequency for effect.
-	 */
-	int updateFrequency;
-	
-	/**
 	 * First list index.
 	 */
 	static final int FIRST_INDEX = 0;
-
-	/**
-	 * Area of effect.
-	 */
-	final int arreaOfEffect;
 
 	/**
 	 * Entity distance sorter.
@@ -62,9 +53,6 @@ public class AggroMobEffect extends Effect {
 	 */
 	public AggroMobEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
-		doCommonEffectInitialization(this, NAME);
-		arreaOfEffect = ModConfiguration.aggroMobEffectAreaOfEffect.get();
-		updateFrequency = ModConfiguration.aggroMobEffectUpdateFrequency.get();
 	}
 
 	@Override
@@ -100,6 +88,7 @@ public class AggroMobEffect extends Effect {
 		discardSelfFilter.set(entity);
 
 		// get list of mobs
+		int arreaOfEffect = aggroMobEffectAreaOfEffect.get();
 		AxisAlignedBB aabb = entity.getBoundingBox().grow(arreaOfEffect, arreaOfEffect, arreaOfEffect);
 		List<LivingEntity> targetList = entity.world.getEntitiesWithinAABB(LivingEntity.class, aabb, discardSelfFilter);
 
@@ -123,7 +112,8 @@ public class AggroMobEffect extends Effect {
 
 	@Override
 	public boolean isReady(int duration, int amplifier) {
-		int moduloValue = duration % updateFrequency; 
+		int updateFrequency = aggroMobEffectUpdateFrequency.get();
+		int moduloValue = duration % updateFrequency;
 		return (moduloValue == 0);
 	}
 

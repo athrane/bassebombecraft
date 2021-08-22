@@ -14,7 +14,7 @@ import net.minecraft.world.World;
  * 
  * Strategy is invoked when target is invoker.
  * 
- * The ports is updated with the world and the invoker entity.
+ * The ports is updated with the world and the invoker entity as living entity #1.
  * 
  * The ports is reused across invocations.
  */

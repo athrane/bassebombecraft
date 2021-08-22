@@ -1,39 +1,47 @@
 package bassebombecraft.event.potion;
 
-import static bassebombecraft.ModConstants.INCREASE_SIZE_EFFECT;
+import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.operator.LazyInitOp2.of;
+import static bassebombecraft.operator.Operators2.run;
+import static bassebombecraft.potion.effect.RegisteredEffects.INCREASE_SIZE_EFFECT;
 
-import bassebombecraft.operator.Operator;
-import bassebombecraft.operator.Operators;
-import bassebombecraft.operator.conditional.IfEffectIsActive;
-import bassebombecraft.operator.entity.potion.effect.RemoveEffectAtClient;
+import java.util.function.Supplier;
+
+import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
+import bassebombecraft.operator.Sequence2;
+import bassebombecraft.operator.conditional.IsEffectActive2;
+import bassebombecraft.operator.conditional.IsWorldAtServerSide2;
+import bassebombecraft.operator.entity.potion.effect.RemoveEffectAtClient2;
 import bassebombecraft.potion.effect.IncreaseSizeEffect;
 import net.minecraftforge.event.entity.living.PotionEvent.PotionExpiryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 /**
- * Event handler for the increased size potion effect.
- * Logic for the {@linkplain IncreaseSizeEffect}.
+ * Event handler for the increased size potion effect. Logic for the
+ * {@linkplain IncreaseSizeEffect}.
  * 
  * When {@linkplain PotionExpiryEvent} is received at server side then the
  * removal of the effect is sync'ed to the client side.
  * 
- * The handler only executes events SERVER side. 
+ * The handler only executes events SERVER side.
  */
 @Mod.EventBusSubscriber
 public class IncreaseSizeEffectEventHandler {
 
 	/**
-	 * Operator execution.
+	 * Create operators.
 	 */
-	static Operators ops;
+	static Supplier<Operator2> splOp = () -> {
+		return new Sequence2(new IsWorldAtServerSide2(), new IsEffectActive2(INCREASE_SIZE_EFFECT.get()),
+				new RemoveEffectAtClient2(INCREASE_SIZE_EFFECT.get()));
+	};
 
-	static {
-		ops = new Operators();
-		Operator removeOp = new RemoveEffectAtClient(ops.getSplLivingEntity(), INCREASE_SIZE_EFFECT);
-		Operator ifOp = new IfEffectIsActive(ops.getSplLivingEntity(), removeOp, INCREASE_SIZE_EFFECT);
-		ops.setOperator(ifOp);
-	}
+	/**
+	 * Operator to setup operator initializer function for lazy initialisation.
+	 */
+	static final Operator2 lazyInitOp = of(splOp);
 
 	/**
 	 * Handle {@linkplain PotionExpiryEvent} at server side.
@@ -42,7 +50,9 @@ public class IncreaseSizeEffectEventHandler {
 	 */
 	@SubscribeEvent
 	public static void handlePotionExpiryEvent(PotionExpiryEvent event) {
-		ops.run(event.getEntityLiving());
+		Ports ports = getInstance();
+		ports.setLivingEntity1(event.getEntityLiving());
+		run(ports, lazyInitOp);
 	}
 
 }

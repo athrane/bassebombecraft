@@ -21,7 +21,7 @@ public class ShootSkullProjectile2 extends GenericShootProjectile2 {
 	@Override
 	Entity createProjectile(LivingEntity invoker, Vector3d orientation) {
 		GenericCompositeProjectileEntity projectile = new SkullProjectileEntity(SKULL_PROJECTILE, invoker);
-		projectile.doShoot(orientation);
+		projectile.shootUsingProjectileConfig(orientation);
 		return projectile;
 	}
 

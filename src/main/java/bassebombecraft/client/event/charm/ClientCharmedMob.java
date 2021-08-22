@@ -31,6 +31,11 @@ public class ClientCharmedMob implements CharmedMob {
 	String id;
 
 	/**
+	 * Display name used for rendering.
+	 */
+	String name;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param entity   charmed mob.
@@ -39,6 +44,7 @@ public class ClientCharmedMob implements CharmedMob {
 	ClientCharmedMob(MobEntity entity, int duration) {
 		this.entity = entity;
 		id = Integer.toString(entity.getEntityId());
+		name = entity.getName().getString() + "/" + id;
 	}
 
 	public Set<PrioritizedGoal> getGoals() throws UnsupportedOperationException {
@@ -60,6 +66,11 @@ public class ClientCharmedMob implements CharmedMob {
 	@Override
 	public String getId() {
 		return id;
+	}
+	
+	@Override
+	public String getName() {
+		return name;
 	}
 
 	/**

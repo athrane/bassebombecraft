@@ -1,6 +1,6 @@
 package bassebombecraft.operator.conditional;
 
-import static bassebombecraft.entity.EntityUtils.hasAttribute;
+import static bassebombecraft.entity.EntityUtils.*;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 import static bassebombecraft.operator.Operators2.applyV;
 
@@ -13,9 +13,9 @@ import net.minecraft.entity.ai.attributes.Attribute;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which which updates
- * the result port as successful if the living entity has attribute is defined.
+ * the result port as successful if the living entity has custom attribute set to 1.0D.
  */
-public class IsEntityAttributeDefined2 implements Operator2 {
+public class IsEntityAttributeSet2 implements Operator2 {
 
 	/**
 	 * Function to get living entity.
@@ -23,7 +23,7 @@ public class IsEntityAttributeDefined2 implements Operator2 {
 	Function<Ports, LivingEntity> fnGetEntity;
 
 	/**
-	 * Entity Attribute to test for.
+	 * Entity attribute to test for.
 	 */
 	Attribute attribute;
 
@@ -33,7 +33,7 @@ public class IsEntityAttributeDefined2 implements Operator2 {
 	 * @param fnGetEntity function to get living entity.
 	 * @param attribute   attribute to test for.
 	 */
-	public IsEntityAttributeDefined2(Function<Ports, LivingEntity> fnGetEntity, Attribute attribute) {
+	public IsEntityAttributeSet2(Function<Ports, LivingEntity> fnGetEntity, Attribute attribute) {
 		this.fnGetEntity = fnGetEntity;
 		this.attribute = attribute;
 	}
@@ -45,7 +45,7 @@ public class IsEntityAttributeDefined2 implements Operator2 {
 	 * 
 	 * @param attribute attribute to test for.
 	 */
-	public IsEntityAttributeDefined2(Attribute attribute) {
+	public IsEntityAttributeSet2(Attribute attribute) {
 		this(getFnGetLivingEntity1(), attribute);
 	}
 
@@ -57,8 +57,8 @@ public class IsEntityAttributeDefined2 implements Operator2 {
 			return;
 		}
 
-		// exit as failed if attribute isn't defined
-		if (!hasAttribute(livingEntity, attribute)) {
+		// exit as failed if attribute isn't set
+		if (!isEntityAttributeSet(livingEntity, attribute)) {
 			ports.setResultAsFailed();
 			return;
 		}

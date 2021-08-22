@@ -1,7 +1,7 @@
 package bassebombecraft.client.event.rendering;
 
-import static bassebombecraft.ModConstants.INCREASE_SIZE_EFFECT;
 import static bassebombecraft.geom.GeometryUtils.oscillateWithDeltaTime;
+import static bassebombecraft.potion.effect.RegisteredEffects.INCREASE_SIZE_EFFECT;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
@@ -30,11 +30,11 @@ public class IncreaseSizeEffectRenderer {
 		LivingEntity entity = event.getEntity();
 
 		// exit if effect isn't active
-		if (!entity.isPotionActive(INCREASE_SIZE_EFFECT))
+		if (!entity.isPotionActive(INCREASE_SIZE_EFFECT.get()))
 			return;
 
 		// get calculated size
-		EffectInstance effectInstance = entity.getActivePotionEffect(INCREASE_SIZE_EFFECT);
+		EffectInstance effectInstance = entity.getActivePotionEffect(INCREASE_SIZE_EFFECT.get());
 		float scale = calculateSize(effectInstance.getAmplifier(), entity);
 
 		// get and push matrix stack
@@ -56,7 +56,7 @@ public class IncreaseSizeEffectRenderer {
 		LivingEntity entity = event.getEntity();
 
 		// exit if effect isn't active
-		if (!entity.isPotionActive(INCREASE_SIZE_EFFECT))
+		if (!entity.isPotionActive(INCREASE_SIZE_EFFECT.get()))
 			return;
 
 		// get and pop matrix stack

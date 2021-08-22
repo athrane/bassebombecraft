@@ -3,6 +3,7 @@ package bassebombecraft.entity;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE;
+import static bassebombecraft.ModConstants.MARKER_ATTRIBUTE_IS_SET;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
 import java.util.Optional;
@@ -15,7 +16,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifierManager;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.passive.BeeEntity;
@@ -452,20 +452,19 @@ public class EntityUtils {
 	 * @param value     value to set.
 	 */
 	public static void setAttribute(LivingEntity entity, Attribute attribute, double value) {
-		AttributeModifierManager manager = entity.getAttributeManager();
-		ModifiableAttributeInstance instance = manager.createInstanceIfAbsent(attribute);
+		ModifiableAttributeInstance instance = entity.getAttribute(attribute);
 		instance.setBaseValue(value);
 	}
 
 	/**
-	 * Returns true of entity has attribute.
+	 * Returns true if custom entity attribute is set, e.g. has value 1.0D.
 	 * 
-	 * @param entity    entity to set attribute at.
-	 * @param attribute attribute to set.
+	 * @param entity    entity to test attribute at.
+	 * @param attribute attribute test set.
 	 */
-	public static boolean hasAttribute(LivingEntity entity, Attribute attribute) {
-		AttributeModifierManager manager = entity.getAttributeManager();
-		return manager.hasAttributeInstance(attribute);
+	public static boolean isEntityAttributeSet(LivingEntity entity, Attribute attribute) {
+		ModifiableAttributeInstance instance = entity.getAttribute(attribute);
+		return (instance.getValue() == MARKER_ATTRIBUTE_IS_SET);
 	}
 
 }

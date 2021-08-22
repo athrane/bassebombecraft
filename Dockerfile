@@ -1,4 +1,4 @@
-FROM itzg/minecraft-server
+FROM itzg/minecraft-server:java8
 
 ARG MOD_PATH
 ARG MOD_JAR

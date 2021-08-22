@@ -2,7 +2,6 @@ package bassebombecraft.potion.effect;
 
 import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
-import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 
 import bassebombecraft.client.event.rendering.DecreaseSizeEffectRenderer;
 import net.minecraft.entity.LivingEntity;
@@ -27,7 +26,6 @@ public class DecreaseSizeEffect extends Effect {
 	 */
 	public DecreaseSizeEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
-		doCommonEffectInitialization(this, NAME);
 	}
 
 	@Override

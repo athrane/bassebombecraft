@@ -1,9 +1,12 @@
 package bassebombecraft.potion;
 
-import static bassebombecraft.ModConstants.AMPLIFIER_EFFECT;
-import static bassebombecraft.ModConstants.MODID;
-import static java.util.Optional.*;
+import static bassebombecraft.ModConstants.POTIONS_CONFIGPATH;
+import static bassebombecraft.potion.effect.RegisteredEffects.AMPLIFIER_EFFECT;
+import static java.util.Optional.empty;
+import static java.util.Optional.ofNullable;
+import static net.minecraft.item.Items.POTION;
 import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
+import static net.minecraftforge.common.brewing.BrewingRecipeRegistry.addRecipe;
 
 import java.util.Optional;
 
@@ -11,13 +14,13 @@ import bassebombecraft.config.ConfigUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Potion;
 import net.minecraftforge.common.brewing.BrewingRecipe;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
+import net.minecraftforge.fml.RegistryObject;
 
 /**
  * Utility for potions.
@@ -25,66 +28,53 @@ import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 public class PotionUtils {
 
 	/**
-	 * Do common initialisation of potion.
-	 * 
-	 * Name is stored with lower case in the potion registry.
-	 * 
-	 * @param potion potion which is initialised.
-	 * @param name   potion name.
-	 */
-	public static void doCommonPotionInitialization(Potion potion, String name) {
-		potion.setRegistryName(name.toLowerCase());
-	}
-
-	/**
-	 * Do common initialisation of potion effect.
-	 * 
-	 * Name is stored with lower case in the effect registry.
-	 * 
-	 * @param effect effect which is initialised.
-	 * @param name   effect name.
-	 */
-	public static void doCommonEffectInitialization(Effect effect, String name) {
-		effect.setRegistryName(MODID, name.toLowerCase());
-	}
-
-	/**
 	 * Potion factory method.
 	 * 
 	 * @param name   name of potion, used for registration.
-	 * @param path   configuration path in TOML configuration.
 	 * @param effect potion effect.
 	 * 
 	 * @return potion ready for registration.
 	 */
-	public static Potion getInstance(String name, String path, Effect effect) {
+	public static Potion getInstance(String name, Effect effect) {
+
+		// calculate path in TOML configuration.
+		String configPath = POTIONS_CONFIGPATH + name;
 
 		// get configuration
-		int duration = ConfigUtils.getInt(path + ".duration");
-		int amplifier = ConfigUtils.getInt(path + ".amplifier");
+		int duration = ConfigUtils.getInt(configPath + ".duration");
+		int amplifier = ConfigUtils.getInt(configPath + ".amplifier");
 
-		// create effect instance
+		// create effect instance and potion
 		EffectInstance effectInstance = new EffectInstance(effect, duration, amplifier);
-
-		// create potion
-		String registryName = name.toLowerCase();
-		Potion potion = new Potion(name, effectInstance);
-		potion.setRegistryName(MODID, registryName);
-		return potion;
+		return new Potion(effectInstance);
 	}
 
 	/**
-	 * REgister potion with the Forge {@linkplain BrewingRecipeRegistry}.
+	 * Register potion with the Forge {@linkplain BrewingRecipeRegistry}.
 	 * 
-	 * @param basePotion   base potion to create potion form.
-	 * @param reagent      reagent in potion.
-	 * @param targetPotion target potion.
+	 * @param basePotion base potion to create potion from.
+	 * @param reagent    reagent in potion.
+	 * @param splPotion  function to resolve potion.
 	 */
-	public static void registerPotionRecipe(Potion basePotion, Item reagent, Potion targetPotion) {
-		Ingredient baseItem = Ingredient.fromStacks(addPotionToItemStack(new ItemStack(Items.POTION), basePotion));
+	public static void registerPotionRecipe(Potion basePotion, Item reagent, RegistryObject<Potion> splPotion) {
+		Potion targetPotion = splPotion.get();
+		Ingredient baseItem = Ingredient.fromStacks(addPotionToItemStack(new ItemStack(POTION), basePotion));
 		Ingredient reagantItem = Ingredient.fromStacks(new ItemStack(reagent));
-		ItemStack out = addPotionToItemStack(new ItemStack(Items.POTION), targetPotion);
-		BrewingRecipeRegistry.addRecipe(new BrewingRecipe(baseItem, reagantItem, out));
+		ItemStack out = addPotionToItemStack(new ItemStack(POTION), targetPotion);
+		addRecipe(new BrewingRecipe(baseItem, reagantItem, out));
+	}
+
+	/**
+	 * Register potion with the Forge {@linkplain BrewingRecipeRegistry}.
+	 * 
+	 * @param splBasePotion function to resolve base potion to create potion from.
+	 * @param reagent       reagent in potion.
+	 * @param splPotion     function to resolve potion.
+	 */
+	public static void registerPotionRecipe(RegistryObject<Potion> splBasePotion, Item reagent,
+			RegistryObject<Potion> splPotion) {
+		Potion basePotion = splBasePotion.get();
+		registerPotionRecipe(basePotion, reagent, splPotion);
 	}
 
 	/**
@@ -96,9 +86,9 @@ public class PotionUtils {
 	 *         Otherwise the optional is empty.
 	 */
 	public static Optional<EffectInstance> getEffectIfActive(LivingEntity entity, Effect effect) {
-		if(entity == null) return empty();
-		Optional<EffectInstance> optEffect = ofNullable(entity.getActivePotionEffect(effect));
-		return optEffect;
+		if (entity == null)
+			return empty();
+		return ofNullable(entity.getActivePotionEffect(effect));
 	}
 
 	/**
@@ -110,7 +100,7 @@ public class PotionUtils {
 	 * @return true if effect is active on living entity.
 	 */
 	public static boolean isAmplifierEffectActive(LivingEntity entity) {
-		Optional<EffectInstance> optEffect = getEffectIfActive(entity, AMPLIFIER_EFFECT);
+		Optional<EffectInstance> optEffect = getEffectIfActive(entity, AMPLIFIER_EFFECT.get());
 		return optEffect.isPresent();
 	}
 

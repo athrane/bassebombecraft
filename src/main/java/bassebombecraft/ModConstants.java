@@ -1,39 +1,14 @@
 package bassebombecraft;
 
-import static bassebombecraft.config.ModConfiguration.baconBazookaProjectileEffectExplosion;
-import static bassebombecraft.config.ModConfiguration.baconBazookaProjectileEffectForce;
-import static bassebombecraft.config.ModConfiguration.bearBlasterProjectileEffectExplosion;
-import static bassebombecraft.config.ModConfiguration.bearBlasterProjectileEffectForce;
-import static bassebombecraft.config.ModConfiguration.creeperCannonProjectileEffectExplosion;
-import static bassebombecraft.config.ModConfiguration.creeperCannonProjectileEffectForce;
-import static bassebombecraft.config.ModConfiguration.primedCreeperCannonProjectileEffectExplosion;
-import static bassebombecraft.config.ModConfiguration.primedCreeperCannonProjectileEffectForce;
-
 import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
 import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.event.block.ProcessBlockDirectivesEventHandler;
-import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
-import bassebombecraft.item.action.ShootBaconBazooka;
-import bassebombecraft.item.action.ShootBearBlaster;
-import bassebombecraft.item.action.ShootCreeperCannon;
 import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.composite.CompositeMagicItem;
-import bassebombecraft.item.inventory.MobsAggroIdolInventoryItem;
-import bassebombecraft.item.inventory.PrimeMobIdolInventoryItem;
-import bassebombecraft.potion.effect.AggroMobEffect;
-import bassebombecraft.potion.effect.AggroPlayerEffect;
-import bassebombecraft.potion.effect.AmplifierEffect;
-import bassebombecraft.potion.effect.DecreaseSizeEffect;
-import bassebombecraft.potion.effect.IncreaseSizeEffect;
-import bassebombecraft.potion.effect.MobPrimingEffect;
-import bassebombecraft.potion.effect.MobProjectileEffect;
-import bassebombecraft.potion.effect.ReceiveAggroEffect;
-import bassebombecraft.potion.effect.ReflectEffect;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
-import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -56,7 +31,7 @@ public class ModConstants {
 	/**
 	 * Mod version.
 	 */
-	public static final String VERSION = "1.16.5-2.0";
+	public static final String VERSION = "1.16.5-2.1";
 
 	/**
 	 * In game tab name.
@@ -347,7 +322,7 @@ public class ModConstants {
 	 * Reflect effect configuration identifier.
 	 */
 	public static final String REFLECT_EFFECT_NAME = "ReflectEffect";
-
+	
 	/**
 	 * Processed block directives configuration identifier.
 	 */
@@ -399,94 +374,21 @@ public class ModConstants {
 	public static final String PRIMEDCREEPERCANNON_EFFECT_NAME = "PrimedCreeperCannonProjectileEffect";
 
 	/**
-	 * Aggro mob effect, used by {@linkplain MobsAggroIdolInventoryItem}.
-	 */
-	public static final Effect AGGRO_MOB_EFFECT = new AggroMobEffect();
-
-	/**
-	 * Receive mob aggro effect, used by {@linkplain MobsAggroIdolInventoryItem} and
-	 * {@linkplain ProjectileModifierEventHandler}.
-	 */
-	public static final Effect RECEIVE_AGGRO_EFFECT = new ReceiveAggroEffect();
-
-	/**
-	 * Aggro player effect, used by {@linkplain MobRespawningEffectEventHandler}.
-	 */
-	public static final Effect AGGRO_PLAYER_EFFECT = new AggroPlayerEffect();
-
-	/**
-	 * Primed mob effect, used by {@linkplain PrimeMobIdolInventoryItem}.
-	 */
-	public static final Effect MOB_PRIMING_EFFECT = new MobPrimingEffect();
-
-	/**
-	 * Bacon Bazooka effect, used by {@linkplain ShootBaconBazooka}.
-	 */
-	public static final Effect BACON_BAZOOKA_EFFECT = new MobProjectileEffect(baconBazookaProjectileEffectForce.get(),
-			baconBazookaProjectileEffectExplosion.get());
-
-	/**
-	 * Bear blaster effect, used by {@linkplain ShootBearBlaster}.
-	 */
-	public static final Effect BEAR_BLASTER_EFFECT = new MobProjectileEffect(bearBlasterProjectileEffectForce.get(),
-			bearBlasterProjectileEffectExplosion.get());
-
-	/**
-	 * Creeper cannon effect, used by {@linkplain ShootCreeperCannon}.
-	 */
-	public static final Effect CREEPER_CANNON_EFFECT = new MobProjectileEffect(creeperCannonProjectileEffectForce.get(),
-			creeperCannonProjectileEffectExplosion.get());
-
-	/**
-	 * Creeper cannon effect, used by {@linkplain ShootCreeperCannon}.
-	 */
-	public static final Effect PRIMED_CREEPER_CANNON_EFFECT = new MobProjectileEffect(
-			primedCreeperCannonProjectileEffectForce.get(), primedCreeperCannonProjectileEffectExplosion.get());
-
-	/**
-	 * Potion amplifier effect.
-	 */
-	public static final Effect AMPLIFIER_EFFECT = new AmplifierEffect();
-
-	/**
-	 * Reflect effect.
-	 */
-	public static final Effect REFLECT_EFFECT = new ReflectEffect();
-
-	/**
-	 * Increase size effect.
-	 */
-	public static final Effect INCREASE_SIZE_EFFECT = new IncreaseSizeEffect();
-
-	/**
-	 * Decrease size effect.
-	 */
-	public static final Effect DECREASE_SIZE_EFFECT = new DecreaseSizeEffect();
-
-	/**
 	 * Range value for non-AOE effect in {@linkplain InventoryItemActionStrategy}
 	 * implementation.
 	 */
 	public static final int NOT_AN_AOE_EFFECT = 1;
 
 	/**
-	 * Entity attribute to define an entity as a decoy.
+	 * Attribute value if custom entity attribute is set.
 	 */
-	public static final Attribute DECOY = new RangedAttribute("bassebombecraft.decoy", 1.0D, 0.0D, 1.0D)
-			.setShouldWatch(true);
-
+	public static final double MARKER_ATTRIBUTE_IS_SET = 1.0D;
+	
 	/**
-	 * Entity attribute to tag an entity for respawn.
+	 * Attribute value if custom entity attribute isn't set.
 	 */
-	public static final Attribute RESPAWN = new RangedAttribute("bassebombecraft.respawn", 1.0D, 0.0D, 1.0D)
-			.setShouldWatch(true);
-
-	/**
-	 * Entity attribute to tag an entity as respawned.
-	 */
-	public static final Attribute IS_RESPAWNED = new RangedAttribute("bassebombecraft.isrespawned", 1.0D, 0.0D, 1.0D)
-			.setShouldWatch(true);
-
+	public static final double MARKER_ATTRIBUTE_ISNT_SET = 0.0D;
+	
 	/**
 	 * Maximum size composite magic. Used in {@linkplain CompositeMagicItem}.
 	 */

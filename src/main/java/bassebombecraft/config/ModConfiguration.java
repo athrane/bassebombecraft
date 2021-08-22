@@ -21,6 +21,11 @@ import static bassebombecraft.config.InventoryItemConfig.getInstanceWithNoRange;
 import static bassebombecraft.config.ItemConfig.getInstance;
 import static bassebombecraft.config.ParticlesConfig.getInstance;
 import static bassebombecraft.config.ProjectileEntityConfig.getInstance;
+import static bassebombecraft.config.SoundConfig.getInstance;
+import static bassebombecraft.sound.RegisteredSounds.LEVITATE_PLAYER_SOUND;
+import static bassebombecraft.sound.RegisteredSounds.RESIZE_TARGET_SOUND;
+import static bassebombecraft.sound.RegisteredSounds.SHOOT_SKULL_PROJECTILE_SOUND;
+import static bassebombecraft.sound.RegisteredSounds.TELEPORT_INVOKER_SOUND;
 import static net.minecraftforge.fml.loading.FMLPaths.CONFIGDIR;
 
 import java.nio.file.Path;
@@ -58,7 +63,6 @@ import bassebombecraft.item.action.inventory.AddAggroPlayerEffect;
 import bassebombecraft.item.action.inventory.AddBlindingEffect;
 import bassebombecraft.item.action.inventory.AddFlameEffect;
 import bassebombecraft.item.action.inventory.AddHealingEffect;
-import bassebombecraft.item.action.inventory.AddLevitationEffect;
 import bassebombecraft.item.action.inventory.AddMobsLevitationEffect;
 import bassebombecraft.item.action.inventory.AddMobsPrimingEffect;
 import bassebombecraft.item.action.inventory.AddReflectEffect;
@@ -203,6 +207,7 @@ import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnIceBlock2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnLavaBlock2;
+import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
 import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
@@ -263,6 +268,12 @@ public class ModConfiguration {
 	 * {@linkplain ReflectEffectEventHandler}.
 	 */
 	public static ParticlesConfig reflectEffectParticles;
+
+	/**
+	 * Sound effect play for the {@linkplain TeleportInvoker2} operator in the
+	 * {@linkplain ProjectileModifierEventHandler}.
+	 */
+	public static SoundConfig teleportInvokerSound;
 
 	/**
 	 * Particles spawned by charmed mob, spawned by
@@ -338,6 +349,35 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue primedCreeperCannonProjectileEffectForce;
 	public static ForgeConfigSpec.IntValue primedCreeperCannonProjectileEffectExplosion;
 
+	/**
+	 * Properties for {@linkplain ReceiveAggroEffect} effect which used by the
+	 * operators in {@linkplain ReceiveAggroBook} and
+	 * {@linkplain ProjectileModifierEventHandler}.
+	 */
+	public static ForgeConfigSpec.IntValue receiveAggroEffectDuration;
+	public static ForgeConfigSpec.IntValue receiveAggroEffectAmplifier;
+
+	/**
+	 * Properties for levitation effect used by the operators in
+	 * {@linkplain LevitationIdolInventoryItem} .
+	 */
+	public static ForgeConfigSpec.IntValue levitationEffectDuration;
+	public static ForgeConfigSpec.IntValue levitationEffectAmplifier;
+
+	/**
+	 * Properties for decrease size effect used by the operators in
+	 * {@linkplain DecreaseSizeIdolInventoryItem} .
+	 */
+	public static ForgeConfigSpec.IntValue decreaseSizeEffectDuration;
+	public static ForgeConfigSpec.IntValue decreaseSizeEffectAmplifier;
+
+	/**
+	 * Properties for increase size effect used by the operators in
+	 * {@linkplain IncreaseSizeIdolInventoryItem} .
+	 */
+	public static ForgeConfigSpec.IntValue increaseSizeEffectDuration;
+	public static ForgeConfigSpec.IntValue increaseSizeEffectAmplifier;
+
 	// Books..
 
 	public static ItemConfig mobCommandersBaton;
@@ -366,8 +406,6 @@ public class ModConfiguration {
 
 	// TeleportBook
 	public static ItemConfig teleportBook;
-
-	// BeastmasterBook
 	public static ItemConfig beastmasterBook;
 	public static ItemConfig decoyBook;
 	public static ItemConfig receiveAggroBook;
@@ -573,10 +611,6 @@ public class ModConfiguration {
 	// CopyPasteBlocks action
 	public static ParticlesConfig copyPasteBlocksParticleInfo;
 
-	// AddLevitationEffect action
-	public static ForgeConfigSpec.IntValue addLevitationEffectDuration;
-	public static ForgeConfigSpec.IntValue addLevitationEffectAmplifier;
-
 	// AddMobsLevitationEffect action
 	public static ForgeConfigSpec.IntValue addMobsLevitationEffectDuration;
 	public static ForgeConfigSpec.IntValue addMobsLevitationEffectAmplifier;
@@ -691,22 +725,6 @@ public class ModConfiguration {
 	 */
 	public static ForgeConfigSpec.IntValue spawnDecoyMaxHealth;
 	public static ForgeConfigSpec.DoubleValue spawnDecoyKnockBackResistance;
-
-	// Decrease size effect operator
-	public static ForgeConfigSpec.IntValue decreaseSizeEffectDuration;
-	public static ForgeConfigSpec.IntValue decreaseSizeEffectAmplifier;
-
-	// Increase size effect operator
-	public static ForgeConfigSpec.IntValue increaseSizeEffectDuration;
-	public static ForgeConfigSpec.IntValue increaseSizeEffectAmplifier;
-
-	/**
-	 * Properties for {@linkplain ReceiveAggroEffect} effect which is used by the
-	 * operators in {@linkplain ReceiveAggroBook} and
-	 * {@linkplain ProjectileModifierEventHandler}.
-	 */
-	public static ForgeConfigSpec.IntValue receiveAggroEffectDuration;
-	public static ForgeConfigSpec.IntValue receiveAggroEffectAmplifier;
 
 	/**
 	 * Properties for {@linkplain Respawn2} operator.
@@ -863,6 +881,16 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnedBlockParticles = getInstance(COMMON_BUILDER, "bassebombecraft:blockparticle", 5, 10, 0.1, 1.0, 1.0, 1.0);
 		COMMON_BUILDER.pop();
+
+		/**
+		 * Sound effect play for the {@linkplain TeleportInvoker2} operator in the
+		 * {@linkplain ProjectileModifierEventHandler}.
+		 */
+		name = ProjectileModifierEventHandler.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		teleportInvokerSound = getInstance(COMMON_BUILDER, TELEPORT_INVOKER_SOUND);
+		COMMON_BUILDER.pop();
+
 	}
 
 	/**
@@ -1002,6 +1030,58 @@ public class ModConfiguration {
 		primedCreeperCannonProjectileEffectExplosion = COMMON_BUILDER.comment(
 				"Projectile impact explosion size. Please notice: default creeper explosion radius is 3, powered creeper explosion radius is 6.")
 				.defineInRange("explosion", 6, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain ReceiveAggroEffect} effect for the
+		 * {@linkplain DecoyBook} item.
+		 */
+		name = ReceiveAggroEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		receiveAggroEffectAmplifier = COMMON_BUILDER
+				.comment("Potency of the effect (as a potion effect), has no fuction for this effect. ")
+				.defineInRange("amplifier", 1, 1, 1);
+		receiveAggroEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 500, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Properties for levitation effect is used by the operators in
+		 * {@linkplain LevitationIdolInventoryItem} .
+		 */
+		name = LevitationIdolInventoryItem.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		levitationEffectAmplifier = COMMON_BUILDER
+				.comment("Potency of the effect (as a potion effect), i.e. the resulting levitation.")
+				.defineInRange("amplifier", 1, 0, Integer.MAX_VALUE);
+		levitationEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 100, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Properties for decrease size effect used by the operators in
+		 * {@linkplain DecreaseSizeIdolInventoryItem} .
+		 */
+		name = DecreaseSizeIdolInventoryItem.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		decreaseSizeEffectAmplifier = COMMON_BUILDER.comment(
+				"Potency of the effect (as a potion effect), i.e. the resulting size decrease in procentage, i.e. 50% is half size. ")
+				.defineInRange("amplifier", 50, 1, 100);
+		decreaseSizeEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Properties for increase size effect used by the operators in
+		 * {@linkplain IncreaseSizeIdolInventoryItem} .
+		 */
+		name = IncreaseSizeIdolInventoryItem.ITEM_NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		increaseSizeEffectAmplifier = COMMON_BUILDER.comment(
+				"Potency of the effect (as a potion effect), i.e. the resulting size increase in procentage, i.e. 200% is double size. ")
+				.defineInRange("amplifier", 200, 1, 500);
+		increaseSizeEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 	}
 
@@ -1206,16 +1286,6 @@ public class ModConfiguration {
 		copyPasteBlocksParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 2, -10, 0.3, 1.0, 1.0, 1.0);
 		COMMON_BUILDER.pop();
 
-		// AddLevitationEffect
-		name = AddLevitationEffect.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		addLevitationEffectAmplifier = COMMON_BUILDER
-				.comment("Potency of the effect (as a potion effect), i.e. the resulting levitation.")
-				.defineInRange("amplifier", 1, 0, Integer.MAX_VALUE);
-		addLevitationEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
-				.defineInRange("duration", 40, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
 		// AddMobsLevitationEffect
 		name = AddMobsLevitationEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
@@ -1366,19 +1436,6 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain ReceiveAggroEffect} effect for the
-		 * {@linkplain DecoyBook} item.
-		 */
-		name = ReceiveAggroEffect.NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		receiveAggroEffectAmplifier = COMMON_BUILDER
-				.comment("Potency of the effect (as a potion effect), has no fuction for this effect. ")
-				.defineInRange("amplifier", 1, 1, 1);
-		receiveAggroEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
-				.defineInRange("duration", 500, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
-		/**
 		 * Configuration for the {@linkplain Respawn2} operator.
 		 */
 		name = Respawn2.NAME;
@@ -1403,7 +1460,6 @@ public class ModConfiguration {
 				.defineInRange("duration", 7, 0, 20);
 		electrocuteDamage = COMMON_BUILDER.comment("Damage done by effect when trigged.").defineInRange("damage", 10.0D,
 				0, 100.0D);
-
 		COMMON_BUILDER.pop();
 
 		/**
@@ -1553,27 +1609,6 @@ public class ModConfiguration {
 		removeBlockSpiralIdolInventoryItemParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 5, 10, 0.3, 1.0,
 				1.0, 1.0);
 		COMMON_BUILDER.pop();
-
-		// Decrease size effect for the DecreaseSizeIdolInventoryItem class
-		name = DecreaseSizeIdolInventoryItem.ITEM_NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		decreaseSizeEffectAmplifier = COMMON_BUILDER.comment(
-				"Potency of the effect (as a potion effect), i.e. the resulting size decrease in procentage, i.e. 50% is half size. ")
-				.defineInRange("amplifier", 50, 1, 100);
-		decreaseSizeEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
-				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
-		// Increase size effect for the for the IncreaseSizeIdolInventoryItem class
-		name = IncreaseSizeIdolInventoryItem.ITEM_NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
-		increaseSizeEffectAmplifier = COMMON_BUILDER.comment(
-				"Potency of the effect (as a potion effect), i.e. the resulting size increase in procentage, i.e. 200% is double size. ")
-				.defineInRange("amplifier", 200, 1, 500);
-		increaseSizeEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
-				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
-		COMMON_BUILDER.pop();
-
 	}
 
 	/**
@@ -1585,10 +1620,8 @@ public class ModConfiguration {
 		 * Configuration for the {@linkplain MobCommandersBaton} item.
 		 */
 		String name = MobCommandersBaton.ITEM_NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
 		mobCommandersBaton = getInstance(COMMON_BUILDER, name,
 				"Right-click to issue commands to charmed and commanded mobs.", 25);
-		COMMON_BUILDER.pop();
 
 		/**
 		 * Configuration for the {@linkplain MultipleArrowsBook} item.
@@ -1665,12 +1698,14 @@ public class ModConfiguration {
 				.defineInRange("cooldown", 25, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// TeleportBook
+		/**
+		 * Configuration for the {@linkplain TeleportBook} item.
+		 */
 		name = TeleportBook.ITEM_NAME;
-		COMMON_BUILDER.comment(name + " settings").push(name);
+		Supplier<SoundConfig> splSound = () -> getInstance(COMMON_BUILDER, SHOOT_SKULL_PROJECTILE_SOUND);
 		teleportBook = getInstance(COMMON_BUILDER, name,
-				"Right-click to shoot projectile and teleport to the position where the projectile hits.", 25);
-		COMMON_BUILDER.pop();
+				"Right-click to shoot projectile and teleport to the position where the projectile hits.", 25,
+				splSound);
 
 		/**
 		 * Configuration for the {@linkplain BeastmasterBook} item.
@@ -1880,11 +1915,14 @@ public class ModConfiguration {
 				"Equip in either hand to activate. The idol will charm nearby mobs. The charmed creatures can be commanded by Krenko's Command Baton.",
 				100, 5, splParticles);
 
-		// LevitationIdolInventoryItem
+		/**
+		 * Configuration for the {@linkplain LevitationIdolInventoryItem} item.
+		 */
 		name = LevitationIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "cloud", 5, 20, 0.3, 0.0, 0.0, 1.0);
+		Supplier<SoundConfig> splSound = () -> getInstance(COMMON_BUILDER, LEVITATE_PLAYER_SOUND);
 		levitationIdolInventoryItem = getInstanceWithNoRange(COMMON_BUILDER, name,
-				"Equip in either hand to activate. The idol will levitate the player.", 4, splParticles);
+				"Equip in either hand to activate. The idol will levitate the player.", 100, splParticles, splSound);
 
 		// MobsLevitationIdolInventoryItem
 		name = MobsLevitationIdolInventoryItem.ITEM_NAME;
@@ -2041,19 +2079,24 @@ public class ModConfiguration {
 				"Equip in either hand to activate. The idol will spawn psycho war pigs who will attack the player's target or some random mobs.",
 				25, 5, splParticles);
 
-		// DecreaseSizeIdolInventoryItem
+		/**
+		 * Configuration for the {@linkplain DecreaseSizeIdolInventoryItem} item.
+		 */
 		name = DecreaseSizeIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 0.3, 0.75, 0.5, 0.5);
 		decreaseSizeIdolInventoryItem = getInstance(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will decrease the size of nearby mobs. The magic doesn't work on players.",
 				25, 5, splParticles);
 
-		// IncreaseSizeIdolInventoryItem
+		/**
+		 * Configuration for the {@linkplain IncreaseSizeIdolInventoryItem} item.
+		 */
 		name = IncreaseSizeIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 0.3, 0.75, 0.5, 0.5);
+		splSound = () -> getInstance(COMMON_BUILDER, RESIZE_TARGET_SOUND);
 		increaseSizeIdolInventoryItem = getInstance(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will increase the size of nearby mobs. The magic doesn't work on players.",
-				25, 5, splParticles);
+				25, 5, splParticles, splSound);
 
 		/**
 		 * Configuration for the {@linkplain RespawnIdolInventoryItem} item.

@@ -16,7 +16,6 @@ import bassebombecraft.event.job.JobRepository;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.network.NetworkChannelHelper;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.IEventBus;
 
 /**
  * Interface for mod proxy.
@@ -25,11 +24,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
  * client. Physical side is determined by {@linkplain Dist}.
  */
 public interface Proxy {
-
-	/**
-	 * Perform deferred registration.
-	 */
-	public void doDeferredRegistration(IEventBus modEventBus);
 
 	/**
 	 * Initialize analytics.
@@ -202,7 +196,7 @@ public interface Proxy {
 	 * @throws UnsupportedOperationException if invoked on server proxy.
 	 */
 	public GraphicalEffectRepository getClientGraphicalEffectRepository() throws UnsupportedOperationException;
-	
+
 	/**
 	 * Get charmed mobs repository.
 	 * 
@@ -317,5 +311,5 @@ public interface Proxy {
 	 * @return mob commander repository.
 	 */
 	public TargetRepository getServerTargetRepository();
-	
+
 }

@@ -2,12 +2,20 @@ package bassebombecraft;
 
 import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.ModConstants.TAB_NAME;
+import static bassebombecraft.client.particles.RegisteredParticles.PARTICLE_REGISTRY;
 import static bassebombecraft.config.ModConfiguration.loadConfig;
 import static bassebombecraft.config.VersionUtils.validateVersion;
-import static bassebombecraft.item.RegisteredItems.*;
+import static bassebombecraft.inventory.container.RegisteredContainers.CONTAINER_REGISTRY;
+import static bassebombecraft.item.RegisteredItems.COMPOSITE;
+import static bassebombecraft.item.RegisteredItems.ITEMS_REGISTRY;
+import static bassebombecraft.potion.RegisteredPotions.POTION_REGISTRY;
+import static bassebombecraft.potion.effect.RegisteredEffects.EFFECT_REGISTRY;
+import static bassebombecraft.sound.RegisteredSounds.SOUNDS_REGISTRY;
 import static bassebombecraft.tab.ItemGroupFactory.createItemGroup;
 import static java.util.Optional.ofNullable;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
+import static net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext.get;
+import static bassebombecraft.entity.attribute.RegisteredAttributes.ATTRIBUTE_REGISTRY;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -38,7 +46,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(MODID)
 public class BassebombeCraft {
@@ -56,7 +63,7 @@ public class BassebombeCraft {
 	/**
 	 * Distributed executor for execution of client and server side code.
 	 */
-	static Proxy proxy = DistExecutor.runForDist(() -> () -> new ClientProxy(), () -> () -> new ServerProxy());
+	static Proxy proxy = DistExecutor.runForDist(() -> ClientProxy::new, () -> ServerProxy::new);
 
 	/**
 	 * {@linkplain ItemGroup} which implements creative tab.
@@ -100,6 +107,22 @@ public class BassebombeCraft {
 			// load configuration
 			loadConfig();
 
+			// get event bus
+			IEventBus modEventBus = get().getModEventBus();
+
+			// Register event handler for FMLClientSetupEvent event on the mod event bus
+			// The event handler initialises the client renders
+			modEventBus.addListener(clientSetupEventHandler);
+
+			// do deferred registration of objects
+			PARTICLE_REGISTRY.register(modEventBus);
+			CONTAINER_REGISTRY.register(modEventBus);
+			ATTRIBUTE_REGISTRY.register(modEventBus);			
+			ITEMS_REGISTRY.register(modEventBus);
+			SOUNDS_REGISTRY.register(modEventBus);
+			EFFECT_REGISTRY.register(modEventBus);
+			POTION_REGISTRY.register(modEventBus);
+
 		} catch (ExceptionInInitializerError e) {
 			reportAndLogException(e);
 			throw e;
@@ -107,16 +130,6 @@ public class BassebombeCraft {
 			reportAndLogException(e);
 			throw e;
 		}
-
-		// get event bus
-		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-
-		// Register event handler for FMLClientSetupEvent event on the mod event bus
-		// The event handler initialises the client renders
-		modEventBus.addListener(clientSetupEventHandler);
-
-		// do deferred registration of objects
-		proxy.doDeferredRegistration(modEventBus);
 	}
 
 	@SubscribeEvent
@@ -275,7 +288,7 @@ public class BassebombeCraft {
 	 */
 	public void logStacktraceAsDebug() {
 		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
-		Arrays.asList(ste).forEach(logger::debug);		
+		Arrays.asList(ste).forEach(logger::debug);
 	}
-	
+
 }

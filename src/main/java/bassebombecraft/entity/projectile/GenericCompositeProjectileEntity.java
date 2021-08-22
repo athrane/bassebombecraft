@@ -19,7 +19,6 @@ import static net.minecraftforge.event.ForgeEventFactory.onProjectileImpact;
 
 import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -51,7 +50,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
@@ -61,7 +59,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -175,16 +172,6 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	int duration;
 
 	/**
-	 * Invoker UUID.
-	 */
-	UUID invokerUUID;
-
-	/**
-	 * Projectile invoker
-	 */
-	LivingEntity invoker;
-
-	/**
 	 * Consumer to support callback when {@linkplain DurationRepository} expires the
 	 * projectile. add by this class.
 	 * 
@@ -249,35 +236,19 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 		this.setShooter(shooter);
 	}
 
-	@Override
-	public void shoot(double x, double y, double z, float velocity, float inaccuracy) {
-
-		// calculate motion
-		Vector3d motionVector = (new Vector3d(x, y, z)).normalize()
-				.add(this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy,
-						this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy,
-						this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy)
-				.scale((double) velocity);
-		this.setMotion(motionVector);
-
-		// calculate yaw and pitch for projectile
-		float f = MathHelper.sqrt(horizontalMag(motionVector));
-		this.rotationYaw = (float) (MathHelper.atan2(motionVector.x, motionVector.z)
-				* (double) (180F / (float) Math.PI));
-		this.rotationPitch = (float) (MathHelper.atan2(motionVector.y, f) * (double) (180F / (float) Math.PI));
-		this.prevRotationYaw = this.rotationYaw;
-		this.prevRotationPitch = this.rotationPitch;
-
-	}
-
 	/**
 	 * Helper function for shooting the projectile using the configuration
 	 * properties of the projectile.
 	 * 
+	 * Adds trail effect to projectile.
+	 * 
 	 * @param orientation orientation vector for direction of projectile.
 	 */
-	public void doShoot(Vector3d orientation) {
-		setPosition(invoker.getPosX(), invoker.getPosY() + invoker.getEyeHeight(), invoker.getPosZ());
+	public void shootUsingProjectileConfig(Vector3d orientation) {
+
+		// shoot
+		Entity shooter = getShooter();
+		setPosition(shooter.getPosX(), shooter.getPosY() + shooter.getEyeHeight(), shooter.getPosZ());
 		double force = projectileConfig.force.get();
 		double inaccuracy = projectileConfig.inaccuracy.get();
 		double velocity = force * orientation.length();
@@ -401,11 +372,11 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	void addEntityDamage(Entity target) {
 
 		// TODO: should invoker be immune to projectile hits?
-		if (target.getUniqueID().equals(this.invokerUUID))
+		if (target.getUniqueID().equals(this.getUniqueID()))
 			return;
 
 		double amount = projectileConfig.damage.get();
-		DamageSource source = DamageSource.causeIndirectMagicDamage(this, invoker);
+		DamageSource source = DamageSource.causeIndirectMagicDamage(this, getShooter());
 		target.attackEntityFrom(source, (float) amount);
 	}
 
@@ -596,20 +567,6 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	protected void registerData() {
 		// NO-OP
 		// TODO: investigate this method, see implementation in ProjectileItemEntity
-	}
-
-	@Override
-	protected void readAdditional(CompoundNBT compound) {
-		this.invokerUUID = compound.getUniqueId("Invoker");
-		if (!this.world.isRemote() && this.invokerUUID != null) {
-			((ServerWorld) this.world).getEntityByUuid(this.invokerUUID);
-		}
-	}
-
-	@Override
-	protected void writeAdditional(CompoundNBT compound) {
-		if (this.invokerUUID != null)
-			compound.putUniqueId("Invoker", invokerUUID);
 	}
 
 	@Override

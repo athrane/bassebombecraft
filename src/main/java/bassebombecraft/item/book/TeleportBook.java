@@ -12,6 +12,7 @@ import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
 import bassebombecraft.operator.projectile.ShootSkullProjectile2;
 import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
 import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
+import bassebombecraft.operator.sound.PlaySound2;
 
 /**
  * Book of teleport implementation.
@@ -27,7 +28,8 @@ public class TeleportBook extends GenericRightClickedBook2 {
 		Operator2 formationOp = new SingleProjectileFormation2();
 		Operator2 projectileOp = new ShootSkullProjectile2();
 		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> TeleportInvoker2.NAME);
-		return new Sequence2(formationOp, projectileOp, modifierOp);
+		Operator2 soundOp = new PlaySound2(teleportBook.getSplSound());
+		return new Sequence2(formationOp, projectileOp, modifierOp, soundOp);
 	};
 
 	public TeleportBook() {

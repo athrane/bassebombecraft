@@ -1,16 +1,16 @@
 package bassebombecraft.client.event.rendering;
 
-import static bassebombecraft.ModConstants.DECOY;
-import static bassebombecraft.entity.EntityUtils.hasAttribute;
+import static bassebombecraft.entity.EntityUtils.isEntityAttributeSet;
+import static bassebombecraft.entity.attribute.RegisteredAttributes.IS_DECOY_ATTRIBUTE;
 import static bassebombecraft.geom.GeometryUtils.oscillateWithDeltaTime;
 import static net.minecraft.util.math.MathHelper.interpolateAngle;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderLivingEvent.Post;
 import net.minecraftforge.client.event.RenderLivingEvent.Pre;
@@ -39,7 +39,7 @@ public class DecoyRenderer {
 		LivingEntity entity = event.getEntity();
 
 		// exit if entity attribute isn't defined
-		if (!hasAttribute(entity, DECOY))
+		if (!isEntityAttributeSet(entity, IS_DECOY_ATTRIBUTE.get()))
 			return;
 
 		// get calculated size
@@ -78,7 +78,7 @@ public class DecoyRenderer {
 		LivingEntity entity = event.getEntity();
 
 		// exit if entity attribute isn't defined
-		if (!hasAttribute(entity, DECOY))
+		if (!isEntityAttributeSet(entity, IS_DECOY_ATTRIBUTE.get()))
 			return;
 
 		// get and pop matrix stack

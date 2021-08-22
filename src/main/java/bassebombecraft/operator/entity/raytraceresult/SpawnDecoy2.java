@@ -1,10 +1,11 @@
 package bassebombecraft.operator.entity.raytraceresult;
 
-import static bassebombecraft.ModConstants.DECOY;
+import static bassebombecraft.ModConstants.MARKER_ATTRIBUTE_IS_SET;
 import static bassebombecraft.block.BlockUtils.calculatePosition;
 import static bassebombecraft.config.ModConfiguration.spawnDecoyKnockBackResistance;
 import static bassebombecraft.config.ModConfiguration.spawnDecoyMaxHealth;
 import static bassebombecraft.entity.EntityUtils.setAttribute;
+import static bassebombecraft.entity.attribute.RegisteredAttributes.IS_DECOY_ATTRIBUTE;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isBlockHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isNothingHit;
@@ -35,7 +36,7 @@ import net.minecraft.world.World;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which spawn a decoy
- * (2D Panda). The decoy is spawned at the hit entity or block .
+ * (2D Panda). The decoy is spawned at the hit entity or block.
  */
 public class SpawnDecoy2 implements Operator2 {
 
@@ -138,7 +139,7 @@ public class SpawnDecoy2 implements Operator2 {
 		setAttribute(entity, MOVEMENT_SPEED, 0);
 		setAttribute(entity, MAX_HEALTH, spawnDecoyMaxHealth.get());
 		setAttribute(entity, KNOCKBACK_RESISTANCE, spawnDecoyKnockBackResistance.get());
-		setAttribute(entity, DECOY, 1.0D);
+		setAttribute(entity, IS_DECOY_ATTRIBUTE.get(), MARKER_ATTRIBUTE_IS_SET);
 
 		// AI not set
 

@@ -1,9 +1,9 @@
 package bassebombecraft.item.action.inventory;
 
-import static bassebombecraft.ModConstants.AGGRO_MOB_EFFECT;
 import static bassebombecraft.config.ModConfiguration.addAggroMobEffectAmplifier;
 import static bassebombecraft.config.ModConfiguration.addAggroMobEffectDuration;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
+import static bassebombecraft.potion.effect.RegisteredEffects.AGGRO_MOB_EFFECT;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -66,7 +66,7 @@ public class AddAggroMobEffect implements InventoryItemActionStrategy {
 	 * @return potion effect
 	 */
 	EffectInstance createEffect() {
-		return new EffectInstance(AGGRO_MOB_EFFECT, duration, amplifier);
+		return new EffectInstance(AGGRO_MOB_EFFECT.get(), duration, amplifier);
 	}
 
 }

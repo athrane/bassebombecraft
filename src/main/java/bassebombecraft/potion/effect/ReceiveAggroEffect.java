@@ -2,15 +2,15 @@ package bassebombecraft.potion.effect;
 
 import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
+import static bassebombecraft.config.ModConfiguration.receiveAggroEffectAreaOfEffect;
+import static bassebombecraft.config.ModConfiguration.receiveAggroEffectUpdateFrequency;
 import static bassebombecraft.entity.EntityUtils.setMobEntityAggroed;
 import static bassebombecraft.entity.EntityUtils.setTarget;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
-import static bassebombecraft.potion.PotionUtils.doCommonEffectInitialization;
 
 import java.util.Collections;
 import java.util.List;
 
-import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.entity.EntityDistanceSorter;
 import bassebombecraft.util.function.DiscardSelf;
 import net.minecraft.entity.LivingEntity;
@@ -31,19 +31,9 @@ public class ReceiveAggroEffect extends Effect {
 	public static final String NAME = ReceiveAggroEffect.class.getSimpleName();
 
 	/**
-	 * Update frequency for effect.
-	 */
-	int updateFrequency;
-
-	/**
 	 * First list index.
 	 */
 	static final int FIRST_INDEX = 0;
-
-	/**
-	 * Area of effect.
-	 */
-	final int arreaOfEffect;
 
 	/**
 	 * Entity distance sorter.
@@ -60,9 +50,6 @@ public class ReceiveAggroEffect extends Effect {
 	 */
 	public ReceiveAggroEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
-		doCommonEffectInitialization(this, NAME);
-		arreaOfEffect = ModConfiguration.receiveAggroEffectAreaOfEffect.get();
-		updateFrequency = ModConfiguration.receiveAggroEffectUpdateFrequency.get();
 	}
 
 	@Override
@@ -80,6 +67,7 @@ public class ReceiveAggroEffect extends Effect {
 		discardSelfFilter.set(entity);
 
 		// get list of mobs
+		int arreaOfEffect = receiveAggroEffectAreaOfEffect.get();
 		AxisAlignedBB aabb = entity.getBoundingBox().grow(arreaOfEffect, arreaOfEffect, arreaOfEffect);
 		List<LivingEntity> targebtList = entity.world.getEntitiesWithinAABB(LivingEntity.class, aabb,
 				discardSelfFilter);
@@ -101,10 +89,9 @@ public class ReceiveAggroEffect extends Effect {
 
 	@Override
 	public boolean isReady(int duration, int amplifier) {
+		int updateFrequency = receiveAggroEffectUpdateFrequency.get();
 		int moduloValue = duration % updateFrequency;
 		return (moduloValue == 0);
 	}
 
-	
-	
 }

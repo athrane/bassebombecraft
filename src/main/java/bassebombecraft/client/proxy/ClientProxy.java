@@ -1,7 +1,6 @@
 package bassebombecraft.client.proxy;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.client.particles.RegisteredParticles.PARTICLE_REGISTRY;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayerUId;
 import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
@@ -12,8 +11,6 @@ import static bassebombecraft.event.projectile.RegisteredEntityTypes.LIGHTNING_P
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.LLAMA_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.SKULL_PROJECTILE;
 import static bassebombecraft.inventory.container.RegisteredContainers.COMPOSITE_ITEM_COMTAINER;
-import static bassebombecraft.inventory.container.RegisteredContainers.CONTAINER_REGISTRY;
-import static bassebombecraft.item.RegisteredItems.ITEMS_REGISTRY;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 import java.io.PrintWriter;
@@ -28,7 +25,6 @@ import bassebombecraft.client.event.rendering.DecreaseSizeEffectRenderer;
 import bassebombecraft.client.event.rendering.HudItemCharmedInfoRenderer;
 import bassebombecraft.client.event.rendering.HudItemHighlightedBlockRenderer;
 import bassebombecraft.client.event.rendering.IncreaseSizeEffectRenderer;
-import bassebombecraft.client.event.rendering.RenderingEventHandler;
 import bassebombecraft.client.event.rendering.RespawnedRenderer;
 import bassebombecraft.client.event.rendering.effect.ClientGraphicalEffectRepository;
 import bassebombecraft.client.event.rendering.effect.EffectRenderer;
@@ -65,7 +61,6 @@ import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.proxy.Proxy;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 /**
@@ -113,7 +108,7 @@ public class ClientProxy implements Proxy {
 	 * Graphical effect rendering repository.
 	 */
 	GraphicalEffectRepository graphicalEffectRepository;
-	
+
 	/**
 	 * Charmed Mob repository
 	 */
@@ -175,7 +170,7 @@ public class ClientProxy implements Proxy {
 
 		// initialise graphicsl effect repository
 		graphicalEffectRepository = ClientGraphicalEffectRepository.getInstance();
-		
+
 		// Initialise charmed mobs repositories
 		clientCharmedMobsRepository = ClientCharmedMobsRepository.getInstance();
 		serverCharmedMobsRepository = ServerCharmedMobsRepository.getInstance();
@@ -194,7 +189,7 @@ public class ClientProxy implements Proxy {
 
 		// initialise targeted entities repository
 		targetRepository = DefaultTargetRepository.getInstance();
-		
+
 		// initialize network
 		networkHelper = new NetworkChannelHelper();
 	}
@@ -299,6 +294,8 @@ public class ClientProxy implements Proxy {
 		// register debug renderer classes
 		// EVENT_BUS.addListener(DebugRenderer_MobLines::render);
 		// EVENT_BUS.addListener(DebugRenderer_EntityText_v3::render);
+		// EVENT_BUS.addListener(DebugRenderer_EntityText_v2::render);
+		// EVENT_BUS.addListener(DebugRenderer_EntityText_v1::render);
 		// MinecraftForge.EVENT_BUS.addListener(DebugRenderer_WorldLastEventText::render);
 		// EVENT_BUS.addListener(DebugRenderer_Highlightblock::render);
 		// EVENT_BUS.addListener(DebugRenderer_StrangeSize::render);
@@ -307,7 +304,6 @@ public class ClientProxy implements Proxy {
 		// EVENT_BUS.addListener(DebugRenderer_WorldLastEvent_GuiLines::render);
 
 		// register renderer classes
-		EVENT_BUS.addListener(RenderingEventHandler::handleRenderWorldLastEvent);
 		// EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
 		// EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
 		EVENT_BUS.addListener(HudItemCharmedInfoRenderer::handleRenderWorldLastEvent);
@@ -376,7 +372,7 @@ public class ClientProxy implements Proxy {
 	public GraphicalEffectRepository getClientGraphicalEffectRepository() throws UnsupportedOperationException {
 		return graphicalEffectRepository;
 	}
-	
+
 	@Override
 	public CharmedMobsRepository getServerCharmedMobsRepository() {
 		return serverCharmedMobsRepository;
@@ -410,13 +406,6 @@ public class ClientProxy implements Proxy {
 	@Override
 	public TargetRepository getServerTargetRepository() {
 		return targetRepository;
-	}
-	
-	@Override
-	public void doDeferredRegistration(IEventBus bus) {
-		PARTICLE_REGISTRY.register(bus);
-		CONTAINER_REGISTRY.register(bus);
-		ITEMS_REGISTRY.register(bus);
 	}
 
 }

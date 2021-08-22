@@ -1,9 +1,9 @@
 package bassebombecraft.item.action;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.ModConstants.CREEPER_CANNON_EFFECT;
-import static bassebombecraft.ModConstants.PRIMED_CREEPER_CANNON_EFFECT;
 import static bassebombecraft.entity.EntityUtils.setProjectileEntityPosition;
+import static bassebombecraft.potion.effect.RegisteredEffects.CREEPER_CANNON_EFFECT;
+import static bassebombecraft.potion.effect.RegisteredEffects.PRIMED_CREEPER_CANNON_EFFECT;
 
 import java.util.Random;
 
@@ -75,9 +75,9 @@ public class ShootCreeperCannon implements RightClickedItemAction {
 		// select potion
 		Effect potion = null;
 		if (isPrimed)
-			potion = PRIMED_CREEPER_CANNON_EFFECT;
+			potion = PRIMED_CREEPER_CANNON_EFFECT.get();
 		else
-			potion = CREEPER_CANNON_EFFECT;
+			potion = CREEPER_CANNON_EFFECT.get();
 
 		// calculate spawn projectile spawn position
 		setProjectileEntityPosition(entity, projectileEntity, spawnDisplacement);

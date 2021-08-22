@@ -21,7 +21,7 @@ public class ShootLightningProjectile2 extends GenericShootProjectile2 {
 	@Override
 	Entity createProjectile(LivingEntity invoker, Vector3d orientation) {
 		GenericCompositeProjectileEntity projectile = new LightningProjectileEntity(LIGHTNING_PROJECTILE, invoker);
-		projectile.doShoot(orientation);
+		projectile.shootUsingProjectileConfig(orientation);
 		return projectile;
 	}
 

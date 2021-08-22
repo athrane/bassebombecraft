@@ -35,8 +35,10 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
  */
 public class HudItemCharmedInfoRenderer {
 
-	static Function<CharmedMob, String> fnCreateMessage = c -> c.getEntity().getName().getUnformattedComponentText()
-			+ ", Charm duration: " + c.getDuration();
+	/**
+	 * Function to create charmed mob name
+	 */
+	static Function<CharmedMob, String> fnCreateMessage = c -> c.getName() + ", Charm duration: " + c.getDuration();
 
 	/**
 	 * HUD text x position.
@@ -112,7 +114,7 @@ public class HudItemCharmedInfoRenderer {
 		ClientPorts ports = getInstance();
 		ports.setMatrixStack1(matrixStack);
 		ports.setString1("CHARMED MOBS");
-		ports.setString2("Number chamred: " + charmedSize);
+		ports.setString2("Number charmed: " + charmedSize);
 		ports.setStrings1(messages2);
 		run(ports, splOp.get());
 
