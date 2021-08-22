@@ -12,7 +12,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attribute;
 
 /**
- * Implementation of the {@linkplain Operator2} interface which sets an entity
+ * Implementation of the {@linkplain Operator2} interface which sets the value of an entity
  * attribute.
  */
 public class SetEntityAttribute2 implements Operator2 {
