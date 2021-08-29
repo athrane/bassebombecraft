@@ -13,10 +13,12 @@ import static net.minecraft.entity.ai.attributes.Attributes.MOVEMENT_SPEED;
 import java.util.Random;
 import java.util.function.Function;
 
+import bassebombecraft.event.entity.attribute.EntityAttributeEventHandler;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.passive.PigEntity;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -25,6 +27,11 @@ import net.minecraft.world.World;
 /**
  * Implementation of the {@linkplain Operator2} interface which spawn a war pig.
  * The pig is spawned at the invoker (e.g. the player).
+ * 
+ * The vanilla attribute {@linkplain Attributes.ATTACK_DAMAGE} is assigned to
+ * the {@linkplain PigEntity} entity in the event handler
+ * {@linkplain EntityAttributeEventHandler} to support the value assignment in
+ * this operator.
  */
 public class SpawnWarPig2 implements Operator2 {
 
