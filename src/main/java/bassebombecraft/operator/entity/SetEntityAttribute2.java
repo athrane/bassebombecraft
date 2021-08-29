@@ -5,7 +5,7 @@ import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
-import bassebombecraft.entity.EntityUtils;
+import static bassebombecraft.entity.EntityUtils.*;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.LivingEntity;
@@ -65,7 +65,7 @@ public class SetEntityAttribute2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		LivingEntity target = applyV(fnGetTarget, ports);
-		EntityUtils.setAttribute(target, attribute, value);
+		setAttribute(target, attribute, value);
 	}
 
 }
