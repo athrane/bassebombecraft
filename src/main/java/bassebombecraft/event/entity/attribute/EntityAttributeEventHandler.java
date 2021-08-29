@@ -11,6 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import static net.minecraft.entity.ai.attributes.Attributes.ATTACK_DAMAGE;
 
 /**
  * Event handler for adding custom entity attributes to existing vanilla mobs.
@@ -31,6 +32,31 @@ public class EntityAttributeEventHandler {
 			event.add(t, RESPAWN_ATTRIBUTE.get());			
 			event.add(t, IS_RESPAWNED_ATTRIBUTE.get());						
 		});
+		
+		addAttackDamageAttributeToPigEntity(event);
+		addAttackDamageAttributeToParrotEntity(event);
 	}
 
+	/**
+	 * Add the {@linkplain Attributes.ATTACK_DAMAGE} attribute to the
+	 * {@linkplain PigEntity} to support the attack value modification in the
+	 * {@linkplain SpawnWarPig2} operator.
+	 * 
+	 * @param event attribute modification event.
+	 */
+	static void addAttackDamageAttributeToPigEntity(EntityAttributeModificationEvent event) {
+		event.add(EntityType.PIG, ATTACK_DAMAGE);
+	}
+
+	/**
+	 * Add the {@linkplain Attributes.ATTACK_DAMAGE} attribute to the
+	 * {@linkplain ParrotEntity} to support the attack value modification in the
+	 * {@linkplain SpawnAngryParrots} operator.
+	 * 
+	 * @param event attribute modification event.
+	 */
+	static void addAttackDamageAttributeToParrotEntity(EntityAttributeModificationEvent event) {
+		event.add(EntityType.PARROT, ATTACK_DAMAGE);
+	}
+	
 }

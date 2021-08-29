@@ -3,7 +3,6 @@ package bassebombecraft.item.inventory;
 import static bassebombecraft.config.ModConfiguration.decreaseSizeEffectAmplifier;
 import static bassebombecraft.config.ModConfiguration.decreaseSizeEffectDuration;
 import static bassebombecraft.config.ModConfiguration.decreaseSizeIdolInventoryItem;
-import static bassebombecraft.config.ModConfiguration.increaseSizeIdolInventoryItem;
 import static bassebombecraft.operator.DefaultPorts.getBcSetEffectInstance1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity2;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
@@ -45,9 +44,8 @@ public class DecreaseSizeIdolInventoryItem extends GenericInventoryItem {
 		int duration = decreaseSizeEffectDuration.get();
 		int amplifier = decreaseSizeEffectAmplifier.get();
 		return new Sequence2(new IsNot2(new IsEntityOfType2(fnGetTarget, PlayerEntity.class)),
-				new AddEffect2(fnGetTarget, bcSetEffectInstance, effect, duration, amplifier),
-				new AddEffectAtClient2(),
-				new PlaySound2(increaseSizeIdolInventoryItem.getSplSound()));
+				new AddEffect2(fnGetTarget, bcSetEffectInstance, effect, duration, amplifier), new AddEffectAtClient2(),
+				new PlaySound2(decreaseSizeIdolInventoryItem.getSplSound()));
 	};
 
 	/**

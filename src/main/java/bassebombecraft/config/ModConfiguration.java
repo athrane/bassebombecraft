@@ -2084,9 +2084,10 @@ public class ModConfiguration {
 		 */
 		name = DecreaseSizeIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 0.3, 0.75, 0.5, 0.5);
+		splSound = () -> getInstance(COMMON_BUILDER, RESIZE_TARGET_SOUND);		
 		decreaseSizeIdolInventoryItem = getInstance(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will decrease the size of nearby mobs. The magic doesn't work on players.",
-				25, 5, splParticles);
+				25, 5, splParticles, splSound);
 
 		/**
 		 * Configuration for the {@linkplain IncreaseSizeIdolInventoryItem} item.

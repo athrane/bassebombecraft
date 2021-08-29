@@ -31,7 +31,7 @@ public class ModConstants {
 	/**
 	 * Mod version.
 	 */
-	public static final String VERSION = "1.16.5-2.1";
+	public static final String VERSION = "1.16.5-2.2";
 
 	/**
 	 * In game tab name.
