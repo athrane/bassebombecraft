@@ -33,7 +33,8 @@ public class EntityAttributeEventHandler {
 			event.add(t, IS_RESPAWNED_ATTRIBUTE.get());						
 		});
 		
-		addAttackDamageAttributeToPigEntity(event);		
+		addAttackDamageAttributeToPigEntity(event);
+		addAttackDamageAttributeToParrotEntity(event);
 	}
 
 	/**
@@ -45,6 +46,17 @@ public class EntityAttributeEventHandler {
 	 */
 	static void addAttackDamageAttributeToPigEntity(EntityAttributeModificationEvent event) {
 		event.add(EntityType.PIG, ATTACK_DAMAGE);
+	}
+
+	/**
+	 * Add the {@linkplain Attributes.ATTACK_DAMAGE} attribute to the
+	 * {@linkplain ParrotEntity} to support the attack value modification in the
+	 * {@linkplain SpawnAngryParrots} operator.
+	 * 
+	 * @param event attribute modification event.
+	 */
+	static void addAttackDamageAttributeToParrotEntity(EntityAttributeModificationEvent event) {
+		event.add(EntityType.PARROT, ATTACK_DAMAGE);
 	}
 	
 }
