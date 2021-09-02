@@ -47,7 +47,7 @@
     "category" : "player",
     "sounds": [{
         "name": "bassebombecraft:shootwhoosh",
-        "stream": true
+        "stream": false
       }
     ]
   }
