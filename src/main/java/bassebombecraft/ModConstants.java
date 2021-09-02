@@ -7,8 +7,6 @@ import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.composite.CompositeMagicItem;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.potion.EffectType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -322,7 +320,7 @@ public class ModConstants {
 	 * Reflect effect configuration identifier.
 	 */
 	public static final String REFLECT_EFFECT_NAME = "ReflectEffect";
-	
+
 	/**
 	 * Processed block directives configuration identifier.
 	 */
@@ -383,12 +381,12 @@ public class ModConstants {
 	 * Attribute value if custom entity attribute is set.
 	 */
 	public static final double MARKER_ATTRIBUTE_IS_SET = 1.0D;
-	
+
 	/**
 	 * Attribute value if custom entity attribute isn't set.
 	 */
 	public static final double MARKER_ATTRIBUTE_ISNT_SET = 0.0D;
-	
+
 	/**
 	 * Maximum size composite magic. Used in {@linkplain CompositeMagicItem}.
 	 */
