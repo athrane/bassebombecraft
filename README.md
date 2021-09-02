@@ -18,7 +18,7 @@ A Docker image is created with a Minecraft server and the server version of the 
 The image is derived from the [itzg/minecraft-server](https://github.com/itzg/docker-minecraft-server) image. 
 The image is published to DockerHub by the name: [bassebombecraft/minecraft](https://hub.docker.com/r/bassebombecraft/minecraft).
 
-The image can be used by:
+# How to use the image
 Start by pulling the image from a registry: `docker pull bassebombecraft/minecraft`
 and then start the image: `docker run bassebombecraft/minecraft`
 
