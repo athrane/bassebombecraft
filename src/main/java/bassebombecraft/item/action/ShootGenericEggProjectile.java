@@ -1,13 +1,10 @@
 package bassebombecraft.item.action;
 
+import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+
 import java.util.Random;
 
-import static bassebombecraft.BassebombeCraft.*;
-import static bassebombecraft.event.projectile.RegisteredEntityTypes.SKULL_PROJECTILE;
-
-import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.entity.projectile.GenericEggProjectile;
-import bassebombecraft.entity.projectile.SkullProjectileEntity;
 import bassebombecraft.projectile.action.ProjectileAction;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -33,7 +30,7 @@ public class ShootGenericEggProjectile implements RightClickedItemAction {
 	 * Acceleration modifier.
 	 */
 	static final double ACCELERATION_MODIFIER = 0.1D;
-	
+
 	/**
 	 * GenericShootEggProjectile constructor.
 	 * 
@@ -49,9 +46,9 @@ public class ShootGenericEggProjectile implements RightClickedItemAction {
 
 		// calculate orientation
 		Vector3d orientation = entity.getLook(1).scale(ACCELERATION_MODIFIER);
-		
+
 		GenericEggProjectile projectile = new GenericEggProjectile(world, entity, action);
-		projectile.setPosition(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());		
+		projectile.setPosition(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
 		projectile.shoot(orientation.x, orientation.y, orientation.z, VELOCITY, INACCURANCY);
 		entity.playSound(SOUND, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 0.8F));
 		world.addEntity(projectile);
