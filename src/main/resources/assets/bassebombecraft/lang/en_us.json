@@ -188,6 +188,7 @@
     "item.bassebombecraft.lightningprojectilemodifieritem": "Lightning",                            
     "item.bassebombecraft.spawnsquidprojectilemodifieritem": "Angry Squid",                            
     "item.bassebombecraft.electrocuteprojectilemodifieritem": "Electrocute",                            
+    "item.bassebombecraft.spawnflamingchickenprojectilemodifieritem": "Failed Phoenix",                            
                 
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",

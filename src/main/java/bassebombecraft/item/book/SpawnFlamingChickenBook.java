@@ -7,7 +7,7 @@ import bassebombecraft.projectile.action.ProjectileAction;
 import bassebombecraft.projectile.action.SpawnFlamingChicken;
 
 /**
- * Book of failed phoenix .
+ * Book of failed phoenix.
  */
 public class SpawnFlamingChickenBook extends GenericRightClickedBook {
 

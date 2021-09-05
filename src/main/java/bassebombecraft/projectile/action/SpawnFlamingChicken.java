@@ -16,6 +16,7 @@ import net.minecraft.world.World;
  * Implementation of the {@linkplain ProjectileAction} which spawns a flaming
  * chicken.
  */
+@Deprecated
 public class SpawnFlamingChicken implements ProjectileAction {
 
 	private static final float PITCH = 0.0F;
