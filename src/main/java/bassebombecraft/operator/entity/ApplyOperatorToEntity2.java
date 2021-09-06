@@ -30,25 +30,25 @@ public class ApplyOperatorToEntity2 implements Operator2 {
 	/**
 	 * Function to get entities.
 	 */
-	Function<Ports, Entity[]> fnGetEntities1;
+	Function<Ports, Entity[]> fnGetEntities;
 
 	/**
 	 * Function to set entity in inner ports
 	 */
-	BiConsumer<Ports, Entity> bcSetEntity1;
+	BiConsumer<Ports, Entity> bcSetEntity;
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param fnGetEntities1 function to get entities that the operator is applied
+	 * @param fnGetEntities function to get entities that the operator is applied
 	 *                       to.
-	 * @param bcSetEntity1   function to set entity in ports.
+	 * @param bcSetEntity   function to set entity in ports.
 	 * @param operator       operator which is executed.
 	 */
-	public ApplyOperatorToEntity2(Function<Ports, Entity[]> fnGetEntities1, BiConsumer<Ports, Entity> bcSetEntity1,
+	public ApplyOperatorToEntity2(Function<Ports, Entity[]> fnGetEntities, BiConsumer<Ports, Entity> bcSetEntity,
 			Operator2 operator) {
-		this.fnGetEntities1 = fnGetEntities1;
-		this.bcSetEntity1 = bcSetEntity1;
+		this.fnGetEntities = fnGetEntities;
+		this.bcSetEntity = bcSetEntity;
 		this.operator = operator;
 	}
 
@@ -67,9 +67,9 @@ public class ApplyOperatorToEntity2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		Entity[] entities = applyV(fnGetEntities1, ports);
+		Entity[] entities = applyV(fnGetEntities, ports);
 		for (Entity entity : entities) {
-			bcSetEntity1.accept(ports, entity);
+			bcSetEntity.accept(ports, entity);
 			Operators2.run(ports, operator);
 		}
 	}
