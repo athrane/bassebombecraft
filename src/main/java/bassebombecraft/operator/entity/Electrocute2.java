@@ -70,7 +70,7 @@ public class Electrocute2 implements Operator2 {
 	static BiFunction<Function<Ports, Entity>, Function<Ports, Entity>, Operator2> fnAoeCoreOp = (fnGetSource,
 			fnGetTrueSource) -> {
 
-				// FindEntities2: get frequency from configuration
+				// IsFrequencyActive2: get frequency from configuration
 				Function<Ports, Integer> fnGetFrequency = p -> electrocuteAoeFrequency.get().intValue();
 				
 				// FindEntities2: get source position from source entity
