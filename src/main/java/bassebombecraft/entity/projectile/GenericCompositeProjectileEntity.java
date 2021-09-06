@@ -17,7 +17,6 @@ import static bassebombecraft.world.WorldUtils.isLogicalServer;
 import static net.minecraft.entity.projectile.ProjectileHelper.func_234618_a_;
 import static net.minecraftforge.event.ForgeEventFactory.onProjectileImpact;
 
-import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -124,11 +123,6 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 * Teleport projectile path operator.
 	 */
 	static final Operator2 TELEPORT_PATH_OPERATOR = new TeleportProjectilePath();
-
-	/**
-	 * Homing projectile path operator.
-	 */
-	static Optional<Operator2> optHomingPathOperator = Optional.empty();
 
 	/**
 	 * Create homing path operator.
