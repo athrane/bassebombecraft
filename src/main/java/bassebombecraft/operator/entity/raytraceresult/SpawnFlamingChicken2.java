@@ -2,7 +2,8 @@ package bassebombecraft.operator.entity.raytraceresult;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.block.BlockUtils.calculatePosition;
-import static bassebombecraft.config.ModConfiguration.SpawnFlamingChickenBurnDuration;
+import static bassebombecraft.config.ModConfiguration.wildfireEffectAmplifier;
+import static bassebombecraft.config.ModConfiguration.wildfireEffectDuration;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isBlockHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isEntityHit;
 import static bassebombecraft.entity.projectile.ProjectileUtils.isNothingHit;
@@ -11,6 +12,7 @@ import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayT
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
 import static bassebombecraft.operator.Operators2.applyV;
+import static bassebombecraft.potion.effect.RegisteredEffects.WILDFIRE_EFFECT;
 
 import java.util.function.Function;
 
@@ -20,6 +22,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -136,13 +139,25 @@ public class SpawnFlamingChicken2 implements Operator2 {
 
 		// spawn chicken
 		ChickenEntity entity = EntityType.CHICKEN.create(world);
-		entity.setFire(SpawnFlamingChickenBurnDuration.get());
 		entity.setLocationAndAngles(spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getZ(), yaw, PITCH);
 		world.addEntity(entity);
 
+		// create and add effect instance
+		entity.addPotionEffect(createEffect());
+
 		// register chicken on invokers team
 		getProxy().getServerTeamRepository().add((LivingEntity) invoker, entity);
+	}
 
+	/**
+	 * Create potion effect.
+	 * 
+	 * @return potion effect
+	 */
+	EffectInstance createEffect() {
+		int duration = wildfireEffectDuration.get();
+		int amplifier = wildfireEffectAmplifier.get();
+		return new EffectInstance(WILDFIRE_EFFECT.get(), duration, amplifier);
 	}
 
 }
