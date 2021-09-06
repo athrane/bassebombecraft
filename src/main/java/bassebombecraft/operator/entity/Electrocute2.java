@@ -70,30 +70,30 @@ public class Electrocute2 implements Operator2 {
 	static BiFunction<Function<Ports, Entity>, Function<Ports, Entity>, Operator2> fnAoeCoreOp = (fnGetSource,
 			fnGetTrueSource) -> {
 
-				// IsFrequencyActive2: get frequency from configuration
-				Function<Ports, Integer> fnGetFrequency = p -> electrocuteAoeFrequency.get().intValue();
-				
-				// FindEntities2: get source position from source entity
-				Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(fnGetSource, p).getPosition();
+		// IsFrequencyActive2: get frequency from configuration
+		Function<Ports, Integer> fnGetFrequency = p -> electrocuteAoeFrequency.get().intValue();
+		
+		// FindEntities2: get source position from source entity
+		Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(fnGetSource, p).getPosition();
 
-				// FindEntities2: get world from source entity
-				Function<Ports, World> fnGetWorld = p -> applyV(fnGetSource, p).getEntityWorld();
+		// FindEntities2: get world from source entity
+		Function<Ports, World> fnGetWorld = p -> applyV(fnGetSource, p).getEntityWorld();
 
-				// FindEntities2: get function to create exclusion predicate using the true
-				// source entity
-				Function<Ports, Predicate<Entity>> fnGetPredicate = p -> hasDifferentIds(applyV(fnGetTrueSource, p));
+		// FindEntities2: get function to create exclusion predicate using the true
+		// source entity
+		Function<Ports, Predicate<Entity>> fnGetPredicate = p -> hasDifferentIds(applyV(fnGetTrueSource, p));
 
-				// FindEntities2: get search range from configuration
-				Function<Ports, Integer> fnGetRange = p -> electrocuteAoeRange.get().intValue();
+		// FindEntities2: get search range from configuration
+		Function<Ports, Integer> fnGetRange = p -> electrocuteAoeRange.get().intValue();
 
-				// ApplyOperatorTo2: set target as entity #2
-				BiConsumer<Ports, Entity> bcSetTarget = getBcSetEntity2();
+		// ApplyOperatorTo2: set target as entity #2
+		BiConsumer<Ports, Entity> bcSetTarget = getBcSetEntity2();
 
-				// create operator
-				return new Sequence2(new ResetResult2(), new IsFrequencyActive2(fnGetFrequency),
-						new FindEntities2(fnGetSourcePos, fnGetWorld, fnGetPredicate, fnGetRange, getBcSetEntities1()),
-						new ApplyOperatorToEntity2(getFnGetEntities1(), bcSetTarget, splAoeEffectOp.get()));
-			};
+		// create operator
+		return new Sequence2(new ResetResult2(), new IsFrequencyActive2(fnGetFrequency),
+				new FindEntities2(fnGetSourcePos, fnGetWorld, fnGetPredicate, fnGetRange, getBcSetEntities1()),
+				new ApplyOperatorToEntity2(getFnGetEntities1(), bcSetTarget, splAoeEffectOp.get()));
+	};
 
 	/**
 	 * Function to get source entity.
