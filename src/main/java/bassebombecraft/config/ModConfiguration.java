@@ -1888,9 +1888,9 @@ public class ModConfiguration {
 		 */
 		name = SpawnFlamingChickenBook.ITEM_NAME;
 		spawnFlamingChickenBook = getInstance(COMMON_BUILDER, name,
-				"Right-click to spawns a failed phoenix. The phoenix will panic due to it being on fire. The phoenix will follow and protect its creator, i.e. the player or whoever spawned him.",
+				"Right-click to spawns a failed phoenix. Unfortunately the phoenix will panic due to it being on fire. The phoenix will spread its fire to nearby mobs.",
 				25);
-
+		
 		/**
 		 * Configuration for the {@linkplain LightningBoltBook} item.
 		 */
@@ -2586,7 +2586,7 @@ public class ModConfiguration {
 		name = SpawnFlamingChickenProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		spawnFlamingChickenProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"When the projectile hits a mob or a block then a failed phoenix is spawned. The phoenix will panic due to it being on fire. The phoenix will follow and protect its creator, i.e. the player or whoever spawned him.",
+				"When the projectile hits a mob or a block then a failed phoenix is spawned. Unfortunately the phoenix will panic due to it being on fire. The phoenix will spread its fire to nearby mobs.",
 				25);
 		COMMON_BUILDER.pop();
 	}
