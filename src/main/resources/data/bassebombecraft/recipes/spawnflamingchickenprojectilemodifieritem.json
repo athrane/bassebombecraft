@@ -6,7 +6,10 @@
 		},
 		{
 			"item": "minecraft:chicken"
-		}
+		},
+		{
+			"item": "minecraft:fire_charge"
+		}		
 	],
 	"result": {
 		"item": "bassebombecraft:spawnflamingchickenprojectilemodifieritem"
