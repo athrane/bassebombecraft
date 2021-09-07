@@ -5,10 +5,10 @@
 			"item": "minecraft:prismarine_crystals"
 		},		
 		{
-			"item": "ink_sac"
+			"item": "minecraft:ink_sac"
 		}
 	],
 	"result": {
-		"item": "bassebombecraft:spawnlavablockprojectilemodifieritem"
+		"item": "bassebombecraft:spawnsquidprojectilemodifieritem"
 	}
 }
