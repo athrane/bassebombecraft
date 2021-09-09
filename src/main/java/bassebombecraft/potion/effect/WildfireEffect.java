@@ -3,7 +3,7 @@ package bassebombecraft.potion.effect;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
-import static bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository.Effect.ELECTROCUTE;
+import static bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository.Effect.WILDFIRE;
 import static bassebombecraft.config.ModConfiguration.wildfireEffectAmplifier;
 import static bassebombecraft.config.ModConfiguration.wildfireEffectAoeRange;
 import static bassebombecraft.config.ModConfiguration.wildfireEffectDuration;
@@ -58,7 +58,7 @@ public class WildfireEffect extends Effect {
 	/**
 	 * Create AOE effect operators.
 	 */
-	static Supplier<Operator2> splAoeEffectOp = () -> {
+	public static Supplier<Operator2> splAoeEffectOp = () -> {
 
 		// IsEffectActive2 + AddEffect2: HACK to type cast from entity to living entity
 		Function<Ports, LivingEntity> fnGetTarget = p -> (LivingEntity) applyV(getFnGetEntity2(), p);
@@ -70,7 +70,7 @@ public class WildfireEffect extends Effect {
 		return new Sequence2(new IsNot2(new IsEffectActive2(fnGetTarget, WILDFIRE_EFFECT.get())),
 				new AddEffect2(fnGetTarget, getBcSetEffectInstance1(), WILDFIRE_EFFECT.get(),
 						wildfireEffectDuration.get(), wildfireEffectAmplifier.get()),
-				new AddGraphicalEffectAtClient2(getFnGetEntity1(), getFnGetEntity2(), fnGetDuration, ELECTROCUTE));
+				new AddGraphicalEffectAtClient2(getFnGetEntity1(), getFnGetEntity2(), fnGetDuration, WILDFIRE));
 	};
 
 	/**
@@ -137,7 +137,7 @@ public class WildfireEffect extends Effect {
 		// if not burning then set mob on fire
 		if (entity.isBurning())
 			return;
-		
+
 		entity.setFire(wildfireEffectDuration.get());
 	}
 

@@ -25,6 +25,8 @@ public class RenderTypes extends RenderType {
 
 	static final LineState THIN_LINES = new LineState(OptionalDouble.of(0.5D));
 
+	static final LineState MEDIUM_LINES = new LineState(OptionalDouble.of(1.0D));
+	
 	public static final RenderType OVERLAY_LINES = makeType("overlay_lines", DefaultVertexFormats.POSITION_COLOR,
 			GL11.GL_LINES, 256,
 			RenderType.State.getBuilder().line(THICK_LINES).transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE)
@@ -45,6 +47,10 @@ public class RenderTypes extends RenderType {
 			DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256, RenderType.State.getBuilder().line(THIN_LINES)
 					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).writeMask(COLOR_WRITE).build(false));
 
+	public static final RenderType WILDFIRE_LINES = makeType("wildfire_lines",
+			DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256, RenderType.State.getBuilder().line(MEDIUM_LINES)
+					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).writeMask(COLOR_WRITE).build(false));
+	
 	public static final RenderType SIMPLE_LINES = makeType("simple_lines", DefaultVertexFormats.POSITION_COLOR,
 			GL11.GL_LINES, 256, RenderType.State.getBuilder().line(THIN_LINES).build(false));
 

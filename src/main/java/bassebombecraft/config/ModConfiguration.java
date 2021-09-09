@@ -154,6 +154,7 @@ import bassebombecraft.item.composite.projectile.modifier.SpawnLavaBlockProjecti
 import bassebombecraft.item.composite.projectile.modifier.SpawnSquidProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.WildfireProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.CircleProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.DeaccelerateProjectilePathItem;
@@ -558,6 +559,7 @@ public class ModConfiguration {
 	public static ItemConfig spawnSquidProjectileModifierItem;
 	public static ItemConfig electrocuteProjectileModifierItem;
 	public static ItemConfig spawnFlamingChickenProjectileModifierItem;
+	public static ItemConfig wildfireProjectileModifierItem;
 
 	// Actions..
 
@@ -1113,7 +1115,7 @@ public class ModConfiguration {
 		wildfireEffectAoeRange = COMMON_BUILDER.comment("Area of effect in blocks.")
 				.defineInRange("areaOfEffect", 5, 0, Integer.MAX_VALUE);
 		wildfireEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
-				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);
+				.defineInRange("updateFrequency", 20, 0, Integer.MAX_VALUE);
 		wildfireEffectAmplifier = COMMON_BUILDER.comment(
 				"Potency of the effect (as a potion effect). ")
 				.defineInRange("amplifier", 100, 1, 500);
@@ -2589,6 +2591,18 @@ public class ModConfiguration {
 				"When the projectile hits a mob or a block then a failed phoenix is spawned. Unfortunately the phoenix will panic due to it being on fire. The phoenix will spread its fire to nearby mobs.",
 				25);
 		COMMON_BUILDER.pop();
+		
+		/**
+		 * Configuration for the {@linkplain WildfireProjectileModifierItem}
+		 * item.
+		 */
+		name = WildfireProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		wildfireProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"Adds wildfire to mobs in the vicinity of the projectile.",
+				25);
+		COMMON_BUILDER.pop();
+		
 	}
 
 	/**

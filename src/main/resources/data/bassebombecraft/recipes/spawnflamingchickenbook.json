@@ -5,7 +5,7 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:cooked_chicken"
+			"item": "bassebombecraft:spawnflamingchickenprojectilemodifieritem"
 		}
 	],
 	"result": {

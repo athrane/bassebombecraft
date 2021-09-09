@@ -23,7 +23,8 @@ public interface GraphicalEffectRepository {
 		NO_EFFECT,
 		LINE,
 		ELECTROCUTE,
-		PROJECTILE_TRAIL		
+		PROJECTILE_TRAIL,
+		WILDFIRE
 	};
 	
 	/**

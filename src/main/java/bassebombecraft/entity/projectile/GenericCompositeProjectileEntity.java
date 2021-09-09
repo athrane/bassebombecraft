@@ -34,6 +34,7 @@ import bassebombecraft.operator.client.rendering.AddGraphicalEffectAtClient2;
 import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
 import bassebombecraft.operator.entity.Electrocute2;
 import bassebombecraft.operator.entity.FindEntities2;
+import bassebombecraft.operator.entity.Wildfire2;
 import bassebombecraft.operator.projectile.path.AccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.CircleProjectilePath;
 import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
@@ -160,6 +161,11 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 */
 	static final Operator2 ELECTROCUTE_OPERATOR = new Electrocute2();
 
+	/**
+	 * Wildfire operator.
+	 */
+	static final Operator2 WILDFIRE_OPERATOR = new Wildfire2();
+	
 	/**
 	 * Projectile duration.
 	 */
@@ -446,6 +452,10 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 		// handle: electrocute
 		if (tags.contains(Electrocute2.NAME))
 			electrocute();
+		
+		// handle: wildfire
+		if (tags.contains(Wildfire2.NAME))
+			wildfire();		
 	}
 
 	/**
@@ -539,6 +549,15 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 		run(projectileModifierPorts, ELECTROCUTE_OPERATOR);
 	}
 
+	/**
+	 * Execute wildfire operator.
+	 */
+	void wildfire() {
+		projectileModifierPorts.setEntity1(this);
+		projectileModifierPorts.setEntity2(getShooter());
+		run(projectileModifierPorts, WILDFIRE_OPERATOR);
+	}
+	
 	/**
 	 * Update motion and position of the projectile.
 	 */
