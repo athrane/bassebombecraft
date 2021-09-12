@@ -1120,7 +1120,7 @@ public class ModConfiguration {
 				"Potency of the effect (as a potion effect). ")
 				.defineInRange("amplifier", 100, 1, 500);
 		wildfireEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
-				.defineInRange("duration", 100, 0, Integer.MAX_VALUE);		
+				.defineInRange("duration", 50, 0, Integer.MAX_VALUE);		
 		COMMON_BUILDER.pop();		
 	}
 	

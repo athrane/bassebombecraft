@@ -136,7 +136,7 @@ public class ClientModConstants {
 	 * Rendering: Line color for  wildfire for
 	 * {@linkplain ClientGraphicalEffectRepository}.
 	 */
-	public static final Color4f WILDFIRE_LINE_COLOR1 = getInstance(1.0F, 0.0F, 0.0F, 0.25F);
+	public static final Color4f WILDFIRE_LINE_COLOR1 = getInstance(1.0F, 0.2F, 0.0F, 0.75F);
 
 	/**
 	 * Rendering: Line color for wildfire for

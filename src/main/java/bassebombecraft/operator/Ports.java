@@ -154,6 +154,20 @@ public interface Ports {
 	Ports setDouble1(Double value);
 
 	/**
+	 * Get integer  #1.
+	 * 
+	 * @return integer #1 .
+	 */
+	int getInteger1();
+
+	/**
+	 * Set integer #1.
+	 * 
+	 * @return ports.
+	 */
+	Ports setInteger1(int value);
+	
+	/**
 	 * Return {@linkplain Vector3d} #1.
 	 * 
 	 * @return vector #1.

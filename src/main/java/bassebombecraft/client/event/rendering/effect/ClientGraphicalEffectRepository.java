@@ -14,10 +14,12 @@ import static bassebombecraft.client.rendering.rendertype.RenderTypes.SIMPLE_LIN
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.WILDFIRE_LINES;
 import static bassebombecraft.operator.DefaultPorts.getBcSetColor4f1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetColor4f1;
+import static bassebombecraft.operator.DefaultPorts.getFnGetInteger1;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import bassebombecraft.client.operator.rendering.InitColor2;
@@ -30,6 +32,7 @@ import bassebombecraft.client.operator.rendering.RenderLineWithDynamicColor2;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.operator.NullOp2;
 import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.Sequence2;
 import net.minecraft.entity.Entity;
 
@@ -59,6 +62,8 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 	final static Operator2 PROJECTILE_TRAIL_OPERATOR = new Sequence2(new InitProjectileTrailRendering2(),
 			new InitColor2(getBcSetColor4f1(), PROJECTILE_TRAIL_LINE_COLOR1, PROJECTILE_TRAIL_LINE_COLOR2),
 			new RenderLineWithDynamicColor2(getFnGetColor4f1(), PROJECTILE_TRAIL_LINES));
+
+	final static Function<Ports, Integer> fnGetMax = getFnGetInteger1();
 
 	/**
 	 * Effect operator for wildfire effect.

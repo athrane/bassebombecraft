@@ -1,16 +1,18 @@
 package bassebombecraft.client.operator.rendering;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.geom.GeometryUtils.oscillateFloat;
+import static bassebombecraft.config.ModConfiguration.wildfireEffectDuration;
 import static bassebombecraft.operator.DefaultPorts.getBcSetVectors1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity2;
+import static bassebombecraft.operator.DefaultPorts.getFnGetInteger1;
 import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
@@ -27,9 +29,9 @@ import net.minecraft.util.math.vector.Vector3d;
 public class InitWildfire2 implements Operator2 {
 
 	/**
-	 * Noise range for end points.
+	 * Noise range for points.
 	 */
-	static final double ENDPOINT_NOISE = 1.0D;
+	static final double POINT_NOISE = 1.0D;
 
 	/**
 	 * Function to get source entity.
@@ -47,6 +49,11 @@ public class InitWildfire2 implements Operator2 {
 	BiConsumer<Ports, Vector3d[]> bcSetLineVertexes;
 
 	/**
+	 * Function to get remaining duration.
+	 */
+	Function<Ports, Integer> fnGetRemainingDuration;
+
+	/**
 	 * Vector array for line vertexes.
 	 */
 	Vector3d[] lineVertexes = new Vector3d[2];
@@ -57,11 +64,13 @@ public class InitWildfire2 implements Operator2 {
 	 * Instance is configured with entity #1 as source from ports.
 	 * 
 	 * Instance is configured with entity #2 as target from ports.
+	 *
+	 * Instance is configured with integer #1 from ports.
 	 * 
 	 * Instance is configured with vectors #1 as line vertexes from ports.
 	 */
 	public InitWildfire2() {
-		this(getFnGetEntity1(), getFnGetEntity2(), getBcSetVectors1());
+		this(getFnGetEntity1(), getFnGetEntity2(), getFnGetInteger1(), getBcSetVectors1());
 	}
 
 	/**
@@ -69,12 +78,14 @@ public class InitWildfire2 implements Operator2 {
 	 * 
 	 * @param fnGetSource       function to get source entity.
 	 * @param fnGetTarget       function to get target entity.
+	 * @param fnGetMax          function to get max value.
 	 * @param bcSetLineVertexes function to set line vertexes.
 	 */
 	public InitWildfire2(Function<Ports, Entity> fnGetSource, Function<Ports, Entity> fnGetTarget,
-			BiConsumer<Ports, Vector3d[]> bcSetLineVertexes) {
+			Function<Ports, Integer> fnGetRemainingDuration, BiConsumer<Ports, Vector3d[]> bcSetLineVertexes) {
 		this.fnGetSource = fnGetSource;
 		this.fnGetTarget = fnGetTarget;
+		this.fnGetRemainingDuration = fnGetRemainingDuration;
 		this.bcSetLineVertexes = bcSetLineVertexes;
 	}
 
@@ -82,26 +93,28 @@ public class InitWildfire2 implements Operator2 {
 	public void run(Ports ports) {
 		Entity source = applyV(fnGetSource, ports);
 		Entity target = applyV(fnGetTarget, ports);
+		double remaining = applyV(fnGetRemainingDuration, ports);
+		double max = wildfireEffectDuration.get();
 
-		// get random
-		Random random = getBassebombeCraft().getRandom();
+		// calculate end point coordinate
+		double pctValue = (max - remaining) / max;
 		
 		// positions
 		Vector3d sourcePos = source.getBoundingBox().getCenter();
-		Vector3d targetPos = target.getBoundingBox().getCenter();				
-		
-		// calculate end point coordinate
-		float oscValue = oscillateFloat(0, 1);		
-		double x = MathHelper.lerp(oscValue, sourcePos.getX(), targetPos.getX());
-		double y = MathHelper.lerp(oscValue, sourcePos.getY(), targetPos.getY());
-		double z = MathHelper.lerp(oscValue, sourcePos.getZ(), targetPos.getZ());
-		
+		Vector3d targetPos = target.getBoundingBox().getCenter();
+
+		// float pctValue = oscillateFloat(0, 1);
+		double x = MathHelper.lerp(pctValue, sourcePos.getX(), targetPos.getX());
+		double y = MathHelper.lerp(pctValue, sourcePos.getY(), targetPos.getY());
+		double z = MathHelper.lerp(pctValue, sourcePos.getZ(), targetPos.getZ());
+
 		// add start point
-		lineVertexes[0] = sourcePos;
-		
+		Vector3d startPos = new Vector3d(x, y, z);		
+		lineVertexes[0] = startPos;
+
 		// add end point
-		Vector3d endPos = new Vector3d(x, y, z);
-		endPos = addNoiseToPosition(endPos, ENDPOINT_NOISE, random);
+		Random random = BassebombeCraft.getBassebombeCraft().getRandom();
+		Vector3d endPos = addNoiseToPosition(startPos, POINT_NOISE, random);
 		lineVertexes[1] = endPos;
 		ports.setVectors1(lineVertexes);
 
