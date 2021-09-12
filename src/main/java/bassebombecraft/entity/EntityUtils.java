@@ -9,6 +9,7 @@ import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import java.util.Optional;
 import java.util.Random;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.entity.target.TargetRepository;
 import bassebombecraft.player.PlayerDirection;
 import net.minecraft.entity.CreatureEntity;
@@ -16,6 +17,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.Attribute;
+import net.minecraft.entity.ai.attributes.AttributeModifierManager;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.passive.BeeEntity;
@@ -453,6 +455,13 @@ public class EntityUtils {
 	 */
 	public static void setAttribute(LivingEntity entity, Attribute attribute, double value) {
 		ModifiableAttributeInstance instance = entity.getAttribute(attribute);
+
+		// handle undefined instance
+		if (instance == null) {
+			logUndefinedAttribute(entity, attribute);
+			return;
+		}
+
 		instance.setBaseValue(value);
 	}
 
@@ -464,7 +473,33 @@ public class EntityUtils {
 	 */
 	public static boolean isEntityAttributeSet(LivingEntity entity, Attribute attribute) {
 		ModifiableAttributeInstance instance = entity.getAttribute(attribute);
+
+		// handle undefined instance
+		if (instance == null) {
+			logUndefinedAttribute(entity, attribute);
+			return false;
+		}
+
 		return (instance.getValue() == MARKER_ATTRIBUTE_IS_SET);
+
+	}
+
+	/**
+	 * Log undefined attribute.
+	 * 
+	 * @param entity    entity to log attribute information for.
+	 * @param attribute undefined attribute to log attribute information for.
+	 */
+	static void logUndefinedAttribute(LivingEntity entity, Attribute attribute) {
+		BassebombeCraft mod = getBassebombeCraft();
+		StringBuilder msg = new StringBuilder();
+		msg.append("Failed to read value of undefined attribute: " + attribute.getAttributeName());
+		msg.append("Entity: " + entity);
+		msg.append("Defined properties: ");
+
+		AttributeModifierManager manager = entity.getAttributeManager();
+		manager.getInstances().stream().forEach(i -> msg.append(i.getAttribute().getAttributeName() + ", "));
+		mod.reportAndLogError(msg.toString());
 	}
 
 }

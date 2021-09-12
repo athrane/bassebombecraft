@@ -148,11 +148,13 @@ import bassebombecraft.item.composite.projectile.modifier.ReceiveAggroProjectile
 import bassebombecraft.item.composite.projectile.modifier.RespawnProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnAnvilProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnCobwebProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.SpawnFlamingChickenProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnIceBlockProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnLavaBlockProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnSquidProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.WildfireProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.CircleProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.DeaccelerateProjectilePathItem;
@@ -218,6 +220,7 @@ import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.ReceiveAggroEffect;
+import bassebombecraft.potion.effect.WildfireEffect;
 import bassebombecraft.projectile.action.SpawnCreeperArmy;
 import bassebombecraft.projectile.action.SpawnKittenArmy;
 import bassebombecraft.projectile.action.SpawnSkeletonArmy;
@@ -377,6 +380,14 @@ public class ModConfiguration {
 	 */
 	public static ForgeConfigSpec.IntValue increaseSizeEffectDuration;
 	public static ForgeConfigSpec.IntValue increaseSizeEffectAmplifier;
+
+	/**
+	 * Properties for the wildfire effect {@linkplain WildfireEffect} .
+	 */
+	public static ForgeConfigSpec.IntValue wildfireEffectAoeRange;
+	public static ForgeConfigSpec.IntValue wildfireEffectUpdateFrequency;
+	public static ForgeConfigSpec.IntValue wildfireEffectDuration;
+	public static ForgeConfigSpec.IntValue wildfireEffectAmplifier;
 
 	// Books..
 
@@ -547,6 +558,8 @@ public class ModConfiguration {
 	public static ItemConfig lightningProjectileModifierItem;
 	public static ItemConfig spawnSquidProjectileModifierItem;
 	public static ItemConfig electrocuteProjectileModifierItem;
+	public static ItemConfig spawnFlamingChickenProjectileModifierItem;
+	public static ItemConfig wildfireProjectileModifierItem;
 
 	// Actions..
 
@@ -953,21 +966,27 @@ public class ModConfiguration {
 	 */
 	static void setupPotionEffectsConfig() {
 
-		// amplifier effect
+		/**
+		 * Configuration for the {@linkplain AmplifierEffect} effect.
+		 */		
 		String name = AmplifierEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		amplifierEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
 				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// mob priming effect
+		/**
+		 * Configuration for the {@linkplain MobPrimingEffect} effect.
+		 */				
 		name = MobPrimingEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		mobPrimingEffectCountdown = COMMON_BUILDER.comment("Countdown of the effect in game ticks.")
 				.defineInRange("countdown", 60, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// aggro mob effect
+		/**
+		 * Configuration for the {@linkplain AggroMobEffect} effect.
+		 */						
 		name = AggroMobEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		aggroMobEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.").defineInRange("areaOfEffect",
@@ -976,7 +995,9 @@ public class ModConfiguration {
 				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// receive aggro effect
+		/**
+		 * Configuration for the {@linkplain ReceiveAggroEffect} effect.
+		 */								
 		name = ReceiveAggroEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		receiveAggroEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.")
@@ -985,7 +1006,9 @@ public class ModConfiguration {
 				.defineInRange("updateFrequency", 10, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// aggro player effect
+		/**
+		 * Configuration for the {@linkplain AggroPlayerEffect} effect.
+		 */										
 		name = AggroPlayerEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		aggroPlayerEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.")
@@ -1083,8 +1106,24 @@ public class ModConfiguration {
 		increaseSizeEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
 				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
+		
+		/**
+		 * Configuration for the {@linkplain WildfireEffect} effect.
+		 */								
+		name = WildfireEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		wildfireEffectAoeRange = COMMON_BUILDER.comment("Area of effect in blocks.")
+				.defineInRange("areaOfEffect", 5, 0, Integer.MAX_VALUE);
+		wildfireEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
+				.defineInRange("updateFrequency", 20, 0, Integer.MAX_VALUE);
+		wildfireEffectAmplifier = COMMON_BUILDER.comment(
+				"Potency of the effect (as a potion effect). ")
+				.defineInRange("amplifier", 100, 1, 500);
+		wildfireEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 50, 0, Integer.MAX_VALUE);		
+		COMMON_BUILDER.pop();		
 	}
-
+	
 	/**
 	 * Define configuration for potions.
 	 */
@@ -1609,6 +1648,7 @@ public class ModConfiguration {
 		removeBlockSpiralIdolInventoryItemParticleInfo = getInstance(COMMON_BUILDER, "instant_effect", 5, 10, 0.3, 1.0,
 				1.0, 1.0);
 		COMMON_BUILDER.pop();
+
 	}
 
 	/**
@@ -1636,7 +1676,9 @@ public class ModConfiguration {
 		smallFireballBook = getInstance(COMMON_BUILDER, name, "Right-click to shoot a fireball that is hurled at foes.",
 				25);
 
-		// LargeFireballBook
+		/**
+		 * Configuration for the {@linkplain LargeFireballBook} item.
+		 */
 		name = LargeFireballBook.ITEM_NAME;
 		largeFireballBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to shoot a large fireball that is hurled at foes.", 25);
@@ -1648,17 +1690,23 @@ public class ModConfiguration {
 		smallFireballRingBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to shot a ring of small fireballs outwards.", 100);
 
-		// LingeringFlameBook
+		/**
+		 * Configuration for the {@linkplain LingeringFlameBook} item.
+		 */
 		name = LingeringFlameBook.ITEM_NAME;
 		lingeringFlameBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to create a static flame that explodes when a mob comes near.", 25);
 
-		// LingeringFuryBook
+		/**
+		 * Configuration for the {@linkplain LingeringFuryBook} item.
+		 */
 		name = LingeringFuryBook.ITEM_NAME;
 		lingeringFuryBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to create a static flame that explodes violently when a mob comes near.", 50);
 
-		// ToxicMistBook
+		/**
+		 * Configuration for the {@linkplain ToxicMistBook} item.
+		 */
 		name = ToxicMistBook.ITEM_NAME;
 		toxicMistBook = getInstance(COMMON_BUILDER, name, "Right-click to create a cloud of poison mist.", 50);
 
@@ -1829,17 +1877,22 @@ public class ModConfiguration {
 				.defineInRange("cooldown", 50, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
 
-		// SpawnGuardianBook
+		/**
+		 * Configuration for the {@linkplain SpawnGuardianBook} item.
+		 */
 		name = SpawnGuardianBook.ITEM_NAME;
 		spawnGuardianBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to spawns a friendly golem. The golem will follow and protect its creator, i.e. the player or whoever spawned him. The golem will use the magic from BasseBombeCraft for its protection duties. The guardian can be commanded by Krenko's Command Baton",
 				25);
 
-		// SpawnFlamingChickenBook
+		/**
+		 * Configuration for the {@linkplain SpawnFlamingChickenBook} item.
+		 */
 		name = SpawnFlamingChickenBook.ITEM_NAME;
 		spawnFlamingChickenBook = getInstance(COMMON_BUILDER, name,
-				"Right-click to spawns a failed phoenix. The phoenix will panic due to it being on fire.", 25);
-
+				"Right-click to spawns a failed phoenix. Unfortunately the phoenix will panic due to it being on fire. The phoenix will spread its fire to nearby mobs.",
+				25);
+		
 		/**
 		 * Configuration for the {@linkplain LightningBoltBook} item.
 		 */
@@ -2084,7 +2137,7 @@ public class ModConfiguration {
 		 */
 		name = DecreaseSizeIdolInventoryItem.ITEM_NAME;
 		splParticles = () -> getInstance(COMMON_BUILDER, "enchant", 5, 20, 0.3, 0.75, 0.5, 0.5);
-		splSound = () -> getInstance(COMMON_BUILDER, RESIZE_TARGET_SOUND);		
+		splSound = () -> getInstance(COMMON_BUILDER, RESIZE_TARGET_SOUND);
 		decreaseSizeIdolInventoryItem = getInstance(COMMON_BUILDER, name,
 				"Equip in either hand to activate. The idol will decrease the size of nearby mobs. The magic doesn't work on players.",
 				25, 5, splParticles, splSound);
@@ -2527,6 +2580,29 @@ public class ModConfiguration {
 		electrocuteProjectileModifierItem = getInstance(COMMON_BUILDER, name,
 				"Electrocutes mobs in the vicinity of the projectile.", 25);
 		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain SpawnFlamingChickenProjectileModifierItem}
+		 * item.
+		 */
+		name = SpawnFlamingChickenProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		spawnFlamingChickenProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"When the projectile hits a mob or a block then a failed phoenix is spawned. Unfortunately the phoenix will panic due to it being on fire. The phoenix will spread its fire to nearby mobs.",
+				25);
+		COMMON_BUILDER.pop();
+		
+		/**
+		 * Configuration for the {@linkplain WildfireProjectileModifierItem}
+		 * item.
+		 */
+		name = WildfireProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		wildfireProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"Adds wildfire to mobs in the vicinity of the projectile.",
+				25);
+		COMMON_BUILDER.pop();
+		
 	}
 
 	/**

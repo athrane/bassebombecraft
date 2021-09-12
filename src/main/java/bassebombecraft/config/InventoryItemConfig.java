@@ -1,13 +1,10 @@
 package bassebombecraft.config;
 
-import static bassebombecraft.ModConstants.MODID;
 import static bassebombecraft.ModConstants.NOT_AN_AOE_EFFECT;
 import static bassebombecraft.sound.RegisteredSounds.DEFAULT_SOUND;
-import static net.minecraftforge.registries.ForgeRegistries.SOUND_EVENTS;
 
 import java.util.function.Supplier;
 
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
@@ -57,7 +54,7 @@ public class InventoryItemConfig {
 	public Supplier<SoundEvent> getSplSound() {
 		return sound.getSplSound();
 	}
-	
+
 	/**
 	 * Factory method.
 	 * 
@@ -129,5 +126,5 @@ public class InventoryItemConfig {
 			Supplier<ParticlesConfig> splParticles, Supplier<SoundConfig> splSound) {
 		return new InventoryItemConfig(builder, name, tooltip, cooldown, NOT_AN_AOE_EFFECT, splParticles, splSound);
 	}
-	
+
 }

@@ -57,12 +57,6 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 	ProjectileAction action = NULL_BEHAVIOUR;
 
 	/**
-	 * GenericEggProjectile no-arg constructor.
-	 * 
-	 * Initialises entity with null behaviour.
-	 */
-
-	/**
 	 * GenericEggProjectile constructor
 	 * 
 	 * Supports initialization in class {@linkplain EntityTypeRegistryEventHandler}.

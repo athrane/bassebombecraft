@@ -58,6 +58,11 @@ public class DefaultPorts implements Ports {
 	Double double1;
 
 	/**
+	 * Integer #1.
+	 */
+	int integer1;
+	
+	/**
 	 * Vector3d #1.
 	 */
 	Vector3d vector3d1;
@@ -118,7 +123,7 @@ public class DefaultPorts implements Ports {
 	boolean result;
 
 	/**
-	 * integer counter. Initially set to 0.
+	 * Integer counter. Initially set to 0.
 	 */
 	int counter;
 
@@ -212,6 +217,16 @@ public class DefaultPorts implements Ports {
 	 */
 	static BiConsumer<Ports, Double> bcSetDouble1 = (p, d) -> p.setDouble1(d);
 
+	/**
+	 * Integer #1 getter.
+	 */
+	static Function<Ports, Integer> fnGetInteger1 = p -> p.getInteger1();
+
+	/**
+	 * Integer #1 setter.
+	 */
+	static BiConsumer<Ports, Integer> bcSetInteger1 = (p, d) -> p.setInteger1(d);
+	
 	/**
 	 * Vector3d #1 getter.
 	 */
@@ -435,6 +450,18 @@ public class DefaultPorts implements Ports {
 	@Override
 	public Ports setDouble1(Double value) {
 		this.double1 = value;
+		return this;
+	}
+
+	
+	@Override
+	public int getInteger1() {
+		return integer1;
+	}
+
+	@Override
+	public Ports setInteger1(int value) {
+		this.integer1 = value;
 		return this;
 	}
 
@@ -679,6 +706,14 @@ public class DefaultPorts implements Ports {
 		return bcSetDouble1;
 	}
 
+	public static Function<Ports, Integer> getFnGetInteger1() {
+		return fnGetInteger1;
+	}
+
+	public static BiConsumer<Ports, Integer> getBcSetInteger1() {
+		return bcSetInteger1;
+	}
+	
 	public static Function<Ports, Vector3d> getFnGetVector1() {
 		return fnGetVector1;
 	}

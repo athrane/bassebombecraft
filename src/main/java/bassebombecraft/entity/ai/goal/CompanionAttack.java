@@ -23,7 +23,6 @@ import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.item.action.RightClickedItemAction;
 import bassebombecraft.item.action.ShootBaconBazooka;
 import bassebombecraft.item.action.ShootCreeperCannon;
-import bassebombecraft.item.action.ShootGenericEggProjectile;
 import bassebombecraft.item.action.mist.entity.EntityMistActionStrategy;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.action.mist.entity.LightningBoltMist;
@@ -36,6 +35,7 @@ import bassebombecraft.operator.entity.raytraceresult.EmitHorizontalForce2;
 import bassebombecraft.operator.entity.raytraceresult.EmitVerticalForce2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnAnvil2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnFlamingChicken2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnIceBlock2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnLavaBlock2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnLightning2;
@@ -49,8 +49,6 @@ import bassebombecraft.operator.projectile.ShootWitherSkullProjectile2;
 import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
 import bassebombecraft.operator.projectile.formation.TrifurcatedProjectileFormation2;
 import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
-import bassebombecraft.projectile.action.ProjectileAction;
-import bassebombecraft.projectile.action.SpawnFlamingChicken;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.controller.LookController;
@@ -69,12 +67,9 @@ import net.minecraft.pathfinding.PathNavigator;
  */
 public class CompanionAttack extends Goal {
 
-	static final ProjectileAction FLAMING_CHICKEN_PROJECTILE_ACTION = new SpawnFlamingChicken();
 	static final EntityMistActionStrategy SPAWN_VACUUM_MIST_PROJECTILE_ACTION = new VacuumMist();
-
 	static final EntityMistActionStrategy TOXIC_MIST_STRATEGY = new ToxicMist();
 	static final EntityMistActionStrategy LIGHTNING_MIST_STRATEGY = new LightningBoltMist();
-
 	static final String CREEPER_CANNON_CONFIG_KEY = ShootCreeperCannon.class.getSimpleName();
 	static final boolean ISNT_PRIMED = false;
 
@@ -208,6 +203,17 @@ public class CompanionAttack extends Goal {
 		Operator2 formationOp = new SingleProjectileFormation2();
 		Operator2 projectileOp = new ShootCircleProjectile2();
 		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> SpawnSquid2.NAME);
+		return new Sequence2(formationOp, projectileOp, modifierOp);
+	};
+
+	/**
+	 * Create operators.
+	 */
+	static Supplier<Operator2> splSpawnFlamingChickenOp = () -> {
+		Operator2 formationOp = new SingleProjectileFormation2();
+		Operator2 projectileOp = new ShootCircleProjectile2();
+		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(),
+				p -> SpawnFlamingChicken2.NAME);
 		return new Sequence2(formationOp, projectileOp, modifierOp);
 	};
 
@@ -376,7 +382,7 @@ public class CompanionAttack extends Goal {
 		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splSpawnAnvilOp.get()));
 		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splSpawnLigthningOp.get()));
 		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splDigMobHoleOp.get()));
-		actions.add(new ShootGenericEggProjectile(FLAMING_CHICKEN_PROJECTILE_ACTION));
+		actions.add(ExecuteOperatorAsAction2.getInstance(getInstance(), splSpawnFlamingChickenOp.get()));
 		return actions;
 	}
 

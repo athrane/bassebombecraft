@@ -35,6 +35,7 @@ public class RegisteredEffects {
 	public static final RegistryObject<Effect> REFLECT_EFFECT = register(ReflectEffect.NAME, ReflectEffect::new);
 	public static final RegistryObject<Effect> INCREASE_SIZE_EFFECT = register(IncreaseSizeEffect.NAME, IncreaseSizeEffect::new);
 	public static final RegistryObject<Effect> DECREASE_SIZE_EFFECT = register(DecreaseSizeEffect.NAME, DecreaseSizeEffect::new);
+	public static final RegistryObject<Effect> WILDFIRE_EFFECT = register(WildfireEffect.NAME, WildfireEffect::new);
 
 	/**
 	 * Register object.

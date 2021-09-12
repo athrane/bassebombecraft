@@ -1,7 +1,10 @@
 package bassebombecraft.client.event.rendering.effect;
 
+import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.operator.Operators2.run;
+
+import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.Operators2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -115,9 +118,16 @@ public class ClientGraphicalEffect implements GraphicalEffect {
 		ports.setEntity1(source);
 		ports.setEntity2(target);
 
+		// get remaining duration of effect
+		DurationRepository repository = getProxy().getClientDurationRepository();
+		int remainingDuration = repository.get(id);
+
+		// store overwrite integer #1 with remaining duration
+		ports.setInteger1(remainingDuration);
+
 		// add stored vectors
 		ports.setVectors1(vectors);
-		Operators2.run(ports, effectOp);
+		run(ports, effectOp);
 
 		// capture vectors
 		vectors = ports.getVectors1();

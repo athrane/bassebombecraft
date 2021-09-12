@@ -38,6 +38,7 @@ import bassebombecraft.operator.entity.raytraceresult.ExplodeOnImpact2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnAnvil2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnCobweb2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
+import bassebombecraft.operator.entity.raytraceresult.SpawnFlamingChicken2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnIceBlock2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnLavaBlock2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnLightning2;
@@ -243,6 +244,11 @@ public class ProjectileModifierEventHandler {
 	 */
 	static final Operator2 SQUID_OPERATOR = new SpawnSquid2();
 
+	/**
+	 * Spawn flaming chicken operator.
+	 */
+	static final Operator2 FLAMINING_CHICKEN_OPERATOR = new SpawnFlamingChicken2();
+		
 	@SubscribeEvent
 	static public void handleProjectileImpactEvent(ProjectileImpactEvent event) {
 		try {
@@ -333,6 +339,10 @@ public class ProjectileModifierEventHandler {
 			if (tags.contains(SpawnSquid2.NAME))
 				spawnSquid(event);
 
+			// handle: spawn flaming chicken
+			if (tags.contains(SpawnFlamingChicken2.NAME))
+				spawnFlamingChicken(event);
+			
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 		}
@@ -619,6 +629,24 @@ public class ProjectileModifierEventHandler {
 		run(ports, SQUID_OPERATOR);
 	}
 
+	/**
+	 * Execute spawn flaming chicken operator.
+	 * 
+	 * @param event projectile impact event.
+	 */
+	static void spawnFlamingChicken(ProjectileImpactEvent event) {
+
+		// exit if shooter couldn't be resolved
+		Optional<LivingEntity> optShooter = resolveShooter(event);
+		if (!optShooter.isPresent())
+			return;
+
+		Ports ports = getInstance();
+		ports.setRayTraceResult1(event.getRayTraceResult());
+		ports.setLivingEntity1(optShooter.get());
+		run(ports, FLAMINING_CHICKEN_OPERATOR);
+	}
+	
 	/**
 	 * Execute explode when killed operator.
 	 * 

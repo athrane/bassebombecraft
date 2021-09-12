@@ -6,25 +6,33 @@ import static bassebombecraft.ClientModConstants.LIGHTNING_LINE_COLOR1;
 import static bassebombecraft.ClientModConstants.LIGHTNING_LINE_COLOR2;
 import static bassebombecraft.ClientModConstants.PROJECTILE_TRAIL_LINE_COLOR1;
 import static bassebombecraft.ClientModConstants.PROJECTILE_TRAIL_LINE_COLOR2;
+import static bassebombecraft.ClientModConstants.WILDFIRE_LINE_COLOR1;
+import static bassebombecraft.ClientModConstants.WILDFIRE_LINE_COLOR2;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.LIGHTNING_LINES;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.PROJECTILE_TRAIL_LINES;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.SIMPLE_LINES;
-import static bassebombecraft.operator.DefaultPorts.*;
+import static bassebombecraft.client.rendering.rendertype.RenderTypes.WILDFIRE_LINES;
+import static bassebombecraft.operator.DefaultPorts.getBcSetColor4f1;
+import static bassebombecraft.operator.DefaultPorts.getFnGetColor4f1;
+import static bassebombecraft.operator.DefaultPorts.getFnGetInteger1;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import bassebombecraft.client.operator.rendering.InitColor2;
 import bassebombecraft.client.operator.rendering.InitElectrocute2;
 import bassebombecraft.client.operator.rendering.InitLineRenderingFromPorts2;
 import bassebombecraft.client.operator.rendering.InitProjectileTrailRendering2;
+import bassebombecraft.client.operator.rendering.InitWildfire2;
 import bassebombecraft.client.operator.rendering.RenderLine2;
 import bassebombecraft.client.operator.rendering.RenderLineWithDynamicColor2;
 import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.operator.NullOp2;
 import bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.Sequence2;
 import net.minecraft.entity.Entity;
 
@@ -54,6 +62,15 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 	final static Operator2 PROJECTILE_TRAIL_OPERATOR = new Sequence2(new InitProjectileTrailRendering2(),
 			new InitColor2(getBcSetColor4f1(), PROJECTILE_TRAIL_LINE_COLOR1, PROJECTILE_TRAIL_LINE_COLOR2),
 			new RenderLineWithDynamicColor2(getFnGetColor4f1(), PROJECTILE_TRAIL_LINES));
+
+	final static Function<Ports, Integer> fnGetMax = getFnGetInteger1();
+
+	/**
+	 * Effect operator for wildfire effect.
+	 */
+	final static Operator2 WILDFIRE_OPERATOR = new Sequence2(new InitWildfire2(),
+			new InitColor2(getBcSetColor4f1(), WILDFIRE_LINE_COLOR1, WILDFIRE_LINE_COLOR2),
+			new RenderLineWithDynamicColor2(getFnGetColor4f1(), WILDFIRE_LINES));
 
 	/**
 	 * Effect operator for line effect.
@@ -139,6 +156,9 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 
 		case PROJECTILE_TRAIL:
 			return PROJECTILE_TRAIL_OPERATOR;
+
+		case WILDFIRE:
+			return WILDFIRE_OPERATOR;
 
 		default:
 			return DEFAULT_OPERATOR;

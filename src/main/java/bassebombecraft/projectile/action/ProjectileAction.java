@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 /**
  * Interface for projectile action.
  */
+@Deprecated
 public interface ProjectileAction {
 
 	/**

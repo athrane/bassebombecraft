@@ -98,11 +98,13 @@ import bassebombecraft.item.composite.projectile.modifier.ReceiveAggroProjectile
 import bassebombecraft.item.composite.projectile.modifier.RespawnProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnAnvilProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnCobwebProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.SpawnFlamingChickenProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnIceBlockProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnLavaBlockProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnSquidProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.WildfireProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.path.AccelerateProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.CircleProjectilePathItem;
 import bassebombecraft.item.composite.projectile.path.DeaccelerateProjectilePathItem;
@@ -308,6 +310,8 @@ public class RegisteredItems {
 	public static final RegistryObject<Item> MODIFIER19 = register(LightningProjectileModifierItem::new);
 	public static final RegistryObject<Item> MODIFIER20 = register(SpawnSquidProjectileModifierItem::new);
 	public static final RegistryObject<Item> MODIFIER21 = register(ElectrocuteProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER22 = register(SpawnFlamingChickenProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER23 = register(WildfireProjectileModifierItem::new);
 
 	/**
 	 * Register item.
