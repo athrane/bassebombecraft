@@ -1,6 +1,5 @@
 package bassebombecraft.client.operator.rendering;
 
-import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.config.ModConfiguration.wildfireEffectDuration;
 import static bassebombecraft.operator.DefaultPorts.getBcSetVectors1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
@@ -98,7 +97,7 @@ public class InitWildfire2 implements Operator2 {
 
 		// calculate end point coordinate
 		double pctValue = (max - remaining) / max;
-		
+
 		// positions
 		Vector3d sourcePos = source.getBoundingBox().getCenter();
 		Vector3d targetPos = target.getBoundingBox().getCenter();
@@ -109,7 +108,7 @@ public class InitWildfire2 implements Operator2 {
 		double z = MathHelper.lerp(pctValue, sourcePos.getZ(), targetPos.getZ());
 
 		// add start point
-		Vector3d startPos = new Vector3d(x, y, z);		
+		Vector3d startPos = new Vector3d(x, y, z);
 		lineVertexes[0] = startPos;
 
 		// add end point
