@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shapeless",
+	"ingredients": [
+		{
+			"item": "minecraft:prismarine_crystals"
+		},		
+		{
+			"item": "minecraft:spider_eye"
+		},
+		{
+			"item": "minecraft:wither_skeleton_skull"
+		}		
+	],
+	"result": {
+		"item": "bassebombecraft:contagionprojectilemodifieritem"
+	}
+}

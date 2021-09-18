@@ -50,6 +50,10 @@ public class RenderTypes extends RenderType {
 	public static final RenderType WILDFIRE_LINES = makeType("wildfire_lines",
 			DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256, RenderType.State.getBuilder().line(MEDIUM_LINES)
 					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).writeMask(COLOR_WRITE).build(false));
+
+	public static final RenderType CONTAGION_LINES = makeType("contagion_lines",
+			DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256, RenderType.State.getBuilder().line(MEDIUM_LINES)
+					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).writeMask(COLOR_WRITE).build(false));
 	
 	public static final RenderType SIMPLE_LINES = makeType("simple_lines", DefaultVertexFormats.POSITION_COLOR,
 			GL11.GL_LINES, 256, RenderType.State.getBuilder().line(THIN_LINES).build(false));

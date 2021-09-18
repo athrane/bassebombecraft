@@ -32,6 +32,7 @@ import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.client.rendering.AddGraphicalEffectAtClient2;
 import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
+import bassebombecraft.operator.entity.Contagion2;
 import bassebombecraft.operator.entity.Electrocute2;
 import bassebombecraft.operator.entity.FindEntities2;
 import bassebombecraft.operator.entity.Wildfire2;
@@ -165,6 +166,11 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 * Wildfire operator.
 	 */
 	static final Operator2 WILDFIRE_OPERATOR = new Wildfire2();
+
+	/**
+	 * Contagion operator.
+	 */
+	static final Operator2 CONTAGION_OPERATOR = new Contagion2();
 	
 	/**
 	 * Projectile duration.
@@ -456,6 +462,10 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 		// handle: wildfire
 		if (tags.contains(Wildfire2.NAME))
 			wildfire();		
+
+		// handle: contagion
+		if (tags.contains(Contagion2.NAME))
+			contagion();				
 	}
 
 	/**
@@ -556,6 +566,15 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 		projectileModifierPorts.setEntity1(this);
 		projectileModifierPorts.setEntity2(getShooter());
 		run(projectileModifierPorts, WILDFIRE_OPERATOR);
+	}
+
+	/**
+	 * Execute contagion operator.
+	 */
+	void contagion() {
+		projectileModifierPorts.setEntity1(this);
+		projectileModifierPorts.setEntity2(getShooter());
+		run(projectileModifierPorts, CONTAGION_OPERATOR);
 	}
 	
 	/**

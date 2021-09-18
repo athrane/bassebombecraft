@@ -3,14 +3,16 @@ package bassebombecraft.potion.effect;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
-import static bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository.Effect.WILDFIRE;
-import static bassebombecraft.config.ModConfiguration.wildfireEffectAmplifier;
-import static bassebombecraft.config.ModConfiguration.wildfireEffectAoeRange;
-import static bassebombecraft.config.ModConfiguration.wildfireEffectDuration;
+import static bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository.Effect.CONTAGION;
+import static bassebombecraft.config.ModConfiguration.contagionEffectAmplifier;
+import static bassebombecraft.config.ModConfiguration.contagionEffectAoeRange;
+import static bassebombecraft.config.ModConfiguration.contagionEffectDuration;
+import static bassebombecraft.config.ModConfiguration.contagionEffectUpdateFrequency;
 import static bassebombecraft.config.ModConfiguration.wildfireEffectUpdateFrequency;
 import static bassebombecraft.operator.DefaultPorts.getBcSetEffectInstance1;
 import static bassebombecraft.operator.DefaultPorts.getBcSetEntities1;
 import static bassebombecraft.operator.DefaultPorts.getBcSetEntity2;
+import static bassebombecraft.operator.DefaultPorts.getFnEffectInstance1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntities1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity2;
@@ -19,9 +21,10 @@ import static bassebombecraft.operator.LazyInitOp2.of;
 import static bassebombecraft.operator.Operators2.applyV;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
-import static bassebombecraft.potion.effect.RegisteredEffects.WILDFIRE_EFFECT;
+import static bassebombecraft.potion.effect.RegisteredEffects.CONTAGION_EFFECT;
 import static bassebombecraft.util.function.Predicates.hasDifferentIds;
 
+import java.util.Collection;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -37,23 +40,26 @@ import bassebombecraft.operator.conditional.IsNot2;
 import bassebombecraft.operator.entity.ApplyOperatorToEntity2;
 import bassebombecraft.operator.entity.FindEntities2;
 import bassebombecraft.operator.entity.potion.effect.AddEffect2;
+import bassebombecraft.operator.entity.potion.effect.CloneEffect2;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
- * Effect puts entity on fire and spreads the effect to nearby entities.
+ * Effect takes potion effect from entity and spreads the effect to nearby entities.
  * 
  * The effect has no effect on the player.
  */
-public class WildfireEffect extends Effect {
+public class ContagionEffect extends Effect {
 
 	/**
 	 * Effect identifier.
 	 */
-	public static final String NAME = WildfireEffect.class.getSimpleName();
+	public static final String NAME = ContagionEffect.class.getSimpleName();
 
 	/**
 	 * Create AOE effect operators.
@@ -64,13 +70,14 @@ public class WildfireEffect extends Effect {
 		Function<Ports, LivingEntity> fnGetTarget = p -> (LivingEntity) applyV(getFnGetEntity2(), p);
 
 		// AddGraphicalEffectAtClient2: get effect duration from configuration
-		Function<Ports, Double> fnGetDuration = p -> wildfireEffectDuration.get().doubleValue();
+		Function<Ports, Double> fnGetDuration = p -> contagionEffectDuration.get().doubleValue();
 
 		// create operator for AOE effect
-		return new Sequence2(new IsNot2(new IsEffectActive2(fnGetTarget, WILDFIRE_EFFECT.get())),
-				new AddEffect2(fnGetTarget, getBcSetEffectInstance1(), WILDFIRE_EFFECT.get(),
-						wildfireEffectDuration.get(), wildfireEffectAmplifier.get()),
-				new AddGraphicalEffectAtClient2(getFnGetEntity1(), getFnGetEntity2(), fnGetDuration, WILDFIRE));
+		return new Sequence2(new IsNot2(new IsEffectActive2(fnGetTarget, CONTAGION_EFFECT.get())),
+				new CloneEffect2(fnGetTarget, getFnEffectInstance1()),
+				new AddEffect2(fnGetTarget, getBcSetEffectInstance1(), CONTAGION_EFFECT.get(),
+						contagionEffectDuration.get(), contagionEffectAmplifier.get()),
+				new AddGraphicalEffectAtClient2(getFnGetEntity1(), getFnGetEntity2(), fnGetDuration, CONTAGION));
 	};
 
 	/**
@@ -79,7 +86,7 @@ public class WildfireEffect extends Effect {
 	static Supplier<Operator2> splAoeCoreOp = () -> {
 
 		// IsFrequencyActive2: get frequency from configuration
-		Function<Ports, Integer> fnGetFrequency = p -> wildfireEffectUpdateFrequency.get().intValue();
+		Function<Ports, Integer> fnGetFrequency = p -> contagionEffectUpdateFrequency.get().intValue();
 
 		// FindEntities2: get source position from source entity
 		Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(getFnGetEntity1(), p).getPosition();
@@ -91,7 +98,7 @@ public class WildfireEffect extends Effect {
 		Function<Ports, Predicate<Entity>> fnGetPredicate = p -> hasDifferentIds(applyV(getFnGetEntity1(), p));
 
 		// FindEntities2: get search range from configuration
-		Function<Ports, Integer> fnGetRange = p -> wildfireEffectAoeRange.get().intValue();
+		Function<Ports, Integer> fnGetRange = p -> contagionEffectAoeRange.get().intValue();
 
 		// create operator
 		return new Sequence2(new ResetResult2(), new IsFrequencyActive2(fnGetFrequency),
@@ -114,7 +121,7 @@ public class WildfireEffect extends Effect {
 	/**
 	 * Constructor.
 	 */
-	public WildfireEffect() {
+	public ContagionEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
 		aoePorts = getInstance();
 	}
@@ -130,15 +137,14 @@ public class WildfireEffect extends Effect {
 		if (isTypePlayerEntity(entity))
 			return;
 
+		// get active effects
+		Collection<EffectInstance> effects = entity.getActivePotionEffects();
+		EffectInstance instance = resolveEffectInstance(effects);
+		
 		// find entities and add effect
 		aoePorts.setEntity1(entity);
+		aoePorts.setEffectInstance1(instance);
 		run(aoePorts, lazyInitAoeCoreOp);
-
-		// if not burning then set mob on fire
-		if (entity.isBurning())
-			return;
-
-		entity.setFire(wildfireEffectDuration.get());
 	}
 
 	@Override
@@ -147,4 +153,28 @@ public class WildfireEffect extends Effect {
 		return getProxy().getServerFrequencyRepository().isActive(frequency);
 	}
 
+	/**
+	 * Resolves random effect which isn't contagion effect.
+	 * 
+	 * @param effects collection of effects.
+	 * 
+	 * @return random effect. If no effect could resolved then a NAUSEA effect is returned.
+	 */
+	EffectInstance resolveEffectInstance(Collection<EffectInstance> effects) {		
+		
+		// handle empty collection
+		if (effects.isEmpty()) {
+			return new EffectInstance(Effects.NAUSEA, contagionEffectDuration.get());
+		}
+		
+		// find first effect which isn't super spreader
+		for(EffectInstance e: effects ) {
+			Effect effect = e.getPotion();
+			if(!effect.equals(CONTAGION_EFFECT.get())) return e;			
+		}
+		
+		// handle nothing useful was found
+		return new EffectInstance(Effects.NAUSEA, contagionEffectDuration.get());		
+	}
+	
 }

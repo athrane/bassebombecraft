@@ -14,8 +14,10 @@ import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 
 /**
- * Implementation of the {@linkplain Operator2} interface which adds an effect
+ * Implementation of the {@linkplain Operator2} interface which adds a potion effect
  * to entity.
+ * 
+ * The added effect is write back to the ports.
  */
 public class AddEffect2 implements Operator2 {
 

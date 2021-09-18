@@ -84,6 +84,7 @@ import bassebombecraft.item.composite.projectile.formation.modifier.OscillatingR
 import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.BounceProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.ContagionProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigProjectileModifierItem;
@@ -312,6 +313,7 @@ public class RegisteredItems {
 	public static final RegistryObject<Item> MODIFIER21 = register(ElectrocuteProjectileModifierItem::new);
 	public static final RegistryObject<Item> MODIFIER22 = register(SpawnFlamingChickenProjectileModifierItem::new);
 	public static final RegistryObject<Item> MODIFIER23 = register(WildfireProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER24 = register(ContagionProjectileModifierItem::new);
 
 	/**
 	 * Register item.
