@@ -53,15 +53,25 @@ public class Operators2 {
 	 * 
 	 * </blockquote>
 	 * 
-	 * @param obj the object reference to check for nullity
-	 * @param <T> the type of the reference
+	 * @param obj   the object reference to check for nullity
+	 * @param <T>   the type of the reference
+	 * @param ports the ports
+	 * 
 	 * @return {@code obj} if not {@code null}
 	 * 
 	 * @throws UndefinedOperatorInputException if {@code obj} is {@code null}
 	 */
-	public static <T> T validateNotNull(T obj, Function<? extends Ports, T> fn) {
-		if (obj == null)
-			throw new UndefinedOperatorInputException(fn.toString());
+	public static <T> T validateNotNull(T obj, Function<? extends Ports, T> fn, Ports ports) {
+		if (obj == null) {
+
+			// create message
+			StringBuilder builder = new StringBuilder();
+			builder.append("Validation failed for function: ");
+			builder.append(fn.toString());
+			builder.append(createDebugInfo("the function", ports));
+
+			throw new UndefinedOperatorInputException(builder.toString());
+		}
 		return obj;
 	}
 
@@ -78,8 +88,56 @@ public class Operators2 {
 	 */
 	public static <T> T applyV(Function<Ports, T> fn, Ports ports) {
 		T retVal = fn.apply(ports);
-		validateNotNull(retVal, fn);
+		validateNotNull(retVal, fn, ports);
 		return retVal;
+	}
+
+	/**
+	 * Create string with ports debug info.
+	 * 
+	 * @header debug header
+	 * @param ports ports to create debug info from.
+	 * 
+	 * @return string with ports debug info
+	 */
+	public static String createDebugInfo(String header, Ports ports) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Ports for " + header);
+		builder.append(", Result=" + ports.getResult());
+		builder.append(", Counter=" + ports.getCounter());
+		builder.append(", Integer1=" + ports.getInteger1());
+		if (ports.getString1() != null)
+			builder.append(", String1=" + ports.getString1());
+		if (ports.getString2() != null)
+			builder.append(", String2=" + ports.getString2());
+		if (ports.getDouble1() != null)
+			builder.append(", Double1=" + ports.getDouble1());
+		if (ports.getAabb1() != null)
+			builder.append(", Aabb1=" + ports.getAabb1());
+		if (ports.getBlockPosition1() != null)
+			builder.append(", BlockPosition1=" + ports.getBlockPosition1());
+		if (ports.getBlockPosition2() != null)
+			builder.append(", BlockPosition2=" + ports.getBlockPosition2());
+		if (ports.getColor4f1() != null)
+			builder.append(", Color4f1=" + ports.getColor4f1());
+		if (ports.getColor4f2() != null)
+			builder.append(", Color4f2=" + ports.getColor4f2());
+		if (ports.getDamageSource1() != null)
+			builder.append(", DamageSource1=" + ports.getDamageSource1());
+		if (ports.getEffectInstance1() != null)
+			builder.append(", EffectInstance1=" + ports.getEffectInstance1());
+		if (ports.getEntities1() != null)
+			builder.append(", Entities1=" + ports.getEntities1());
+		if (ports.getEntity1() != null)
+			builder.append(", Entity1=" + ports.getEntity1());
+		if (ports.getEntity2() != null)
+			builder.append(", Entity2=" + ports.getEntity2());
+		if (ports.getLivingEntity1() != null)
+			builder.append(", LivingEntity1=" + ports.getLivingEntity1());
+		if (ports.getLivingEntity2() != null)
+			builder.append(", LivingEntity2=" + ports.getLivingEntity2());
+
+		return builder.toString();
 	}
 
 }
