@@ -2,6 +2,7 @@ package bassebombecraft.operator;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
+import java.util.Arrays;
 import java.util.function.Function;
 
 /**
@@ -68,6 +69,7 @@ public class Operators2 {
 			StringBuilder builder = new StringBuilder();
 			builder.append("Validation failed for function: ");
 			builder.append(fn.toString());
+			builder.append(" ");			
 			builder.append(createDebugInfo("the function", ports));
 
 			throw new UndefinedOperatorInputException(builder.toString());
@@ -127,7 +129,7 @@ public class Operators2 {
 		if (ports.getEffectInstance1() != null)
 			builder.append(", EffectInstance1=" + ports.getEffectInstance1());
 		if (ports.getEntities1() != null)
-			builder.append(", Entities1=" + ports.getEntities1());
+			builder.append(", Entities1=" + Arrays.toString(ports.getEntities1()));
 		if (ports.getEntity1() != null)
 			builder.append(", Entity1=" + ports.getEntity1());
 		if (ports.getEntity2() != null)
@@ -136,6 +138,12 @@ public class Operators2 {
 			builder.append(", LivingEntity1=" + ports.getLivingEntity1());
 		if (ports.getLivingEntity2() != null)
 			builder.append(", LivingEntity2=" + ports.getLivingEntity2());
+		if (ports.getVector1() != null)
+			builder.append(", Vector1=" + ports.getVector1());
+		if (ports.getVectors1() != null)
+			builder.append(", Vectors1=" + Arrays.toString(ports.getVectors1()));
+		if (ports.getVectors2() != null)
+			builder.append(", Vectors2=" + Arrays.toString(ports.getVectors2()));
 
 		return builder.toString();
 	}
