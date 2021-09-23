@@ -39,11 +39,6 @@ public class FindEntities2 implements Operator2 {
 	Function<Ports, World> fnGetWorld;
 
 	/**
-	 * Function to set entities in ports.
-	 */
-	Function<Ports, BlockPos> fnSetEntities;
-
-	/**
 	 * Function to set projectiles.
 	 */
 	BiConsumer<Ports, Entity[]> bcSetEntities;
