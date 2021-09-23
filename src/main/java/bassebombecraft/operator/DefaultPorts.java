@@ -28,6 +28,26 @@ public class DefaultPorts implements Ports {
 	LivingEntity livingEntity2;
 
 	/**
+	 * Entity #1.
+	 */
+	Entity entitiy1;
+
+	/**
+	 * Entity #2.
+	 */
+	Entity entitiy2;
+
+	/**
+	 * Entity array #1.
+	 */
+	Entity[] entities1;
+
+	/**
+	 * Living entity array #1.
+	 */
+	LivingEntity[] livingEntities1;
+	
+	/**
 	 * Block position #1.
 	 */
 	BlockPos blockPos1;
@@ -86,22 +106,7 @@ public class DefaultPorts implements Ports {
 	 * Color4f #2.
 	 */
 	Color4f color4f2;
-
-	/**
-	 * Entity #1.
-	 */
-	Entity entitiy1;
-
-	/**
-	 * Entity #2.
-	 */
-	Entity entitiy2;
-
-	/**
-	 * Entity array #1.
-	 */
-	Entity[] entities1;
-
+	
 	/**
 	 * Effect instance #1.
 	 */
@@ -157,6 +162,46 @@ public class DefaultPorts implements Ports {
 	 */
 	static BiConsumer<Ports, LivingEntity> bcSetLivingEntity2 = (p, le) -> p.setLivingEntity2(le);
 
+	/**
+	 * Entity #1 setter.
+	 */
+	static BiConsumer<Ports, Entity> bcSetEntity1 = (p, e) -> p.setEntity1(e);
+
+	/**
+	 * Entity #1 getter.
+	 */
+	static Function<Ports, Entity> fnGetEntity1 = p -> p.getEntity1();
+
+	/**
+	 * Entity #2 setter.
+	 */
+	static BiConsumer<Ports, Entity> bcSetEntity2 = (p, e) -> p.setEntity2(e);
+
+	/**
+	 * Entity #2 getter.
+	 */
+	static Function<Ports, Entity> fnGetEntity2 = p -> p.getEntity2();
+
+	/**
+	 * Entity array #1 setter.
+	 */
+	static BiConsumer<Ports, Entity[]> bcSetEntities1 = (p, e) -> p.setEntities1(e);
+
+	/**
+	 * Entity array #1 getter.
+	 */
+	static Function<Ports, Entity[]> fnGetEntities1 = p -> p.getEntities1();
+
+	/**
+	 * Living entity array #1 setter.
+	 */
+	static BiConsumer<Ports, LivingEntity[]> bcSetLivingEntities1 = (p, e) -> p.setLivingEntities1(e);
+
+	/**
+	 * Living Entity array #1 getter.
+	 */
+	static Function<Ports, LivingEntity[]> fnGetLivingEntities1 = p -> p.getLivingEntities1();
+	
 	/**
 	 * Block position #1 getter.
 	 */
@@ -278,36 +323,6 @@ public class DefaultPorts implements Ports {
 	static BiConsumer<Ports, Color4f> bcSetColor4f2 = (p, v) -> p.setColor4f2(v);
 
 	/**
-	 * Entity #1 setter.
-	 */
-	static BiConsumer<Ports, Entity> bcSetEntity1 = (p, e) -> p.setEntity1(e);
-
-	/**
-	 * Entity #1 getter.
-	 */
-	static Function<Ports, Entity> fnGetEntity1 = p -> p.getEntity1();
-
-	/**
-	 * Entity #2 setter.
-	 */
-	static BiConsumer<Ports, Entity> bcSetEntity2 = (p, e) -> p.setEntity2(e);
-
-	/**
-	 * Entity #2 getter.
-	 */
-	static Function<Ports, Entity> fnGetEntity2 = p -> p.getEntity2();
-
-	/**
-	 * Entity array #1 setter.
-	 */
-	static BiConsumer<Ports, Entity[]> bcSetEntities1 = (p, e) -> p.setEntities1(e);
-
-	/**
-	 * Entity array #1 getter.
-	 */
-	static Function<Ports, Entity[]> fnGetEntities1 = p -> p.getEntities1();
-
-	/**
 	 * Ray trace result #1 getter.
 	 */
 	static Function<Ports, RayTraceResult> fnGetRayTraceResult1 = p -> p.getRayTraceResult1();
@@ -387,6 +402,51 @@ public class DefaultPorts implements Ports {
 		return this;
 	}
 
+	@Override
+	public Entity getEntity1() {
+		return entitiy1;
+	}
+
+	@Override
+	public Ports setEntity1(Entity entity) {
+		this.entitiy1 = entity;
+		return this;
+	}
+
+	@Override
+	public Entity getEntity2() {
+		return entitiy2;
+	}
+
+	@Override
+	public Ports setEntity2(Entity entity) {
+		this.entitiy2 = entity;
+		return this;
+	}
+
+	@Override
+	public Entity[] getEntities1() {
+		return entities1;
+	}
+
+	@Override
+	public Ports setEntities1(Entity[] entities) {
+		this.entities1 = entities;
+		return this;
+	}
+
+	
+	@Override
+	public LivingEntity[] getLivingEntities1() {
+		return livingEntities1;
+	}
+
+	@Override
+	public Ports setLivingEntities1(LivingEntity[] entities) {
+		this.livingEntities1 = entities;
+		return this;
+	}
+	
 	@Override
 	public Ports setBlockPosition1(BlockPos pos) {
 		this.blockPos1 = pos;
@@ -521,39 +581,6 @@ public class DefaultPorts implements Ports {
 	}
 
 	@Override
-	public Entity getEntity1() {
-		return entitiy1;
-	}
-
-	@Override
-	public Ports setEntity1(Entity entity) {
-		this.entitiy1 = entity;
-		return this;
-	}
-
-	@Override
-	public Entity getEntity2() {
-		return entitiy2;
-	}
-
-	@Override
-	public Ports setEntity2(Entity entity) {
-		this.entitiy2 = entity;
-		return this;
-	}
-
-	@Override
-	public Entity[] getEntities1() {
-		return entities1;
-	}
-
-	@Override
-	public Ports setEntities1(Entity[] entities) {
-		this.entities1 = entities;
-		return this;
-	}
-
-	@Override
 	public RayTraceResult getRayTraceResult1() {
 		return rayTraceResult1;
 	}
@@ -658,6 +685,38 @@ public class DefaultPorts implements Ports {
 		return bcSetLivingEntity2;
 	}
 
+	public static Function<Ports, Entity> getFnGetEntity1() {
+		return fnGetEntity1;
+	}
+
+	public static BiConsumer<Ports, Entity> getBcSetEntity1() {
+		return bcSetEntity1;
+	}
+
+	public static Function<Ports, Entity> getFnGetEntity2() {
+		return fnGetEntity2;
+	}
+
+	public static BiConsumer<Ports, Entity> getBcSetEntity2() {
+		return bcSetEntity2;
+	}
+
+	public static Function<Ports, Entity[]> getFnGetEntities1() {
+		return fnGetEntities1;
+	}
+
+	public static BiConsumer<Ports, Entity[]> getBcSetEntities1() {
+		return bcSetEntities1;
+	}
+
+	public static Function<Ports, LivingEntity[]> getFnGetLivingEntities1() {
+		return fnGetLivingEntities1;
+	}
+
+	public static BiConsumer<Ports, LivingEntity[]> getBcSetLivingEntities1() {
+		return bcSetLivingEntities1;
+	}
+	
 	public static Function<Ports, BlockPos> getFnGetBlockPosition1() {
 		return fnGetBlockPos1;
 	}
@@ -752,30 +811,6 @@ public class DefaultPorts implements Ports {
 
 	public static BiConsumer<Ports, Color4f> getBcSetColor4f2() {
 		return bcSetColor4f2;
-	}
-
-	public static Function<Ports, Entity> getFnGetEntity1() {
-		return fnGetEntity1;
-	}
-
-	public static BiConsumer<Ports, Entity> getBcSetEntity1() {
-		return bcSetEntity1;
-	}
-
-	public static Function<Ports, Entity> getFnGetEntity2() {
-		return fnGetEntity2;
-	}
-
-	public static BiConsumer<Ports, Entity> getBcSetEntity2() {
-		return bcSetEntity2;
-	}
-
-	public static Function<Ports, Entity[]> getFnGetEntities1() {
-		return fnGetEntities1;
-	}
-
-	public static BiConsumer<Ports, Entity[]> getBcSetEntities1() {
-		return bcSetEntities1;
 	}
 
 	public static Function<Ports, RayTraceResult> getFnGetRayTraceResult1() {

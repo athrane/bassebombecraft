@@ -70,6 +70,62 @@ public interface Ports {
 	Ports setLivingEntity2(LivingEntity entity);
 
 	/**
+	 * Return {@linkplain Entity} #1.
+	 * 
+	 * @return entity #1.
+	 */
+	Entity getEntity1();
+
+	/**
+	 * Set {@linkplain Entity} #1.
+	 * 
+	 * @param entity entity #1.
+	 */
+	Ports setEntity1(Entity entity);
+
+	/**
+	 * Return {@linkplain Entity} #2.
+	 * 
+	 * @return entity #2.
+	 */
+	Entity getEntity2();
+
+	/**
+	 * Set {@linkplain Entity} #2.
+	 * 
+	 * @param entity entity #2.
+	 */
+	Ports setEntity2(Entity entity);
+
+	/**
+	 * Return {@linkplain Entity[]} #1.
+	 * 
+	 * @return entity array #1.
+	 */
+	Entity[] getEntities1();
+
+	/**
+	 * Set {@linkplain Entity[]} #1.
+	 * 
+	 * @param entities entity array #1.
+	 */
+	Ports setEntities1(Entity[] entities);
+
+	/**
+	 * Return {@linkplain LivingEntity[]} #1.
+	 * 
+	 * @return living entity array #1.
+	 */
+	LivingEntity[] getLivingEntities1();
+
+	/**
+	 * Set {@linkplain LivingEntity[]} #1.
+	 * 
+	 * @param living entities entity array #1.
+	 */
+	Ports setLivingEntities1(LivingEntity[] entities);
+	
+	/**
 	 * Return {@linkplain BlockPos} #1.
 	 * 
 	 * @return block position #1.
@@ -237,48 +293,7 @@ public interface Ports {
 	 */
 	Ports setColor4f2(Color4f color);
 
-	/**
-	 * Return {@linkplain Entity} #1.
-	 * 
-	 * @return entity #1.
-	 */
-	Entity getEntity1();
-
-	/**
-	 * Set {@linkplain Entity} #1.
-	 * 
-	 * @param entity entity #1.
-	 */
-	Ports setEntity1(Entity entity);
-
-	/**
-	 * Return {@linkplain Entity} #2.
-	 * 
-	 * @return entity #2.
-	 */
-	Entity getEntity2();
-
-	/**
-	 * Set {@linkplain Entity} #2.
-	 * 
-	 * @param entity entity #2.
-	 */
-	Ports setEntity2(Entity entity);
-
-	/**
-	 * Return {@linkplain Entity[]} #1.
-	 * 
-	 * @return entity array #1.
-	 */
-	Entity[] getEntities1();
-
-	/**
-	 * Set {@linkplain Entity[]} #1.
-	 * 
-	 * @param entities entity array #1.
-	 */
-	Ports setEntities1(Entity[] entities);
-
+	
 	/**
 	 * Return {@linkplain RayTraceResult} #1.
 	 * 
