@@ -155,9 +155,16 @@ public class Operators2 {
 		return builder.toString();
 	}
 
+	/**
+	 * Logs method prior to invocation.
+	 * 
+	 * @param <T> return type for invoked function.
+	 * @param fn invoked function.
+	 * @param ports ports object used to invoke function.
+	 */
 	static <T> void logInvocation(Function<Ports, T> fn, Ports ports) {
 		Logger logger = getBassebombeCraft().getLogger();
-		logger.debug("Apply(..) invocation debugging info:");
+		logger.debug("Operators2.Apply(..) PRE invocation debugging info:");
 
 		// log stack trace
 		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
