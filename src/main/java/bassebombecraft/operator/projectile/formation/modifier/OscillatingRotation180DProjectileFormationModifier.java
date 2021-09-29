@@ -17,6 +17,8 @@ import net.minecraft.util.math.vector.Vector3d;
  * Implementation of the {@linkplain Operator2} interface which modifies a set
  * of projectile vectors by oscillating the [-90,..90] degress around the
  * Y-axis.
+ * 
+ * Uses the ports counter to hold state.
  */
 public class OscillatingRotation180DProjectileFormationModifier implements Operator2 {
 
