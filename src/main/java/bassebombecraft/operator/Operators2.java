@@ -1,9 +1,12 @@
 package bassebombecraft.operator;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
+import static bassebombecraft.ModConstants.MOD_PKG_NAME;
 
 import java.util.Arrays;
 import java.util.function.Function;
+
+import org.apache.logging.log4j.Logger;
 
 /**
  * Class for execution of operator.
@@ -69,7 +72,7 @@ public class Operators2 {
 			StringBuilder builder = new StringBuilder();
 			builder.append("Validation failed for function: ");
 			builder.append(fn.toString());
-			builder.append(" ");			
+			builder.append(" ");
 			builder.append(createDebugInfo("the function", ports));
 
 			throw new UndefinedOperatorInputException(builder.toString());
@@ -89,6 +92,8 @@ public class Operators2 {
 	 * @throws UndefinedOperatorInputException if function returns null.
 	 */
 	public static <T> T applyV(Function<Ports, T> fn, Ports ports) {
+		if (ports.isDebugEnabled())
+			logInvocation(fn, ports);
 		T retVal = fn.apply(ports);
 		validateNotNull(retVal, fn, ports);
 		return retVal;
@@ -128,16 +133,18 @@ public class Operators2 {
 			builder.append(", DamageSource1=" + ports.getDamageSource1());
 		if (ports.getEffectInstance1() != null)
 			builder.append(", EffectInstance1=" + ports.getEffectInstance1());
-		if (ports.getEntities1() != null)
-			builder.append(", Entities1=" + Arrays.toString(ports.getEntities1()));
 		if (ports.getEntity1() != null)
 			builder.append(", Entity1=" + ports.getEntity1());
 		if (ports.getEntity2() != null)
 			builder.append(", Entity2=" + ports.getEntity2());
+		if (ports.getEntities1() != null)
+			builder.append(", Entities1=" + Arrays.toString(ports.getEntities1()));
 		if (ports.getLivingEntity1() != null)
 			builder.append(", LivingEntity1=" + ports.getLivingEntity1());
 		if (ports.getLivingEntity2() != null)
 			builder.append(", LivingEntity2=" + ports.getLivingEntity2());
+		if (ports.getEntities1() != null)
+			builder.append(", LivingEntities1=" + Arrays.toString(ports.getLivingEntities1()));
 		if (ports.getVector1() != null)
 			builder.append(", Vector1=" + ports.getVector1());
 		if (ports.getVectors1() != null)
@@ -146,6 +153,18 @@ public class Operators2 {
 			builder.append(", Vectors2=" + Arrays.toString(ports.getVectors2()));
 
 		return builder.toString();
+	}
+
+	static <T> void logInvocation(Function<Ports, T> fn, Ports ports) {
+		Logger logger = getBassebombeCraft().getLogger();
+		logger.debug("Apply(..) invocation debugging info:");
+
+		// log stack trace
+		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
+		Arrays.asList(ste).stream().filter(e -> e.getClassName().contains(MOD_PKG_NAME)).forEach(logger::debug);
+
+		// log ports
+		logger.debug(createDebugInfo("debug", ports));
 	}
 
 }

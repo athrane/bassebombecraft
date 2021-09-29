@@ -18,6 +18,11 @@ import net.minecraft.world.World;
 public class DefaultPorts implements Ports {
 
 	/**
+	 * Defines if debug features should be enabled.
+	 */
+	boolean debugEnabled;
+	
+	/**
 	 * Living entity #1.
 	 */
 	LivingEntity livingEntity1;
@@ -376,8 +381,20 @@ public class DefaultPorts implements Ports {
 	 * Constructor
 	 */
 	protected DefaultPorts() {
+		this.debugEnabled = false;
 		this.result = true;
 		this.counter = 0;
+	}
+	
+	@Override
+	public Ports enableDebug() {
+		this.debugEnabled = true;
+		return this;		
+	}
+
+	@Override
+	public boolean isDebugEnabled() {
+		return this.debugEnabled;
 	}
 
 	@Override
@@ -861,7 +878,7 @@ public class DefaultPorts implements Ports {
 	public static Ports getInstance() {
 		return new DefaultPorts();
 	}
-
+	
 	/**
 	 * Factory method.
 	 * 
@@ -869,6 +886,7 @@ public class DefaultPorts implements Ports {
 	 * 
 	 * @return ports.
 	 */
+	@Deprecated
 	public static Ports getInstance(LivingEntity livingEntity) {
 		return new DefaultPorts().setLivingEntity1(livingEntity);
 	}
@@ -880,6 +898,7 @@ public class DefaultPorts implements Ports {
 	 * 
 	 * @return ports.
 	 */
+	@Deprecated
 	public static Ports getInstance(BlockPos pos) {
 		DefaultPorts ports = new DefaultPorts();
 		ports.setBlockPosition1(pos);

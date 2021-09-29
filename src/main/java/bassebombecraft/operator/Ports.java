@@ -19,6 +19,20 @@ import net.minecraft.world.World;
 public interface Ports {
 
 	/**
+	 * Return true if debug features should be enabled.
+	 * 
+	 * @return true if debug features should be enabled.
+	 */
+	boolean isDebugEnabled();
+
+	/**
+	 * Enable debug features.
+	 * 
+	 * @return ports.
+	 */
+	Ports enableDebug();
+	
+	/**
 	 * Set result of operator execution as a success.
 	 * 
 	 * @return ports.
@@ -50,7 +64,6 @@ public interface Ports {
 	 * Set {@linkplain LivingEntity} #1.
 	 * 
 	 * @return ports.
-	 * 
 	 */
 	Ports setLivingEntity1(LivingEntity entity);
 

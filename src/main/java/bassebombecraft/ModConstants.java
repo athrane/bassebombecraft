@@ -25,7 +25,7 @@ public class ModConstants {
 	 * Mod ID.
 	 */
 	public static final String MODID = "bassebombecraft";
-
+	
 	/**
 	 * Mod version.
 	 */
@@ -41,6 +41,11 @@ public class ModConstants {
 	 */
 	public static final String MINECRAFT_DOMAIN = "minecraft";
 
+	/**
+	 * Root mod package name - used for operator debugging.
+	 */
+	public static final String MOD_PKG_NAME = "bassebombecraft.";
+	
 	/**
 	 * TOML Configuration file post fix.
 	 */
