@@ -122,7 +122,7 @@ public class ClientGraphicalEffect implements GraphicalEffect {
 		DurationRepository repository = getProxy().getClientDurationRepository();
 		int remainingDuration = repository.get(id);
 
-		// store overwrite integer #1 with remaining duration
+		// overwrite integer #1 with remaining duration
 		ports.setInteger1(remainingDuration);
 
 		// add stored vectors
