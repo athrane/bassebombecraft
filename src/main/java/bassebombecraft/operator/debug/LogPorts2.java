@@ -1,7 +1,6 @@
 package bassebombecraft.operator.debug;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
-import static bassebombecraft.operator.Operators2.createDebugInfo;
 
 import org.apache.logging.log4j.Logger;
 
@@ -32,8 +31,10 @@ public class LogPorts2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		Logger logger = getBassebombeCraft().getLogger();
-		String debugInfo = createDebugInfo(header, ports);
-		logger.info(debugInfo);
+		StringBuilder builder = new StringBuilder();
+		builder.append("Logging ports: ");
+		builder.append(ports.toString());
+		logger.info(builder.toString());
 	}
 
 }

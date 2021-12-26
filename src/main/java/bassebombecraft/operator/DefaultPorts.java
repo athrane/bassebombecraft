@@ -1,5 +1,6 @@
 package bassebombecraft.operator;
 
+import java.util.Arrays;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -686,6 +687,56 @@ public class DefaultPorts implements Ports {
 		return this;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DefaultPorts [");		
+		builder.append("Result=" + getResult());
+		builder.append(", Counter=" + getCounter());
+		builder.append(", Integer1=" + getInteger1());
+		if (getString1() != null)
+			builder.append(", String1=" + getString1());
+		if (getString2() != null)
+			builder.append(", String2=" + getString2());
+		if (getDouble1() != null)
+			builder.append(", Double1=" + getDouble1());
+		if (getAabb1() != null)
+			builder.append(", Aabb1=" + getAabb1());
+		if (getBlockPosition1() != null)
+			builder.append(", BlockPosition1=" + getBlockPosition1());
+		if (getBlockPosition2() != null)
+			builder.append(", BlockPosition2=" + getBlockPosition2());
+		if (getColor4f1() != null)
+			builder.append(", Color4f1=" + getColor4f1());
+		if (getColor4f2() != null)
+			builder.append(", Color4f2=" + getColor4f2());
+		if (getDamageSource1() != null)
+			builder.append(", DamageSource1=" + getDamageSource1());
+		if (getEffectInstance1() != null)
+			builder.append(", EffectInstance1=" + getEffectInstance1());
+		if (getEntity1() != null)
+			builder.append(", Entity1=" + getEntity1());
+		if (getEntity2() != null)
+			builder.append(", Entity2=" + getEntity2());
+		if (getEntities1() != null)
+			builder.append(", Entities1=" + Arrays.toString(getEntities1()));
+		if (getLivingEntity1() != null)
+			builder.append(", LivingEntity1=" + getLivingEntity1());
+		if (getLivingEntity2() != null)
+			builder.append(", LivingEntity2=" + getLivingEntity2());
+		if (getEntities1() != null)
+			builder.append(", LivingEntities1=" + Arrays.toString(getLivingEntities1()));
+		if (getVector1() != null)
+			builder.append(", Vector1=" + getVector1());
+		if (getVectors1() != null)
+			builder.append(", Vectors1=" + Arrays.toString(getVectors1()));
+		if (getVectors2() != null)
+			builder.append(", Vectors2=" + Arrays.toString(getVectors2()));
+		builder.append("]");				
+		return builder.toString();
+	}
+
+	
 	public static Function<Ports, LivingEntity> getFnGetLivingEntity1() {
 		return fnGetLivingEntity1;
 	}

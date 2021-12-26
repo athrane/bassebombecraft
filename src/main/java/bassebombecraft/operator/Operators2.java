@@ -13,6 +13,8 @@ import org.apache.logging.log4j.Logger;
  */
 public class Operators2 {
 
+	private static final String OPERATORS2_CLASS = "bassebombecraft.operator.Operators2";
+
 	/**
 	 * Execute operator.
 	 * 
@@ -73,8 +75,7 @@ public class Operators2 {
 			builder.append("Validation failed for function: ");
 			builder.append(fn.toString());
 			builder.append(" ");
-			builder.append(createDebugInfo("the function", ports));
-
+			builder.append(ports.toString());
 			throw new UndefinedOperatorInputException(builder.toString());
 		}
 		return obj;
@@ -100,78 +101,23 @@ public class Operators2 {
 	}
 
 	/**
-	 * Create string with ports debug info.
-	 * 
-	 * @header debug header
-	 * @param ports ports to create debug info from.
-	 * 
-	 * @return string with ports debug info
-	 */
-	public static String createDebugInfo(String header, Ports ports) {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Ports for " + header);
-		builder.append(", Result=" + ports.getResult());
-		builder.append(", Counter=" + ports.getCounter());
-		builder.append(", Integer1=" + ports.getInteger1());
-		if (ports.getString1() != null)
-			builder.append(", String1=" + ports.getString1());
-		if (ports.getString2() != null)
-			builder.append(", String2=" + ports.getString2());
-		if (ports.getDouble1() != null)
-			builder.append(", Double1=" + ports.getDouble1());
-		if (ports.getAabb1() != null)
-			builder.append(", Aabb1=" + ports.getAabb1());
-		if (ports.getBlockPosition1() != null)
-			builder.append(", BlockPosition1=" + ports.getBlockPosition1());
-		if (ports.getBlockPosition2() != null)
-			builder.append(", BlockPosition2=" + ports.getBlockPosition2());
-		if (ports.getColor4f1() != null)
-			builder.append(", Color4f1=" + ports.getColor4f1());
-		if (ports.getColor4f2() != null)
-			builder.append(", Color4f2=" + ports.getColor4f2());
-		if (ports.getDamageSource1() != null)
-			builder.append(", DamageSource1=" + ports.getDamageSource1());
-		if (ports.getEffectInstance1() != null)
-			builder.append(", EffectInstance1=" + ports.getEffectInstance1());
-		if (ports.getEntity1() != null)
-			builder.append(", Entity1=" + ports.getEntity1());
-		if (ports.getEntity2() != null)
-			builder.append(", Entity2=" + ports.getEntity2());
-		if (ports.getEntities1() != null)
-			builder.append(", Entities1=" + Arrays.toString(ports.getEntities1()));
-		if (ports.getLivingEntity1() != null)
-			builder.append(", LivingEntity1=" + ports.getLivingEntity1());
-		if (ports.getLivingEntity2() != null)
-			builder.append(", LivingEntity2=" + ports.getLivingEntity2());
-		if (ports.getEntities1() != null)
-			builder.append(", LivingEntities1=" + Arrays.toString(ports.getLivingEntities1()));
-		if (ports.getVector1() != null)
-			builder.append(", Vector1=" + ports.getVector1());
-		if (ports.getVectors1() != null)
-			builder.append(", Vectors1=" + Arrays.toString(ports.getVectors1()));
-		if (ports.getVectors2() != null)
-			builder.append(", Vectors2=" + Arrays.toString(ports.getVectors2()));
-
-		return builder.toString();
-	}
-
-	/**
 	 * Logs method prior to invocation.
 	 * 
-	 * @param <T> return type for invoked function.
-	 * @param fn invoked function.
+	 * @param <T>   return type for invoked function.
+	 * @param fn    invoked function.
 	 * @param ports ports object used to invoke function.
 	 */
-	static <T> void logInvocation(Function<Ports, T> fn, Ports ports) {
+	public static <T> void logInvocation(Function<? extends Ports, T> fn, Ports ports) {
 		Logger logger = getBassebombeCraft().getLogger();
-		logger.debug("Operators2.Apply(..) PRE invocation debugging info:");
+		logger.debug("Operator call sequence:");
 
 		// log stack trace
 		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
-		Arrays.asList(ste).stream().filter(e -> e.getClassName().contains(MOD_PKG_NAME)).forEach(logger::debug);
-
+		Arrays.asList(ste).stream().filter(e -> e.getClassName().contains(MOD_PKG_NAME))
+				.filter(e -> !e.getClassName().contains(OPERATORS2_CLASS)).forEach(logger::debug);
+		
 		// log ports
-		logger.debug(createDebugInfo("debug", ports));
+		logger.debug(ports.toString());
 	}
 
 }

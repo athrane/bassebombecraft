@@ -7,6 +7,7 @@ import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.composite.CompositeMagicItem;
+import bassebombecraft.operator.Operators2;
 import net.minecraft.potion.EffectType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -42,7 +43,7 @@ public class ModConstants {
 	public static final String MINECRAFT_DOMAIN = "minecraft";
 
 	/**
-	 * Root mod package name - used for operator debugging.
+	 * Root mod package name - used for operator debugging in {@linkplain Operators2}.
 	 */
 	public static final String MOD_PKG_NAME = "bassebombecraft.";
 	
