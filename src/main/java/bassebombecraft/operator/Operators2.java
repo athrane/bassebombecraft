@@ -2,17 +2,11 @@ package bassebombecraft.operator;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.MOD_PKG_NAME;
+import static java.util.Arrays.asList;
 
-import static java.util.Arrays.*;
-import java.util.List;
-import java.util.function.BiPredicate;
 import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import org.apache.logging.log4j.Logger;
-
-import net.minecraft.entity.LivingEntity;
 
 /**
  * Class for execution of operator.
