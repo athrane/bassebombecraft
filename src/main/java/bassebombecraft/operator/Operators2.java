@@ -3,17 +3,23 @@ package bassebombecraft.operator;
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.MOD_PKG_NAME;
 
-import java.util.Arrays;
+import static java.util.Arrays.*;
+import java.util.List;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import org.apache.logging.log4j.Logger;
+
+import net.minecraft.entity.LivingEntity;
 
 /**
  * Class for execution of operator.
  */
 public class Operators2 {
 
-	private static final String OPERATORS2_CLASS = "bassebombecraft.operator.Operators2";
+	static final String OPERATORS2_CLASS = "bassebombecraft.operator.Operators2";
 
 	/**
 	 * Execute operator.
@@ -111,13 +117,12 @@ public class Operators2 {
 		Logger logger = getBassebombeCraft().getLogger();
 		logger.debug("Operator call sequence:");
 
-		// log stack trace
+		// log invoked operators
 		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
-		Arrays.asList(ste).stream().filter(e -> e.getClassName().contains(MOD_PKG_NAME))
+		asList(ste).stream().filter(e -> e.getClassName().contains(MOD_PKG_NAME))
 				.filter(e -> !e.getClassName().contains(OPERATORS2_CLASS)).forEach(logger::debug);
-		
+
 		// log ports
 		logger.debug(ports.toString());
 	}
-
 }
