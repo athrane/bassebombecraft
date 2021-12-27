@@ -14,7 +14,7 @@ import net.minecraft.potion.EffectInstance;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which clones a potion
- * effect instance to entity.
+ * effect instance to target entity.
  */
 public class CloneEffect2 implements Operator2 {
 

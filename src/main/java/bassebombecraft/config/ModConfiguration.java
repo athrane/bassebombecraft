@@ -2639,7 +2639,7 @@ public class ModConfiguration {
 		name = ContagionProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		contagionProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"Will spread random effects from the caster to mobs in the vicinity of the projectile. And then from infected mobs to other nearby mobs.",
+				"Will spread contagion to mobs in the vicinity of the projectile. Contagion will spread an infected mob's effect to other other nearby mobs.",
 				25);
 		COMMON_BUILDER.pop();								
 		

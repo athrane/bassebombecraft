@@ -4,7 +4,7 @@ import static bassebombecraft.operator.DefaultPorts.getBcSetEntities1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetBlockPosition1;
 import static bassebombecraft.operator.DefaultPorts.getFnWorld1;
 import static bassebombecraft.operator.Operators2.applyV;
-import static bassebombecraft.util.function.Predicates.fnGetNullPredicate;
+import static bassebombecraft.util.function.Predicates.fnGetNullPredicateForEntity;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which finds a set of
- * {@linkplain LivingEntity} within vicinity to a position.
+ * {@linkplain Entity} within vicinity to a position.
  * 
  * The operator supports searching using filtering {@linkplain Predicate} to
  * eliminate found candidates.
@@ -85,7 +85,7 @@ public class FindEntities2 implements Operator2 {
 	 */
 	public FindEntities2(Function<Ports, BlockPos> fnGetPosition, Function<Ports, World> fnGetWorld,
 			Function<Ports, Integer> fnGetRange, BiConsumer<Ports, Entity[]> bcSetEntities) {
-		this(fnGetPosition, fnGetWorld, fnGetNullPredicate(), fnGetRange, bcSetEntities);
+		this(fnGetPosition, fnGetWorld, fnGetNullPredicateForEntity(), fnGetRange, bcSetEntities);
 	}
 
 	/**

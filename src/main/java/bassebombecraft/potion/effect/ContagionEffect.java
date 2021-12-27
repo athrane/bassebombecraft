@@ -8,7 +8,6 @@ import static bassebombecraft.config.ModConfiguration.contagionEffectAmplifier;
 import static bassebombecraft.config.ModConfiguration.contagionEffectAoeRange;
 import static bassebombecraft.config.ModConfiguration.contagionEffectDuration;
 import static bassebombecraft.config.ModConfiguration.contagionEffectUpdateFrequency;
-import static bassebombecraft.config.ModConfiguration.wildfireEffectUpdateFrequency;
 import static bassebombecraft.operator.DefaultPorts.getBcSetEffectInstance1;
 import static bassebombecraft.operator.DefaultPorts.getBcSetEntities1;
 import static bassebombecraft.operator.DefaultPorts.getBcSetEntity2;
@@ -25,10 +24,12 @@ import static bassebombecraft.potion.effect.RegisteredEffects.CONTAGION_EFFECT;
 import static bassebombecraft.util.function.Predicates.hasDifferentIds;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.ResetResult2;
@@ -45,12 +46,12 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
- * Effect takes potion effect from entity and spreads the effect to nearby entities.
+ * Effect takes potion effect from entity and spreads the effect to nearby
+ * entities.
  * 
  * The effect has no effect on the player.
  */
@@ -62,9 +63,9 @@ public class ContagionEffect extends Effect {
 	public static final String NAME = ContagionEffect.class.getSimpleName();
 
 	/**
-	 * Create AOE effect operators.
+	 * Create AOE effect operators: 
 	 */
-	public static Supplier<Operator2> splAoeEffectOp = () -> {
+	static Supplier<Operator2> splAoeEffectOp = () -> {
 
 		// IsEffectActive2 + AddEffect2: HACK to type cast from entity to living entity
 		Function<Ports, LivingEntity> fnGetTarget = p -> (LivingEntity) applyV(getFnGetEntity2(), p);
@@ -80,6 +81,25 @@ public class ContagionEffect extends Effect {
 				new AddGraphicalEffectAtClient2(getFnGetEntity1(), getFnGetEntity2(), fnGetDuration, CONTAGION));
 	};
 
+	/**
+	 * Create AOE effect operators.
+	 */
+	static Supplier<Operator2> splAoeEffectOp2 = () -> {
+
+		// IsEffectActive2 + AddEffect2: HACK to type cast from entity to living entity
+		Function<Ports, LivingEntity> fnGetTarget = p -> (LivingEntity) applyV(getFnGetEntity2(), p);
+
+		// AddGraphicalEffectAtClient2: get effect duration from configuration
+		Function<Ports, Double> fnGetDuration = p -> contagionEffectDuration.get().doubleValue();
+
+		// create operator for AOE effect
+		return new Sequence2(new IsNot2(new IsEffectActive2(fnGetTarget, CONTAGION_EFFECT.get())),
+				new CloneEffect2(fnGetTarget, getFnEffectInstance1()),
+				new AddEffect2(fnGetTarget, getBcSetEffectInstance1(), CONTAGION_EFFECT.get(),
+						contagionEffectDuration.get(), contagionEffectAmplifier.get()),
+				new AddGraphicalEffectAtClient2(getFnGetEntity1(), getFnGetEntity2(), fnGetDuration, CONTAGION));
+	};
+	
 	/**
 	 * Create operators to locate AOE candidates.
 	 */
@@ -107,6 +127,11 @@ public class ContagionEffect extends Effect {
 	};
 
 	/**
+	 * AOE operator instance.
+	 */
+	Operator2 lazyInitAoeCoreOp = of(splAoeCoreOp);
+	
+	/**
 	 * AOE ports.
 	 * 
 	 * The ports is defined as a field to reuse it across update ticks.
@@ -114,16 +139,11 @@ public class ContagionEffect extends Effect {
 	Ports aoePorts;
 
 	/**
-	 * AOE operator instance.
-	 */
-	Operator2 lazyInitAoeCoreOp = of(splAoeCoreOp);
-
-	/**
 	 * Constructor.
 	 */
 	public ContagionEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
-		aoePorts = getInstance();
+		aoePorts = getInstance().enableDebug();
 	}
 
 	@Override
@@ -137,44 +157,36 @@ public class ContagionEffect extends Effect {
 		if (isTypePlayerEntity(entity))
 			return;
 
-		// get active effects
-		Collection<EffectInstance> effects = entity.getActivePotionEffects();
-		EffectInstance instance = resolveEffectInstance(effects);
-		
+		Optional<EffectInstance> optInstance = resolveEffectInstance(entity);
+		BassebombeCraft.getBassebombeCraft().getLogger().debug("optInstance=" + optInstance);
+
+		// exit if null instance is returned
+		if (!optInstance.isPresent())
+			return;
+
 		// find entities and add effect
 		aoePorts.setEntity1(entity);
-		aoePorts.setEffectInstance1(instance);
+		aoePorts.setEffectInstance1(optInstance.get());
 		run(aoePorts, lazyInitAoeCoreOp);
 	}
 
 	@Override
 	public boolean isReady(int duration, int amplifier) {
-		int frequency = wildfireEffectUpdateFrequency.get();
+		int frequency = contagionEffectUpdateFrequency.get();
 		return getProxy().getServerFrequencyRepository().isActive(frequency);
 	}
 
 	/**
-	 * Resolves random effect which isn't contagion effect.
+	 * Resolves first effect which isn't contagion effect.
 	 * 
-	 * @param effects collection of effects.
+	 * @param entity to resolve effects from.
 	 * 
-	 * @return random effect. If no effect could resolved then a NAUSEA effect is returned.
+	 * @return Resolves first effect which isn't contagion effect. If no effect
+	 *         could resolved then empty optional is returned.
 	 */
-	EffectInstance resolveEffectInstance(Collection<EffectInstance> effects) {		
-		
-		// handle empty collection
-		if (effects.isEmpty()) {
-			return new EffectInstance(Effects.NAUSEA, contagionEffectDuration.get());
-		}
-		
-		// find first effect which isn't super spreader
-		for(EffectInstance e: effects ) {
-			Effect effect = e.getPotion();
-			if(!effect.equals(CONTAGION_EFFECT.get())) return e;			
-		}
-		
-		// handle nothing useful was found
-		return new EffectInstance(Effects.NAUSEA, contagionEffectDuration.get());		
+	Optional<EffectInstance> resolveEffectInstance(LivingEntity entity) {
+		Collection<EffectInstance> effects = entity.getActivePotionEffects();
+		return effects.stream().filter(e -> !(e.getPotion().equals(CONTAGION_EFFECT.get()))).findFirst();
 	}
-	
+
 }

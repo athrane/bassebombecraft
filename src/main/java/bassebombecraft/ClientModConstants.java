@@ -148,12 +148,12 @@ public class ClientModConstants {
 	 * Rendering: Line color for contagion for
 	 * {@linkplain ClientGraphicalEffectRepository}.
 	 */
-	public static final Color4f CONTAGION_LINE_COLOR1 = getInstance(0.0F, 1.0F, 0.0F, 0.75F);
+	public static final Color4f CONTAGION_LINE_COLOR1 = getInstance(1.0F, 0.25F, 1.0F, 0.75F);
 
 	/**
 	 * Rendering: Line color for contagion for
 	 * {@linkplain ClientGraphicalEffectRepository}.
 	 */
-	public static final Color4f CONTAGION_LINE_COLOR2 = getInstance(0.3F, 1.0F, 3.0F, 0.25F);
+	public static final Color4f CONTAGION_LINE_COLOR2 = getInstance(0.75F, 0.0F, 0.75F, 0.5F);
 	
 }

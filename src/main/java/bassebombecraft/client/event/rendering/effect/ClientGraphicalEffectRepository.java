@@ -25,6 +25,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import bassebombecraft.client.operator.rendering.InitColor2;
+import bassebombecraft.client.operator.rendering.InitContagion2;
 import bassebombecraft.client.operator.rendering.InitElectrocute2;
 import bassebombecraft.client.operator.rendering.InitLineRenderingFromPorts2;
 import bassebombecraft.client.operator.rendering.InitProjectileTrailRendering2;
@@ -77,7 +78,7 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 	/**
 	 * Effect operator for contagion effect.
 	 */
-	final static Operator2 CONTAGION_OPERATOR = new Sequence2(new InitWildfire2(),
+	final static Operator2 CONTAGION_OPERATOR = new Sequence2(new InitContagion2(),
 			new InitColor2(getBcSetColor4f1(), CONTAGION_LINE_COLOR1, CONTAGION_LINE_COLOR1),
 			new RenderLineWithDynamicColor2(getFnGetColor4f1(), CONTAGION_LINES));
 
@@ -169,6 +170,9 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 		case WILDFIRE:
 			return WILDFIRE_OPERATOR;
 
+		case CONTAGION:
+			return CONTAGION_OPERATOR;
+			
 		default:
 			return DEFAULT_OPERATOR;
 		}

@@ -1,10 +1,10 @@
 package bassebombecraft.operator.entity;
 
-import static bassebombecraft.operator.DefaultPorts.*;
+import static bassebombecraft.operator.DefaultPorts.getBcSetLivingEntities1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetBlockPosition1;
 import static bassebombecraft.operator.DefaultPorts.getFnWorld1;
 import static bassebombecraft.operator.Operators2.applyV;
-import static bassebombecraft.util.function.Predicates.fnGetNullPredicate;
+import static bassebombecraft.util.function.Predicates.fnGetNullPredicateForLivingEntity;
 
 import java.util.List;
 import java.util.function.BiConsumer;
@@ -13,7 +13,6 @@ import java.util.function.Predicate;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -46,7 +45,7 @@ public class FindLivingEntities2 implements Operator2 {
 	/**
 	 * Function to get predicate.
 	 */
-	Function<Ports, Predicate<Entity>> fnGetPredicate;
+	Function<Ports, Predicate<LivingEntity>> fnGetPredicate;
 
 	/**
 	 * Function to get search range.
@@ -56,15 +55,15 @@ public class FindLivingEntities2 implements Operator2 {
 	/**
 	 * Constructor.
 	 * 
-	 * @param fnGetPosition  function to get position.
-	 * @param fnGetWorld     function to get world.
-	 * @param fnGetPredicate function to get predicate for entity exclusion during
-	 *                       entity search.
-	 * @param fnGetRange     function to get search range for entities.
-	 * @param bcSetLivingEntities  function to set living entities.
+	 * @param fnGetPosition       function to get position.
+	 * @param fnGetWorld          function to get world.
+	 * @param fnGetPredicate      function to get predicate for entity exclusion
+	 *                            during living entity search.
+	 * @param fnGetRange          function to get search range for entities.
+	 * @param bcSetLivingEntities function to set living entities.
 	 */
 	public FindLivingEntities2(Function<Ports, BlockPos> fnGetPosition, Function<Ports, World> fnGetWorld,
-			Function<Ports, Predicate<Entity>> fnGetPredicate, Function<Ports, Integer> fnGetRange,
+			Function<Ports, Predicate<LivingEntity>> fnGetPredicate, Function<Ports, Integer> fnGetRange,
 			BiConsumer<Ports, LivingEntity[]> bcSetLivingEntities) {
 		this.fnGetPosition = fnGetPosition;
 		this.fnGetWorld = fnGetWorld;
@@ -78,14 +77,14 @@ public class FindLivingEntities2 implements Operator2 {
 	 * 
 	 * Search is configured with a null exclusion predicate which excludes nothing.
 	 * 
-	 * @param fnGetPosition function to get position.
-	 * @param fnGetWorld    function to get world.
-	 * @param fnGetRange    function to get search range for entities.
+	 * @param fnGetPosition       function to get position.
+	 * @param fnGetWorld          function to get world.
+	 * @param fnGetRange          function to get search range for entities.
 	 * @param bcSetLivingEntities function to set entities.
 	 */
 	public FindLivingEntities2(Function<Ports, BlockPos> fnGetPosition, Function<Ports, World> fnGetWorld,
 			Function<Ports, Integer> fnGetRange, BiConsumer<Ports, LivingEntity[]> bcSetLivingEntities) {
-		this(fnGetPosition, fnGetWorld, fnGetNullPredicate(), fnGetRange, bcSetLivingEntities);
+		this(fnGetPosition, fnGetWorld, fnGetNullPredicateForLivingEntity(), fnGetRange, bcSetLivingEntities);
 	}
 
 	/**
@@ -109,7 +108,7 @@ public class FindLivingEntities2 implements Operator2 {
 	public void run(Ports ports) {
 		BlockPos position = applyV(fnGetPosition, ports);
 		World world = applyV(fnGetWorld, ports);
-		Predicate<Entity> predidate = applyV(fnGetPredicate, ports);
+		Predicate<LivingEntity> predidate = applyV(fnGetPredicate, ports);
 		Integer range = fnGetRange.apply(ports);
 
 		// get entities within AABB

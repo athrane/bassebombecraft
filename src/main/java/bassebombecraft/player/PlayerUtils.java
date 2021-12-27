@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -94,6 +95,22 @@ public class PlayerUtils {
 		return (e1.getUniqueID() == e2.getUniqueID());
 	}
 
+	/**
+	 * Returns true if entities has identical unique ID's. Returns false if either
+	 * entity is null.
+	 * 
+	 * @param e1 entity one to test.
+	 * @param e2 entity two to test.
+	 * @return true if entities has identical unique ID's.
+	 */
+	public static boolean hasIdenticalUniqueID(LivingEntity e1, LivingEntity e2) {
+		if (e1 == null)
+			return false;
+		if (e2 == null)
+			return false;
+		return (e1.getUniqueID() == e2.getUniqueID());
+	}
+	
 	/**
 	 * return true if entity is a {@linkplain PlayerEntity}.
 	 * 

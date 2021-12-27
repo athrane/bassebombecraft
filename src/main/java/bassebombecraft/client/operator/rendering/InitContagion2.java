@@ -11,7 +11,6 @@ import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-import bassebombecraft.BassebombeCraft;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
@@ -22,15 +21,9 @@ import net.minecraft.util.math.vector.Vector3d;
  * Implementation of the {@linkplain Operator2} interface which reads the source
  * from entity #1 and target from entity #2.
  * 
- * Create a travelling contagion effect. The positions of the fire arc are stored as
- * line vertexes in the ports.
+ * Create a contagion effect.
  */
 public class InitContagion2 implements Operator2 {
-
-	/**
-	 * Noise range for points.
-	 */
-	static final double POINT_NOISE = 1.0D;
 
 	/**
 	 * Function to get source entity.
@@ -108,13 +101,10 @@ public class InitContagion2 implements Operator2 {
 		double z = MathHelper.lerp(pctValue, sourcePos.getZ(), targetPos.getZ());
 
 		// add start point
-		Vector3d startPos = new Vector3d(x, y, z);
-		lineVertexes[0] = startPos;
+		lineVertexes[0] = sourcePos;
 
 		// add end point
-		Random random = BassebombeCraft.getBassebombeCraft().getRandom();
-		Vector3d endPos = addNoiseToPosition(startPos, POINT_NOISE, random);
-		lineVertexes[1] = endPos;
+		lineVertexes[1] = new Vector3d(x, y, z);
 		ports.setVectors1(lineVertexes);
 
 		// set line vertexes
