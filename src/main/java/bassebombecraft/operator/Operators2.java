@@ -23,6 +23,8 @@ public class Operators2 {
 	 */
 	public static void run(Ports ports, Operator2 operator) {
 		try {
+			if (ports.isDebugEnabled())
+				logInvocation(operator, ports);			
 			operator.run(ports);
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -76,6 +78,8 @@ public class Operators2 {
 			builder.append(fn.toString());
 			builder.append(" ");
 			builder.append(ports.toString());
+			
+			// throw exception
 			throw new UndefinedOperatorInputException(builder.toString());
 		}
 		return obj;
@@ -93,30 +97,30 @@ public class Operators2 {
 	 * @throws UndefinedOperatorInputException if function returns null.
 	 */
 	public static <T> T applyV(Function<Ports, T> fn, Ports ports) {
-		if (ports.isDebugEnabled())
-			logInvocation(fn, ports);
 		T retVal = fn.apply(ports);
 		validateNotNull(retVal, fn, ports);
 		return retVal;
 	}
 
 	/**
-	 * Logs method prior to invocation.
+	 * Logs method prior to operator invocation.
+	 * Information is logged with debug log statements.
 	 * 
-	 * @param <T>   return type for invoked function.
-	 * @param fn    invoked function.
+	 * @param operator    invoked operator.
 	 * @param ports ports object used to invoke function.
 	 */
-	public static <T> void logInvocation(Function<? extends Ports, T> fn, Ports ports) {
+	public static void logInvocation(Operator2 operator, Ports ports) {
 		Logger logger = getBassebombeCraft().getLogger();
-		logger.debug("Operator call sequence:");
-
+		logger.debug("OPERATOR: " + operator);		
+		logger.debug("-> Call sequence:");
+		
 		// log invoked operators
 		StackTraceElement[] ste = Thread.currentThread().getStackTrace();
 		asList(ste).stream().filter(e -> e.getClassName().contains(MOD_PKG_NAME))
 				.filter(e -> !e.getClassName().contains(OPERATORS2_CLASS)).forEach(logger::debug);
 
 		// log ports
-		logger.debug(ports.toString());
-	}
+		logger.debug("-> Ports: " + ports.toString());
+	}	
+	
 }
