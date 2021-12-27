@@ -32,7 +32,9 @@ public class LogPorts2 implements Operator2 {
 	public void run(Ports ports) {
 		Logger logger = getBassebombeCraft().getLogger();
 		StringBuilder builder = new StringBuilder();
-		builder.append("Logging ports: ");
+		builder.append("Log ports(header=");
+		builder.append(header);
+		builder.append("):" );		
 		builder.append(ports.toString());
 		logger.info(builder.toString());
 	}
