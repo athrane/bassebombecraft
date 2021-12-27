@@ -1,6 +1,5 @@
 package bassebombecraft.client.operator;
 
-import static bassebombecraft.operator.Operators2.logInvocation;
 import static bassebombecraft.operator.Operators2.validateNotNull;
 
 import java.util.function.Function;
@@ -25,8 +24,6 @@ public class ClientOperators2 {
 	 * @throws UndefinedOperatorInputException if function returns null.
 	 */
 	public static <T> T clientApplyV(Function<ClientPorts, T> fn, Ports ports) {
-		if (ports.isDebugEnabled())
-			logInvocation(fn, ports);
 		T retVal = fn.apply((ClientPorts) ports);
 		validateNotNull(retVal, fn, ports);
 		return retVal;
