@@ -94,10 +94,7 @@ public class Contagion2 implements Operator2 {
 		// FindLivingEntities2: get world from source entity
 		Function<Ports, World> fnGetWorld = p -> applyV(fnGetSource, p).getEntityWorld();
 
-		// FindLivingEntities2: get function to create exclusion predicate
-		// Function<Ports, Predicate<LivingEntity>> fnGetPredicate = p ->
-		// hasLivingEntitiesDifferentIds(applyV(fnGetTrueSource, p));
-
+		// FindLivingEntities2: exclude self and entity with contagion
 		Function<Ports, Predicate<LivingEntity>> fnGetPredicate = p -> hasLivingEntitiesDifferentIds(
 				applyV(fnGetTrueSource, p)).and(hasNotPotionEffect(CONTAGION_EFFECT.get()));
 
