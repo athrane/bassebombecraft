@@ -7,7 +7,6 @@ import static bassebombecraft.operator.DefaultPorts.getFnGetEntity2;
 import static bassebombecraft.operator.DefaultPorts.getFnGetInteger1;
 import static bassebombecraft.operator.Operators2.applyV;
 
-import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
@@ -109,22 +108,6 @@ public class InitContagion2 implements Operator2 {
 
 		// set line vertexes
 		bcSetLineVertexes.accept(ports, lineVertexes);
-	}
-
-	/**
-	 * Add noise to position.
-	 * 
-	 * @param source source position.
-	 * @param random random generator.
-	 * @param noise  noise scale.
-	 * 
-	 * @return noisy position.
-	 */
-	Vector3d addNoiseToPosition(Vector3d source, double noise, Random random) {
-		double randomX = random.nextDouble() - 0.5F;
-		double randomY = random.nextDouble() - 0.5F;
-		double randomZ = random.nextDouble() - 0.5F;
-		return source.add(noise * randomX, noise * randomY, noise * randomZ);
 	}
 
 }

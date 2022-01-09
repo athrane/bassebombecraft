@@ -8,8 +8,8 @@ import static bassebombecraft.ClientModConstants.LIGHTNING_LINE_COLOR2;
 import static bassebombecraft.ClientModConstants.PROJECTILE_TRAIL_LINE_COLOR1;
 import static bassebombecraft.ClientModConstants.PROJECTILE_TRAIL_LINE_COLOR2;
 import static bassebombecraft.ClientModConstants.WILDFIRE_LINE_COLOR1;
-import static bassebombecraft.ClientModConstants.WILDFIRE_LINE_COLOR2;
-import static bassebombecraft.client.rendering.rendertype.RenderTypes.CONTAGION_LINES;
+import static bassebombecraft.ClientModConstants.*;
+import static bassebombecraft.client.rendering.rendertype.RenderTypes.*;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.LIGHTNING_LINES;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.PROJECTILE_TRAIL_LINES;
 import static bassebombecraft.client.rendering.rendertype.RenderTypes.SIMPLE_LINES;
@@ -82,6 +82,13 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 			new InitColor2(getBcSetColor4f1(), CONTAGION_LINE_COLOR1, CONTAGION_LINE_COLOR1),
 			new RenderLineWithDynamicColor2(getFnGetColor4f1(), CONTAGION_LINES));
 
+	/**
+	 * Effect operator for contagion spread effect.
+	 */
+	final static Operator2 CONTAGION_SPREAD_OPERATOR = new Sequence2(new InitContagion2(),
+			new InitColor2(getBcSetColor4f1(), CONTAGION_LINE_COLOR1, CONTAGION_SPREAD_LINE_COLOR2),
+			new RenderLineWithDynamicColor2(getFnGetColor4f1(), CONTAGION_SPREAD_LINES));
+	
 	/**
 	 * Effect operator for line effect.
 	 */
@@ -172,6 +179,9 @@ public class ClientGraphicalEffectRepository implements GraphicalEffectRepositor
 
 		case CONTAGION:
 			return CONTAGION_OPERATOR;
+
+		case CONTAGION_SPREAD:
+			return CONTAGION_SPREAD_OPERATOR;
 			
 		default:
 			return DEFAULT_OPERATOR;

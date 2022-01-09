@@ -25,7 +25,8 @@ public interface GraphicalEffectRepository {
 		ELECTROCUTE,
 		PROJECTILE_TRAIL,
 		WILDFIRE,
-		CONTAGION
+		CONTAGION,
+		CONTAGION_SPREAD		
 	};
 	
 	/**
