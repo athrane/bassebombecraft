@@ -7,6 +7,7 @@ import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.composite.CompositeMagicItem;
+import bassebombecraft.operator.Operators2;
 import net.minecraft.potion.EffectType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -25,11 +26,11 @@ public class ModConstants {
 	 * Mod ID.
 	 */
 	public static final String MODID = "bassebombecraft";
-
+	
 	/**
 	 * Mod version.
 	 */
-	public static final String VERSION = "1.16.5-2.3";
+	public static final String VERSION = "1.16.5-2.4";
 
 	/**
 	 * In game tab name.
@@ -41,6 +42,11 @@ public class ModConstants {
 	 */
 	public static final String MINECRAFT_DOMAIN = "minecraft";
 
+	/**
+	 * Root mod package name - used for operator debugging in {@linkplain Operators2}.
+	 */
+	public static final String MOD_PKG_NAME = "bassebombecraft.";
+	
 	/**
 	 * TOML Configuration file post fix.
 	 */

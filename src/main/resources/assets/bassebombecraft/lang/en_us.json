@@ -190,6 +190,7 @@
     "item.bassebombecraft.electrocuteprojectilemodifieritem": "Electrocute",                            
     "item.bassebombecraft.spawnflamingchickenprojectilemodifieritem": "Failed Phoenix",                            
     "item.bassebombecraft.wildfireprojectilemodifieritem": "Wildfire",                            
+    "item.bassebombecraft.contagionprojectilemodifieritem": "Contagion",                            
                 
     "_comment": "effects",
     "effect.bassebombecraft.amplifiereffect": "Amplify effects",
@@ -201,6 +202,7 @@
     "effect.bassebombecraft.decreasesizeeffect": "Decrease size",
     "effect.bassebombecraft.increasesizeeffect": "Increase size",
     "effect.bassebombecraft.wildfireeffect": "Wildfire",
+    "effect.bassebombecraft.contagioneffect": "Contagion",
 
 	"_comment": "potions",
     "item.minecraft.potion.effect.weakamplificationpotion": "Potion of Weak Amplification",

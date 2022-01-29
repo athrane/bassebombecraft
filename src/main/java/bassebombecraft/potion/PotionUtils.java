@@ -8,6 +8,7 @@ import static net.minecraft.item.Items.POTION;
 import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
 import static net.minecraftforge.common.brewing.BrewingRecipeRegistry.addRecipe;
 
+import java.util.Collection;
 import java.util.Optional;
 
 import bassebombecraft.config.ConfigUtils;
@@ -102,6 +103,18 @@ public class PotionUtils {
 	public static boolean isAmplifierEffectActive(LivingEntity entity) {
 		Optional<EffectInstance> optEffect = getEffectIfActive(entity, AMPLIFIER_EFFECT.get());
 		return optEffect.isPresent();
+	}
+
+	/**
+	 * Resolves first effect.
+	 * 
+	 * @param entity to resolve effects from.
+	 * 
+	 * @return {@linkplain Optional} first effect. Otherwise the optional is empty.
+	 */
+	public static Optional<EffectInstance> resolveFirstEffect(LivingEntity entity) {
+		Collection<EffectInstance> effects = entity.getActivePotionEffects();
+		return effects.stream().findFirst();
 	}
 
 }

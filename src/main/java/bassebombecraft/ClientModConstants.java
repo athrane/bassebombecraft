@@ -133,7 +133,7 @@ public class ClientModConstants {
 	public static final int PROJECTILE_TRAIL_LENGTH = 25;
 
 	/**
-	 * Rendering: Line color for  wildfire for
+	 * Rendering: Line color for wildfire for
 	 * {@linkplain ClientGraphicalEffectRepository}.
 	 */
 	public static final Color4f WILDFIRE_LINE_COLOR1 = getInstance(1.0F, 0.2F, 0.0F, 0.75F);
@@ -143,5 +143,11 @@ public class ClientModConstants {
 	 * {@linkplain ClientGraphicalEffectRepository}.
 	 */
 	public static final Color4f WILDFIRE_LINE_COLOR2 = getInstance(1.0F, 1.0F, 0.0F, 0.75F);
+
+	/**
+	 * Rendering: Line color for contagion for
+	 * {@linkplain ClientGraphicalEffectRepository}.
+	 */
+	public static final Color4f CONTAGION_LINE_COLOR1 = getInstance(1.0F, 0.0F, 1.0F, 0.75F);
 	
 }

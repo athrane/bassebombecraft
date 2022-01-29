@@ -73,7 +73,12 @@ public class Sequence2 implements Operator2 {
 
 	@Override
 	public String toString() {
-		return "Sequence2 [operator=" + Arrays.toString(operators) + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append(super.toString());
+		builder.append("[operators=");
+		builder.append(Arrays.toString(operators));
+		builder.append("]");		
+		return builder.toString();
 	}
 
 	/**

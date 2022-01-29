@@ -13,10 +13,10 @@ import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
 
 /**
- * Implementation of the {@linkplain Operator2} interface which applies all
- * entity objects from the input set to the embedded operator.
+ * Implementation of the {@linkplain Operator2} interface which applies embedded operator to
+ * all entities in the input set.
  * 
- * Each entity in the input set are applied in sequence to the embedded operator.
+ * Each entity in the input set is applied in sequence to the embedded operator.
  * 
  * Any report of failed execution by the operator is ignored.
  */

@@ -152,6 +152,7 @@ import bassebombecraft.item.composite.projectile.modifier.SpawnFlamingChickenPro
 import bassebombecraft.item.composite.projectile.modifier.SpawnIceBlockProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnLavaBlockProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnSquidProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.ContagionProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.WildfireProjectileModifierItem;
@@ -218,6 +219,7 @@ import bassebombecraft.operator.projectile.path.IncreaseGravityProjectilePath;
 import bassebombecraft.potion.effect.AggroMobEffect;
 import bassebombecraft.potion.effect.AggroPlayerEffect;
 import bassebombecraft.potion.effect.AmplifierEffect;
+import bassebombecraft.potion.effect.ContagionEffect;
 import bassebombecraft.potion.effect.MobPrimingEffect;
 import bassebombecraft.potion.effect.ReceiveAggroEffect;
 import bassebombecraft.potion.effect.WildfireEffect;
@@ -389,6 +391,14 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue wildfireEffectDuration;
 	public static ForgeConfigSpec.IntValue wildfireEffectAmplifier;
 
+	/**
+	 * Properties for the wildfire effect {@linkplain ContagionEffect} .
+	 */
+	public static ForgeConfigSpec.IntValue contagionEffectAoeRange;
+	public static ForgeConfigSpec.IntValue contagionEffectUpdateFrequency;
+	public static ForgeConfigSpec.IntValue contagionEffectDuration;
+	public static ForgeConfigSpec.IntValue contagionEffectAmplifier;
+	
 	// Books..
 
 	public static ItemConfig mobCommandersBaton;
@@ -560,6 +570,7 @@ public class ModConfiguration {
 	public static ItemConfig electrocuteProjectileModifierItem;
 	public static ItemConfig spawnFlamingChickenProjectileModifierItem;
 	public static ItemConfig wildfireProjectileModifierItem;
+	public static ItemConfig contagionProjectileModifierItem;
 
 	// Actions..
 
@@ -1122,7 +1133,25 @@ public class ModConfiguration {
 		wildfireEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
 				.defineInRange("duration", 50, 0, Integer.MAX_VALUE);		
 		COMMON_BUILDER.pop();		
+
+		/**
+		 * Configuration for the {@linkplain ContagionEffect} effect.
+		 */								
+		name = ContagionEffect.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		contagionEffectAoeRange = COMMON_BUILDER.comment("Area of effect in blocks.")
+				.defineInRange("areaOfEffect", 5, 0, Integer.MAX_VALUE);
+		contagionEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
+				.defineInRange("updateFrequency", 20, 0, Integer.MAX_VALUE);
+		contagionEffectAmplifier = COMMON_BUILDER.comment(
+				"Potency of the effect (as a potion effect). ")
+				.defineInRange("amplifier", 100, 1, 500);
+		contagionEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
+				.defineInRange("duration", 50, 0, Integer.MAX_VALUE);		
+		COMMON_BUILDER.pop();		
+						
 	}
+
 	
 	/**
 	 * Define configuration for potions.
@@ -2602,6 +2631,17 @@ public class ModConfiguration {
 				"Adds wildfire to mobs in the vicinity of the projectile.",
 				25);
 		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain SuperSpreaderProjectileModifierItem}
+		 * item.
+		 */
+		name = ContagionProjectileModifierItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		contagionProjectileModifierItem = getInstance(COMMON_BUILDER, name,
+				"Will spread contagion to mobs in the vicinity of the projectile. Contagion will spread an infected mob's effect to other other nearby mobs.",
+				25);
+		COMMON_BUILDER.pop();								
 		
 	}
 

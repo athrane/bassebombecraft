@@ -1,5 +1,6 @@
 package bassebombecraft.operator;
 
+import java.util.Arrays;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -18,6 +19,11 @@ import net.minecraft.world.World;
 public class DefaultPorts implements Ports {
 
 	/**
+	 * Defines if debug features should be enabled.
+	 */
+	boolean debugEnabled;
+	
+	/**
 	 * Living entity #1.
 	 */
 	LivingEntity livingEntity1;
@@ -27,6 +33,26 @@ public class DefaultPorts implements Ports {
 	 */
 	LivingEntity livingEntity2;
 
+	/**
+	 * Entity #1.
+	 */
+	Entity entitiy1;
+
+	/**
+	 * Entity #2.
+	 */
+	Entity entitiy2;
+
+	/**
+	 * Entity array #1.
+	 */
+	Entity[] entities1;
+
+	/**
+	 * Living entity array #1.
+	 */
+	LivingEntity[] livingEntities1;
+	
 	/**
 	 * Block position #1.
 	 */
@@ -86,22 +112,7 @@ public class DefaultPorts implements Ports {
 	 * Color4f #2.
 	 */
 	Color4f color4f2;
-
-	/**
-	 * Entity #1.
-	 */
-	Entity entitiy1;
-
-	/**
-	 * Entity #2.
-	 */
-	Entity entitiy2;
-
-	/**
-	 * Entity array #1.
-	 */
-	Entity[] entities1;
-
+	
 	/**
 	 * Effect instance #1.
 	 */
@@ -157,6 +168,46 @@ public class DefaultPorts implements Ports {
 	 */
 	static BiConsumer<Ports, LivingEntity> bcSetLivingEntity2 = (p, le) -> p.setLivingEntity2(le);
 
+	/**
+	 * Entity #1 setter.
+	 */
+	static BiConsumer<Ports, Entity> bcSetEntity1 = (p, e) -> p.setEntity1(e);
+
+	/**
+	 * Entity #1 getter.
+	 */
+	static Function<Ports, Entity> fnGetEntity1 = p -> p.getEntity1();
+
+	/**
+	 * Entity #2 setter.
+	 */
+	static BiConsumer<Ports, Entity> bcSetEntity2 = (p, e) -> p.setEntity2(e);
+
+	/**
+	 * Entity #2 getter.
+	 */
+	static Function<Ports, Entity> fnGetEntity2 = p -> p.getEntity2();
+
+	/**
+	 * Entity array #1 setter.
+	 */
+	static BiConsumer<Ports, Entity[]> bcSetEntities1 = (p, e) -> p.setEntities1(e);
+
+	/**
+	 * Entity array #1 getter.
+	 */
+	static Function<Ports, Entity[]> fnGetEntities1 = p -> p.getEntities1();
+
+	/**
+	 * Living entity array #1 setter.
+	 */
+	static BiConsumer<Ports, LivingEntity[]> bcSetLivingEntities1 = (p, e) -> p.setLivingEntities1(e);
+
+	/**
+	 * Living Entity array #1 getter.
+	 */
+	static Function<Ports, LivingEntity[]> fnGetLivingEntities1 = p -> p.getLivingEntities1();
+	
 	/**
 	 * Block position #1 getter.
 	 */
@@ -278,36 +329,6 @@ public class DefaultPorts implements Ports {
 	static BiConsumer<Ports, Color4f> bcSetColor4f2 = (p, v) -> p.setColor4f2(v);
 
 	/**
-	 * Entity #1 setter.
-	 */
-	static BiConsumer<Ports, Entity> bcSetEntity1 = (p, e) -> p.setEntity1(e);
-
-	/**
-	 * Entity #1 getter.
-	 */
-	static Function<Ports, Entity> fnGetEntity1 = p -> p.getEntity1();
-
-	/**
-	 * Entity #2 setter.
-	 */
-	static BiConsumer<Ports, Entity> bcSetEntity2 = (p, e) -> p.setEntity2(e);
-
-	/**
-	 * Entity #2 getter.
-	 */
-	static Function<Ports, Entity> fnGetEntity2 = p -> p.getEntity2();
-
-	/**
-	 * Entity array #1 setter.
-	 */
-	static BiConsumer<Ports, Entity[]> bcSetEntities1 = (p, e) -> p.setEntities1(e);
-
-	/**
-	 * Entity array #1 getter.
-	 */
-	static Function<Ports, Entity[]> fnGetEntities1 = p -> p.getEntities1();
-
-	/**
 	 * Ray trace result #1 getter.
 	 */
 	static Function<Ports, RayTraceResult> fnGetRayTraceResult1 = p -> p.getRayTraceResult1();
@@ -361,8 +382,20 @@ public class DefaultPorts implements Ports {
 	 * Constructor
 	 */
 	protected DefaultPorts() {
+		this.debugEnabled = false;
 		this.result = true;
 		this.counter = 0;
+	}
+	
+	@Override
+	public Ports enableDebug() {
+		this.debugEnabled = true;
+		return this;		
+	}
+
+	@Override
+	public boolean isDebugEnabled() {
+		return this.debugEnabled;
 	}
 
 	@Override
@@ -387,6 +420,51 @@ public class DefaultPorts implements Ports {
 		return this;
 	}
 
+	@Override
+	public Entity getEntity1() {
+		return entitiy1;
+	}
+
+	@Override
+	public Ports setEntity1(Entity entity) {
+		this.entitiy1 = entity;
+		return this;
+	}
+
+	@Override
+	public Entity getEntity2() {
+		return entitiy2;
+	}
+
+	@Override
+	public Ports setEntity2(Entity entity) {
+		this.entitiy2 = entity;
+		return this;
+	}
+
+	@Override
+	public Entity[] getEntities1() {
+		return entities1;
+	}
+
+	@Override
+	public Ports setEntities1(Entity[] entities) {
+		this.entities1 = entities;
+		return this;
+	}
+
+	
+	@Override
+	public LivingEntity[] getLivingEntities1() {
+		return livingEntities1;
+	}
+
+	@Override
+	public Ports setLivingEntities1(LivingEntity[] entities) {
+		this.livingEntities1 = entities;
+		return this;
+	}
+	
 	@Override
 	public Ports setBlockPosition1(BlockPos pos) {
 		this.blockPos1 = pos;
@@ -521,39 +599,6 @@ public class DefaultPorts implements Ports {
 	}
 
 	@Override
-	public Entity getEntity1() {
-		return entitiy1;
-	}
-
-	@Override
-	public Ports setEntity1(Entity entity) {
-		this.entitiy1 = entity;
-		return this;
-	}
-
-	@Override
-	public Entity getEntity2() {
-		return entitiy2;
-	}
-
-	@Override
-	public Ports setEntity2(Entity entity) {
-		this.entitiy2 = entity;
-		return this;
-	}
-
-	@Override
-	public Entity[] getEntities1() {
-		return entities1;
-	}
-
-	@Override
-	public Ports setEntities1(Entity[] entities) {
-		this.entities1 = entities;
-		return this;
-	}
-
-	@Override
 	public RayTraceResult getRayTraceResult1() {
 		return rayTraceResult1;
 	}
@@ -642,6 +687,56 @@ public class DefaultPorts implements Ports {
 		return this;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("DefaultPorts [");		
+		builder.append("Result=" + getResult());
+		builder.append(", Counter=" + getCounter());
+		builder.append(", Integer1=" + getInteger1());
+		if (getString1() != null)
+			builder.append(", String1=" + getString1());
+		if (getString2() != null)
+			builder.append(", String2=" + getString2());
+		if (getDouble1() != null)
+			builder.append(", Double1=" + getDouble1());
+		if (getAabb1() != null)
+			builder.append(", Aabb1=" + getAabb1());
+		if (getBlockPosition1() != null)
+			builder.append(", BlockPosition1=" + getBlockPosition1());
+		if (getBlockPosition2() != null)
+			builder.append(", BlockPosition2=" + getBlockPosition2());
+		if (getColor4f1() != null)
+			builder.append(", Color4f1=" + getColor4f1());
+		if (getColor4f2() != null)
+			builder.append(", Color4f2=" + getColor4f2());
+		if (getDamageSource1() != null)
+			builder.append(", DamageSource1=" + getDamageSource1());
+		if (getEffectInstance1() != null)
+			builder.append(", EffectInstance1=" + getEffectInstance1());
+		if (getEntity1() != null)
+			builder.append(", Entity1=" + getEntity1());
+		if (getEntity2() != null)
+			builder.append(", Entity2=" + getEntity2());
+		if (getEntities1() != null)
+			builder.append(", Entities1=" + Arrays.toString(getEntities1()));
+		if (getLivingEntity1() != null)
+			builder.append(", LivingEntity1=" + getLivingEntity1());
+		if (getLivingEntity2() != null)
+			builder.append(", LivingEntity2=" + getLivingEntity2());
+		if (getEntities1() != null)
+			builder.append(", LivingEntities1=" + Arrays.toString(getLivingEntities1()));
+		if (getVector1() != null)
+			builder.append(", Vector1=" + getVector1());
+		if (getVectors1() != null)
+			builder.append(", Vectors1=" + Arrays.toString(getVectors1()));
+		if (getVectors2() != null)
+			builder.append(", Vectors2=" + Arrays.toString(getVectors2()));
+		builder.append("]");				
+		return builder.toString();
+	}
+
+	
 	public static Function<Ports, LivingEntity> getFnGetLivingEntity1() {
 		return fnGetLivingEntity1;
 	}
@@ -658,6 +753,38 @@ public class DefaultPorts implements Ports {
 		return bcSetLivingEntity2;
 	}
 
+	public static Function<Ports, Entity> getFnGetEntity1() {
+		return fnGetEntity1;
+	}
+
+	public static BiConsumer<Ports, Entity> getBcSetEntity1() {
+		return bcSetEntity1;
+	}
+
+	public static Function<Ports, Entity> getFnGetEntity2() {
+		return fnGetEntity2;
+	}
+
+	public static BiConsumer<Ports, Entity> getBcSetEntity2() {
+		return bcSetEntity2;
+	}
+
+	public static Function<Ports, Entity[]> getFnGetEntities1() {
+		return fnGetEntities1;
+	}
+
+	public static BiConsumer<Ports, Entity[]> getBcSetEntities1() {
+		return bcSetEntities1;
+	}
+
+	public static Function<Ports, LivingEntity[]> getFnGetLivingEntities1() {
+		return fnGetLivingEntities1;
+	}
+
+	public static BiConsumer<Ports, LivingEntity[]> getBcSetLivingEntities1() {
+		return bcSetLivingEntities1;
+	}
+	
 	public static Function<Ports, BlockPos> getFnGetBlockPosition1() {
 		return fnGetBlockPos1;
 	}
@@ -754,30 +881,6 @@ public class DefaultPorts implements Ports {
 		return bcSetColor4f2;
 	}
 
-	public static Function<Ports, Entity> getFnGetEntity1() {
-		return fnGetEntity1;
-	}
-
-	public static BiConsumer<Ports, Entity> getBcSetEntity1() {
-		return bcSetEntity1;
-	}
-
-	public static Function<Ports, Entity> getFnGetEntity2() {
-		return fnGetEntity2;
-	}
-
-	public static BiConsumer<Ports, Entity> getBcSetEntity2() {
-		return bcSetEntity2;
-	}
-
-	public static Function<Ports, Entity[]> getFnGetEntities1() {
-		return fnGetEntities1;
-	}
-
-	public static BiConsumer<Ports, Entity[]> getBcSetEntities1() {
-		return bcSetEntities1;
-	}
-
 	public static Function<Ports, RayTraceResult> getFnGetRayTraceResult1() {
 		return fnGetRayTraceResult1;
 	}
@@ -826,7 +929,7 @@ public class DefaultPorts implements Ports {
 	public static Ports getInstance() {
 		return new DefaultPorts();
 	}
-
+	
 	/**
 	 * Factory method.
 	 * 
@@ -834,6 +937,7 @@ public class DefaultPorts implements Ports {
 	 * 
 	 * @return ports.
 	 */
+	@Deprecated
 	public static Ports getInstance(LivingEntity livingEntity) {
 		return new DefaultPorts().setLivingEntity1(livingEntity);
 	}
@@ -845,6 +949,7 @@ public class DefaultPorts implements Ports {
 	 * 
 	 * @return ports.
 	 */
+	@Deprecated
 	public static Ports getInstance(BlockPos pos) {
 		DefaultPorts ports = new DefaultPorts();
 		ports.setBlockPosition1(pos);

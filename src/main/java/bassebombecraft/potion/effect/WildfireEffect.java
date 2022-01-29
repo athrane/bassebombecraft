@@ -44,7 +44,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 /**
- * Effect puts entity and fire and spreads the effect to nearby entities.
+ * Effect puts entity on fire and spreads the effect to nearby entities.
  * 
  * The effect has no effect on the player.
  */

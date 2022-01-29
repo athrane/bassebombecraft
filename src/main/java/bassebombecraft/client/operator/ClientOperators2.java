@@ -25,7 +25,8 @@ public class ClientOperators2 {
 	 */
 	public static <T> T clientApplyV(Function<ClientPorts, T> fn, Ports ports) {
 		T retVal = fn.apply((ClientPorts) ports);
-		validateNotNull(retVal, fn);
+		validateNotNull(retVal, fn, ports);
 		return retVal;
 	}
+
 }

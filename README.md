@@ -1,24 +1,21 @@
 # Bassebombecraft Minecraft Mod
 
 # Introduction
-BasseBombeCraft is a Minecraft mod focusing on magical books, idols and potions.
-
+BassebombeCraft is a Minecraft mod focusing on magical books, idols and potions.
 More gameplay information can be found on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/bassebombecraft).
 
 # Downloads
 
 ## Files
-
 The mod can be downloaded from [CurseForge](https://www.curseforge.com/minecraft/mc-mods/bassebombecraft).
 and from [GitHub](https://github.com/athrane/bassebombecraft/releases).
 
 ## Docker image
-
 A Docker image is created with a Minecraft server and the server version of the mod. 
 The image is derived from the [itzg/minecraft-server](https://github.com/itzg/docker-minecraft-server) image. 
 The image is published to DockerHub by the name: [bassebombecraft/minecraft](https://hub.docker.com/r/bassebombecraft/minecraft).
 
-# How to use the image
+## How to use the image
 Start by pulling the image from a registry: `docker pull bassebombecraft/minecraft`
 and then start the image: `docker run bassebombecraft/minecraft`
 
