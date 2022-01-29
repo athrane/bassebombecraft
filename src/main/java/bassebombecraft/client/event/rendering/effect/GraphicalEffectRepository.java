@@ -26,7 +26,6 @@ public interface GraphicalEffectRepository {
 		PROJECTILE_TRAIL,
 		WILDFIRE,
 		CONTAGION,
-		CONTAGION_SPREAD		
 	};
 	
 	/**

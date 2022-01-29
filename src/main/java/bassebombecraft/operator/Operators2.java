@@ -111,6 +111,7 @@ public class Operators2 {
 	 */
 	public static void logInvocation(Operator2 operator, Ports ports) {
 		Logger logger = getBassebombeCraft().getLogger();
+		logger.debug("");				
 		logger.debug("OPERATOR: " + operator);		
 		logger.debug("-> Call sequence:");
 		

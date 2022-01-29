@@ -85,28 +85,28 @@ public class Contagion2 implements Operator2 {
 	static BiFunction<Function<Ports, Entity>, Function<Ports, Entity>, Operator2> fnAoeCoreOp = (fnGetSource,
 			fnGetTrueSource) -> {
 
-		// IsFrequencyActive2: get frequency from configuration
-		Function<Ports, Integer> fnGetFrequency = p -> contagionEffectUpdateFrequency.get().intValue();
+				// IsFrequencyActive2: get frequency from configuration
+				Function<Ports, Integer> fnGetFrequency = p -> contagionEffectUpdateFrequency.get().intValue();
 
-		// FindLivingEntities2: get source position from source entity
-		Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(fnGetSource, p).getPosition();
+				// FindLivingEntities2: get source position from source entity
+				Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(fnGetSource, p).getPosition();
 
-		// FindLivingEntities2: get world from source entity
-		Function<Ports, World> fnGetWorld = p -> applyV(fnGetSource, p).getEntityWorld();
+				// FindLivingEntities2: get world from source entity
+				Function<Ports, World> fnGetWorld = p -> applyV(fnGetSource, p).getEntityWorld();
 
-		// FindLivingEntities2: exclude self and entity with contagion
-		Function<Ports, Predicate<LivingEntity>> fnGetPredicate = p -> hasLivingEntitiesDifferentIds(
-				applyV(fnGetTrueSource, p)).and(hasNotPotionEffect(CONTAGION_EFFECT.get()));
+				// FindLivingEntities2: exclude self and entity with contagion
+				Function<Ports, Predicate<LivingEntity>> fnGetPredicate = p -> hasLivingEntitiesDifferentIds(
+						applyV(fnGetTrueSource, p)).and(hasNotPotionEffect(CONTAGION_EFFECT.get()));
 
-		// FindLivingEntities2: get search range from configuration
-		Function<Ports, Integer> fnGetRange = p -> contagionEffectAoeRange.get().intValue();
+				// FindLivingEntities2: get search range from configuration
+				Function<Ports, Integer> fnGetRange = p -> contagionEffectAoeRange.get().intValue();
 
-		// create operator
-		return new Sequence2(
-				new ResetResult2(), new IsFrequencyActive2(fnGetFrequency), new FindLivingEntities2(fnGetSourcePos,
-						fnGetWorld, fnGetPredicate, fnGetRange, getBcSetLivingEntities1()),
-				new ApplyOperatorToLivingEntity2(lazyInitAoeEffectOp));
-	};
+				// create operator
+				return new Sequence2(new ResetResult2(), new IsFrequencyActive2(fnGetFrequency),
+						new FindLivingEntities2(fnGetSourcePos, fnGetWorld, fnGetPredicate, fnGetRange,
+								getBcSetLivingEntities1()),
+						new ApplyOperatorToLivingEntity2(lazyInitAoeEffectOp));
+			};
 
 	/**
 	 * Function to get source entity.
