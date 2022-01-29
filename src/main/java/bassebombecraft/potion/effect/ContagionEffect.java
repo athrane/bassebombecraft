@@ -128,7 +128,7 @@ public class ContagionEffect extends Effect {
 	 */
 	public ContagionEffect() {
 		super(NOT_BAD_POTION_EFFECT, POTION_LIQUID_COLOR);
-		aoePorts = getInstance().enableDebug();
+		aoePorts = getInstance();
 	}
 
 	@Override

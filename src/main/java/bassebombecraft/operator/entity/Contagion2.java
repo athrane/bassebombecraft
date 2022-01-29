@@ -139,7 +139,7 @@ public class Contagion2 implements Operator2 {
 	public Contagion2(Function<Ports, Entity> fnGetSource, Function<Ports, Entity> fnGetTrueSource) {
 		this.fnGetSource = fnGetSource;
 		this.fnGetTrueSource = fnGetTrueSource;
-		aoePorts = getInstance().enableDebug();
+		aoePorts = getInstance();
 		aoeOp = fnAoeCoreOp.apply(fnGetSource, fnGetTrueSource);
 	}
 
