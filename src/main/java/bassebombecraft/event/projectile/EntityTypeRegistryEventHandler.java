@@ -16,9 +16,10 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.registries.IForgeRegistry;
 
 /**
- * Event handler for registration of potion recipes.
+ * Event handler for registration of entity types (projectiles).
  */
 @EventBusSubscriber(bus = MOD)
+@Deprecated
 public class EntityTypeRegistryEventHandler {
 
 	/**
@@ -31,11 +32,12 @@ public class EntityTypeRegistryEventHandler {
 	public static void handleRegisterEntityType(RegistryEvent.Register<EntityType<?>> event) {
 		IForgeRegistry<EntityType<?>> registry = event.getRegistry();
 
-		String name = EggProjectileEntity.NAME.toLowerCase();
-		registry.register(EntityType.Builder.<EggProjectileEntity>create(EggProjectileEntity::new, MISC).build(name)
-				.setRegistryName(MODID, name));
+		@Deprecated
+		//String name = EggProjectileEntity.NAME.toLowerCase();
+		//registry.register(EntityType.Builder.<EggProjectileEntity>create(EggProjectileEntity::new, MISC).build(name)
+		//		.setRegistryName(MODID, name));
 
-		name = LlamaProjectileEntity.NAME.toLowerCase();
+		String name = LlamaProjectileEntity.NAME.toLowerCase();
 		registry.register(EntityType.Builder.<LlamaProjectileEntity>create(LlamaProjectileEntity::new, MISC).build(name)
 				.setRegistryName(MODID, name));
 

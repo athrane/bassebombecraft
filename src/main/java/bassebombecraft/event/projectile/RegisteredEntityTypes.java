@@ -16,11 +16,13 @@ import net.minecraftforge.registries.ObjectHolder;
  * Entity types are registered in {@linkplain EntityTypeRegistryEventHandler}.
  */
 @ObjectHolder(MODID)
+@Deprecated
 public class RegisteredEntityTypes {
 	
 	/**
 	 * Object holder for {@linkplain EggProjectileEntity}.
 	 */
+	@Deprecated	
 	@ObjectHolder("eggprojectileentity")
 	public static final EntityType<EggProjectileEntity> EGG_PROJECTILE = null;
 

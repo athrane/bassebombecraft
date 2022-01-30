@@ -5,13 +5,15 @@ import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlaye
 import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startSession;
+import static bassebombecraft.entity.RegisteredEntities.EGG_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.CIRCLE_PROJECTILE;
-import static bassebombecraft.event.projectile.RegisteredEntityTypes.EGG_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.LIGHTNING_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.LLAMA_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.SKULL_PROJECTILE;
 import static bassebombecraft.inventory.container.RegisteredContainers.COMPOSITE_ITEM_COMTAINER;
+import static net.minecraft.client.gui.ScreenManager.registerFactory;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
+import static net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -59,9 +61,7 @@ import bassebombecraft.event.job.DefaultJobReposiory;
 import bassebombecraft.event.job.JobRepository;
 import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.proxy.Proxy;
-import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 /**
  * Implementation of the {@linkplain Proxy} interface for the physical client.
@@ -322,15 +322,15 @@ public class ClientProxy implements Proxy {
 		EVENT_BUS.addListener(EffectRenderer::handleRenderWorldLastEvent);
 
 		// register entity rendering
-		RenderingRegistry.registerEntityRenderingHandler(EGG_PROJECTILE, EggProjectileEntityRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(LLAMA_PROJECTILE, LlamaProjectileEntityRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(LIGHTNING_PROJECTILE, LightningProjectileEntityRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(CIRCLE_PROJECTILE, CircleProjectileEntityRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(SKULL_PROJECTILE, SkullProjectileEntityRenderer::new);
+		registerEntityRenderingHandler(EGG_PROJECTILE.get(), EggProjectileEntityRenderer::new);
+		registerEntityRenderingHandler(LLAMA_PROJECTILE, LlamaProjectileEntityRenderer::new);
+		registerEntityRenderingHandler(LIGHTNING_PROJECTILE, LightningProjectileEntityRenderer::new);
+		registerEntityRenderingHandler(CIRCLE_PROJECTILE, CircleProjectileEntityRenderer::new);
+		registerEntityRenderingHandler(SKULL_PROJECTILE, SkullProjectileEntityRenderer::new);
 
 		// register the factory used client side to generate a screen corresponding to
 		// the container
-		ScreenManager.registerFactory(COMPOSITE_ITEM_COMTAINER.get(), CompositeMagicItemScreen::new);
+		registerFactory(COMPOSITE_ITEM_COMTAINER.get(), CompositeMagicItemScreen::new);
 	}
 
 	@Override
