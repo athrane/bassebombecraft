@@ -16,7 +16,7 @@ import net.minecraftforge.registries.DeferredRegister;
 public class RegisteredEffects {
 
 	/**
-	 * Deferred registry for registration of effects.
+	 * Deferred registry for registration of potion effects.
 	 */
 	public static final DeferredRegister<Effect> EFFECT_REGISTRY = create(POTIONS, MODID);
 
