@@ -6,9 +6,9 @@ import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startSession;
 import static bassebombecraft.entity.RegisteredEntities.EGG_PROJECTILE;
+import static bassebombecraft.entity.RegisteredEntities.LLAMA_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.CIRCLE_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.LIGHTNING_PROJECTILE;
-import static bassebombecraft.event.projectile.RegisteredEntityTypes.LLAMA_PROJECTILE;
 import static bassebombecraft.event.projectile.RegisteredEntityTypes.SKULL_PROJECTILE;
 import static bassebombecraft.inventory.container.RegisteredContainers.COMPOSITE_ITEM_COMTAINER;
 import static net.minecraft.client.gui.ScreenManager.registerFactory;
@@ -323,7 +323,7 @@ public class ClientProxy implements Proxy {
 
 		// register entity rendering
 		registerEntityRenderingHandler(EGG_PROJECTILE.get(), EggProjectileEntityRenderer::new);
-		registerEntityRenderingHandler(LLAMA_PROJECTILE, LlamaProjectileEntityRenderer::new);
+		registerEntityRenderingHandler(LLAMA_PROJECTILE.get(), LlamaProjectileEntityRenderer::new);
 		registerEntityRenderingHandler(LIGHTNING_PROJECTILE, LightningProjectileEntityRenderer::new);
 		registerEntityRenderingHandler(CIRCLE_PROJECTILE, CircleProjectileEntityRenderer::new);
 		registerEntityRenderingHandler(SKULL_PROJECTILE, SkullProjectileEntityRenderer::new);

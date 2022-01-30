@@ -8,6 +8,7 @@ import static net.minecraftforge.registries.ForgeRegistries.ENTITIES;
 import java.util.function.Supplier;
 
 import bassebombecraft.entity.projectile.EggProjectileEntity;
+import bassebombecraft.entity.projectile.LlamaProjectileEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntityType.IFactory;
@@ -29,6 +30,10 @@ public class RegisteredEntities {
 	 */
 	public static final RegistryObject<EntityType<EggProjectileEntity>> EGG_PROJECTILE = registerProjectile(
 			EggProjectileEntity.NAME.toLowerCase(), EggProjectileEntity::new);
+	
+	public static final RegistryObject<EntityType<LlamaProjectileEntity>> LLAMA_PROJECTILE = registerProjectile(
+			LlamaProjectileEntity.NAME.toLowerCase(), LlamaProjectileEntity::new);
+
 	
 	/**
 	 * Register object for entities which are used as projectiles.

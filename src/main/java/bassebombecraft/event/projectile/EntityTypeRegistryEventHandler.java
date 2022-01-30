@@ -5,9 +5,7 @@ import static net.minecraft.entity.EntityClassification.MISC;
 import static net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus.MOD;
 
 import bassebombecraft.entity.projectile.CircleProjectileEntity;
-import bassebombecraft.entity.projectile.EggProjectileEntity;
 import bassebombecraft.entity.projectile.LightningProjectileEntity;
-import bassebombecraft.entity.projectile.LlamaProjectileEntity;
 import bassebombecraft.entity.projectile.SkullProjectileEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.event.RegistryEvent;
@@ -32,16 +30,7 @@ public class EntityTypeRegistryEventHandler {
 	public static void handleRegisterEntityType(RegistryEvent.Register<EntityType<?>> event) {
 		IForgeRegistry<EntityType<?>> registry = event.getRegistry();
 
-		@Deprecated
-		//String name = EggProjectileEntity.NAME.toLowerCase();
-		//registry.register(EntityType.Builder.<EggProjectileEntity>create(EggProjectileEntity::new, MISC).build(name)
-		//		.setRegistryName(MODID, name));
-
-		String name = LlamaProjectileEntity.NAME.toLowerCase();
-		registry.register(EntityType.Builder.<LlamaProjectileEntity>create(LlamaProjectileEntity::new, MISC).build(name)
-				.setRegistryName(MODID, name));
-
-		name = LightningProjectileEntity.NAME.toLowerCase();
+		String name = LightningProjectileEntity.NAME.toLowerCase();
 		registry.register(EntityType.Builder.<LightningProjectileEntity>create(LightningProjectileEntity::new, MISC)
 				.build(name).setRegistryName(MODID, name));
 
