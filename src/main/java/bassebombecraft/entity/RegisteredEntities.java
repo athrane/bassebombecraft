@@ -8,6 +8,7 @@ import static net.minecraftforge.registries.ForgeRegistries.ENTITIES;
 import java.util.function.Supplier;
 
 import bassebombecraft.entity.projectile.EggProjectileEntity;
+import bassebombecraft.entity.projectile.LightningProjectileEntity;
 import bassebombecraft.entity.projectile.LlamaProjectileEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -34,6 +35,8 @@ public class RegisteredEntities {
 	public static final RegistryObject<EntityType<LlamaProjectileEntity>> LLAMA_PROJECTILE = registerProjectile(
 			LlamaProjectileEntity.NAME.toLowerCase(), LlamaProjectileEntity::new);
 
+	public static final RegistryObject<EntityType<LightningProjectileEntity>> LIGHTNING_PROJECTILE = registerProjectile(
+			LightningProjectileEntity.NAME.toLowerCase(), LightningProjectileEntity::new);
 	
 	/**
 	 * Register object for entities which are used as projectiles.

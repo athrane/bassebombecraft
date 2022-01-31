@@ -1,6 +1,6 @@
 package bassebombecraft.operator.projectile;
 
-import static bassebombecraft.event.projectile.RegisteredEntityTypes.LIGHTNING_PROJECTILE;
+import static bassebombecraft.entity.RegisteredEntities.LIGHTNING_PROJECTILE;
 
 import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.entity.projectile.LightningProjectileEntity;
@@ -20,7 +20,7 @@ public class ShootLightningProjectile2 extends GenericShootProjectile2 {
 
 	@Override
 	Entity createProjectile(LivingEntity invoker, Vector3d orientation) {
-		GenericCompositeProjectileEntity projectile = new LightningProjectileEntity(LIGHTNING_PROJECTILE, invoker);
+		GenericCompositeProjectileEntity projectile = new LightningProjectileEntity(LIGHTNING_PROJECTILE.get(), invoker);
 		projectile.shootUsingProjectileConfig(orientation);
 		return projectile;
 	}

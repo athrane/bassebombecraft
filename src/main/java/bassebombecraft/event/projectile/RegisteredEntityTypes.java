@@ -3,7 +3,6 @@ package bassebombecraft.event.projectile;
 import static bassebombecraft.ModConstants.MODID;
 
 import bassebombecraft.entity.projectile.CircleProjectileEntity;
-import bassebombecraft.entity.projectile.LightningProjectileEntity;
 import bassebombecraft.entity.projectile.SkullProjectileEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraftforge.registries.ObjectHolder;
@@ -16,12 +15,6 @@ import net.minecraftforge.registries.ObjectHolder;
 @ObjectHolder(MODID)
 @Deprecated
 public class RegisteredEntityTypes {
-
-	/**
-	 * Object holder for {@linkplain LightningProjectileEntity}.
-	 */
-	@ObjectHolder("lightningprojectileentity")
-	public static final EntityType<LightningProjectileEntity> LIGHTNING_PROJECTILE = null;
 
 	/**
 	 * Object holder for {@linkplain CircleProjectileEntity}.

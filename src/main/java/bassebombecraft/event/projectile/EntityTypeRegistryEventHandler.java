@@ -30,11 +30,7 @@ public class EntityTypeRegistryEventHandler {
 	public static void handleRegisterEntityType(RegistryEvent.Register<EntityType<?>> event) {
 		IForgeRegistry<EntityType<?>> registry = event.getRegistry();
 
-		String name = LightningProjectileEntity.NAME.toLowerCase();
-		registry.register(EntityType.Builder.<LightningProjectileEntity>create(LightningProjectileEntity::new, MISC)
-				.build(name).setRegistryName(MODID, name));
-
-		name = CircleProjectileEntity.NAME.toLowerCase();
+		String name = CircleProjectileEntity.NAME.toLowerCase();
 		registry.register(EntityType.Builder.<CircleProjectileEntity>create(CircleProjectileEntity::new, MISC)
 				.build(name).setRegistryName(MODID, name));
 
