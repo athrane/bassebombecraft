@@ -9,7 +9,7 @@ import static bassebombecraft.entity.RegisteredEntities.EGG_PROJECTILE;
 import static bassebombecraft.entity.RegisteredEntities.LIGHTNING_PROJECTILE;
 import static bassebombecraft.entity.RegisteredEntities.LLAMA_PROJECTILE;
 import static bassebombecraft.entity.RegisteredEntities.CIRCLE_PROJECTILE;
-import static bassebombecraft.event.projectile.RegisteredEntityTypes.SKULL_PROJECTILE;
+import static bassebombecraft.entity.RegisteredEntities.SKULL_PROJECTILE;
 import static bassebombecraft.inventory.container.RegisteredContainers.COMPOSITE_ITEM_COMTAINER;
 import static net.minecraft.client.gui.ScreenManager.registerFactory;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
@@ -326,7 +326,7 @@ public class ClientProxy implements Proxy {
 		registerEntityRenderingHandler(LLAMA_PROJECTILE.get(), LlamaProjectileEntityRenderer::new);
 		registerEntityRenderingHandler(LIGHTNING_PROJECTILE.get(), LightningProjectileEntityRenderer::new);
 		registerEntityRenderingHandler(CIRCLE_PROJECTILE.get(), CircleProjectileEntityRenderer::new);
-		registerEntityRenderingHandler(SKULL_PROJECTILE, SkullProjectileEntityRenderer::new);
+		registerEntityRenderingHandler(SKULL_PROJECTILE.get(), SkullProjectileEntityRenderer::new);
 
 		// register the factory used client side to generate a screen corresponding to
 		// the container

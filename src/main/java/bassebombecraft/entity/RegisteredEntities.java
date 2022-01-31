@@ -11,6 +11,7 @@ import bassebombecraft.entity.projectile.CircleProjectileEntity;
 import bassebombecraft.entity.projectile.EggProjectileEntity;
 import bassebombecraft.entity.projectile.LightningProjectileEntity;
 import bassebombecraft.entity.projectile.LlamaProjectileEntity;
+import bassebombecraft.entity.projectile.SkullProjectileEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EntityType.IFactory;
@@ -41,6 +42,9 @@ public class RegisteredEntities {
 
 	public static final RegistryObject<EntityType<CircleProjectileEntity>> CIRCLE_PROJECTILE = registerProjectile(
 			CircleProjectileEntity.NAME.toLowerCase(), CircleProjectileEntity::new);
+
+	public static final RegistryObject<EntityType<SkullProjectileEntity>> SKULL_PROJECTILE = registerProjectile(
+			SkullProjectileEntity.NAME.toLowerCase(), SkullProjectileEntity::new);
 	
 	/**
 	 * Register object for entities which are used as projectiles.
