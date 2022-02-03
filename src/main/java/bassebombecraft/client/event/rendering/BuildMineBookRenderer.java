@@ -45,6 +45,11 @@ public class BuildMineBookRenderer {
 	static final float TEXT_OSCILLIATION = 25F;
 
 	/**
+	 * Rendering ports.
+	 */
+	static ClientPorts ports = getInstance();
+	
+	/**
 	 * Create operators.
 	 */
 	static Supplier<Operator2> splOp = () -> {
@@ -118,7 +123,6 @@ public class BuildMineBookRenderer {
 		}
 
 		// setup operator and execute
-		ClientPorts ports = getInstance();
 		ports.setAabb1(aabb);
 		ports.setMatrixStack1(event.getMatrix());
 		ports.setString1(message);
