@@ -14,7 +14,7 @@ import net.minecraft.util.math.vector.Vector4f;
  * Implementation of the {@linkplain Operator2} interface which creates an color
  * interpolated between two colors.
  * 
- * the color is stored as a {@linkplain Vector4f} in the ports.
+ * The color is stored as a {@linkplain Vector4f} in the ports.
  */
 public class InitColor2 implements Operator2 {
 
