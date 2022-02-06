@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 import bassebombecraft.color.Color4f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -167,6 +168,20 @@ public interface Ports {
 	Ports setBlockPosition2(BlockPos pos);
 
 	/**
+	 * Get {@linkplain ItemStack} #1.
+	 * 
+	 * @return item stack #1.
+	 */
+	ItemStack getItemStack1();
+
+	/**
+	 * Set {@linkplain ItemStack} #1.
+	 * 
+	 * @return ports.
+	 */
+	Ports setItemStack1(ItemStack itemStack);
+	
+	/**
 	 * Get string #1.
 	 * 
 	 * @return string #1 .
@@ -306,7 +321,6 @@ public interface Ports {
 	 */
 	Ports setColor4f2(Color4f color);
 
-	
 	/**
 	 * Return {@linkplain RayTraceResult} #1.
 	 * 

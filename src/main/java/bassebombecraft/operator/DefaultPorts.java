@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 import bassebombecraft.color.Color4f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -63,6 +64,11 @@ public class DefaultPorts implements Ports {
 	 */
 	BlockPos blockPos2;
 
+	/**
+	 * Item stack #1
+	 */
+	ItemStack itemStack1; 
+	
 	/**
 	 * String #1.
 	 */
@@ -227,7 +233,17 @@ public class DefaultPorts implements Ports {
 	 * Block position #2 setter.
 	 */
 	static BiConsumer<Ports, BlockPos> bcSetBlockPos2 = (p, bp) -> p.setBlockPosition2(bp);
+	
+	/**
+	 * Item stack #1 getter.
+	 */
+	static Function<Ports, ItemStack> fnGetItemStack1 = p -> p.getItemStack1();
 
+	/**
+	 * Item stack #1 setter.
+	 */
+	static BiConsumer<Ports, ItemStack> bcSetItemStack1 = (p, is) -> p.setItemStack1(is);
+	
 	/**
 	 * String #1 getter.
 	 */
@@ -466,25 +482,36 @@ public class DefaultPorts implements Ports {
 	}
 	
 	@Override
-	public Ports setBlockPosition1(BlockPos pos) {
-		this.blockPos1 = pos;
-		return this;
-	}
-
-	@Override
 	public BlockPos getBlockPosition1() {
 		return blockPos1;
 	}
 
 	@Override
+	public Ports setBlockPosition1(BlockPos pos) {
+		this.blockPos1 = pos;
+		return this;
+	}
+	
+	@Override
+	public BlockPos getBlockPosition2() {
+		return blockPos2;
+	}
+	
+	@Override
 	public Ports setBlockPosition2(BlockPos pos) {
 		this.blockPos2 = pos;
 		return this;
 	}
-
+	
 	@Override
-	public BlockPos getBlockPosition2() {
-		return blockPos2;
+	public ItemStack getItemStack1() {
+		return itemStack1;
+	}
+	
+	@Override
+	public Ports setItemStack1(ItemStack itemStack) {
+		this.itemStack1 = itemStack;
+		return this;
 	}
 
 	@Override
@@ -801,6 +828,14 @@ public class DefaultPorts implements Ports {
 		return bcSetBlockPos2;
 	}
 
+	public static Function<Ports, ItemStack> getFnGetItemStack1() {
+		return fnGetItemStack1;
+	}
+
+	public static BiConsumer<Ports, ItemStack> getBcSetItemStack1() {
+		return bcSetItemStack1;
+	}
+	
 	public static Function<Ports, String> getFnGetString1() {
 		return fnGetString1;
 	}

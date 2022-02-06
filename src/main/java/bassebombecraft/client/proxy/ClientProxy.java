@@ -5,10 +5,10 @@ import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlaye
 import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startSession;
+import static bassebombecraft.entity.RegisteredEntities.CIRCLE_PROJECTILE;
 import static bassebombecraft.entity.RegisteredEntities.EGG_PROJECTILE;
 import static bassebombecraft.entity.RegisteredEntities.LIGHTNING_PROJECTILE;
 import static bassebombecraft.entity.RegisteredEntities.LLAMA_PROJECTILE;
-import static bassebombecraft.entity.RegisteredEntities.CIRCLE_PROJECTILE;
 import static bassebombecraft.entity.RegisteredEntities.SKULL_PROJECTILE;
 import static bassebombecraft.inventory.container.RegisteredContainers.COMPOSITE_ITEM_COMTAINER;
 import static net.minecraft.client.gui.ScreenManager.registerFactory;
@@ -22,6 +22,7 @@ import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
 import bassebombecraft.client.event.rendering.BuildMineBookRenderer;
+import bassebombecraft.client.event.rendering.CompositeMagicItemRenderer;
 import bassebombecraft.client.event.rendering.DecoyRenderer;
 import bassebombecraft.client.event.rendering.DecreaseSizeEffectRenderer;
 import bassebombecraft.client.event.rendering.HudItemCharmedInfoRenderer;
@@ -292,6 +293,8 @@ public class ClientProxy implements Proxy {
 	@Override
 	public void setupClientSideRendering() throws UnsupportedOperationException {
 		// register debug renderer classes
+		// EVENT_BUS.addListener(DebugRenderer::handleRenderGameOverlayEvent);
+
 		// EVENT_BUS.addListener(DebugRenderer_MobLines::render);
 		// EVENT_BUS.addListener(DebugRenderer_EntityText_v3::render);
 		// EVENT_BUS.addListener(DebugRenderer_EntityText_v2::render);
@@ -303,13 +306,16 @@ public class ClientProxy implements Proxy {
 		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPost);
 		// EVENT_BUS.addListener(DebugRenderer_WorldLastEvent_GuiLines::render);
 
-		// register renderer classes
+		// register renderer classes for items
 		// EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
 		// EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
 		EVENT_BUS.addListener(HudItemCharmedInfoRenderer::handleRenderWorldLastEvent);
 		EVENT_BUS.addListener(HudItemHighlightedBlockRenderer::handleHighlightBlockEvent);
 		EVENT_BUS.addListener(BuildMineBookRenderer::handleHighlightBlockEvent);
+		EVENT_BUS.addListener(CompositeMagicItemRenderer::handleRenderGameOverlayEvent);
 		// EVENT_BUS.addListener(TeamEnityRenderer::handleRenderLivingEvent);
+
+		// register renderer classes for effects
 		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPre);
 		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPost);
 		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPre);
