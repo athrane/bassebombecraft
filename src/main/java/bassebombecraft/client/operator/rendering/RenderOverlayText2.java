@@ -21,8 +21,8 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
  * Implementation of the {@linkplain Operator2} interface which renders overlay
  * text.
  * 
- * Supports rendering of billboard text in the renderer instances handling
- * processing the {@linkplain RenderGameOverlayEvent}.
+ * Supports rendering of overlay text in the renderer instances processing the
+ * {@linkplain RenderGameOverlayEvent}.
  */
 public class RenderOverlayText2 implements Operator2 {
 
