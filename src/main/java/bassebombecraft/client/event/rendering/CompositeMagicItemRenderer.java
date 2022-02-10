@@ -56,7 +56,7 @@ public class CompositeMagicItemRenderer {
 	/**
 	 * Item stack x position.
 	 */
-	static final int X_POS = 20;
+	static final int X_POS = -20;
 
 	/**
 	 * Item stack x displacement.
@@ -66,7 +66,7 @@ public class CompositeMagicItemRenderer {
 	/**
 	 * Item stack y position.
 	 */
-	static final int Y_POS = 220;
+	static final int Y_POS = -20;
 
 	/**
 	 * Rendering ports.
@@ -134,7 +134,7 @@ public class CompositeMagicItemRenderer {
 	static String getGuiString() {
 		double value = GeometryUtils.oscillate(0, 2);
 		if (value > 1)
-			return "Shift+Click to edit";
+			return "Shift+Click to edit..";
 		return     "Active combination:";
 	}
 

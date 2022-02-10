@@ -1,7 +1,8 @@
 package bassebombecraft.client.operator.rendering;
 
 import static bassebombecraft.client.operator.ClientOperators2.clientApplyV;
-import static bassebombecraft.client.operator.DefaultClientPorts.getFnMaxtrixStack1;
+import static bassebombecraft.client.operator.DefaultClientPorts.getFnRenderGameOverlayEvent1;
+import static bassebombecraft.operator.DefaultPorts.getFnGetVector2f1;
 import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
@@ -15,6 +16,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.vector.Vector2f;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 /**
@@ -27,19 +29,19 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 public class RenderItemStack2 implements Operator2 {
 
 	/**
-	 * oscillate max value.
-	 */
-	float oscillateMax;
-
-	/**
-	 * Function to get matrix stack.
-	 */
-	Function<ClientPorts, MatrixStack> fnGetMatrixStack;
-
-	/**
 	 * Function to get item stack.
 	 */
 	Function<Ports, ItemStack> fnGetItemStack;
+
+	/**
+	 * Function to get {@linkplain RenderGameOverlayEvent}.
+	 */
+	Function<ClientPorts, RenderGameOverlayEvent> fnGetEvent;
+
+	/**
+	 * Function to get text anchor.
+	 */
+	Function<Ports, Vector2f> fnGetTextAnchor;
 
 	/**
 	 * X coordinate for placement of icon.
@@ -54,53 +56,61 @@ public class RenderItemStack2 implements Operator2 {
 	/**
 	 * Constructor.
 	 * 
-	 * Instance is configured with matrix stack #1 from ports.
+	 * Instance is configured to get {@linkplain RenderGameOverlayEvent} from client
+	 * ports. Instance is configured to get vector2f #1 as text anchor from ports.
 	 * 
-	 * @param fnGetString function to get item stack.
-	 * @param x           x coordinate for placement of icon.
-	 * @param y           y coordinate for placement of icon.
+	 * @param fnGetItemStack function to get item stack.
+	 * @param x              x coordinate for placement of icon.
+	 * @param y              y coordinate for placement of icon.
 	 */
 	public RenderItemStack2(Function<Ports, ItemStack> fnGetItemStack, int x, int y) {
-		this(fnGetItemStack, x, y, 0);
+		this(fnGetItemStack, getFnRenderGameOverlayEvent1(), getFnGetVector2f1(), x, y);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * Instance is configured with matrix stack #1 from ports.
+	 * Instance is configured to get {@linkplain RenderGameOverlayEvent} from ports.
 	 * 
-	 * @param fnGetString  function to get item stack.
-	 * @param x            x coordinate for placement of billboard.
-	 * @param y            y coordinate for placement of billboard.
-	 * @param oscillateMax oscillate max value
+	 * @param fnGetItemStack  function to get item stack.
+	 * @param fnGetEvent      function to get {@linkplain RenderGameOverlayEvent}.
+	 * @param fnGetTextAnchor function to get text anchor.
+	 * @param x               x coordinate for placement of billboard.
+	 * @param y               y coordinate for placement of billboard.
 	 */
-	public RenderItemStack2(Function<Ports, ItemStack> fnGetItemStack, int x, int y, float oscillateMax) {
+	public RenderItemStack2(Function<Ports, ItemStack> fnGetItemStack,
+			Function<ClientPorts, RenderGameOverlayEvent> fnGetEvent, Function<Ports, Vector2f> fnGetTextAnchor, int x,
+			int y) {
 		this.fnGetItemStack = fnGetItemStack;
-		this.fnGetMatrixStack = getFnMaxtrixStack1();
+		this.fnGetEvent = fnGetEvent;
+		this.fnGetTextAnchor = fnGetTextAnchor;
 		this.x = x;
 		this.y = y;
-		this.oscillateMax = oscillateMax;
 	}
 
 	@Override
 	public void run(Ports ports) {
-		MatrixStack matrixStack = clientApplyV(fnGetMatrixStack, ports);
+		RenderGameOverlayEvent event = clientApplyV(fnGetEvent, ports);
+		Vector2f textAnchor = applyV(fnGetTextAnchor, ports);
 		ItemStack itemStack = applyV(fnGetItemStack, ports);
 
-		// get render buffer
-		Minecraft mcClient = Minecraft.getInstance();
-
 		// get rendering engine
+		Minecraft mcClient = Minecraft.getInstance();
 		ItemRenderer itemRenderer = mcClient.getItemRenderer();
 
 		// push matrix
+		MatrixStack matrixStack = event.getMatrixStack();
 		matrixStack.push();
 
 		// enable lightning
 		RenderHelper.enableStandardItemLighting();
 
+		// calculate icon position
+		int xp = (int) (textAnchor.x + x);
+		int yp = (int) (textAnchor.y + y);
+		
 		// render item stack
-		itemRenderer.renderItemIntoGUI(itemStack, x, y);
+		itemRenderer.renderItemIntoGUI(itemStack, xp, yp);
 
 		// disable lightning
 		RenderHelper.disableStandardItemLighting();

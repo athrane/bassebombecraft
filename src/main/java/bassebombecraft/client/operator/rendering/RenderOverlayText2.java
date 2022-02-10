@@ -73,8 +73,8 @@ public class RenderOverlayText2 implements Operator2 {
 	 * Instance is configured to get {@linkplain RenderGameOverlayEvent} from ports.
 	 * 
 	 * @param fnGetString     function to get message.
-	 * @param fnGetEvent      function to {@linkplain RenderGameOverlayEvent}.
-	 * @param fnGetTExtAnchor function to get text anchor .
+	 * @param fnGetEvent      function to get {@linkplain RenderGameOverlayEvent}.
+	 * @param fnGetTextAnchor function to get text anchor .
 	 * @param x               x coordinate for placement of text.
 	 * @param y               y coordinate for placement of text.
 	 */
