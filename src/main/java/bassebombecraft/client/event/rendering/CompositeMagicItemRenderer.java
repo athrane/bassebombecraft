@@ -15,6 +15,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import bassebombecraft.client.operator.ClientPorts;
+import bassebombecraft.client.operator.rendering.CalculateRightBottomTextAnchor;
 import bassebombecraft.client.operator.rendering.RenderItemStack2;
 import bassebombecraft.client.operator.rendering.RenderOverlayText2;
 import bassebombecraft.geom.GeometryUtils;
@@ -45,12 +46,12 @@ public class CompositeMagicItemRenderer {
 	/**
 	 * HUD text x position.
 	 */
-	static final int TEXT_X_POS = 20;
+	static final int TEXT_X_POS = -20;
 
 	/**
 	 * HUD text y position.
 	 */
-	static final int TEXT_Y_POS = 210;
+	static final int TEXT_Y_POS = -30;
 
 	/**
 	 * Item stack x position.
@@ -83,7 +84,9 @@ public class CompositeMagicItemRenderer {
 		Function<Ports, ItemStack> fnGetItemStack4 = p -> getItemStackHandler(p.getItemStack1()).getStackInSlot(3);
 		Function<Ports, ItemStack> fnGetItemStack5 = p -> getItemStackHandler(p.getItemStack1()).getStackInSlot(3);
 
-		return new Sequence2(new RenderOverlayText2(getFnGetString1(), TEXT_X_POS, TEXT_Y_POS),
+		return new Sequence2(
+				new CalculateRightBottomTextAnchor(getFnGetString1()),
+				new RenderOverlayText2(getFnGetString1(), TEXT_X_POS, TEXT_Y_POS),
 				new RenderItemStack2(fnGetItemStack0, X_POS + (0 * X_DISP), Y_POS),
 				new RenderItemStack2(fnGetItemStack1, X_POS + (1 * X_DISP), Y_POS),
 				new RenderItemStack2(fnGetItemStack2, X_POS + (2 * X_DISP), Y_POS),
@@ -131,8 +134,8 @@ public class CompositeMagicItemRenderer {
 	static String getGuiString() {
 		double value = GeometryUtils.oscillate(0, 2);
 		if (value > 1)
-			return "Shift+Click to edit magic.";
-		return "Current magic:";
+			return "Shift+Click to edit";
+		return     "Active combination:";
 	}
 
 }

@@ -3,6 +3,7 @@ package bassebombecraft.client.operator.rendering;
 import static bassebombecraft.ClientModConstants.TEXT_COLOR;
 import static bassebombecraft.client.operator.ClientOperators2.clientApplyV;
 import static bassebombecraft.client.operator.DefaultClientPorts.getFnRenderGameOverlayEvent1;
+import static bassebombecraft.operator.DefaultPorts.getFnGetVector2f1;
 import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
@@ -15,6 +16,7 @@ import bassebombecraft.operator.Ports;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.util.math.vector.Vector2f;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 /**
@@ -32,14 +34,14 @@ public class RenderOverlayText2 implements Operator2 {
 	Function<Ports, String> fnGetString;
 
 	/**
-	 * Function to get matrix stack.
-	 */
-	Function<ClientPorts, MatrixStack> fnGetMatrixStack;
-
-	/**
 	 * Function to get {@linkplain RenderGameOverlayEvent}.
 	 */
 	Function<ClientPorts, RenderGameOverlayEvent> fnGetEvent;
+
+	/**
+	 * Function to get text anchor.
+	 */
+	Function<Ports, Vector2f> fnGetTextAnchor;
 
 	/**
 	 * X coordinate for placement of text.
@@ -54,34 +56,43 @@ public class RenderOverlayText2 implements Operator2 {
 	/**
 	 * Constructor.
 	 * 
+	 * Instance is configured to get {@linkplain RenderGameOverlayEvent} from client
+	 * ports. Instance is configured to get vector2f #1 as text anchor from ports.
+	 * 
 	 * @param fnGetString function to get message.
 	 * @param x           x coordinate for placement of text.
 	 * @param y           y coordinate for placement of text.
 	 */
 	public RenderOverlayText2(Function<Ports, String> fnGetString, float x, float y) {
-		this(fnGetString, getFnRenderGameOverlayEvent1(), x, y);
+		this(fnGetString, getFnRenderGameOverlayEvent1(), getFnGetVector2f1(), x, y);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param fnGetString function to get message.
-	 * @param fnGetEvent  function to {@linkplain RenderGameOverlayEvent}
-	 * @param x           x coordinate for placement of text.
-	 * @param y           y coordinate for placement of text.
+	 * Instance is configured to get {@linkplain RenderGameOverlayEvent} from ports.
+	 * 
+	 * @param fnGetString     function to get message.
+	 * @param fnGetEvent      function to {@linkplain RenderGameOverlayEvent}.
+	 * @param fnGetTExtAnchor function to get text anchor .
+	 * @param x               x coordinate for placement of text.
+	 * @param y               y coordinate for placement of text.
 	 */
 	public RenderOverlayText2(Function<Ports, String> fnGetString,
-			Function<ClientPorts, RenderGameOverlayEvent> fnGetEvent, float x, float y) {
+			Function<ClientPorts, RenderGameOverlayEvent> fnGetEvent, Function<Ports, Vector2f> fnGetTextAnchor,
+			float x, float y) {
 		this.fnGetString = fnGetString;
 		this.fnGetEvent = fnGetEvent;
+		this.fnGetTextAnchor = fnGetTextAnchor;
 		this.x = x;
 		this.y = y;
 	}
 
 	@Override
 	public void run(Ports ports) {
-		RenderGameOverlayEvent event = clientApplyV(fnGetEvent, ports);
 		String message = applyV(fnGetString, ports);
+		RenderGameOverlayEvent event = clientApplyV(fnGetEvent, ports);
+		Vector2f textAnchor = applyV(fnGetTextAnchor, ports);
 
 		// get rendering engine
 		Minecraft mcClient = Minecraft.getInstance();
@@ -92,8 +103,12 @@ public class RenderOverlayText2 implements Operator2 {
 		MatrixStack matrixStack = event.getMatrixStack();
 		matrixStack.push();
 
+		// calculate text position
+		float xp = textAnchor.x + x;
+		float yp = textAnchor.y + y;
+
 		// render text
-		fontRenderer.drawString(matrixStack, message, x, y, TEXT_COLOR);
+		fontRenderer.drawString(matrixStack, message, xp, yp, TEXT_COLOR);
 
 		// restore matrix
 		matrixStack.pop();

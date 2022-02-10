@@ -11,6 +11,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
@@ -250,6 +251,20 @@ public interface Ports {
 	 * @return ports.
 	 */
 	Ports setInteger1(int value);
+
+	/**
+	 * Return {@linkplain Vector2f} #1.
+	 * 
+	 * @return vector #1.
+	 */
+	Vector2f getVector2f1();
+
+	/**
+	 * Set {@linkplain Vector2f} #1.
+	 * 
+	 * @param vec vector #1.
+	 */
+	Ports setVector2f1(Vector2f vec);
 	
 	/**
 	 * Return {@linkplain Vector3d} #1.
