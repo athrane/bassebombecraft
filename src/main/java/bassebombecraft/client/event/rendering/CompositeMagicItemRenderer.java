@@ -10,7 +10,6 @@ import static bassebombecraft.operator.DefaultPorts.getFnGetString1;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.player.PlayerUtils.isItemHeldInMainHand;
 
-import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -32,16 +31,6 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
  * {@linkplain CompositeMagicItem}.
  */
 public class CompositeMagicItemRenderer {
-
-	/**
-	 * Duration ID.
-	 */
-	static final String CONFIG_DURATION_ID = UUID.randomUUID().toString();
-
-	/**
-	 * Duration ID #2.
-	 */
-	static final String HELP_DURARION_ID = UUID.randomUUID().toString();
 
 	/**
 	 * HUD text x position.
@@ -84,8 +73,7 @@ public class CompositeMagicItemRenderer {
 		Function<Ports, ItemStack> fnGetItemStack4 = p -> getItemStackHandler(p.getItemStack1()).getStackInSlot(3);
 		Function<Ports, ItemStack> fnGetItemStack5 = p -> getItemStackHandler(p.getItemStack1()).getStackInSlot(3);
 
-		return new Sequence2(
-				new CalculateRightBottomTextAnchor(getFnGetString1()),
+		return new Sequence2(new CalculateRightBottomTextAnchor(getFnGetString1()),
 				new RenderOverlayText2(getFnGetString1(), TEXT_X_POS, TEXT_Y_POS),
 				new RenderItemStack2(fnGetItemStack0, X_POS + (0 * X_DISP), Y_POS),
 				new RenderItemStack2(fnGetItemStack1, X_POS + (1 * X_DISP), Y_POS),
@@ -116,7 +104,6 @@ public class CompositeMagicItemRenderer {
 
 			// Render active configuration
 			ports.setRenderGameOverlayEvent1(event);
-			ports.setMatrixStack1(event.getMatrixStack());
 			ports.setString1(getGuiString());
 			ports.setItemStack1(player.getHeldItemMainhand());
 			run(ports, splOp.get());
@@ -135,7 +122,7 @@ public class CompositeMagicItemRenderer {
 		double value = GeometryUtils.oscillate(0, 2);
 		if (value > 1)
 			return "Shift+Click to edit..";
-		return     "Active combination:";
+		return "Active combination:";
 	}
 
 }
