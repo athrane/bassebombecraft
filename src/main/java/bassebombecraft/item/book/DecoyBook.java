@@ -16,7 +16,7 @@ import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileM
 /**
  * Book of decoy implementation.
  */
-public class DecoyBook extends GenericRightClickedBook2 {
+public class DecoyBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = DecoyBook.class.getSimpleName();
 

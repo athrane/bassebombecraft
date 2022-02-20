@@ -16,7 +16,7 @@ import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileM
 /**
  * Book of lightning bolt implementation.
  */
-public class LightningBoltBook extends GenericRightClickedBook2 {
+public class LightningBoltBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = LightningBoltBook.class.getSimpleName();
 

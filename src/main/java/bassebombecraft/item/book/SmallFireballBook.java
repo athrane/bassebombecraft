@@ -13,7 +13,7 @@ import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
 /**
  * Book of small fireball implementation.
  */
-public class SmallFireballBook extends GenericRightClickedBook2 {
+public class SmallFireballBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = SmallFireballBook.class.getSimpleName();
 

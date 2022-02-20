@@ -2,14 +2,20 @@ package bassebombecraft.item.book;
 
 import static bassebombecraft.BassebombeCraft.getItemGroup;
 import static bassebombecraft.BassebombeCraft.getProxy;
+import static bassebombecraft.item.composite.DefaultCompositeItemResolver.getInstance;
+import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import java.util.List;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import javax.annotation.Nullable;
 
+import bassebombecraft.client.event.rendering.GenericCompositeItemsBookRenderer;
 import bassebombecraft.config.ItemConfig;
+import bassebombecraft.item.composite.CompositeItemsResolver;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.client.util.ITooltipFlag;
@@ -28,10 +34,11 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.RegistryObject;
 
 /**
- * Generic book implementation for execution of embedded operator implementing
- * the {@linkplain Operator2} interface.
+ * Generic book implementation for execution of operators derived from composite
+ * items.
  * 
  * The operator is applied when the item is right clicked.
  * 
@@ -39,17 +46,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
  * invocations of the operator. The ports is updated with the world and the
  * invoker entity when the item is right clicked.
  **/
-public class GenericRightClickedBook2 extends Item {
+public class GenericCompositeItemsBook extends Item {
 
 	/**
 	 * Operator ports.
 	 */
 	Ports ports;
-
-	/**
-	 * Operator.
-	 */
-	Operator2 operator;
 
 	/**
 	 * Book item cooldown value.
@@ -62,16 +64,38 @@ public class GenericRightClickedBook2 extends Item {
 	String tooltip;
 
 	/**
+	 * Composite item resolver.
+	 */
+	CompositeItemsResolver resolver;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param config   item configuration.
 	 * @param ports    ports used by operators.
 	 * @param operator operator executed when item is right clicked.
 	 */
-	public GenericRightClickedBook2(ItemConfig config, Ports ports, Operator2 operator) {
+	@Deprecated
+	public GenericCompositeItemsBook(ItemConfig config, Ports ports, Operator2 operator) {
 		super(new Item.Properties().group(getItemGroup()));
 		this.ports = ports;
-		this.operator = operator;
+
+		// get cooldown and tooltip
+		coolDown = config.cooldown.get();
+		tooltip = config.tooltip.get();
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param config        item configuration.
+	 * @param splComposites stream of composite items containing operators which are
+	 *                      executed when item is right clicked.
+	 */
+	public GenericCompositeItemsBook(ItemConfig config, Supplier<Stream<RegistryObject<Item>>> splComposites) {
+		super(new Item.Properties().group(getItemGroup()));
+		this.ports = getInstance();
+		this.resolver = getInstance(splComposites);
 
 		// get cooldown and tooltip
 		coolDown = config.cooldown.get();
@@ -101,7 +125,7 @@ public class GenericRightClickedBook2 extends Item {
 		// execute operator
 		ports.setLivingEntity1(player);
 		ports.setWorld(world);
-		run(ports, operator);
+		run(ports, resolver.getOperator());
 
 		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, player.getHeldItem(hand));
 	}
@@ -122,6 +146,18 @@ public class GenericRightClickedBook2 extends Item {
 			ITooltipFlag flagIn) {
 		ITextComponent text = new TranslationTextComponent(TextFormatting.GREEN + this.tooltip);
 		tooltip.add(text);
+	}
+
+	/**
+	 * Get configured composite items as item stacks.
+	 * 
+	 * This method is used to support rendering in
+	 * {@linkplain GenericCompositeItemsBookRenderer}.
+	 * 
+	 * @return configured composite items as item stacks.
+	 */
+	public ItemStack[] getCompositeItems() {
+		return resolver.getItemStacks();
 	}
 
 }

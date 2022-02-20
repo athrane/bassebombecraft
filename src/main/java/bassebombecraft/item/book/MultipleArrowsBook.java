@@ -13,7 +13,7 @@ import bassebombecraft.operator.projectile.formation.TrifurcatedProjectileFormat
 /**
  * Book of multiple arrows implementation.
  */
-public class MultipleArrowsBook extends GenericRightClickedBook2 {
+public class MultipleArrowsBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = MultipleArrowsBook.class.getSimpleName();
 

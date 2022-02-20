@@ -16,7 +16,7 @@ import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileM
 /**
  * Book of spawn squid implementation.
  */
-public class SpawnSquidBook extends GenericRightClickedBook2 {
+public class SpawnSquidBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = SpawnSquidBook.class.getSimpleName();
 

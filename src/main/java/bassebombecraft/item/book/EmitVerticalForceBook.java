@@ -16,7 +16,7 @@ import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileM
 /**
  * Book of emit vertical force implementation.
  */
-public class EmitVerticalForceBook extends GenericRightClickedBook2 {
+public class EmitVerticalForceBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = EmitVerticalForceBook.class.getSimpleName();
 

@@ -16,7 +16,7 @@ import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileM
 /**
  * Book of emit horizontal force implementation.
  */
-public class EmitHorizontalForceBook extends GenericRightClickedBook2 {
+public class EmitHorizontalForceBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = EmitHorizontalForceBook.class.getSimpleName();
 

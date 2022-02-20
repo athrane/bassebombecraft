@@ -16,7 +16,7 @@ import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileM
 /**
  * Book of ice block implementation.
  */
-public class IceBlockBook extends GenericRightClickedBook2 {
+public class IceBlockBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = IceBlockBook.class.getSimpleName();
 

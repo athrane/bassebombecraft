@@ -16,7 +16,7 @@ import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileM
 /**
  * Book of anvil block implementation.
  */
-public class FallingAnvilBook extends GenericRightClickedBook2 {
+public class FallingAnvilBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = FallingAnvilBook.class.getSimpleName();
 

@@ -13,7 +13,7 @@ import bassebombecraft.operator.projectile.formation.CircleProjectileFormation2;
 /**
  * Book of small fireball ring implementation.
  */
-public class SmallFireballRingBook extends GenericRightClickedBook2 {
+public class SmallFireballRingBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = SmallFireballRingBook.class.getSimpleName();
 

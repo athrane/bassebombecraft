@@ -17,7 +17,7 @@ import bassebombecraft.operator.sound.PlaySound2;
 /**
  * Book of teleport implementation.
  */
-public class TeleportBook extends GenericRightClickedBook2 {
+public class TeleportBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = TeleportBook.class.getSimpleName();
 

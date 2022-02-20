@@ -108,7 +108,7 @@ public class RenderItemStack2 implements Operator2 {
 		// calculate icon position
 		int xp = (int) (textAnchor.x + x);
 		int yp = (int) (textAnchor.y + y);
-		
+
 		// render item stack
 		itemRenderer.renderItemIntoGUI(itemStack, xp, yp);
 

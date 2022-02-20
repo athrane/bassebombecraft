@@ -16,7 +16,7 @@ import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileM
 /**
  * Book of cobweb implementation.
  */
-public class CobwebBook extends GenericRightClickedBook2 {
+public class CobwebBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = CobwebBook.class.getSimpleName();
 

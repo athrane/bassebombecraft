@@ -16,7 +16,7 @@ import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileM
 /**
  * Book of lava block implementation.
  */
-public class LavaBlockBook extends GenericRightClickedBook2 {
+public class LavaBlockBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = LavaBlockBook.class.getSimpleName();
 

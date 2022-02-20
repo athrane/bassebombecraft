@@ -13,7 +13,7 @@ import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
 /**
  * Book of wither skull implementation.
  */
-public class WitherSkullBook extends GenericRightClickedBook2 {
+public class WitherSkullBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = WitherSkullBook.class.getSimpleName();
 

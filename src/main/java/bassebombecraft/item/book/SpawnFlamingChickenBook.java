@@ -16,7 +16,7 @@ import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileM
 /**
  * Book of failed phoenix.
  */
-public class SpawnFlamingChickenBook extends GenericRightClickedBook2 {
+public class SpawnFlamingChickenBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = SpawnFlamingChickenBook.class.getSimpleName();
 

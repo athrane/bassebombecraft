@@ -16,7 +16,7 @@ import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileM
 /**
  * Book of mob hole.
  */
-public class DigMobHoleBook extends GenericRightClickedBook2 {
+public class DigMobHoleBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = DigMobHoleBook.class.getSimpleName();
 

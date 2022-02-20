@@ -167,6 +167,57 @@ public class RegisteredItems {
 	public static final RegistryObject<Item> HUD = register(HudItem::new);
 
 	/**
+	 * Composite items.
+	 */
+	public static final RegistryObject<Item> COMPOSITE = register(CompositeMagicItem::new);
+	public static final RegistryObject<Item> FORMATION1 = register(SingleProjectileFormationItem::new);
+	public static final RegistryObject<Item> FORMATION2 = register(RandomSingleProjectileFormationItem::new);
+	public static final RegistryObject<Item> FORMATION3 = register(CircleProjectileFormationItem::new);
+	public static final RegistryObject<Item> FORMATION4 = register(TrifurcatedProjectileFormationItem::new);
+	public static final RegistryObject<Item> FORMATION5 = register(FrontAndBackProjectileFormationItem::new);
+	public static final RegistryObject<Item> FORMATION_MOD1 = register(RandomProjectileFormationModifierItem::new);
+	public static final RegistryObject<Item> FORMATION_MOD2 = register(InaccuracyProjectileFormationModifierItem::new);
+	public static final RegistryObject<Item> FORMATION_MOD3 = register(
+			OscillatingRotation180DProjectileFormationModifierItem::new);
+	public static final RegistryObject<Item> PROJECTILE1 = register(LlamaProjectileItem::new);
+	public static final RegistryObject<Item> PROJECTILE2 = register(EggProjectileItem::new);
+	public static final RegistryObject<Item> PROJECTILE3 = register(LightningProjectileItem::new);
+	public static final RegistryObject<Item> PROJECTILE_PATH1 = register(RandomProjectilePathItem::new);
+	public static final RegistryObject<Item> PROJECTILE_PATH2 = register(AccelerateProjectilePathItem::new);
+	public static final RegistryObject<Item> PROJECTILE_PATH3 = register(DeaccelerateProjectilePathItem::new);
+	public static final RegistryObject<Item> PROJECTILE_PATH4 = register(ZigZagProjectilePathItem::new);
+	public static final RegistryObject<Item> PROJECTILE_PATH5 = register(SineProjectilePathItem::new);
+	public static final RegistryObject<Item> PROJECTILE_PATH6 = register(CircleProjectilePathItem::new);
+	public static final RegistryObject<Item> PROJECTILE_PATH7 = register(IncreaseGravityProjectilePathItem::new);
+	public static final RegistryObject<Item> PROJECTILE_PATH8 = register(DecreaseGravityProjectilePathItem::new);
+	public static final RegistryObject<Item> PROJECTILE_PATH9 = register(TeleportProjectilePathItem::new);
+	public static final RegistryObject<Item> PROJECTILE_PATH10 = register(HomingProjectilePathItem::new);
+	public static final RegistryObject<Item> MODIFIER1 = register(TeleportInvokerProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER2 = register(TeleportMobProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER3 = register(CharmProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER4 = register(MeteorProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER5 = register(DecoyProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER6 = register(ExplodeMobWhenKilledProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER7 = register(DigMobHoleProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER8 = register(DigProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER9 = register(ExplodeOnImpactProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER10 = register(SpawnCobwebProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER11 = register(SpawnIceBlockProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER12 = register(SpawnLavaBlockProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER13 = register(SpawnAnvilProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER14 = register(ReceiveAggroProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER15 = register(BounceProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER16 = register(EmitHorizontalForceProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER17 = register(EmitVerticalForceProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER18 = register(RespawnProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER19 = register(LightningProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER20 = register(SpawnSquidProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER21 = register(ElectrocuteProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER22 = register(SpawnFlamingChickenProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER23 = register(WildfireProjectileModifierItem::new);
+	public static final RegistryObject<Item> MODIFIER24 = register(ContagionProjectileModifierItem::new);
+	
+	/**
 	 * Books
 	 */
 	public static final RegistryObject<Item> TELEPORT_BOOK = register(TeleportBook::new);
@@ -263,57 +314,6 @@ public class RegisteredItems {
 	public static final RegistryObject<Item> INCSIZE_IDOL = register(IncreaseSizeIdolInventoryItem::new);
 	public static final RegistryObject<Item> BLOCK_IDOL = register(RemoveBlockSpiralIdolInventoryItem::new);
 	public static final RegistryObject<Item> RESPAWN_IDOL = register(RespawnIdolInventoryItem::new);
-
-	/**
-	 * Composites
-	 */
-	public static final RegistryObject<Item> COMPOSITE = register(CompositeMagicItem::new);
-	public static final RegistryObject<Item> FORMATION1 = register(SingleProjectileFormationItem::new);
-	public static final RegistryObject<Item> FORMATION2 = register(RandomSingleProjectileFormationItem::new);
-	public static final RegistryObject<Item> FORMATION3 = register(CircleProjectileFormationItem::new);
-	public static final RegistryObject<Item> FORMATION4 = register(TrifurcatedProjectileFormationItem::new);
-	public static final RegistryObject<Item> FORMATION5 = register(FrontAndBackProjectileFormationItem::new);
-	public static final RegistryObject<Item> FORMATION_MOD1 = register(RandomProjectileFormationModifierItem::new);
-	public static final RegistryObject<Item> FORMATION_MOD2 = register(InaccuracyProjectileFormationModifierItem::new);
-	public static final RegistryObject<Item> FORMATION_MOD3 = register(
-			OscillatingRotation180DProjectileFormationModifierItem::new);
-	public static final RegistryObject<Item> PROJECTILE1 = register(LlamaProjectileItem::new);
-	public static final RegistryObject<Item> PROJECTILE2 = register(EggProjectileItem::new);
-	public static final RegistryObject<Item> PROJECTILE3 = register(LightningProjectileItem::new);
-	public static final RegistryObject<Item> PROJECTILE_PATH1 = register(RandomProjectilePathItem::new);
-	public static final RegistryObject<Item> PROJECTILE_PATH2 = register(AccelerateProjectilePathItem::new);
-	public static final RegistryObject<Item> PROJECTILE_PATH3 = register(DeaccelerateProjectilePathItem::new);
-	public static final RegistryObject<Item> PROJECTILE_PATH4 = register(ZigZagProjectilePathItem::new);
-	public static final RegistryObject<Item> PROJECTILE_PATH5 = register(SineProjectilePathItem::new);
-	public static final RegistryObject<Item> PROJECTILE_PATH6 = register(CircleProjectilePathItem::new);
-	public static final RegistryObject<Item> PROJECTILE_PATH7 = register(IncreaseGravityProjectilePathItem::new);
-	public static final RegistryObject<Item> PROJECTILE_PATH8 = register(DecreaseGravityProjectilePathItem::new);
-	public static final RegistryObject<Item> PROJECTILE_PATH9 = register(TeleportProjectilePathItem::new);
-	public static final RegistryObject<Item> PROJECTILE_PATH10 = register(HomingProjectilePathItem::new);
-	public static final RegistryObject<Item> MODIFIER1 = register(TeleportInvokerProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER2 = register(TeleportMobProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER3 = register(CharmProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER4 = register(MeteorProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER5 = register(DecoyProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER6 = register(ExplodeMobWhenKilledProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER7 = register(DigMobHoleProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER8 = register(DigProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER9 = register(ExplodeOnImpactProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER10 = register(SpawnCobwebProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER11 = register(SpawnIceBlockProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER12 = register(SpawnLavaBlockProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER13 = register(SpawnAnvilProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER14 = register(ReceiveAggroProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER15 = register(BounceProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER16 = register(EmitHorizontalForceProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER17 = register(EmitVerticalForceProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER18 = register(RespawnProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER19 = register(LightningProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER20 = register(SpawnSquidProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER21 = register(ElectrocuteProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER22 = register(SpawnFlamingChickenProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER23 = register(WildfireProjectileModifierItem::new);
-	public static final RegistryObject<Item> MODIFIER24 = register(ContagionProjectileModifierItem::new);
 
 	/**
 	 * Register item.

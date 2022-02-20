@@ -7,6 +7,7 @@ import static bassebombecraft.ModConstants.PP_SUFFIX;
 import static bassebombecraft.ModConstants.P_SUFFIX;
 import static bassebombecraft.ModConstants.UNKNOWN_SUFFIX;
 
+import bassebombecraft.item.book.GenericCompositeItemsBook;
 import bassebombecraft.item.composite.GenericCompositeNullItem;
 import bassebombecraft.item.inventory.GenericInventoryItem;
 
@@ -47,6 +48,22 @@ public class ItemUtils {
 		return superClass.isAssignableFrom(object.getClass());
 	}
 
+	/**
+	 * Returns true if object is a subclass of the
+	 * {@linkplain GenericCompositeItemsBook}.
+	 * 
+	 * @param object to test.
+	 * 
+	 * @return true if object is a subclass of the
+	 *         {@linkplain GenericCompositeItemsBook}.
+	 */
+	public static boolean isTypeGenericCompositeItemsBook(Object object) {
+		if (object == null)
+			return false;
+		Class<? extends Object> superClass = GenericCompositeItemsBook.class;
+		return superClass.isAssignableFrom(object.getClass());
+	}
+	
 	/**
 	 * Resolve the name of the "type" from the class name of an composite item, i.e.
 	 * a subclass of the {@linkplain GenericCompositeNullItem}.

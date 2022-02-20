@@ -16,7 +16,7 @@ import bassebombecraft.operator.projectile.modifier.tag.ReceiveAggro2;
 /**
  * Book of receive mob aggro implementation.
  */
-public class ReceiveAggroBook extends GenericRightClickedBook2 {
+public class ReceiveAggroBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = ReceiveAggroBook.class.getSimpleName();
 
