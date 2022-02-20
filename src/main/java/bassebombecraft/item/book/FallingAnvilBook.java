@@ -1,6 +1,6 @@
 package bassebombecraft.item.book;
 
-import static bassebombecraft.config.ModConfiguration.cobwebBook;
+import static bassebombecraft.config.ModConfiguration.fallingAnvilBook;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntities1;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 
@@ -31,6 +31,6 @@ public class FallingAnvilBook extends GenericCompositeItemsBook {
 	};
 
 	public FallingAnvilBook() {
-		super(cobwebBook, getInstance(), splOp.get());
+		super(fallingAnvilBook, getInstance(), splOp.get());
 	}
 }
