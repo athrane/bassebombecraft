@@ -19,7 +19,7 @@ public class BeastmasterBook extends GenericCompositeItemsBook {
 	public static final String ITEM_NAME = BeastmasterBook.class.getSimpleName();
 
 	/**
-	 * Create composite items.
+	 * Composite items.
 	 */
 	static Supplier<Stream<RegistryObject<Item>>> splComposites = () -> Stream.of(FORMATION1, PROJECTILE3, MODIFIER3);
 
