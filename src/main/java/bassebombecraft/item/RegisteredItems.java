@@ -72,6 +72,7 @@ import bassebombecraft.item.book.WitherMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
 import bassebombecraft.item.composite.CompositeMagicItem;
 import bassebombecraft.item.composite.projectile.EggProjectileItem;
+import bassebombecraft.item.composite.projectile.LargeFireballProjectileItem;
 import bassebombecraft.item.composite.projectile.LightningProjectileItem;
 import bassebombecraft.item.composite.projectile.LlamaProjectileItem;
 import bassebombecraft.item.composite.projectile.formation.CircleProjectileFormationItem;
@@ -182,6 +183,7 @@ public class RegisteredItems {
 	public static final RegistryObject<Item> PROJECTILE1 = register(LlamaProjectileItem::new);
 	public static final RegistryObject<Item> PROJECTILE2 = register(EggProjectileItem::new);
 	public static final RegistryObject<Item> PROJECTILE3 = register(LightningProjectileItem::new);
+	public static final RegistryObject<Item> PROJECTILE4 = register(LargeFireballProjectileItem::new);	
 	public static final RegistryObject<Item> PROJECTILE_PATH1 = register(RandomProjectilePathItem::new);
 	public static final RegistryObject<Item> PROJECTILE_PATH2 = register(AccelerateProjectilePathItem::new);
 	public static final RegistryObject<Item> PROJECTILE_PATH3 = register(DeaccelerateProjectilePathItem::new);

@@ -1,14 +1,14 @@
 package bassebombecraft.item.book;
 
 import static bassebombecraft.config.ModConfiguration.largeFireballBook;
-import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.item.RegisteredItems.FORMATION1;
+import static bassebombecraft.item.RegisteredItems.PROJECTILE4;
 
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
-import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.Sequence2;
-import bassebombecraft.operator.projectile.ShootLargeFireballProjectile2;
-import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.RegistryObject;
 
 /**
  * Book of large fireball implementation.
@@ -18,15 +18,11 @@ public class LargeFireballBook extends GenericCompositeItemsBook {
 	public static final String ITEM_NAME = LargeFireballBook.class.getSimpleName();
 
 	/**
-	 * Create operators.
+	 * Composite items.
 	 */
-	static Supplier<Operator2> splOp = () -> {
-		Operator2 formationOp = new SingleProjectileFormation2();
-		Operator2 projectileOp = new ShootLargeFireballProjectile2();
-		return new Sequence2(formationOp, projectileOp);
-	};
+	static Supplier<Stream<RegistryObject<Item>>> splComposites = () -> Stream.of(FORMATION1, PROJECTILE4);
 
 	public LargeFireballBook() {
-		super(largeFireballBook, getInstance(), splOp.get());
+		super(largeFireballBook, splComposites);
 	}
 }
