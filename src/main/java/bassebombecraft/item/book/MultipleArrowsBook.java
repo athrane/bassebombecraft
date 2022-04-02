@@ -2,7 +2,7 @@ package bassebombecraft.item.book;
 
 import static bassebombecraft.config.ModConfiguration.multipleArrowsBook;
 import static bassebombecraft.item.RegisteredItems.FORMATION4;
-import static bassebombecraft.item.RegisteredItems.PROJECTILE5;
+import static bassebombecraft.item.RegisteredItems.PROJECTILE6;
 
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -20,7 +20,7 @@ public class MultipleArrowsBook extends GenericCompositeItemsBook {
 	/**
 	 * Composite items.
 	 */
-	static Supplier<Stream<RegistryObject<Item>>> splComposites = () -> Stream.of(FORMATION4, PROJECTILE5);
+	static Supplier<Stream<RegistryObject<Item>>> splComposites = () -> Stream.of(FORMATION4, PROJECTILE6);
 
 	public MultipleArrowsBook() {
 		super(multipleArrowsBook, splComposites);

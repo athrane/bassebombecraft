@@ -125,6 +125,7 @@ import bassebombecraft.item.composite.projectile.EggProjectileItem;
 import bassebombecraft.item.composite.projectile.LargeFireballProjectileItem;
 import bassebombecraft.item.composite.projectile.LightningProjectileItem;
 import bassebombecraft.item.composite.projectile.LlamaProjectileItem;
+import bassebombecraft.item.composite.projectile.SmallFireballProjectileItem;
 import bassebombecraft.item.composite.projectile.WitherSkullProjectileItem;
 import bassebombecraft.item.composite.projectile.formation.CircleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.FrontAndBackProjectileFormationItem;
@@ -529,6 +530,7 @@ public class ModConfiguration {
 	public static ItemConfig lightningProjectileItem;
 	public static ItemConfig witherSkullProjectileItem;
 	public static ItemConfig largeFireballProjectileItem;
+	public static ItemConfig smallFireballProjectileItem;	
 	public static ItemConfig arrowProjectileItem;
 
 	public static ProjectileEntityConfig eggProjectileEntity;
@@ -537,6 +539,7 @@ public class ModConfiguration {
 	public static ProjectileEntityConfig circleProjectileEntity;
 	public static ProjectileEntityConfig skullProjectileEntity;
 	public static ProjectileEntityConfig largeFireballProjectileEntity;
+	public static ProjectileEntityConfig smallFireballProjectileEntity;	
 	public static ProjectileEntityConfig arrowProjectileEntity;
 
 	public static ItemConfig randomProjectileFormationModifierItem;
@@ -2299,6 +2302,14 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
+		 * Configuration for the {@linkplain SmallFireballProjectileItem} item.
+		 */
+		name = SmallFireballProjectileItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		largeFireballProjectileItem = getInstance(COMMON_BUILDER, name, "An image of a small fireball.", 25);
+		COMMON_BUILDER.pop();
+		
+		/**
 		 * Configuration for the {@linkplain ArrowProjectileItem} item.
 		 */
 		name = ArrowProjectileItem.NAME;
@@ -2739,6 +2750,21 @@ public class ModConfiguration {
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		splParticles = () -> getInstance(COMMON_BUILDER, "NOT-USED-BY_IMPLEMENTATION", 0, 0, 0, 0, 0,1.0);
 		largeFireballProjectileEntity = getInstance(COMMON_BUILDER, name, 1.0D, 6.0D, 50.0D, 0.0D, splParticles);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain SmallFireballEntity} item.
+		 * 
+		 * PLEASE NOTICE: The particle aren't used, since the projectile is implemented with the
+		 * minecraft projectile {@linkplain FireballEntity} which doesn't spawn particles.
+		 * 
+		 * PLEASE NOTICE: The configuration value defined by the {@linkplain ProjectileEntityConfig}
+		 * is used, they are only defined when the item is rendered in the GUI. 
+		 */
+		name = EntityType.FIREBALL.getName().getString();
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		splParticles = () -> getInstance(COMMON_BUILDER, "NOT-USED-BY_IMPLEMENTATION", 0, 0, 0, 0, 0,1.0);
+		smallFireballProjectileEntity = getInstance(COMMON_BUILDER, name, 1.0D, 6.0D, 20.0D, 0.0D, splParticles);
 		COMMON_BUILDER.pop();
 		
 		/**
