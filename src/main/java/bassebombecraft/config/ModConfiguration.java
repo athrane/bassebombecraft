@@ -2662,7 +2662,7 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain SuperSpreaderProjectileModifierItem} item.
+		 * Configuration for the {@linkplain ContagionProjectileModifierItem} item.
 		 */
 		name = ContagionProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
