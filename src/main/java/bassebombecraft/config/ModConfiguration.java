@@ -120,6 +120,7 @@ import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
 import bassebombecraft.item.composite.CompositeMagicItem;
+import bassebombecraft.item.composite.projectile.ArrowProjectileItem;
 import bassebombecraft.item.composite.projectile.EggProjectileItem;
 import bassebombecraft.item.composite.projectile.LargeFireballProjectileItem;
 import bassebombecraft.item.composite.projectile.LightningProjectileItem;
@@ -528,6 +529,7 @@ public class ModConfiguration {
 	public static ItemConfig lightningProjectileItem;
 	public static ItemConfig witherSkullProjectileItem;
 	public static ItemConfig largeFireballProjectileItem;
+	public static ItemConfig arrowProjectileItem;
 
 	public static ProjectileEntityConfig eggProjectileEntity;
 	public static ProjectileEntityConfig llamaProjectileEntity;
@@ -535,6 +537,7 @@ public class ModConfiguration {
 	public static ProjectileEntityConfig circleProjectileEntity;
 	public static ProjectileEntityConfig skullProjectileEntity;
 	public static ProjectileEntityConfig largeFireballProjectileEntity;
+	public static ProjectileEntityConfig arrowProjectileEntity;
 
 	public static ItemConfig randomProjectileFormationModifierItem;
 	public static ItemConfig inaccuracyProjectileFormationModifierItem;
@@ -2296,6 +2299,14 @@ public class ModConfiguration {
 		COMMON_BUILDER.pop();
 
 		/**
+		 * Configuration for the {@linkplain ArrowProjectileItem} item.
+		 */
+		name = ArrowProjectileItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		arrowProjectileItem = getInstance(COMMON_BUILDER, name, "An image of an unremarkable arrow.", 25);
+		COMMON_BUILDER.pop();
+		
+		/**
 		 * Configuration for the {@linkplain WitherSkullProjectileItem} item.
 		 */
 		name = WitherSkullProjectileItem.NAME;
@@ -2729,8 +2740,24 @@ public class ModConfiguration {
 		splParticles = () -> getInstance(COMMON_BUILDER, "NOT-USED-BY_IMPLEMENTATION", 0, 0, 0, 0, 0,1.0);
 		largeFireballProjectileEntity = getInstance(COMMON_BUILDER, name, 1.0D, 6.0D, 50.0D, 0.0D, splParticles);
 		COMMON_BUILDER.pop();
+		
+		/**
+		 * Configuration for the {@linkplain ArrowEntity} item.
+		 * 
+		 * PLEASE NOTICE: The particle aren't used, since the projectile is implemented with the
+		 * minecraft projectile {@linkplain FireballEntity} which doesn't spawn particles.
+		 * 
+		 * PLEASE NOTICE: The configuration value defined by the {@linkplain ProjectileEntityConfig}
+		 * is used, they are only defined when the item is rendered in the GUI. 
+		 */
+		name = EntityType.ARROW.getName().getString();
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		splParticles = () -> getInstance(COMMON_BUILDER, "NOT-USED-BY_IMPLEMENTATION", 0, 0, 0, 0, 0,1.0);
+		arrowProjectileEntity = getInstance(COMMON_BUILDER, name, 1.0D, 6.0D, 25.0D, 0.0D, splParticles);
+		COMMON_BUILDER.pop();		
 	}
 
+	
 	/**
 	 * Load configuration using forge.
 	 */

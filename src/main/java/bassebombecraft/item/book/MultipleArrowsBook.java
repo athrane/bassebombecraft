@@ -1,14 +1,14 @@
 package bassebombecraft.item.book;
 
 import static bassebombecraft.config.ModConfiguration.multipleArrowsBook;
-import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.item.RegisteredItems.FORMATION4;
+import static bassebombecraft.item.RegisteredItems.PROJECTILE5;
 
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
-import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.Sequence2;
-import bassebombecraft.operator.projectile.ShootArrowProjectile2;
-import bassebombecraft.operator.projectile.formation.TrifurcatedProjectileFormation2;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.RegistryObject;
 
 /**
  * Book of multiple arrows implementation.
@@ -18,15 +18,11 @@ public class MultipleArrowsBook extends GenericCompositeItemsBook {
 	public static final String ITEM_NAME = MultipleArrowsBook.class.getSimpleName();
 
 	/**
-	 * Create operators.
+	 * Composite items.
 	 */
-	static Supplier<Operator2> splOp = () -> {
-		Operator2 formationOp = new TrifurcatedProjectileFormation2();
-		Operator2 projectileOp = new ShootArrowProjectile2();
-		return new Sequence2(formationOp, projectileOp);
-	};
+	static Supplier<Stream<RegistryObject<Item>>> splComposites = () -> Stream.of(FORMATION4, PROJECTILE5);
 
 	public MultipleArrowsBook() {
-		super(multipleArrowsBook, getInstance(), splOp.get());
+		super(multipleArrowsBook, splComposites);
 	}
 }
