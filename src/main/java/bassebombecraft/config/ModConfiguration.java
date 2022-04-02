@@ -2306,7 +2306,7 @@ public class ModConfiguration {
 		 */
 		name = SmallFireballProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		largeFireballProjectileItem = getInstance(COMMON_BUILDER, name, "An image of a small fireball.", 25);
+		smallFireballProjectileItem = getInstance(COMMON_BUILDER, name, "An image of a small fireball.", 25);
 		COMMON_BUILDER.pop();
 		
 		/**
@@ -2761,7 +2761,7 @@ public class ModConfiguration {
 		 * PLEASE NOTICE: The configuration value defined by the {@linkplain ProjectileEntityConfig}
 		 * is used, they are only defined when the item is rendered in the GUI. 
 		 */
-		name = EntityType.FIREBALL.getName().getString();
+		name = EntityType.SMALL_FIREBALL.getName().getString();
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		splParticles = () -> getInstance(COMMON_BUILDER, "NOT-USED-BY_IMPLEMENTATION", 0, 0, 0, 0, 0,1.0);
 		smallFireballProjectileEntity = getInstance(COMMON_BUILDER, name, 1.0D, 6.0D, 20.0D, 0.0D, splParticles);
