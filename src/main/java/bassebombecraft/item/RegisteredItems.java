@@ -77,6 +77,7 @@ import bassebombecraft.item.composite.projectile.LargeFireballProjectileItem;
 import bassebombecraft.item.composite.projectile.LightningProjectileItem;
 import bassebombecraft.item.composite.projectile.LlamaProjectileItem;
 import bassebombecraft.item.composite.projectile.SmallFireballProjectileItem;
+import bassebombecraft.item.composite.projectile.WitherSkullProjectileItem;
 import bassebombecraft.item.composite.projectile.formation.CircleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.FrontAndBackProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.RandomSingleProjectileFormationItem;
@@ -188,6 +189,7 @@ public class RegisteredItems {
 	public static final RegistryObject<Item> PROJECTILE4 = register(LargeFireballProjectileItem::new);		
 	public static final RegistryObject<Item> PROJECTILE5 = register(SmallFireballProjectileItem::new);			
 	public static final RegistryObject<Item> PROJECTILE6 = register(ArrowProjectileItem::new);		
+	public static final RegistryObject<Item> PROJECTILE7 = register(WitherSkullProjectileItem::new);			
 	public static final RegistryObject<Item> PROJECTILE_PATH1 = register(RandomProjectilePathItem::new);
 	public static final RegistryObject<Item> PROJECTILE_PATH2 = register(AccelerateProjectilePathItem::new);
 	public static final RegistryObject<Item> PROJECTILE_PATH3 = register(DeaccelerateProjectilePathItem::new);

@@ -2323,7 +2323,7 @@ public class ModConfiguration {
 		name = WitherSkullProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		witherSkullProjectileItem = getInstance(COMMON_BUILDER, name,
-				"An image of a scary wither skull. The skull will explode on impact.", 25);
+				"An image of a scary wither skull.", 25);
 		COMMON_BUILDER.pop();
 
 		/**

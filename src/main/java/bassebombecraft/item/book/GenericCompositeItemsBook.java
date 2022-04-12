@@ -71,23 +71,6 @@ public class GenericCompositeItemsBook extends Item {
 	/**
 	 * Constructor.
 	 * 
-	 * @param config   item configuration.
-	 * @param ports    ports used by operators.
-	 * @param operator operator executed when item is right clicked.
-	 */
-	@Deprecated
-	public GenericCompositeItemsBook(ItemConfig config, Ports ports, Operator2 operator) {
-		super(new Item.Properties().group(getItemGroup()));
-		this.ports = ports;
-
-		// get cooldown and tooltip
-		coolDown = config.cooldown.get();
-		tooltip = config.tooltip.get();
-	}
-
-	/**
-	 * Constructor.
-	 * 
 	 * @param config        item configuration.
 	 * @param splComposites stream of composite items containing operators which are
 	 *                      executed when item is right clicked.

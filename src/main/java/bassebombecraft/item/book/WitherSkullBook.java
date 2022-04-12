@@ -1,14 +1,14 @@
 package bassebombecraft.item.book;
 
 import static bassebombecraft.config.ModConfiguration.witherSkullBook;
-import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.item.RegisteredItems.FORMATION1;
+import static bassebombecraft.item.RegisteredItems.PROJECTILE7;
 
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
-import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.Sequence2;
-import bassebombecraft.operator.projectile.ShootWitherSkullProjectile2;
-import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.RegistryObject;
 
 /**
  * Book of wither skull implementation.
@@ -18,15 +18,11 @@ public class WitherSkullBook extends GenericCompositeItemsBook {
 	public static final String ITEM_NAME = WitherSkullBook.class.getSimpleName();
 
 	/**
-	 * Create operators.
+	 * Composite items.
 	 */
-	static Supplier<Operator2> splOps = () -> {
-		Operator2 formationOp = new SingleProjectileFormation2();
-		Operator2 projectileOp = new ShootWitherSkullProjectile2();
-		return new Sequence2(formationOp, projectileOp);
-	};
+	static Supplier<Stream<RegistryObject<Item>>> splComposites = () -> Stream.of(FORMATION1, PROJECTILE7);
 
 	public WitherSkullBook() {
-		super(witherSkullBook, getInstance(), splOps.get());
+		super(witherSkullBook, splComposites);
 	}
 }
