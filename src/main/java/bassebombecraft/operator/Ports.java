@@ -5,11 +5,13 @@ import java.util.stream.Stream;
 import bassebombecraft.color.Color4f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
@@ -167,6 +169,20 @@ public interface Ports {
 	Ports setBlockPosition2(BlockPos pos);
 
 	/**
+	 * Get {@linkplain ItemStack} #1.
+	 * 
+	 * @return item stack #1.
+	 */
+	ItemStack getItemStack1();
+
+	/**
+	 * Set {@linkplain ItemStack} #1.
+	 * 
+	 * @return ports.
+	 */
+	Ports setItemStack1(ItemStack itemStack);
+	
+	/**
 	 * Get string #1.
 	 * 
 	 * @return string #1 .
@@ -235,6 +251,20 @@ public interface Ports {
 	 * @return ports.
 	 */
 	Ports setInteger1(int value);
+
+	/**
+	 * Return {@linkplain Vector2f} #1.
+	 * 
+	 * @return vector #1.
+	 */
+	Vector2f getVector2f1();
+
+	/**
+	 * Set {@linkplain Vector2f} #1.
+	 * 
+	 * @param vec vector #1.
+	 */
+	Ports setVector2f1(Vector2f vec);
 	
 	/**
 	 * Return {@linkplain Vector3d} #1.
@@ -306,7 +336,6 @@ public interface Ports {
 	 */
 	Ports setColor4f2(Color4f color);
 
-	
 	/**
 	 * Return {@linkplain RayTraceResult} #1.
 	 * 

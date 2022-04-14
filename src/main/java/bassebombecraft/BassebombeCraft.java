@@ -7,6 +7,7 @@ import static bassebombecraft.config.ModConfiguration.loadConfig;
 import static bassebombecraft.config.VersionUtils.validateVersion;
 import static bassebombecraft.inventory.container.RegisteredContainers.CONTAINER_REGISTRY;
 import static bassebombecraft.item.RegisteredItems.COMPOSITE;
+import static bassebombecraft.entity.RegisteredEntities.ENTITY_REGISTRY;
 import static bassebombecraft.item.RegisteredItems.ITEMS_REGISTRY;
 import static bassebombecraft.potion.RegisteredPotions.POTION_REGISTRY;
 import static bassebombecraft.potion.effect.RegisteredEffects.EFFECT_REGISTRY;
@@ -122,6 +123,7 @@ public class BassebombeCraft {
 			SOUNDS_REGISTRY.register(modEventBus);
 			EFFECT_REGISTRY.register(modEventBus);
 			POTION_REGISTRY.register(modEventBus);
+			ENTITY_REGISTRY.register(modEventBus);
 
 		} catch (ExceptionInInitializerError e) {
 			reportAndLogException(e);

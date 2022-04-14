@@ -120,9 +120,12 @@ import bassebombecraft.item.book.ToxicMistBook;
 import bassebombecraft.item.book.VacuumMistBook;
 import bassebombecraft.item.book.WitherSkullBook;
 import bassebombecraft.item.composite.CompositeMagicItem;
+import bassebombecraft.item.composite.projectile.ArrowProjectileItem;
 import bassebombecraft.item.composite.projectile.EggProjectileItem;
+import bassebombecraft.item.composite.projectile.LargeFireballProjectileItem;
 import bassebombecraft.item.composite.projectile.LightningProjectileItem;
 import bassebombecraft.item.composite.projectile.LlamaProjectileItem;
+import bassebombecraft.item.composite.projectile.SmallFireballProjectileItem;
 import bassebombecraft.item.composite.projectile.WitherSkullProjectileItem;
 import bassebombecraft.item.composite.projectile.formation.CircleProjectileFormationItem;
 import bassebombecraft.item.composite.projectile.formation.FrontAndBackProjectileFormationItem;
@@ -134,6 +137,7 @@ import bassebombecraft.item.composite.projectile.formation.modifier.OscillatingR
 import bassebombecraft.item.composite.projectile.formation.modifier.RandomProjectileFormationModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.BounceProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.CharmProjectileModifierItem;
+import bassebombecraft.item.composite.projectile.modifier.ContagionProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DecoyProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigMobHoleProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.DigProjectileModifierItem;
@@ -152,7 +156,6 @@ import bassebombecraft.item.composite.projectile.modifier.SpawnFlamingChickenPro
 import bassebombecraft.item.composite.projectile.modifier.SpawnIceBlockProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnLavaBlockProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.SpawnSquidProjectileModifierItem;
-import bassebombecraft.item.composite.projectile.modifier.ContagionProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportInvokerProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.TeleportMobProjectileModifierItem;
 import bassebombecraft.item.composite.projectile.modifier.WildfireProjectileModifierItem;
@@ -227,6 +230,7 @@ import bassebombecraft.projectile.action.SpawnCreeperArmy;
 import bassebombecraft.projectile.action.SpawnKittenArmy;
 import bassebombecraft.projectile.action.SpawnSkeletonArmy;
 import bassebombecraft.projectile.action.SpawnStairs;
+import net.minecraft.entity.EntityType;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig.Type;
@@ -398,7 +402,7 @@ public class ModConfiguration {
 	public static ForgeConfigSpec.IntValue contagionEffectUpdateFrequency;
 	public static ForgeConfigSpec.IntValue contagionEffectDuration;
 	public static ForgeConfigSpec.IntValue contagionEffectAmplifier;
-	
+
 	// Books..
 
 	public static ItemConfig mobCommandersBaton;
@@ -525,12 +529,18 @@ public class ModConfiguration {
 	public static ItemConfig llamaProjectileItem;
 	public static ItemConfig lightningProjectileItem;
 	public static ItemConfig witherSkullProjectileItem;
+	public static ItemConfig largeFireballProjectileItem;
+	public static ItemConfig smallFireballProjectileItem;	
+	public static ItemConfig arrowProjectileItem;
 
 	public static ProjectileEntityConfig eggProjectileEntity;
 	public static ProjectileEntityConfig llamaProjectileEntity;
 	public static ProjectileEntityConfig lightningProjectileEntity;
 	public static ProjectileEntityConfig circleProjectileEntity;
 	public static ProjectileEntityConfig skullProjectileEntity;
+	public static ProjectileEntityConfig largeFireballProjectileEntity;
+	public static ProjectileEntityConfig smallFireballProjectileEntity;	
+	public static ProjectileEntityConfig arrowProjectileEntity;
 
 	public static ItemConfig randomProjectileFormationModifierItem;
 	public static ItemConfig inaccuracyProjectileFormationModifierItem;
@@ -979,7 +989,7 @@ public class ModConfiguration {
 
 		/**
 		 * Configuration for the {@linkplain AmplifierEffect} effect.
-		 */		
+		 */
 		String name = AmplifierEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		amplifierEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
@@ -988,7 +998,7 @@ public class ModConfiguration {
 
 		/**
 		 * Configuration for the {@linkplain MobPrimingEffect} effect.
-		 */				
+		 */
 		name = MobPrimingEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		mobPrimingEffectCountdown = COMMON_BUILDER.comment("Countdown of the effect in game ticks.")
@@ -997,7 +1007,7 @@ public class ModConfiguration {
 
 		/**
 		 * Configuration for the {@linkplain AggroMobEffect} effect.
-		 */						
+		 */
 		name = AggroMobEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		aggroMobEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.").defineInRange("areaOfEffect",
@@ -1008,7 +1018,7 @@ public class ModConfiguration {
 
 		/**
 		 * Configuration for the {@linkplain ReceiveAggroEffect} effect.
-		 */								
+		 */
 		name = ReceiveAggroEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		receiveAggroEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.")
@@ -1019,7 +1029,7 @@ public class ModConfiguration {
 
 		/**
 		 * Configuration for the {@linkplain AggroPlayerEffect} effect.
-		 */										
+		 */
 		name = AggroPlayerEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		aggroPlayerEffectAreaOfEffect = COMMON_BUILDER.comment("Area of effect in blocks.")
@@ -1117,42 +1127,39 @@ public class ModConfiguration {
 		increaseSizeEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
 				.defineInRange("duration", 200, 0, Integer.MAX_VALUE);
 		COMMON_BUILDER.pop();
-		
+
 		/**
 		 * Configuration for the {@linkplain WildfireEffect} effect.
-		 */								
+		 */
 		name = WildfireEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		wildfireEffectAoeRange = COMMON_BUILDER.comment("Area of effect in blocks.")
-				.defineInRange("areaOfEffect", 5, 0, Integer.MAX_VALUE);
+		wildfireEffectAoeRange = COMMON_BUILDER.comment("Area of effect in blocks.").defineInRange("areaOfEffect", 5, 0,
+				Integer.MAX_VALUE);
 		wildfireEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
 				.defineInRange("updateFrequency", 20, 0, Integer.MAX_VALUE);
-		wildfireEffectAmplifier = COMMON_BUILDER.comment(
-				"Potency of the effect (as a potion effect). ")
+		wildfireEffectAmplifier = COMMON_BUILDER.comment("Potency of the effect (as a potion effect). ")
 				.defineInRange("amplifier", 100, 1, 500);
 		wildfireEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
-				.defineInRange("duration", 50, 0, Integer.MAX_VALUE);		
-		COMMON_BUILDER.pop();		
+				.defineInRange("duration", 50, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
 
 		/**
 		 * Configuration for the {@linkplain ContagionEffect} effect.
-		 */								
+		 */
 		name = ContagionEffect.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		contagionEffectAoeRange = COMMON_BUILDER.comment("Area of effect in blocks.")
-				.defineInRange("areaOfEffect", 5, 0, Integer.MAX_VALUE);
+		contagionEffectAoeRange = COMMON_BUILDER.comment("Area of effect in blocks.").defineInRange("areaOfEffect", 5,
+				0, Integer.MAX_VALUE);
 		contagionEffectUpdateFrequency = COMMON_BUILDER.comment("Update frequency of the effect in game ticks.")
 				.defineInRange("updateFrequency", 20, 0, Integer.MAX_VALUE);
-		contagionEffectAmplifier = COMMON_BUILDER.comment(
-				"Potency of the effect (as a potion effect). ")
+		contagionEffectAmplifier = COMMON_BUILDER.comment("Potency of the effect (as a potion effect). ")
 				.defineInRange("amplifier", 100, 1, 500);
 		contagionEffectDuration = COMMON_BUILDER.comment("Duration of effect (as a potion effect) in game ticks.")
-				.defineInRange("duration", 50, 0, Integer.MAX_VALUE);		
-		COMMON_BUILDER.pop();		
-						
+				.defineInRange("duration", 50, 0, Integer.MAX_VALUE);
+		COMMON_BUILDER.pop();
+
 	}
 
-	
 	/**
 	 * Define configuration for potions.
 	 */
@@ -1921,7 +1928,7 @@ public class ModConfiguration {
 		spawnFlamingChickenBook = getInstance(COMMON_BUILDER, name,
 				"Right-click to spawns a failed phoenix. Unfortunately the phoenix will panic due to it being on fire. The phoenix will spread its fire to nearby mobs.",
 				25);
-		
+
 		/**
 		 * Configuration for the {@linkplain LightningBoltBook} item.
 		 */
@@ -2265,7 +2272,7 @@ public class ModConfiguration {
 		name = EggProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		eggProjectileItem = getInstance(COMMON_BUILDER, name,
-				"A image of an egg. The egg can on very rare occasions contain several surprises. But most likely it is just an empty shell.",
+				"An image of an egg. The egg can on very rare occasions contain several surprises. But most likely it is just an empty shell.",
 				25);
 		COMMON_BUILDER.pop();
 
@@ -2275,7 +2282,7 @@ public class ModConfiguration {
 		name = LlamaProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		llamaProjectileItem = getInstance(COMMON_BUILDER, name,
-				"A image of a llama, almost like something from a psychedelic shooter.", 25);
+				"An image of a llama, almost like something from a psychedelic shooter.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2283,16 +2290,40 @@ public class ModConfiguration {
 		 */
 		name = LightningProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
-		lightningProjectileItem = getInstance(COMMON_BUILDER, name, "A image of a lightning ball.", 25);
+		lightningProjectileItem = getInstance(COMMON_BUILDER, name, "An image of a lightning ball.", 25);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the {@linkplain LargeFireballProjectileItem} item.
+		 */
+		name = LargeFireballProjectileItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		largeFireballProjectileItem = getInstance(COMMON_BUILDER, name, "An image of a large fireball.", 25);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain SmallFireballProjectileItem} item.
+		 */
+		name = SmallFireballProjectileItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		smallFireballProjectileItem = getInstance(COMMON_BUILDER, name, "An image of a small fireball.", 25);
+		COMMON_BUILDER.pop();
+		
+		/**
+		 * Configuration for the {@linkplain ArrowProjectileItem} item.
+		 */
+		name = ArrowProjectileItem.NAME;
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		arrowProjectileItem = getInstance(COMMON_BUILDER, name, "An image of an unremarkable arrow.", 25);
+		COMMON_BUILDER.pop();
+		
 		/**
 		 * Configuration for the {@linkplain WitherSkullProjectileItem} item.
 		 */
 		name = WitherSkullProjectileItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		witherSkullProjectileItem = getInstance(COMMON_BUILDER, name,
-				"A image of a scary wither skull. The skull will explode on impact.", 25);
+				"An image of a scary wither skull.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
@@ -2620,29 +2651,26 @@ public class ModConfiguration {
 				"When the projectile hits a mob or a block then a failed phoenix is spawned. Unfortunately the phoenix will panic due to it being on fire. The phoenix will spread its fire to nearby mobs.",
 				25);
 		COMMON_BUILDER.pop();
-		
+
 		/**
-		 * Configuration for the {@linkplain WildfireProjectileModifierItem}
-		 * item.
+		 * Configuration for the {@linkplain WildfireProjectileModifierItem} item.
 		 */
 		name = WildfireProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		wildfireProjectileModifierItem = getInstance(COMMON_BUILDER, name,
-				"Adds wildfire to mobs in the vicinity of the projectile.",
-				25);
+				"Adds wildfire to mobs in the vicinity of the projectile.", 25);
 		COMMON_BUILDER.pop();
 
 		/**
-		 * Configuration for the {@linkplain SuperSpreaderProjectileModifierItem}
-		 * item.
+		 * Configuration for the {@linkplain ContagionProjectileModifierItem} item.
 		 */
 		name = ContagionProjectileModifierItem.NAME;
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		contagionProjectileModifierItem = getInstance(COMMON_BUILDER, name,
 				"Will spread contagion to mobs in the vicinity of the projectile. Contagion will spread an infected mob's effect to other other nearby mobs.",
 				25);
-		COMMON_BUILDER.pop();								
-		
+		COMMON_BUILDER.pop();
+
 	}
 
 	/**
@@ -2709,8 +2737,53 @@ public class ModConfiguration {
 		skullProjectileEntity = getInstance(COMMON_BUILDER, name, 3.0D, 8.0D, 1.0D, 0.01D, splParticles);
 		COMMON_BUILDER.pop();
 
+		/**
+		 * Configuration for the {@linkplain FireballEntity} item.
+		 * 
+		 * PLEASE NOTICE: The particle aren't used, since the projectile is implemented with the
+		 * minecraft projectile {@linkplain FireballEntity} which doesn't spawn particles.
+		 * 
+		 * PLEASE NOTICE: The configuration value defined by the {@linkplain ProjectileEntityConfig}
+		 * is used, they are only defined when the item is rendered in the GUI. 
+		 */
+		name = EntityType.FIREBALL.getName().getString();
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		splParticles = () -> getInstance(COMMON_BUILDER, "NOT-USED-BY_IMPLEMENTATION", 0, 0, 0, 0, 0,1.0);
+		largeFireballProjectileEntity = getInstance(COMMON_BUILDER, name, 1.0D, 6.0D, 50.0D, 0.0D, splParticles);
+		COMMON_BUILDER.pop();
+
+		/**
+		 * Configuration for the {@linkplain SmallFireballEntity} item.
+		 * 
+		 * PLEASE NOTICE: The particle aren't used, since the projectile is implemented with the
+		 * minecraft projectile {@linkplain FireballEntity} which doesn't spawn particles.
+		 * 
+		 * PLEASE NOTICE: The configuration value defined by the {@linkplain ProjectileEntityConfig}
+		 * is used, they are only defined when the item is rendered in the GUI. 
+		 */
+		name = EntityType.SMALL_FIREBALL.getName().getString();
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		splParticles = () -> getInstance(COMMON_BUILDER, "NOT-USED-BY_IMPLEMENTATION", 0, 0, 0, 0, 0,1.0);
+		smallFireballProjectileEntity = getInstance(COMMON_BUILDER, name, 1.0D, 6.0D, 20.0D, 0.0D, splParticles);
+		COMMON_BUILDER.pop();
+		
+		/**
+		 * Configuration for the {@linkplain ArrowEntity} item.
+		 * 
+		 * PLEASE NOTICE: The particle aren't used, since the projectile is implemented with the
+		 * minecraft projectile {@linkplain FireballEntity} which doesn't spawn particles.
+		 * 
+		 * PLEASE NOTICE: The configuration value defined by the {@linkplain ProjectileEntityConfig}
+		 * is used, they are only defined when the item is rendered in the GUI. 
+		 */
+		name = EntityType.ARROW.getName().getString();
+		COMMON_BUILDER.comment(name + " settings").push(name);
+		splParticles = () -> getInstance(COMMON_BUILDER, "NOT-USED-BY_IMPLEMENTATION", 0, 0, 0, 0, 0,1.0);
+		arrowProjectileEntity = getInstance(COMMON_BUILDER, name, 1.0D, 6.0D, 25.0D, 0.0D, splParticles);
+		COMMON_BUILDER.pop();		
 	}
 
+	
 	/**
 	 * Load configuration using forge.
 	 */

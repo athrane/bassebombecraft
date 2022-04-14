@@ -8,7 +8,6 @@ import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.event.projectile.EntityTypeRegistryEventHandler;
 import bassebombecraft.projectile.action.NullAction;
 import bassebombecraft.projectile.action.ProjectileAction;
 import net.minecraft.entity.EntityType;

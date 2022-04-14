@@ -3,6 +3,7 @@ package bassebombecraft.client.operator;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import bassebombecraft.operator.Ports;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 /**
  * Client side collection of ports which provides input and output from operators.
@@ -25,4 +26,20 @@ public interface ClientPorts extends Ports {
 	 */
 	ClientPorts setMatrixStack1(MatrixStack ms);
 
+	/**
+	 * Get {@linkplain RenderGameOverlayEvent} #1.
+	 * 
+	 * @return {@linkplain RenderGameOverlayEvent}.
+	 */
+	RenderGameOverlayEvent getRenderGameOverlayEvent1();
+
+	/**
+	 * Set {@linkplain RenderGameOverlayEvent} #1.
+	 * 
+	 * @param event{@linkplain RenderGameOverlayEvent}.
+	 * 
+	 * @return ports.
+	 */
+	ClientPorts setRenderGameOverlayEvent1(RenderGameOverlayEvent event);
+		
 }

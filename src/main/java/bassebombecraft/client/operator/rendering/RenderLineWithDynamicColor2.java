@@ -27,7 +27,7 @@ import net.minecraft.util.math.vector.Vector3d;
  * Implementation of the {@linkplain Operator2} interface which renders a line
  * with dynamic color.
  * 
- * Vector array are read from ports during execution. The first vector is
+ * A vector array is read from ports during execution. The first vector is
  * interpreted as the start of the line. Every subsequent entity is interpreted
  * as a line vertex.
  */

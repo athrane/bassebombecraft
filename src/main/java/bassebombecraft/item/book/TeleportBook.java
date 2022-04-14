@@ -1,38 +1,29 @@
 package bassebombecraft.item.book;
 
 import static bassebombecraft.config.ModConfiguration.teleportBook;
-import static bassebombecraft.operator.DefaultPorts.getFnGetEntities1;
-import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.item.RegisteredItems.FORMATION1;
+import static bassebombecraft.item.RegisteredItems.MODIFIER1;
+import static bassebombecraft.item.RegisteredItems.PROJECTILE3;
 
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
-import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.Sequence2;
-import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
-import bassebombecraft.operator.projectile.ShootSkullProjectile2;
-import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
-import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
-import bassebombecraft.operator.sound.PlaySound2;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.RegistryObject;
 
 /**
  * Book of teleport implementation.
  */
-public class TeleportBook extends GenericRightClickedBook2 {
+public class TeleportBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = TeleportBook.class.getSimpleName();
 
 	/**
-	 * Create operators.
+	 * Composite items.
 	 */
-	static Supplier<Operator2> splOp = () -> {
-		Operator2 formationOp = new SingleProjectileFormation2();
-		Operator2 projectileOp = new ShootSkullProjectile2();
-		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> TeleportInvoker2.NAME);
-		Operator2 soundOp = new PlaySound2(teleportBook.getSplSound());
-		return new Sequence2(formationOp, projectileOp, modifierOp, soundOp);
-	};
+	static Supplier<Stream<RegistryObject<Item>>> splComposites = () -> Stream.of(FORMATION1, PROJECTILE3, MODIFIER1);
 
 	public TeleportBook() {
-		super(teleportBook, getInstance(), splOp.get());
+		super(teleportBook, splComposites);
 	}
 }

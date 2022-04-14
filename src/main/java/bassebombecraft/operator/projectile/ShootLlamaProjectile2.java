@@ -1,6 +1,6 @@
 package bassebombecraft.operator.projectile;
 
-import static bassebombecraft.event.projectile.RegisteredEntityTypes.LLAMA_PROJECTILE;
+import static bassebombecraft.entity.RegisteredEntities.LLAMA_PROJECTILE;
 
 import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.entity.projectile.LlamaProjectileEntity;
@@ -20,7 +20,7 @@ public class ShootLlamaProjectile2 extends GenericShootProjectile2 {
 
 	@Override
 	Entity createProjectile(LivingEntity invoker, Vector3d orientation) {
-		GenericCompositeProjectileEntity projectile = new LlamaProjectileEntity(LLAMA_PROJECTILE, invoker);
+		GenericCompositeProjectileEntity projectile = new LlamaProjectileEntity(LLAMA_PROJECTILE.get(), invoker);
 		projectile.shootUsingProjectileConfig(orientation);
 		return projectile;
 	}

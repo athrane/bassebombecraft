@@ -3,6 +3,8 @@ package bassebombecraft.player;
 import java.util.Optional;
 import java.util.UUID;
 
+import static bassebombecraft.item.ItemUtils.*;
+import bassebombecraft.item.book.GenericCompositeItemsBook;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -110,7 +112,7 @@ public class PlayerUtils {
 			return false;
 		return (e1.getUniqueID() == e2.getUniqueID());
 	}
-	
+
 	/**
 	 * return true if entity is a {@linkplain PlayerEntity}.
 	 * 
@@ -214,6 +216,32 @@ public class PlayerUtils {
 			return false;
 
 		return item.equals(heldItem);
+	}
+
+	/**
+	 * Returns true if item held in player main hand is a sub class of
+	 * {@linkplain GenericCompositeItemsBook}.
+	 * 
+	 * @param player player to test.
+	 * 
+	 * @return true if item held in player main hand is a sub class of
+	 *         {@linkplain GenericCompositeItemsBook}.
+	 */
+	public static boolean isItemHeldInMainHandOfTypeGenericCompositeItemsBook(PlayerEntity player) {
+		if (player == null)
+			return false;
+
+		// get item stack
+		ItemStack heldItemStack = player.getHeldItemMainhand();
+		if (heldItemStack == null)
+			return false;
+
+		// get item
+		Item heldItem = heldItemStack.getItem();
+		if (heldItem == null)
+			return false;
+
+		return isTypeGenericCompositeItemsBook(heldItem);
 	}
 
 	/**

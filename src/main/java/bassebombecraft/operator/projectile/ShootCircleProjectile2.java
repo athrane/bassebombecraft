@@ -1,6 +1,6 @@
 package bassebombecraft.operator.projectile;
 
-import static bassebombecraft.event.projectile.RegisteredEntityTypes.CIRCLE_PROJECTILE;
+import static bassebombecraft.entity.RegisteredEntities.CIRCLE_PROJECTILE;
 
 import bassebombecraft.entity.projectile.CircleProjectileEntity;
 import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
@@ -20,7 +20,7 @@ public class ShootCircleProjectile2 extends GenericShootProjectile2 {
 
 	@Override
 	Entity createProjectile(LivingEntity invoker, Vector3d orientation) {
-		GenericCompositeProjectileEntity projectile = new CircleProjectileEntity(CIRCLE_PROJECTILE, invoker);
+		GenericCompositeProjectileEntity projectile = new CircleProjectileEntity(CIRCLE_PROJECTILE.get(), invoker);
 		projectile.shootUsingProjectileConfig(orientation);
 		return projectile;
 	}

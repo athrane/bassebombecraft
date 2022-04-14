@@ -8,11 +8,13 @@ import java.util.stream.Stream;
 import bassebombecraft.color.Color4f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector2f;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
@@ -64,6 +66,11 @@ public class DefaultPorts implements Ports {
 	BlockPos blockPos2;
 
 	/**
+	 * Item stack #1
+	 */
+	ItemStack itemStack1; 
+	
+	/**
 	 * String #1.
 	 */
 	String string1;
@@ -87,6 +94,11 @@ public class DefaultPorts implements Ports {
 	 * Integer #1.
 	 */
 	int integer1;
+
+	/**
+	 * Vector2f #1.
+	 */
+	Vector2f vector2f1;
 	
 	/**
 	 * Vector3d #1.
@@ -227,7 +239,17 @@ public class DefaultPorts implements Ports {
 	 * Block position #2 setter.
 	 */
 	static BiConsumer<Ports, BlockPos> bcSetBlockPos2 = (p, bp) -> p.setBlockPosition2(bp);
+	
+	/**
+	 * Item stack #1 getter.
+	 */
+	static Function<Ports, ItemStack> fnGetItemStack1 = p -> p.getItemStack1();
 
+	/**
+	 * Item stack #1 setter.
+	 */
+	static BiConsumer<Ports, ItemStack> bcSetItemStack1 = (p, is) -> p.setItemStack1(is);
+	
 	/**
 	 * String #1 getter.
 	 */
@@ -277,36 +299,46 @@ public class DefaultPorts implements Ports {
 	 * Integer #1 setter.
 	 */
 	static BiConsumer<Ports, Integer> bcSetInteger1 = (p, d) -> p.setInteger1(d);
+
+	/**
+	 * Vector2f #1 getter.
+	 */
+	static Function<Ports, Vector2f> fnGetVector2f1 = p -> p.getVector2f1();
+
+	/**
+	 * Vector2f #1 setter.
+	 */
+	static BiConsumer<Ports, Vector2f> bcSetVector2f1 = (p, v) -> p.setVector2f1(v);
 	
 	/**
 	 * Vector3d #1 getter.
 	 */
-	static Function<Ports, Vector3d> fnGetVector1 = p -> p.getVector1();
+	static Function<Ports, Vector3d> fnGetVector3d1 = p -> p.getVector1();
 
 	/**
 	 * Vector3d #1 setter.
 	 */
-	static BiConsumer<Ports, Vector3d> bcSetVector1 = (p, v) -> p.setVector1(v);
+	static BiConsumer<Ports, Vector3d> bcSetVector3d1 = (p, v) -> p.setVector1(v);
 
 	/**
 	 * Vector3d array #1 setter.
 	 */
-	static BiConsumer<Ports, Vector3d[]> bcSetVectors1 = (p, v) -> p.setVectors1(v);
+	static BiConsumer<Ports, Vector3d[]> bcSetVectors3d1 = (p, v) -> p.setVectors1(v);
 
 	/**
 	 * Vector3d array #1 getter.
 	 */
-	static Function<Ports, Vector3d[]> fnGetVectors1 = p -> p.getVectors1();
+	static Function<Ports, Vector3d[]> fnGetVectors3d1 = p -> p.getVectors1();
 
 	/**
 	 * Vector3d array #2 setter.
 	 */
-	static BiConsumer<Ports, Vector3d[]> bcSetVectors2 = (p, v) -> p.setVectors2(v);
+	static BiConsumer<Ports, Vector3d[]> bcSetVectors3d2 = (p, v) -> p.setVectors2(v);
 
 	/**
 	 * Vector3d array #2 getter.
 	 */
-	static Function<Ports, Vector3d[]> fnGetVectors2 = p -> p.getVectors2();
+	static Function<Ports, Vector3d[]> fnGetVectors3d2 = p -> p.getVectors2();
 
 	/**
 	 * Color4f #1 getter.
@@ -466,25 +498,36 @@ public class DefaultPorts implements Ports {
 	}
 	
 	@Override
-	public Ports setBlockPosition1(BlockPos pos) {
-		this.blockPos1 = pos;
-		return this;
-	}
-
-	@Override
 	public BlockPos getBlockPosition1() {
 		return blockPos1;
 	}
 
 	@Override
+	public Ports setBlockPosition1(BlockPos pos) {
+		this.blockPos1 = pos;
+		return this;
+	}
+	
+	@Override
+	public BlockPos getBlockPosition2() {
+		return blockPos2;
+	}
+	
+	@Override
 	public Ports setBlockPosition2(BlockPos pos) {
 		this.blockPos2 = pos;
 		return this;
 	}
-
+	
 	@Override
-	public BlockPos getBlockPosition2() {
-		return blockPos2;
+	public ItemStack getItemStack1() {
+		return itemStack1;
+	}
+	
+	@Override
+	public Ports setItemStack1(ItemStack itemStack) {
+		this.itemStack1 = itemStack;
+		return this;
 	}
 
 	@Override
@@ -540,6 +583,18 @@ public class DefaultPorts implements Ports {
 	@Override
 	public Ports setInteger1(int value) {
 		this.integer1 = value;
+		return this;
+	}
+
+	
+	@Override
+	public Vector2f getVector2f1() {
+		return vector2f1;
+	}
+
+	@Override
+	public Ports setVector2f1(Vector2f vec) {
+		this.vector2f1 = vec;
 		return this;
 	}
 
@@ -726,6 +781,8 @@ public class DefaultPorts implements Ports {
 			builder.append(", LivingEntity2=" + getLivingEntity2());
 		if (getEntities1() != null)
 			builder.append(", LivingEntities1=" + Arrays.toString(getLivingEntities1()));
+		if (getVector2f1() != null)
+			builder.append(", Vector2f1=" + getVector2f1());		
 		if (getVector1() != null)
 			builder.append(", Vector1=" + getVector1());
 		if (getVectors1() != null)
@@ -801,6 +858,14 @@ public class DefaultPorts implements Ports {
 		return bcSetBlockPos2;
 	}
 
+	public static Function<Ports, ItemStack> getFnGetItemStack1() {
+		return fnGetItemStack1;
+	}
+
+	public static BiConsumer<Ports, ItemStack> getBcSetItemStack1() {
+		return bcSetItemStack1;
+	}
+	
 	public static Function<Ports, String> getFnGetString1() {
 		return fnGetString1;
 	}
@@ -840,29 +905,37 @@ public class DefaultPorts implements Ports {
 	public static BiConsumer<Ports, Integer> getBcSetInteger1() {
 		return bcSetInteger1;
 	}
+
+	public static Function<Ports, Vector2f> getFnGetVector2f1() {
+		return fnGetVector2f1;
+	}
+
+	public static BiConsumer<Ports, Vector2f> getBcSetVector2f1() {
+		return bcSetVector2f1;
+	}
 	
 	public static Function<Ports, Vector3d> getFnGetVector1() {
-		return fnGetVector1;
+		return fnGetVector3d1;
 	}
 
 	public static BiConsumer<Ports, Vector3d> getBcSetVector1() {
-		return bcSetVector1;
+		return bcSetVector3d1;
 	}
 
 	public static Function<Ports, Vector3d[]> getFnGetVectors1() {
-		return fnGetVectors1;
+		return fnGetVectors3d1;
 	}
 
 	public static BiConsumer<Ports, Vector3d[]> getBcSetVectors1() {
-		return bcSetVectors1;
+		return bcSetVectors3d1;
 	}
 
 	public static Function<Ports, Vector3d[]> getFnGetVectors2() {
-		return fnGetVectors2;
+		return fnGetVectors3d2;
 	}
 
 	public static BiConsumer<Ports, Vector3d[]> getBcSetVectors2() {
-		return bcSetVectors2;
+		return bcSetVectors3d2;
 	}
 
 	public static Function<Ports, Color4f> getFnGetColor4f1() {

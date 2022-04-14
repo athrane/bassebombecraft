@@ -90,7 +90,7 @@ public class CompositeMagicItemItemStackHandler extends ItemStackHandler {
 
 			// configure operators
 			if (hasSignatureChanged(inventoryIndex, compositeLength)) {
-				configureOperators(inventoryIndex, compositeLength);
+				resolveOperators(inventoryIndex, compositeLength);
 				createCompositeName(inventoryIndex, compositeLength);
 			}
 		} else {
@@ -260,18 +260,16 @@ public class CompositeMagicItemItemStackHandler extends ItemStackHandler {
 	}
 
 	/**
-	 * Configure state of composites.
+	 * Resolve operators from composite items.
 	 * 
 	 * @param inventoryIndex inventory index for first composite item.
 	 * @param length         length of the composite in the inventory.
-	 * 
-	 * @return array containing the operators in the composite.
 	 */
-	void configureOperators(int inventoryIndex, int length) {
+	void resolveOperators(int inventoryIndex, int length) {
 		ArrayList<Operator2> opList = new ArrayList<Operator2>();
 
 		for (int index = 0; index < length; index++) {
-			configureOperator(opList, inventoryIndex + index);
+			resolveOperator(opList, inventoryIndex + index);
 		}
 
 		// create array
@@ -282,12 +280,12 @@ public class CompositeMagicItemItemStackHandler extends ItemStackHandler {
 	}
 
 	/**
-	 * Configure operator.
+	 * Resolve operator from item stack containing composite item.
 	 * 
 	 * @param opList list of operators where operator is added to.
 	 * @param index  inventory index for composite item.
 	 */
-	void configureOperator(ArrayList<Operator2> opList, int index) {
+	void resolveOperator(ArrayList<Operator2> opList, int index) {
 
 		// get inventory item
 		ItemStack inventoryStack = getStackInSlot(index);
@@ -353,7 +351,7 @@ public class CompositeMagicItemItemStackHandler extends ItemStackHandler {
 	 * Get length of current composite sequence.
 	 * 
 	 * @return length of current composite sequence.
-	 */	
+	 */
 	public int getCompositeLength() {
 		return compositeLength;
 	}
@@ -362,9 +360,9 @@ public class CompositeMagicItemItemStackHandler extends ItemStackHandler {
 	 * Get inventory index of current composite sequence.
 	 * 
 	 * @return index of current composite sequence.
-	 */	
+	 */
 	public int getCompositeInventoryIndex() {
 		return inventoryIndex;
 	}
-		
+
 }

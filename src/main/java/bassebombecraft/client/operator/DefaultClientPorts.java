@@ -6,6 +6,7 @@ import java.util.function.Function;
 import com.mojang.blaze3d.matrix.MatrixStack;
 
 import bassebombecraft.operator.DefaultPorts;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 /**
  * Implementation of {@linkplain ClientPorts}.
@@ -18,6 +19,11 @@ public class DefaultClientPorts extends DefaultPorts implements ClientPorts {
 	MatrixStack matrixStack;
 
 	/**
+	 * RenderGameOverlayEvent.
+	 */
+	RenderGameOverlayEvent renderGameOverlayEvent;
+	
+	/**
 	 * Matrix stack #1 getter.
 	 */
 	static Function<ClientPorts, MatrixStack> fnGetMatrixStack1 = p -> p.getMatrixStack1();
@@ -27,6 +33,16 @@ public class DefaultClientPorts extends DefaultPorts implements ClientPorts {
 	 */
 	static BiConsumer<ClientPorts, MatrixStack> bcSetMatrixStack1 = (p, ms) -> p.setMatrixStack1(ms);
 
+	/**
+	 * RenderGameOverlayEvent #1 getter.
+	 */
+	static Function<ClientPorts, RenderGameOverlayEvent> fnGetRenderGameOverlayEvent1 = p -> p.getRenderGameOverlayEvent1();
+
+	/**
+	 * RenderGameOverlayEvent #1 setter.
+	 */
+	static BiConsumer<ClientPorts, RenderGameOverlayEvent> bcSetRenderGameOverlayEvent1 = (p, e) -> p.setRenderGameOverlayEvent1(e);
+	
 	/**
 	 * Constructor
 	 */
@@ -44,6 +60,17 @@ public class DefaultClientPorts extends DefaultPorts implements ClientPorts {
 		this.matrixStack = ms;
 		return this;
 	}
+	
+	@Override
+	public RenderGameOverlayEvent getRenderGameOverlayEvent1() {
+		return renderGameOverlayEvent;
+	}
+
+	@Override
+	public ClientPorts setRenderGameOverlayEvent1(RenderGameOverlayEvent event) {
+		this.renderGameOverlayEvent = event;
+		return this;
+	}
 
 	public static Function<ClientPorts, MatrixStack> getFnMaxtrixStack1() {
 		return fnGetMatrixStack1;
@@ -53,6 +80,14 @@ public class DefaultClientPorts extends DefaultPorts implements ClientPorts {
 		return bcSetMatrixStack1;
 	}
 
+	public static Function<ClientPorts, RenderGameOverlayEvent> getFnRenderGameOverlayEvent1() {
+		return fnGetRenderGameOverlayEvent1;
+	}
+
+	public static BiConsumer<ClientPorts, RenderGameOverlayEvent> getBcSetRenderGameOverlayEvent1() {
+		return bcSetRenderGameOverlayEvent1;
+	}
+	
 	/**
 	 * Factory method.
 	 * 

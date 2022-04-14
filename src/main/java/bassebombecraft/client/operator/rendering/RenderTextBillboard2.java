@@ -18,17 +18,17 @@ import bassebombecraft.operator.Ports;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.util.math.vector.Matrix4f;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which renders a text
  * billboard.
  * 
- * Supports rendering of billboard text in the renderer instances handling
- * processing the {@linkplain RenderWorldLastEvent}.
+ * Supports rendering of billboard text in the renderer instances processing the
+ * {@linkplain RenderWorldLastEvent}.
  */
 public class RenderTextBillboard2 implements Operator2 {
 

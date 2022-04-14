@@ -5,10 +5,7 @@
 			"item": "minecraft:book"
 		},
 		{
-			"item": "minecraft:fire_charge"
-		},
-		{
-			"item": "minecraft:gunpowder"
+			"item": "bassebombecraft:largefireballprojectileitem"
 		}
 	],
 	"result": {

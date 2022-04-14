@@ -1,6 +1,6 @@
 package bassebombecraft.operator.projectile;
 
-import static bassebombecraft.event.projectile.RegisteredEntityTypes.SKULL_PROJECTILE;
+import static bassebombecraft.entity.RegisteredEntities.SKULL_PROJECTILE;
 
 import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.entity.projectile.SkullProjectileEntity;
@@ -20,7 +20,7 @@ public class ShootSkullProjectile2 extends GenericShootProjectile2 {
 
 	@Override
 	Entity createProjectile(LivingEntity invoker, Vector3d orientation) {
-		GenericCompositeProjectileEntity projectile = new SkullProjectileEntity(SKULL_PROJECTILE, invoker);
+		GenericCompositeProjectileEntity projectile = new SkullProjectileEntity(SKULL_PROJECTILE.get(), invoker);
 		projectile.shootUsingProjectileConfig(orientation);
 		return projectile;
 	}

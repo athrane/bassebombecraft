@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 
 /**
  * Egg projectile for composite magic.
-s */
+ */
 public class EggProjectileEntity extends GenericCompositeProjectileEntity {
 
 	/**

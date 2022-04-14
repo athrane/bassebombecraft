@@ -5,13 +5,15 @@ import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlaye
 import static bassebombecraft.config.VersionUtils.endSession;
 import static bassebombecraft.config.VersionUtils.postItemUsageEvent;
 import static bassebombecraft.config.VersionUtils.startSession;
-import static bassebombecraft.event.projectile.RegisteredEntityTypes.CIRCLE_PROJECTILE;
-import static bassebombecraft.event.projectile.RegisteredEntityTypes.EGG_PROJECTILE;
-import static bassebombecraft.event.projectile.RegisteredEntityTypes.LIGHTNING_PROJECTILE;
-import static bassebombecraft.event.projectile.RegisteredEntityTypes.LLAMA_PROJECTILE;
-import static bassebombecraft.event.projectile.RegisteredEntityTypes.SKULL_PROJECTILE;
+import static bassebombecraft.entity.RegisteredEntities.CIRCLE_PROJECTILE;
+import static bassebombecraft.entity.RegisteredEntities.EGG_PROJECTILE;
+import static bassebombecraft.entity.RegisteredEntities.LIGHTNING_PROJECTILE;
+import static bassebombecraft.entity.RegisteredEntities.LLAMA_PROJECTILE;
+import static bassebombecraft.entity.RegisteredEntities.SKULL_PROJECTILE;
 import static bassebombecraft.inventory.container.RegisteredContainers.COMPOSITE_ITEM_COMTAINER;
+import static net.minecraft.client.gui.ScreenManager.registerFactory;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
+import static net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -20,8 +22,10 @@ import org.apache.logging.log4j.Logger;
 
 import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
 import bassebombecraft.client.event.rendering.BuildMineBookRenderer;
+import bassebombecraft.client.event.rendering.CompositeMagicItemRenderer;
 import bassebombecraft.client.event.rendering.DecoyRenderer;
 import bassebombecraft.client.event.rendering.DecreaseSizeEffectRenderer;
+import bassebombecraft.client.event.rendering.GenericCompositeItemsBookRenderer;
 import bassebombecraft.client.event.rendering.HudItemCharmedInfoRenderer;
 import bassebombecraft.client.event.rendering.HudItemHighlightedBlockRenderer;
 import bassebombecraft.client.event.rendering.IncreaseSizeEffectRenderer;
@@ -59,9 +63,7 @@ import bassebombecraft.event.job.DefaultJobReposiory;
 import bassebombecraft.event.job.JobRepository;
 import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.proxy.Proxy;
-import net.minecraft.client.gui.ScreenManager;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
 
 /**
  * Implementation of the {@linkplain Proxy} interface for the physical client.
@@ -292,24 +294,19 @@ public class ClientProxy implements Proxy {
 	@Override
 	public void setupClientSideRendering() throws UnsupportedOperationException {
 		// register debug renderer classes
-		// EVENT_BUS.addListener(DebugRenderer_MobLines::render);
-		// EVENT_BUS.addListener(DebugRenderer_EntityText_v3::render);
-		// EVENT_BUS.addListener(DebugRenderer_EntityText_v2::render);
-		// EVENT_BUS.addListener(DebugRenderer_EntityText_v1::render);
-		// MinecraftForge.EVENT_BUS.addListener(DebugRenderer_WorldLastEventText::render);
-		// EVENT_BUS.addListener(DebugRenderer_Highlightblock::render);
-		// EVENT_BUS.addListener(DebugRenderer_StrangeSize::render);
-		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPre);
-		// EVENT_BUS.addListener(DebugRenderer_2DEntities::renderPost);
-		// EVENT_BUS.addListener(DebugRenderer_WorldLastEvent_GuiLines::render);
+		// EVENT_BUS.addListener(DebugRenderer::handleRenderGameOverlayEvent);
 
-		// register renderer classes
+		// register renderer classes for items
 		// EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
 		// EVENT_BUS.addListener(TargetInfoRenderer::handleRenderWorldLastEvent);
 		EVENT_BUS.addListener(HudItemCharmedInfoRenderer::handleRenderWorldLastEvent);
 		EVENT_BUS.addListener(HudItemHighlightedBlockRenderer::handleHighlightBlockEvent);
 		EVENT_BUS.addListener(BuildMineBookRenderer::handleHighlightBlockEvent);
+		EVENT_BUS.addListener(CompositeMagicItemRenderer::handleRenderGameOverlayEvent);
+		EVENT_BUS.addListener(GenericCompositeItemsBookRenderer::handleRenderGameOverlayEvent);		
 		// EVENT_BUS.addListener(TeamEnityRenderer::handleRenderLivingEvent);
+
+		// register renderer classes for effects
 		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPre);
 		EVENT_BUS.addListener(DecreaseSizeEffectRenderer::handleRenderLivingEventPost);
 		EVENT_BUS.addListener(IncreaseSizeEffectRenderer::handleRenderLivingEventPre);
@@ -322,15 +319,15 @@ public class ClientProxy implements Proxy {
 		EVENT_BUS.addListener(EffectRenderer::handleRenderWorldLastEvent);
 
 		// register entity rendering
-		RenderingRegistry.registerEntityRenderingHandler(EGG_PROJECTILE, EggProjectileEntityRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(LLAMA_PROJECTILE, LlamaProjectileEntityRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(LIGHTNING_PROJECTILE, LightningProjectileEntityRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(CIRCLE_PROJECTILE, CircleProjectileEntityRenderer::new);
-		RenderingRegistry.registerEntityRenderingHandler(SKULL_PROJECTILE, SkullProjectileEntityRenderer::new);
+		registerEntityRenderingHandler(EGG_PROJECTILE.get(), EggProjectileEntityRenderer::new);
+		registerEntityRenderingHandler(LLAMA_PROJECTILE.get(), LlamaProjectileEntityRenderer::new);
+		registerEntityRenderingHandler(LIGHTNING_PROJECTILE.get(), LightningProjectileEntityRenderer::new);
+		registerEntityRenderingHandler(CIRCLE_PROJECTILE.get(), CircleProjectileEntityRenderer::new);
+		registerEntityRenderingHandler(SKULL_PROJECTILE.get(), SkullProjectileEntityRenderer::new);
 
 		// register the factory used client side to generate a screen corresponding to
 		// the container
-		ScreenManager.registerFactory(COMPOSITE_ITEM_COMTAINER.get(), CompositeMagicItemScreen::new);
+		registerFactory(COMPOSITE_ITEM_COMTAINER.get(), CompositeMagicItemScreen::new);
 	}
 
 	@Override

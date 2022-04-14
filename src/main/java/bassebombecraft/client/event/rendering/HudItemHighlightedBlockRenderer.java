@@ -21,7 +21,9 @@ import bassebombecraft.client.operator.rendering.RenderWireframeBoundingBox2;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Sequence2;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -101,7 +103,8 @@ public class HudItemHighlightedBlockRenderer {
 
 		// Get block type
 		BlockState blockstate = world.getBlockState(blockPos);
-		String message = blockstate.getBlock().getTranslatedName().getUnformattedComponentText();
+		Block block = blockstate.getBlock();
+		String message = I18n.format(block.getTranslationKey());
 
 		// get aabb center
 		Vector3d aabbCenter = aabb.getCenter();

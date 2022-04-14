@@ -1,37 +1,30 @@
 package bassebombecraft.item.book;
 
 import static bassebombecraft.config.ModConfiguration.decoyBook;
-import static bassebombecraft.operator.DefaultPorts.getFnGetEntities1;
-import static bassebombecraft.operator.DefaultPorts.getInstance;
+import static bassebombecraft.item.RegisteredItems.FORMATION1;
+import static bassebombecraft.item.RegisteredItems.MODIFIER5;
+import static bassebombecraft.item.RegisteredItems.PROJECTILE3;
 
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
-import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.Sequence2;
-import bassebombecraft.operator.entity.raytraceresult.SpawnDecoy2;
-import bassebombecraft.operator.projectile.ShootSkullProjectile2;
-import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
-import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.RegistryObject;
 
 /**
  * Book of decoy implementation.
  */
-public class DecoyBook extends GenericRightClickedBook2 {
+public class DecoyBook extends GenericCompositeItemsBook {
 
 	public static final String ITEM_NAME = DecoyBook.class.getSimpleName();
 
 	/**
-	 * Create operators.
+	 * Composite items.
 	 */
-	static Supplier<Operator2> splOp = () -> {
-		Operator2 formationOp = new SingleProjectileFormation2();
-		Operator2 projectileOp = new ShootSkullProjectile2();
-		Operator2 modifierOp = new TagProjectileWithProjectileModifier(getFnGetEntities1(), p -> SpawnDecoy2.NAME);
-		return new Sequence2(formationOp, projectileOp, modifierOp);
-	};
+	static Supplier<Stream<RegistryObject<Item>>> splComposites = () -> Stream.of(FORMATION1, PROJECTILE3, MODIFIER5);
 
 	public DecoyBook() {
-		super(decoyBook, getInstance(), splOp.get());
+		super(decoyBook, splComposites);
 	}
 
 }
