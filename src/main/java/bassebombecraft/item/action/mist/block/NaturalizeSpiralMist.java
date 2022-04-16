@@ -9,7 +9,7 @@ import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.geom.GeometryUtils.createFlowerDirective;
 import static net.minecraft.block.Blocks.GRASS_BLOCK;
 
-import bassnimport bassebombecraft.event.block.BlockDirectivesRepository;
+import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
