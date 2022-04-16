@@ -26,26 +26,7 @@ import static net.minecraft.world.level.block.Blocks.POPPY;
 import static net.minecraft.world.level.block.Blocks.RED_TULIP;
 import static net.minecraft.world.level.block.Blocks.WHITE_TULIP;
 
-import bassebombecraft.structure.Structure;
 import java.awt.geom.AffineTransform;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.phys.Vec3;
-
-import net.minecraft.world.level.block.Blocks
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -57,15 +38,14 @@ import java.util.stream.Stream;
 import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.player.PlayerUtils;
 import bassebombecraft.structure.Structure;
-import net.minecraft.block.Block;
-import net.minecraft.world.level.block.Blockstate;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Utility for calculating geometric structures.
@@ -321,8 +301,8 @@ public class GeometryUtils {
 	 * @return list of block directives (e.g. coordinates) for the blocks in the
 	 *         structure.
 	 */
-	public static List<BlockDirective> calculateBlockDirectives(BlockPos offset, Player player,
-			Structure structure, boolean harvest) {
+	public static List<BlockDirective> calculateBlockDirectives(BlockPos offset, Player player, Structure structure,
+			boolean harvest) {
 
 		// handle child structure
 		if (!structure.isComposite()) {
@@ -415,7 +395,7 @@ public class GeometryUtils {
 			return East;
 		}
 	}
-	
+
 	/**
 	 * Calculate y offset from block.
 	 * 
@@ -699,7 +679,7 @@ public class GeometryUtils {
 	public static float oscillateFloat(float min, float max) {
 		return (float) oscillate(min, max);
 	}
-	
+
 	/**
 	 * Oscillate value.
 	 * 
