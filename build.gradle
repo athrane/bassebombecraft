@@ -23,8 +23,8 @@ apply plugin: 'eclipse'
 
 // definition of properties
 ext {
-    modVersion = "2.5"
-    mcVersion = "1.16.5"
+    modVersion = "3.1"
+    mcVersion = "1.17.1"
 }
 version = project.mcVersion + "-" + project.modVersion  
 group= "bassebombecraft" 
