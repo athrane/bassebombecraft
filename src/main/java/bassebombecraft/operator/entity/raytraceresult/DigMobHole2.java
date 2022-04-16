@@ -19,7 +19,7 @@ import static bassebombecraft.operator.DefaultPorts.getFnWorld1;
 import static bassebombecraft.operator.Operators2.applyV;
 import static bassebombecraft.player.PlayerDirection.South;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
-import static net.minecraft.block.Blocks.AIR;
+import static net.minecraft.world.level.block.Blocks.AIR;
 
 import java.util.List;
 import java.util.function.Function;
