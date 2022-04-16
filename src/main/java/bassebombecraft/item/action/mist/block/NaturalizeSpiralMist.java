@@ -2,23 +2,18 @@ package bassebombecraft.item.action.mist.block;
 
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.DONT_HARVEST;
-import static bassebombecraft.config.ConfigUtils.*;
+import static bassebombecraft.config.ConfigUtils.createInfoFromConfig;
 import static bassebombecraft.config.ModConfiguration.naturalizeSpiralMistDuration;
 import static bassebombecraft.config.ModConfiguration.naturalizeSpiralMistParticleInfo;
 import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.geom.GeometryUtils.createFlowerDirective;
-import static net.minecraft.block.Blocks.GRASS_BLOCK;
+import static net.minecraft.world.level.block.Blocks.GRASS_BLOCK;
 
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
+import bassebombecraft.geom.BlockDirective;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
-
-et.minecraft.world.level.block.BlocksockDirectivesRepository;
-import bassebombecraft.event.particle.ParticleRenderingInfo;
-import bassebombecraft.geom.BlockDirective;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 /**
  * Implementation of {@linkplain MistActionStrategy} for construction of mist
