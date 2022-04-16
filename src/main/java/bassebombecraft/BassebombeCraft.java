@@ -5,9 +5,10 @@ import static bassebombecraft.ModConstants.TAB_NAME;
 import static bassebombecraft.client.particles.RegisteredParticles.PARTICLE_REGISTRY;
 import static bassebombecraft.config.ModConfiguration.loadConfig;
 import static bassebombecraft.config.VersionUtils.validateVersion;
+import static bassebombecraft.entity.RegisteredEntities.ENTITY_REGISTRY;
+import static bassebombecraft.entity.attribute.RegisteredAttributes.ATTRIBUTE_REGISTRY;
 import static bassebombecraft.inventory.container.RegisteredContainers.CONTAINER_REGISTRY;
 import static bassebombecraft.item.RegisteredItems.COMPOSITE;
-import static bassebombecraft.entity.RegisteredEntities.ENTITY_REGISTRY;
 import static bassebombecraft.item.RegisteredItems.ITEMS_REGISTRY;
 import static bassebombecraft.potion.RegisteredPotions.POTION_REGISTRY;
 import static bassebombecraft.potion.effect.RegisteredEffects.EFFECT_REGISTRY;
@@ -16,7 +17,6 @@ import static bassebombecraft.tab.ItemGroupFactory.createItemGroup;
 import static java.util.Optional.ofNullable;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 import static net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext.get;
-import static bassebombecraft.entity.attribute.RegisteredAttributes.ATTRIBUTE_REGISTRY;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -34,19 +34,19 @@ import bassebombecraft.client.proxy.ClientProxy;
 import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.proxy.Proxy;
 import bassebombecraft.proxy.ServerProxy;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
-import net.minecraftforge.fml.event.server.FMLServerStoppedEvent;
+import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
+import net.minecraftforge.fmlserverevents.FMLServerStartedEvent;
+import net.minecraftforge.fmlserverevents.FMLServerStoppedEvent;
 
 @Mod(MODID)
 public class BassebombeCraft {
