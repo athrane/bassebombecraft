@@ -15,18 +15,18 @@ import static bassebombecraft.player.PlayerDirection.West;
 import static bassebombecraft.player.PlayerUtils.getPlayerDirection;
 import static net.minecraft.block.Blocks.ALLIUM;
 import static net.minecraft.block.Blocks.AZURE_BLUET;
-import staticnet.minecraft.world.level.block.Blockss.BLUE_ORCHID;
+import static net.minecraft.world.level.block.Blockss.BLUE_ORCHID;
 import static net.minecraft.block.Blocks.CORNFLOWER;
-import staticnet.minecraft.world.level.block.Blockss.DANDELION;
+import static net.minecraft.world.level.block.Blockss.DANDELION;
 import static net.minecraft.block.Blocks.LILY_OF_THE_VALLEY;
-import staticnet.minecraft.world.level.block.Blockss.ORANGE_TULIP;
+import static net.minecraft.world.level.block.Blockss.ORANGE_TULIP;
 import static net.minecraft.block.Blocks.OXEYE_DAISY;
-import staticnet.minecraft.world.level.block.Blockss.PINK_TULIP;
+import static net.minecraft.world.level.block.Blockss.PINK_TULIP;
 import static net.minecraft.block.Blocks.POPPY;
-import staticnet.minecraft.world.level.block.Blockss.RED_TULIP;
+import static net.minecraft.world.level.block.Blockss.RED_TULIP;
 import static net.minecraft.block.Blocks.WHITE_TULIP;
 
-import javanimport bassebombecraft.structure.Structure;
+import bassebombecraft.structure.Structure;
 import java.awt.geom.AffineTransform;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 
-et.minecraft.world.level.block.Blocks
+import net.minecraft.world.level.block.Blocks
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
