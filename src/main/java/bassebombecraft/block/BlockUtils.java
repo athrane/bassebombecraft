@@ -7,7 +7,7 @@ import static bassebombecraft.ModConstants.NULL_TILE_ENTITY;
 import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static net.minecraft.state.properties.BlockStateProperties.FACING;
-import staticnet.minecraft.world.level.block.state.properties.BlockStatePropertiess.HORIZONTAL_FACING;
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.HORIZONTAL_FACING;
 
 import java.util.Optional;
 import java.util.stream.Stream;
