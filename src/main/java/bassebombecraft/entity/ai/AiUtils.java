@@ -5,10 +5,10 @@ import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
 import static bassebombecraft.event.charm.CharmedMob.IS_EXPIRED;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
-import staticnet.minecraft.world.entity.ai.goal.Goal.Flagg.MOVE;
+import static net.minecraft.world.entity.ai.goal.Goal.Flagg.MOVE;
 import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
 
-importimport bassebombecraft.entity.EntityUtils;
+import bassebombecraft.entity.EntityUtils;
 import bassebombecraft.entity.ai.goal.AttackInRangeGoal;
 import bassebombecraft.entity.ai.goal.ChargeTowardsGoal;
 import bassebombecraft.entity.ai.goal.CommanderControlledTargeting;
@@ -46,7 +46,6 @@ import net.minecraft.world.entity.player.Player;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
- javanet.minecraft.world.entity.ai.goal.Goal.Flagnal;
 import java.util.Set;
 import java.util.stream.Stream;
 
