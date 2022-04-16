@@ -8,10 +8,10 @@ import static bassebombecraft.item.action.build.BuildUtils.createInstance;
 import static bassebombecraft.item.action.build.BuildUtils.selectFloorMaterial;
 import static bassebombecraft.item.action.build.BuildUtils.selectWindowMaterial;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
-import static net.minecraft.block.Blocks.STONE_BRICKS;
-import staticnet.minecraft.world.level.block.Blockss.STONE_BRICK_STAIRS;
-import static net.minecraft.block.StairsBlock.FACING;
-import staticnet.minecraft.world.level.block.StairBlockOUTH;
+import static net.minecraft.world.level.block.Blocks.STONE_BRICKS;
+import static net.minecraft.world.level.block.Blocks.STONE_BRICK_STAIRS;
+import static net.minecraft.world.level.block.StairBlock.FACING;
+import static net.minecraft.world.level.block.StairBlock.SOUTH;
 
 import java.util.Random;
 
