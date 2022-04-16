@@ -8,7 +8,7 @@ import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.LazyInitOp2.of;
 import static net.minecraft.potion.Effects.LEVITATION;
 
-import jaimport bassebombecraft.item.action.inventory.ExecuteOperatorOnInvoker2;
+import bassebombecraft.item.action.inventory.ExecuteOperatorOnInvoker2;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.Sequence2;
