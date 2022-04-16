@@ -13,18 +13,18 @@ import static bassebombecraft.player.PlayerDirection.North;
 import static bassebombecraft.player.PlayerDirection.South;
 import static bassebombecraft.player.PlayerDirection.West;
 import static bassebombecraft.player.PlayerUtils.getPlayerDirection;
-import static net.minecraft.block.Blocks.ALLIUM;
-import static net.minecraft.block.Blocks.AZURE_BLUET;
-import static net.minecraft.world.level.block.Blockss.BLUE_ORCHID;
-import static net.minecraft.block.Blocks.CORNFLOWER;
-import static net.minecraft.world.level.block.Blockss.DANDELION;
-import static net.minecraft.block.Blocks.LILY_OF_THE_VALLEY;
-import static net.minecraft.world.level.block.Blockss.ORANGE_TULIP;
-import static net.minecraft.block.Blocks.OXEYE_DAISY;
-import static net.minecraft.world.level.block.Blockss.PINK_TULIP;
-import static net.minecraft.block.Blocks.POPPY;
-import static net.minecraft.world.level.block.Blockss.RED_TULIP;
-import static net.minecraft.block.Blocks.WHITE_TULIP;
+import static net.minecraft.world.level.block.Blocks.ALLIUM;
+import static net.minecraft.world.level.block.Blocks.AZURE_BLUET;
+import static net.minecraft.world.level.block.Blocks.BLUE_ORCHID;
+import static net.minecraft.world.level.block.Blocks.CORNFLOWER;
+import static net.minecraft.world.level.block.Blocks.DANDELION;
+import static net.minecraft.world.level.block.Blocks.LILY_OF_THE_VALLEY;
+import static net.minecraft.world.level.block.Blocks.ORANGE_TULIP;
+import static net.minecraft.world.level.block.Blocks.OXEYE_DAISY;
+import static net.minecraft.world.level.block.Blocks.PINK_TULIP;
+import static net.minecraft.world.level.block.Blocks.POPPY;
+import static net.minecraft.world.level.block.Blocks.RED_TULIP;
+import static net.minecraft.world.level.block.Blocks.WHITE_TULIP;
 
 import bassebombecraft.structure.Structure;
 import java.awt.geom.AffineTransform;
@@ -58,7 +58,7 @@ import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.player.PlayerUtils;
 import bassebombecraft.structure.Structure;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.Blockstate;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
@@ -672,7 +672,7 @@ public class GeometryUtils {
 	 * @return the distance between two block positions
 	 */
 	public static double calculateDistance(BlockPos pos1, BlockPos pos2) {
-		return Mth.sqrt(calculateDistanceSq(pos1, pos2));
+		return Math.sqrt(calculateDistanceSq(pos1, pos2));
 	}
 
 	/**
