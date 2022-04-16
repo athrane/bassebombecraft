@@ -4,7 +4,7 @@ import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
 import static bassebombecraft.operator.Operators2.applyV;
 import static net.minecraft.world.Explosion.Mode.DESTROY;
 
-import javanet.minimport bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import java.util.function.Function;
 import net.minecraft.core.BlockPos;
@@ -12,7 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
-ecraft.world.level.Explosion.BlockInteraction static bassebombecraft.config.ModConfiguration.*;
+import static bassebombecraft.config.ModConfiguration.*;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.entity.Entity;
