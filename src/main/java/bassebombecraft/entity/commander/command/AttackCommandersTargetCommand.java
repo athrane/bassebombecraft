@@ -8,8 +8,8 @@ import java.util.Optional;
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
 import bassebombecraft.event.entity.target.TargetRepository;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.LivingEntity;
 
 /**
  * Attack commander's target command.
@@ -27,7 +27,7 @@ public class AttackCommandersTargetCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean shouldExecute(LivingEntity commander, CreatureEntity entity) {
+	public boolean shouldExecute(LivingEntity commander, PathfinderMob entity) {
 		try {
 			// get target
 			TargetRepository repository = getProxy().getServerTargetRepository();
@@ -42,7 +42,7 @@ public class AttackCommandersTargetCommand implements MobCommand {
 				return false;
 
 			// update target
-			entity.setAttackTarget(optTarget.get());
+			entity.setTarget(optTarget.get());
 
 			return true;
 
@@ -55,7 +55,7 @@ public class AttackCommandersTargetCommand implements MobCommand {
 	}
 
 	@Override
-	public void tick(LivingEntity commander, CreatureEntity entity) {
+	public void tick(LivingEntity commander, PathfinderMob entity) {
 		// NO-OP
 	}
 

@@ -3,12 +3,12 @@ package bassebombecraft.item.action.mist.entity;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of {@linkplain EntityMistActionStrategy} for construction of mist
@@ -37,16 +37,16 @@ public class LingeringFlameMist implements EntityMistActionStrategy {
 		float g = 0.25F;
 		float b = 0.25F;		
 		int numbers = 4;
-		BasicParticleType type = ParticleTypes.FLAME;
+		SimpleParticleType type = ParticleTypes.FLAME;
 		int duration = 20;		
 		double speed = 0.075;
 		info = getInstance(type, numbers, duration, r, g, b, speed);		
 	}
 
 	@Override
-	public void applyEffectToEntity(LivingEntity target, Vector3d mistPos, LivingEntity invoker) {
-		World world = target.getEntityWorld();
-		world.createExplosion(target, mistPos.x, mistPos.y, mistPos.z, explosionRadius, Explosion.Mode.DESTROY);
+	public void applyEffectToEntity(LivingEntity target, Vec3 mistPos, LivingEntity invoker) {
+		Level world = target.getCommandSenderWorld();
+		world.explode(target, mistPos.x, mistPos.y, mistPos.z, explosionRadius, Explosion.BlockInteraction.DESTROY);
 	}
 
 	@Override

@@ -6,13 +6,13 @@ import java.util.Random;
 
 import bassebombecraft.entity.projectile.GenericEggProjectile;
 import bassebombecraft.projectile.action.ProjectileAction;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain RightClickedItemAction} which shoot an egg
@@ -23,7 +23,7 @@ public class ShootGenericEggProjectile implements RightClickedItemAction {
 
 	static final float VELOCITY = 3.0F;
 	static final float INACCURANCY = 1.0F;
-	static final SoundEvent SOUND = SoundEvents.ENTITY_EVOKER_CAST_SPELL;
+	static final SoundEvent SOUND = SoundEvents.EVOKER_CAST_SPELL;
 	ProjectileAction action;
 
 	/**
@@ -41,21 +41,21 @@ public class ShootGenericEggProjectile implements RightClickedItemAction {
 	}
 
 	@Override
-	public void onRightClick(World world, LivingEntity entity) {
+	public void onRightClick(Level world, LivingEntity entity) {
 		Random random = getBassebombeCraft().getRandom();
 
 		// calculate orientation
-		Vector3d orientation = entity.getLook(1).scale(ACCELERATION_MODIFIER);
+		Vec3 orientation = entity.getViewVector(1).scale(ACCELERATION_MODIFIER);
 
 		GenericEggProjectile projectile = new GenericEggProjectile(world, entity, action);
-		projectile.setPosition(entity.getPosX(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ());
+		projectile.setPos(entity.getX(), entity.getY() + entity.getEyeHeight(), entity.getZ());
 		projectile.shoot(orientation.x, orientation.y, orientation.z, VELOCITY, INACCURANCY);
 		entity.playSound(SOUND, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 0.8F));
-		world.addEntity(projectile);
+		world.addFreshEntity(projectile);
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void onUpdate(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		// NO-OP
 	}
 

@@ -13,7 +13,7 @@ import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
 import bassebombecraft.operator.projectile.path.DeaccelerateProjectilePath;
 import bassebombecraft.operator.projectile.path.DecreaseGravityProjectilePath;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 
 /**
  * Increase gravity projectile path item.

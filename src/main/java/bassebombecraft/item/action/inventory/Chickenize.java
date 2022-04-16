@@ -4,14 +4,14 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import java.util.Random;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
@@ -27,7 +27,7 @@ public class Chickenize implements InventoryItemActionStrategy {
 	/**
 	 * Entity spawn sound.
 	 */
-	SoundEvent SOUND = SoundEvents.ENTITY_CHICKEN_HURT;
+	SoundEvent SOUND = SoundEvents.CHICKEN_HURT;
 
 	@Override
 	public boolean applyOnlyIfSelected() {
@@ -38,27 +38,27 @@ public class Chickenize implements InventoryItemActionStrategy {
 	public boolean shouldApplyEffect(Entity target, boolean targetIsInvoker) {
 		if (targetIsInvoker)
 			return false;
-		if (target instanceof ChickenEntity)
+		if (target instanceof Chicken)
 			return false;
 		return true;
 	}
 
 	@Override
-	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
+	public void applyEffect(LivingEntity target, Level world, LivingEntity invoker) {
 
 		// get entity position
-		BlockPos position = target.getPosition();
-		float yaw = target.rotationYaw;
-		float pitch = target.rotationPitch;
+		BlockPos position = target.blockPosition();
+		float yaw = target.yRot;
+		float pitch = target.xRot;
 
 		// kill of entity
 		target.remove();
 
 		// spawn chicken
-		ChickenEntity entity = EntityType.CHICKEN.create(world);
-		entity.setGrowingAge(CHILD_AGE);
-		entity.setLocationAndAngles(position.getX(), position.getY(), position.getZ(), yaw, pitch);
-		world.addEntity(entity);
+		Chicken entity = EntityType.CHICKEN.create(world);
+		entity.setAge(CHILD_AGE);
+		entity.moveTo(position.getX(), position.getY(), position.getZ(), yaw, pitch);
+		world.addFreshEntity(entity);
 
 		// play sound
 		Random random = getBassebombeCraft().getRandom();

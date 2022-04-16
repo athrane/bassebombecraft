@@ -2,14 +2,14 @@ package bassebombecraft.entity.projectile;
 
 import java.util.Optional;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.entity.projectile.DamagingProjectileEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent.Arrow;
 import net.minecraftforge.event.entity.ProjectileImpactEvent.Fireball;
@@ -27,10 +27,10 @@ public class ProjectileUtils {
 	 * 
 	 * @return true if block was hit.
 	 */
-	public static boolean isBlockHit(RayTraceResult result) {
+	public static boolean isBlockHit(HitResult result) {
 		if (result == null)
 			return false;
-		return (result.getType() == RayTraceResult.Type.BLOCK);
+		return (result.getType() == HitResult.Type.BLOCK);
 	}
 
 	/**
@@ -40,10 +40,10 @@ public class ProjectileUtils {
 	 * 
 	 * @return true if entity was hit.
 	 */
-	public static boolean isEntityHit(RayTraceResult result) {
+	public static boolean isEntityHit(HitResult result) {
 		if (result == null)
 			return false;
-		return (result.getType() == RayTraceResult.Type.ENTITY);
+		return (result.getType() == HitResult.Type.ENTITY);
 	}
 
 	/**
@@ -53,10 +53,10 @@ public class ProjectileUtils {
 	 * 
 	 * @return true if result was a miss.
 	 */
-	public static boolean isNothingHit(RayTraceResult result) {
+	public static boolean isNothingHit(HitResult result) {
 		if (result == null)
 			return false;
-		return (result.getType() == RayTraceResult.Type.MISS);
+		return (result.getType() == HitResult.Type.MISS);
 	}
 
 	/**
@@ -66,10 +66,10 @@ public class ProjectileUtils {
 	 * 
 	 * @return true if result is a {@linkplain EntityRayTraceResult}.
 	 */
-	public static boolean isTypeEntityRayTraceResult(RayTraceResult result) {
+	public static boolean isTypeEntityRayTraceResult(HitResult result) {
 		if (result == null)
 			return false;
-		return result instanceof EntityRayTraceResult;
+		return result instanceof EntityHitResult;
 	}
 
 	/**
@@ -79,10 +79,10 @@ public class ProjectileUtils {
 	 * 
 	 * @return true if result is a {@linkplain BlockRayTraceResult}.
 	 */
-	public static boolean isTypeBlockRayTraceResult(RayTraceResult result) {
+	public static boolean isTypeBlockRayTraceResult(HitResult result) {
 		if (result == null)
 			return false;
-		return result instanceof BlockRayTraceResult;
+		return result instanceof BlockHitResult;
 	}
 
 	/**
@@ -102,8 +102,8 @@ public class ProjectileUtils {
 
 			// type cast event and get invoker
 			Arrow arrowEvent = (ProjectileImpactEvent.Arrow) event;
-			AbstractArrowEntity arrowProjectile = arrowEvent.getArrow();
-			Entity shooter = arrowProjectile.getShooter();
+			AbstractArrow arrowProjectile = arrowEvent.getArrow();
+			Entity shooter = arrowProjectile.getOwner();
 
 			// return invoker as LivingEntity
 			if (shooter instanceof LivingEntity)
@@ -117,8 +117,8 @@ public class ProjectileUtils {
 
 			// type cast event and get invoker
 			Fireball fireballEvent = (ProjectileImpactEvent.Fireball) event;
-			DamagingProjectileEntity fireballProjectile = fireballEvent.getFireball();
-			Entity shooter = fireballProjectile.getShooter();
+			AbstractHurtingProjectile fireballProjectile = fireballEvent.getFireball();
+			Entity shooter = fireballProjectile.getOwner();
 			
 			// return invoker as LivingEntity
 			if (shooter instanceof LivingEntity)
@@ -132,8 +132,8 @@ public class ProjectileUtils {
 
 			// type cast event and get invoker
 			Throwable throwableEvent = (ProjectileImpactEvent.Throwable) event;
-			ThrowableEntity throwableProjectile = throwableEvent.getThrowable();
-			Entity shooter = throwableProjectile.getShooter();
+			ThrowableProjectile throwableProjectile = throwableEvent.getThrowable();
+			Entity shooter = throwableProjectile.getOwner();
 			
 			// return invoker as LivingEntity
 			if (shooter instanceof LivingEntity)
@@ -146,7 +146,7 @@ public class ProjectileUtils {
 		Entity projectile = event.getEntity();
 		if(projectile instanceof GenericCompositeProjectileEntity) {			
 			GenericCompositeProjectileEntity genericProjectile = (GenericCompositeProjectileEntity) projectile;
-			return Optional.of((LivingEntity) genericProjectile.getShooter());
+			return Optional.of((LivingEntity) genericProjectile.getOwner());
 		}
 				
 		// return unhandled case

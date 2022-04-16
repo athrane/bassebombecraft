@@ -137,20 +137,20 @@ public class ServerProxy implements Proxy {
 			MinecraftServer server = optServer.get();
 
 			// define server host
-			String host = server.getServerHostname();
+			String host = server.getLocalIp();
 			if ((host == null) || (host.isEmpty()))
 				host = "*";
 
 			// define server port
-			String port = Integer.toString(server.getServerPort());
+			String port = Integer.toString(server.getPort());
 
 			// define server owner
-			String owner = server.getServerOwner();
+			String owner = server.getSingleplayerName();
 			if ((owner == null) || (owner.isEmpty()))
 				owner = "N/A";
 
 			String name = new StringBuilder().append(host).append(":").append(port).append(";").append(owner)
-					.append(";").append(server.getMOTD()).toString();
+					.append(";").append(server.getMotd()).toString();
 
 			startServerSession(name);
 
@@ -166,7 +166,7 @@ public class ServerProxy implements Proxy {
 			// get server
 			Optional<MinecraftServer> optServer = getBassebombeCraft().getServer();
 			MinecraftServer server = optServer.get();
-			String hostname = server.getServerHostname();
+			String hostname = server.getLocalIp();
 			endServerSession(hostname);
 		} catch (Exception ex) {
 			Logger logger = getBassebombeCraft().getLogger();

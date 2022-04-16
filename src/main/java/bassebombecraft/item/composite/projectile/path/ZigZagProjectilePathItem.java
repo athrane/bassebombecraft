@@ -12,7 +12,7 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
 import bassebombecraft.operator.projectile.path.ZigZagProjectilePath;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 
 /**
  * Zig zag projectile path item.

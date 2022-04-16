@@ -5,10 +5,10 @@ import static bassebombecraft.config.ModConfiguration.addReflectEffectDuration;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 
 import bassebombecraft.potion.effect.RegisteredEffects;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
@@ -51,10 +51,10 @@ public class AddReflectEffect implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
+	public void applyEffect(LivingEntity target, Level world, LivingEntity invoker) {
 		if (isTypeLivingEntity(target)) {
 			LivingEntity entityLiving = (LivingEntity) target;
-			entityLiving.addPotionEffect(createEffect());
+			entityLiving.addEffect(createEffect());
 		}
 	}
 
@@ -63,8 +63,8 @@ public class AddReflectEffect implements InventoryItemActionStrategy {
 	 * 
 	 * @return potion effect
 	 */
-	EffectInstance createEffect() {
-		return new EffectInstance(RegisteredEffects.REFLECT_EFFECT.get(), duration, amplifier);
+	MobEffectInstance createEffect() {
+		return new MobEffectInstance(RegisteredEffects.REFLECT_EFFECT.get(), duration, amplifier);
 	}
 
 }

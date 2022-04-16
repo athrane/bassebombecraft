@@ -11,11 +11,11 @@ import java.util.stream.Stream;
 import bassebombecraft.event.particle.ParticleRendering;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.ParticleManager;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.world.World;
+import net.minecraft.client.particle.ParticleEngine;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 /**
@@ -31,10 +31,10 @@ public class ParticleRenderer {
 				return;
 
 			// get player
-			PlayerEntity player = getClientSidePlayer();
+			Player player = getClientSidePlayer();
 
 			// get world
-			World world = player.getEntityWorld();
+			Level world = player.getCommandSenderWorld();
 
 			// render particles
 			render(world);
@@ -51,7 +51,7 @@ public class ParticleRenderer {
 	 * 
 	 * @throws Exception if rendering fails.
 	 */
-	static void render(World world) throws Exception {
+	static void render(Level world) throws Exception {
 		ParticleRenderingRepository repository = getProxy().getClientParticleRenderingRepository();
 
 		// get and render particles
@@ -77,7 +77,7 @@ public class ParticleRenderer {
 	 * @return true if particle should be rendered with custom color.
 	 */
 	static boolean renderWithCustomColor(ParticleRendering particle) {
-		BasicParticleType type = particle.getParticleType();
+		SimpleParticleType type = particle.getParticleType();
 		return (type == ParticleTypes.EFFECT);
 	}
 
@@ -87,7 +87,7 @@ public class ParticleRenderer {
 	 * @param world    world object
 	 * @param particle particle to render.
 	 */
-	static void renderParticle(World world, ParticleRendering particle) {
+	static void renderParticle(Level world, ParticleRendering particle) {
 		double speed = particle.getInfo().getSpeed();
 		double d0 = calculateRandomSpeed(speed);
 		double d1 = calculateRandomSpeed(speed);
@@ -99,12 +99,12 @@ public class ParticleRenderer {
 
 		// add particle
 		Minecraft mcClient = Minecraft.getInstance();
-		ParticleManager manager = mcClient.particles;
-		Particle spellParticle = manager.addParticle(particle.getParticleType(), x, y, z, d0, d1, d2);
+		ParticleEngine manager = mcClient.particleEngine;
+		Particle spellParticle = manager.createParticle(particle.getParticleType(), x, y, z, d0, d1, d2);
 
 		// set age
 		int duration = Math.abs(particle.getInfo().getDuration());
-		spellParticle.setMaxAge(duration);
+		spellParticle.setLifetime(duration);
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class ParticleRenderer {
 	 * 
 	 * @param particle particle to render.
 	 */
-	static void renderParticleWithCustomColor(World world, ParticleRendering particle) {
+	static void renderParticleWithCustomColor(Level world, ParticleRendering particle) {
 		Random random = getBassebombeCraft().getRandom();
 
 		double speed = particle.getInfo().getSpeed();
@@ -137,15 +137,15 @@ public class ParticleRenderer {
 
 		// add particle
 		Minecraft mcClient = Minecraft.getInstance();
-		ParticleManager manager = mcClient.particles;
-		Particle spellParticle = manager.addParticle(ParticleTypes.EFFECT, x, y, z, d0, d1, d2);
+		ParticleEngine manager = mcClient.particleEngine;
+		Particle spellParticle = manager.createParticle(ParticleTypes.EFFECT, x, y, z, d0, d1, d2);
 
 		// set color
 		spellParticle.setColor(r, g, b);
 
 		// set age
 		int duration = Math.abs(particle.getInfo().getDuration());
-		spellParticle.setMaxAge(duration);
+		spellParticle.setLifetime(duration);
 	}
 
 	/**

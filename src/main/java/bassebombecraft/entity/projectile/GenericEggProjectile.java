@@ -10,17 +10,17 @@ import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.projectile.action.NullAction;
 import bassebombecraft.projectile.action.ProjectileAction;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ProjectileItemEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 /**
  * Projectile which executes operator on impact.
@@ -28,7 +28,7 @@ import net.minecraft.world.World;
  * @deprecated Replace with {@linkplain GenericCompositeProjectileEntity}.
  */
 @Deprecated
-public class GenericEggProjectile extends ProjectileItemEntity {
+public class GenericEggProjectile extends ThrowableItemProjectile {
 
 	/**
 	 * Null behaviour.
@@ -39,7 +39,7 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 	static final float G = 1.0F;
 	static final float B = 1.0F;
 	static final int PARTICLE_NUMBER = 5;
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.INSTANT_EFFECT;
+	static final SimpleParticleType PARTICLE_TYPE = ParticleTypes.INSTANT_EFFECT;
 	static final int PARTICLE_DURATION = 20; // Measured in world ticks
 	static final double PARTICLE_SPEED = 0.3;
 	static final ParticleRenderingInfo PARTICLE_INFO = getInstance(PARTICLE_TYPE, PARTICLE_NUMBER, PARTICLE_DURATION, R,
@@ -63,7 +63,7 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 	 * @param type  entity type.
 	 * @param world world.
 	 */
-	public GenericEggProjectile(EntityType<? extends ProjectileItemEntity> type, World world) {
+	public GenericEggProjectile(EntityType<? extends ThrowableItemProjectile> type, Level world) {
 		super(type, world);
 		setBehaviour(NULL_BEHAVIOUR);
 	}
@@ -75,7 +75,7 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 	 * @param entity    projectile thrower.
 	 * @param behaviour projectile behaviour.
 	 */
-	public GenericEggProjectile(World world, LivingEntity entity, ProjectileAction behaviour) {
+	public GenericEggProjectile(Level world, LivingEntity entity, ProjectileAction behaviour) {
 		super(EntityType.EGG, entity, world);
 		setBehaviour(behaviour);
 	}
@@ -93,18 +93,18 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 	 * Called when this ThrowableEntity hits a block or entity.
 	 */
 	@Override
-	protected void onImpact(RayTraceResult result) {
+	protected void onHit(HitResult result) {
 
 		// exit if on client side
-		if (isLogicalClient(getEntityWorld()))
+		if (isLogicalClient(getCommandSenderWorld()))
 			return;
 
 		try {
 			// execute behaviour
-			action.execute(this, world, result);
+			action.execute(this, level, result);
 
 			// send particle rendering info (for impact particle) to client
-			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
+			ParticleRendering particle = getInstance(blockPosition(), PARTICLE_INFO);
 			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 
 			// remove this projectile
@@ -120,7 +120,7 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 
 		try {
 			// send particle rendering info to client
-			ParticleRendering particle = getInstance(getPosition(), PARTICLE_INFO);
+			ParticleRendering particle = getInstance(blockPosition(), PARTICLE_INFO);
 			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -133,17 +133,17 @@ public class GenericEggProjectile extends ProjectileItemEntity {
 	}
 
 	public void shoot(double x, double y, double z, float velocity, float inaccuracy) {
-		Vector3d vector3d = (new Vector3d(x, y, z)).normalize()
-				.add(this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy,
-						this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy,
-						this.rand.nextGaussian() * (double) 0.0075F * (double) inaccuracy)
+		Vec3 vector3d = (new Vec3(x, y, z)).normalize()
+				.add(this.random.nextGaussian() * (double) 0.0075F * (double) inaccuracy,
+						this.random.nextGaussian() * (double) 0.0075F * (double) inaccuracy,
+						this.random.nextGaussian() * (double) 0.0075F * (double) inaccuracy)
 				.scale((double) velocity);
-		this.setMotion(vector3d);
-		float f = MathHelper.sqrt(horizontalMag(vector3d));
-		this.rotationYaw = (float) (MathHelper.atan2(vector3d.x, vector3d.z) * (double) (180F / (float) Math.PI));
-		this.rotationPitch = (float) (MathHelper.atan2(vector3d.y, (double) f) * (double) (180F / (float) Math.PI));
-		this.prevRotationYaw = this.rotationYaw;
-		this.prevRotationPitch = this.rotationPitch;
+		this.setDeltaMovement(vector3d);
+		float f = Mth.sqrt(getHorizontalDistanceSqr(vector3d));
+		this.yRot = (float) (Mth.atan2(vector3d.x, vector3d.z) * (double) (180F / (float) Math.PI));
+		this.xRot = (float) (Mth.atan2(vector3d.y, (double) f) * (double) (180F / (float) Math.PI));
+		this.yRotO = this.yRot;
+		this.xRotO = this.xRot;
 	}
 
 }

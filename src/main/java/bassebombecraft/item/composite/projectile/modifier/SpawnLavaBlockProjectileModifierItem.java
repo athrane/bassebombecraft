@@ -13,7 +13,7 @@ import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.entity.raytraceresult.SpawnIceBlock2;
 import bassebombecraft.operator.entity.raytraceresult.SpawnLavaBlock2;
 import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 
 /**
  * Spawn lava block projectile modifier item.

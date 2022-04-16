@@ -3,8 +3,8 @@ package bassebombecraft.event.particle;
 import java.util.Random;
 import java.util.UUID;
 
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.BlockPos;
 
 /**
  * Default implementation of {@linkplain ParticleRendering}
@@ -62,7 +62,7 @@ public class DefaultParticleRendering implements ParticleRendering {
 	}
 
 	@Override
-	public BasicParticleType getParticleType() {
+	public SimpleParticleType getParticleType() {
 		return info.getParticleType();
 	}
 

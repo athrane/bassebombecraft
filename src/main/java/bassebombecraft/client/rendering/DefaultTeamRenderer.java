@@ -10,9 +10,9 @@ import java.util.Collection;
 
 import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.player.PlayerUtils;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Renderer} for rendering team entities in
@@ -39,10 +39,10 @@ public class DefaultTeamRenderer implements EntityRenderer {
 			return;
 
 		// typecast
-		PlayerEntity player = (PlayerEntity) entity;
+		Player player = (Player) entity;
 
 		// get player position
-		Vector3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
+		Vec3 playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
 
 		// get team members
 		TeamRepository repository = getProxy().getServerTeamRepository();
@@ -62,9 +62,9 @@ public class DefaultTeamRenderer implements EntityRenderer {
 	 * @param playerPos player position
 	 * @param info      rendering info.
 	 */
-	void renderTeamEntity(LivingEntity entity, Vector3d playerPos, RenderingInfo info) {
+	void renderTeamEntity(LivingEntity entity, Vec3 playerPos, RenderingInfo info) {
 
-		Vector3d entityPos = entity.getBoundingBox().getCenter();
+		Vec3 entityPos = entity.getBoundingBox().getCenter();
 		renderTriangleBillboard(playerPos, entityPos, ICON_BILLBOARD_ROTATION);
 		// renderTextBillboard(playerPos, entityPos, TEAM_LABEL,
 		// TEXT_BILLBOARD_ROTATION);

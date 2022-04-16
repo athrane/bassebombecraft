@@ -4,15 +4,15 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import java.util.Random;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.LlamaSpitEntity;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.LlamaSpit;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
@@ -23,7 +23,7 @@ public class LlamaSpit implements InventoryItemActionStrategy {
 	/**
 	 * Spit spawn sound.
 	 */
-	static final SoundEvent SOUND = SoundEvents.ENTITY_LLAMA_SPIT;
+	static final SoundEvent SOUND = SoundEvents.LLAMA_SPIT;
 
 	@Override
 	public boolean applyOnlyIfSelected() {
@@ -38,19 +38,19 @@ public class LlamaSpit implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
+	public void applyEffect(LivingEntity target, Level world, LivingEntity invoker) {
 		Random random = getBassebombeCraft().getRandom();
-		LlamaSpitEntity entity = EntityType.LLAMA_SPIT.create(world);
+		LlamaSpit entity = EntityType.LLAMA_SPIT.create(world);
 
 		// from EntityLlama.spit()
-		double d0 = target.getPosX() - invoker.getPosX();
-		double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 3.0F) - entity.getPosY();
-		double d2 = target.getPosZ() - invoker.getPosZ();
-		float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
+		double d0 = target.getX() - invoker.getX();
+		double d1 = target.getBoundingBox().minY + (double) (target.getBbHeight() / 3.0F) - entity.getY();
+		double d2 = target.getZ() - invoker.getZ();
+		float f = Mth.sqrt(d0 * d0 + d2 * d2) * 0.2F;
 		entity.shoot(d0, d1 + (double) f, d2, 1.5F, 10.0F);
-		world.playSound((PlayerEntity) null, invoker.getPosX(), invoker.getPosY(), invoker.getPosZ(), SoundEvents.ENTITY_LLAMA_SPIT,
-				invoker.getSoundCategory(), 1.0F, 1.0F + (random.nextFloat() - random.nextFloat()) * 0.2F);
-		world.addEntity(entity);
+		world.playSound((Player) null, invoker.getX(), invoker.getY(), invoker.getZ(), SoundEvents.LLAMA_SPIT,
+				invoker.getSoundSource(), 1.0F, 1.0F + (random.nextFloat() - random.nextFloat()) * 0.2F);
+		world.addFreshEntity(entity);
 	}
 
 }

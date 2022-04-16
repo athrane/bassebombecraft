@@ -1,8 +1,8 @@
 package bassebombecraft.item.action.inventory;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
@@ -21,8 +21,8 @@ public class SpawnRain implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
-		world.getWorldInfo().setRaining(true);
+	public void applyEffect(LivingEntity target, Level world, LivingEntity invoker) {
+		world.getLevelData().setRaining(true);
 	}
 
 }

@@ -13,8 +13,8 @@ import java.util.stream.Stream;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which reads the
@@ -40,12 +40,12 @@ public class InitProjectileTrailRendering2 implements Operator2 {
 	/**
 	 * Function to get line vertexes (as vectors).
 	 */
-	Function<Ports, Vector3d[]> fnGetLineVertexes;
+	Function<Ports, Vec3[]> fnGetLineVertexes;
 
 	/**
 	 * Function to set line vertexes (as vectors).
 	 */
-	BiConsumer<Ports, Vector3d[]> bcSetLineVertexes;
+	BiConsumer<Ports, Vec3[]> bcSetLineVertexes;
 
 	/**
 	 * Constructor.
@@ -66,7 +66,7 @@ public class InitProjectileTrailRendering2 implements Operator2 {
 	 * @param bcSetLineVertexes function to set line vertexes.
 	 */
 	public InitProjectileTrailRendering2(Function<Ports, Entity> fnGetProjectile,
-			Function<Ports, Vector3d[]> fnGetLineVertexes, BiConsumer<Ports, Vector3d[]> bcSetLineVertexes) {
+			Function<Ports, Vec3[]> fnGetLineVertexes, BiConsumer<Ports, Vec3[]> bcSetLineVertexes) {
 		this.fnGetProjectile = fnGetProjectile;
 		this.fnGetLineVertexes = fnGetLineVertexes;
 		this.bcSetLineVertexes = bcSetLineVertexes;
@@ -75,21 +75,21 @@ public class InitProjectileTrailRendering2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		Entity projectile = applyV(fnGetProjectile, ports);
-		Vector3d[] currentVertexes = applyV(fnGetLineVertexes, ports);
+		Vec3[] currentVertexes = applyV(fnGetLineVertexes, ports);
 
 		// get current position
-		Vector3d currentPosition = projectile.getPositionVec();
+		Vec3 currentPosition = projectile.position();
 
 		// if no previous position is defined then add position
 		if (currentVertexes.length == 0) {
-			Vector3d[] vertexes = new Vector3d[1];
+			Vec3[] vertexes = new Vec3[1];
 			vertexes[FIRST_INDEX] = currentPosition;
 			bcSetLineVertexes.accept(ports, vertexes);
 			return;
 		}
 
 		// get previous position
-		Vector3d previousPosition = currentVertexes[0];
+		Vec3 previousPosition = currentVertexes[0];
 
 		// only add new position if it is different to previous position
 		if (isVertexesEqual(currentPosition, previousPosition)) {
@@ -98,10 +98,10 @@ public class InitProjectileTrailRendering2 implements Operator2 {
 		}
 
 		// concatenate vertexes
-		Stream<Vector3d> vertexStream = Arrays.stream(currentVertexes);
-		Stream<Vector3d> concatStream = Stream.concat(Stream.of(currentPosition),
+		Stream<Vec3> vertexStream = Arrays.stream(currentVertexes);
+		Stream<Vec3> concatStream = Stream.concat(Stream.of(currentPosition),
 				vertexStream.limit(PROJECTILE_TRAIL_LENGTH));
-		Vector3d[] vertexes = concatStream.toArray(Vector3d[]::new);
+		Vec3[] vertexes = concatStream.toArray(Vec3[]::new);
 		bcSetLineVertexes.accept(ports, vertexes);
 	}
 
@@ -113,7 +113,7 @@ public class InitProjectileTrailRendering2 implements Operator2 {
 	 * 
 	 * @return if vertexes are equal
 	 */
-	boolean isVertexesEqual(Vector3d currentPosition, Vector3d previousPosition) {
+	boolean isVertexesEqual(Vec3 currentPosition, Vec3 previousPosition) {
 		if (previousPosition == null)
 			return false;
 		return currentPosition.equals(previousPosition);

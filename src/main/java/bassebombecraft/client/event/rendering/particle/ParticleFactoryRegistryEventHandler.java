@@ -14,7 +14,7 @@ import bassebombecraft.client.particles.ReflectParticle;
 import bassebombecraft.client.particles.SkullParticle;
 import bassebombecraft.client.particles.SparkParticle;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.ParticleManager;
+import net.minecraft.client.particle.ParticleEngine;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -41,52 +41,52 @@ public class ParticleFactoryRegistryEventHandler {
 	public static void handleParticleFactoryRegisterEvent(ParticleFactoryRegisterEvent event) {
 
 		Minecraft mcClient = Minecraft.getInstance();		
-		ParticleManager particles = mcClient.particles;
+		ParticleEngine particles = mcClient.particleEngine;
 
 		/**
 		 * Register factory for {@linkplain LightningParticle}.
 		 */
-		particles.registerFactory(LIGHTNING_PARTICLE.get(), sprite -> new LightningParticle.Factory(sprite));
+		particles.register(LIGHTNING_PARTICLE.get(), sprite -> new LightningParticle.Factory(sprite));
 
 		/**
 		 * Register factory for {@linkplain SparkParticle}.
 		 */
-		particles.registerFactory(SPARK_PARTICLE.get(), sprite -> new SparkParticle.Factory(sprite));
+		particles.register(SPARK_PARTICLE.get(), sprite -> new SparkParticle.Factory(sprite));
 
 		/**
 		 * Register factory for {@linkplain ChickenParticle}.
 		 */
-		particles.registerFactory(CHICKEN_PARTICLE.get(), sprite -> new ChickenParticle.Factory(sprite));
+		particles.register(CHICKEN_PARTICLE.get(), sprite -> new ChickenParticle.Factory(sprite));
 
 		/**
 		 * Register factory for {@linkplain CircleParticle}.
 		 */
-		particles.registerFactory(CIRCLE_PARTICLE.get(), sprite -> new CircleParticle.Factory(sprite));
+		particles.register(CIRCLE_PARTICLE.get(), sprite -> new CircleParticle.Factory(sprite));
 
 		/**
 		 * Register factory for {@linkplain SkullParticle}.
 		 */
-		particles.registerFactory(SKULL_PARTICLE.get(), sprite -> new SkullParticle.Factory(sprite));
+		particles.register(SKULL_PARTICLE.get(), sprite -> new SkullParticle.Factory(sprite));
 
 		/**
 		 * Register factory for {@linkplain BlockParticle}.
 		 */
-		particles.registerFactory(BLOCK_PARTICLE.get(), sprite -> new BlockParticle.Factory(sprite));
+		particles.register(BLOCK_PARTICLE.get(), sprite -> new BlockParticle.Factory(sprite));
 
 		/**
 		 * Register factory for {@linkplain PlayerAggroParticle}.
 		 */
-		particles.registerFactory(PLAYER_AGGRO_PARTICLE.get(), sprite -> new PlayerAggroParticle.Factory(sprite));
+		particles.register(PLAYER_AGGRO_PARTICLE.get(), sprite -> new PlayerAggroParticle.Factory(sprite));
 
 		/**
 		 * Register factory for {@linkplain CurseParticle}.
 		 */
-		particles.registerFactory(CURSE_PARTICLE.get(), sprite -> new CurseParticle.Factory(sprite));
+		particles.register(CURSE_PARTICLE.get(), sprite -> new CurseParticle.Factory(sprite));
 
 		/**
 		 * Register factory for {@linkplain ReflectParticle}.
 		 */
-		particles.registerFactory(REFLECT_PARTICLE.get(), sprite -> new ReflectParticle.Factory(sprite));
+		particles.register(REFLECT_PARTICLE.get(), sprite -> new ReflectParticle.Factory(sprite));
 		
 	}
 

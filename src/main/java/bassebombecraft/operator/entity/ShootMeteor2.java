@@ -10,9 +10,9 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.FireballEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.LargeFireball;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which shoots a meteor
@@ -66,22 +66,22 @@ public class ShootMeteor2 implements Operator2 {
 		Random random = getBassebombeCraft().getRandom();
 		
 		// get world
-		World world = invoker.getEntityWorld();
+		Level world = invoker.getCommandSenderWorld();
 
 		// calculate position
-		double posX = target.getPosX() + (random.nextInt(10) - 5);
-		double posY = invoker.getPosY() + 20 + (random.nextInt(10) - 5);
-		double posZ = target.getPosZ() + (random.nextInt(10) - 5);
+		double posX = target.getX() + (random.nextInt(10) - 5);
+		double posY = invoker.getY() + 20 + (random.nextInt(10) - 5);
+		double posZ = target.getZ() + (random.nextInt(10) - 5);
 
 		// calculate acceleration
-		double d0 = target.getPosX() - posX;
-		double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 3.0F) - posY;
-		double d2 = target.getPosZ() - posZ;
+		double d0 = target.getX() - posX;
+		double d1 = target.getBoundingBox().minY + (double) (target.getBbHeight() / 3.0F) - posY;
+		double d2 = target.getZ() - posZ;
 
 		// spawn projectile
-		FireballEntity projectile = new FireballEntity(world, invoker, d0, d1, d2);
-		projectile.setPosition(posX, posY, posZ);
-		world.addEntity(projectile);
+		LargeFireball projectile = new LargeFireball(world, invoker, d0, d1, d2);
+		projectile.setPos(posX, posY, posZ);
+		world.addFreshEntity(projectile);
 	}
 
 }

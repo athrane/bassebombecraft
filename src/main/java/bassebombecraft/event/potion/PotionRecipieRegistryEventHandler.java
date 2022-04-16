@@ -2,9 +2,9 @@ package bassebombecraft.event.potion;
 
 import static bassebombecraft.potion.PotionUtils.registerPotionRecipe;
 import static bassebombecraft.potion.RegisteredPotions.*;
-import static net.minecraft.item.Items.*;
+import static net.minecraft.world.item.Items.*;
 import static net.minecraft.potion.Potions.AWKWARD;
-import static net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus.MOD;
+import staticnet.minecraft.world.item.alchemy.Potionson.Mod.EventBusSubscriber.Bus.MOD;
 
 import bassebombecraft.potion.RegisteredPotions;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

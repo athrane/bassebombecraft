@@ -3,48 +3,48 @@ package bassebombecraft.item.action.build;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
 import static bassebombecraft.structure.ChildStructure.createOakFenceStructure;
 import static net.minecraft.block.Blocks.AIR;
-import static net.minecraft.block.Blocks.ANDESITE;
+import staticnet.minecraft.world.level.block.Blockss.ANDESITE;
 import static net.minecraft.block.Blocks.BLUE_STAINED_GLASS_PANE;
-import static net.minecraft.block.Blocks.BRICKS;
+import staticnet.minecraft.world.level.block.Blockss.BRICKS;
 import static net.minecraft.block.Blocks.CHISELED_RED_SANDSTONE;
-import static net.minecraft.block.Blocks.CHISELED_SANDSTONE;
+import staticnet.minecraft.world.level.block.Blockss.CHISELED_SANDSTONE;
 import static net.minecraft.block.Blocks.CHISELED_STONE_BRICKS;
-import static net.minecraft.block.Blocks.COBBLESTONE;
+import staticnet.minecraft.world.level.block.Blockss.COBBLESTONE;
 import static net.minecraft.block.Blocks.CRACKED_STONE_BRICKS;
-import static net.minecraft.block.Blocks.CUT_RED_SANDSTONE;
+import staticnet.minecraft.world.level.block.Blockss.CUT_RED_SANDSTONE;
 import static net.minecraft.block.Blocks.CUT_SANDSTONE;
-import static net.minecraft.block.Blocks.CYAN_STAINED_GLASS_PANE;
+import staticnet.minecraft.world.level.block.Blockss.CYAN_STAINED_GLASS_PANE;
 import static net.minecraft.block.Blocks.DIORITE;
-import static net.minecraft.block.Blocks.GLASS_PANE;
+import staticnet.minecraft.world.level.block.Blockss.GLASS_PANE;
 import static net.minecraft.block.Blocks.GREEN_STAINED_GLASS_PANE;
-import static net.minecraft.block.Blocks.LIGHT_BLUE_STAINED_GLASS_PANE;
+import staticnet.minecraft.world.level.block.Blockss.LIGHT_BLUE_STAINED_GLASS_PANE;
 import static net.minecraft.block.Blocks.LIGHT_GRAY_STAINED_GLASS_PANE;
-import static net.minecraft.block.Blocks.LIME_STAINED_GLASS_PANE;
+import staticnet.minecraft.world.level.block.Blockss.LIME_STAINED_GLASS_PANE;
 import static net.minecraft.block.Blocks.MAGENTA_STAINED_GLASS_PANE;
-import static net.minecraft.block.Blocks.MAGMA_BLOCK;
+import staticnet.minecraft.world.level.block.Blockss.MAGMA_BLOCK;
 import static net.minecraft.block.Blocks.MOSSY_COBBLESTONE;
-import static net.minecraft.block.Blocks.MOSSY_STONE_BRICKS;
+import staticnet.minecraft.world.level.block.Blockss.MOSSY_STONE_BRICKS;
 import static net.minecraft.block.Blocks.NETHER_BRICKS;
-import static net.minecraft.block.Blocks.OAK_LOG;
+import staticnet.minecraft.world.level.block.Blockss.OAK_LOG;
 import static net.minecraft.block.Blocks.OAK_PLANKS;
-import static net.minecraft.block.Blocks.OBSIDIAN;
+import staticnet.minecraft.world.level.block.Blockss.OBSIDIAN;
 import static net.minecraft.block.Blocks.ORANGE_STAINED_GLASS_PANE;
-import static net.minecraft.block.Blocks.PINK_STAINED_GLASS_PANE;
+import staticnet.minecraft.world.level.block.Blockss.PINK_STAINED_GLASS_PANE;
 import static net.minecraft.block.Blocks.POLISHED_GRANITE;
-import static net.minecraft.block.Blocks.PURPLE_STAINED_GLASS_PANE;
+import staticnet.minecraft.world.level.block.Blockss.PURPLE_STAINED_GLASS_PANE;
 import static net.minecraft.block.Blocks.RED_SANDSTONE;
-import static net.minecraft.block.Blocks.RED_STAINED_GLASS_PANE;
+import staticnet.minecraft.world.level.block.Blockss.RED_STAINED_GLASS_PANE;
 import static net.minecraft.block.Blocks.SANDSTONE;
-import static net.minecraft.block.Blocks.SANDSTONE_STAIRS;
+import staticnet.minecraft.world.level.block.Blockss.SANDSTONE_STAIRS;
 import static net.minecraft.block.Blocks.SMOOTH_RED_SANDSTONE;
-import static net.minecraft.block.Blocks.SMOOTH_SANDSTONE;
+import staticnet.minecraft.world.level.block.Blockss.SMOOTH_SANDSTONE;
 import static net.minecraft.block.Blocks.SPAWNER;
-import static net.minecraft.block.Blocks.SPRUCE_LOG;
+import staticnet.minecraft.world.level.block.Blockss.SPRUCE_LOG;
 import static net.minecraft.block.Blocks.STONE;
-import static net.minecraft.block.Blocks.STONE_BRICKS;
+import staticnet.minecraft.world.level.block.Blockss.STONE_BRICKS;
 import static net.minecraft.block.Blocks.WHITE_STAINED_GLASS_PANE;
-import static net.minecraft.block.Blocks.YELLOW_STAINED_GLASS_PANE;
-import static net.minecraft.util.Direction.*;
+import staticnet.minecraft.world.level.block.Blockss.YELLOW_STAINED_GLASS_PANE;
+import static net.minecraft.core.Direction.*;
 
 import java.util.Random;
 
@@ -52,10 +52,10 @@ import bassebombecraft.item.action.build.tower.BuildMaterial;
 import bassebombecraft.item.action.build.tower.StairsMaterial;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.Structure;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import static net.minecraft.block.StairsBlock.*;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import static net.minecraft.world.level.block.StairBlock.*;
+import net.minecraft.core.BlockPos;
 
 /**
  * Utility class for build block based structures.
@@ -111,7 +111,7 @@ public class BuildUtils {
 
 		offset = new BlockPos(globalOffset.getX() - 2, globalOffset.getY(), globalOffset.getZ());
 		size = new BlockPos(5, 1, 1);
-		BlockState state = SANDSTONE_STAIRS.getDefaultState().with(FACING, SOUTH);
+		BlockState state = SANDSTONE_STAIRS.defaultBlockState().setValue(FACING, SOUTH);
 		structure.add(new ChildStructure(offset, size, SANDSTONE_STAIRS, state));
 	}
 
@@ -240,11 +240,11 @@ public class BuildUtils {
 				zOffset = globalOffset.getZ() + 1;
 				offset = new BlockPos(xOffset, yOffset, zOffset);
 				size = new BlockPos(1, 1, 1);
-				BlockState state = materials.getState().with(FACING, WEST);
+				BlockState state = materials.getState().setValue(FACING, WEST);
 				structure.add(new ChildStructure(offset, size, materials.getStairMaterial(), state));
 
 				// add air block
-				offset = offset.add(0, 1, 0);
+				offset = offset.offset(0, 1, 0);
 				size = new BlockPos(1, 3, 1);
 				postStructure.add(new ChildStructure(offset, size, AIR));
 
@@ -256,7 +256,7 @@ public class BuildUtils {
 				structure.add(new ChildStructure(offset, size, materials.getSolidMaterial()));
 
 				// add air block
-				offset = offset.add(0, 1, 0);
+				offset = offset.offset(0, 1, 0);
 				size = new BlockPos(1, 3, 1);
 				postStructure.add(new ChildStructure(offset, size, AIR));
 			}
@@ -275,11 +275,11 @@ public class BuildUtils {
 				zOffset = globalOffset.getZ();
 				offset = new BlockPos(xOffset, yOffset, zOffset);
 				size = new BlockPos(1, 1, 1);
-				BlockState state = materials.getState().with(FACING, NORTH);						
+				BlockState state = materials.getState().setValue(FACING, NORTH);						
 				structure.add(new ChildStructure(offset, size, materials.getStairMaterial(), state));
 
 				// add air block
-				offset = offset.add(0, 1, 0);
+				offset = offset.offset(0, 1, 0);
 				size = new BlockPos(1, 3, 1);
 				postStructure.add(new ChildStructure(offset, size, AIR));
 
@@ -291,7 +291,7 @@ public class BuildUtils {
 				structure.add(new ChildStructure(offset, size, materials.getSolidMaterial()));
 
 				// add air block
-				offset = offset.add(0, 1, 0);
+				offset = offset.offset(0, 1, 0);
 				size = new BlockPos(1, 3, 1);
 				postStructure.add(new ChildStructure(offset, size, AIR));
 
@@ -311,11 +311,11 @@ public class BuildUtils {
 				zOffset = globalOffset.getZ() - 1;
 				offset = new BlockPos(xOffset, yOffset, zOffset);
 				size = new BlockPos(1, 1, 1);
-				BlockState state = materials.getState().with(FACING, EAST);
+				BlockState state = materials.getState().setValue(FACING, EAST);
 				structure.add(new ChildStructure(offset, size, materials.getStairMaterial(), state));
 
 				// add air block
-				offset = offset.add(0, 1, 0);
+				offset = offset.offset(0, 1, 0);
 				size = new BlockPos(1, 3, 1);
 				postStructure.add(new ChildStructure(offset, size, AIR));
 
@@ -327,7 +327,7 @@ public class BuildUtils {
 				structure.add(new ChildStructure(offset, size, materials.getSolidMaterial()));
 
 				// add air block
-				offset = offset.add(0, 1, 0);
+				offset = offset.offset(0, 1, 0);
 				size = new BlockPos(1, 3, 1);
 				postStructure.add(new ChildStructure(offset, size, AIR));
 			}
@@ -346,11 +346,11 @@ public class BuildUtils {
 				zOffset = globalOffset.getZ();
 				offset = new BlockPos(xOffset, yOffset, zOffset);
 				size = new BlockPos(1, 1, 1);
-				BlockState state = materials.getState().with(FACING, SOUTH);
+				BlockState state = materials.getState().setValue(FACING, SOUTH);
 				structure.add(new ChildStructure(offset, size, materials.getStairMaterial(), state));
 
 				// add air block
-				offset = offset.add(0, 1, 0);
+				offset = offset.offset(0, 1, 0);
 				size = new BlockPos(1, 3, 1);
 				postStructure.add(new ChildStructure(offset, size, AIR));
 
@@ -362,7 +362,7 @@ public class BuildUtils {
 				structure.add(new ChildStructure(offset, size, materials.getSolidMaterial()));
 
 				// add air block
-				offset = offset.add(0, 1, 0);
+				offset = offset.offset(0, 1, 0);
 				size = new BlockPos(1, 3, 1);
 				postStructure.add(new ChildStructure(offset, size, AIR));
 			}
@@ -522,7 +522,7 @@ public class BuildUtils {
 	 * @param solidMaterial build material.
 	 */
 	public static BuildMaterial createBuildMaterial(Block buildMaterial) {
-		return new BuildMaterial(buildMaterial, buildMaterial.getDefaultState());
+		return new BuildMaterial(buildMaterial, buildMaterial.defaultBlockState());
 	}
 
 }

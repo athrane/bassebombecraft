@@ -34,9 +34,9 @@ import bassebombecraft.client.proxy.ClientProxy;
 import bassebombecraft.config.ModConfiguration;
 import bassebombecraft.proxy.Proxy;
 import bassebombecraft.proxy.ServerProxy;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -69,7 +69,7 @@ public class BassebombeCraft {
 	/**
 	 * {@linkplain ItemGroup} which implements creative tab.
 	 */
-	static final ItemGroup MOD_ITEMGROUP = createItemGroup(TAB_NAME);
+	static final CreativeModeTab MOD_ITEMGROUP = createItemGroup(TAB_NAME);
 
 	/**
 	 * Minecraft server.
@@ -152,7 +152,7 @@ public class BassebombeCraft {
 
 	@SubscribeEvent
 	void playerLoggedIn(PlayerLoggedInEvent event) {
-		PlayerEntity player = event.getPlayer();
+		Player player = event.getPlayer();
 		validateVersion(player);
 	}
 
@@ -202,7 +202,7 @@ public class BassebombeCraft {
 	 * 
 	 * @return item group.
 	 */
-	public static ItemGroup getItemGroup() {
+	public static CreativeModeTab getItemGroup() {
 		return MOD_ITEMGROUP;
 	}
 

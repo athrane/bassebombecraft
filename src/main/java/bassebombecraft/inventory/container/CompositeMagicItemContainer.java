@@ -5,19 +5,19 @@ import static bassebombecraft.inventory.container.RegisteredContainers.COMPOSITE
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
 import bassebombecraft.item.composite.CompositeMagicItem;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.items.SlotItemHandler;
 
 /**
  * Container implementation for {@linkplain CompositeMagicItem}
  */
-public class CompositeMagicItemContainer extends Container {
+public class CompositeMagicItemContainer extends AbstractContainerMenu {
 
 	/**
 	 * Container identifier.
@@ -92,7 +92,7 @@ public class CompositeMagicItemContainer extends Container {
 	/**
 	 * Player inventory
 	 */
-	PlayerInventory inventory;
+	Inventory inventory;
 
 	/**
 	 * Composite item inventory.
@@ -113,7 +113,7 @@ public class CompositeMagicItemContainer extends Container {
 	 * @param inventory player inventory.
 	 * @param extraData extra data sent from the server.
 	 */
-	public CompositeMagicItemContainer(int id, PlayerInventory inventory, PacketBuffer extraData) {
+	public CompositeMagicItemContainer(int id, Inventory inventory, FriendlyByteBuf extraData) {
 		this(id, inventory, new CompositeMagicItemItemStackHandler(COMPOSITE_MAX_SIZE), ItemStack.EMPTY);
 	}
 
@@ -127,7 +127,7 @@ public class CompositeMagicItemContainer extends Container {
 	 * @param compositeItemInventory inventory for the composite magic item.
 	 * @param compositeItem          item stack for the composite magic item.
 	 */
-	public CompositeMagicItemContainer(int id, PlayerInventory inventory,
+	public CompositeMagicItemContainer(int id, Inventory inventory,
 			CompositeMagicItemItemStackHandler compositeItemInventory, ItemStack compositeItem) {
 		super(COMPOSITE_ITEM_COMTAINER.get(), id);
 		this.itemStackBeingHeld = compositeItem;
@@ -176,14 +176,14 @@ public class CompositeMagicItemContainer extends Container {
 	}
 
 	@Override
-	public boolean canInteractWith(PlayerEntity player) {
+	public boolean stillValid(Player player) {
 
 		// exit if at logical client side
 		if (isLogicalClient(player))
 			return false;
 
 		// get item in main hand
-		ItemStack main = player.getHeldItemMainhand();
+		ItemStack main = player.getMainHandItem();
 
 		// can't interact if main had is empty
 		if (main.isEmpty())
@@ -193,21 +193,21 @@ public class CompositeMagicItemContainer extends Container {
 	}
 
 	@Override
-	public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
-		return super.transferStackInSlot(playerIn, index);
+	public ItemStack quickMoveStack(Player playerIn, int index) {
+		return super.quickMoveStack(playerIn, index);
 	}
 
 	@Override
-	public void detectAndSendChanges() {
+	public void broadcastChanges() {
 
 		// handle no changes
 		if (!compositeItemInventory.isChanged()) {
-			super.detectAndSendChanges();
+			super.broadcastChanges();
 			return;
 		}
 
 		// handle changed inventory
-		CompoundNBT nbt = itemStackBeingHeld.getOrCreateTag();
+		CompoundTag nbt = itemStackBeingHeld.getOrCreateTag();
 		int dirtyCounter = nbt.getInt("dirtyCounter");
 		nbt.putInt("dirtyCounter", dirtyCounter + 1);
 		itemStackBeingHeld.setTag(nbt);

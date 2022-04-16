@@ -12,11 +12,11 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which hits a mob with
@@ -34,7 +34,7 @@ public class EmitHorizontalForce2 implements Operator2 {
 	/**
 	 * Function to get ray trace result.
 	 */
-	Function<Ports, RayTraceResult> fnGetRayTraceResult;
+	Function<Ports, HitResult> fnGetRayTraceResult;
 
 	/**
 	 * Function to get entity (projectile) which caused the hit in the ray trace
@@ -48,7 +48,7 @@ public class EmitHorizontalForce2 implements Operator2 {
 	 * @param splRayTraceResult  function to get ray trace result.
 	 * @param fnGetRayOriginator function to get ray originator.
 	 */
-	public EmitHorizontalForce2(Function<Ports, RayTraceResult> fnGetRayTraceResult,
+	public EmitHorizontalForce2(Function<Ports, HitResult> fnGetRayTraceResult,
 			Function<Ports, Entity> fnGetRayOriginator) {
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 		this.fnGetRayOriginator = fnGetRayOriginator;
@@ -67,7 +67,7 @@ public class EmitHorizontalForce2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
+		HitResult result = applyV(fnGetRayTraceResult, ports);
 		Entity originator = applyV(fnGetRayOriginator, ports);
 
 		// exit if nothing was hit
@@ -82,15 +82,15 @@ public class EmitHorizontalForce2 implements Operator2 {
 				return;
 
 			// get entity
-			Entity entity = ((EntityRayTraceResult) result).getEntity();
+			Entity entity = ((EntityHitResult) result).getEntity();
 
 			// calculate push vector
-			Vector3d motion = originator.getMotion();
-			Vector3d motionVec = new Vector3d(motion.getX(), motion.getY(), motion.getZ());
+			Vec3 motion = originator.getDeltaMovement();
+			Vec3 motionVec = new Vec3(motion.x(), motion.y(), motion.z());
 			double x = motionVec.x * emitHorizontalForceStrength.get();
 			double y = motionVec.y * emitHorizontalForceStrength.get();
 			double z = motionVec.z * emitHorizontalForceStrength.get();
-			Vector3d motionVecForced = new Vector3d(x, y, z);
+			Vec3 motionVecForced = new Vec3(x, y, z);
 			entity.move(MoverType.SELF, motionVecForced);
 		}
 	}

@@ -12,9 +12,9 @@ import bassebombecraft.entity.projectile.EggProjectileEntity;
 import bassebombecraft.entity.projectile.LightningProjectileEntity;
 import bassebombecraft.entity.projectile.LlamaProjectileEntity;
 import bassebombecraft.entity.projectile.SkullProjectileEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EntityType.IFactory;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityType.EntityFactory;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 
@@ -54,8 +54,8 @@ public class RegisteredEntities {
 	 * 
 	 * @return registry object.
 	 */
-	static <T extends Entity> RegistryObject<EntityType<T>> registerProjectile(String key, IFactory<T> factoryIn) {
-		Supplier<EntityType<T>> splEntity = () -> EntityType.Builder.<T>create(factoryIn, MISC)
+	static <T extends Entity> RegistryObject<EntityType<T>> registerProjectile(String key, EntityFactory<T> factoryIn) {
+		Supplier<EntityType<T>> splEntity = () -> EntityType.Builder.<T>of(factoryIn, MISC)
 				.build(key.toLowerCase());
 		return ENTITY_REGISTRY.register(key.toLowerCase(), splEntity);
 	}

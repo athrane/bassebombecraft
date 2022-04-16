@@ -6,8 +6,8 @@ import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
@@ -41,7 +41,7 @@ public class TeamEventHandler {
 
 			// disband team if dead entity is commander
 			if (isTypePlayerEntity(event.getEntityLiving())) {
-				PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+				Player player = (Player) event.getEntityLiving();
 
 				// exit if player isn't a commander
 				if (!repository.isCommander(player))

@@ -5,7 +5,7 @@ import static bassebombecraft.entity.EntityUtils.isType;
 import java.util.function.Supplier;
 
 import bassebombecraft.operator.Operator;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 
 /**
  * Implementation of the {@linkplain Operator} interface which executes the

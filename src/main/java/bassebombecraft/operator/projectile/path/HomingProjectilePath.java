@@ -8,8 +8,8 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which computes random
@@ -78,7 +78,7 @@ public class HomingProjectilePath implements Operator2 {
 		Entity[] entities = applyV(fnGetEntities1, ports);
 
 		// get motion vector
-		Vector3d motionVector = projectile.getMotion();
+		Vec3 motionVector = projectile.getDeltaMovement();
 		if (motionVector == null)
 			return;
 
@@ -98,28 +98,28 @@ public class HomingProjectilePath implements Operator2 {
 		double motionVectorLength = motionVector.length();
 
 		// normalize motion vector vector
-		Vector3d motionVectorNormalized = motionVector.normalize();
+		Vec3 motionVectorNormalized = motionVector.normalize();
 
 		// calculate direction vector
-		Vector3d targetPos = target.getPositionVec();
-		Vector3d projectilePos = projectile.getPositionVec();
-		Vector3d desiredDirection = targetPos.subtract(projectilePos);
+		Vec3 targetPos = target.position();
+		Vec3 projectilePos = projectile.position();
+		Vec3 desiredDirection = targetPos.subtract(projectilePos);
 
 		// normalize direction vector
-		Vector3d desiredDirectionNormalized = desiredDirection.normalize();
+		Vec3 desiredDirectionNormalized = desiredDirection.normalize();
 
 		// calculate steering vector
-		Vector3d steeringForce = desiredDirectionNormalized.subtract(motionVectorNormalized);
+		Vec3 steeringForce = desiredDirectionNormalized.subtract(motionVectorNormalized);
 
-		Vector3d steeringForceScaled = steeringForce.scale(HOMING_FACTOR);
-		Vector3d newMotionVector = motionVectorNormalized.add(steeringForceScaled);
+		Vec3 steeringForceScaled = steeringForce.scale(HOMING_FACTOR);
+		Vec3 newMotionVector = motionVectorNormalized.add(steeringForceScaled);
 
 		// normalize and scale motion vector to preserve original length
 		newMotionVector = newMotionVector.normalize();
 		newMotionVector = newMotionVector.scale(motionVectorLength);
 
 		// update motion
-		projectile.setMotion(newMotionVector.getX(), newMotionVector.getY(), newMotionVector.getZ());
+		projectile.setDeltaMovement(newMotionVector.x(), newMotionVector.y(), newMotionVector.z());
 	}
 
 }

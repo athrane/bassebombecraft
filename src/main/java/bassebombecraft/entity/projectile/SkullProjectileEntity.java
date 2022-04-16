@@ -2,9 +2,9 @@ package bassebombecraft.entity.projectile;
 
 import static bassebombecraft.config.ModConfiguration.skullProjectileEntity;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 
 /**
  * Skull for composite magic.
@@ -22,7 +22,7 @@ public class SkullProjectileEntity extends GenericCompositeProjectileEntity {
 	 * @param type  entity type.
 	 * @param world world object.
 	 */
-	public SkullProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, World world) {
+	public SkullProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, Level world) {
 		super(type, world, skullProjectileEntity);
 	}
 

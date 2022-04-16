@@ -2,11 +2,11 @@ package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.world.WorldUtils.addLightningAtBlockPos;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
@@ -28,11 +28,11 @@ public class SpawnLightningBolt implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
-		AxisAlignedBB aabb = target.getBoundingBox();
+	public void applyEffect(LivingEntity target, Level world, LivingEntity invoker) {
+		AABB aabb = target.getBoundingBox();
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
-		BlockPos.getAllInBox(min, max).forEach(pos -> addLightningAtBlockPos(world, pos));
+		BlockPos.betweenClosedStream(min, max).forEach(pos -> addLightningAtBlockPos(world, pos));
 	}
 
 }

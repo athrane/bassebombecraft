@@ -12,11 +12,11 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which charms the
@@ -37,7 +37,7 @@ public class Charm2 implements Operator2 {
 	/**
 	 * Function to get ray trace result.
 	 */
-	Function<Ports, RayTraceResult> fnGetRayTraceResult;
+	Function<Ports, HitResult> fnGetRayTraceResult;
 
 	/**
 	 * Constructor.
@@ -45,7 +45,7 @@ public class Charm2 implements Operator2 {
 	 * @param fnGetInvoker      function to get invoker entity.
 	 * @param splRayTraceResult function to get ray trace result.
 	 */
-	public Charm2(Function<Ports, LivingEntity> fnGetInvoker, Function<Ports, RayTraceResult> fnGetRayTraceResult) {
+	public Charm2(Function<Ports, LivingEntity> fnGetInvoker, Function<Ports, HitResult> fnGetRayTraceResult) {
 		this.fnGetInvoker = fnGetInvoker;
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 	}
@@ -64,7 +64,7 @@ public class Charm2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		LivingEntity invoker = applyV(fnGetInvoker, ports);
-		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
+		HitResult result = applyV(fnGetRayTraceResult, ports);
 
 		// exit if no entity was hit
 		if (!isEntityHit(result))
@@ -75,14 +75,14 @@ public class Charm2 implements Operator2 {
 			return;
 
 		// get entity
-		Entity entity = ((EntityRayTraceResult) result).getEntity();
+		Entity entity = ((EntityHitResult) result).getEntity();
 
 		// skip if entity can't be charmed, i.e. is a mob entity
 		if (!isTypeMobEntity(entity))
 			return;
 
 		// type cast
-		MobEntity mobEntity = (MobEntity) entity;
+		Mob mobEntity = (Mob) entity;
 
 		// register mob as charmed
 		getProxy().getServerCharmedMobsRepository().add(mobEntity, invoker);

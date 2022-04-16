@@ -15,16 +15,16 @@ import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import java.util.List;
 import java.util.Random;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.CatEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Cat;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain ProjectileAction} which spawns an army of
@@ -71,30 +71,30 @@ public class SpawnKittenArmy implements ProjectileAction {
 	}
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
+	public void execute(ThrowableProjectile projectile, Level world, HitResult result) {
 		try {
 			// get shooter
-			Entity shooter = projectile.getShooter();
+			Entity shooter = projectile.getOwner();
 			
 			for (int i = 0; i < kittens; i++) {
 
 				// create cat
-				CatEntity entity = EntityType.CAT.create(world);
+				Cat entity = EntityType.CAT.create(world);
 
 				// set age
 				if (i == 0)
-					entity.setGrowingAge(1);
+					entity.setAge(1);
 				else
-					entity.setGrowingAge(age);
+					entity.setAge(age);
 
 				// set tamed by player
 				if (isTypePlayerEntity(shooter)) {
-					PlayerEntity player = (PlayerEntity) shooter;
-					entity.setTamedBy(player);
+					Player player = (Player) shooter;
+					entity.tame(player);
 				}
 
 				// calculate random spawn position
-				setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnSize, entity);
+				setRandomSpawnPosition(projectile.blockPosition(), projectile.yRot, spawnSize, entity);
 
 				// if shooter is a living entity then add entity to shooters team
 				if (isTypeLivingEntity(shooter)) {
@@ -109,12 +109,12 @@ public class SpawnKittenArmy implements ProjectileAction {
 				
 				// set name
 				Random random = getBassebombeCraft().getRandom();
-				ITextComponent name = new StringTextComponent(getKittenName(random, i));
+				Component name = new TextComponent(getKittenName(random, i));
 				entity.setCustomName(name);
 				entity.setCustomNameVisible(true);
 
 				// spawn
-				world.addEntity(entity);
+				world.addFreshEntity(entity);
 			}
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

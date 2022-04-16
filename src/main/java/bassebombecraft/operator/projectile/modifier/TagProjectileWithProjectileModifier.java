@@ -10,7 +10,7 @@ import java.util.function.Function;
 import bassebombecraft.event.projectile.ProjectileModifierEventHandler;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 
 /**

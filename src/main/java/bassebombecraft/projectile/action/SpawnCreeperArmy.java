@@ -9,13 +9,13 @@ import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
 import static bassebombecraft.entity.ai.AiUtils.buildCreeperArmyAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.CreeperEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain ProjectileAction} which spawns a creeper
@@ -52,20 +52,20 @@ public class SpawnCreeperArmy implements ProjectileAction {
 	}
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableProjectile projectile, Level world, HitResult movObjPos) {
 
 		try {
 
 			// get shooter
-			Entity shooter = projectile.getShooter();
+			Entity shooter = projectile.getOwner();
 
 			for (int i = 0; i < entities; i++) {
 
 				// create creeper
-				CreeperEntity entity = EntityType.CREEPER.create(world);
+				Creeper entity = EntityType.CREEPER.create(world);
 
 				// calculate random spawn position
-				setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnArea, entity);
+				setRandomSpawnPosition(projectile.blockPosition(), projectile.yRot, spawnArea, entity);
 
 				// if shooter is a living entity then add entity to shooters team
 				if (isTypeLivingEntity(shooter)) {
@@ -79,7 +79,7 @@ public class SpawnCreeperArmy implements ProjectileAction {
 				}
 
 				// spawn
-				world.addEntity(entity);
+				world.addFreshEntity(entity);
 			}
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

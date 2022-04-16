@@ -10,9 +10,9 @@ import java.util.stream.Stream;
 
 import bassebombecraft.event.entity.target.TargetRepository;
 import bassebombecraft.player.PlayerUtils;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Renderer} for rendering target information
@@ -34,14 +34,14 @@ public class DefaultTargetsInfoRenderer implements EntityRenderer {
 			return;
 
 		// typecast
-		PlayerEntity player = (PlayerEntity) entity;
+		Player player = (Player) entity;
 
 		// get player position
-		Vector3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
+		Vec3 playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
 
 		// calculate translation of text
-		Vector3d renderPos = RenderingUtils.getRenderPos();
-		Vector3d translation = playerPos.subtract(renderPos);
+		Vec3 renderPos = RenderingUtils.getRenderPos();
+		Vec3 translation = playerPos.subtract(renderPos);
 
 		// get targets
 		TargetRepository repository = getProxy().getServerTargetRepository();
@@ -52,7 +52,7 @@ public class DefaultTargetsInfoRenderer implements EntityRenderer {
 		String commanderTargetName = getCommanderTargetName(player);
 
 		// render basic info
-		Vector3d textTranslation = new Vector3d(-3, 4, 4);
+		Vec3 textTranslation = new Vec3(-3, 4, 4);
 		// renderHudTextBillboard(translation, textTranslation, TARGETS_LABEL);
 		// renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP *
 		// 1, 0),
@@ -73,7 +73,7 @@ public class DefaultTargetsInfoRenderer implements EntityRenderer {
 				return;
 
 			int disp = 2 + counter;
-			String targetName = m.getName().getUnformattedComponentText();
+			String targetName = m.getName().getContents();
 			String text = "Target: " + targetName;
 			// renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP *
 			// disp, 0), text);
@@ -88,7 +88,7 @@ public class DefaultTargetsInfoRenderer implements EntityRenderer {
 	 * 
 	 * @return commander target name.
 	 */
-	String getCommanderTargetName(PlayerEntity player) {
+	String getCommanderTargetName(Player player) {
 
 		// get commander target
 		TargetRepository repository = getProxy().getServerTargetRepository();
@@ -100,7 +100,7 @@ public class DefaultTargetsInfoRenderer implements EntityRenderer {
 
 		// get live target info
 		LivingEntity target = optTarget.get();
-		return target.getName().getUnformattedComponentText();
+		return target.getName().getContents();
 	}
 
 }

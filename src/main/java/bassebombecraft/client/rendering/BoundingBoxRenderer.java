@@ -1,6 +1,6 @@
 package bassebombecraft.client.rendering;
 
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 
 /**
  * Interface for rendering a single bounding box.
@@ -14,5 +14,5 @@ public interface BoundingBoxRenderer {
 	 * @param aabb bounding box to render something for.
 	 * @param info rendering info.
 	 */
-	public void render(AxisAlignedBB aabb, RenderingInfo info);
+	public void render(AABB aabb, RenderingInfo info);
 }

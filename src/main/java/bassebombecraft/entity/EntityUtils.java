@@ -12,22 +12,22 @@ import java.util.Random;
 import bassebombecraft.BassebombeCraft;
 import bassebombecraft.event.entity.target.TargetRepository;
 import bassebombecraft.player.PlayerDirection;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifierManager;
-import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
-import net.minecraft.entity.monster.CreeperEntity;
-import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.entity.passive.ParrotEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.Parrot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.Level;
 
 /**
  * Utility class for entity manipulation.
@@ -48,17 +48,17 @@ public class EntityUtils {
 	 */
 	public static void setProjectileEntityPosition(LivingEntity entity, LivingEntity projectileEntity,
 			int spawnDisplacement) {
-		Vector3d lookVec = entity.getLookVec();
+		Vec3 lookVec = entity.getLookAngle();
 
 		// calculate spawn projectile spawn position
-		double x = entity.getPosX() + (lookVec.x * spawnDisplacement);
-		double y = entity.getPosY() + entity.getEyeHeight();
-		double z = entity.getPosZ() + (lookVec.z * spawnDisplacement);
+		double x = entity.getX() + (lookVec.x * spawnDisplacement);
+		double y = entity.getY() + entity.getEyeHeight();
+		double z = entity.getZ() + (lookVec.z * spawnDisplacement);
 
 		// set spawn position
-		projectileEntity.setPosition(x, y, z);
-		projectileEntity.prevRotationYaw = projectileEntity.rotationYaw = projectileEntity.rotationYawHead = entity.rotationYaw;
-		projectileEntity.prevRotationPitch = projectileEntity.rotationPitch = entity.rotationPitch;
+		projectileEntity.setPos(x, y, z);
+		projectileEntity.yRotO = projectileEntity.yRot = projectileEntity.yHeadRot = entity.yRot;
+		projectileEntity.xRotO = projectileEntity.xRot = entity.xRot;
 	}
 
 	/**
@@ -68,9 +68,9 @@ public class EntityUtils {
 	 * @param world  world
 	 * @param size   explosion size in blocks.
 	 */
-	public static void explode(LivingEntity entity, World world, int size) {
-		world.createExplosion(entity, entity.getPosition().getX(), entity.getPosition().getY(),
-				entity.getPosition().getZ(), size, Explosion.Mode.DESTROY);
+	public static void explode(LivingEntity entity, Level world, int size) {
+		world.explode(entity, entity.blockPosition().getX(), entity.blockPosition().getY(),
+				entity.blockPosition().getZ(), size, Explosion.BlockInteraction.DESTROY);
 	}
 
 	/**
@@ -81,7 +81,7 @@ public class EntityUtils {
 	public static void killEntity(LivingEntity entity) {
 
 		// kill target
-		entity.onKillCommand();
+		entity.kill();
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class EntityUtils {
 	public static boolean isTypeCreatureEntity(Entity entity) {
 		Optional<Entity> oe = Optional.ofNullable(entity);
 		if (oe.isPresent())
-			return oe.get() instanceof CreatureEntity;
+			return oe.get() instanceof PathfinderMob;
 		return false;
 	}
 
@@ -123,7 +123,7 @@ public class EntityUtils {
 	public static boolean isTypeMobEntity(Entity entity) {
 		Optional<Entity> oe = Optional.ofNullable(entity);
 		if (oe.isPresent())
-			return oe.get() instanceof MobEntity;
+			return oe.get() instanceof Mob;
 		return false;
 	}
 
@@ -151,7 +151,7 @@ public class EntityUtils {
 	public static boolean isTypeCreeperEntity(Entity entity) {
 		Optional<Entity> oe = Optional.ofNullable(entity);
 		if (oe.isPresent())
-			return oe.get() instanceof CreeperEntity;
+			return oe.get() instanceof Creeper;
 		return false;
 	}
 
@@ -165,7 +165,7 @@ public class EntityUtils {
 	public static boolean isTypeParrotEntity(Entity entity) {
 		Optional<Entity> oe = Optional.ofNullable(entity);
 		if (oe.isPresent())
-			return oe.get() instanceof ParrotEntity;
+			return oe.get() instanceof Parrot;
 		return false;
 	}
 
@@ -179,7 +179,7 @@ public class EntityUtils {
 	public static boolean isTypeBeeEntity(Entity entity) {
 		Optional<Entity> oe = Optional.ofNullable(entity);
 		if (oe.isPresent())
-			return oe.get() instanceof BeeEntity;
+			return oe.get() instanceof Bee;
 		return false;
 	}
 
@@ -191,7 +191,7 @@ public class EntityUtils {
 	 * @return entity feet position (as a Y coordinate).
 	 */
 	public static double calculateEntityFeetPositition(Entity entity) {
-		return entity.getPosY() - entity.getYOffset();
+		return entity.getY() - entity.getMyRidingOffset();
 	}
 
 	/**
@@ -214,7 +214,7 @@ public class EntityUtils {
 	 * @return player direction as an integer between 0 to 3.
 	 */
 	public static PlayerDirection getEntityDirection(Entity entity) {
-		int direction = MathHelper.floor((double) ((entity.rotationYaw * 4F) / 360F) + 0.5D) & 3;
+		int direction = Mth.floor((double) ((entity.yRot * 4F) / 360F) + 0.5D) & 3;
 		return PlayerDirection.getById(direction);
 	}
 
@@ -253,10 +253,10 @@ public class EntityUtils {
 	 */
 	public static Optional<LivingEntity> getNullableTarget(LivingEntity entity) {
 		if (isTypeCreatureEntity(entity)) {
-			CreatureEntity creatureEntity = (CreatureEntity) entity;
-			return Optional.ofNullable(creatureEntity.getAttackTarget());
+			PathfinderMob creatureEntity = (PathfinderMob) entity;
+			return Optional.ofNullable(creatureEntity.getTarget());
 		}
-		return Optional.ofNullable(entity.getLastAttackedEntity());
+		return Optional.ofNullable(entity.getLastHurtMob());
 	}
 
 	/**
@@ -270,10 +270,10 @@ public class EntityUtils {
 
 		// get attack target if type is creature entity
 		if (EntityUtils.isTypeCreatureEntity(entity)) {
-			CreatureEntity typedEntity = (CreatureEntity) entity;
-			return typedEntity.getAttackTarget();
+			PathfinderMob typedEntity = (PathfinderMob) entity;
+			return typedEntity.getTarget();
 		} else {
-			return entity.getLastAttackedEntity();
+			return entity.getLastHurtMob();
 		}
 	}
 
@@ -306,14 +306,14 @@ public class EntityUtils {
 	 */
 	public static void setTarget(Entity entity, LivingEntity newTarget) {
 		if (isTypeCreatureEntity(entity)) {
-			CreatureEntity creatureEntity = (CreatureEntity) entity;
-			creatureEntity.setAttackTarget(newTarget);
+			PathfinderMob creatureEntity = (PathfinderMob) entity;
+			creatureEntity.setTarget(newTarget);
 			return;
 		}
 		if (isTypeLivingEntity(entity)) {
 			LivingEntity livingEntity = (LivingEntity) entity;
-			livingEntity.setLastAttackedEntity(newTarget);
-			livingEntity.setRevengeTarget(newTarget);
+			livingEntity.setLastHurtMob(newTarget);
+			livingEntity.setLastHurtByMob(newTarget);
 		}
 	}
 
@@ -331,7 +331,7 @@ public class EntityUtils {
 			if (isTypePlayerEntity(invoker)) {
 
 				// type cast
-				PlayerEntity player = (PlayerEntity) invoker;
+				Player player = (Player) invoker;
 
 				// get player target
 				TargetRepository repository = getProxy().getServerTargetRepository();
@@ -366,8 +366,8 @@ public class EntityUtils {
 	 */
 	public static void setMobEntityAggroed(Entity entity) {
 		if (isTypeMobEntity(entity)) {
-			MobEntity mobEntity = (MobEntity) entity;
-			mobEntity.setAggroed(true);
+			Mob mobEntity = (Mob) entity;
+			mobEntity.setAggressive(true);
 		}
 	}
 
@@ -398,7 +398,7 @@ public class EntityUtils {
 		double positionX = pos.getX() + randomX;
 		double positionY = pos.getY();
 		double positionZ = pos.getZ() + randomZ;
-		entity.setLocationAndAngles(positionX, positionY, positionZ, rotationYaw, PITCH);
+		entity.moveTo(positionX, positionY, positionZ, rotationYaw, PITCH);
 	}
 
 	/**
@@ -415,8 +415,8 @@ public class EntityUtils {
 	 * 
 	 * @param entity entity to self-destruct.
 	 */
-	public static void selfDestruct(MobEntity entity) {
-		entity.setFire(AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE);
+	public static void selfDestruct(Mob entity) {
+		entity.setSecondsOnFire(AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE);
 		entity.setHealth(0);
 	}
 
@@ -426,7 +426,7 @@ public class EntityUtils {
 	 * @param entity entity to self-destruct.
 	 */
 	public static void selfDestruct(LivingEntity entity) {
-		entity.setFire(AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE);
+		entity.setSecondsOnFire(AI_COMMANDED_TEAM_MEMBER_SELFDESTRUCT_FIRE);
 		entity.setHealth(0);
 	}
 
@@ -440,7 +440,7 @@ public class EntityUtils {
 	 * @return true if minimum distance is reached.
 	 */
 	public static boolean isMinimumDistanceReached(Entity entity, Entity entity2, double minDistanceSqr) {
-		double distSqr = entity.getDistanceSq(entity2);
+		double distSqr = entity.distanceToSqr(entity2);
 		return (minDistanceSqr > distSqr);
 	}
 
@@ -454,7 +454,7 @@ public class EntityUtils {
 	 * @param value     value to set.
 	 */
 	public static void setAttribute(LivingEntity entity, Attribute attribute, double value) {
-		ModifiableAttributeInstance instance = entity.getAttribute(attribute);
+		AttributeInstance instance = entity.getAttribute(attribute);
 
 		// handle undefined instance
 		if (instance == null) {
@@ -472,7 +472,7 @@ public class EntityUtils {
 	 * @param attribute attribute test set.
 	 */
 	public static boolean isEntityAttributeSet(LivingEntity entity, Attribute attribute) {
-		ModifiableAttributeInstance instance = entity.getAttribute(attribute);
+		AttributeInstance instance = entity.getAttribute(attribute);
 
 		// handle undefined instance
 		if (instance == null) {
@@ -493,12 +493,12 @@ public class EntityUtils {
 	static void logUndefinedAttribute(LivingEntity entity, Attribute attribute) {
 		BassebombeCraft mod = getBassebombeCraft();
 		StringBuilder msg = new StringBuilder();
-		msg.append("Failed to read value of undefined attribute: " + attribute.getAttributeName());
+		msg.append("Failed to read value of undefined attribute: " + attribute.getDescriptionId());
 		msg.append("Entity: " + entity);
 		msg.append("Defined properties: ");
 
-		AttributeModifierManager manager = entity.getAttributeManager();
-		manager.getInstances().stream().forEach(i -> msg.append(i.getAttribute().getAttributeName() + ", "));
+		AttributeMap manager = entity.getAttributes();
+		manager.getDirtyAttributes().stream().forEach(i -> msg.append(i.getAttribute().getDescriptionId() + ", "));
 		mod.reportAndLogError(msg.toString());
 	}
 

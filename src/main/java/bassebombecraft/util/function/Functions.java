@@ -4,9 +4,9 @@ import java.util.function.Function;
 
 import bassebombecraft.item.book.GenericCompositeItemsBook;
 import bassebombecraft.item.composite.GenericCompositeNullItem;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
 
 /**
  * Reusable functions.

@@ -7,11 +7,11 @@ import static bassebombecraft.geom.BlockDirective.getInstance;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
-import net.minecraft.block.Blocks;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of {@linkplain MistActionStrategy} for construction of mist
@@ -23,7 +23,7 @@ public class MovingTntMist implements BlockMistActionStrategy {
 	static final boolean DONT_HARVEST = false;
 	static final int EFFECT_DURATION = 200; // Measured in ticks
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.FLAME;
+	static final SimpleParticleType PARTICLE_TYPE = ParticleTypes.FLAME;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.0F;
@@ -40,7 +40,7 @@ public class MovingTntMist implements BlockMistActionStrategy {
 	int counter = 0;
 
 	@Override
-	public void applyEffectToBlock(BlockPos target, World world) {
+	public void applyEffectToBlock(BlockPos target, Level world) {
 		counter++;
 		counter = counter % MOD_VALUE;
 

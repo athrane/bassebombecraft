@@ -4,8 +4,8 @@ import static bassebombecraft.ModConstants.NOT_BAD_POTION_EFFECT;
 import static bassebombecraft.ModConstants.POTION_LIQUID_COLOR;
 
 import bassebombecraft.event.potion.ReflectEffectEventHandler;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.Effect;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffect;
 
 /**
  * Effect which reflect damage inflicted to the entity with the effect active.
@@ -15,7 +15,7 @@ import net.minecraft.potion.Effect;
  * inflicted to an entity.
  * 
  */
-public class ReflectEffect extends Effect {
+public class ReflectEffect extends MobEffect {
 
 	/**
 	 * Effect identifier.
@@ -30,12 +30,12 @@ public class ReflectEffect extends Effect {
 	}
 
 	@Override
-	public void performEffect(LivingEntity entity, int amplifier) {
+	public void applyEffectTick(LivingEntity entity, int amplifier) {
 		// NO-OP
 	}
 
 	@Override
-	public boolean isReady(int duration, int amplifier) {
+	public boolean isDurationEffectTick(int duration, int amplifier) {
 		return true;
 	}
 

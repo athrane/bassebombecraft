@@ -8,10 +8,10 @@ import bassebombecraft.entity.EntityDistanceSorter;
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
 import bassebombecraft.util.function.DiscardCommander;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 
 /**
  * Attack nearest player (except the team owner) command.
@@ -61,14 +61,14 @@ public class AttackNearestPlayerCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean shouldExecute(LivingEntity commander, CreatureEntity entity) {
+	public boolean shouldExecute(LivingEntity commander, PathfinderMob entity) {
 
 		// initialize filter
 		discardTeamCommander.set(commander);
 
 		// get list of players
-		AxisAlignedBB aabb = entity.getBoundingBox().grow(targetDistance, targetDistance, targetDistance);
-		List<PlayerEntity> targetList = entity.world.getEntitiesWithinAABB(PlayerEntity.class, aabb,
+		AABB aabb = entity.getBoundingBox().inflate(targetDistance, targetDistance, targetDistance);
+		List<Player> targetList = entity.level.getEntitiesOfClass(Player.class, aabb,
 				discardTeamCommander);
 
 		// exit if no targets where found
@@ -80,7 +80,7 @@ public class AttackNearestPlayerCommand implements MobCommand {
 		Collections.sort(targetList, entityDistanceSorter);
 
 		// get target
-		PlayerEntity target = targetList.get(FIRST_INDEX);
+		Player target = targetList.get(FIRST_INDEX);
 
 		// exit if target is undefined
 		if (target == null)
@@ -91,13 +91,13 @@ public class AttackNearestPlayerCommand implements MobCommand {
 			return false;
 		
 		// update target
-		entity.setAttackTarget(target);
+		entity.setTarget(target);
 		
 		return true;
 	}
 
 	@Override
-	public void tick(LivingEntity commander, CreatureEntity entity) {
+	public void tick(LivingEntity commander, PathfinderMob entity) {
 		// NO-OP
 	}
 

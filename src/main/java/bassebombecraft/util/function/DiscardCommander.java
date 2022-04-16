@@ -4,8 +4,8 @@ import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
 import com.google.common.base.Predicate;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
 /**
  * Discard commander filter. Returns false if candidate is equal to commander.
@@ -33,7 +33,7 @@ public class DiscardCommander implements Predicate<LivingEntity> {
 			return false;
 
 		// type cast
-		PlayerEntity commander = (PlayerEntity) entity;
+		Player commander = (Player) entity;
 		
 		return (!this.commander.equals(commander));
 	}

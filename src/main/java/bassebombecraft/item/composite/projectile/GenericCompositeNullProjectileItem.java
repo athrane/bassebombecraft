@@ -3,7 +3,7 @@ package bassebombecraft.item.composite.projectile;
 import static bassebombecraft.ModConstants.NULL_I18N_ARGS;
 import static bassebombecraft.item.ItemUtils.resolveCompositeItemTypeFromString;
 import static net.minecraft.util.text.TextFormatting.DARK_BLUE;
-import static net.minecraft.util.text.TextFormatting.GREEN;
+import staticnet.minecraft.ChatFormattingg.GREEN;
 
 import java.util.List;
 
@@ -12,11 +12,11 @@ import javax.annotation.Nullable;
 import bassebombecraft.config.ItemConfig;
 import bassebombecraft.config.ProjectileEntityConfig;
 import bassebombecraft.item.composite.GenericCompositeNullItem;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -48,20 +48,20 @@ public abstract class GenericCompositeNullProjectileItem extends GenericComposit
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
-			ITooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip,
+			TooltipFlag flagIn) {
 		String typeName = resolveCompositeItemTypeFromString(this);
-		tooltip.add(new TranslationTextComponent(GREEN + this.tooltip));
-		tooltip.add(new TranslationTextComponent("genericcompositenullitem.type", typeName));
-		tooltip.add(new TranslationTextComponent("genericcompositenullprojectileitem.damage",
+		tooltip.add(new TranslatableComponent(GREEN + this.tooltip));
+		tooltip.add(new TranslatableComponent("genericcompositenullitem.type", typeName));
+		tooltip.add(new TranslatableComponent("genericcompositenullprojectileitem.damage",
 				projectileConfig.damage.get()));
 		tooltip.add(
-				new TranslationTextComponent("genericcompositenullprojectileitem.force", projectileConfig.force.get()));
-		tooltip.add(new TranslationTextComponent("genericcompositenullprojectileitem.gravity",
+				new TranslatableComponent("genericcompositenullprojectileitem.force", projectileConfig.force.get()));
+		tooltip.add(new TranslatableComponent("genericcompositenullprojectileitem.gravity",
 				projectileConfig.gravity.get()));
-		tooltip.add(new TranslationTextComponent("genericcompositenullprojectileitem.inaccuracy",
+		tooltip.add(new TranslatableComponent("genericcompositenullprojectileitem.inaccuracy",
 				projectileConfig.inaccuracy.get()));
-		tooltip.add(new TranslationTextComponent("genericcompositenullitem.usage", NULL_I18N_ARGS).mergeStyle(DARK_BLUE));
+		tooltip.add(new TranslatableComponent("genericcompositenullitem.usage", NULL_I18N_ARGS).withStyle(DARK_BLUE));
 	}
 
 }

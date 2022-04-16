@@ -1,8 +1,8 @@
 package bassebombecraft.entity.commander;
 
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.LivingEntity;
 
 /**
  * Interface for mob command.
@@ -31,10 +31,10 @@ public interface MobCommand {
 	 * 
 	 * @return true if command should start to execute.
 	 */
-	public boolean shouldExecute(LivingEntity commander, CreatureEntity entity);
+	public boolean shouldExecute(LivingEntity commander, PathfinderMob entity);
 
 	/**
 	 * Execute command.
 	 */
-	public void tick(LivingEntity commander, CreatureEntity entity);
+	public void tick(LivingEntity commander, PathfinderMob entity);
 }

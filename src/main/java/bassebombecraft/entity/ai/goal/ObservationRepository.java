@@ -2,7 +2,7 @@ package bassebombecraft.entity.ai.goal;
 
 import java.util.stream.Stream;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 
 /**
  * Interface for repository for storage of {@linkplain Observation}.

@@ -15,19 +15,19 @@ import javax.annotation.Nullable;
 
 import bassebombecraft.config.ItemConfig;
 import bassebombecraft.item.action.BlockClickedItemAction;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.CooldownTracker;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.ItemCooldowns;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -60,7 +60,7 @@ public class GenericBlockClickedBook extends Item {
 	 * @param action item action object which is invoked when item is right clicked.
 	 */
 	public GenericBlockClickedBook(ItemConfig config, BlockClickedItemAction action) {
-		super(new Item.Properties().group(getItemGroup()));
+		super(new Item.Properties().tab(getItemGroup()));
 		this.action = action;
 
 		// get cooldown and tooltip
@@ -76,7 +76,7 @@ public class GenericBlockClickedBook extends Item {
 	 */
 	@Deprecated
 	public GenericBlockClickedBook(String name, BlockClickedItemAction action) {
-		super(new Item.Properties().group(getItemGroup()));
+		super(new Item.Properties().tab(getItemGroup()));
 		this.action = action;
 
 		// get cooldown or default value
@@ -86,30 +86,30 @@ public class GenericBlockClickedBook extends Item {
 	}
 
 	@Override
-	public boolean hitEntity(ItemStack itemStack, LivingEntity entityTarget, LivingEntity entityUser) {
+	public boolean hurtEnemy(ItemStack itemStack, LivingEntity entityTarget, LivingEntity entityUser) {
 		return false;
 	}
 
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context) {
+	public InteractionResult useOn(UseOnContext context) {
 		// exit if invoked at client side
-		if (isLogicalClient(context.getWorld())) {
-			return super.onItemUse(context);
+		if (isLogicalClient(context.getLevel())) {
+			return super.useOn(context);
 		}
 
 		// post analytics
-		PlayerEntity player = context.getPlayer();
+		Player player = context.getPlayer();
 		getProxy().postItemUsage(this.getRegistryName().toString(), player.getGameProfile().getName());
 
 		// add cooldown
-		CooldownTracker tracker = player.getCooldownTracker();
-		tracker.setCooldown(this, coolDown);
+		ItemCooldowns tracker = player.getCooldowns();
+		tracker.addCooldown(this, coolDown);
 
 		return action.onItemUse(context);
 	}
 
 	@Override
-	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 
 		// only update the action at server side since we updates the world
 		if (isLogicalClient(worldIn))
@@ -120,9 +120,9 @@ public class GenericBlockClickedBook extends Item {
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
-			ITooltipFlag flagIn) {
-		ITextComponent text = new TranslationTextComponent(TextFormatting.GREEN + this.tooltip);
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip,
+			TooltipFlag flagIn) {
+		Component text = new TranslatableComponent(ChatFormatting.GREEN + this.tooltip);
 		tooltip.add(text);
 	}
 

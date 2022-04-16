@@ -1,7 +1,7 @@
 package bassebombecraft.structure;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * Interface for a structure in the world.

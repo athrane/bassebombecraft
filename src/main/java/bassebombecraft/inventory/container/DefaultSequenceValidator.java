@@ -6,7 +6,7 @@ import static bassebombecraft.ModConstants.PM_SUFFIX;
 import static bassebombecraft.ModConstants.PP_SUFFIX;
 import static bassebombecraft.ModConstants.P_SUFFIX;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * Implementation of the {@linkplain CompositeMagicItemSequenceValidator}.

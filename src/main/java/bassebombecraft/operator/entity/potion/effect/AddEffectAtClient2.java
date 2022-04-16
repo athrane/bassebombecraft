@@ -9,8 +9,8 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.EffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which adds effect at
@@ -31,7 +31,7 @@ public class AddEffectAtClient2 implements Operator2 {
 	/**
 	 * Function to get effect instance.
 	 */
-	Function<Ports, EffectInstance> fnGetEffecInstance1;
+	Function<Ports, MobEffectInstance> fnGetEffecInstance1;
 
 	/**
 	 * Constructor.
@@ -48,7 +48,7 @@ public class AddEffectAtClient2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		LivingEntity target = applyV(fnGetTarget, ports);
-		EffectInstance effectInstance = applyV(fnGetEffecInstance1, ports);
+		MobEffectInstance effectInstance = applyV(fnGetEffecInstance1, ports);
 
 		// sync effect to client
 		getProxy().getNetworkChannel().sendAddPotionEffectPacket(target, effectInstance);

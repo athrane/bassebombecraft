@@ -1,6 +1,6 @@
 package bassebombecraft.color;
 
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.Mth;
 
 /**
  * Implementation of the {@linkplain Color4f} interface.
@@ -64,10 +64,10 @@ public class DefaultColor4f implements Color4f {
 
 	@Override
 	public Color4f lerp(Color4f color, float value) {
-		float r = MathHelper.lerp(value, getR(), color.getR());
-		float g = MathHelper.lerp(value, getG(), color.getG());
-		float b = MathHelper.lerp(value, getB(), color.getB());
-		float a = MathHelper.lerp(value, getAlpha(), color.getAlpha());
+		float r = Mth.lerp(value, getR(), color.getR());
+		float g = Mth.lerp(value, getG(), color.getG());
+		float b = Mth.lerp(value, getB(), color.getB());
+		float a = Mth.lerp(value, getAlpha(), color.getAlpha());
 		return new DefaultColor4f(r, g, b, a);
 	}
 

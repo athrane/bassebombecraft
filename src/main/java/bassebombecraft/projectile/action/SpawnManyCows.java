@@ -2,11 +2,11 @@ package bassebombecraft.projectile.action;
 
 import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.CowEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Cow;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain ProjectileAction} which spawns many cows.
@@ -19,17 +19,17 @@ public class SpawnManyCows implements ProjectileAction {
 	static final int SPAWN_SIZE = 1;
 	
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
+	public void execute(ThrowableProjectile projectile, Level world, HitResult result) {
 		for (int i = 0; i < NUMBER_COWS; i++) {
 			
 			// create cow
-			CowEntity entity = EntityType.COW.create(world);
-			entity.setGrowingAge(GROWN_AGE);
+			Cow entity = EntityType.COW.create(world);
+			entity.setAge(GROWN_AGE);
 			
 			// calculate random spawn position
-			setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, SPAWN_SIZE, entity);
+			setRandomSpawnPosition(projectile.blockPosition(), projectile.yRot, SPAWN_SIZE, entity);
 
-			world.addEntity(entity);
+			world.addFreshEntity(entity);
 		}
 	}
 

@@ -1,6 +1,6 @@
 package bassebombecraft.tab;
 
-import net.minecraft.item.ItemGroup;
+import net.minecraft.world.item.CreativeModeTab;
 
 /**
  * Factory for creation of creative tabs.
@@ -14,7 +14,7 @@ public class ItemGroupFactory {
 	 * 
 	 * @return item group.
 	 */
-	public static ItemGroup createItemGroup(String name) {
+	public static CreativeModeTab createItemGroup(String name) {
 		return new BassebombeItemGroup(name);
 	}
 

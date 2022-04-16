@@ -12,17 +12,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import bassebombecraft.client.operator.ClientPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 /**
@@ -72,7 +72,7 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 	/**
 	 * Function to get matrix stack.
 	 */
-	Function<ClientPorts, MatrixStack> fnGetMatrixStack;
+	Function<ClientPorts, PoseStack> fnGetMatrixStack;
 
 	/**
 	 * X coordinate for placement of billboard.
@@ -134,27 +134,27 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		MatrixStack matrixStack = clientApplyV(fnGetMatrixStack, ports);
+		PoseStack matrixStack = clientApplyV(fnGetMatrixStack, ports);
 		Stream<String> messages = applyV(fnGetString, ports);
 
 		// get render buffer
 		Minecraft mcClient = Minecraft.getInstance();
-		IRenderTypeBuffer.Impl buffer = mcClient.getRenderTypeBuffers().getBufferSource();
+		MultiBufferSource.BufferSource buffer = mcClient.renderBuffers().bufferSource();
 
 		// get rendering engine
-		EntityRendererManager renderManager = mcClient.getRenderManager();
-		FontRenderer fontRenderer = renderManager.getFontRenderer();
+		EntityRenderDispatcher renderManager = mcClient.getEntityRenderDispatcher();
+		Font fontRenderer = renderManager.getFont();
 
 		// push matrix
-		matrixStack.push();
+		matrixStack.pushPose();
 
 		// setup matrix
 		matrixStack.scale(TEXT_SCALE_2, TEXT_SCALE_2, TEXT_SCALE_2);
-		matrixStack.rotate(renderManager.getCameraOrientation());
-		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
+		matrixStack.mulPose(renderManager.cameraOrientation());
+		matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
 		double zTranslation = TEXT_Z_TRANSLATION + oscillate(0, oscillateMax);
 		matrixStack.translate(0, 0, zTranslation);
-		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
+		Matrix4f positionMatrix = matrixStack.last().pose();
 
 		// create index to use inside loop
 		final AtomicInteger index = new AtomicInteger();
@@ -162,12 +162,12 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 		// render messages
 		messages.forEach(m -> {
 			int ypos = y + (Y_DELTA * index.incrementAndGet());
-			fontRenderer.renderString(m, x, ypos, textColor, DROP_SHADOW, positionMatrix, buffer, IS_TRANSPARENT,
+			fontRenderer.drawInBatch(m, x, ypos, textColor, DROP_SHADOW, positionMatrix, buffer, IS_TRANSPARENT,
 					TEXT_EFFECT, PACKED_LIGHT);
 		});
 
 		// restore matrix
-		matrixStack.pop();
+		matrixStack.popPose();
 	}
 
 }

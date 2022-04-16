@@ -5,7 +5,7 @@ import static bassebombecraft.sound.RegisteredSounds.DEFAULT_SOUND;
 
 import java.util.function.Supplier;
 
-import net.minecraft.util.SoundEvent;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
 

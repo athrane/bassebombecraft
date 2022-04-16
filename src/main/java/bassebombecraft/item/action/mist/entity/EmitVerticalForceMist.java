@@ -3,11 +3,11 @@ package bassebombecraft.item.action.mist.entity;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of {@linkplain EntityMistActionStrategy} for construction of
@@ -19,7 +19,7 @@ public class EmitVerticalForceMist implements EntityMistActionStrategy {
 	static final int EFFECT_DURATION = 500; // Measured in ticks
 	static final int FORCE = 10; // emit force in blocks
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
+	static final SimpleParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.75F;
@@ -30,9 +30,9 @@ public class EmitVerticalForceMist implements EntityMistActionStrategy {
 			PARTICLE_SPEED);
 
 	@Override
-	public void applyEffectToEntity(LivingEntity target, Vector3d mistPos, LivingEntity invoker) {
+	public void applyEffectToEntity(LivingEntity target, Vec3 mistPos, LivingEntity invoker) {
 		// push mob
-		Vector3d motionVecForced = new Vector3d(0, FORCE, 0);
+		Vec3 motionVecForced = new Vec3(0, FORCE, 0);
 		target.move(MoverType.SELF, motionVecForced);
 	}
 

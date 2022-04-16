@@ -11,7 +11,7 @@ import static bassebombecraft.item.action.build.BuildUtils.addSolidStairUp;
 import static bassebombecraft.item.action.build.BuildUtils.createInstance;
 import static net.minecraft.block.Blocks.STONE_BRICKS;
 import static net.minecraft.block.Blocks.STONE_BRICK_STAIRS;
-import static net.minecraft.util.Direction.SOUTH;
+import staticnet.minecraft.world.level.block.Blocksion.SOUTH;
 
 import java.util.List;
 
@@ -21,14 +21,14 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.item.action.build.tower.StairsMaterial;
 import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.CompositeStructure;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain ProjectileAction} which spawns a stairs to
@@ -56,7 +56,7 @@ public class SpawnStairs implements ProjectileAction {
 	}
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
+	public void execute(ThrowableProjectile projectile, Level world, HitResult result) {
 
 		// exit if no block was hit
 		if (!isBlockHit(result))
@@ -67,10 +67,10 @@ public class SpawnStairs implements ProjectileAction {
 			return;
 
 		// type cast
-		BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
+		BlockHitResult blockResult = (BlockHitResult) result;
 
 		// get shooter
-		Entity shooter = projectile.getShooter();
+		Entity shooter = projectile.getOwner();
 
 		// get thrower feet position
 		int yFeetPosition = calculateEntityFeetPosititionAsInt(shooter);
@@ -86,7 +86,7 @@ public class SpawnStairs implements ProjectileAction {
 
 		// create material
 		CompositeStructure composite = new CompositeStructure();
-		BlockState state = STONE_BRICK_STAIRS.getDefaultState().with(StairsBlock.FACING, SOUTH);
+		BlockState state = STONE_BRICK_STAIRS.defaultBlockState().setValue(StairBlock.FACING, SOUTH);
 		StairsMaterial stairsMaterial = createInstance(state, STONE_BRICK_STAIRS, STONE_BRICKS);
 
 		// create stairs structure

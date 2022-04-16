@@ -11,12 +11,12 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Direction.Axis;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Direction.Axis;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which bounces
@@ -32,7 +32,7 @@ public class Bounce2 implements Operator2 {
 	/**
 	 * Function to get ray trace result.
 	 */
-	Function<Ports, RayTraceResult> fnGetRayTraceResult;
+	Function<Ports, HitResult> fnGetRayTraceResult;
 
 	/**
 	 * Function to get projectile entity.
@@ -45,7 +45,7 @@ public class Bounce2 implements Operator2 {
 	 * @param splRayTraceResult function to get ray trace result.
 	 * @param fnGetProjectile   function to get projectile entity.
 	 */
-	public Bounce2(Function<Ports, RayTraceResult> fnGetRayTraceResult, Function<Ports, Entity> fnGetProjectile) {
+	public Bounce2(Function<Ports, HitResult> fnGetRayTraceResult, Function<Ports, Entity> fnGetProjectile) {
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 		this.fnGetProjectile = fnGetProjectile;
 	}
@@ -63,11 +63,11 @@ public class Bounce2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
+		HitResult result = applyV(fnGetRayTraceResult, ports);
 		Entity projectile = applyV(fnGetProjectile, ports);
 
 		// get motion vector
-		Vector3d motionVector = projectile.getMotion();
+		Vec3 motionVector = projectile.getDeltaMovement();
 		if (motionVector == null)
 			return;
 
@@ -83,17 +83,17 @@ public class Bounce2 implements Operator2 {
 				return;
 
 			// type cast
-			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
+			BlockHitResult blockResult = (BlockHitResult) result;
 
 			// get impact info
-			Direction impactFace = blockResult.getFace();
+			Direction impactFace = blockResult.getDirection();
 			Axis impactAxis = impactFace.getAxis();
 
 			// calculate bounced motion vector
-			Vector3d bouncedVector = bounceMotionVector(impactAxis, motionVector);
+			Vec3 bouncedVector = bounceMotionVector(impactAxis, motionVector);
 
 			// set bounced motion
-			projectile.setMotion(bouncedVector);
+			projectile.setDeltaMovement(bouncedVector);
 		}
 	}
 
@@ -105,14 +105,14 @@ public class Bounce2 implements Operator2 {
 	 * 
 	 * @return bounced motion vector
 	 */
-	Vector3d bounceMotionVector(Axis impactAxis, Vector3d motionVector) {
+	Vec3 bounceMotionVector(Axis impactAxis, Vec3 motionVector) {
 		switch (impactAxis) {
 		case X:
-			return motionVector.mul(-1, 1, 1);
+			return motionVector.multiply(-1, 1, 1);
 		case Y:
-			return motionVector.mul(1, -1, 1);
+			return motionVector.multiply(1, -1, 1);
 		case Z:
-			return motionVector.mul(1, 1, -1);
+			return motionVector.multiply(1, 1, -1);
 		}
 		return motionVector;
 	}

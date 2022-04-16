@@ -1,7 +1,7 @@
 package bassebombecraft.item.composite;
 
 import bassebombecraft.operator.Operator2;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * Resolver which can resolve composite item sequences into

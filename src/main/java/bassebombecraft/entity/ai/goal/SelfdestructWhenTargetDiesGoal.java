@@ -3,9 +3,9 @@ package bassebombecraft.entity.ai.goal;
 import static bassebombecraft.entity.EntityUtils.selfDestruct;
 import static bassebombecraft.entity.ai.AiUtils.setMutexFlagsforTargetingGoal;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.Goal;
 
 /**
  * AI target acquisition goal which self-destructs the entity if / when the
@@ -21,7 +21,7 @@ public class SelfdestructWhenTargetDiesGoal extends Goal {
 	/**
 	 * Goal owner.
 	 */
-	final MobEntity entity;
+	final Mob entity;
 
 	/**
 	 * Target.
@@ -34,14 +34,14 @@ public class SelfdestructWhenTargetDiesGoal extends Goal {
 	 * @param entity entity.
 	 * @param target target entity.
 	 */
-	public SelfdestructWhenTargetDiesGoal(MobEntity entity, LivingEntity target) {
+	public SelfdestructWhenTargetDiesGoal(Mob entity, LivingEntity target) {
 		this.entity = entity;
 		this.target = target;
 		setMutexFlagsforTargetingGoal(this);
 	}
 
 	@Override
-	public boolean shouldExecute() {
+	public boolean canUse() {
 
 		// if target is undefined then self-destruct
 		if (target == null)
@@ -56,13 +56,13 @@ public class SelfdestructWhenTargetDiesGoal extends Goal {
 
 	@Override
 	public void tick() {
-		entity.setAttackTarget(NO_TARGET);
+		entity.setTarget(NO_TARGET);
 		target = NO_TARGET;
 		selfDestruct(entity);
 	}
 
 	@Override
-	public void resetTask() {
+	public void stop() {
 		// NO-OP
 	}
 

@@ -11,9 +11,9 @@ import static bassebombecraft.geom.BlockDirective.getInstance;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of {@linkplain MistActionStrategy} for construction of mist
@@ -53,7 +53,7 @@ public class RainbowSpiralMist implements BlockMistActionStrategy {
 	}
 
 	@Override
-	public void applyEffectToBlock(BlockPos target, World world) {
+	public void applyEffectToBlock(BlockPos target, Level world) {
 		colorCounter++;
 
 		// create wool block

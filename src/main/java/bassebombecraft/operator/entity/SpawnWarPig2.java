@@ -10,8 +10,18 @@ import static bassebombecraft.operator.Operators2.applyV;
 import static net.minecraft.entity.ai.attributes.Attributes.ATTACK_DAMAGE;
 import static net.minecraft.entity.ai.attributes.Attributes.MOVEMENT_SPEED;
 
+importimport bassebombecraft.operator.Operator2;
+import bassebombecraft.operator.Ports;
 import java.util.Random;
 import java.util.function.Function;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Pig;
+import net.minecraft.world.level.Level;
+
+ javanet.minecraft.world.entity.ai.attributes.Attributestion;
 
 import bassebombecraft.event.entity.attribute.EntityAttributeEventHandler;
 import bassebombecraft.operator.Operator2;
@@ -43,7 +53,7 @@ public class SpawnWarPig2 implements Operator2 {
 	/**
 	 * Spawn sound.
 	 */
-	static final SoundEvent SOUND = SoundEvents.ENTITY_PIG_HURT;
+	static final SoundEvent SOUND = SoundEvents.PIG_HURT;
 
 	/**
 	 * Function to get invoker entity.
@@ -84,12 +94,12 @@ public class SpawnWarPig2 implements Operator2 {
 		LivingEntity target = applyV(fnGetTarget, ports);
 
 		// get world
-		World world = invoker.getEntityWorld();
+		Level world = invoker.getCommandSenderWorld();
 
 		// create entity
 		Random random = getBassebombeCraft().getRandom();
-		PigEntity entity = EntityType.PIG.create(world);
-		entity.copyLocationAndAnglesFrom(invoker);
+		Pig entity = EntityType.PIG.create(world);
+		entity.copyPosition(invoker);
 
 		// set entity attributes
 		setAttribute(entity, MOVEMENT_SPEED, movementSpeed);
@@ -103,7 +113,7 @@ public class SpawnWarPig2 implements Operator2 {
 		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
 
 		// spawn
-		world.addEntity(entity);
+		world.addFreshEntity(entity);
 	}
 
 }

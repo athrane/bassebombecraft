@@ -2,9 +2,9 @@ package bassebombecraft.entity.projectile;
 
 import static bassebombecraft.config.ModConfiguration.eggProjectileEntity;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 
 /**
  * Egg projectile for composite magic.
@@ -22,7 +22,7 @@ public class EggProjectileEntity extends GenericCompositeProjectileEntity {
 	 * @param type  entity type.
 	 * @param world world object.
 	 */
-	public EggProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, World world) {
+	public EggProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, Level world) {
 		super(type, world, eggProjectileEntity);
 	}
 

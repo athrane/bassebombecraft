@@ -5,8 +5,10 @@ import java.util.OptionalDouble;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.renderer.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat;
+
+import net.minecraft.client.renderer.RenderStateShard.LineStateShard;
 
 /**
  * Render types used for rendering.
@@ -21,45 +23,45 @@ public class RenderTypes extends RenderType {
 		super(nameIn, formatIn, drawModeIn, bufferSizeIn, useDelegateIn, needsSortingIn, setupTaskIn, clearTaskIn);
 	}
 
-	static final LineState THICK_LINES = new LineState(OptionalDouble.of(3.0D));
+	static final LineStateShard THICK_LINES = new LineStateShard(OptionalDouble.of(3.0D));
 
-	static final LineState THIN_LINES = new LineState(OptionalDouble.of(0.5D));
+	static final LineStateShard THIN_LINES = new LineStateShard(OptionalDouble.of(0.5D));
 
-	static final LineState MEDIUM_LINES = new LineState(OptionalDouble.of(1.0D));
+	static final LineStateShard MEDIUM_LINES = new LineStateShard(OptionalDouble.of(1.0D));
 	
-	public static final RenderType OVERLAY_LINES = makeType("overlay_lines", DefaultVertexFormats.POSITION_COLOR,
+	public static final RenderType OVERLAY_LINES = create("overlay_lines", DefaultVertexFormat.POSITION_COLOR,
 			GL11.GL_LINES, 256,
-			RenderType.State.getBuilder().line(THICK_LINES).transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE)
-					.depthTest(DEPTH_ALWAYS).cull(CULL_DISABLED).lightmap(LIGHTMAP_DISABLED).writeMask(COLOR_WRITE)
-					.build(false));
+			RenderType.CompositeState.builder().setLineState(THICK_LINES).setTransparencyState(TRANSLUCENT_TRANSPARENCY).setTextureState(NO_TEXTURE)
+					.setDepthTestState(NO_DEPTH_TEST).setCullState(NO_CULL).setLightmapState(NO_LIGHTMAP).setWriteMaskState(COLOR_WRITE)
+					.createCompositeState(false));
 
-	public static final RenderType DEFAULT_LINES = makeType("default_lines", DefaultVertexFormats.POSITION_COLOR,
+	public static final RenderType DEFAULT_LINES = create("default_lines", DefaultVertexFormat.POSITION_COLOR,
 			GL11.GL_LINES, 256,
-			RenderType.State.getBuilder().line(THICK_LINES).transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE)
-					.depthTest(DEPTH_ALWAYS).cull(CULL_DISABLED).lightmap(LIGHTMAP_DISABLED).writeMask(COLOR_WRITE)
-					.build(false));
+			RenderType.CompositeState.builder().setLineState(THICK_LINES).setTransparencyState(TRANSLUCENT_TRANSPARENCY).setTextureState(NO_TEXTURE)
+					.setDepthTestState(NO_DEPTH_TEST).setCullState(NO_CULL).setLightmapState(NO_LIGHTMAP).setWriteMaskState(COLOR_WRITE)
+					.createCompositeState(false));
 
-	public static final RenderType LIGHTNING_LINES = makeType("lightning_lines", DefaultVertexFormats.POSITION_COLOR,
-			GL11.GL_LINES, 256, RenderType.State.getBuilder().line(THICK_LINES).transparency(TRANSLUCENT_TRANSPARENCY)
-					.texture(NO_TEXTURE).writeMask(COLOR_WRITE).build(false));
+	public static final RenderType LIGHTNING_LINES = create("lightning_lines", DefaultVertexFormat.POSITION_COLOR,
+			GL11.GL_LINES, 256, RenderType.CompositeState.builder().setLineState(THICK_LINES).setTransparencyState(TRANSLUCENT_TRANSPARENCY)
+					.setTextureState(NO_TEXTURE).setWriteMaskState(COLOR_WRITE).createCompositeState(false));
 
-	public static final RenderType PROJECTILE_TRAIL_LINES = makeType("projectile_trail_lines",
-			DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256, RenderType.State.getBuilder().line(THIN_LINES)
-					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).writeMask(COLOR_WRITE).build(false));
+	public static final RenderType PROJECTILE_TRAIL_LINES = create("projectile_trail_lines",
+			DefaultVertexFormat.POSITION_COLOR, GL11.GL_LINES, 256, RenderType.CompositeState.builder().setLineState(THIN_LINES)
+					.setTransparencyState(TRANSLUCENT_TRANSPARENCY).setTextureState(NO_TEXTURE).setWriteMaskState(COLOR_WRITE).createCompositeState(false));
 
-	public static final RenderType WILDFIRE_LINES = makeType("wildfire_lines",
-			DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256, RenderType.State.getBuilder().line(MEDIUM_LINES)
-					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).writeMask(COLOR_WRITE).build(false));
+	public static final RenderType WILDFIRE_LINES = create("wildfire_lines",
+			DefaultVertexFormat.POSITION_COLOR, GL11.GL_LINES, 256, RenderType.CompositeState.builder().setLineState(MEDIUM_LINES)
+					.setTransparencyState(TRANSLUCENT_TRANSPARENCY).setTextureState(NO_TEXTURE).setWriteMaskState(COLOR_WRITE).createCompositeState(false));
 
-	public static final RenderType CONTAGION_LINES = makeType("contagion_lines",
-			DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256, RenderType.State.getBuilder().line(MEDIUM_LINES)
-					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).writeMask(COLOR_WRITE).build(false));
+	public static final RenderType CONTAGION_LINES = create("contagion_lines",
+			DefaultVertexFormat.POSITION_COLOR, GL11.GL_LINES, 256, RenderType.CompositeState.builder().setLineState(MEDIUM_LINES)
+					.setTransparencyState(TRANSLUCENT_TRANSPARENCY).setTextureState(NO_TEXTURE).setWriteMaskState(COLOR_WRITE).createCompositeState(false));
 
-	public static final RenderType CONTAGION_SPREAD_LINES = makeType("contagion_spread_lines",
-			DefaultVertexFormats.POSITION_COLOR, GL11.GL_LINES, 256, RenderType.State.getBuilder().line(THICK_LINES)
-					.transparency(TRANSLUCENT_TRANSPARENCY).texture(NO_TEXTURE).writeMask(COLOR_WRITE).build(false));
+	public static final RenderType CONTAGION_SPREAD_LINES = create("contagion_spread_lines",
+			DefaultVertexFormat.POSITION_COLOR, GL11.GL_LINES, 256, RenderType.CompositeState.builder().setLineState(THICK_LINES)
+					.setTransparencyState(TRANSLUCENT_TRANSPARENCY).setTextureState(NO_TEXTURE).setWriteMaskState(COLOR_WRITE).createCompositeState(false));
 	
-	public static final RenderType SIMPLE_LINES = makeType("simple_lines", DefaultVertexFormats.POSITION_COLOR,
-			GL11.GL_LINES, 256, RenderType.State.getBuilder().line(THIN_LINES).build(false));
+	public static final RenderType SIMPLE_LINES = create("simple_lines", DefaultVertexFormat.POSITION_COLOR,
+			GL11.GL_LINES, 256, RenderType.CompositeState.builder().setLineState(THIN_LINES).createCompositeState(false));
 
 }

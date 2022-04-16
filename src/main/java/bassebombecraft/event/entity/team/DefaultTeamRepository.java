@@ -8,8 +8,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import bassebombecraft.player.PlayerUtils;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
 /**
  * Default implementation of the {@linkplain TeamRepository}.
@@ -26,14 +26,14 @@ public class DefaultTeamRepository implements TeamRepository {
 		 * 
 		 * @param team commander.
 		 */
-		public Team(PlayerEntity commander) {
+		public Team(Player commander) {
 			this.commander = commander;
 		}
 
 		/**
 		 * Team commander.
 		 */
-		PlayerEntity commander;
+		Player commander;
 
 		/**
 		 * Team members.
@@ -69,7 +69,7 @@ public class DefaultTeamRepository implements TeamRepository {
 	Map<LivingEntity, Team> teamMembership = new ConcurrentHashMap<LivingEntity, Team>();
 
 	@Override
-	public void createTeam(PlayerEntity commander) {
+	public void createTeam(Player commander) {
 		if (commander == null)
 			return;
 		if (isCommander(commander))
@@ -80,7 +80,7 @@ public class DefaultTeamRepository implements TeamRepository {
 	}
 
 	@Override
-	public void deleteTeam(PlayerEntity commander) {
+	public void deleteTeam(Player commander) {
 		if (commander == null)
 			return;
 		if (!isCommander(commander))
@@ -96,7 +96,7 @@ public class DefaultTeamRepository implements TeamRepository {
 	}
 
 	@Override
-	public int size(PlayerEntity commander) {
+	public int size(Player commander) {
 		if (commander == null)
 			return 0;
 		if (!isCommander(commander))
@@ -114,7 +114,7 @@ public class DefaultTeamRepository implements TeamRepository {
 	 * @param commander commander to whose team the entity is added.
 	 * @param entity    to add to commanders team.
 	 */
-	void addToCommandersTeam(PlayerEntity commander, LivingEntity entity) {
+	void addToCommandersTeam(Player commander, LivingEntity entity) {
 
 		// create team if it doesn't exit
 		if (!isCommander(commander))
@@ -139,7 +139,7 @@ public class DefaultTeamRepository implements TeamRepository {
 
 		// if entity is player then add as commander
 		if (PlayerUtils.isTypePlayerEntity(creator)) {
-			PlayerEntity commander = (PlayerEntity) creator;
+			Player commander = (Player) creator;
 			addToCommandersTeam(commander, entity);
 			return;
 		}
@@ -153,14 +153,14 @@ public class DefaultTeamRepository implements TeamRepository {
 		Team team = teamMembership.get(creator);
 
 		// get commander
-		PlayerEntity commander = team.commander;
+		Player commander = team.commander;
 
 		// add to commanders team
 		addToCommandersTeam(commander, entity);
 	}
 
 	@Override
-	public boolean isCommander(PlayerEntity commander) {
+	public boolean isCommander(Player commander) {
 		if (commander == null)
 			return false;
 		return teams.containsKey(commander);
@@ -219,7 +219,7 @@ public class DefaultTeamRepository implements TeamRepository {
 	}
 
 	@Override
-	public Collection<LivingEntity> get(PlayerEntity commander) {
+	public Collection<LivingEntity> get(Player commander) {
 		if (commander == null)
 			return nullMembersSet;		
 		if (!isCommander(commander))

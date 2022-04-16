@@ -6,8 +6,14 @@ import static bassebombecraft.entity.EntityUtils.hasTarget;
 import static bassebombecraft.entity.EntityUtils.selfDestruct;
 import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
 
+importimport bassebombecraft.event.entity.target.TargetRepository;
 import java.util.EnumSet;
 import java.util.Optional;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.Goal;
+
+ javanet.minecraft.world.entity.ai.goal.Goal.Flagnal;
 
 import bassebombecraft.event.entity.target.TargetRepository;
 import net.minecraft.entity.CreatureEntity;
@@ -29,7 +35,7 @@ public class CommandersTargetGoal extends Goal {
 	/**
 	 * Goal owner.
 	 */
-	final CreatureEntity entity;
+	final PathfinderMob entity;
 
 	/**
 	 * Mob commander.
@@ -42,16 +48,16 @@ public class CommandersTargetGoal extends Goal {
 	 * @param entity    commanded entity.
 	 * @param commander entity which commands entity.
 	 */
-	public CommandersTargetGoal(CreatureEntity entity, LivingEntity commander) {
+	public CommandersTargetGoal(PathfinderMob entity, LivingEntity commander) {
 		this.entity = entity;
 		this.commander = commander;
 
 		// "target" AI
-		setMutexFlags(EnumSet.of(TARGET));
+		setFlags(EnumSet.of(TARGET));
 	}
 
 	@Override
-	public boolean shouldExecute() {
+	public boolean canUse() {
 		try {
 			// exit if commander is dead
 			if (!commander.isAlive()) {
@@ -94,7 +100,7 @@ public class CommandersTargetGoal extends Goal {
 				return;
 
 			// update target
-			entity.setAttackTarget(optTarget.get());
+			entity.setTarget(optTarget.get());
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -102,9 +108,9 @@ public class CommandersTargetGoal extends Goal {
 	}
 
 	@Override
-	public void resetTask() {
+	public void stop() {
 		// clear target
-		entity.setAttackTarget(NO_TARGET);
+		entity.setTarget(NO_TARGET);
 	}
 
 }

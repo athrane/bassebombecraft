@@ -17,13 +17,13 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which spawns an lava
@@ -42,12 +42,12 @@ public class SpawnLavaBlock2 implements Operator2 {
 	/**
 	 * Function to get ray trace result.
 	 */
-	Function<Ports, RayTraceResult> fnGetRayTraceResult;
+	Function<Ports, HitResult> fnGetRayTraceResult;
 
 	/**
 	 * Function to get world from ports.
 	 */
-	Function<Ports, World> fnGetWorld;
+	Function<Ports, Level> fnGetWorld;
 
 	/**
 	 * Constructor.
@@ -55,7 +55,7 @@ public class SpawnLavaBlock2 implements Operator2 {
 	 * @param splRayTraceResult function to get ray trace result.
 	 * @param fnGetWorld        function to get world.
 	 */
-	public SpawnLavaBlock2(Function<Ports, RayTraceResult> fnGetRayTraceResult, Function<Ports, World> fnGetWorld) {
+	public SpawnLavaBlock2(Function<Ports, HitResult> fnGetRayTraceResult, Function<Ports, Level> fnGetWorld) {
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 		this.fnGetWorld = fnGetWorld;
 	}
@@ -73,8 +73,8 @@ public class SpawnLavaBlock2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
-		World world = applyV(fnGetWorld, ports);
+		HitResult result = applyV(fnGetRayTraceResult, ports);
+		Level world = applyV(fnGetWorld, ports);
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
@@ -88,13 +88,13 @@ public class SpawnLavaBlock2 implements Operator2 {
 				return;
 
 			// get entity
-			Entity entity = ((EntityRayTraceResult) result).getEntity();
+			Entity entity = ((EntityHitResult) result).getEntity();
 
 			// get entity aabb and convert it into cobweb blocks
-			AxisAlignedBB aabb = entity.getBoundingBox();
+			AABB aabb = entity.getBoundingBox();
 			BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);
 			BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
-			BlockPos.getAllInBox(min, max)
+			BlockPos.betweenClosedStream(min, max)
 					.forEach(pos -> setTemporaryBlock(world, pos, LAVA, spawnLavaBlockDuration.get()));
 		}
 
@@ -106,7 +106,7 @@ public class SpawnLavaBlock2 implements Operator2 {
 				return;
 
 			// type cast
-			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
+			BlockHitResult blockResult = (BlockHitResult) result;
 
 			// spawn block
 			BlockPos spawnPosition = calculatePosition(blockResult);

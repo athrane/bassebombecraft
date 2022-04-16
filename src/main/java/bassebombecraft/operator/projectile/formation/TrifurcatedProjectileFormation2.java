@@ -10,8 +10,8 @@ import java.util.function.Function;
 import static bassebombecraft.geom.GeometryUtils.*;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which shoots three
@@ -48,12 +48,12 @@ public class TrifurcatedProjectileFormation2 implements Operator2 {
 	/**
 	 * Function to set vector array.
 	 */
-	BiConsumer<Ports, Vector3d[]> bcSetVectors;
+	BiConsumer<Ports, Vec3[]> bcSetVectors;
 
 	/**
 	 * Array to store acceleration vector.
 	 */
-	Vector3d[] vectorArray;
+	Vec3[] vectorArray;
 
 	/**
 	 * Constructor.
@@ -62,10 +62,10 @@ public class TrifurcatedProjectileFormation2 implements Operator2 {
 	 * @param bcSetVectors function to set vector array
 	 */
 	public TrifurcatedProjectileFormation2(Function<Ports, LivingEntity> fnGetInvoker,
-			BiConsumer<Ports, Vector3d[]> bcSetVectors) {
+			BiConsumer<Ports, Vec3[]> bcSetVectors) {
 		this.fnGetInvoker = fnGetInvoker;
 		this.bcSetVectors = bcSetVectors;
-		this.vectorArray = new Vector3d[3];
+		this.vectorArray = new Vec3[3];
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class TrifurcatedProjectileFormation2 implements Operator2 {
 		LivingEntity invoker = applyV(fnGetInvoker, ports);
 
 		// calculate orientation
-		Vector3d orientation = invoker.getLook(1).scale(ACCELERATION_MODIFIER);
+		Vec3 orientation = invoker.getViewVector(1).scale(ACCELERATION_MODIFIER);
 
 		// update array
 		vectorArray[0] = orientation;

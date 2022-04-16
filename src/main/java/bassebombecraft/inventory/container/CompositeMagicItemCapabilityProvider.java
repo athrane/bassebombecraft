@@ -3,8 +3,8 @@ package bassebombecraft.inventory.container;
 import static bassebombecraft.ModConstants.COMPOSITE_MAX_SIZE;
 
 import bassebombecraft.item.composite.CompositeMagicItem;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
+import net.minecraft.nbt.Tag;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
@@ -18,7 +18,7 @@ import net.minecraftforge.items.IItemHandler;
  * {@linkplain CompositeMagicItemItemStackHandler} used to store composite
  * items.
  */
-public class CompositeMagicItemCapabilityProvider implements ICapabilitySerializable<INBT> {
+public class CompositeMagicItemCapabilityProvider implements ICapabilitySerializable<Tag> {
 
 	/**
 	 * Null direction.
@@ -49,12 +49,12 @@ public class CompositeMagicItemCapabilityProvider implements ICapabilitySerializ
 	}
 
 	@Override
-	public INBT serializeNBT() {
+	public Tag serializeNBT() {
 		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(getCachedInventory(), NO_SPECIFIC_SIDE);
 	}
 
 	@Override
-	public void deserializeNBT(INBT nbt) {
+	public void deserializeNBT(Tag nbt) {
 		CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(getCachedInventory(), NO_SPECIFIC_SIDE, nbt);
 	}
 

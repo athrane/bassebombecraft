@@ -6,15 +6,15 @@ import static net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus.MOD;
 import java.util.List;
 
 import static bassebombecraft.entity.attribute.RegisteredAttributes.*;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import static net.minecraft.entity.ai.attributes.Attributes.ATTACK_DAMAGE;
 
 /**
- * Event handler for adding custom entity attributes to existing vanilla mobs.
+ * Evenet.minecraft.world.entity.ai.attributes.Attributess to existing vanilla mobs.
  * 
  * The handler only executes events SERVER side.
  * 

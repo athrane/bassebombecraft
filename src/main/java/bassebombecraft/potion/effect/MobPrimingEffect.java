@@ -11,10 +11,10 @@ import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.CreeperEntity;
-import net.minecraft.potion.Effect;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.level.Level;
 
 /**
  * Effect which primes a mob for explosion.
@@ -23,7 +23,7 @@ import net.minecraft.world.World;
  * 
  * The effect has no effect on the player.
  */
-public class MobPrimingEffect extends Effect {
+public class MobPrimingEffect extends MobEffect {
 
 	/**
 	 * Effect identifier.
@@ -61,7 +61,7 @@ public class MobPrimingEffect extends Effect {
 	}
 
 	@Override
-	public void performEffect(LivingEntity entity, int amplifier) {
+	public void applyEffectTick(LivingEntity entity, int amplifier) {
 
 		// exit if entity is undefined
 		if (entity == null)
@@ -79,7 +79,7 @@ public class MobPrimingEffect extends Effect {
 
 			// if creeper then set primed
 			if (isTypeCreeperEntity(entity)) {
-				CreeperEntity creeper = (CreeperEntity) entity;
+				Creeper creeper = (Creeper) entity;
 				creeper.ignite();
 			}
 
@@ -112,12 +112,12 @@ public class MobPrimingEffect extends Effect {
 		killEntity(entity);
 
 		// explode
-		World world = entity.getEntityWorld();
+		Level world = entity.getCommandSenderWorld();
 		explode(entity, world, amplifier);
 	}
 
 	@Override
-	public boolean isReady(int duration, int amplifier) {
+	public boolean isDurationEffectTick(int duration, int amplifier) {
 		return true;
 	}
 

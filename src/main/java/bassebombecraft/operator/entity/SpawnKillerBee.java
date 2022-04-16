@@ -7,20 +7,20 @@ import static bassebombecraft.entity.EntityUtils.setAttribute;
 import static bassebombecraft.entity.ai.AiUtils.buildChargingAi;
 import static net.minecraft.entity.ai.attributes.Attributes.ATTACK_DAMAGE;
 import static net.minecraft.entity.ai.attributes.Attributes.FLYING_SPEED;
-import static net.minecraft.entity.ai.attributes.Attributes.MOVEMENT_SPEED;
+import staticnet.minecraft.world.entity.ai.attributes.Attributess.MOVEMENT_SPEED;
 
 import java.util.Random;
 import java.util.function.Supplier;
 
 import bassebombecraft.BassebombeCraft;
 import bassebombecraft.operator.Operator;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.BeeEntity;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain Operator} interface which spawn a killer
@@ -36,7 +36,7 @@ public class SpawnKillerBee implements Operator {
 	/**
 	 * Spawn sound.
 	 */
-	static final SoundEvent SOUND = SoundEvents.ENTITY_PARROT_FLY;
+	static final SoundEvent SOUND = SoundEvents.PARROT_FLY;
 
 	/**
 	 * Entity supplier.
@@ -81,12 +81,12 @@ public class SpawnKillerBee implements Operator {
 		Entity target = splTarget.get();
 
 		// get world
-		World world = livingEntity.world;
+		Level world = livingEntity.level;
 
 		// create entity
 		Random random = BassebombeCraft.getBassebombeCraft().getRandom();
-		BeeEntity entity = EntityType.BEE.create(world);
-		entity.copyLocationAndAnglesFrom(livingEntity);
+		Bee entity = EntityType.BEE.create(world);
+		entity.copyPosition(livingEntity);
 
 		// set entity attributes
 		setAttribute(entity, FLYING_SPEED, movementSpeed);
@@ -101,7 +101,7 @@ public class SpawnKillerBee implements Operator {
 		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
 
 		// spawn
-		world.addEntity(entity);
+		world.addFreshEntity(entity);
 	}
 
 }

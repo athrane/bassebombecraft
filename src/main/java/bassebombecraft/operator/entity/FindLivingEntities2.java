@@ -13,10 +13,10 @@ import java.util.function.Predicate;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which finds a set of
@@ -35,7 +35,7 @@ public class FindLivingEntities2 implements Operator2 {
 	/**
 	 * Function to get world from ports.
 	 */
-	Function<Ports, World> fnGetWorld;
+	Function<Ports, Level> fnGetWorld;
 
 	/**
 	 * Function to set living entities.
@@ -62,7 +62,7 @@ public class FindLivingEntities2 implements Operator2 {
 	 * @param fnGetRange          function to get search range for entities.
 	 * @param bcSetLivingEntities function to set living entities.
 	 */
-	public FindLivingEntities2(Function<Ports, BlockPos> fnGetPosition, Function<Ports, World> fnGetWorld,
+	public FindLivingEntities2(Function<Ports, BlockPos> fnGetPosition, Function<Ports, Level> fnGetWorld,
 			Function<Ports, Predicate<LivingEntity>> fnGetPredicate, Function<Ports, Integer> fnGetRange,
 			BiConsumer<Ports, LivingEntity[]> bcSetLivingEntities) {
 		this.fnGetPosition = fnGetPosition;
@@ -82,7 +82,7 @@ public class FindLivingEntities2 implements Operator2 {
 	 * @param fnGetRange          function to get search range for entities.
 	 * @param bcSetLivingEntities function to set entities.
 	 */
-	public FindLivingEntities2(Function<Ports, BlockPos> fnGetPosition, Function<Ports, World> fnGetWorld,
+	public FindLivingEntities2(Function<Ports, BlockPos> fnGetPosition, Function<Ports, Level> fnGetWorld,
 			Function<Ports, Integer> fnGetRange, BiConsumer<Ports, LivingEntity[]> bcSetLivingEntities) {
 		this(fnGetPosition, fnGetWorld, fnGetNullPredicateForLivingEntity(), fnGetRange, bcSetLivingEntities);
 	}
@@ -107,13 +107,13 @@ public class FindLivingEntities2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		BlockPos position = applyV(fnGetPosition, ports);
-		World world = applyV(fnGetWorld, ports);
+		Level world = applyV(fnGetWorld, ports);
 		Predicate<LivingEntity> predidate = applyV(fnGetPredicate, ports);
 		Integer range = fnGetRange.apply(ports);
 
 		// get entities within AABB
-		AxisAlignedBB aabb = new AxisAlignedBB(position).grow(range);
-		List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class, aabb, predidate);
+		AABB aabb = new AABB(position).inflate(range);
+		List<LivingEntity> entities = world.getEntitiesOfClass(LivingEntity.class, aabb, predidate);
 		LivingEntity[] entityArray = entities.stream().toArray(LivingEntity[]::new);
 
 		// store entities

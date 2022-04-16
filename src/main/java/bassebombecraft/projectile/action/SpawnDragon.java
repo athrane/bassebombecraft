@@ -1,14 +1,14 @@
 package bassebombecraft.projectile.action;
 
 import static bassebombecraft.entity.EntityUtils.*;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.boss.dragon.EnderDragonEntity;
-import net.minecraft.entity.boss.dragon.phase.PhaseType;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.boss.enderdragon.phases.EnderDragonPhase;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain ProjectileAction} which spawns a guardian
@@ -17,27 +17,27 @@ import net.minecraft.world.World;
 public class SpawnDragon implements ProjectileAction {
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
-		EnderDragonEntity entity = EntityType.ENDER_DRAGON.create(world);
-		entity.setLocationAndAngles(projectile.getPosX(), projectile.getPosY(), projectile.getPosZ(), projectile.rotationYaw,
-				projectile.rotationPitch);
+	public void execute(ThrowableProjectile projectile, Level world, HitResult movObjPos) {
+		EnderDragon entity = EntityType.ENDER_DRAGON.create(world);
+		entity.moveTo(projectile.getX(), projectile.getY(), projectile.getZ(), projectile.yRot,
+				projectile.xRot);
 
 		// get shooter
-		Entity shooter = projectile.getShooter();
+		Entity shooter = projectile.getOwner();
 
 		// set phase 		
-		entity.getPhaseManager().setPhase(PhaseType.STRAFE_PLAYER);
+		entity.getPhaseManager().setPhase(EnderDragonPhase.STRAFE_PLAYER);
 		
 		// if shooter is a living entity then set it as target		
 		if(isTypeLivingEntity(shooter)) {
 
 			// type cast and set
 			LivingEntity livingEntity = (LivingEntity) shooter;
-			entity.getPhaseManager().getPhase(PhaseType.STRAFE_PLAYER).setTarget(livingEntity);			
+			entity.getPhaseManager().getPhase(EnderDragonPhase.STRAFE_PLAYER).setTarget(livingEntity);			
 		}
 
 		// spawn
-		world.addEntity(entity);
+		world.addFreshEntity(entity);
 	}
 
 }

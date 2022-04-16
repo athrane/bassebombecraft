@@ -12,7 +12,7 @@ import java.util.function.Function;
 import bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository.Effect;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which adds a graphical

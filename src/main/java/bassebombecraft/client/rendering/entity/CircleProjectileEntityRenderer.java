@@ -3,8 +3,8 @@ package bassebombecraft.client.rendering.entity;
 import static bassebombecraft.client.rendering.RenderingUtils.createEntityTextureResourceLocation;
 
 import bassebombecraft.entity.projectile.CircleProjectileEntity;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Client side renderer for projectile {@linkplain CircleProjectileEntity}.
@@ -21,12 +21,12 @@ public class CircleProjectileEntityRenderer extends GenericCompositeProjectileEn
 	 * 
 	 * @param renderManager render manager.
 	 */
-	public CircleProjectileEntityRenderer(EntityRendererManager renderManager) {
+	public CircleProjectileEntityRenderer(EntityRenderDispatcher renderManager) {
 		super(renderManager);
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(CircleProjectileEntity entity) {
+	public ResourceLocation getTextureLocation(CircleProjectileEntity entity) {
 		return TEXTURE;
 	}
 

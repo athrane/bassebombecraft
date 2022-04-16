@@ -12,7 +12,7 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.entity.raytraceresult.Bounce2;
 import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 
 /**
  * Bounce on impact projectile modifier item.

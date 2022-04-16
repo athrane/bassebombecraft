@@ -1,7 +1,7 @@
 package bassebombecraft.entity.ai.goal;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.core.BlockPos;
 
 /**
  * Default implementation of the {@linkplain Observation} interface.
@@ -24,14 +24,14 @@ public class DefaultObservation implements Observation {
 	 * @param target target to observe.
 	 */
 	public DefaultObservation(LivingEntity entity, LivingEntity target) {
-		entityName = entity.getName().getUnformattedComponentText();
-		targetName = target.getName().getUnformattedComponentText();
+		entityName = entity.getName().getContents();
+		targetName = target.getName().getContents();
 		entityHealth = entity.getHealth();
 		entityMaxHealth = entity.getMaxHealth();
-		entityPosition = entity.getPosition();
+		entityPosition = entity.blockPosition();
 		targetHealth = target.getHealth();
 		targetMaxHealth = target.getMaxHealth();
-		targetPosition = target.getPosition();
+		targetPosition = target.blockPosition();
 	}
 
 	@Override

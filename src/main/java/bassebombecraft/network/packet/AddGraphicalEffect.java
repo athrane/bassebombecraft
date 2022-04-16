@@ -8,8 +8,8 @@ import java.util.function.Supplier;
 import bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository;
 import bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository.Effect;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
@@ -46,11 +46,11 @@ public class AddGraphicalEffect {
 	 * 
 	 * @param buf packet buffer.
 	 */
-	public AddGraphicalEffect(PacketBuffer buf) {
+	public AddGraphicalEffect(FriendlyByteBuf buf) {
 		this.sourceEntityId = buf.readInt();
 		this.targetEntityId = buf.readInt();
 		this.duration = buf.readInt();
-		this.effect = Effect.valueOf(buf.readString());
+		this.effect = Effect.valueOf(buf.readUtf());
 	}
 
 	/**
@@ -62,8 +62,8 @@ public class AddGraphicalEffect {
 	 * @param effect   graphical effect.
 	 */
 	public AddGraphicalEffect(Entity source, Entity target, int duration, Effect effect) {
-		this.sourceEntityId = source.getEntityId();
-		this.targetEntityId = target.getEntityId();
+		this.sourceEntityId = source.getId();
+		this.targetEntityId = target.getId();
 		this.duration = duration;
 		this.effect = effect;
 	}
@@ -73,11 +73,11 @@ public class AddGraphicalEffect {
 	 * 
 	 * @param buf packet buffer.
 	 */
-	public void encode(PacketBuffer buf) {
+	public void encode(FriendlyByteBuf buf) {
 		buf.writeInt(sourceEntityId);
 		buf.writeInt(targetEntityId);
 		buf.writeInt(duration);
-		buf.writeString(effect.name());
+		buf.writeUtf(effect.name());
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class AddGraphicalEffect {
 		try {
 			// get client side entity from ID
 			Minecraft mcClient = Minecraft.getInstance();
-			Entity target = mcClient.world.getEntityByID(targetEntityId);
+			Entity target = mcClient.level.getEntity(targetEntityId);
 
 			// exit if entity isn't defined
 			if (target == null)
@@ -110,7 +110,7 @@ public class AddGraphicalEffect {
 			GraphicalEffectRepository repository = getProxy().getClientGraphicalEffectRepository();
 
 			// get client side entity from ID
-			Entity source = mcClient.world.getEntityByID(sourceEntityId);
+			Entity source = mcClient.level.getEntity(sourceEntityId);
 
 			// register effect
 			if (source != null) {

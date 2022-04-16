@@ -15,8 +15,8 @@ import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.conditional.IsEntityOfType2;
 import bassebombecraft.operator.conditional.IsNot2;
 import bassebombecraft.operator.entity.SpawnWarPig2;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.PigEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Pig;
 
 /**
  * War pigs idol implementation.
@@ -31,7 +31,7 @@ public class WarPigsIdolInventoryItem extends GenericInventoryItem {
 	static Supplier<Operator2> splOp = () -> {
 		Function<Ports, LivingEntity> fnGetInvoker = getFnGetLivingEntity1();
 		Function<Ports, LivingEntity> fnGetTarget = getFnGetLivingEntity2();		
-		return new Sequence2( new IsNot2(new IsEntityOfType2(fnGetTarget, PigEntity.class)),
+		return new Sequence2( new IsNot2(new IsEntityOfType2(fnGetTarget, Pig.class)),
 				new SpawnWarPig2(fnGetInvoker, fnGetTarget) );
 	};
 

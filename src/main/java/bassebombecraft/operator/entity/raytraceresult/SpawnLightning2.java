@@ -14,12 +14,12 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which spawns a
@@ -35,12 +35,12 @@ public class SpawnLightning2 implements Operator2 {
 	/**
 	 * Function to get ray trace result.
 	 */
-	Function<Ports, RayTraceResult> fnGetRayTraceResult;
+	Function<Ports, HitResult> fnGetRayTraceResult;
 
 	/**
 	 * Function to get world from ports.
 	 */
-	Function<Ports, World> fnGetWorld;
+	Function<Ports, Level> fnGetWorld;
 
 	/**
 	 * Constructor.
@@ -48,7 +48,7 @@ public class SpawnLightning2 implements Operator2 {
 	 * @param splRayTraceResult function to get ray trace result.
 	 * @param fnGetWorld        function to get world.
 	 */
-	public SpawnLightning2(Function<Ports, RayTraceResult> fnGetRayTraceResult, Function<Ports, World> fnGetWorld) {
+	public SpawnLightning2(Function<Ports, HitResult> fnGetRayTraceResult, Function<Ports, Level> fnGetWorld) {
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 		this.fnGetWorld = fnGetWorld;
 	}
@@ -66,8 +66,8 @@ public class SpawnLightning2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
-		World world = applyV(fnGetWorld, ports);
+		HitResult result = applyV(fnGetRayTraceResult, ports);
+		Level world = applyV(fnGetWorld, ports);
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
@@ -81,10 +81,10 @@ public class SpawnLightning2 implements Operator2 {
 				return;
 
 			// get entity
-			Entity entity = ((EntityRayTraceResult) result).getEntity();
+			Entity entity = ((EntityHitResult) result).getEntity();
 
 			// get position of hit entity
-			BlockPos position = entity.getPosition();
+			BlockPos position = entity.blockPosition();
 
 			// spawn lightning
 			addLightningAtBlockPos(world, position);
@@ -98,10 +98,10 @@ public class SpawnLightning2 implements Operator2 {
 				return;
 
 			// type cast
-			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
+			BlockHitResult blockResult = (BlockHitResult) result;
 
 			// calculate set of block directives
-			BlockPos position = blockResult.getPos();
+			BlockPos position = blockResult.getBlockPos();
 
 			// spawn lightning
 			addLightningAtBlockPos(world, position);

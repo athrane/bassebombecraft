@@ -13,9 +13,9 @@ import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
 import bassebombecraft.player.PlayerUtils;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Renderer} for rendering team information in
@@ -37,14 +37,14 @@ public class DefaultTeamInfoRenderer implements EntityRenderer {
 			return;
 
 		// typecast
-		PlayerEntity player = (PlayerEntity) entity;
+		Player player = (Player) entity;
 
 		// get player position
-		Vector3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
+		Vec3 playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
 
 		// calculate translation of text
-		Vector3d renderPos = RenderingUtils.getRenderPos();
-		Vector3d translation = playerPos.subtract(renderPos);
+		Vec3 renderPos = RenderingUtils.getRenderPos();
+		Vec3 translation = playerPos.subtract(renderPos);
 
 		// get team
 		TeamRepository repository = getProxy().getServerTeamRepository();
@@ -56,7 +56,7 @@ public class DefaultTeamInfoRenderer implements EntityRenderer {
 		MobCommand command = commanderRepository.getCommand(player);
 
 		// render basic info
-		Vector3d textTranslation = new Vector3d(5, 4, 4);
+		Vec3 textTranslation = new Vec3(5, 4, 4);
 		// renderHudTextBillboard(translation, textTranslation, TEAM_LABEL);
 		// renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP *
 		// 1, 0),
@@ -76,7 +76,7 @@ public class DefaultTeamInfoRenderer implements EntityRenderer {
 				return;
 
 			int disp = 2 + counter;
-			String memberName = m.getName().getUnformattedComponentText();
+			String memberName = m.getName().getContents();
 			String targetName = getTargetName(m);
 			String text = "Member: " + memberName + ", Target: " + targetName;
 			// renderHudTextBillboard(translation, textTranslation.add(0, -HUD_TEXT_DISP *
@@ -100,7 +100,7 @@ public class DefaultTeamInfoRenderer implements EntityRenderer {
 
 		// get live target info
 		LivingEntity target = getTarget(entity);
-		return target.getName().getUnformattedComponentText();
+		return target.getName().getContents();
 	}
 
 }

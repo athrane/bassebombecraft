@@ -14,9 +14,9 @@ import java.util.function.Function;
 import bassebombecraft.BassebombeCraft;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which reads the source
@@ -45,7 +45,7 @@ public class InitWildfire2 implements Operator2 {
 	/**
 	 * Function to set line vertexes (as vectors).
 	 */
-	BiConsumer<Ports, Vector3d[]> bcSetLineVertexes;
+	BiConsumer<Ports, Vec3[]> bcSetLineVertexes;
 
 	/**
 	 * Function to get remaining duration.
@@ -55,7 +55,7 @@ public class InitWildfire2 implements Operator2 {
 	/**
 	 * Vector array for line vertexes.
 	 */
-	Vector3d[] lineVertexes = new Vector3d[2];
+	Vec3[] lineVertexes = new Vec3[2];
 
 	/**
 	 * Constructor.
@@ -81,7 +81,7 @@ public class InitWildfire2 implements Operator2 {
 	 * @param bcSetLineVertexes function to set line vertexes.
 	 */
 	public InitWildfire2(Function<Ports, Entity> fnGetSource, Function<Ports, Entity> fnGetTarget,
-			Function<Ports, Integer> fnGetRemainingDuration, BiConsumer<Ports, Vector3d[]> bcSetLineVertexes) {
+			Function<Ports, Integer> fnGetRemainingDuration, BiConsumer<Ports, Vec3[]> bcSetLineVertexes) {
 		this.fnGetSource = fnGetSource;
 		this.fnGetTarget = fnGetTarget;
 		this.fnGetRemainingDuration = fnGetRemainingDuration;
@@ -99,21 +99,21 @@ public class InitWildfire2 implements Operator2 {
 		double pctValue = (max - remaining) / max;
 
 		// positions
-		Vector3d sourcePos = source.getBoundingBox().getCenter();
-		Vector3d targetPos = target.getBoundingBox().getCenter();
+		Vec3 sourcePos = source.getBoundingBox().getCenter();
+		Vec3 targetPos = target.getBoundingBox().getCenter();
 
 		// float pctValue = oscillateFloat(0, 1);
-		double x = MathHelper.lerp(pctValue, sourcePos.getX(), targetPos.getX());
-		double y = MathHelper.lerp(pctValue, sourcePos.getY(), targetPos.getY());
-		double z = MathHelper.lerp(pctValue, sourcePos.getZ(), targetPos.getZ());
+		double x = Mth.lerp(pctValue, sourcePos.x(), targetPos.x());
+		double y = Mth.lerp(pctValue, sourcePos.y(), targetPos.y());
+		double z = Mth.lerp(pctValue, sourcePos.z(), targetPos.z());
 
 		// add start point
-		Vector3d startPos = new Vector3d(x, y, z);
+		Vec3 startPos = new Vec3(x, y, z);
 		lineVertexes[0] = startPos;
 
 		// add end point
 		Random random = BassebombeCraft.getBassebombeCraft().getRandom();
-		Vector3d endPos = addNoiseToPosition(startPos, POINT_NOISE, random);
+		Vec3 endPos = addNoiseToPosition(startPos, POINT_NOISE, random);
 		lineVertexes[1] = endPos;
 		ports.setVectors1(lineVertexes);
 
@@ -130,7 +130,7 @@ public class InitWildfire2 implements Operator2 {
 	 * 
 	 * @return noisy position.
 	 */
-	Vector3d addNoiseToPosition(Vector3d source, double noise, Random random) {
+	Vec3 addNoiseToPosition(Vec3 source, double noise, Random random) {
 		double randomX = random.nextDouble() - 0.5F;
 		double randomY = random.nextDouble() - 0.5F;
 		double randomZ = random.nextDouble() - 0.5F;

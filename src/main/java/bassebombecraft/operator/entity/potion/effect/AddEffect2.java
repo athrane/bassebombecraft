@@ -9,9 +9,9 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which adds a potion effect
@@ -34,7 +34,7 @@ public class AddEffect2 implements Operator2 {
 	/**
 	 * Function to set effect instance (at ports).
 	 */
-	BiConsumer<Ports, EffectInstance> bcSetEffectInstance;
+	BiConsumer<Ports, MobEffectInstance> bcSetEffectInstance;
 
 	/**
 	 * Effect duration.
@@ -49,7 +49,7 @@ public class AddEffect2 implements Operator2 {
 	/**
 	 * Effect.
 	 */
-	Effect effect;
+	MobEffect effect;
 
 	/**
 	 * Constructor.
@@ -60,8 +60,8 @@ public class AddEffect2 implements Operator2 {
 	 * @param duration            duration of the potion effect.
 	 * @param amplifier           amplifier of the potion effect.
 	 */
-	public AddEffect2(Function<Ports, LivingEntity> fnGetTarget, BiConsumer<Ports, EffectInstance> bcSetEffectInstance,
-			Effect effect, int duration, int amplifier) {
+	public AddEffect2(Function<Ports, LivingEntity> fnGetTarget, BiConsumer<Ports, MobEffectInstance> bcSetEffectInstance,
+			MobEffect effect, int duration, int amplifier) {
 		this.fnGetTarget = fnGetTarget;
 		this.bcSetEffectInstance = bcSetEffectInstance;
 		this.effect = effect;
@@ -81,7 +81,7 @@ public class AddEffect2 implements Operator2 {
 	 * @param duration  duration of the potion effect.
 	 * @param amplifier amplifier of the potion effect.
 	 */
-	public AddEffect2(Effect effect, int duration, int amplifier) {
+	public AddEffect2(MobEffect effect, int duration, int amplifier) {
 		this(getFnGetLivingEntity1(), getBcSetEffectInstance1(), effect, duration, amplifier);
 	}
 
@@ -90,10 +90,10 @@ public class AddEffect2 implements Operator2 {
 		LivingEntity target = applyV(fnGetTarget, ports);
 
 		// create effect instance (for outbound port)
-		EffectInstance effectInstance = new EffectInstance(effect, duration, amplifier);
+		MobEffectInstance effectInstance = new MobEffectInstance(effect, duration, amplifier);
 
 		// add effect
-		target.addPotionEffect(effectInstance);
+		target.addEffect(effectInstance);
 
 		// store effect instance
 		bcSetEffectInstance.accept(ports, effectInstance);

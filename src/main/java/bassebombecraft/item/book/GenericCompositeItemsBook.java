@@ -18,20 +18,20 @@ import bassebombecraft.config.ItemConfig;
 import bassebombecraft.item.composite.CompositeItemsResolver;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.CooldownTracker;
-import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.ItemCooldowns;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.RegistryObject;
@@ -76,7 +76,7 @@ public class GenericCompositeItemsBook extends Item {
 	 *                      executed when item is right clicked.
 	 */
 	public GenericCompositeItemsBook(ItemConfig config, Supplier<Stream<RegistryObject<Item>>> splComposites) {
-		super(new Item.Properties().group(getItemGroup()));
+		super(new Item.Properties().tab(getItemGroup()));
 		this.ports = getInstance();
 		this.resolver = getInstance(splComposites);
 
@@ -86,35 +86,35 @@ public class GenericCompositeItemsBook extends Item {
 	}
 
 	@Override
-	public boolean hitEntity(ItemStack itemStack, LivingEntity entityTarget, LivingEntity entityUser) {
+	public boolean hurtEnemy(ItemStack itemStack, LivingEntity entityTarget, LivingEntity entityUser) {
 		return false;
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
+	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 
 		// exit if invoked at client side
 		if (isLogicalClient(world)) {
-			return super.onItemRightClick(world, player, hand);
+			return super.use(world, player, hand);
 		}
 
 		// post analytics
 		getProxy().postItemUsage(this.getRegistryName().toString(), player.getGameProfile().getName());
 
 		// add cooldown
-		CooldownTracker tracker = player.getCooldownTracker();
-		tracker.setCooldown(this, coolDown);
+		ItemCooldowns tracker = player.getCooldowns();
+		tracker.addCooldown(this, coolDown);
 
 		// execute operator
 		ports.setLivingEntity1(player);
 		ports.setWorld(world);
 		run(ports, resolver.getOperator());
 
-		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, player.getHeldItem(hand));
+		return new InteractionResultHolder<ItemStack>(InteractionResult.SUCCESS, player.getItemInHand(hand));
 	}
 
 	@Override
-	public void inventoryTick(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
+	public void inventoryTick(ItemStack stack, Level world, Entity entity, int itemSlot, boolean isSelected) {
 
 		// only update the action at server side since we updates the world
 		if (isLogicalClient(world))
@@ -125,9 +125,9 @@ public class GenericCompositeItemsBook extends Item {
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
-			ITooltipFlag flagIn) {
-		ITextComponent text = new TranslationTextComponent(TextFormatting.GREEN + this.tooltip);
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip,
+			TooltipFlag flagIn) {
+		Component text = new TranslatableComponent(ChatFormatting.GREEN + this.tooltip);
 		tooltip.add(text);
 	}
 

@@ -13,9 +13,9 @@ import java.util.List;
 
 import bassebombecraft.entity.EntityDistanceSorter;
 import bassebombecraft.util.function.DiscardSelf;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.Effect;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.phys.AABB;
 
 /**
  * Effect which make the entity with the effect, a target for by any mob, e.g.
@@ -23,7 +23,7 @@ import net.minecraft.util.math.AxisAlignedBB;
  * 
  * The effect has no effect on the player.
  */
-public class ReceiveAggroEffect extends Effect {
+public class ReceiveAggroEffect extends MobEffect {
 
 	/**
 	 * Effect identifier.
@@ -53,7 +53,7 @@ public class ReceiveAggroEffect extends Effect {
 	}
 
 	@Override
-	public void performEffect(LivingEntity entity, int amplifier) {
+	public void applyEffectTick(LivingEntity entity, int amplifier) {
 
 		// exit if entity is undefined
 		if (entity == null)
@@ -68,8 +68,8 @@ public class ReceiveAggroEffect extends Effect {
 
 		// get list of mobs
 		int arreaOfEffect = receiveAggroEffectAreaOfEffect.get();
-		AxisAlignedBB aabb = entity.getBoundingBox().grow(arreaOfEffect, arreaOfEffect, arreaOfEffect);
-		List<LivingEntity> targebtList = entity.world.getEntitiesWithinAABB(LivingEntity.class, aabb,
+		AABB aabb = entity.getBoundingBox().inflate(arreaOfEffect, arreaOfEffect, arreaOfEffect);
+		List<LivingEntity> targebtList = entity.level.getEntitiesOfClass(LivingEntity.class, aabb,
 				discardSelfFilter);
 
 		// exit if no targets where found
@@ -88,7 +88,7 @@ public class ReceiveAggroEffect extends Effect {
 	}
 
 	@Override
-	public boolean isReady(int duration, int amplifier) {
+	public boolean isDurationEffectTick(int duration, int amplifier) {
 		int updateFrequency = receiveAggroEffectUpdateFrequency.get();
 		int moduloValue = duration % updateFrequency;
 		return (moduloValue == 0);

@@ -7,7 +7,7 @@ import static bassebombecraft.geom.GeometryUtils.oscillate;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.phys.AABB;
 
 /**
  * Implementation of the {@linkplain Renderer} for rendering bounding box a
@@ -19,27 +19,27 @@ import net.minecraft.util.math.AxisAlignedBB;
 public class SolidBoundingBoxRenderer implements BoundingBoxRenderer {
 
 	@Override
-	public void render(AxisAlignedBB aabb, RenderingInfo info) {
+	public void render(AABB aabb, RenderingInfo info) {
 		double x = info.getRveTranslatedViewX();
 		double y = info.getRveTranslatedViewYOffsetWithPlayerEyeHeight();
 		double z = info.getRveTranslatedViewZ();
 
 		// grow box to avoid artifacts
-		aabb = aabb.grow(0.01);
+		aabb = aabb.inflate(0.01);
 
 		prepareSimpleRendering(x, y, z);
 
-		GlStateManager.enableBlend();
+		GlStateManager._enableBlend();
 		// GlStateManager.blendFunc(SourceFactor.SRC_ALPHA,
 		// DestFactor.ONE_MINUS_SRC_ALPHA);
-		GlStateManager.disableTexture();
-		GlStateManager.depthMask(false);
+		GlStateManager._disableTexture();
+		GlStateManager._depthMask(false);
 
 		float alpha = (float) oscillate(0.25F, 1.0F);
-		GlStateManager.color4f(0.75F, 0.75F, 0, alpha);
+		GlStateManager._color4f(0.75F, 0.75F, 0, alpha);
 		renderSolidBox(aabb);
 
-		GlStateManager.depthMask(true);
+		GlStateManager._depthMask(true);
 		completeSimpleRendering();
 	}
 }

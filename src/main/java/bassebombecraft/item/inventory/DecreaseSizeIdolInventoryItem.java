@@ -22,10 +22,10 @@ import bassebombecraft.operator.conditional.IsNot2;
 import bassebombecraft.operator.entity.potion.effect.AddEffect2;
 import bassebombecraft.operator.entity.potion.effect.AddEffectAtClient2;
 import bassebombecraft.operator.sound.PlaySound2;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 
 /**
  * Decrease size idol implementation.
@@ -39,11 +39,11 @@ public class DecreaseSizeIdolInventoryItem extends GenericInventoryItem {
 	 */
 	static Supplier<Operator2> splOp = () -> {
 		Function<Ports, LivingEntity> fnGetTarget = getFnGetLivingEntity2();
-		BiConsumer<Ports, EffectInstance> bcSetEffectInstance = getBcSetEffectInstance1();
-		Effect effect = DECREASE_SIZE_EFFECT.get();
+		BiConsumer<Ports, MobEffectInstance> bcSetEffectInstance = getBcSetEffectInstance1();
+		MobEffect effect = DECREASE_SIZE_EFFECT.get();
 		int duration = decreaseSizeEffectDuration.get();
 		int amplifier = decreaseSizeEffectAmplifier.get();
-		return new Sequence2(new IsNot2(new IsEntityOfType2(fnGetTarget, PlayerEntity.class)),
+		return new Sequence2(new IsNot2(new IsEntityOfType2(fnGetTarget, Player.class)),
 				new AddEffect2(fnGetTarget, bcSetEffectInstance, effect, duration, amplifier), new AddEffectAtClient2(),
 				new PlaySound2(decreaseSizeIdolInventoryItem.getSplSound()));
 	};

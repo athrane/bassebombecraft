@@ -47,12 +47,12 @@ import bassebombecraft.operator.entity.raytraceresult.TeleportInvoker2;
 import bassebombecraft.operator.entity.raytraceresult.TeleportMob2;
 import bassebombecraft.operator.projectile.modifier.tag.ReceiveAggro2;
 import bassebombecraft.operator.sound.PlaySound2;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -107,8 +107,8 @@ public class ProjectileModifierEventHandler {
 	static Supplier<Operator2> splMeteorOp = () -> {
 		Function<Ports, LivingEntity> fnGetInvoker = getFnGetLivingEntity1();
 		Function<Ports, LivingEntity> fnGetTarget = p -> {
-			RayTraceResult result = p.getRayTraceResult1();
-			EntityRayTraceResult entityResult = (EntityRayTraceResult) result;
+			HitResult result = p.getRayTraceResult1();
+			EntityHitResult entityResult = (EntityHitResult) result;
 			return (LivingEntity) entityResult.getEntity();
 		};
 		return new Sequence2(new IsLivingEntityHitInRaytraceResult2(), new ShootMeteor2(fnGetInvoker, fnGetTarget));
@@ -134,7 +134,7 @@ public class ProjectileModifierEventHandler {
 	 */
 	static Supplier<Operator2> splDecoyOp = () -> {
 		Function<Ports, LivingEntity> fnGetTarget = getFnGetLivingEntity2();
-		BiConsumer<Ports, EffectInstance> bcSetEffectInstance = getBcSetEffectInstance1();
+		BiConsumer<Ports, MobEffectInstance> bcSetEffectInstance = getBcSetEffectInstance1();
 		return new Sequence2(new SpawnDecoy2(), new AddEffect2(fnGetTarget, bcSetEffectInstance,
 				RECEIVE_AGGRO_EFFECT.get(), receiveAggroEffectDuration.get(), receiveAggroEffectAmplifier.get()));
 	};
@@ -205,11 +205,11 @@ public class ProjectileModifierEventHandler {
 	 */
 	static Supplier<Operator2> splReceiveAggroOp = () -> {
 		Function<Ports, LivingEntity> fnGetTarget = p -> {
-			RayTraceResult result = p.getRayTraceResult1();
-			EntityRayTraceResult entityResult = (EntityRayTraceResult) result;
+			HitResult result = p.getRayTraceResult1();
+			EntityHitResult entityResult = (EntityHitResult) result;
 			return (LivingEntity) entityResult.getEntity();
 		};
-		BiConsumer<Ports, EffectInstance> bcSetEffectInstance = getBcSetEffectInstance1();
+		BiConsumer<Ports, MobEffectInstance> bcSetEffectInstance = getBcSetEffectInstance1();
 		return new Sequence2(new IsLivingEntityHitInRaytraceResult2(), new AddEffect2(fnGetTarget, bcSetEffectInstance,
 				RECEIVE_AGGRO_EFFECT.get(), receiveAggroEffectDuration.get(), receiveAggroEffectAmplifier.get()));
 	};
@@ -360,7 +360,7 @@ public class ProjectileModifierEventHandler {
 			DamageSource source = event.getSource();
 
 			// get immediate source, i.e. some projectile
-			Entity immediateSource = source.getImmediateSource();
+			Entity immediateSource = source.getDirectEntity();
 
 			// exit if immediate source isn't defined
 			if (immediateSource == null)
@@ -477,7 +477,7 @@ public class ProjectileModifierEventHandler {
 	static void digMobHole(ProjectileImpactEvent event) {
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-		ports.setWorld(event.getEntity().getEntityWorld());
+		ports.setWorld(event.getEntity().getCommandSenderWorld());
 		run(ports, DIGMOBHOLE_OPERATOR);
 	}
 
@@ -489,7 +489,7 @@ public class ProjectileModifierEventHandler {
 	static void drill(ProjectileImpactEvent event) {
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-		ports.setWorld(event.getEntity().getEntityWorld());
+		ports.setWorld(event.getEntity().getCommandSenderWorld());
 		run(ports, DIG_OPERATOR);
 
 		// cancel event to avoid removal of projectile when drilling
@@ -504,7 +504,7 @@ public class ProjectileModifierEventHandler {
 	static void spawnCobweb(ProjectileImpactEvent event) {
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-		ports.setWorld(event.getEntity().getEntityWorld());
+		ports.setWorld(event.getEntity().getCommandSenderWorld());
 		run(ports, COBWEB_OPERATOR);
 	}
 
@@ -516,7 +516,7 @@ public class ProjectileModifierEventHandler {
 	static void spawnIceBlock(ProjectileImpactEvent event) {
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-		ports.setWorld(event.getEntity().getEntityWorld());
+		ports.setWorld(event.getEntity().getCommandSenderWorld());
 		run(ports, ICEBLOCK_OPERATOR);
 	}
 
@@ -528,7 +528,7 @@ public class ProjectileModifierEventHandler {
 	static void spawnLavaBlock(ProjectileImpactEvent event) {
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-		ports.setWorld(event.getEntity().getEntityWorld());
+		ports.setWorld(event.getEntity().getCommandSenderWorld());
 		run(ports, LAVABLOCK_OPERATOR);
 	}
 
@@ -540,7 +540,7 @@ public class ProjectileModifierEventHandler {
 	static void spawnAnvil(ProjectileImpactEvent event) {
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-		ports.setWorld(event.getEntity().getEntityWorld());
+		ports.setWorld(event.getEntity().getCommandSenderWorld());
 		run(ports, ANVIL_OPERATOR);
 	}
 
@@ -575,7 +575,7 @@ public class ProjectileModifierEventHandler {
 	static void explodeOnImpact(ProjectileImpactEvent event) {
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-		ports.setWorld(event.getEntity().getEntityWorld());
+		ports.setWorld(event.getEntity().getCommandSenderWorld());
 		run(ports, EXPLODE_ON_IMPACT_OPERATOR);
 	}
 
@@ -613,7 +613,7 @@ public class ProjectileModifierEventHandler {
 	static void spawnLightning(ProjectileImpactEvent event) {
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-		ports.setWorld(event.getEntity().getEntityWorld());
+		ports.setWorld(event.getEntity().getCommandSenderWorld());
 		run(ports, LIGHTNING_OPERATOR);
 	}
 
@@ -625,7 +625,7 @@ public class ProjectileModifierEventHandler {
 	static void spawnSquid(ProjectileImpactEvent event) {
 		Ports ports = getInstance();
 		ports.setRayTraceResult1(event.getRayTraceResult());
-		ports.setWorld(event.getEntity().getEntityWorld());
+		ports.setWorld(event.getEntity().getCommandSenderWorld());
 		run(ports, SQUID_OPERATOR);
 	}
 

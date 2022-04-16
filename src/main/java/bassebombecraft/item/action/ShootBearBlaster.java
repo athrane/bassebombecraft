@@ -7,15 +7,15 @@ import static bassebombecraft.potion.effect.RegisteredEffects.BEAR_BLASTER_EFFEC
 import java.util.Random;
 
 import bassebombecraft.config.ModConfiguration;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.PolarBearEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.PolarBear;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain RightClickedItemAction} which shoot a polar
@@ -31,7 +31,7 @@ public class ShootBearBlaster implements RightClickedItemAction {
 	/**
 	 * Spawn sound.
 	 */
-	static final SoundEvent SOUND = SoundEvents.ENTITY_EVOKER_CAST_SPELL;
+	static final SoundEvent SOUND = SoundEvents.EVOKER_CAST_SPELL;
 
 	/**
 	 * Pig age.
@@ -65,19 +65,19 @@ public class ShootBearBlaster implements RightClickedItemAction {
 	}
 
 	@Override
-	public void onRightClick(World world, LivingEntity entity) {
+	public void onRightClick(Level world, LivingEntity entity) {
 
 		// create projectile entity
-		PolarBearEntity projectileEntity = EntityType.POLAR_BEAR.create(world);
-		projectileEntity.setGrowingAge(age);
-		projectileEntity.copyLocationAndAnglesFrom(entity);
+		PolarBear projectileEntity = EntityType.POLAR_BEAR.create(world);
+		projectileEntity.setAge(age);
+		projectileEntity.copyPosition(entity);
 
 		// calculate spawn projectile spawn position
 		setProjectileEntityPosition(entity, projectileEntity, spawnDisplacement);
 
 		// add potion effect
-		EffectInstance effect = new EffectInstance(BEAR_BLASTER_EFFECT.get(), duration);
-		projectileEntity.addPotionEffect(effect);
+		MobEffectInstance effect = new MobEffectInstance(BEAR_BLASTER_EFFECT.get(), duration);
+		projectileEntity.addEffect(effect);
 
 		// set no health to trigger death (in max 20 ticks)
 		if (isDead)
@@ -88,11 +88,11 @@ public class ShootBearBlaster implements RightClickedItemAction {
 		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
 
 		// spawn
-		world.addEntity(projectileEntity);
+		world.addFreshEntity(projectileEntity);
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void onUpdate(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		// NO-OP
 	}
 }

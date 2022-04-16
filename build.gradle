@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     }
 }
 
@@ -41,7 +41,7 @@ sonarqube {
 }
 
 // set source and target compatibility
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 
 minecraft {
 	// Mappings can be found at: http://mcp.thiakil.com/
@@ -50,7 +50,7 @@ minecraft {
     // stable_#            Stables are built at the discretion of the MCP team.
     // Use non-default mappings at your own risk. they may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'snapshot', version: '20210309-1.16.5'    
+    mappings channel: 'official', version: '1.17.1'
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     
     // activate access forge tranformer to access private methods and fields.
@@ -115,12 +115,12 @@ dependencies {
     // Specify the version of Minecraft to use, If this is any group other then 'net.minecraft' it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency. And it's patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-	minecraft 'net.minecraftforge:forge:1.16.5-36.1.0'
+	minecraft 'net.minecraftforge:forge:1.17.1-37.1.1' 
     
 	// Declaration of shadowed 3. party libraries 
-    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.12'
-    compile group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.13'    
-	compile group: 'commons-logging', name: 'commons-logging', version: '1.2'            
+    implementation 'org.apache.httpcomponents:httpclient:4.5.12'
+    implementation 'org.apache.httpcomponents:httpcore:4.4.13'    
+	implementation 'commons-logging:commons-logging:1.2'            
 }
 
 jar {

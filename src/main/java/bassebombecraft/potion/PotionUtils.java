@@ -5,7 +5,7 @@ import static bassebombecraft.potion.effect.RegisteredEffects.AMPLIFIER_EFFECT;
 import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
 import static net.minecraft.item.Items.POTION;
-import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
+import staticnet.minecraft.world.item.ItemstionUtils.addPotionToItemStack;
 import static net.minecraftforge.common.brewing.BrewingRecipeRegistry.addRecipe;
 
 import java.util.Collection;
@@ -13,12 +13,12 @@ import java.util.Optional;
 
 import bassebombecraft.config.ConfigUtils;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Potion;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraftforge.common.brewing.BrewingRecipe;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.fml.RegistryObject;
@@ -36,7 +36,7 @@ public class PotionUtils {
 	 * 
 	 * @return potion ready for registration.
 	 */
-	public static Potion getInstance(String name, Effect effect) {
+	public static Potion getInstance(String name, MobEffect effect) {
 
 		// calculate path in TOML configuration.
 		String configPath = POTIONS_CONFIGPATH + name;
@@ -46,7 +46,7 @@ public class PotionUtils {
 		int amplifier = ConfigUtils.getInt(configPath + ".amplifier");
 
 		// create effect instance and potion
-		EffectInstance effectInstance = new EffectInstance(effect, duration, amplifier);
+		MobEffectInstance effectInstance = new MobEffectInstance(effect, duration, amplifier);
 		return new Potion(effectInstance);
 	}
 
@@ -59,9 +59,9 @@ public class PotionUtils {
 	 */
 	public static void registerPotionRecipe(Potion basePotion, Item reagent, RegistryObject<Potion> splPotion) {
 		Potion targetPotion = splPotion.get();
-		Ingredient baseItem = Ingredient.fromStacks(addPotionToItemStack(new ItemStack(POTION), basePotion));
-		Ingredient reagantItem = Ingredient.fromStacks(new ItemStack(reagent));
-		ItemStack out = addPotionToItemStack(new ItemStack(POTION), targetPotion);
+		Ingredient baseItem = Ingredient.of(setPotion(new ItemStack(POTION), basePotion));
+		Ingredient reagantItem = Ingredient.of(new ItemStack(reagent));
+		ItemStack out = setPotion(new ItemStack(POTION), targetPotion);
 		addRecipe(new BrewingRecipe(baseItem, reagantItem, out));
 	}
 
@@ -89,7 +89,7 @@ public class PotionUtils {
 	public static Optional<EffectInstance> getEffectIfActive(LivingEntity entity, Effect effect) {
 		if (entity == null)
 			return empty();
-		return ofNullable(entity.getActivePotionEffect(effect));
+		return ofNullable(entity.getEffect(effect));
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class PotionUtils {
 	 * @return {@linkplain Optional} first effect. Otherwise the optional is empty.
 	 */
 	public static Optional<EffectInstance> resolveFirstEffect(LivingEntity entity) {
-		Collection<EffectInstance> effects = entity.getActivePotionEffects();
+		Collection<EffectInstance> effects = entity.getActiveEffects();
 		return effects.stream().findFirst();
 	}
 

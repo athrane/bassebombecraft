@@ -11,11 +11,11 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which hits a mob with
@@ -33,14 +33,14 @@ public class EmitVerticalForce2 implements Operator2 {
 	/**
 	 * Function to get ray trace result.
 	 */
-	Function<Ports, RayTraceResult> fnGetRayTraceResult;
+	Function<Ports, HitResult> fnGetRayTraceResult;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param splRayTraceResult function to get ray trace result.
 	 */
-	public EmitVerticalForce2(Function<Ports, RayTraceResult> fnGetRayTraceResult) {
+	public EmitVerticalForce2(Function<Ports, HitResult> fnGetRayTraceResult) {
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 	}
 
@@ -55,7 +55,7 @@ public class EmitVerticalForce2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
+		HitResult result = applyV(fnGetRayTraceResult, ports);
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
@@ -69,10 +69,10 @@ public class EmitVerticalForce2 implements Operator2 {
 				return;
 
 			// get entity
-			Entity entity = ((EntityRayTraceResult) result).getEntity();
+			Entity entity = ((EntityHitResult) result).getEntity();
 
 			// calculate push vector
-			Vector3d motionVec = new Vector3d(0, emitVerticalForceStrength.get(), 0);
+			Vec3 motionVec = new Vec3(0, emitVerticalForceStrength.get(), 0);
 			entity.move(MoverType.SELF, motionVec);
 		}
 	}

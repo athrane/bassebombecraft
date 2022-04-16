@@ -2,8 +2,8 @@ package bassebombecraft.structure;
 
 import java.util.ArrayList;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 
 /**
  * Composite structure which consist of multiple structures.

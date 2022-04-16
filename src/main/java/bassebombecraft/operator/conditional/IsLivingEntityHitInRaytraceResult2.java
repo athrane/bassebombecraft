@@ -10,10 +10,10 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which updates the
@@ -25,14 +25,14 @@ public class IsLivingEntityHitInRaytraceResult2 implements Operator2 {
 	/**
 	 * Function to get ray trace result.
 	 */
-	Function<Ports, RayTraceResult> fnGetRayTraceResult;
+	Function<Ports, HitResult> fnGetRayTraceResult;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param splRayTraceResult function to get ray trace result.
 	 */
-	public IsLivingEntityHitInRaytraceResult2(Function<Ports, RayTraceResult> fnGetRayTraceResult) {
+	public IsLivingEntityHitInRaytraceResult2(Function<Ports, HitResult> fnGetRayTraceResult) {
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 	}
 
@@ -47,7 +47,7 @@ public class IsLivingEntityHitInRaytraceResult2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
+		HitResult result = applyV(fnGetRayTraceResult, ports);
 
 		// exit if no entity was hit
 		if (!isEntityHit(result)) {
@@ -62,7 +62,7 @@ public class IsLivingEntityHitInRaytraceResult2 implements Operator2 {
 		}
 
 		// get entity
-		Entity entity = ((EntityRayTraceResult) result).getEntity();
+		Entity entity = ((EntityHitResult) result).getEntity();
 		
 		// skip if entity isn't a living entity
 		if (!isTypeLivingEntity(entity)) {

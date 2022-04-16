@@ -1,6 +1,6 @@
 package bassebombecraft.item.action.build.tower;
 
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 
 /**
  * Tower room.
@@ -86,38 +86,38 @@ public class Room {
 	void calculateWalls() {
 		// create walls
 		northernWall = Wall.createXAxisOrientedWall(offset, this);
-		southernWall = Wall.createXAxisOrientedWall(offset.add(0, 0, size.getZ() - 1), this);
+		southernWall = Wall.createXAxisOrientedWall(offset.offset(0, 0, size.getZ() - 1), this);
 		westernWall = Wall.createZAxisOrientedWall(offset, this);
-		easternWall = Wall.createZAxisOrientedWall(offset.add(size.getX() - 1, 0, 0), this);
+		easternWall = Wall.createZAxisOrientedWall(offset.offset(size.getX() - 1, 0, 0), this);
 	}
 
 	public void resize(int width, int depth) {
 		switch (type) {
 
 		case NW: {
-			offset = offset.add(-width, 0, -depth);
-			size = size.add(width, 0, depth);
+			offset = offset.offset(-width, 0, -depth);
+			size = size.offset(width, 0, depth);
 			calculateWalls();
 			return;
 		}
 
 		case NE: {
-			offset = offset.add(0, 0, -depth);
-			size = size.add(width, 0, depth);
+			offset = offset.offset(0, 0, -depth);
+			size = size.offset(width, 0, depth);
 			calculateWalls();
 			return;
 		}
 
 		case SW: {
-			offset = offset.add(-width, 0, 0);
-			size = size.add(width, 0, depth);
+			offset = offset.offset(-width, 0, 0);
+			size = size.offset(width, 0, depth);
 			calculateWalls();
 			return;
 		}
 
 		case SE: {
-			offset = offset.add(0, 0, 0);
-			size = size.add(width, 0, depth);
+			offset = offset.offset(0, 0, 0);
+			size = size.offset(width, 0, depth);
 			calculateWalls();
 			return;
 		}

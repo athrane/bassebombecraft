@@ -14,12 +14,12 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which teleports the
@@ -40,7 +40,7 @@ public class TeleportInvoker2 implements Operator2 {
 	/**
 	 * Function to get ray trace result.
 	 */
-	Function<Ports, RayTraceResult> fnGetRayTraceResult;
+	Function<Ports, HitResult> fnGetRayTraceResult;
 
 	/**
 	 * Constructor.
@@ -48,7 +48,7 @@ public class TeleportInvoker2 implements Operator2 {
 	 * @param fnGetInvoker      function to get invoker entity.
 	 * @param splRayTraceResult function to get ray trace result.
 	 */
-	public TeleportInvoker2(Function<Ports, LivingEntity> fnGetInvoker, Function<Ports, RayTraceResult> fnGetRayTraceResult) {
+	public TeleportInvoker2(Function<Ports, LivingEntity> fnGetInvoker, Function<Ports, HitResult> fnGetRayTraceResult) {
 		this.fnGetInvoker = fnGetInvoker;
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 	}
@@ -67,7 +67,7 @@ public class TeleportInvoker2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		LivingEntity invoker = applyV(fnGetInvoker, ports);
-		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
+		HitResult result = applyV(fnGetRayTraceResult, ports);
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
@@ -84,10 +84,10 @@ public class TeleportInvoker2 implements Operator2 {
 				return;
 
 			// get entity
-			Entity entity = ((EntityRayTraceResult) result).getEntity();
+			Entity entity = ((EntityHitResult) result).getEntity();
 
 			// get position
-			teleportPosition = entity.getPosition();
+			teleportPosition = entity.blockPosition();
 		}
 
 		// teleport to hit block
@@ -98,14 +98,14 @@ public class TeleportInvoker2 implements Operator2 {
 				return;
 
 			// type cast
-			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
+			BlockHitResult blockResult = (BlockHitResult) result;
 
 			// get block position
 			teleportPosition = calculatePosition(blockResult);
 		}
 
 		// teleport
-		invoker.setPositionAndUpdate(teleportPosition.getX(), teleportPosition.getY(), teleportPosition.getZ());
+		invoker.teleportTo(teleportPosition.getX(), teleportPosition.getY(), teleportPosition.getZ());
 	}
 
 }

@@ -1,8 +1,8 @@
 package bassebombecraft.item.action.build.tower;
 
 import bassebombecraft.structure.Structure;
-import net.minecraft.block.Block;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.core.BlockPos;
 
 /**
  * Interface for building a tower.

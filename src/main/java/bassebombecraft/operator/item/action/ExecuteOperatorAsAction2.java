@@ -5,10 +5,10 @@ import static bassebombecraft.operator.Operators2.run;
 import bassebombecraft.item.action.RightClickedItemAction;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain RightClickedItemAction} interface which
@@ -42,14 +42,14 @@ public class ExecuteOperatorAsAction2 implements RightClickedItemAction {
 	}
 
 	@Override
-	public void onRightClick(World world, LivingEntity entity) {
+	public void onRightClick(Level world, LivingEntity entity) {
 		ports.setWorld(world);
 		ports.setLivingEntity1(entity);
 		run(ports, op);
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void onUpdate(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		// NO-OP
 	}
 

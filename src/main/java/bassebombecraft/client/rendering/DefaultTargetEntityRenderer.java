@@ -10,9 +10,9 @@ import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import bassebombecraft.entity.EntityUtils;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Renderer} for rendering the target of
@@ -40,13 +40,13 @@ public class DefaultTargetEntityRenderer implements EntityRenderer {
 		boundingBoxRenderer.render(target, info);
 
 		// get player
-		PlayerEntity player = getClientSidePlayer();
+		Player player = getClientSidePlayer();
 
 		// get player position
-		Vector3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
+		Vec3 playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
 
 		// render target billboards
-		Vector3d targetPos = target.getBoundingBox().getCenter();
+		Vec3 targetPos = target.getBoundingBox().getCenter();
 		// renderRectangleBillboard(playerPos, targetPos);
 		// renderTextBillboard(playerPos, targetPos, TARGET_LABEL,
 		// TEXT_BILLBOARD_ROTATION);
@@ -55,11 +55,11 @@ public class DefaultTargetEntityRenderer implements EntityRenderer {
 		double x = info.getRveTranslatedViewX();
 		double y = info.getRveTranslatedViewYOffsetWithPlayerEyeHeight();
 		double z = info.getRveTranslatedViewZ();
-		Vector3d start = entity.getBoundingBox().getCenter();
-		Vector3d end = target.getBoundingBox().getCenter();
+		Vec3 start = entity.getBoundingBox().getCenter();
+		Vec3 end = target.getBoundingBox().getCenter();
 
 		prepareSimpleRendering(x, y, z);
-		GlStateManager.color4f(1F, 1F, 1F, 1F);
+		GlStateManager._color4f(1F, 1F, 1F, 1F);
 		renderLine(start, end);
 		completeSimpleRendering();
 	}

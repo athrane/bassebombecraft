@@ -9,12 +9,12 @@ import bassebombecraft.event.frequency.FrequencyRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.geom.GeometryUtils;
 import bassebombecraft.item.action.RightClickedItemAction;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain RightClickedItemAction} which creates one
@@ -38,12 +38,12 @@ public class GenericBlockMist implements RightClickedItemAction {
 	/**
 	 * Mist positions.
 	 */
-	Vector3d[] mistPositions;
+	Vec3[] mistPositions;
 
 	/**
 	 * Mist directions.
 	 */
-	Vector3d[] mistDirections;
+	Vec3[] mistDirections;
 
 	/**
 	 * Invoking entity.
@@ -53,7 +53,7 @@ public class GenericBlockMist implements RightClickedItemAction {
 	/**
 	 * Invoking entity look unit vector.
 	 */
-	Vector3d entityLook;
+	Vec3 entityLook;
 
 	/**
 	 * Defines whether behaviour is active.
@@ -75,7 +75,7 @@ public class GenericBlockMist implements RightClickedItemAction {
 	}
 
 	@Override
-	public void onRightClick(World world, LivingEntity entity) {
+	public void onRightClick(Level world, LivingEntity entity) {
 		try {
 			this.entity = entity;
 			isActive = true;
@@ -88,7 +88,7 @@ public class GenericBlockMist implements RightClickedItemAction {
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void onUpdate(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		try {
 
 			// exit if mist isn't active
@@ -134,15 +134,15 @@ public class GenericBlockMist implements RightClickedItemAction {
 	 * @param world  world object.
 	 * @param entity entity object
 	 */
-	void initializeMistPostition(World world, LivingEntity entity) {
+	void initializeMistPostition(Level world, LivingEntity entity) {
 
 		// setup arrays
-		mistDirections = new Vector3d[strategy.getNumberMists()];
-		mistPositions = new Vector3d[strategy.getNumberMists()];
+		mistDirections = new Vec3[strategy.getNumberMists()];
+		mistPositions = new Vec3[strategy.getNumberMists()];
 
 		// setup entity position and direction
-		Vector3d entityLook = entity.getLook(1);
-		Vector3d entityPos = new Vector3d(entity.getPosX(), entity.getPosY(), entity.getPosZ());
+		Vec3 entityLook = entity.getViewVector(1);
+		Vec3 entityPos = new Vec3(entity.getX(), entity.getY(), entity.getZ());
 
 		// setup offset angle
 		double offsetAngle = (strategy.getNumberMists() - 1) * strategy.getMistAngle() * -0.5F;
@@ -152,11 +152,11 @@ public class GenericBlockMist implements RightClickedItemAction {
 			double angle = offsetAngle + (index * strategy.getMistAngle());
 
 			// rotate entity look vector
-			Vector3d rotatedLookVector = GeometryUtils.rotateUnitVectorAroundYAxisAtOrigin(angle, entityLook);
+			Vec3 rotatedLookVector = GeometryUtils.rotateUnitVectorAroundYAxisAtOrigin(angle, entityLook);
 			mistDirections[index] = rotatedLookVector;
 
 			// calculate spawn vector
-			Vector3d entityLookXn = new Vector3d(rotatedLookVector.x * INVOCATION_DIST, rotatedLookVector.y * INVOCATION_DIST,
+			Vec3 entityLookXn = new Vec3(rotatedLookVector.x * INVOCATION_DIST, rotatedLookVector.y * INVOCATION_DIST,
 					rotatedLookVector.z * INVOCATION_DIST);
 
 			double x = entityLookXn.x;
@@ -172,8 +172,8 @@ public class GenericBlockMist implements RightClickedItemAction {
 	 * 
 	 * @param world world object
 	 */
-	void applyEffect(World world) {
-		for (Vector3d mistPosition : mistPositions) {
+	void applyEffect(Level world) {
+		for (Vec3 mistPosition : mistPositions) {
 			BlockPos target = new BlockPos(mistPosition);
 			strategy.applyEffectToBlock(target, world);
 		}
@@ -184,13 +184,13 @@ public class GenericBlockMist implements RightClickedItemAction {
 	 * 
 	 * @param world world object.
 	 */
-	void render(World world) {
+	void render(Level world) {
 
 		// update mist positions
 		updateMistPositions();
 
 		// render mists
-		for (Vector3d mistPosition : mistPositions) {
+		for (Vec3 mistPosition : mistPositions) {
 			renderMist(mistPosition);
 		}
 	}
@@ -200,7 +200,7 @@ public class GenericBlockMist implements RightClickedItemAction {
 	 * 
 	 * @param mistPosition position where the mist should is rendered.
 	 */
-	void renderMist(Vector3d mistPosition) {
+	void renderMist(Vec3 mistPosition) {
 		try {
 			// Get particle position
 			BlockPos pos = new BlockPos(mistPosition);
@@ -219,8 +219,8 @@ public class GenericBlockMist implements RightClickedItemAction {
 	 */
 	void updateMistPositions() {
 		int index = 0;
-		for (Vector3d mistPosition : mistPositions) {
-			Vector3d mistDirection = mistDirections[index];
+		for (Vec3 mistPosition : mistPositions) {
+			Vec3 mistDirection = mistDirections[index];
 			mistPositions[index] = mistPosition.add(mistDirection);
 			index++;
 		}

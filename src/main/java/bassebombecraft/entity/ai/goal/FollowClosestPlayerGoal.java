@@ -8,9 +8,14 @@ import static bassebombecraft.entity.EntityUtils.isMinimumDistanceReached;
 import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
 import static net.minecraft.entity.ai.goal.Goal.Flag.MOVE;
 
+importimport bassebombecraft.event.frequency.FrequencyRepository;
 import java.util.EnumSet;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.player.Player;
 
-import bassebombecraft.event.frequency.FrequencyRepository;
+ javanet.minecraft.world.entity.ai.goal.Goal.Flagft.event.frequency.FrequencyRepository;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
@@ -29,12 +34,12 @@ public class FollowClosestPlayerGoal extends Goal {
 	/**
 	 * Goal owner.
 	 */
-	final CreatureEntity entity;
+	final PathfinderMob entity;
 
 	/**
 	 * Closed playe to follow.
 	 */
-	PlayerEntity closestPlayer;
+	Player closestPlayer;
 
 	/**
 	 * Minimum distance to player (squared).
@@ -53,20 +58,20 @@ public class FollowClosestPlayerGoal extends Goal {
 	 * @param minDistance   minimum distance to keep to the nearest player.
 	 * @param movementSpeed movement speed.
 	 */
-	public FollowClosestPlayerGoal(CreatureEntity entity, float minDistance, double movementSpeed) {
+	public FollowClosestPlayerGoal(PathfinderMob entity, float minDistance, double movementSpeed) {
 		this.entity = entity;
 		this.minDistanceSqr = minDistance * minDistance;
 		this.movementSpeed = movementSpeed;
 
 		// "movement" AI
-		setMutexFlags(EnumSet.of(MOVE, LOOK));
+		setFlags(EnumSet.of(MOVE, LOOK));
 	}
 
 	@Override
-	public boolean shouldExecute() {
+	public boolean canUse() {
 
 		// get closest player
-		closestPlayer = this.entity.getEntityWorld().getClosestPlayer(entity, AI_TARGET_WATCH_DIST);
+		closestPlayer = this.entity.getCommandSenderWorld().getNearestPlayer(entity, AI_TARGET_WATCH_DIST);
 
 		// exit if no player could be founds
 		if (closestPlayer == null)
@@ -91,8 +96,8 @@ public class FollowClosestPlayerGoal extends Goal {
 				return;
 
 			// move towards
-			PathNavigator navigator = entity.getNavigator();
-			navigator.tryMoveToEntityLiving(closestPlayer, movementSpeed);
+			PathNavigation navigator = entity.getNavigation();
+			navigator.moveTo(closestPlayer, movementSpeed);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -100,10 +105,10 @@ public class FollowClosestPlayerGoal extends Goal {
 	}
 
 	@Override
-	public void resetTask() {
+	public void stop() {
 		closestPlayer = null;
-		PathNavigator navigator = entity.getNavigator();
-		navigator.clearPath();
+		PathNavigation navigator = entity.getNavigation();
+		navigator.stop();
 	}
 
 }

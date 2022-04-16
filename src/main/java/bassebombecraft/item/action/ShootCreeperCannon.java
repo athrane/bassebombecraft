@@ -8,16 +8,16 @@ import static bassebombecraft.potion.effect.RegisteredEffects.PRIMED_CREEPER_CAN
 import java.util.Random;
 
 import bassebombecraft.config.ModConfiguration;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.CreeperEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain RightClickedItemAction} which shoot a
@@ -33,7 +33,7 @@ public class ShootCreeperCannon implements RightClickedItemAction {
 	/**
 	 * Spawn sound.
 	 */
-	static final SoundEvent SOUND = SoundEvents.ENTITY_EVOKER_CAST_SPELL;
+	static final SoundEvent SOUND = SoundEvents.EVOKER_CAST_SPELL;
 
 	/**
 	 * Defines whether creeper is primed.
@@ -62,18 +62,18 @@ public class ShootCreeperCannon implements RightClickedItemAction {
 	}
 
 	@Override
-	public void onRightClick(World world, LivingEntity entity) {
+	public void onRightClick(Level world, LivingEntity entity) {
 
 		// create projectile entity
-		CreeperEntity projectileEntity = EntityType.CREEPER.create(world);
-		projectileEntity.copyLocationAndAnglesFrom(entity);
+		Creeper projectileEntity = EntityType.CREEPER.create(world);
+		projectileEntity.copyPosition(entity);
 
 		// prime
 		if (isPrimed)
 			projectileEntity.ignite();
 
 		// select potion
-		Effect potion = null;
+		MobEffect potion = null;
 		if (isPrimed)
 			potion = PRIMED_CREEPER_CANNON_EFFECT.get();
 		else
@@ -83,8 +83,8 @@ public class ShootCreeperCannon implements RightClickedItemAction {
 		setProjectileEntityPosition(entity, projectileEntity, spawnDisplacement);
 
 		// add potion effect
-		EffectInstance effect = new EffectInstance(potion, duration);
-		projectileEntity.addPotionEffect(effect);
+		MobEffectInstance effect = new MobEffectInstance(potion, duration);
+		projectileEntity.addEffect(effect);
 
 		// set no health to trigger death (in max 20 ticks)
 		projectileEntity.setHealth(0.0F);
@@ -94,11 +94,11 @@ public class ShootCreeperCannon implements RightClickedItemAction {
 		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
 
 		// spawn
-		world.addEntity(projectileEntity);
+		world.addFreshEntity(projectileEntity);
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void onUpdate(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		// NO-OP
 	}
 

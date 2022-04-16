@@ -2,18 +2,18 @@ package bassebombecraft.inventory.container;
 
 import static bassebombecraft.item.composite.CompositeMagicItem.getItemStackHandler;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
 
 /**
  * Implementation of the {@linkplain INamedContainerProvider} interface to
  * provide a server container instance with the createMenu method.
  */
-public class CompositeMagicItemContainerProvider implements INamedContainerProvider {
+public class CompositeMagicItemContainerProvider implements MenuProvider {
 
 	/**
 	 * Itemstack used to initialize container.
@@ -30,12 +30,12 @@ public class CompositeMagicItemContainerProvider implements INamedContainerProvi
 	}
 
 	@Override
-	public ITextComponent getDisplayName() {
-		return itemStack.getDisplayName();
+	public Component getDisplayName() {
+		return itemStack.getHoverName();
 	}
 
 	@Override
-	public Container createMenu(int id, PlayerInventory inventory, PlayerEntity player) {
+	public AbstractContainerMenu createMenu(int id, Inventory inventory, Player player) {
 		return new CompositeMagicItemContainer(id, inventory, getItemStackHandler(itemStack), itemStack);
 	}
 

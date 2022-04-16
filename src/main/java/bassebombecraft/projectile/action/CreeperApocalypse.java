@@ -2,13 +2,13 @@ package bassebombecraft.projectile.action;
 
 import static bassebombecraft.entity.EntityUtils.setRandomSpawnPosition;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.CreeperEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain ProjectileAction} which spawns many
@@ -24,25 +24,25 @@ public class CreeperApocalypse implements ProjectileAction {
 	static final int SPAWN_SIZE = 1;
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableProjectile projectile, Level world, HitResult movObjPos) {
 
 		for (int i = 0; i < NUMBER_CREEPER; i++) {
-			CreeperEntity entity = EntityType.CREEPER.create(world);
+			Creeper entity = EntityType.CREEPER.create(world);
 
 			// set powered
-			entity.setCreeperState(CREEPER_FUSED);
+			entity.setSwellDir(CREEPER_FUSED);
 			
 			// set position
-			setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, SPAWN_SIZE, entity);
+			setRandomSpawnPosition(projectile.blockPosition(), projectile.yRot, SPAWN_SIZE, entity);
 
 			// prime
 			entity.ignite();
 
 			// add potion effect
-			entity.addPotionEffect(createEffect());
+			entity.addEffect(createEffect());
 
 			// spawn
-			world.addEntity(entity);
+			world.addFreshEntity(entity);
 		}
 	}
 
@@ -51,8 +51,8 @@ public class CreeperApocalypse implements ProjectileAction {
 	 * 
 	 * @return potion effect
 	 */
-	EffectInstance createEffect() {
-		return new EffectInstance(Effects.RESISTANCE, EFFECT_DURATION, AMPLIFIER);
+	MobEffectInstance createEffect() {
+		return new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, EFFECT_DURATION, AMPLIFIER);
 	}
 
 }

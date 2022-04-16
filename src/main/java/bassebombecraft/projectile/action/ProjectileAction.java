@@ -1,8 +1,8 @@
 package bassebombecraft.projectile.action;
 
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 
 /**
  * Interface for projectile action.
@@ -17,5 +17,5 @@ public interface ProjectileAction {
 	 * @param world      world object.
 	 * @param result     position of hit object.
 	 */
-	void execute(ThrowableEntity projectile, World world, RayTraceResult result);
+	void execute(ThrowableProjectile projectile, Level world, HitResult result);
 }

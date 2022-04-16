@@ -23,11 +23,11 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.CompositeStructure;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which dig blocks when
@@ -43,12 +43,12 @@ public class Dig2 implements Operator2 {
 	/**
 	 * Function to get ray trace result.
 	 */
-	Function<Ports, RayTraceResult> fnGetRayTraceResult;
+	Function<Ports, HitResult> fnGetRayTraceResult;
 
 	/**
 	 * Function to get world from ports.
 	 */
-	Function<Ports, World> fnGetWorld;
+	Function<Ports, Level> fnGetWorld;
 
 	/**
 	 * Constructor.
@@ -56,7 +56,7 @@ public class Dig2 implements Operator2 {
 	 * @param splRayTraceResult function to get ray trace result.
 	 * @param fnGetWorld        function to get world.
 	 */
-	public Dig2(Function<Ports, RayTraceResult> fnGetRayTraceResult, Function<Ports, World> fnGetWorld) {
+	public Dig2(Function<Ports, HitResult> fnGetRayTraceResult, Function<Ports, Level> fnGetWorld) {
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 		this.fnGetWorld = fnGetWorld;
 	}
@@ -74,8 +74,8 @@ public class Dig2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
-		World world = applyV(fnGetWorld, ports);
+		HitResult result = applyV(fnGetRayTraceResult, ports);
+		Level world = applyV(fnGetWorld, ports);
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
@@ -89,17 +89,17 @@ public class Dig2 implements Operator2 {
 				return;
 
 			// type cast
-			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
+			BlockHitResult blockResult = (BlockHitResult) result;
 
 			// get impact info
-			Direction impactDirection = blockResult.getFace();
+			Direction impactDirection = blockResult.getDirection();
 
 			// rotate block to impact direction
-			Direction rotatedDirection = impactDirection.rotateY().rotateY();
+			Direction rotatedDirection = impactDirection.getClockWise().getClockWise();
 			PlayerDirection playerDirection = convertToPlayerDirection(rotatedDirection);
 
 			// calculate set of block directives
-			BlockPos offset = blockResult.getPos();
+			BlockPos offset = blockResult.getBlockPos();
 			CompositeStructure composite = new CompositeStructure();
 			createExcavatedStructure(composite);
 			List<BlockDirective> directives = calculateBlockDirectives(offset, playerDirection, composite, DONT_HARVEST,

@@ -5,15 +5,15 @@ import java.util.UUID;
 
 import static bassebombecraft.item.ItemUtils.*;
 import bassebombecraft.item.book.GenericCompositeItemsBook;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 
 /**
  * Utility for calculating information about the player.
@@ -27,8 +27,8 @@ public class PlayerUtils {
 	 * 
 	 * @return player feet position (as a Y coordinate).
 	 */
-	public static double calculatePlayerFeetPositition(PlayerEntity player) {
-		double playerFeetPosY = player.getPosY() - player.getYOffset();
+	public static double calculatePlayerFeetPositition(Player player) {
+		double playerFeetPosY = player.getY() - player.getMyRidingOffset();
 		return playerFeetPosY;
 	}
 
@@ -39,7 +39,7 @@ public class PlayerUtils {
 	 * 
 	 * @return player feet position (as a Y coordinate).
 	 */
-	public static int calculatePlayerFeetPosititionAsInt(PlayerEntity player) {
+	public static int calculatePlayerFeetPosititionAsInt(Player player) {
 		return (int) calculatePlayerFeetPositition(player);
 	}
 
@@ -51,7 +51,7 @@ public class PlayerUtils {
 	 * 
 	 * @return true if y coordinate is below the player y position.
 	 */
-	public static boolean isBelowPlayerYPosition(int y, PlayerEntity player) {
+	public static boolean isBelowPlayerYPosition(int y, Player player) {
 		int playerFeetPosition = PlayerUtils.calculatePlayerFeetPosititionAsInt(player);
 		return (y < playerFeetPosition);
 	}
@@ -64,8 +64,8 @@ public class PlayerUtils {
 	 * 
 	 * @return player direction as an integer between 0 to 3.
 	 */
-	public static PlayerDirection getPlayerDirection(PlayerEntity player) {
-		int direction = MathHelper.floor((double) ((player.rotationYaw * 4F) / 360F) + 0.5D) & 3;
+	public static PlayerDirection getPlayerDirection(Player player) {
+		int direction = Mth.floor((double) ((player.yRot * 4F) / 360F) + 0.5D) & 3;
 		return PlayerDirection.getById(direction);
 	}
 
@@ -75,9 +75,9 @@ public class PlayerUtils {
 	 * @param player to message to.
 	 * @param string message to send to player.
 	 */
-	public static void sendChatMessageToPlayer(PlayerEntity player, String string) {
-		ITextComponent message = new StringTextComponent(string);
-		UUID uuid = player.getUniqueID();
+	public static void sendChatMessageToPlayer(Player player, String string) {
+		Component message = new TextComponent(string);
+		UUID uuid = player.getUUID();
 		player.sendMessage(message, uuid);
 	}
 
@@ -94,7 +94,7 @@ public class PlayerUtils {
 			return false;
 		if (e2 == null)
 			return false;
-		return (e1.getUniqueID() == e2.getUniqueID());
+		return (e1.getUUID() == e2.getUUID());
 	}
 
 	/**
@@ -110,7 +110,7 @@ public class PlayerUtils {
 			return false;
 		if (e2 == null)
 			return false;
-		return (e1.getUniqueID() == e2.getUniqueID());
+		return (e1.getUUID() == e2.getUUID());
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class PlayerUtils {
 	public static boolean isTypePlayerEntity(Entity entity) {
 		Optional<Entity> oe = Optional.ofNullable(entity);
 		if (oe.isPresent()) {
-			return oe.get() instanceof PlayerEntity;
+			return oe.get() instanceof Player;
 		}
 		return false;
 	}
@@ -138,7 +138,7 @@ public class PlayerUtils {
 	public static boolean isPlayerEntityAlive(Entity entity) {
 		if (!isTypePlayerEntity(entity))
 			return false;
-		PlayerEntity targetAsPlayer = (PlayerEntity) entity;
+		Player targetAsPlayer = (Player) entity;
 		return targetAsPlayer.isAlive();
 	}
 
@@ -150,13 +150,13 @@ public class PlayerUtils {
 	 * 
 	 * @return true if item is held in player off hand.
 	 */
-	public static boolean isItemHeldInOffHand(PlayerEntity player, ItemStack item) {
+	public static boolean isItemHeldInOffHand(Player player, ItemStack item) {
 		if (player == null)
 			return false;
 		if (item == null)
 			return false;
 
-		ItemStack heldItem = player.getHeldItemOffhand();
+		ItemStack heldItem = player.getOffhandItem();
 
 		if (heldItem == null)
 			return false;
@@ -172,14 +172,14 @@ public class PlayerUtils {
 	 * 
 	 * @return true if item is held in player off hand.
 	 */
-	public static boolean isItemHeldInOffHand(PlayerEntity player, Item item) {
+	public static boolean isItemHeldInOffHand(Player player, Item item) {
 		if (player == null)
 			return false;
 		if (item == null)
 			return false;
 
 		// get item stack
-		ItemStack heldItemStack = player.getHeldItemOffhand();
+		ItemStack heldItemStack = player.getOffhandItem();
 		if (heldItemStack == null)
 			return false;
 
@@ -199,14 +199,14 @@ public class PlayerUtils {
 	 * 
 	 * @return true if item is held in player main hand.
 	 */
-	public static boolean isItemHeldInMainHand(PlayerEntity player, Item item) {
+	public static boolean isItemHeldInMainHand(Player player, Item item) {
 		if (player == null)
 			return false;
 		if (item == null)
 			return false;
 
 		// get item stack
-		ItemStack heldItemStack = player.getHeldItemMainhand();
+		ItemStack heldItemStack = player.getMainHandItem();
 		if (heldItemStack == null)
 			return false;
 
@@ -227,12 +227,12 @@ public class PlayerUtils {
 	 * @return true if item held in player main hand is a sub class of
 	 *         {@linkplain GenericCompositeItemsBook}.
 	 */
-	public static boolean isItemHeldInMainHandOfTypeGenericCompositeItemsBook(PlayerEntity player) {
+	public static boolean isItemHeldInMainHandOfTypeGenericCompositeItemsBook(Player player) {
 		if (player == null)
 			return false;
 
 		// get item stack
-		ItemStack heldItemStack = player.getHeldItemMainhand();
+		ItemStack heldItemStack = player.getMainHandItem();
 		if (heldItemStack == null)
 			return false;
 
@@ -252,7 +252,7 @@ public class PlayerUtils {
 	 * 
 	 * @return true if item is held by player in either hand.
 	 */
-	public static boolean isItemHeldInEitherHands(PlayerEntity player, Item item) {
+	public static boolean isItemHeldInEitherHands(Player player, Item item) {
 		if (isItemHeldInMainHand(player, item))
 			return true;
 		if (isItemHeldInOffHand(player, item))
@@ -268,7 +268,7 @@ public class PlayerUtils {
 	 * 
 	 * @return true if item is held in player off hand.
 	 */
-	public static boolean isItemInHotbar(PlayerEntity player, Item item) {
+	public static boolean isItemInHotbar(Player player, Item item) {
 		if (player == null)
 			return false;
 		if (item == null)
@@ -276,7 +276,7 @@ public class PlayerUtils {
 
 		// iterator over the items in the hotbar
 		for (int i = 0; i < 10; i++) {
-			ItemStack itemStackHotbar = player.inventory.getStackInSlot(i);
+			ItemStack itemStackHotbar = player.inventory.getItem(i);
 			Item itemHotBar = itemStackHotbar.getItem();
 			if (itemHotBar.equals(item))
 				return true;
@@ -293,11 +293,11 @@ public class PlayerUtils {
 	 * 
 	 * @return player position.
 	 */
-	public static Vector3d CalculatePlayerPosition(PlayerEntity player, float partialTicks) {
-		double doubleX = player.lastTickPosX + (player.getPosX() - player.lastTickPosX) * partialTicks;
-		double doubleY = player.lastTickPosY + (player.getPosY() - player.lastTickPosY) * partialTicks;
-		double doubleZ = player.lastTickPosZ + (player.getPosZ() - player.lastTickPosZ) * partialTicks;
-		return new Vector3d(doubleX, doubleY, doubleZ);
+	public static Vec3 CalculatePlayerPosition(Player player, float partialTicks) {
+		double doubleX = player.xOld + (player.getX() - player.xOld) * partialTicks;
+		double doubleY = player.yOld + (player.getY() - player.yOld) * partialTicks;
+		double doubleZ = player.zOld + (player.getZ() - player.zOld) * partialTicks;
+		return new Vec3(doubleX, doubleY, doubleZ);
 	}
 
 }

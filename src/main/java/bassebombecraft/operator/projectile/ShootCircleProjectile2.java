@@ -5,9 +5,9 @@ import static bassebombecraft.entity.RegisteredEntities.CIRCLE_PROJECTILE;
 import bassebombecraft.entity.projectile.CircleProjectileEntity;
 import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.operator.Operator2;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which shoots composite
@@ -19,7 +19,7 @@ import net.minecraft.util.math.vector.Vector3d;
 public class ShootCircleProjectile2 extends GenericShootProjectile2 {
 
 	@Override
-	Entity createProjectile(LivingEntity invoker, Vector3d orientation) {
+	Entity createProjectile(LivingEntity invoker, Vec3 orientation) {
 		GenericCompositeProjectileEntity projectile = new CircleProjectileEntity(CIRCLE_PROJECTILE.get(), invoker);
 		projectile.shootUsingProjectileConfig(orientation);
 		return projectile;

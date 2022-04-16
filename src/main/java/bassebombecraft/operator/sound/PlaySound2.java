@@ -10,11 +10,11 @@ import java.util.function.Supplier;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.level.Level;
 
 /**
  * Generic implementation of the {@linkplain Operator2} interface which plays a
@@ -79,7 +79,7 @@ public class PlaySound2 implements Operator2 {
 			return;
 
 		// get world
-		World world = entity.getEntityWorld();
+		Level world = entity.getCommandSenderWorld();
 
 		// get random
 		Random random = getBassebombeCraft().getRandom();
@@ -88,7 +88,7 @@ public class PlaySound2 implements Operator2 {
 		float pitch = PITCH_BASE + (random.nextFloat() - random.nextFloat()) * PITCH_VARIANCE;
 
 		// invoke sound without player
-		world.playSound((PlayerEntity) null, entity.getPosX(), entity.getPosY(), entity.getPosZ(), sound, SoundCategory.NEUTRAL, VOLUME, pitch);
+		world.playSound((Player) null, entity.getX(), entity.getY(), entity.getZ(), sound, SoundSource.NEUTRAL, VOLUME, pitch);
 	}
 
 }

@@ -15,7 +15,7 @@ import bassebombecraft.operator.conditional.IsEntityIsCharmed2;
 import bassebombecraft.operator.conditional.IsEntityOfType2;
 import bassebombecraft.operator.conditional.IsWorldAtServerSide2;
 import bassebombecraft.operator.entity.RemoveCharm2;
-import net.minecraft.entity.MobEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -37,13 +37,13 @@ public class CharmedMobEventHandler {
 	/**
 	 * Operator for spawning particles for charmed mob.
 	 */
-	static Operator2 particlesOp = new Sequence2(new IsWorldAtServerSide2(), new IsEntityOfType2(MobEntity.class),
+	static Operator2 particlesOp = new Sequence2(new IsWorldAtServerSide2(), new IsEntityOfType2(Mob.class),
 			new IsEntityIsCharmed2(), new AddParticlesFromEntityAtClient2(createInfoFromConfig(charmedMobParticles)));
 
 	/**
 	 * Operators for uncharm.
 	 */
-	static Operator2 uncharmOp = new Sequence2(new IsWorldAtServerSide2(), new IsEntityOfType2(MobEntity.class),
+	static Operator2 uncharmOp = new Sequence2(new IsWorldAtServerSide2(), new IsEntityOfType2(Mob.class),
 			new RemoveCharm2());
 
 	@SubscribeEvent

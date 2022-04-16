@@ -7,16 +7,16 @@ import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import bassebombecraft.client.operator.ClientPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.vector.Vector2f;
+import net.minecraft.client.renderer.entity.ItemRenderer;
+import com.mojang.blaze3d.platform.Lighting;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec2;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 /**
@@ -41,7 +41,7 @@ public class RenderItemStack2 implements Operator2 {
 	/**
 	 * Function to get text anchor.
 	 */
-	Function<Ports, Vector2f> fnGetTextAnchor;
+	Function<Ports, Vec2> fnGetTextAnchor;
 
 	/**
 	 * X coordinate for placement of icon.
@@ -79,7 +79,7 @@ public class RenderItemStack2 implements Operator2 {
 	 * @param y               y coordinate for placement of billboard.
 	 */
 	public RenderItemStack2(Function<Ports, ItemStack> fnGetItemStack,
-			Function<ClientPorts, RenderGameOverlayEvent> fnGetEvent, Function<Ports, Vector2f> fnGetTextAnchor, int x,
+			Function<ClientPorts, RenderGameOverlayEvent> fnGetEvent, Function<Ports, Vec2> fnGetTextAnchor, int x,
 			int y) {
 		this.fnGetItemStack = fnGetItemStack;
 		this.fnGetEvent = fnGetEvent;
@@ -91,7 +91,7 @@ public class RenderItemStack2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		RenderGameOverlayEvent event = clientApplyV(fnGetEvent, ports);
-		Vector2f textAnchor = applyV(fnGetTextAnchor, ports);
+		Vec2 textAnchor = applyV(fnGetTextAnchor, ports);
 		ItemStack itemStack = applyV(fnGetItemStack, ports);
 
 		// get rendering engine
@@ -99,24 +99,24 @@ public class RenderItemStack2 implements Operator2 {
 		ItemRenderer itemRenderer = mcClient.getItemRenderer();
 
 		// push matrix
-		MatrixStack matrixStack = event.getMatrixStack();
-		matrixStack.push();
+		PoseStack matrixStack = event.getMatrixStack();
+		matrixStack.pushPose();
 
 		// enable lightning
-		RenderHelper.enableStandardItemLighting();
+		Lighting.turnBackOn();
 
 		// calculate icon position
 		int xp = (int) (textAnchor.x + x);
 		int yp = (int) (textAnchor.y + y);
 
 		// render item stack
-		itemRenderer.renderItemIntoGUI(itemStack, xp, yp);
+		itemRenderer.renderGuiItem(itemStack, xp, yp);
 
 		// disable lightning
-		RenderHelper.disableStandardItemLighting();
+		Lighting.turnOff();
 
 		// restore matrix
-		matrixStack.pop();
+		matrixStack.popPose();
 	}
 
 }

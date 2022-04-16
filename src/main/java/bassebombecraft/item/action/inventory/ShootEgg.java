@@ -4,14 +4,14 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import java.util.Random;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.EggEntity;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.ThrownEgg;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
@@ -24,7 +24,7 @@ public class ShootEgg implements InventoryItemActionStrategy {
 	/**
 	 * Projectile spawn sound.
 	 */
-	static final SoundEvent SOUND = SoundEvents.ENTITY_CHICKEN_EGG;
+	static final SoundEvent SOUND = SoundEvents.CHICKEN_EGG;
 
 	@Override
 	public boolean applyOnlyIfSelected() {
@@ -39,20 +39,20 @@ public class ShootEgg implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
+	public void applyEffect(LivingEntity target, Level world, LivingEntity invoker) {
 		Random random = getBassebombeCraft().getRandom();
-		EggEntity projectile = EntityType.EGG.create(world);
+		ThrownEgg projectile = EntityType.EGG.create(world);
 
 		// from EntityLlama.spit()
-		double d0 = target.getPosX() - invoker.getPosX();
-		double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 3.0F) - invoker.getPosY();
-		double d2 = target.getPosZ() - invoker.getPosZ();
-		float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
+		double d0 = target.getX() - invoker.getX();
+		double d1 = target.getBoundingBox().minY + (double) (target.getBbHeight() / 3.0F) - invoker.getY();
+		double d2 = target.getZ() - invoker.getZ();
+		float f = Mth.sqrt(d0 * d0 + d2 * d2) * 0.2F;
 		projectile.shoot(d0, d1 + (double) f, d2, 1.5F, 10.0F);
 		invoker.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
 
 		// spawn
-		world.addEntity(projectile);
+		world.addFreshEntity(projectile);
 	}
 
 }

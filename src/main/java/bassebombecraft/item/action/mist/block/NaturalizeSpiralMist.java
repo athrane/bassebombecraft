@@ -9,7 +9,12 @@ import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.geom.GeometryUtils.createFlowerDirective;
 import static net.minecraft.block.Blocks.GRASS_BLOCK;
 
-import bassebombecraft.event.block.BlockDirectivesRepository;
+import bassnimport bassebombecraft.event.block.BlockDirectivesRepository;
+import bassebombecraft.event.particle.ParticleRenderingInfo;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+
+et.minecraft.world.level.block.BlocksockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
 import net.minecraft.util.math.BlockPos;
@@ -48,7 +53,7 @@ public class NaturalizeSpiralMist implements BlockMistActionStrategy {
 	}
 
 	@Override
-	public void applyEffectToBlock(BlockPos target, World world) {
+	public void applyEffectToBlock(BlockPos target, Level world) {
 
 		// create dirt block
 		BlockDirective directive = getInstance(target, GRASS_BLOCK, DONT_HARVEST, world);
@@ -58,7 +63,7 @@ public class NaturalizeSpiralMist implements BlockMistActionStrategy {
 		repository.add(directive);
 
 		// create flower block
-		BlockPos flowerPos = target.up();
+		BlockPos flowerPos = target.above();
 		directive = createFlowerDirective(flowerPos, world);
 
 		// create block

@@ -49,12 +49,12 @@ import bassebombecraft.operator.projectile.ShootWitherSkullProjectile2;
 import bassebombecraft.operator.projectile.formation.SingleProjectileFormation2;
 import bassebombecraft.operator.projectile.formation.TrifurcatedProjectileFormation2;
 import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.controller.LookController;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.control.LookControl;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 
 /**
  * AI goal for companion, e.g. charmed mob or guardian.
@@ -230,12 +230,12 @@ public class CompanionAttack extends Goal {
 	/**
 	 * Mob commander.
 	 */
-	PlayerEntity commander;
+	Player commander;
 
 	/**
 	 * Goal owner.
 	 */
-	MobEntity entity;
+	Mob entity;
 
 	/**
 	 * Facts about a combat situation.
@@ -252,11 +252,11 @@ public class CompanionAttack extends Goal {
 	 * 
 	 * @param entity entity that the tasks is applied to.
 	 */
-	public CompanionAttack(MobEntity entity) {
+	public CompanionAttack(Mob entity) {
 		this.entity = entity;
 
 		// set "interactive" AI
-		setMutexFlags(EnumSet.of(LOOK));
+		setFlags(EnumSet.of(LOOK));
 
 		// create observation repository
 		observationRepository = DefaultObservationRepository.getInstance(entity);
@@ -269,13 +269,13 @@ public class CompanionAttack extends Goal {
 	 * @param entity    entity that the tasks is applied to.
 	 * @param commander entity which commands entity.
 	 */
-	public CompanionAttack(MobEntity entity, PlayerEntity commander) {
+	public CompanionAttack(Mob entity, Player commander) {
 		this(entity);
 		this.commander = commander;
 	}
 
 	@Override
-	public boolean shouldExecute() {
+	public boolean canUse() {
 
 		// stop goal execution if no target is defined
 		if (!hasTarget(entity)) {
@@ -316,11 +316,11 @@ public class CompanionAttack extends Goal {
 			lookAtTarget(optTarget.get());
 
 			// navigate to target if entity isn't at minimum range
-			PathNavigator navigator = entity.getNavigator();
+			PathNavigation navigator = entity.getNavigation();
 			if (targetFacts.isTargetClose()) {
-				navigator.clearPath();
+				navigator.stop();
 			} else {
-				entity.getNavigator().tryMoveToEntityLiving(optTarget.get(), entityMoveSpeed);
+				entity.getNavigation().moveTo(optTarget.get(), entityMoveSpeed);
 			}
 
 			// select behaviour type based on distance
@@ -335,7 +335,7 @@ public class CompanionAttack extends Goal {
 	}
 
 	@Override
-	public void resetTask() {
+	public void stop() {
 		observationRepository.clear();
 	}
 
@@ -414,8 +414,8 @@ public class CompanionAttack extends Goal {
 	 * @param target target to look at.
 	 */
 	void lookAtTarget(LivingEntity target) {
-		LookController lookController = entity.getLookController();
-		lookController.setLookPositionWithEntity(target, 10.0F, (float) entity.getVerticalFaceSpeed());
+		LookControl lookController = entity.getLookControl();
+		lookController.setLookAt(target, 10.0F, (float) entity.getMaxHeadXRot());
 	}
 
 	/**
@@ -432,7 +432,7 @@ public class CompanionAttack extends Goal {
 		int numberActions = actions.size();
 		int choice = random.nextInt(numberActions);
 		RightClickedItemAction action = actions.get(choice);
-		action.onRightClick(entity.getEntityWorld(), entity);
+		action.onRightClick(entity.getCommandSenderWorld(), entity);
 		return action.getClass().getSimpleName();
 	}
 

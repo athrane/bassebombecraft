@@ -7,12 +7,20 @@ import static bassebombecraft.entity.EntityUtils.resolveTarget;
 import static bassebombecraft.entity.EntityUtils.setAttribute;
 import static bassebombecraft.entity.ai.AiUtils.buildChargingAi;
 import static net.minecraft.entity.ai.attributes.Attributes.ATTACK_DAMAGE;
-import static net.minecraft.entity.ai.attributes.Attributes.FLYING_SPEED;
+import staticnet.minecraft.world.entity.ai.attributes.Attributess.FLYING_SPEED;
 import static net.minecraft.entity.ai.attributes.Attributes.MOVEMENT_SPEED;
 
+importimport bassebombecraft.BassebombeCraft;
 import java.util.Random;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Parrot;
+import net.minecraft.world.level.Level;
 
-import bassebombecraft.BassebombeCraft;
+ javanet.minecraft.world.entity.ai.attributes.AttributesbombeCraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -35,7 +43,7 @@ public class SpawnAngryParrots implements InventoryItemActionStrategy {
 	/**
 	 * Spawn sound.
 	 */
-	static final SoundEvent SOUND = SoundEvents.ENTITY_PARROT_FLY;
+	static final SoundEvent SOUND = SoundEvents.PARROT_FLY;
 
 	/**
 	 * Parrot damage.
@@ -68,7 +76,7 @@ public class SpawnAngryParrots implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
+	public void applyEffect(LivingEntity target, Level world, LivingEntity invoker) {
 
 		// don't apply when target is a parrot
 		if (isTypeParrotEntity(target))
@@ -76,8 +84,8 @@ public class SpawnAngryParrots implements InventoryItemActionStrategy {
 
 		// create entity
 		Random random = BassebombeCraft.getBassebombeCraft().getRandom();
-		ParrotEntity entity = EntityType.PARROT.create(world);
-		entity.copyLocationAndAnglesFrom(invoker);
+		Parrot entity = EntityType.PARROT.create(world);
+		entity.copyPosition(invoker);
 		entity.setVariant(random.nextInt(5));
 
 		// set entity attributes
@@ -93,7 +101,7 @@ public class SpawnAngryParrots implements InventoryItemActionStrategy {
 		entity.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
 
 		// spawn
-		world.addEntity(entity);
+		world.addFreshEntity(entity);
 	}
 
 }

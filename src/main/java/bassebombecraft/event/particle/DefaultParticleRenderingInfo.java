@@ -3,17 +3,17 @@ package bassebombecraft.event.particle;
 import static net.minecraftforge.registries.ForgeRegistries.PARTICLE_TYPES;
 
 import bassebombecraft.BassebombeCraft;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Default implementation of the {@linkplain ParticleRenderingInfo} interface.
  */
 public class DefaultParticleRenderingInfo implements ParticleRenderingInfo {
 
-	BasicParticleType type;
+	SimpleParticleType type;
 	String unresolvedType;
 	int number;
 	int duration;
@@ -35,7 +35,7 @@ public class DefaultParticleRenderingInfo implements ParticleRenderingInfo {
 	 * @param rgbBlue  blue RGB color component of the particle.
 	 * @param speed    particle speed.
 	 */
-	DefaultParticleRenderingInfo(BasicParticleType type, int number, int duration, float rgbRed, float rgbGreen,
+	DefaultParticleRenderingInfo(SimpleParticleType type, int number, int duration, float rgbRed, float rgbGreen,
 			float rgbBlue, double speed) {
 		this.type = type;
 		this.unresolvedType = type.getRegistryName().toString();				
@@ -75,7 +75,7 @@ public class DefaultParticleRenderingInfo implements ParticleRenderingInfo {
 	}
 	
 	@Override
-	public BasicParticleType getParticleType() {
+	public SimpleParticleType getParticleType() {
 
 		// return type if resolved
 		if(type != null) return type;
@@ -86,7 +86,7 @@ public class DefaultParticleRenderingInfo implements ParticleRenderingInfo {
 		
 		// store and return resolved type
 		if(resolved != null) {
-			type = (BasicParticleType) resolved;
+			type = (SimpleParticleType) resolved;
 			return type;
 		}
 		
@@ -143,7 +143,7 @@ public class DefaultParticleRenderingInfo implements ParticleRenderingInfo {
 	 * 
 	 * @return particle rendering info.
 	 */
-	public static ParticleRenderingInfo getInstance(BasicParticleType type, int number, int duration, float rgbRed,
+	public static ParticleRenderingInfo getInstance(SimpleParticleType type, int number, int duration, float rgbRed,
 			float rgbGreen, float rgbBlue, double speed) {
 		return new DefaultParticleRenderingInfo(type, number, duration, rgbRed, rgbGreen, rgbBlue, speed);
 	}

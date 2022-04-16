@@ -1,9 +1,9 @@
 package bassebombecraft.structure;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.BlockPos;
 
 /**
  * Implementation of the {@linkplain Structure} interface which implements a
@@ -96,7 +96,7 @@ public class ChildStructure implements Structure {
 	public BlockState getBlockState() {
 		if (state != null)
 			return state;
-		return block.getDefaultState();
+		return block.defaultBlockState();
 	}
 
 	@Override

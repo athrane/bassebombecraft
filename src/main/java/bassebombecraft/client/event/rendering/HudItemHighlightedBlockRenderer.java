@@ -21,15 +21,15 @@ import bassebombecraft.client.operator.rendering.RenderWireframeBoundingBox2;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Sequence2;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.client.event.DrawHighlightEvent.HighlightBlock;
 
 /**
@@ -65,7 +65,7 @@ public class HudItemHighlightedBlockRenderer {
 				return;
 
 			// get player
-			PlayerEntity player = getClientSidePlayer();
+			Player player = getClientSidePlayer();
 
 			// exit if HUD item isn't in hotbar
 			if (!isItemInHotbar(player, HUD.get()))
@@ -85,29 +85,29 @@ public class HudItemHighlightedBlockRenderer {
 	 * @param event  the highlight block event.
 	 * @param player player object.
 	 */
-	static void render(HighlightBlock event, PlayerEntity player) {
+	static void render(HighlightBlock event, Player player) {
 
 		// get ray trace result
-		BlockRayTraceResult result = event.getTarget();
+		BlockHitResult result = event.getTarget();
 
 		// exit if player isn't looking at a block
 		if (result.getType() != BLOCK)
 			return;
 
 		// create aabb for block
-		BlockPos blockPos = result.getPos();
-		AxisAlignedBB aabb = new AxisAlignedBB(blockPos);
+		BlockPos blockPos = result.getBlockPos();
+		AABB aabb = new AABB(blockPos);
 
 		// get world
-		World world = player.getEntityWorld();
+		Level world = player.getCommandSenderWorld();
 
 		// Get block type
 		BlockState blockstate = world.getBlockState(blockPos);
 		Block block = blockstate.getBlock();
-		String message = I18n.format(block.getTranslationKey());
+		String message = I18n.get(block.getDescriptionId());
 
 		// get aabb center
-		Vector3d aabbCenter = aabb.getCenter();
+		Vec3 aabbCenter = aabb.getCenter();
 
 		// setup operator and execute
 		ClientPorts ports = getInstance();

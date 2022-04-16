@@ -8,15 +8,15 @@ import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import bassebombecraft.client.operator.ClientPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.util.math.vector.Vector2f;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.world.phys.Vec2;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 /**
@@ -41,7 +41,7 @@ public class RenderOverlayText2 implements Operator2 {
 	/**
 	 * Function to get text anchor.
 	 */
-	Function<Ports, Vector2f> fnGetTextAnchor;
+	Function<Ports, Vec2> fnGetTextAnchor;
 
 	/**
 	 * X coordinate for placement of text.
@@ -79,7 +79,7 @@ public class RenderOverlayText2 implements Operator2 {
 	 * @param y               y coordinate for placement of text.
 	 */
 	public RenderOverlayText2(Function<Ports, String> fnGetString,
-			Function<ClientPorts, RenderGameOverlayEvent> fnGetEvent, Function<Ports, Vector2f> fnGetTextAnchor,
+			Function<ClientPorts, RenderGameOverlayEvent> fnGetEvent, Function<Ports, Vec2> fnGetTextAnchor,
 			float x, float y) {
 		this.fnGetString = fnGetString;
 		this.fnGetEvent = fnGetEvent;
@@ -92,26 +92,26 @@ public class RenderOverlayText2 implements Operator2 {
 	public void run(Ports ports) {
 		String message = applyV(fnGetString, ports);
 		RenderGameOverlayEvent event = clientApplyV(fnGetEvent, ports);
-		Vector2f textAnchor = applyV(fnGetTextAnchor, ports);
+		Vec2 textAnchor = applyV(fnGetTextAnchor, ports);
 
 		// get rendering engine
 		Minecraft mcClient = Minecraft.getInstance();
-		EntityRendererManager renderManager = mcClient.getRenderManager();
-		FontRenderer fontRenderer = renderManager.getFontRenderer();
+		EntityRenderDispatcher renderManager = mcClient.getEntityRenderDispatcher();
+		Font fontRenderer = renderManager.getFont();
 
 		// push matrix
-		MatrixStack matrixStack = event.getMatrixStack();
-		matrixStack.push();
+		PoseStack matrixStack = event.getMatrixStack();
+		matrixStack.pushPose();
 
 		// calculate text position
 		float xp = textAnchor.x + x;
 		float yp = textAnchor.y + y;
 
 		// render text
-		fontRenderer.drawString(matrixStack, message, xp, yp, TEXT_COLOR);
+		fontRenderer.draw(matrixStack, message, xp, yp, TEXT_COLOR);
 
 		// restore matrix
-		matrixStack.pop();
+		matrixStack.popPose();
 	}
 
 }

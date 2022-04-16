@@ -15,10 +15,10 @@ import java.util.List;
 
 import bassebombecraft.entity.EntityDistanceSorter;
 import bassebombecraft.util.function.DiscardSelf;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.Effect;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.phys.AABB;
 
 /**
  * Effect which make the entity with the effect, "aggro" any mob, e.g. attack
@@ -26,7 +26,7 @@ import net.minecraft.util.math.AxisAlignedBB;
  * 
  * The effect has no effect on the player.
  */
-public class AggroMobEffect extends Effect {
+public class AggroMobEffect extends MobEffect {
 
 	/**
 	 * Effect identifier.
@@ -56,7 +56,7 @@ public class AggroMobEffect extends Effect {
 	}
 
 	@Override
-	public void performEffect(LivingEntity entity, int amplifier) {
+	public void applyEffectTick(LivingEntity entity, int amplifier) {
 
 		// exit if entity is undefined
 		if (entity == null)
@@ -73,11 +73,11 @@ public class AggroMobEffect extends Effect {
 		// get target (either as creature or living entity)
 		LivingEntity target = null;
 		if (isTypeCreatureEntity(entity)) {
-			CreatureEntity entityCreature = (CreatureEntity) entity;
-			target = entityCreature.getAttackTarget();
+			PathfinderMob entityCreature = (PathfinderMob) entity;
+			target = entityCreature.getTarget();
 		} else {
 			LivingEntity entityLiving = (LivingEntity) entity;
-			target = entityLiving.getLastAttackedEntity();
+			target = entityLiving.getLastHurtMob();
 		}
 
 		// exit if target is defined and isn't dead
@@ -89,8 +89,8 @@ public class AggroMobEffect extends Effect {
 
 		// get list of mobs
 		int arreaOfEffect = aggroMobEffectAreaOfEffect.get();
-		AxisAlignedBB aabb = entity.getBoundingBox().grow(arreaOfEffect, arreaOfEffect, arreaOfEffect);
-		List<LivingEntity> targetList = entity.world.getEntitiesWithinAABB(LivingEntity.class, aabb, discardSelfFilter);
+		AABB aabb = entity.getBoundingBox().inflate(arreaOfEffect, arreaOfEffect, arreaOfEffect);
+		List<LivingEntity> targetList = entity.level.getEntitiesOfClass(LivingEntity.class, aabb, discardSelfFilter);
 
 		// exit if no targets where found
 		if (targetList.isEmpty())
@@ -111,7 +111,7 @@ public class AggroMobEffect extends Effect {
 	}
 
 	@Override
-	public boolean isReady(int duration, int amplifier) {
+	public boolean isDurationEffectTick(int duration, int amplifier) {
 		int updateFrequency = aggroMobEffectUpdateFrequency.get();
 		int moduloValue = duration % updateFrequency;
 		return (moduloValue == 0);

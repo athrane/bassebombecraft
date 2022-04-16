@@ -1,6 +1,6 @@
 package bassebombecraft.entity.ai.goal;
 
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 
 /**
  * Interface for observation of a combat situation.

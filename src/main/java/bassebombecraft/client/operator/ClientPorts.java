@@ -1,6 +1,6 @@
 package bassebombecraft.client.operator;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import bassebombecraft.operator.Ports;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -15,7 +15,7 @@ public interface ClientPorts extends Ports {
 	 * 
 	 * @return matrix stack.
 	 */
-	MatrixStack getMatrixStack1();
+	PoseStack getMatrixStack1();
 
 	/**
 	 * Set matrix stack #1.
@@ -24,7 +24,7 @@ public interface ClientPorts extends Ports {
 	 * 
 	 * @return ports.
 	 */
-	ClientPorts setMatrixStack1(MatrixStack ms);
+	ClientPorts setMatrixStack1(PoseStack ms);
 
 	/**
 	 * Get {@linkplain RenderGameOverlayEvent} #1.

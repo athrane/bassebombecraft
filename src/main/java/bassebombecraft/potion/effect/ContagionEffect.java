@@ -36,12 +36,12 @@ import bassebombecraft.operator.conditional.IsFrequencyActive2;
 import bassebombecraft.operator.entity.ApplyOperatorToLivingEntity2;
 import bassebombecraft.operator.entity.FindLivingEntities2;
 import bassebombecraft.operator.entity.potion.effect.CloneEffect2;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Effect takes potion effect from entity and spreads the effect to nearby
@@ -49,7 +49,7 @@ import net.minecraft.world.World;
  * 
  * The effect has no effect on the player.
  */
-public class ContagionEffect extends Effect {
+public class ContagionEffect extends MobEffect {
 
 	/**
 	 * Effect identifier.
@@ -91,10 +91,10 @@ public class ContagionEffect extends Effect {
 		Function<Ports, Integer> fnGetFrequency = p -> contagionEffectUpdateFrequency.get().intValue();
 
 		// FindLivingEntities2: get source position from source entity
-		Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(getFnGetLivingEntity1(), p).getPosition();
+		Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(getFnGetLivingEntity1(), p).blockPosition();
 
 		// FindLivingEntities2: get world from source entity
-		Function<Ports, World> fnGetWorld = p -> applyV(getFnGetLivingEntity1(), p).getEntityWorld();
+		Function<Ports, Level> fnGetWorld = p -> applyV(getFnGetLivingEntity1(), p).getCommandSenderWorld();
 
 		// FindLivingEntities2: exclude self using entity #1
 		Function<Ports, Predicate<LivingEntity>> fnGetPredicate = p -> hasLivingEntitiesDifferentIds(
@@ -132,7 +132,7 @@ public class ContagionEffect extends Effect {
 	}
 
 	@Override
-	public void performEffect(LivingEntity entity, int amplifier) {
+	public void applyEffectTick(LivingEntity entity, int amplifier) {
 
 		// exit if entity is undefined
 		if (entity == null)
@@ -143,7 +143,7 @@ public class ContagionEffect extends Effect {
 			return;
 
 		// exit if entity has no effects
-		Optional<EffectInstance> optInstance = resolveFirstEffect(entity);
+		Optional<MobEffectInstance> optInstance = resolveFirstEffect(entity);
 		if (!optInstance.isPresent())
 			return;
 
@@ -154,7 +154,7 @@ public class ContagionEffect extends Effect {
 	}
 
 	@Override
-	public boolean isReady(int duration, int amplifier) {
+	public boolean isDurationEffectTick(int duration, int amplifier) {
 		int frequency = contagionEffectUpdateFrequency.get();
 		return getProxy().getServerFrequencyRepository().isActive(frequency);
 	}

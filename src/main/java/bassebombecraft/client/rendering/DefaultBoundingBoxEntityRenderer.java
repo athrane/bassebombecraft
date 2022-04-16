@@ -1,7 +1,7 @@
 package bassebombecraft.client.rendering;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.AABB;
 
 /**
  * Implementation of the {@linkplain Renderer} for rendering entity bounding box
@@ -19,7 +19,7 @@ public class DefaultBoundingBoxEntityRenderer implements EntityRenderer {
 
 	@Override
 	public void render(LivingEntity entity, RenderingInfo info) {
-		AxisAlignedBB aabb = entity.getBoundingBox();
+		AABB aabb = entity.getBoundingBox();
 		aabbWireframeRenderer.render(aabb, info);
 	}
 

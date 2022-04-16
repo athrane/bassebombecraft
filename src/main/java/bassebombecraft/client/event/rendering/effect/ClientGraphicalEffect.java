@@ -7,8 +7,8 @@ import bassebombecraft.event.duration.DurationRepository;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * CLIENT side implementation of {@linkplain GraphicalEffect} interface.
@@ -55,7 +55,7 @@ public class ClientGraphicalEffect implements GraphicalEffect {
 	/**
 	 * Vectors used for rendering effects.
 	 */
-	Vector3d[] vectors = new Vector3d[0];
+	Vec3[] vectors = new Vec3[0];
 
 	/**
 	 * Constructor.
@@ -106,7 +106,7 @@ public class ClientGraphicalEffect implements GraphicalEffect {
 
 		// attempt to resolve, get client side entity from ID
 		Minecraft mcClient = Minecraft.getInstance();
-		source = mcClient.world.getEntityByID(sourceId);
+		source = mcClient.level.getEntity(sourceId);
 	}
 
 	/**

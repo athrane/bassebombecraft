@@ -6,11 +6,11 @@ import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of {@linkplain EntityMistActionStrategy} for construction of
@@ -20,7 +20,7 @@ public class BeastmasterMist implements EntityMistActionStrategy {
 
 	static final int EFFECT_DURATION = 1000; // Measured in ticks
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
+	static final SimpleParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.0F;
@@ -31,7 +31,7 @@ public class BeastmasterMist implements EntityMistActionStrategy {
 			PARTICLE_SPEED);
 
 	@Override
-	public void applyEffectToEntity(LivingEntity target, Vector3d mistPos, LivingEntity invoker) {
+	public void applyEffectToEntity(LivingEntity target, Vec3 mistPos, LivingEntity invoker) {
 
 		try {
 			// skip if entity can't be charmed, i.e. is a mob entity
@@ -39,7 +39,7 @@ public class BeastmasterMist implements EntityMistActionStrategy {
 				return;
 
 			// type cast
-			MobEntity mobEntity = (MobEntity) target;
+			Mob mobEntity = (Mob) target;
 
 			// register mob as charmed
 			getProxy().getServerCharmedMobsRepository().add(mobEntity, invoker);

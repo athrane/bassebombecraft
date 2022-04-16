@@ -13,16 +13,16 @@ import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import bassebombecraft.entity.EntityUtils;
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 /**
@@ -43,7 +43,7 @@ public class TeamInfoRenderer {
 				return;
 
 			// get player
-			PlayerEntity player = getClientSidePlayer();
+			Player player = getClientSidePlayer();
 
 			// exit if HUD item isn't in hotbar
 			if (!isItemInHotbar(player, HUD.get()))
@@ -62,7 +62,7 @@ public class TeamInfoRenderer {
 	 * @param matrixStack matrix static for rendering transforms.
 	 * @param player      player object.
 	 */
-	static void render(MatrixStack matrixStack, PlayerEntity player) {
+	static void render(PoseStack matrixStack, Player player) {
 
 		// get team
 		TeamRepository repository = getProxy().getServerTeamRepository();
@@ -74,7 +74,7 @@ public class TeamInfoRenderer {
 		MobCommand command = commanderRepository.getCommand(player);
 
 		// get render buffer
-		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+		MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
 
 		// render basic info
 		renderBillboardText(matrixStack, buffer, -210, -110, "TEAM");
@@ -92,7 +92,7 @@ public class TeamInfoRenderer {
 			if (counter > TEAM_MEMBERS_TO_RENDER)
 				return;
 
-			String memberName = m.getName().getUnformattedComponentText();
+			String memberName = m.getName().getContents();
 			String targetName = getTargetName(m);
 			String text = "Member: " + memberName + ", Target: " + targetName;
 			renderBillboardText(matrixStack, buffer, -210, -80 + (counter * 10), text);
@@ -115,7 +115,7 @@ public class TeamInfoRenderer {
 
 		// get live target info
 		LivingEntity target = getTarget(entity);
-		return target.getName().getUnformattedComponentText();
+		return target.getName().getContents();
 	}
 
 }

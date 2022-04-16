@@ -3,17 +3,17 @@ package bassebombecraft.operator;
 import java.util.stream.Stream;
 
 import bassebombecraft.color.Color4f;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector2f;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 /**
  * Collection of ports which provides input and output from operators.
@@ -257,56 +257,56 @@ public interface Ports {
 	 * 
 	 * @return vector #1.
 	 */
-	Vector2f getVector2f1();
+	Vec2 getVector2f1();
 
 	/**
 	 * Set {@linkplain Vector2f} #1.
 	 * 
 	 * @param vec vector #1.
 	 */
-	Ports setVector2f1(Vector2f vec);
+	Ports setVector2f1(Vec2 vec);
 	
 	/**
 	 * Return {@linkplain Vector3d} #1.
 	 * 
 	 * @return vector #1.
 	 */
-	Vector3d getVector1();
+	Vec3 getVector1();
 
 	/**
 	 * Set {@linkplain Vector3d} #1.
 	 * 
 	 * @param vec vector #1.
 	 */
-	Ports setVector1(Vector3d vec);
+	Ports setVector1(Vec3 vec);
 
 	/**
 	 * Return {@linkplain Vector3d[]} #1.
 	 * 
 	 * @return vector array #1.
 	 */
-	Vector3d[] getVectors1();
+	Vec3[] getVectors1();
 
 	/**
 	 * Set {@linkplain Vector3d[]} #1.
 	 * 
 	 * @param vec vector array #1.
 	 */
-	Ports setVectors1(Vector3d[] vec);
+	Ports setVectors1(Vec3[] vec);
 
 	/**
 	 * Set {@linkplain Vector3d[]} #2.
 	 * 
 	 * @param vec vector array #2.
 	 */
-	Ports setVectors2(Vector3d[] vec);
+	Ports setVectors2(Vec3[] vec);
 
 	/**
 	 * Return {@linkplain Vector3d[]} #2.
 	 * 
 	 * @return vector array #2.
 	 */
-	Vector3d[] getVectors2();
+	Vec3[] getVectors2();
 
 	/**
 	 * Return {@linkplain Color4f} #1.
@@ -341,42 +341,42 @@ public interface Ports {
 	 * 
 	 * @return ray trace result #1.
 	 */
-	RayTraceResult getRayTraceResult1();
+	HitResult getRayTraceResult1();
 
 	/**
 	 * Set {@linkplain RayTraceResult} #1.
 	 * 
 	 * @param result ray trace result #1.
 	 */
-	Ports setRayTraceResult1(RayTraceResult result);
+	Ports setRayTraceResult1(HitResult result);
 
 	/**
 	 * Return {@linkplain EffectInstance} #1.
 	 * 
 	 * @return effect instance #1.
 	 */
-	EffectInstance getEffectInstance1();
+	MobEffectInstance getEffectInstance1();
 
 	/**
 	 * Set {@linkplain EffectInstance} #1.
 	 * 
 	 * @param result effect instance #1.
 	 */
-	Ports setEffectInstance1(EffectInstance instance);
+	Ports setEffectInstance1(MobEffectInstance instance);
 
 	/**
 	 * Return world.
 	 * 
 	 * @return world.
 	 */
-	World getWorld();
+	Level getWorld();
 
 	/**
 	 * Set world.
 	 * 
 	 * @param world world object.
 	 */
-	Ports setWorld(World world);
+	Ports setWorld(Level world);
 
 	/**
 	 * Set counter value.
@@ -406,7 +406,7 @@ public interface Ports {
 	 * 
 	 * @return AABB.
 	 */
-	AxisAlignedBB getAabb1();
+	AABB getAabb1();
 
 	/**
 	 * Set AABB #1.
@@ -415,7 +415,7 @@ public interface Ports {
 	 *
 	 * @return ports.
 	 */
-	Ports setAabb1(AxisAlignedBB aabb);
+	Ports setAabb1(AABB aabb);
 
 	/**
 	 * Get damage source #1.

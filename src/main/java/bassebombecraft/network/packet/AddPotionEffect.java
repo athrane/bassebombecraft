@@ -5,11 +5,11 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
@@ -46,7 +46,7 @@ public class AddPotionEffect {
 	 * 
 	 * @param buf packet buffer.
 	 */
-	public AddPotionEffect(PacketBuffer buf) {
+	public AddPotionEffect(FriendlyByteBuf buf) {
 		this.effectId = buf.readInt();
 		this.entityId = buf.readInt();
 		this.duration = buf.readInt();
@@ -59,9 +59,9 @@ public class AddPotionEffect {
 	 * @param entity entity to add the effect to.
 	 * @param effect effect to add to entity.
 	 */
-	public AddPotionEffect(LivingEntity entity, EffectInstance effectInstance) {
-		this.entityId = entity.getEntityId();
-		this.effectId = Effect.getId(effectInstance.getPotion());
+	public AddPotionEffect(LivingEntity entity, MobEffectInstance effectInstance) {
+		this.entityId = entity.getId();
+		this.effectId = MobEffect.getId(effectInstance.getEffect());
 		this.duration = effectInstance.getDuration();
 		this.amplifier = effectInstance.getAmplifier();
 	}
@@ -71,7 +71,7 @@ public class AddPotionEffect {
 	 * 
 	 * @param buf packet buffer.
 	 */
-	public void encode(PacketBuffer buf) {
+	public void encode(FriendlyByteBuf buf) {
 		buf.writeInt(effectId);
 		buf.writeInt(entityId);
 		buf.writeInt(duration);
@@ -98,18 +98,18 @@ public class AddPotionEffect {
 		try {
 			// get client side entity from ID
 			Minecraft mcClient = Minecraft.getInstance();
-			Entity entity = mcClient.world.getEntityByID(entityId);
+			Entity entity = mcClient.level.getEntity(entityId);
 
 			// exit if entity isn't defined
 			if(entity == null) return;
 			
 			// exit if effect isn't defined			
-			Effect effect = Effect.get(effectId);
+			MobEffect effect = MobEffect.byId(effectId);
 			if(effect == null) return;
 
 			// add potion effect			
-			EffectInstance effectInstance = new EffectInstance(effect, duration, amplifier);
-			((LivingEntity) entity).addPotionEffect(effectInstance);
+			MobEffectInstance effectInstance = new MobEffectInstance(effect, duration, amplifier);
+			((LivingEntity) entity).addEffect(effectInstance);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

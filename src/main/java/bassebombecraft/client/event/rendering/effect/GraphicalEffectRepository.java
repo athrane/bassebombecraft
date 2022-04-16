@@ -3,7 +3,7 @@ package bassebombecraft.client.event.rendering.effect;
 import java.util.stream.Stream;
 
 import bassebombecraft.proxy.Proxy;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 
 /**
  * Interface for repository for rendering graphics effects.

@@ -26,8 +26,8 @@ import bassebombecraft.operator.block.RemoveBlock2;
 import bassebombecraft.operator.block.ResetSpiralOnMovement2;
 import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
 import bassebombecraft.operator.counter.SingleLoopIncreasingCounter2;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Remove block spiral idol implementation.
@@ -47,7 +47,7 @@ public class RemoveBlockSpiralIdolInventoryItem extends GenericInventoryItem {
 		int numberSpiralBlocks = (spiralSize * spiralSize);
 
 		// ResetSpiralOnMovement2: get position from living entity #1
-		Function<Ports, BlockPos> fnGetInvokerPos = p -> p.getLivingEntity1().getPosition();
+		Function<Ports, BlockPos> fnGetInvokerPos = p -> p.getLivingEntity1().blockPosition();
 
 		// ResetSpiralOnMovement2: get dynamic spiral center from block position #1
 		Function<Ports, BlockPos> fnGetCenter = getFnGetBlockPosition1();
@@ -62,7 +62,7 @@ public class RemoveBlockSpiralIdolInventoryItem extends GenericInventoryItem {
 		Function<Ports, BlockPos> fnGetSpiralPos = getFnGetBlockPosition2();
 
 		// CalculateSpiralPosition2: get world from ports.
-		Function<Ports, World> fnGetWorld = getFnWorld1();
+		Function<Ports, Level> fnGetWorld = getFnWorld1();
 
 		return new Sequence2(new ResetResult2(),
 				new ResetSpiralOnMovement2(1, fnGetInvokerPos, fnGetCenter, bcSetCenter),

@@ -20,8 +20,8 @@ import bassebombecraft.item.book.GenericCompositeItemsBook;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.Sequence2;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 /**
@@ -93,7 +93,7 @@ public class GenericCompositeItemsBookRenderer {
 				return;
 
 			// get player
-			PlayerEntity player = getClientSidePlayer();
+			Player player = getClientSidePlayer();
 
 			// exit if item in main hand isn't a sub class of GenericRightClickedBook2
 			if (!isItemHeldInMainHandOfTypeGenericCompositeItemsBook(player))
@@ -102,7 +102,7 @@ public class GenericCompositeItemsBookRenderer {
 			// Render active configuration
 			ports.setRenderGameOverlayEvent1(event);
 			ports.setString1(getGuiString());
-			ports.setItemStack1(player.getHeldItemMainhand());
+			ports.setItemStack1(player.getMainHandItem());
 			run(ports, splOp.get());
 
 		} catch (Exception e) {

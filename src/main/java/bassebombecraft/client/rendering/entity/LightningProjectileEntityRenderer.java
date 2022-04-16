@@ -3,8 +3,8 @@ package bassebombecraft.client.rendering.entity;
 import static bassebombecraft.client.rendering.RenderingUtils.createEntityTextureResourceLocation;
 
 import bassebombecraft.entity.projectile.LightningProjectileEntity;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.resources.ResourceLocation;
 
 /**
  * Client side renderer for projectile {@linkplain LightningProjectileEntity}.
@@ -22,12 +22,12 @@ public class LightningProjectileEntityRenderer
 	 * 
 	 * @param renderManager render manager.
 	 */
-	public LightningProjectileEntityRenderer(EntityRendererManager renderManager) {
+	public LightningProjectileEntityRenderer(EntityRenderDispatcher renderManager) {
 		super(renderManager);
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(LightningProjectileEntity entity) {
+	public ResourceLocation getTextureLocation(LightningProjectileEntity entity) {
 		return TEXTURE;
 	}
 

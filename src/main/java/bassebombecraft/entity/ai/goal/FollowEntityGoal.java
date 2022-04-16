@@ -7,16 +7,16 @@ import static bassebombecraft.ModConstants.AI_TARGET_WATCH_DIST;
 import static bassebombecraft.entity.EntityUtils.isMinimumDistanceReached;
 import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
 import static net.minecraft.entity.ai.goal.Goal.Flag.MOVE;
-import static net.minecraft.pathfinding.PathNodeType.WATER;
+import staticnet.minecraft.world.entity.ai.goal.Goal.Flage.WATER;
 
 import java.util.EnumSet;
 
 import bassebombecraft.event.frequency.FrequencyRepository;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.controller.LookController;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.control.LookControl;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 
 /**
  * AI goal for entity, e.g. spawned mob, charmed mob or guardian.
@@ -28,7 +28,7 @@ public class FollowEntityGoal extends Goal {
 	/**
 	 * Goal owner.
 	 */
-	final MobEntity entity;
+	final Mob entity;
 
 	/**
 	 * Entity to follow.
@@ -64,7 +64,7 @@ public class FollowEntityGoal extends Goal {
 	 * @param minDist     minimum distance.
 	 * @param maxDist     maximum distance.
 	 */
-	public FollowEntityGoal(MobEntity entity, LivingEntity leader, double followSpeed, float minDist, float maxDist) {
+	public FollowEntityGoal(Mob entity, LivingEntity leader, double followSpeed, float minDist, float maxDist) {
 		this.entity = entity;
 		this.leaderEntity = leader;
 		this.followSpeed = followSpeed;
@@ -73,11 +73,11 @@ public class FollowEntityGoal extends Goal {
 		minDistanceSqr = minDistance * minDistance;
 
 		// "movement" AI
-		setMutexFlags(EnumSet.of(MOVE, LOOK));
+		setFlags(EnumSet.of(MOVE, LOOK));
 	}
 
 	@Override
-	public boolean shouldExecute() {
+	public boolean canUse() {
 
 		// exit if leader is undefined
 		if (leaderEntity == null)
@@ -96,8 +96,8 @@ public class FollowEntityGoal extends Goal {
 	}
 
 	@Override
-	public void startExecuting() {
-		entity.setPathPriority(WATER, 0.0F);
+	public void start() {
+		entity.setPathfindingMalus(WATER, 0.0F);
 	}
 
 	@Override
@@ -105,9 +105,9 @@ public class FollowEntityGoal extends Goal {
 		try {
 
 			// look at
-			LookController lookController = entity.getLookController();
-			lookController.setLookPositionWithEntity(leaderEntity, AI_TARGET_WATCH_DIST,
-					(float) entity.getVerticalFaceSpeed());
+			LookControl lookController = entity.getLookControl();
+			lookController.setLookAt(leaderEntity, AI_TARGET_WATCH_DIST,
+					(float) entity.getMaxHeadXRot());
 
 			// exit if frequency isn't active
 			FrequencyRepository repository = getProxy().getServerFrequencyRepository();
@@ -115,8 +115,8 @@ public class FollowEntityGoal extends Goal {
 				return;
 
 			// move toward target
-			PathNavigator navigator = entity.getNavigator();
-			navigator.tryMoveToEntityLiving(leaderEntity, followSpeed);
+			PathNavigation navigator = entity.getNavigation();
+			navigator.moveTo(leaderEntity, followSpeed);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
@@ -124,9 +124,9 @@ public class FollowEntityGoal extends Goal {
 	}
 
 	@Override
-	public void resetTask() {
-		PathNavigator navigator = entity.getNavigator();
-		navigator.clearPath();
+	public void stop() {
+		PathNavigation navigator = entity.getNavigation();
+		navigator.stop();
 	}
 
 }

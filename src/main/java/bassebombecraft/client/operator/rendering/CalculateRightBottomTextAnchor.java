@@ -11,11 +11,11 @@ import java.util.function.Function;
 import bassebombecraft.client.operator.ClientPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.client.MainWindow;
+import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.util.math.vector.Vector2f;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.world.phys.Vec2;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 /**
@@ -43,7 +43,7 @@ public class CalculateRightBottomTextAnchor implements Operator2 {
 	/**
 	 * Function to set text anchor.
 	 */
-	BiConsumer<Ports, Vector2f> bcSetPos;
+	BiConsumer<Ports, Vec2> bcSetPos;
 
 	/**
 	 * Constructor.
@@ -79,7 +79,7 @@ public class CalculateRightBottomTextAnchor implements Operator2 {
 	 * @param bcSetPos    function to set calculated text anchor.
 	 */
 	public CalculateRightBottomTextAnchor(Function<Ports, String> fnGetString,
-			Function<ClientPorts, RenderGameOverlayEvent> fnGetEvent, BiConsumer<Ports, Vector2f> bcSetPos) {
+			Function<ClientPorts, RenderGameOverlayEvent> fnGetEvent, BiConsumer<Ports, Vec2> bcSetPos) {
 		this.fnGetString = fnGetString;
 		this.fnGetEvent = fnGetEvent;
 		this.bcSetPos = bcSetPos;
@@ -91,19 +91,19 @@ public class CalculateRightBottomTextAnchor implements Operator2 {
 		String message = applyV(fnGetString, ports);
 
 		// Get window resolution
-		MainWindow mainWindow = event.getWindow();
-		int height = mainWindow.getScaledHeight();
-		int width = mainWindow.getScaledWidth();
+		Window mainWindow = event.getWindow();
+		int height = mainWindow.getGuiScaledHeight();
+		int width = mainWindow.getGuiScaledWidth();
 
 		// get rendering engine
 		Minecraft mcClient = Minecraft.getInstance();
-		EntityRendererManager renderManager = mcClient.getRenderManager();
-		FontRenderer fontRenderer = renderManager.getFontRenderer();
+		EntityRenderDispatcher renderManager = mcClient.getEntityRenderDispatcher();
+		Font fontRenderer = renderManager.getFont();
 
 		// get text length
-		int textWidth = fontRenderer.getStringWidth(message);
+		int textWidth = fontRenderer.width(message);
 
-		bcSetPos.accept(ports, new Vector2f(width - textWidth, height));
+		bcSetPos.accept(ports, new Vec2(width - textWidth, height));
 	}
 
 }

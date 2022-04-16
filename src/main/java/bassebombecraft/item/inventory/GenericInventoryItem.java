@@ -21,20 +21,20 @@ import bassebombecraft.item.action.inventory.InventoryItemActionStrategy;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.CooldownTracker;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemCooldowns;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -84,7 +84,7 @@ public class GenericInventoryItem extends Item {
 	 * @param strategy inventory item strategy.
 	 */
 	public GenericInventoryItem(InventoryItemConfig config, InventoryItemActionStrategy strategy) {
-		super(new Item.Properties().group(getItemGroup()));
+		super(new Item.Properties().tab(getItemGroup()));
 		this.strategy = strategy;
 		coolDown = config.cooldown.get();
 		tooltip = config.tooltip.get();
@@ -95,7 +95,7 @@ public class GenericInventoryItem extends Item {
 	}
 
 	@Override
-	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 
 		// only apply the action at server side since we updates the world
 		if (isLogicalClient(worldIn))
@@ -108,7 +108,7 @@ public class GenericInventoryItem extends Item {
 		// determine if item is held by player and should activate from off hand
 		boolean shouldActivateFromOffHand = false;
 		if (isTypePlayerEntity(entityIn)) {
-			PlayerEntity player = (PlayerEntity) entityIn;
+			Player player = (Player) entityIn;
 			shouldActivateFromOffHand = isItemHeldInOffHand(player, stack);
 		}
 
@@ -135,15 +135,15 @@ public class GenericInventoryItem extends Item {
 			return;
 
 		// type cast as player
-		PlayerEntity player = (PlayerEntity) entityIn;
+		Player player = (Player) entityIn;
 
 		// exit if cooldown is effect
-		if (player.getCooldownTracker().hasCooldown(this))
+		if (player.getCooldowns().isOnCooldown(this))
 			return;
 
 		// add cooldown
-		CooldownTracker tracker = player.getCooldownTracker();
-		tracker.setCooldown(this, coolDown);
+		ItemCooldowns tracker = player.getCooldowns();
+		tracker.addCooldown(this, coolDown);
 
 		// post analytics
 		getProxy().postItemUsage(this.getRegistryName().toString(), player.getGameProfile().getName());
@@ -173,13 +173,13 @@ public class GenericInventoryItem extends Item {
 	 * @param world          world object
 	 * @param invokingEntity entity object
 	 */
-	void applyEffect(World world, LivingEntity invokingEntity) {
+	void applyEffect(Level world, LivingEntity invokingEntity) {
 
 		// get entities within AABB
-		AxisAlignedBB aabb = new AxisAlignedBB(invokingEntity.getPosX() - range, invokingEntity.getPosY() - range,
-				invokingEntity.getPosZ() - range, invokingEntity.getPosX() + range, invokingEntity.getPosY() + range,
-				invokingEntity.getPosZ() + range);
-		List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class, aabb);
+		AABB aabb = new AABB(invokingEntity.getX() - range, invokingEntity.getY() - range,
+				invokingEntity.getZ() - range, invokingEntity.getX() + range, invokingEntity.getY() + range,
+				invokingEntity.getZ() + range);
+		List<LivingEntity> entities = world.getEntitiesOfClass(LivingEntity.class, aabb);
 
 		for (LivingEntity foundEntity : entities) {
 
@@ -189,7 +189,7 @@ public class GenericInventoryItem extends Item {
 			// apply and render effect
 			if (strategy.shouldApplyEffect(foundEntity, isInvoker)) {
 				strategy.applyEffect(foundEntity, world, invokingEntity);
-				addParticles(foundEntity.getPositionVec());
+				addParticles(foundEntity.position());
 			}
 		}
 	}
@@ -199,7 +199,7 @@ public class GenericInventoryItem extends Item {
 	 * 
 	 * @param position effect position.
 	 */
-	void addParticles(Vector3d position) {
+	void addParticles(Vec3 position) {
 		BlockPos pos = new BlockPos(position);
 		addParticlesPorts.setBlockPosition1(pos);
 		run(addParticlesPorts, addParticlesOp);
@@ -207,9 +207,9 @@ public class GenericInventoryItem extends Item {
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
-			ITooltipFlag flagIn) {
-		ITextComponent text = new TranslationTextComponent(TextFormatting.GREEN + this.tooltip);
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip,
+			TooltipFlag flagIn) {
+		Component text = new TranslatableComponent(ChatFormatting.GREEN + this.tooltip);
 		tooltip.add(text);
 	}
 

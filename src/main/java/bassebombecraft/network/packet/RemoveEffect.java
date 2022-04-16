@@ -5,10 +5,10 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import java.util.function.Supplier;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.potion.Effect;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
@@ -35,7 +35,7 @@ public class RemoveEffect {
 	 * 
 	 * @param buf packet buffer.
 	 */
-	public RemoveEffect(PacketBuffer buf) {
+	public RemoveEffect(FriendlyByteBuf buf) {
 		this.effectId = buf.readInt();
 		this.entityId = buf.readInt();
 	}
@@ -46,9 +46,9 @@ public class RemoveEffect {
 	 * @param entity entity to remove the effect from.
 	 * @param effect effect to remove from entity.
 	 */
-	public RemoveEffect(LivingEntity entity, Effect effect) {
-		this.entityId = entity.getEntityId();
-		this.effectId = Effect.getId(effect);
+	public RemoveEffect(LivingEntity entity, MobEffect effect) {
+		this.entityId = entity.getId();
+		this.effectId = MobEffect.getId(effect);
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class RemoveEffect {
 	 * 
 	 * @param buf packet buffer.
 	 */
-	public void encode(PacketBuffer buf) {
+	public void encode(FriendlyByteBuf buf) {
 		buf.writeInt(effectId);
 		buf.writeInt(entityId);
 	}
@@ -82,17 +82,17 @@ public class RemoveEffect {
 
 			// get client side entity from ID
 			Minecraft mcClient = Minecraft.getInstance();
-			Entity entity = mcClient.world.getEntityByID(entityId);
+			Entity entity = mcClient.level.getEntity(entityId);
 
 			// exit if entity isn't defined
 			if(entity == null) return;
 
 			// exit if effect isn't defined
-			Effect effect = Effect.get(effectId);			
+			MobEffect effect = MobEffect.byId(effectId);			
 			if(effect == null) return;
 						
 			// remove potion effect
-			((LivingEntity) entity).removePotionEffect(effect);
+			((LivingEntity) entity).removeEffect(effect);
 			
 			
 		} catch (Exception e) {

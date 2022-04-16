@@ -7,9 +7,9 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.damagesource.DamageSource;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which reflects "mob"
@@ -55,14 +55,14 @@ public class ReflectMobDamageAmplified2 implements Operator2 {
 		float damageAmount = applyV(fnGetAmount, ports);
 
 		// exit if damage isn't mob damage
-		if (!source.getDamageType().equalsIgnoreCase(MOB_DAMAGE))
+		if (!source.getMsgId().equalsIgnoreCase(MOB_DAMAGE))
 			return;
 
 		// apply damage to source
-		Entity srcEntity = source.getTrueSource();
+		Entity srcEntity = source.getEntity();
 		float finalAmount = damageAmount * amplifier;
-		DamageSource newSource = DamageSource.causeMobDamage((LivingEntity) srcEntity);
-		srcEntity.attackEntityFrom(newSource, finalAmount);
+		DamageSource newSource = DamageSource.mobAttack((LivingEntity) srcEntity);
+		srcEntity.hurt(newSource, finalAmount);
 	}
 
 }

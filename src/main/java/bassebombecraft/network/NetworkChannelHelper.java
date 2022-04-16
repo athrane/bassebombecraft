@@ -13,12 +13,12 @@ import bassebombecraft.network.packet.AddPotionEffect;
 import bassebombecraft.network.packet.RemoveEffect;
 import bassebombecraft.network.packet.RemoveParticleRendering;
 import bassebombecraft.proxy.Proxy;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 
@@ -79,7 +79,7 @@ public class NetworkChannelHelper {
 	 * @param entity entity to add the effect to.
 	 * @param effect effect to add to entity.
 	 */
-	public void sendAddPotionEffectPacket(LivingEntity entity, EffectInstance effectInstance) {
+	public void sendAddPotionEffectPacket(LivingEntity entity, MobEffectInstance effectInstance) {
 		try {
 			channel.send(PacketDistributor.ALL.noArg(), new AddPotionEffect(entity, effectInstance));
 		} catch (Exception e) {
@@ -93,7 +93,7 @@ public class NetworkChannelHelper {
 	 * @param entity entity to remove effect from.
 	 * @param effect effect to remove from entity.
 	 */
-	public void sendRemoveEffectPacket(LivingEntity entity, Effect effect) {
+	public void sendRemoveEffectPacket(LivingEntity entity, MobEffect effect) {
 		try {
 			channel.send(PacketDistributor.ALL.noArg(), new RemoveEffect(entity, effect));
 		} catch (Exception e) {
@@ -135,7 +135,7 @@ public class NetworkChannelHelper {
 	 * 
 	 * @param entity charmed mob.
 	 */
-	public void sendAddCharmPacket(MobEntity entity) {
+	public void sendAddCharmPacket(Mob entity) {
 		try {
 			channel.send(PacketDistributor.ALL.noArg(), new AddCharm(entity));
 		} catch (Exception e) {

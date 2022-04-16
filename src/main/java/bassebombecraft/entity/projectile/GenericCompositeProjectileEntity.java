@@ -14,8 +14,8 @@ import static bassebombecraft.util.function.Predicates.hasDifferentIds;
 import static bassebombecraft.util.function.Predicates.isntProjectileShooter;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static bassebombecraft.world.WorldUtils.isLogicalServer;
-import static net.minecraft.entity.projectile.ProjectileHelper.func_234618_a_;
-import static net.minecraftforge.event.ForgeEventFactory.onProjectileImpact;
+import static net.minecraft.entity.projectile.ProjectileHelper.getHitResult;
+import staticnet.minecraft.world.entity.projectile.ProjectileUtilojectileImpact;
 
 import java.util.Set;
 import java.util.function.Consumer;
@@ -46,20 +46,20 @@ import bassebombecraft.operator.projectile.path.RandomProjectilePath;
 import bassebombecraft.operator.projectile.path.SineProjectilePath;
 import bassebombecraft.operator.projectile.path.TeleportProjectilePath;
 import bassebombecraft.operator.projectile.path.ZigZagProjectilePath;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.network.IPacket;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -69,7 +69,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
  * 
  * This is a super class for actual projectile implementations.
  */
-public class GenericCompositeProjectileEntity extends ProjectileEntity {
+public class GenericCompositeProjectileEntity extends Projectile {
 
 	/**
 	 * Entity identifier.
@@ -134,10 +134,10 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 		Function<Ports, Entity> fnGetSource = DefaultPorts.getFnGetEntity1();
 
 		// FindEntities2: get source position from source entity
-		Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(fnGetSource, p).getPosition();
+		Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(fnGetSource, p).blockPosition();
 
 		// FindEntities2: get world from source entity
-		Function<Ports, World> fnGetWorld = p -> applyV(fnGetSource, p).getEntityWorld();
+		Function<Ports, Level> fnGetWorld = p -> applyV(fnGetSource, p).getCommandSenderWorld();
 
 		// FindEntities2: get function to create exclusion predicate using the source
 		// entity
@@ -217,7 +217,7 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 * @param world  world object.
 	 * @param config projectile entity configuration.
 	 */
-	public GenericCompositeProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, World world,
+	public GenericCompositeProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type, Level world,
 			ProjectileEntityConfig config) {
 		super(type, world);
 		projectileConfig = config;
@@ -237,9 +237,9 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 */
 	public GenericCompositeProjectileEntity(EntityType<? extends GenericCompositeProjectileEntity> type,
 			LivingEntity shooter, ProjectileEntityConfig config) {
-		this(type, shooter.getEntityWorld(), config);
-		this.setPosition(shooter.getPosX(), shooter.getPosYEye() - 0.1, shooter.getPosZ());
-		this.setShooter(shooter);
+		this(type, shooter.getCommandSenderWorld(), config);
+		this.setPos(shooter.getX(), shooter.getEyeY() - 0.1, shooter.getZ());
+		this.setOwner(shooter);
 	}
 
 	/**
@@ -250,15 +250,15 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 * 
 	 * @param orientation orientation vector for direction of projectile.
 	 */
-	public void shootUsingProjectileConfig(Vector3d orientation) {
+	public void shootUsingProjectileConfig(Vec3 orientation) {
 
 		// shoot
-		Entity shooter = getShooter();
-		setPosition(shooter.getPosX(), shooter.getPosY() + shooter.getEyeHeight(), shooter.getPosZ());
+		Entity shooter = getOwner();
+		setPos(shooter.getX(), shooter.getY() + shooter.getEyeHeight(), shooter.getZ());
 		double force = projectileConfig.force.get();
 		double inaccuracy = projectileConfig.inaccuracy.get();
 		double velocity = force * orientation.length();
-		shoot(orientation.getX(), orientation.getY(), orientation.getZ(), (float) velocity, (float) inaccuracy);
+		shoot(orientation.x(), orientation.y(), orientation.z(), (float) velocity, (float) inaccuracy);
 
 		// add trail effect at clients
 		addTrailGraphicalEffect();
@@ -271,27 +271,27 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 
 		// get repository
 		DurationRepository repository = null;
-		if (isLogicalServer(world))
+		if (isLogicalServer(level))
 			repository = getProxy().getServerDurationRepository();
 		else
 			repository = getProxy().getClientDurationRepository();
 
 		// add duration
-		repository.add(getUniqueID().toString(), duration, cRemovalCallback);
+		repository.add(getUUID().toString(), duration, cRemovalCallback);
 	}
 
 	/**
 	 * Updates the entity motion client side, called by packets from the server
 	 */
 	@OnlyIn(Dist.CLIENT)
-	public void setVelocity(double x, double y, double z) {
-		this.setMotion(x, y, z);
-		if (this.prevRotationPitch == 0.0F && this.prevRotationYaw == 0.0F) {
-			float f = MathHelper.sqrt(x * x + z * z);
-			this.rotationYaw = (float) (MathHelper.atan2(x, z) * (double) (180F / (float) Math.PI));
-			this.rotationPitch = (float) (MathHelper.atan2(y, (double) f) * (double) (180F / (float) Math.PI));
-			this.prevRotationYaw = this.rotationYaw;
-			this.prevRotationPitch = this.rotationPitch;
+	public void lerpMotion(double x, double y, double z) {
+		this.setDeltaMovement(x, y, z);
+		if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
+			float f = Mth.sqrt(x * x + z * z);
+			this.yRot = (float) (Mth.atan2(x, z) * (double) (180F / (float) Math.PI));
+			this.xRot = (float) (Mth.atan2(y, (double) f) * (double) (180F / (float) Math.PI));
+			this.yRotO = this.yRot;
+			this.xRotO = this.xRot;
 		}
 	}
 
@@ -302,13 +302,13 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 		try {
 
 			// exit if on client side
-			if (!isLogicalClient(getEntityWorld())) {
+			if (!isLogicalClient(getCommandSenderWorld())) {
 
 				// calculate collision with block or entity
-				RayTraceResult result = calculateCollision();
+				HitResult result = calculateCollision();
 
 				// if hit then process collision
-				if (result.getType() != RayTraceResult.Type.MISS)
+				if (result.getType() != HitResult.Type.MISS)
 					handleImpact(result);
 
 				// process projectile modifiers
@@ -335,10 +335,10 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 * 
 	 * @param result ray trace result with collision information.
 	 */
-	void handleImpact(RayTraceResult result) {
+	void handleImpact(HitResult result) {
 
 		// exit if on client side
-		if (isLogicalClient(getEntityWorld()))
+		if (isLogicalClient(getCommandSenderWorld()))
 			return;
 
 		// post forge impact event
@@ -349,20 +349,20 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 			return;
 
 		// process hit entity
-		if (result.getType() == RayTraceResult.Type.ENTITY) {
+		if (result.getType() == HitResult.Type.ENTITY) {
 
 			// get hit entity
-			Entity target = ((EntityRayTraceResult) result).getEntity();
+			Entity target = ((EntityHitResult) result).getEntity();
 
 			// add damage
 			addEntityDamage(target);
 		}
 
 		// process hit block
-		if (result.getType() == RayTraceResult.Type.BLOCK) {
+		if (result.getType() == HitResult.Type.BLOCK) {
 
 			// get hit block
-			BlockPos pos = ((BlockRayTraceResult) result).getPos();
+			BlockPos pos = ((BlockHitResult) result).getBlockPos();
 		}
 
 		// Digging is handled by ProjectileModifierEventHandler. Which cancels the
@@ -378,12 +378,12 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	void addEntityDamage(Entity target) {
 
 		// TODO: should invoker be immune to projectile hits?
-		if (target.getUniqueID().equals(this.getUniqueID()))
+		if (target.getUUID().equals(this.getUUID()))
 			return;
 
 		double amount = projectileConfig.damage.get();
-		DamageSource source = DamageSource.causeIndirectMagicDamage(this, getShooter());
-		target.attackEntityFrom(source, (float) amount);
+		DamageSource source = DamageSource.indirectMagic(this, getOwner());
+		target.hurt(source, (float) amount);
 	}
 
 	/**
@@ -393,14 +393,14 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 * 
 	 * @return ray trace result with block or entity collision.
 	 */
-	RayTraceResult calculateCollision() {
+	HitResult calculateCollision() {
 
 		// define filter
-		Predicate<Entity> filter = entity -> !entity.isSpectator() && entity.canBeCollidedWith()
-				&& entity != getShooter();
+		Predicate<Entity> filter = entity -> !entity.isSpectator() && entity.isPickable()
+				&& entity != getOwner();
 
 		// ray trace for collision
-		return func_234618_a_(this, filter);
+		return getHitResult(this, filter);
 	}
 
 	/**
@@ -555,7 +555,7 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 */
 	void electrocute() {
 		projectileModifierPorts.setEntity1(this);
-		projectileModifierPorts.setEntity2(getShooter());
+		projectileModifierPorts.setEntity2(getOwner());
 		run(projectileModifierPorts, ELECTROCUTE_OPERATOR);
 	}
 
@@ -564,7 +564,7 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 */
 	void wildfire() {
 		projectileModifierPorts.setEntity1(this);
-		projectileModifierPorts.setEntity2(getShooter());
+		projectileModifierPorts.setEntity2(getOwner());
 		run(projectileModifierPorts, WILDFIRE_OPERATOR);
 	}
 
@@ -573,7 +573,7 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 */
 	void contagion() {
 		projectileModifierPorts.setEntity1(this);
-		projectileModifierPorts.setEntity2(getShooter());
+		projectileModifierPorts.setEntity2(getOwner());
 		run(projectileModifierPorts, CONTAGION_OPERATOR);
 	}
 	
@@ -581,28 +581,28 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 * Update motion and position of the projectile.
 	 */
 	void updateMotionAndPosition() {
-		Vector3d motionVec = this.getMotion();
-		Vector3d positionVec = this.getPositionVec();
+		Vec3 motionVec = this.getDeltaMovement();
+		Vec3 positionVec = this.position();
 
 		// calculate motion drag
 		// TODO: Add as property
 		float motionScale = this.isInWater() ? getWaterDrag() : getAirDrag();
 
 		// calculate motion and position
-		Vector3d nextMotionVec = motionVec.scale(motionScale);
-		Vector3d nextPositionVec = motionVec.add(positionVec);
-		this.setMotion(nextMotionVec.getX(), nextMotionVec.getY() - getGravity(), nextMotionVec.getZ());
-		this.setPosition(nextPositionVec.getX(), nextPositionVec.getY(), nextPositionVec.getZ());
+		Vec3 nextMotionVec = motionVec.scale(motionScale);
+		Vec3 nextPositionVec = motionVec.add(positionVec);
+		this.setDeltaMovement(nextMotionVec.x(), nextMotionVec.y() - getGravity(), nextMotionVec.z());
+		this.setPos(nextPositionVec.x(), nextPositionVec.y(), nextPositionVec.z());
 	}
 
 	@Override
-	protected void registerData() {
+	protected void defineSynchedData() {
 		// NO-OP
 		// TODO: investigate this method, see implementation in ProjectileItemEntity
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public Packet<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 
@@ -634,7 +634,7 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	 * Add particle rendering on update tick.
 	 */
 	void addRendering() {
-		renderingPorts.setBlockPosition1(getPosition());
+		renderingPorts.setBlockPosition1(blockPosition());
 		run(renderingPorts, renderingOp);
 	}
 
@@ -644,7 +644,7 @@ public class GenericCompositeProjectileEntity extends ProjectileEntity {
 	void addTrailGraphicalEffect() {
 		renderingPorts.setDouble1((double) duration);
 		renderingPorts.setEntity1(this);
-		renderingPorts.setEntity2(getShooter());
+		renderingPorts.setEntity2(getOwner());
 		run(renderingPorts, RENDERING_TRAIL_OP);
 	}
 

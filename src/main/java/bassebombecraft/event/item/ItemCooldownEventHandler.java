@@ -4,11 +4,11 @@ import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 
 import bassebombecraft.item.ItemUtils;
 import bassebombecraft.item.inventory.GenericInventoryItem;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.CooldownTracker;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemCooldowns;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -45,16 +45,16 @@ public class ItemCooldownEventHandler {
 			return;
 
 		// type cast as player
-		PlayerEntity player = (PlayerEntity) entity;
+		Player player = (Player) entity;
 
 		// reset cooldown
 		// exit if cooldown is effect
-		if (player.getCooldownTracker().hasCooldown(item))
+		if (player.getCooldowns().isOnCooldown(item))
 			return;
 
 		// add cooldown
-		CooldownTracker tracker = player.getCooldownTracker();
-		tracker.setCooldown(item, inventoryItem.getCoolDown());
+		ItemCooldowns tracker = player.getCooldowns();
+		tracker.addCooldown(item, inventoryItem.getCoolDown());
 
 	}
 

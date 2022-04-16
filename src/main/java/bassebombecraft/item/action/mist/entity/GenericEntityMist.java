@@ -16,13 +16,13 @@ import bassebombecraft.geom.GeometryUtils;
 import bassebombecraft.item.action.RightClickedItemAction;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain RightClickedItemAction} which creates a
@@ -57,7 +57,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 	/**
 	 * Mist position.
 	 */
-	Vector3d mistPos;
+	Vec3 mistPos;
 
 	/*
 	 * Invoking entity.
@@ -67,7 +67,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 	/**
 	 * Invoking entity look unit vector.
 	 */
-	Vector3d entityLook;
+	Vec3 entityLook;
 
 	/**
 	 * Defines whether behaviour is active.
@@ -110,7 +110,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 	}
 
 	@Override
-	public void onRightClick(World world, LivingEntity entity) {
+	public void onRightClick(Level world, LivingEntity entity) {
 		this.entity = entity;
 		isActive = true;
 		ticksCounter = 0;
@@ -123,13 +123,13 @@ public class GenericEntityMist implements RightClickedItemAction {
 	 * @param world          world object
 	 * @param invokingEntity entity object
 	 */
-	void applyEffect(World world, LivingEntity invokingEntity) {
+	void applyEffect(Level world, LivingEntity invokingEntity) {
 		int aoeRange = strategy.getEffectRange();
 
 		// get entities within AABB
-		AxisAlignedBB aabb = new AxisAlignedBB(mistPos.x - aoeRange, mistPos.y - aoeRange, mistPos.z - aoeRange,
+		AABB aabb = new AABB(mistPos.x - aoeRange, mistPos.y - aoeRange, mistPos.z - aoeRange,
 				mistPos.x + aoeRange, mistPos.y + aoeRange, mistPos.z + aoeRange);
-		List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class, aabb);
+		List<LivingEntity> entities = world.getEntitiesOfClass(LivingEntity.class, aabb);
 
 		for (LivingEntity foundEntity : entities) {
 
@@ -151,7 +151,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void onUpdate(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		try {
 
 			// exit if mist isn't active
@@ -198,11 +198,11 @@ public class GenericEntityMist implements RightClickedItemAction {
 	 * @param entity entity object
 	 */
 
-	void calculateMistPostition(World world, LivingEntity entity) {
-		entityLook = entity.getLook(1);
-		Vector3d entityLookX4 = new Vector3d(entityLook.x * INVOCATION_DIST, entityLook.y * INVOCATION_DIST,
+	void calculateMistPostition(Level world, LivingEntity entity) {
+		entityLook = entity.getViewVector(1);
+		Vec3 entityLookX4 = new Vec3(entityLook.x * INVOCATION_DIST, entityLook.y * INVOCATION_DIST,
 				entityLook.z * INVOCATION_DIST);
-		Vector3d entityPos = new Vector3d(entity.getPosX(), entity.getPosY(), entity.getPosZ());
+		Vec3 entityPos = new Vec3(entity.getX(), entity.getY(), entity.getZ());
 		double x = entityLookX4.x;
 		float y = entity.getEyeHeight();
 		double z = entityLookX4.z;
@@ -234,7 +234,7 @@ public class GenericEntityMist implements RightClickedItemAction {
 			BlockPos spiralCoord = spiralCoordinates.get(spiralCounter);
 
 			// calculate ground coordinates
-			BlockPos pos2 = pos.add(spiralCoord.getX(), 0, spiralCoord.getZ());
+			BlockPos pos2 = pos.offset(spiralCoord.getX(), 0, spiralCoord.getZ());
 
 			// send particle rendering info to client
 			particle = getInstance(pos, strategy.getRenderingInfos());

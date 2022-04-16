@@ -46,7 +46,7 @@ import com.google.gson.Gson;
 
 import bassebombecraft.config.http.HttpCallback;
 import bassebombecraft.config.http.HttpRequestHandler;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.versions.forge.ForgeVersion;
 import net.minecraftforge.versions.mcp.MCPVersion;
@@ -509,7 +509,7 @@ public class VersionUtils {
 
 		// get Minecraft version
 		Optional<MinecraftServer> optServer = getBassebombeCraft().getServer();
-		String mcVersion = optServer.map(s -> s.getMinecraftVersion()).orElse("N/A");
+		String mcVersion = optServer.map(s -> s.getServerVersion()).orElse("N/A");
 
 		// get Forge version
 		String forgeVersion = ForgeVersion.getVersion();
@@ -550,7 +550,7 @@ public class VersionUtils {
 	 * @param player player to send version info to.
 	 * 
 	 */
-	public static void validateVersion(PlayerEntity player) {
+	public static void validateVersion(Player player) {
 		Logger logger = getBassebombeCraft().getLogger();
 		Gson gson = new Gson();
 

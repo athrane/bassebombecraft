@@ -9,8 +9,8 @@ import java.util.function.Function;
 import bassebombecraft.item.action.mist.block.BlockMistActionStrategy;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which applies effect
@@ -31,7 +31,7 @@ public class ApplyEffectFromMistStrategy2 implements Operator2 {
 	/**
 	 * Function to get world from ports.
 	 */
-	Function<Ports, World> fnGetWorld;
+	Function<Ports, Level> fnGetWorld;
 
 	/**
 	 * Constructor.
@@ -41,7 +41,7 @@ public class ApplyEffectFromMistStrategy2 implements Operator2 {
 	 * @param fnGetWorld function to get world.
 	 */
 	public ApplyEffectFromMistStrategy2(BlockMistActionStrategy strategy, Function<Ports, BlockPos> fnBlockPos,
-			Function<Ports, World> fnGetWorld) {
+			Function<Ports, Level> fnGetWorld) {
 		this.strategy = strategy;
 		this.fnBlockPos = fnBlockPos;
 		this.fnGetWorld = fnGetWorld;
@@ -64,7 +64,7 @@ public class ApplyEffectFromMistStrategy2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		BlockPos pos = applyV(fnBlockPos, ports);
-		World world = applyV(fnGetWorld, ports);
+		Level world = applyV(fnGetWorld, ports);
 
 		// apply effect
 		strategy.applyEffectToBlock(pos, world);

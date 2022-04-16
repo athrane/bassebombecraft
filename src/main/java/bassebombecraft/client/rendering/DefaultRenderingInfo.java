@@ -3,9 +3,9 @@ package bassebombecraft.client.rendering;
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.HitResult;
 
 /**
  * Implementation of the {@linkplain RenderingInfo} interface.
@@ -35,18 +35,18 @@ public class DefaultRenderingInfo implements RenderingInfo {
 	/**
 	 * Ray tracing result. Can be null.
 	 */
-	RayTraceResult result;
+	HitResult result;
 
 	public DefaultRenderingInfo(float partialTicks) {
 		this.partialTicks = partialTicks;
 		Minecraft mcClient = Minecraft.getInstance();
-		Entity rve = mcClient.getRenderViewEntity();
-		rveModifiedX = rve.lastTickPosX + ((rve.getPosX() - rve.lastTickPosX) * partialTicks);
-		rveModifiedY = rve.lastTickPosY + ((rve.getPosY() - rve.lastTickPosY) * partialTicks);
-		rveModifiedZ = rve.lastTickPosZ + ((rve.getPosZ() - rve.lastTickPosZ) * partialTicks);
+		Entity rve = mcClient.getCameraEntity();
+		rveModifiedX = rve.xOld + ((rve.getX() - rve.xOld) * partialTicks);
+		rveModifiedY = rve.yOld + ((rve.getY() - rve.yOld) * partialTicks);
+		rveModifiedZ = rve.zOld + ((rve.getZ() - rve.zOld) * partialTicks);
 	}
 
-	public DefaultRenderingInfo(float partialTicks, RayTraceResult result) {
+	public DefaultRenderingInfo(float partialTicks, HitResult result) {
 		this(partialTicks);
 		this.result = result;
 	}
@@ -63,7 +63,7 @@ public class DefaultRenderingInfo implements RenderingInfo {
 
 	@Override
 	public double getRveTranslatedViewYOffsetWithPlayerEyeHeight() {
-		PlayerEntity player = getClientSidePlayer();
+		Player player = getClientSidePlayer();
 		return getRveTranslatedViewY() - player.getEyeHeight();
 	}
 
@@ -78,7 +78,7 @@ public class DefaultRenderingInfo implements RenderingInfo {
 	}
 
 	@Override
-	public RayTraceResult getResult() {
+	public HitResult getResult() {
 		return result;
 	}
 
@@ -106,7 +106,7 @@ public class DefaultRenderingInfo implements RenderingInfo {
 	 * 
 	 * @return rendering info.
 	 */
-	public static RenderingInfo getInstance(float partialTicks, RayTraceResult result) {
+	public static RenderingInfo getInstance(float partialTicks, HitResult result) {
 		return new DefaultRenderingInfo(partialTicks, result);
 	}
 

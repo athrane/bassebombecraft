@@ -15,18 +15,37 @@ import static bassebombecraft.player.PlayerDirection.West;
 import static bassebombecraft.player.PlayerUtils.getPlayerDirection;
 import static net.minecraft.block.Blocks.ALLIUM;
 import static net.minecraft.block.Blocks.AZURE_BLUET;
-import static net.minecraft.block.Blocks.BLUE_ORCHID;
+import staticnet.minecraft.world.level.block.Blockss.BLUE_ORCHID;
 import static net.minecraft.block.Blocks.CORNFLOWER;
-import static net.minecraft.block.Blocks.DANDELION;
+import staticnet.minecraft.world.level.block.Blockss.DANDELION;
 import static net.minecraft.block.Blocks.LILY_OF_THE_VALLEY;
-import static net.minecraft.block.Blocks.ORANGE_TULIP;
+import staticnet.minecraft.world.level.block.Blockss.ORANGE_TULIP;
 import static net.minecraft.block.Blocks.OXEYE_DAISY;
-import static net.minecraft.block.Blocks.PINK_TULIP;
+import staticnet.minecraft.world.level.block.Blockss.PINK_TULIP;
 import static net.minecraft.block.Blocks.POPPY;
-import static net.minecraft.block.Blocks.RED_TULIP;
+import staticnet.minecraft.world.level.block.Blockss.RED_TULIP;
 import static net.minecraft.block.Blocks.WHITE_TULIP;
 
+import javanimport bassebombecraft.structure.Structure;
 import java.awt.geom.AffineTransform;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.Vec3;
+
+et.minecraft.world.level.block.Blocks
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -76,7 +95,7 @@ public class GeometryUtils {
 	 * @param destCollection destination collection where
 	 *                       {@linkplain BlockDirective} is added to.
 	 */
-	public static void captureBlockDirectives(Stream<BlockPos> blocks, World world,
+	public static void captureBlockDirectives(Stream<BlockPos> blocks, Level world,
 			Collection<BlockDirective> destCollection) {
 		blocks.map(p -> getInstance(p, getBlockFromPosition(p, world), getBlockStateFromPosition(p, world),
 				DONT_HARVEST, world)).forEach(destCollection::add);
@@ -98,7 +117,7 @@ public class GeometryUtils {
 	 * @return result list of calculated {@linkplain BlockDirective}.
 	 */
 	public static List<BlockDirective> calculateBlockDirectives(Stream<BlockPos> blocks, Block block,
-			BlockState blockState, boolean harvest, PlayerEntity player) {
+			BlockState blockState, boolean harvest, Player player) {
 		return blocks.map(p -> getInstance(p, block, blockState, harvest, player)).collect(Collectors.toList());
 	}
 
@@ -118,7 +137,7 @@ public class GeometryUtils {
 	 * @return result list of calculated {@linkplain BlockDirective}.
 	 */
 	public static List<BlockDirective> calculateBlockDirectives(Stream<BlockPos> blocks, Block block,
-			BlockState blockState, boolean harvest, World world) {
+			BlockState blockState, boolean harvest, Level world) {
 		return blocks.map(p -> getInstance(p, block, blockState, harvest, world)).collect(Collectors.toList());
 	}
 
@@ -183,14 +202,14 @@ public class GeometryUtils {
 	 * 
 	 * @return vector rotated around the Y-axis at origin.
 	 */
-	public static Vector3d rotateUnitVectorAroundYAxisAtOrigin(double angle, Vector3d vector) {
+	public static Vec3 rotateUnitVectorAroundYAxisAtOrigin(double angle, Vec3 vector) {
 		double originX = 0;
 		double originZ = 0;
 		AffineTransform transform = AffineTransform.getRotateInstance(Math.toRadians(angle), originX, originZ);
 
 		double[] rotationPoint = { vector.x, vector.z };
 		transform.transform(rotationPoint, 0, rotationPoint, 0, 1);
-		return new Vector3d(rotationPoint[0], vector.y, rotationPoint[1]);
+		return new Vec3(rotationPoint[0], vector.y, rotationPoint[1]);
 	}
 
 	/**
@@ -214,7 +233,7 @@ public class GeometryUtils {
 	 * @return list of block directive (e.g. coordinates) for the blocks in the
 	 *         structure.
 	 */
-	private static List<BlockDirective> calculateBlockDirectivesFromChildStructure(BlockPos offset, PlayerEntity player,
+	private static List<BlockDirective> calculateBlockDirectivesFromChildStructure(BlockPos offset, Player player,
 			Structure structure, boolean harvest) {
 
 		// exit if structure is a composite
@@ -222,12 +241,12 @@ public class GeometryUtils {
 			return new ArrayList<BlockDirective>();
 
 		// calculate block positions
-		BlockPos from = offset.add(structure.getOffsetX(), structure.getOffsetY(), structure.getOffsetZ());
+		BlockPos from = offset.offset(structure.getOffsetX(), structure.getOffsetY(), structure.getOffsetZ());
 		int xTo = structure.getSizeX() - 1;
 		int yTo = structure.getSizeY() - 1;
 		int zTo = structure.getSizeZ() - 1;
-		BlockPos to = from.add(xTo, yTo, zTo);
-		Stream<BlockPos> blocks = BlockPos.getAllInBox(from, to);
+		BlockPos to = from.offset(xTo, yTo, zTo);
+		Stream<BlockPos> blocks = BlockPos.betweenClosedStream(from, to);
 
 		// calculate block directives
 		List<BlockDirective> directives = calculateBlockDirectives(blocks, structure.getBlock(),
@@ -265,19 +284,19 @@ public class GeometryUtils {
 	 *         structure.
 	 */
 	private static List<BlockDirective> calculateBlockDirectivesFromChildStructure(BlockPos offset,
-			PlayerDirection playerDirection, Structure structure, boolean harvest, World world) {
+			PlayerDirection playerDirection, Structure structure, boolean harvest, Level world) {
 
 		// exit if structure is a composite
 		if (structure.isComposite())
 			return new ArrayList<BlockDirective>();
 
 		// calculate block positions
-		BlockPos from = offset.add(structure.getOffsetX(), structure.getOffsetY(), structure.getOffsetZ());
+		BlockPos from = offset.offset(structure.getOffsetX(), structure.getOffsetY(), structure.getOffsetZ());
 		int xTo = structure.getSizeX() - 1;
 		int yTo = structure.getSizeY() - 1;
 		int zTo = structure.getSizeZ() - 1;
-		BlockPos to = from.add(xTo, yTo, zTo);
-		Stream<BlockPos> blocks = BlockPos.getAllInBox(from, to);
+		BlockPos to = from.offset(xTo, yTo, zTo);
+		Stream<BlockPos> blocks = BlockPos.betweenClosedStream(from, to);
 
 		// calculate block directives
 		List<BlockDirective> directives = calculateBlockDirectives(blocks, structure.getBlock(),
@@ -302,7 +321,7 @@ public class GeometryUtils {
 	 * @return list of block directives (e.g. coordinates) for the blocks in the
 	 *         structure.
 	 */
-	public static List<BlockDirective> calculateBlockDirectives(BlockPos offset, PlayerEntity player,
+	public static List<BlockDirective> calculateBlockDirectives(BlockPos offset, Player player,
 			Structure structure, boolean harvest) {
 
 		// handle child structure
@@ -336,7 +355,7 @@ public class GeometryUtils {
 	 *         structure.
 	 */
 	public static List<BlockDirective> calculateBlockDirectives(BlockPos offset, PlayerDirection playerDirection,
-			Structure structure, boolean harvest, World world) {
+			Structure structure, boolean harvest, Level world) {
 
 		// handle child structure
 		if (!structure.isComposite()) {
@@ -405,7 +424,7 @@ public class GeometryUtils {
 	 * 
 	 * @return y offset from block.
 	 */
-	public static int calculateYOffsetFromBlock(PlayerEntity player, BlockPos blockPosition) {
+	public static int calculateYOffsetFromBlock(Player player, BlockPos blockPosition) {
 		int yFeetPosition = PlayerUtils.calculatePlayerFeetPosititionAsInt(player);
 		int offset = blockPosition.getY() - yFeetPosition;
 		return offset;
@@ -424,7 +443,7 @@ public class GeometryUtils {
 	 * 
 	 * @return list of coordinates for the blocks in the structure.
 	 */
-	public static List<BlockDirective> captureRectangle(BlockPos offset, BlockPos size, World world) {
+	public static List<BlockDirective> captureRectangle(BlockPos offset, BlockPos size, Level world) {
 
 		List<BlockDirective> result = new ArrayList<BlockDirective>();
 		int yCounter = 0;
@@ -439,15 +458,15 @@ public class GeometryUtils {
 			int layerXDelta = size.getX() - 1;
 			int layerYDelta = 0;
 			int layerZDelta = size.getZ() - 1;
-			BlockPos to = from.add(layerXDelta, layerYDelta, layerZDelta);
-			Stream<BlockPos> blocks = BlockPos.getAllInBox(from, to);
+			BlockPos to = from.offset(layerXDelta, layerYDelta, layerZDelta);
+			Stream<BlockPos> blocks = BlockPos.betweenClosedStream(from, to);
 
 			// exit if blocks is of type air only
 			if (!containsNonAirBlocks(blocks, world))
 				return result;
 
 			// add blocks from this layer
-			blocks = BlockPos.getAllInBox(from, to);
+			blocks = BlockPos.betweenClosedStream(from, to);
 			captureBlockDirectives(blocks, world, result);
 
 			// increase layer
@@ -525,7 +544,7 @@ public class GeometryUtils {
 	 *         below. If no block was found then original block position is
 	 *         returned.
 	 */
-	public static BlockPos locateGroundBlockPos(BlockPos target, int iterations, World world) {
+	public static BlockPos locateGroundBlockPos(BlockPos target, int iterations, Level world) {
 		if (iterations == 0)
 			return target;
 		if (iterations < 0)
@@ -534,13 +553,13 @@ public class GeometryUtils {
 		int newIterations = iterations - 1;
 
 		// if upper block isn't useful - then move up
-		if (!isUsefullAirTypeBlock(target.up(), world)) {
-			return locateGroundBlockPos(target.up(), newIterations, world);
+		if (!isUsefullAirTypeBlock(target.above(), world)) {
+			return locateGroundBlockPos(target.above(), newIterations, world);
 		}
 
 		// if upper is OK - but current isn't - then move down
 		if (!isUsefulGroundBlock(target, world)) {
-			return locateGroundBlockPos(target.down(), newIterations, world);
+			return locateGroundBlockPos(target.below(), newIterations, world);
 		}
 
 		return target;
@@ -554,9 +573,9 @@ public class GeometryUtils {
 	 * @param world  world object
 	 * @return
 	 */
-	static boolean isUsefulGroundBlock(BlockPos target, World world) {
+	static boolean isUsefulGroundBlock(BlockPos target, Level world) {
 		Block block = getBlockFromPosition(target, world);
-		BlockState defaultState = block.getDefaultState();
+		BlockState defaultState = block.defaultBlockState();
 		Material material = defaultState.getMaterial();
 		return (material.isSolid());
 	}
@@ -570,9 +589,9 @@ public class GeometryUtils {
 	 * 
 	 * @return true if block is a useful "air" type block.
 	 */
-	static boolean isUsefullAirTypeBlock(BlockPos target, World world) {
+	static boolean isUsefullAirTypeBlock(BlockPos target, Level world) {
 		Block block = getBlockFromPosition(target, world);
-		BlockState defaultState = block.getDefaultState();
+		BlockState defaultState = block.defaultBlockState();
 		Material material = defaultState.getMaterial();
 		return (!material.isSolid());
 	}
@@ -583,7 +602,7 @@ public class GeometryUtils {
 	 * @param position block position for flower.
 	 * @param world    world where block directive is located.
 	 */
-	public static BlockDirective createFlowerDirective(BlockPos position, World world) {
+	public static BlockDirective createFlowerDirective(BlockPos position, Level world) {
 		Random random = getBassebombeCraft().getRandom();
 		Block blockType = selectFlower(random);
 		return getInstance(position, blockType, DONT_HARVEST, world);
@@ -653,7 +672,7 @@ public class GeometryUtils {
 	 * @return the distance between two block positions
 	 */
 	public static double calculateDistance(BlockPos pos1, BlockPos pos2) {
-		return MathHelper.sqrt(calculateDistanceSq(pos1, pos2));
+		return Mth.sqrt(calculateDistanceSq(pos1, pos2));
 	}
 
 	/**

@@ -10,10 +10,10 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 /**
  * Generic implementation of the {@linkplain Operator2} interface which shoots a
@@ -29,7 +29,7 @@ abstract public class GenericShootProjectile2 implements Operator2 {
 	/**
 	 * Function to get orientation vectors.
 	 */
-	Function<Ports, Vector3d[]> fnGetOrientation;
+	Function<Ports, Vec3[]> fnGetOrientation;
 
 	/**
 	 * Function to set projectiles.
@@ -44,7 +44,7 @@ abstract public class GenericShootProjectile2 implements Operator2 {
 	 * @param bcSetProjectiles function to set projectiles.
 	 */
 	public GenericShootProjectile2(Function<Ports, LivingEntity> fnGetInvoker,
-			Function<Ports, Vector3d[]> fnGetOrientation, BiConsumer<Ports, Entity[]> bcSetProjectiles) {
+			Function<Ports, Vec3[]> fnGetOrientation, BiConsumer<Ports, Entity[]> bcSetProjectiles) {
 		this.fnGetInvoker = fnGetInvoker;
 		this.fnGetOrientation = fnGetOrientation;
 		this.bcSetProjectiles = bcSetProjectiles;
@@ -66,10 +66,10 @@ abstract public class GenericShootProjectile2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		LivingEntity invoker = applyV(fnGetInvoker, ports);
-		Vector3d[] vectors = applyV(fnGetOrientation, ports);
+		Vec3[] vectors = applyV(fnGetOrientation, ports);
 
 		// get world
-		World world = invoker.getEntityWorld();
+		Level world = invoker.getCommandSenderWorld();
 
 		// create new array for storage of projectiles
 		Entity[] projectiles = new Entity[vectors.length];
@@ -78,13 +78,13 @@ abstract public class GenericShootProjectile2 implements Operator2 {
 		int index = 0;
 
 		// create projectiles
-		for (Vector3d orientation : vectors) {
+		for (Vec3 orientation : vectors) {
 
 			// create and spawn projectile
 			Entity projectile = createProjectile(invoker, orientation);
 
 			// spawn projectile
-			world.addEntity(projectile);
+			world.addFreshEntity(projectile);
 
 			// store projectile
 			projectiles[index] = projectile;
@@ -104,6 +104,6 @@ abstract public class GenericShootProjectile2 implements Operator2 {
 	 * 
 	 * @return created projectile
 	 */
-	abstract Entity createProjectile(LivingEntity invoker, Vector3d orientation);
+	abstract Entity createProjectile(LivingEntity invoker, Vec3 orientation);
 
 }

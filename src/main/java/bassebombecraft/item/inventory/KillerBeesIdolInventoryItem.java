@@ -9,7 +9,7 @@ import bassebombecraft.operator.Operator;
 import bassebombecraft.operator.Operators;
 import bassebombecraft.operator.conditional.IfEntityIsntType;
 import bassebombecraft.operator.entity.SpawnKillerBee;
-import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.world.entity.animal.Bee;
 
 /**
  * Killer bees idol implementation.
@@ -21,7 +21,7 @@ public class KillerBeesIdolInventoryItem extends GenericInventoryItem {
 	static Supplier<Operators> splOp = () -> {
 		Operators ops = new Operators();
 		SpawnKillerBee spawnOp = new SpawnKillerBee(ops.getSplLivingEntity(), ops.getSplTargetEntity());
-		Operator ifOp = new IfEntityIsntType(ops.getSplTargetEntity(), spawnOp, BeeEntity.class);
+		Operator ifOp = new IfEntityIsntType(ops.getSplTargetEntity(), spawnOp, Bee.class);
 		ops.setOperator(ifOp);
 		return ops;
 	};

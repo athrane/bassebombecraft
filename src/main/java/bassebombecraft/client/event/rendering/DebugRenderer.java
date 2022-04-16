@@ -9,14 +9,14 @@ import static bassebombecraft.operator.Operators2.run;
 
 import java.util.function.Supplier;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import bassebombecraft.client.operator.ClientPorts;
 import bassebombecraft.client.operator.rendering.RenderItemStack2;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Sequence2;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
@@ -68,10 +68,10 @@ public class DebugRenderer {
 				return;
 
 			// get player
-			PlayerEntity player = getClientSidePlayer();
+			Player player = getClientSidePlayer();
 
 			// get item in main hand
-			ItemStack heldItemStack = player.getHeldItemMainhand();
+			ItemStack heldItemStack = player.getMainHandItem();
 			if (heldItemStack == null)
 				return;
 
@@ -88,7 +88,7 @@ public class DebugRenderer {
 	 * @param matrixStack   matrix stack for rendering transforms.
 	 * @param heldItemStack held item stack.
 	 */
-	static void render(MatrixStack matrixStack, ItemStack heldItemStack) {
+	static void render(PoseStack matrixStack, ItemStack heldItemStack) {
 
 		// setup operator and execute
 		ClientPorts ports = getInstance();

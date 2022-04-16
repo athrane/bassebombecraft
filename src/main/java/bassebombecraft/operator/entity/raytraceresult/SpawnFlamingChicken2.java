@@ -18,16 +18,16 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which spawns a failed
@@ -65,7 +65,7 @@ public class SpawnFlamingChicken2 implements Operator2 {
 	/**
 	 * Function to get ray trace result.
 	 */
-	Function<Ports, RayTraceResult> fnGetRayTraceResult;
+	Function<Ports, HitResult> fnGetRayTraceResult;
 
 	/**
 	 * Constructor.
@@ -74,7 +74,7 @@ public class SpawnFlamingChicken2 implements Operator2 {
 	 * @param splRayTraceResult function to get ray trace result.
 	 */
 	public SpawnFlamingChicken2(Function<Ports, LivingEntity> fnGetInvoker,
-			Function<Ports, RayTraceResult> fnGetRayTraceResult) {
+			Function<Ports, HitResult> fnGetRayTraceResult) {
 		this.fnGetInvoker = fnGetInvoker;
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 	}
@@ -93,7 +93,7 @@ public class SpawnFlamingChicken2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		LivingEntity invoker = applyV(fnGetInvoker, ports);
-		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
+		HitResult result = applyV(fnGetRayTraceResult, ports);
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
@@ -111,13 +111,13 @@ public class SpawnFlamingChicken2 implements Operator2 {
 				return;
 
 			// get entity
-			Entity entity = ((EntityRayTraceResult) result).getEntity();
+			Entity entity = ((EntityHitResult) result).getEntity();
 
 			// get entity position
-			spawnPosition = entity.getPosition();
+			spawnPosition = entity.blockPosition();
 
 			// get entity yaw
-			yaw = entity.getYaw(PARTIAL_TICKS);
+			yaw = entity.getViewYRot(PARTIAL_TICKS);
 		}
 
 		// teleport to hit block
@@ -128,22 +128,22 @@ public class SpawnFlamingChicken2 implements Operator2 {
 				return;
 
 			// type cast
-			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
+			BlockHitResult blockResult = (BlockHitResult) result;
 
 			// calculate spawn position
 			spawnPosition = calculatePosition(blockResult);
 		}
 
 		// get world
-		World world = invoker.getEntityWorld();
+		Level world = invoker.getCommandSenderWorld();
 
 		// spawn chicken
-		ChickenEntity entity = EntityType.CHICKEN.create(world);
-		entity.setLocationAndAngles(spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getZ(), yaw, PITCH);
-		world.addEntity(entity);
+		Chicken entity = EntityType.CHICKEN.create(world);
+		entity.moveTo(spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getZ(), yaw, PITCH);
+		world.addFreshEntity(entity);
 
 		// create and add effect instance
-		entity.addPotionEffect(createEffect());
+		entity.addEffect(createEffect());
 
 		// register chicken on invokers team
 		getProxy().getServerTeamRepository().add((LivingEntity) invoker, entity);
@@ -154,10 +154,10 @@ public class SpawnFlamingChicken2 implements Operator2 {
 	 * 
 	 * @return potion effect
 	 */
-	EffectInstance createEffect() {
+	MobEffectInstance createEffect() {
 		int duration = wildfireEffectDuration.get();
 		int amplifier = wildfireEffectAmplifier.get();
-		return new EffectInstance(WILDFIRE_EFFECT.get(), duration, amplifier);
+		return new MobEffectInstance(WILDFIRE_EFFECT.get(), duration, amplifier);
 	}
 
 }

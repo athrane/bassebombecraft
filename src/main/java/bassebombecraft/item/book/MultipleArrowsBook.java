@@ -7,7 +7,7 @@ import static bassebombecraft.item.RegisteredItems.PROJECTILE6;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.fml.RegistryObject;
 
 /**

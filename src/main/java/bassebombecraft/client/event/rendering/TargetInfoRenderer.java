@@ -13,13 +13,13 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import bassebombecraft.event.entity.target.TargetRepository;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 /**
@@ -40,7 +40,7 @@ public class TargetInfoRenderer {
 				return;
 
 			// get player
-			PlayerEntity player = getClientSidePlayer();
+			Player player = getClientSidePlayer();
 
 			// exit if HUD item isn't in hotbar
 			if (!isItemInHotbar(player, HUD.get()))
@@ -59,7 +59,7 @@ public class TargetInfoRenderer {
 	 * @param matrixStack matrix static for rendering transforms.
 	 * @param player      player object.
 	 */
-	static void render(MatrixStack matrixStack, PlayerEntity player) {
+	static void render(PoseStack matrixStack, Player player) {
 
 		// get targets
 		TargetRepository repository = getProxy().getServerTargetRepository();
@@ -70,7 +70,7 @@ public class TargetInfoRenderer {
 		String commanderTargetName = getCommanderTargetName(player);
 
 		// get render buffer
-		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+		MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
 
 		// render basic info
 		renderBillboardText(matrixStack, buffer, 120, -110, "TARGETS");
@@ -88,7 +88,7 @@ public class TargetInfoRenderer {
 			if (counter > TEAM_MEMBERS_TO_RENDER)
 				return;
 
-			String targetName = m.getName().getUnformattedComponentText();
+			String targetName = m.getName().getContents();
 			String text = "Target: " + targetName;
 			renderBillboardText(matrixStack, buffer, 120, -80 + (counter * 10), text);
 		});
@@ -101,7 +101,7 @@ public class TargetInfoRenderer {
 	 * 
 	 * @return commander target name.
 	 */
-	static String getCommanderTargetName(PlayerEntity player) {
+	static String getCommanderTargetName(Player player) {
 
 		// get commander target
 		TargetRepository repository = getProxy().getServerTargetRepository();
@@ -113,7 +113,7 @@ public class TargetInfoRenderer {
 
 		// get live target info
 		LivingEntity target = optTarget.get();
-		return target.getName().getUnformattedComponentText();
+		return target.getName().getContents();
 	}
 
 }

@@ -37,7 +37,7 @@ import bassebombecraft.operator.NullOp2;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.Sequence2;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 
 /**
  * CLIENT side implementation of the {@linkplain GraphicalEffectRepository}

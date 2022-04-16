@@ -6,11 +6,11 @@ import static bassebombecraft.BassebombeCraft.getProxy;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import bassebombecraft.item.action.RightClickedItemAction;
 import bassebombecraft.player.PlayerUtils;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain RightClickedItemAction} which issues mob
@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 public class CommandMobs implements RightClickedItemAction {
 
 	@Override
-	public void onRightClick(World world, LivingEntity entity) {
+	public void onRightClick(Level world, LivingEntity entity) {
 		try {
 			// get repository
 			MobCommanderRepository repository = getProxy().getServerMobCommanderRepository();
@@ -29,7 +29,7 @@ public class CommandMobs implements RightClickedItemAction {
 				return;
 
 			// typecast
-			PlayerEntity player = (PlayerEntity) entity;
+			Player player = (Player) entity;
 
 			// register player
 			repository.register(player);
@@ -42,7 +42,7 @@ public class CommandMobs implements RightClickedItemAction {
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void onUpdate(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		// NO-OP
 	}
 }

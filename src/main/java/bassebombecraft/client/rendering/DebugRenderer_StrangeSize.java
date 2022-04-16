@@ -1,6 +1,6 @@
 package bassebombecraft.client.rendering;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraftforge.client.event.RenderLivingEvent;
 import static bassebombecraft.geom.GeometryUtils.oscillate;
@@ -12,7 +12,7 @@ public class DebugRenderer_StrangeSize {
 
 	public static void render(RenderLivingEvent.Pre event) {
 
-		MatrixStack matrixStack = event.getMatrixStack();
+		PoseStack matrixStack = event.getMatrixStack();
 		float w = (float) oscillate(0.5F, 2.0F);
 		matrixStack.scale(w, w, w);
 	}

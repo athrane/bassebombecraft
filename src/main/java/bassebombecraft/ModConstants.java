@@ -8,9 +8,9 @@ import bassebombecraft.item.action.mist.block.GenericBlockSpiralFillMist;
 import bassebombecraft.item.action.mist.entity.GenericEntityMist;
 import bassebombecraft.item.composite.CompositeMagicItem;
 import bassebombecraft.operator.Operators2;
-import net.minecraft.potion.EffectType;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.BlockPos;
 
 /**
  * Mod constants.
@@ -120,7 +120,7 @@ public class ModConstants {
 	/**
 	 * Null block tile entity.
 	 */
-	public static final TileEntity NULL_TILE_ENTITY = null;
+	public static final BlockEntity NULL_TILE_ENTITY = null;
 
 	/**
 	 * X origin coordinate.
@@ -175,7 +175,7 @@ public class ModConstants {
 	/**
 	 * Not a bad potion effect.
 	 */
-	public static final EffectType NOT_BAD_POTION_EFFECT = EffectType.NEUTRAL;
+	public static final MobEffectCategory NOT_BAD_POTION_EFFECT = MobEffectCategory.NEUTRAL;
 
 	/**
 	 * Potion trigger time, measured in mob death time.

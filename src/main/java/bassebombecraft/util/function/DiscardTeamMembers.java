@@ -6,7 +6,7 @@ import static bassebombecraft.BassebombeCraft.getProxy;
 import com.google.common.base.Predicate;
 
 import bassebombecraft.event.entity.team.TeamRepository;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 
 /**
  * Discard team members filter

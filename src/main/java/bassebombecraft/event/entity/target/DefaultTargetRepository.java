@@ -14,8 +14,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
 public class DefaultTargetRepository implements TargetRepository {
 
@@ -29,14 +29,14 @@ public class DefaultTargetRepository implements TargetRepository {
 		 * 
 		 * @param team commander.
 		 */
-		public Targets(PlayerEntity commander) {
+		public Targets(Player commander) {
 			this.commander = commander;
 		}
 
 		/**
 		 * Team commander.
 		 */
-		PlayerEntity commander;
+		Player commander;
 
 		/**
 		 * Team targets.
@@ -64,7 +64,7 @@ public class DefaultTargetRepository implements TargetRepository {
 	/**
 	 * Set of commanders targets.
 	 */
-	Map<PlayerEntity, Targets> targetSets = new ConcurrentHashMap<PlayerEntity, Targets>();
+	Map<Player, Targets> targetSets = new ConcurrentHashMap<Player, Targets>();
 
 	/**
 	 * Entity-to-target-set mapping.
@@ -72,7 +72,7 @@ public class DefaultTargetRepository implements TargetRepository {
 	Map<LivingEntity, Targets> targetMembership = new ConcurrentHashMap<LivingEntity, Targets>();
 
 	@Override
-	public void createTargets(PlayerEntity commander) {
+	public void createTargets(Player commander) {
 		if (commander == null)
 			return;
 		if (isCommander(commander))
@@ -84,7 +84,7 @@ public class DefaultTargetRepository implements TargetRepository {
 	}
 
 	@Override
-	public void deleteTargets(PlayerEntity commander) {
+	public void deleteTargets(Player commander) {
 		if (commander == null)
 			return;
 		if (!isCommander(commander))
@@ -98,7 +98,7 @@ public class DefaultTargetRepository implements TargetRepository {
 	}
 
 	@Override
-	public void clear(PlayerEntity commander) {
+	public void clear(Player commander) {
 		if (commander == null)
 			return;
 		if (!isCommander(commander))
@@ -111,14 +111,14 @@ public class DefaultTargetRepository implements TargetRepository {
 	}
 
 	@Override
-	public boolean isCommander(PlayerEntity commander) {
+	public boolean isCommander(Player commander) {
 		if (commander == null)
 			return false;
 		return targetSets.containsKey(commander);
 	}
 
 	@Override
-	public void add(PlayerEntity commander, LivingEntity entity) {
+	public void add(Player commander, LivingEntity entity) {
 		if (commander == null)
 			return;
 		if (entity == null)
@@ -156,7 +156,7 @@ public class DefaultTargetRepository implements TargetRepository {
 	}
 
 	@Override
-	public Stream<LivingEntity> get(PlayerEntity commander) {
+	public Stream<LivingEntity> get(Player commander) {
 		if (commander == null)
 			return nullTargetsSet.stream();
 		if (!isCommander(commander))
@@ -169,7 +169,7 @@ public class DefaultTargetRepository implements TargetRepository {
 	}
 
 	@Override
-	public Optional<LivingEntity> getFirst(PlayerEntity commander) {
+	public Optional<LivingEntity> getFirst(Player commander) {
 		if (commander == null)
 			return empty();
 		if (!isCommander(commander))
@@ -201,13 +201,13 @@ public class DefaultTargetRepository implements TargetRepository {
 			return empty();
 
 		// type cast
-		PlayerEntity commanderAsPlayer = (PlayerEntity) commander;
+		Player commanderAsPlayer = (Player) commander;
 
 		return getFirst(commanderAsPlayer);
 	}
 
 	@Override
-	public int size(PlayerEntity commander) {
+	public int size(Player commander) {
 		if (commander == null)
 			return 0;
 		if (!isCommander(commander))

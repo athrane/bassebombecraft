@@ -3,8 +3,8 @@ package bassebombecraft.event.entity.target;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
 /**
  * Interface for repository for handling targeted entities.
@@ -16,21 +16,21 @@ public interface TargetRepository {
 	 * 
 	 * @param commander commander.
 	 */
-	public void createTargets(PlayerEntity commander);
+	public void createTargets(Player commander);
 
 	/**
 	 * Delete commanders targets.
 	 * 
 	 * @param commander whose targets should be deleted.
 	 */
-	public void deleteTargets(PlayerEntity commander);
+	public void deleteTargets(Player commander);
 
 	/**
 	 * Clear all targets for commander.
 	 * 
 	 * @param commander commander.
 	 */
-	public void clear(PlayerEntity commander);
+	public void clear(Player commander);
 	
 	/**
 	 * Returns true if entity is commander for a team.
@@ -39,7 +39,7 @@ public interface TargetRepository {
 	 * 
 	 * @return true if entity is commander for a team.
 	 */
-	public boolean isCommander(PlayerEntity commander);
+	public boolean isCommander(Player commander);
 	
 	/**
 	 * Add targeted entity.
@@ -47,7 +47,7 @@ public interface TargetRepository {
 	 * @param commander to whose target list the target should be added.
 	 * @param entity entity which is targeted.
 	 */
-	public void add(PlayerEntity commander, LivingEntity entity);
+	public void add(Player commander, LivingEntity entity);
 
 	/**
 	 * Remove target from any team.
@@ -63,14 +63,14 @@ public interface TargetRepository {
 	 * 
 	 * @return stream of targeted entities.
 	 */
-	public Stream<LivingEntity> get(PlayerEntity commander);
+	public Stream<LivingEntity> get(Player commander);
 
 	/**
 	 * Get the commanders first prioritised target.
 	 * 
 	 * @param commander commander to get target for.
 	 */
-	public Optional<LivingEntity> getFirst(PlayerEntity commander);
+	public Optional<LivingEntity> getFirst(Player commander);
 
 	/**
 	 * Get the commanders first prioritised target.
@@ -86,6 +86,6 @@ public interface TargetRepository {
 	 * 
 	 * @return number of targeted entities by commander.
 	 */
-	public int size(PlayerEntity commander);
+	public int size(Player commander);
 
 }

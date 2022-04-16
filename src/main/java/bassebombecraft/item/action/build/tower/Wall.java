@@ -1,6 +1,6 @@
 package bassebombecraft.item.action.build.tower;
 
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 
 /**
  * Tower wall.

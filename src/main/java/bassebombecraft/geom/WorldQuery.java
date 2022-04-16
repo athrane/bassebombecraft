@@ -1,8 +1,8 @@
 package bassebombecraft.geom;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Interface for querying about the world.
@@ -22,12 +22,12 @@ public interface WorldQuery {
 	 * 
 	 * @return player object.
 	 */
-	PlayerEntity getPlayer();
+	Player getPlayer();
 
 	/**
 	 * Return world.
 	 * 
 	 * @return game world.
 	 */
-	World getWorld();
+	Level getWorld();
 }

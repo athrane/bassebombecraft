@@ -7,7 +7,7 @@ import static bassebombecraft.config.ModConfiguration.compositeMagicItem;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static net.minecraft.util.Hand.MAIN_HAND;
-import static net.minecraftforge.fml.network.NetworkHooks.openGui;
+import staticnet.minecraft.world.InteractionHand.network.NetworkHooks.openGui;
 
 import java.util.List;
 
@@ -20,21 +20,21 @@ import bassebombecraft.inventory.container.CompositeMagicItemItemStackHandler;
 import bassebombecraft.operator.DefaultPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.CooldownTracker;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.ItemCooldowns;
 import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -95,7 +95,7 @@ public class CompositeMagicItem extends Item {
 	 * @param config item configuration.
 	 */
 	public CompositeMagicItem(ItemConfig config) {
-		super(new Item.Properties().group(getItemGroup()));
+		super(new Item.Properties().tab(getItemGroup()));
 
 		// get cooldown and tooltip
 		coolDown = config.cooldown.get();
@@ -107,24 +107,24 @@ public class CompositeMagicItem extends Item {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
+	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
 
 		// exit if invoked at client side
 		if (isLogicalClient(world)) {
-			return super.onItemRightClick(world, player, hand);
+			return super.use(world, player, hand);
 		}
 
 		// handle GUI, exit if GUI was opened
 		if (openGUI(player, hand)) {
-			return new ActionResult<ItemStack>(ActionResultType.SUCCESS, player.getHeldItem(hand));
+			return new InteractionResultHolder<ItemStack>(InteractionResult.SUCCESS, player.getItemInHand(hand));
 		}
 
 		// add cooldown
-		CooldownTracker tracker = player.getCooldownTracker();
-		tracker.setCooldown(this, coolDown);
+		ItemCooldowns tracker = player.getCooldowns();
+		tracker.addCooldown(this, coolDown);
 
 		// get composite item inventory
-		ItemStack itemStack = player.getHeldItem(hand);
+		ItemStack itemStack = player.getItemInHand(hand);
 		CompositeMagicItemItemStackHandler inventory = getItemStackHandler(itemStack);
 
 		// post analytics
@@ -139,7 +139,7 @@ public class CompositeMagicItem extends Item {
 		ports.setWorld(world);
 		run(ports, operator);
 
-		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, player.getHeldItem(hand));
+		return new InteractionResultHolder<ItemStack>(InteractionResult.SUCCESS, player.getItemInHand(hand));
 	}
 
 	/**
@@ -150,7 +150,7 @@ public class CompositeMagicItem extends Item {
 	 * 
 	 * @return true if GUI was opened.
 	 */
-	boolean openGUI(PlayerEntity player, Hand hand) {
+	boolean openGUI(Player player, InteractionHand hand) {
 
 		// exit if item isn't held in main hand
 		if (hand != MAIN_HAND)
@@ -161,11 +161,11 @@ public class CompositeMagicItem extends Item {
 			return false;
 
 		// get held item
-		ItemStack itemStack = player.getHeldItem(hand);
+		ItemStack itemStack = player.getItemInHand(hand);
 
 		// open GUI
 		CompositeMagicItemContainerProvider provider = new CompositeMagicItemContainerProvider(itemStack);
-		openGui((ServerPlayerEntity) player, provider);
+		openGui((ServerPlayer) player, provider);
 
 		return true;
 	}
@@ -187,19 +187,19 @@ public class CompositeMagicItem extends Item {
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
-			ITooltipFlag flagIn) {
-		ITextComponent text = new TranslationTextComponent(TextFormatting.GREEN + this.tooltip);
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip,
+			TooltipFlag flagIn) {
+		Component text = new TranslatableComponent(ChatFormatting.GREEN + this.tooltip);
 		tooltip.add(text);
 	}
 
 	@Override
-	public ICapabilityProvider initCapabilities(ItemStack stack, CompoundNBT nbt) {
+	public ICapabilityProvider initCapabilities(ItemStack stack, CompoundTag nbt) {
 		return new CompositeMagicItemCapabilityProvider();
 	}
 
 	@Override
-	public void readShareTag(ItemStack stack, CompoundNBT nbt) {
+	public void readShareTag(ItemStack stack, CompoundTag nbt) {
 
 		// if nbt is null, set null tag en exit
 		if (nbt == null) {
@@ -208,27 +208,27 @@ public class CompositeMagicItem extends Item {
 		}
 
 		// set base tag, is empty if not found
-		CompoundNBT baseTag = nbt.getCompound(BASE_NBT_TAG);
+		CompoundTag baseTag = nbt.getCompound(BASE_NBT_TAG);
 		stack.setTag(baseTag);
 
 		// set capability tag, is empty if not found
-		CompoundNBT capabilityTag = nbt.getCompound(CAPABILITY_NBT_TAG);
+		CompoundTag capabilityTag = nbt.getCompound(CAPABILITY_NBT_TAG);
 		CompositeMagicItemItemStackHandler itemStackHandler = getItemStackHandler(stack);
 		itemStackHandler.deserializeNBT(capabilityTag);
 	}
 
 	@Override
-	public CompoundNBT getShareTag(ItemStack stack) {
+	public CompoundTag getShareTag(ItemStack stack) {
 
 		// get item handler
 		CompositeMagicItemItemStackHandler itemStackHandler = getItemStackHandler(stack);
 
 		// get tags
-		CompoundNBT baseTag = stack.getTag();
-		CompoundNBT capabilityTag = itemStackHandler.serializeNBT();
+		CompoundTag baseTag = stack.getTag();
+		CompoundTag capabilityTag = itemStackHandler.serializeNBT();
 
 		// combine tags
-		CompoundNBT combinedTag = new CompoundNBT();
+		CompoundTag combinedTag = new CompoundTag();
 		if (baseTag != null) {
 			combinedTag.put(BASE_NBT_TAG, baseTag);
 		}

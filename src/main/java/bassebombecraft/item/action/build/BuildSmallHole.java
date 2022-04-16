@@ -15,13 +15,13 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.item.action.BlockClickedItemAction;
 import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain BlockClickedItemAction} which digs a small
@@ -29,8 +29,8 @@ import net.minecraft.world.World;
  */
 public class BuildSmallHole implements BlockClickedItemAction {
 
-	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
-	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;
+	static final InteractionResult USED_ITEM = InteractionResult.SUCCESS;
+	static final InteractionResult DIDNT_USED_ITEM = InteractionResult.PASS;
 
 	/**
 	 * Offset for horizontal hole.
@@ -53,11 +53,11 @@ public class BuildSmallHole implements BlockClickedItemAction {
 	static final BlockPos VERTICAL_SIZE = new BlockPos(3, 3, 1);
 
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context) {
+	public InteractionResult onItemUse(UseOnContext context) {
 
 		// calculate if selected block is a ground block
-		BlockPos pos = context.getPos();
-		PlayerEntity player = context.getPlayer();
+		BlockPos pos = context.getClickedPos();
+		Player player = context.getPlayer();
 		boolean isGroundBlock = isBelowPlayerYPosition(pos.getY(), player);
 
 		// calculate structure
@@ -82,7 +82,7 @@ public class BuildSmallHole implements BlockClickedItemAction {
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void onUpdate(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		// NO-OP
 	}
 

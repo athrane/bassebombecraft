@@ -4,11 +4,11 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import java.util.Random;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.horse.LlamaEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.horse.Llama;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain ProjectileAction} which spawns 100 raining
@@ -24,24 +24,24 @@ public class Spawn100RainingLlamas implements ProjectileAction {
 	static final int AGE = 0;
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableProjectile projectile, Level world, HitResult movObjPos) {
 		for (int i = 0; i < NUMBER_LLAMAS; i++) {
-			LlamaEntity entity = EntityType.LLAMA.create(world);
-			entity.setGrowingAge(AGE);
+			Llama entity = EntityType.LLAMA.create(world);
+			entity.setAge(AGE);
 
 			Random random = getBassebombeCraft().getRandom();
 			int randomX = random.nextInt(SPAWN_SIZE) - (SPAWN_SIZE / 2);
 			int randomY = random.nextInt(Y_SPAWN_SIZE) + (Y_SPAWN_OFFSET);
 			int randomZ = random.nextInt(SPAWN_SIZE) - (SPAWN_SIZE / 2);
 
-			double positionX = projectile.getPosX() + randomX;
-			double positionY = projectile.getPosY() + randomY;
-			double positionZ = projectile.getPosZ() + randomZ;
+			double positionX = projectile.getX() + randomX;
+			double positionY = projectile.getY() + randomY;
+			double positionZ = projectile.getZ() + randomZ;
 
-			entity.setLocationAndAngles(positionX, positionY, positionZ, projectile.rotationYaw, PITCH);
+			entity.moveTo(positionX, positionY, positionZ, projectile.yRot, PITCH);
 
 			// spawn
-			world.addEntity(entity);
+			world.addFreshEntity(entity);
 		}
 	}
 

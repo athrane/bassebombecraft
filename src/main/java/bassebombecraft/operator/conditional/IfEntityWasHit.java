@@ -7,7 +7,7 @@ import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayT
 import java.util.function.Supplier;
 
 import bassebombecraft.operator.Operator;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.phys.HitResult;
 
 /**
  * Implementation of the {@linkplain Operator} interface which executes the
@@ -26,7 +26,7 @@ public class IfEntityWasHit implements Operator {
 	/**
 	 * RayTraceResult supplier.
 	 */
-	Supplier<RayTraceResult> splRayTraceResult;
+	Supplier<HitResult> splRayTraceResult;
 
 	/**
 	 * Constructor.
@@ -35,7 +35,7 @@ public class IfEntityWasHit implements Operator {
 	 * @param operator          embedded operator which is executed if effect is
 	 *                          active.
 	 */
-	public IfEntityWasHit(Supplier<RayTraceResult> splRayTraceResult, Operator operator) {
+	public IfEntityWasHit(Supplier<HitResult> splRayTraceResult, Operator operator) {
 		this.operator = operator;
 		this.splRayTraceResult = splRayTraceResult;
 	}
@@ -44,7 +44,7 @@ public class IfEntityWasHit implements Operator {
 	public void run() {
 
 		// get ray trace result
-		RayTraceResult result = splRayTraceResult.get();
+		HitResult result = splRayTraceResult.get();
 
 		// exit if nothing was hit
 		if (isNothingHit(result))

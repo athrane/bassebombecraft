@@ -1,14 +1,14 @@
 package bassebombecraft.geom;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 @Deprecated
 public class WorldQueryImpl implements WorldQuery {
 
-	World world;
-	PlayerEntity player;
+	Level world;
+	Player player;
 	BlockPos targetBlockPosition;
 	boolean harvest;
 
@@ -20,10 +20,10 @@ public class WorldQueryImpl implements WorldQuery {
 	 * @param player              player object.
 	 * @param targetBlockPosition target block position that player interacted with.
 	 */
-	public WorldQueryImpl(PlayerEntity player, BlockPos targetBlockPosition) {
+	public WorldQueryImpl(Player player, BlockPos targetBlockPosition) {
 		super();
 		this.player = player;
-		this.world = player.getEntityWorld();
+		this.world = player.getCommandSenderWorld();
 		this.targetBlockPosition = targetBlockPosition;
 	}
 
@@ -33,12 +33,12 @@ public class WorldQueryImpl implements WorldQuery {
 	}
 
 	@Override
-	public PlayerEntity getPlayer() {
+	public Player getPlayer() {
 		return player;
 	}
 
 	@Override
-	public World getWorld() {
+	public Level getWorld() {
 		return world;
 	}
 

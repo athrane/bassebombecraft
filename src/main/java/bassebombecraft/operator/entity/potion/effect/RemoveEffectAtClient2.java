@@ -8,8 +8,8 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.Effect;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffect;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which removes effect
@@ -30,7 +30,7 @@ public class RemoveEffectAtClient2 implements Operator2 {
 	/**
 	 * Effect.
 	 */
-	Effect effect;
+	MobEffect effect;
 
 	/**
 	 * Constructor.
@@ -38,7 +38,7 @@ public class RemoveEffectAtClient2 implements Operator2 {
 	 * @param fnGetTarget function to get target entity.
 	 * @param effect      effect.
 	 */
-	public RemoveEffectAtClient2(Function<Ports, LivingEntity> fnGetTarget, Effect effect) {
+	public RemoveEffectAtClient2(Function<Ports, LivingEntity> fnGetTarget, MobEffect effect) {
 		this.fnGetTarget = fnGetTarget;
 		this.effect = effect;
 	}
@@ -50,7 +50,7 @@ public class RemoveEffectAtClient2 implements Operator2 {
 	 * 
 	 * @param effect effect.
 	 */
-	public RemoveEffectAtClient2(Effect effect) {
+	public RemoveEffectAtClient2(MobEffect effect) {
 		this(getFnGetLivingEntity1(), effect);
 	}
 

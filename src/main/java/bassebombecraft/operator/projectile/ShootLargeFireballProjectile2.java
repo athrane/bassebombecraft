@@ -1,11 +1,11 @@
 package bassebombecraft.operator.projectile;
 
 import bassebombecraft.operator.Operator2;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.DamagingProjectileEntity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which shoots large
@@ -14,17 +14,17 @@ import net.minecraft.util.math.vector.Vector3d;
 public class ShootLargeFireballProjectile2 extends GenericShootProjectile2 {
 
 	@Override
-	Entity createProjectile(LivingEntity invoker, Vector3d orientation) {
+	Entity createProjectile(LivingEntity invoker, Vec3 orientation) {
 		
-		DamagingProjectileEntity projectile = EntityType.FIREBALL.create(invoker.getEntityWorld());
-		projectile.setShooter(invoker);		
-		projectile.setPosition(invoker.getPosX(), invoker.getPosY() + invoker.getEyeHeight(), invoker.getPosZ());
-		projectile.setMotion(orientation);
+		AbstractHurtingProjectile projectile = EntityType.FIREBALL.create(invoker.getCommandSenderWorld());
+		projectile.setOwner(invoker);		
+		projectile.setPos(invoker.getX(), invoker.getY() + invoker.getEyeHeight(), invoker.getZ());
+		projectile.setDeltaMovement(orientation);
 
 		// add acceleration to avoid glitches
-		projectile.accelerationX = orientation.x;
-		projectile.accelerationY = orientation.y;
-		projectile.accelerationZ = orientation.z;
+		projectile.xPower = orientation.x;
+		projectile.yPower = orientation.y;
+		projectile.zPower = orientation.z;
 
 		return projectile;
 	}

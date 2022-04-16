@@ -9,19 +9,19 @@ import static bassebombecraft.operator.Operators2.applyV;
 
 import java.util.function.Function;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import bassebombecraft.client.operator.ClientPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.util.math.vector.Matrix4f;
+import net.minecraft.client.renderer.MultiBufferSource;
+import com.mojang.math.Matrix4f;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.util.math.vector.Vector4f;
-import net.minecraft.util.math.vector.Vector3d;
+import com.mojang.math.Vector4f;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which renders a line.
@@ -45,12 +45,12 @@ public class RenderLine2 implements Operator2 {
 	/**
 	 * Function to get matrix stack.
 	 */
-	Function<ClientPorts, MatrixStack> fnGetMatrixStack;
+	Function<ClientPorts, PoseStack> fnGetMatrixStack;
 
 	/**
 	 * Function to get line vertexes.
 	 */
-	Function<Ports, Vector3d[]> fnGetLineVertexes;
+	Function<Ports, Vec3[]> fnGetLineVertexes;
 
 	/**
 	 * Constructor.
@@ -84,8 +84,8 @@ public class RenderLine2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		MatrixStack matrixStack = clientApplyV(fnGetMatrixStack, ports);
-		Vector3d[] positions = applyV(fnGetLineVertexes, ports);
+		PoseStack matrixStack = clientApplyV(fnGetMatrixStack, ports);
+		Vec3[] positions = applyV(fnGetLineVertexes, ports);
 
 		// Get start and end position
 		if (positions.length < 2)
@@ -93,30 +93,30 @@ public class RenderLine2 implements Operator2 {
 
 		// get render buffer and builder
 		Minecraft mcClient = Minecraft.getInstance();
-		IRenderTypeBuffer.Impl buffer = mcClient.getRenderTypeBuffers().getBufferSource();
-		IVertexBuilder builder = buffer.getBuffer(renderType);
+		MultiBufferSource.BufferSource buffer = mcClient.renderBuffers().bufferSource();
+		VertexConsumer builder = buffer.getBuffer(renderType);
 
 		// push matrix
-		matrixStack.push();
+		matrixStack.pushPose();
 
 		// get position matrix
-		Vector3d projectedView = mcClient.gameRenderer.getActiveRenderInfo().getProjectedView();
+		Vec3 projectedView = mcClient.gameRenderer.getMainCamera().getPosition();
 		matrixStack.translate(-projectedView.x, -projectedView.y, -projectedView.z);
-		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
+		Matrix4f positionMatrix = matrixStack.last().pose();
 
 		// render
 		for (int index = 0; index < (positions.length - 1); index++) {
-			Vector3d start = positions[index];
-			Vector3d end = positions[index + 1];
+			Vec3 start = positions[index];
+			Vec3 end = positions[index + 1];
 			renderLine(start, end, builder, positionMatrix);
 		}
 
 		// restore matrix
-		matrixStack.pop();
+		matrixStack.popPose();
 
 		// Rendering bug, see: https://wiki.mcjty.eu/modding/index.php?title=Tut15_Ep15
 		RenderSystem.disableDepthTest();
-		buffer.finish(renderType);
+		buffer.endBatch(renderType);
 	}
 
 	/**
@@ -127,18 +127,18 @@ public class RenderLine2 implements Operator2 {
 	 * @param builder        vertex builder
 	 * @param positionMatrix position matrix.
 	 */
-	void renderLine(Vector3d start, Vector3d end, IVertexBuilder builder, Matrix4f positionMatrix) {
+	void renderLine(Vec3 start, Vec3 end, VertexConsumer builder, Matrix4f positionMatrix) {
 
 		// AB
 		addVertex(builder, positionMatrix, start.x, start.y, start.z);
 		addVertex(builder, positionMatrix, end.x, end.y, end.z);
 	}
 
-	void addVertex(IVertexBuilder builder, Matrix4f positionMatrix, float x, float y, float z) {
-		builder.pos(positionMatrix, x, y, z).color(color.getX(), color.getY(), color.getZ(), color.getW()).endVertex();
+	void addVertex(VertexConsumer builder, Matrix4f positionMatrix, float x, float y, float z) {
+		builder.vertex(positionMatrix, x, y, z).color(color.x(), color.y(), color.z(), color.w()).endVertex();
 	}
 
-	void addVertex(IVertexBuilder builder, Matrix4f positionMatrix, double x, double y, double z) {
+	void addVertex(VertexConsumer builder, Matrix4f positionMatrix, double x, double y, double z) {
 		addVertex(builder, positionMatrix, (float) x, (float) y, (float) z);
 	}
 

@@ -12,21 +12,21 @@ import static bassebombecraft.geom.GeometryUtils.oscillate;
 import static bassebombecraft.item.RegisteredItems.HUD;
 import static bassebombecraft.player.PlayerUtils.isItemInHotbar;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import bassebombecraft.client.rendering.rendertype.RenderTypes;
 import bassebombecraft.event.entity.team.TeamRepository;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.util.math.vector.Matrix4f;
-import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.renderer.MultiBufferSource;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderLivingEvent.Pre;
 
@@ -40,7 +40,7 @@ public class TeamEnityRenderer {
 	 * 
 	 * @param event event to trigger rendering of information.
 	 */
-	public static void handleRenderLivingEvent(Pre<PlayerEntity, PlayerModel<PlayerEntity>> event) {
+	public static void handleRenderLivingEvent(Pre<Player, PlayerModel<Player>> event) {
 		try {
 
 			// exit if player is undefined
@@ -48,7 +48,7 @@ public class TeamEnityRenderer {
 				return;
 
 			// get player
-			PlayerEntity player = getClientSidePlayer();
+			Player player = getClientSidePlayer();
 
 			// exit if HUD item isn't in hotbar
 			if (!isItemInHotbar(player, HUD.get()))
@@ -72,47 +72,47 @@ public class TeamEnityRenderer {
 	 * @param matrixStack matrix static for rendering transforms.
 	 * @param entity      member of the players team.
 	 */
-	static void render(MatrixStack matrixStack, LivingEntity entity) {
+	static void render(PoseStack matrixStack, LivingEntity entity) {
 		// get render buffer
-		IRenderTypeBuffer.Impl buffer = Minecraft.getInstance().getRenderTypeBuffers().getBufferSource();
+		MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
 
-		float height = entity.getHeight();
+		float height = entity.getBbHeight();
 		renderText(matrixStack, buffer, 0, 0, "TEAM");
 		renderText(matrixStack, buffer, 0, -10, getFirstRunningAiGoalName(entity));
 		renderText(matrixStack, buffer, 0, -20, getFirstRunningAiTargetGoalName(entity));
 
 		float w = (float) oscillate(-10, 10);
-		matrixStack.push();
+		matrixStack.pushPose();
 		matrixStack.translate(0, height, 0);
-		matrixStack.rotate(Vector3f.YP.rotationDegrees(180));
-		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
-		IVertexBuilder builder = buffer.getBuffer(RenderTypes.OVERLAY_LINES);
+		matrixStack.mulPose(Vector3f.YP.rotationDegrees(180));
+		Matrix4f positionMatrix = matrixStack.last().pose();
+		VertexConsumer builder = buffer.getBuffer(RenderTypes.OVERLAY_LINES);
 		renderTriangle(builder, positionMatrix);
-		matrixStack.pop();
+		matrixStack.popPose();
 
 		// see: https://wiki.mcjty.eu/modding/index.php?title=Tut15_Ep15
 		RenderSystem.disableDepthTest();
-		buffer.finish(RenderTypes.OVERLAY_LINES);
+		buffer.endBatch(RenderTypes.OVERLAY_LINES);
 	}
 
-	static void renderText(MatrixStack matrixStack, IRenderTypeBuffer buffer, float x, float y, String text) {
-		EntityRendererManager renderManager = Minecraft.getInstance().getRenderManager();
-		FontRenderer fontrenderer = renderManager.getFontRenderer();
+	static void renderText(PoseStack matrixStack, MultiBufferSource buffer, float x, float y, String text) {
+		EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
+		Font fontrenderer = renderManager.getFont();
 
-		matrixStack.push();
+		matrixStack.pushPose();
 		matrixStack.scale(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
-		matrixStack.rotate(renderManager.getCameraOrientation());
-		matrixStack.rotate(Vector3f.ZP.rotationDegrees(180));
-		Matrix4f positionMatrix = matrixStack.getLast().getMatrix();
-		fontrenderer.renderString(text, x, y, TEXT_COLOR, false, positionMatrix, buffer, false, 0, 0xf000f0);
-		matrixStack.pop();
+		matrixStack.mulPose(renderManager.cameraOrientation());
+		matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
+		Matrix4f positionMatrix = matrixStack.last().pose();
+		fontrenderer.drawInBatch(text, x, y, TEXT_COLOR, false, positionMatrix, buffer, false, 0, 0xf000f0);
+		matrixStack.popPose();
 
 	}
 
 	/**
 	 * Render shield.
 	 */
-	public static void renderTriangle(IVertexBuilder builder, Matrix4f positionMatrix) {
+	public static void renderTriangle(VertexConsumer builder, Matrix4f positionMatrix) {
 
 		addWhiteVertex(builder, positionMatrix, 0 - 0.5F, 0, 0);
 		addWhiteVertex(builder, positionMatrix, 1 - 0.5F, 0, 0);
@@ -130,11 +130,11 @@ public class TeamEnityRenderer {
 		addWhiteVertex(builder, positionMatrix, 0 - 0.5F, 0, 0);
 	}
 
-	static void addWhiteVertex(IVertexBuilder builder, Matrix4f positionMatrix, float x, float y, float z) {
-		builder.pos(positionMatrix, x, y, z).color(0.0f, 1.0f, 0.0f, 1.0f).endVertex();
+	static void addWhiteVertex(VertexConsumer builder, Matrix4f positionMatrix, float x, float y, float z) {
+		builder.vertex(positionMatrix, x, y, z).color(0.0f, 1.0f, 0.0f, 1.0f).endVertex();
 	}
 
-	static void addWhiteVertex(IVertexBuilder builder, Matrix4f positionMatrix, double x, double y, double z) {
+	static void addWhiteVertex(VertexConsumer builder, Matrix4f positionMatrix, double x, double y, double z) {
 		addWhiteVertex(builder, positionMatrix, (float) x, (float) y, (float) z);
 	}
 

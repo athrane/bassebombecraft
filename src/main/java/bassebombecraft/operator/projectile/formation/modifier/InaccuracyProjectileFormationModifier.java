@@ -12,7 +12,7 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which modifies a set
@@ -29,12 +29,12 @@ public class InaccuracyProjectileFormationModifier implements Operator2 {
 	/**
 	 * Function to get orientation vectors.
 	 */
-	Function<Ports, Vector3d[]> fnGetOrientation;
+	Function<Ports, Vec3[]> fnGetOrientation;
 
 	/**
 	 * Function to set orientation vectors.
 	 */
-	BiConsumer<Ports, Vector3d[]> bcSetOrientation;
+	BiConsumer<Ports, Vec3[]> bcSetOrientation;
 
 	/**
 	 * Constructor.
@@ -42,8 +42,8 @@ public class InaccuracyProjectileFormationModifier implements Operator2 {
 	 * @param fnGetOrientation function to get orientation vectors.
 	 * @param fnGetOrientation function to set orientation vectors.
 	 */
-	public InaccuracyProjectileFormationModifier(Function<Ports, Vector3d[]> fnGetOrientation,
-			BiConsumer<Ports, Vector3d[]> bcSetOrientation) {
+	public InaccuracyProjectileFormationModifier(Function<Ports, Vec3[]> fnGetOrientation,
+			BiConsumer<Ports, Vec3[]> bcSetOrientation) {
 		this.fnGetOrientation = fnGetOrientation;
 		this.bcSetOrientation = bcSetOrientation;
 	}
@@ -59,18 +59,18 @@ public class InaccuracyProjectileFormationModifier implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		Vector3d[] vectors = applyV(fnGetOrientation,ports);
+		Vec3[] vectors = applyV(fnGetOrientation,ports);
 
 		// get random
 		Random random = getBassebombeCraft().getRandom();
 
 		// create new array
-		Vector3d[] randomised = new Vector3d[vectors.length];
+		Vec3[] randomised = new Vec3[vectors.length];
 		
 		// create index
 		int index = 0;
 		
-		for (Vector3d orientation : vectors) {
+		for (Vec3 orientation : vectors) {
 
 			// calculate random angle
 			double angle = random.nextInt(DEGREES_5 * 2) - DEGREES_5;

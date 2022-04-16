@@ -28,13 +28,13 @@ import bassebombecraft.player.PlayerUtils;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.CompositeStructure;
 import bassebombecraft.structure.Structure;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain BlockClickedItemAction} which supports
@@ -47,8 +47,8 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 */
 	public static final String NAME = CopyPasteBlocks.class.getSimpleName();
 
-	static final ActionResultType USED_ITEM = ActionResultType.SUCCESS;
-	static final ActionResultType DIDNT_USED_ITEM = ActionResultType.PASS;
+	static final InteractionResult USED_ITEM = InteractionResult.SUCCESS;
+	static final InteractionResult DIDNT_USED_ITEM = InteractionResult.PASS;
 
 	static final String MSG_COPIED = "Copied blocks.";
 	static final String MSG_ILLEGAL_TRIGGER = "Illegal trigger. Click on a ground block to paste.";
@@ -128,11 +128,11 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	}
 
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context) {
+	public InteractionResult onItemUse(UseOnContext context) {
 		try {
 			// get position
-			BlockPos pos = context.getPos();
-			PlayerEntity player = context.getPlayer();
+			BlockPos pos = context.getClickedPos();
+			Player player = context.getPlayer();
 
 			// update state and create structure
 			Structure structure = updateState(pos, player);
@@ -157,7 +157,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void onUpdate(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 		// NO-OP
 	}
 
@@ -169,7 +169,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * 
 	 * @return structure to build.
 	 */
-	Structure updateState(BlockPos targetBlockPosition, PlayerEntity player) {
+	Structure updateState(BlockPos targetBlockPosition, Player player) {
 
 		// calculate if selected block is a ground block
 		boolean isGroundBlock = isBelowPlayerYPosition(targetBlockPosition.getY(), player);
@@ -250,7 +250,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * @param player        player object.
 	 * @return
 	 */
-	boolean isLegalTrigger(boolean isGroundBlock, BlockPos trigger, PlayerEntity player) {
+	boolean isLegalTrigger(boolean isGroundBlock, BlockPos trigger, Player player) {
 		if (!isGroundBlock)
 			return false;
 
@@ -288,7 +288,7 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * @param pos    marker position.
 	 * @param player player object.
 	 */
-	void registerFirstMarker(BlockPos pos, PlayerEntity player) {
+	void registerFirstMarker(BlockPos pos, Player player) {
 		firstMarker = pos;
 
 		// get player rotation
@@ -326,10 +326,10 @@ public class CopyPasteBlocks implements BlockClickedItemAction {
 	 * 
 	 * @param player player object.
 	 */
-	void captureWorldContent(PlayerEntity player) {
+	void captureWorldContent(Player player) {
 
 		// get world
-		World world = player.getEntityWorld();
+		Level world = player.getCommandSenderWorld();
 
 		// get player direction
 		PlayerDirection playerDirection = getPlayerDirection(player);

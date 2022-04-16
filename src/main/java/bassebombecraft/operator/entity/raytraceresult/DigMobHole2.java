@@ -29,13 +29,13 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.structure.CompositeStructure;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which spawns a hole
@@ -53,12 +53,12 @@ public class DigMobHole2 implements Operator2 {
 	/**
 	 * Function to get ray trace result.
 	 */
-	Function<Ports, RayTraceResult> fnGetRayTraceResult;
+	Function<Ports, HitResult> fnGetRayTraceResult;
 
 	/**
 	 * Function to get world from ports.
 	 */
-	Function<Ports, World> fnGetWorld;
+	Function<Ports, Level> fnGetWorld;
 
 	/**
 	 * Constructor.
@@ -66,7 +66,7 @@ public class DigMobHole2 implements Operator2 {
 	 * @param splRayTraceResult function to get ray trace result.
 	 * @param fnGetWorld        function to get world.
 	 */
-	public DigMobHole2(Function<Ports, RayTraceResult> fnGetRayTraceResult, Function<Ports, World> fnGetWorld) {
+	public DigMobHole2(Function<Ports, HitResult> fnGetRayTraceResult, Function<Ports, Level> fnGetWorld) {
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 		this.fnGetWorld = fnGetWorld;
 	}
@@ -84,8 +84,8 @@ public class DigMobHole2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		RayTraceResult result = applyV(fnGetRayTraceResult,ports);
-		World world = applyV(fnGetWorld, ports);
+		HitResult result = applyV(fnGetRayTraceResult,ports);
+		Level world = applyV(fnGetWorld, ports);
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
@@ -99,14 +99,14 @@ public class DigMobHole2 implements Operator2 {
 				return;
 
 			// get entity
-			Entity entity = ((EntityRayTraceResult) result).getEntity();
+			Entity entity = ((EntityHitResult) result).getEntity();
 
 			// get entity aabb and convert it into air blocks
 			int holeHeightExpansion = digMobHoleHeightExpansion.get();
-			AxisAlignedBB aabb = entity.getBoundingBox();
+			AABB aabb = entity.getBoundingBox();
 			BlockPos min = new BlockPos(aabb.minX, aabb.minY - holeHeightExpansion, aabb.minZ);
 			BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
-			BlockPos.getAllInBox(min, max).forEach(pos -> registerBlockToDig(aabb, pos, world));
+			BlockPos.betweenClosedStream(min, max).forEach(pos -> registerBlockToDig(aabb, pos, world));
 			
 			return;
 		}
@@ -119,7 +119,7 @@ public class DigMobHole2 implements Operator2 {
 				return;
 
 			// type cast
-			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
+			BlockHitResult blockResult = (BlockHitResult) result;
 
 			// calculate set of block directives
 			BlockPos offset = calculatePosition(blockResult);
@@ -140,9 +140,9 @@ public class DigMobHole2 implements Operator2 {
 	 * @param pos   block position to process.
 	 * @param world world where directive should be processed.
 	 */
-	void registerBlockToDig(AxisAlignedBB aabb, BlockPos pos, World world) {
+	void registerBlockToDig(AABB aabb, BlockPos pos, Level world) {
 		double translateY = aabb.maxY - aabb.minY;
-		BlockPos tranlatedPos = pos.add(0, -translateY, 0);
+		BlockPos tranlatedPos = pos.offset(0, -translateY, 0);
 		BlockDirective directive = getInstance(tranlatedPos, AIR, DONT_HARVEST, world);
 		BlockDirectivesRepository repository = getProxy().getServerBlockDirectivesRepository();
 		repository.add(directive);

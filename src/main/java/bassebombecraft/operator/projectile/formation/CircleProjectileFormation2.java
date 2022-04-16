@@ -9,8 +9,8 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which shoots
@@ -31,7 +31,7 @@ public class CircleProjectileFormation2 implements Operator2 {
 	/**
 	 * Initial vector.
 	 */
-	static final Vector3d INITIAL_VECTOR = new Vector3d(1, 0, 0).scale(ACCELERATION_MODIFIER);
+	static final Vec3 INITIAL_VECTOR = new Vec3(1, 0, 0).scale(ACCELERATION_MODIFIER);
 
 	/**
 	 * Function to get invoker entity.
@@ -41,12 +41,12 @@ public class CircleProjectileFormation2 implements Operator2 {
 	/**
 	 * Function to set vector array.
 	 */
-	BiConsumer<Ports, Vector3d[]> bcSetVectors;
+	BiConsumer<Ports, Vec3[]> bcSetVectors;
 
 	/**
 	 * Array to store acceleration vectors.
 	 */
-	Vector3d[] vectors;
+	Vec3[] vectors;
 
 	/**
 	 * Number of fireballs in ring.
@@ -60,11 +60,11 @@ public class CircleProjectileFormation2 implements Operator2 {
 	 * @param bcSetVectors function to set vector array
 	 */
 	public CircleProjectileFormation2(Function<Ports, LivingEntity> fnGetInvoker,
-			BiConsumer<Ports, Vector3d[]> bcSetVectors) {
+			BiConsumer<Ports, Vec3[]> bcSetVectors) {
 		this.fnGetInvoker = fnGetInvoker;
 		this.bcSetVectors = bcSetVectors;
 		number = circleProjectileFormationNumberProjectiles.get();
-		this.vectors = new Vector3d[number];
+		this.vectors = new Vec3[number];
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class CircleProjectileFormation2 implements Operator2 {
 
 			// calculate acceleration
 			double angleRadians = Math.toRadians(index * displacement);
-			Vector3d orientation = INITIAL_VECTOR.rotateYaw((float) angleRadians);
+			Vec3 orientation = INITIAL_VECTOR.yRot((float) angleRadians);
 
 			vectors[index] = orientation;
 		}

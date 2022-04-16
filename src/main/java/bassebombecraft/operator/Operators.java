@@ -4,13 +4,13 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import java.util.function.Supplier;
 
-import net.minecraft.client.renderer.entity.model.PlayerModel;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 
@@ -31,7 +31,7 @@ public class Operators {
 	/**
 	 * Event.
 	 */
-	RenderLivingEvent<PlayerEntity, PlayerModel<PlayerEntity>> renderLivingEvent;
+	RenderLivingEvent<Player, PlayerModel<Player>> renderLivingEvent;
 
 	/**
 	 * Living entity instance.
@@ -46,12 +46,12 @@ public class Operators {
 	/**
 	 * Effect instance.
 	 */
-	EffectInstance effectInstance;
+	MobEffectInstance effectInstance;
 
 	/**
 	 * Ray trace result
 	 */
-	RayTraceResult rayTraceResult;
+	HitResult rayTraceResult;
 
 	/**
 	 * {@linkplain LivingDamageEvent} supplier.
@@ -61,7 +61,7 @@ public class Operators {
 	/**
 	 * {@linkplain RenderLivingEvent} supplier.
 	 */
-	Supplier<RenderLivingEvent<PlayerEntity, PlayerModel<PlayerEntity>>> splRenderLivingEvent = () -> renderLivingEvent;
+	Supplier<RenderLivingEvent<Player, PlayerModel<Player>>> splRenderLivingEvent = () -> renderLivingEvent;
 
 	/**
 	 * {@linkplain LivingEntity} supplier.
@@ -76,12 +76,12 @@ public class Operators {
 	/**
 	 * {@linkplain EffectInstance} supplier.
 	 */
-	Supplier<EffectInstance> splEffectInstance = () -> effectInstance;
+	Supplier<MobEffectInstance> splEffectInstance = () -> effectInstance;
 
 	/**
 	 * {@linkplain RayTraceResult} supplier.
 	 */
-	Supplier<RayTraceResult> splRayTraceResult = () -> rayTraceResult;
+	Supplier<HitResult> splRayTraceResult = () -> rayTraceResult;
 
 	/**
 	 * Operator to execute, initially the null operator.
@@ -102,7 +102,7 @@ public class Operators {
 	 * 
 	 * @return event supplier.
 	 */
-	public Supplier<RenderLivingEvent<PlayerEntity, PlayerModel<PlayerEntity>>> getSplRenderLivingEvent() {
+	public Supplier<RenderLivingEvent<Player, PlayerModel<Player>>> getSplRenderLivingEvent() {
 		return splRenderLivingEvent;
 	}
 
@@ -129,7 +129,7 @@ public class Operators {
 	 * 
 	 * @return effect supplier.
 	 */
-	public Supplier<EffectInstance> getSplEffectInstance() {
+	public Supplier<MobEffectInstance> getSplEffectInstance() {
 		return splEffectInstance;
 	}
 
@@ -138,7 +138,7 @@ public class Operators {
 	 * 
 	 * @return result supplier.
 	 */
-	public Supplier<RayTraceResult> getSplRayTraceResult() {
+	public Supplier<HitResult> getSplRayTraceResult() {
 		return splRayTraceResult;
 	}
 
@@ -169,7 +169,7 @@ public class Operators {
 	 * @param entity         input entity.
 	 * @param effectInstance input effect instance.
 	 */
-	public void run(LivingDamageEvent event, LivingEntity entity, EffectInstance effectInstance) {
+	public void run(LivingDamageEvent event, LivingEntity entity, MobEffectInstance effectInstance) {
 		this.livingDamageEvent = event;
 		this.livingEntity = entity;
 		this.effectInstance = effectInstance;
@@ -188,7 +188,7 @@ public class Operators {
 	 * @param event  input event.
 	 * @param entity input entity.
 	 */
-	public void run(RenderLivingEvent<PlayerEntity, PlayerModel<PlayerEntity>> event, LivingEntity entity) {
+	public void run(RenderLivingEvent<Player, PlayerModel<Player>> event, LivingEntity entity) {
 		this.renderLivingEvent = event;
 		this.livingEntity = entity;
 		try {
@@ -206,7 +206,7 @@ public class Operators {
 	 * @param entity input entity
 	 * @param result input ray trace result.
 	 */
-	public void run(LivingEntity entity, RayTraceResult result) {
+	public void run(LivingEntity entity, HitResult result) {
 		this.livingEntity = entity;
 		this.rayTraceResult = result;
 		try {
@@ -260,7 +260,7 @@ public class Operators {
 	 */
 	public Supplier<LivingEntity> getSplRaytracedEntity() {
 		Supplier<LivingEntity> splRaytracedEntity = () -> {
-			Entity entity = ((EntityRayTraceResult) rayTraceResult).getEntity();
+			Entity entity = ((EntityHitResult) rayTraceResult).getEntity();
 			return (LivingEntity) entity;
 		};
 		return splRaytracedEntity;

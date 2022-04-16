@@ -4,11 +4,11 @@ import static bassebombecraft.block.BlockUtils.setTemporaryBlock;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import net.minecraft.block.Blocks;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of {@linkplain MistActionStrategy} for construction of mist
@@ -20,7 +20,7 @@ public class MovingIceMultiMist implements BlockMistActionStrategy {
 	static final boolean DONT_HARVEST = false;
 	static final int EFFECT_DURATION = 200; // Measured in ticks
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.ITEM_SNOWBALL;
+	static final SimpleParticleType PARTICLE_TYPE = ParticleTypes.ITEM_SNOWBALL;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.0F;
@@ -31,7 +31,7 @@ public class MovingIceMultiMist implements BlockMistActionStrategy {
 			PARTICLE_SPEED);
 
 	@Override
-	public void applyEffectToBlock(BlockPos target, World world) {
+	public void applyEffectToBlock(BlockPos target, Level world) {
 		setTemporaryBlock(world, target, Blocks.ICE, EFFECT_DURATION);
 	}
 

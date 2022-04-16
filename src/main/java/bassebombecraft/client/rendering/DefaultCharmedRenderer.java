@@ -8,9 +8,9 @@ import java.util.stream.Stream;
 import bassebombecraft.event.charm.CharmedMob;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.player.PlayerUtils;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Renderer} for rendering targeted entities
@@ -42,10 +42,10 @@ public class DefaultCharmedRenderer implements EntityRenderer {
 			return;
 
 		// typecast
-		PlayerEntity player = (PlayerEntity) entity;
+		Player player = (Player) entity;
 
 		// get player position
-		Vector3d playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
+		Vec3 playerPos = CalculatePlayerPosition(player, info.getPartialTicks());
 
 		// get charmed entities
 		CharmedMobsRepository repository = getProxy().getClientCharmedMobsRepository();
@@ -64,9 +64,9 @@ public class DefaultCharmedRenderer implements EntityRenderer {
 	 * @param playerPos player position
 	 * @param info      rendering info.
 	 */
-	void renderTeamEntity(CharmedMob charmedMob, Vector3d playerPos, RenderingInfo info) {
+	void renderTeamEntity(CharmedMob charmedMob, Vec3 playerPos, RenderingInfo info) {
 		LivingEntity entity = charmedMob.getEntity();
-		Vector3d entityPos = entity.getBoundingBox().getCenter();
+		Vec3 entityPos = entity.getBoundingBox().getCenter();
 		// renderTriangleBillboard(playerPos, entityPos, ICON_BILLBOARD_ROTATION);
 		// renderTextBillboard(playerPos, entityPos, CHARMED_LABEL,
 		// TEXT_BILLBOARD_ROTATION);

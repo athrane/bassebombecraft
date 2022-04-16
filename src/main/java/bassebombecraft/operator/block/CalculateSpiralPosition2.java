@@ -13,8 +13,8 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which calculates the
@@ -44,7 +44,7 @@ public class CalculateSpiralPosition2 implements Operator2 {
 	/**
 	 * Function to get world from ports.
 	 */
-	Function<Ports, World> fnGetWorld; 	
+	Function<Ports, Level> fnGetWorld; 	
 	
 	/**
 	 * Constructor.
@@ -55,7 +55,7 @@ public class CalculateSpiralPosition2 implements Operator2 {
 	 * @param fnGetWorld function to get world.                   
 	 */
 	public CalculateSpiralPosition2(int spiralSize, Function<Ports, BlockPos> fnGetBlockPos,
-			BiConsumer<Ports, BlockPos> bcSetBlockPos, Function<Ports, World> fnGetWorld) {
+			BiConsumer<Ports, BlockPos> bcSetBlockPos, Function<Ports, Level> fnGetWorld) {
 		this.fnGetBlockPos = fnGetBlockPos;
 		this.bcSetBlockPos = bcSetBlockPos;
 		this.fnGetWorld = fnGetWorld;		
@@ -80,7 +80,7 @@ public class CalculateSpiralPosition2 implements Operator2 {
 	@Override
 	public void run(Ports ports) {
 		BlockPos center = applyV(fnGetBlockPos, ports);
-		World world = applyV(fnGetWorld, ports);
+		Level world = applyV(fnGetWorld, ports);
 
 		// get next spiral coordinate
 		BlockPos spiralCoord = spiralCoordinates.get(ports.getCounter());

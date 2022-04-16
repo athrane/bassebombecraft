@@ -1,6 +1,6 @@
 package bassebombecraft.event.particle;
 
-import net.minecraft.particles.BasicParticleType;
+import net.minecraft.core.particles.SimpleParticleType;
 
 /**
  * Static information for rendering a particle.
@@ -12,7 +12,7 @@ public interface ParticleRenderingInfo {
 	 * 
 	 * @return particle type to render.
 	 */
-	BasicParticleType getParticleType();
+	SimpleParticleType getParticleType();
 
 	/**
 	 * Get number of particle instances to render per update.

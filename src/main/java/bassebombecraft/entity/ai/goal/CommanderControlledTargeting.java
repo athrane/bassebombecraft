@@ -4,9 +4,14 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
 
+importimport bassebombecraft.entity.commander.MobCommand;
+import bassebombecraft.entity.commander.MobCommanderRepository;
 import java.util.EnumSet;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.Goal;
 
-import bassebombecraft.entity.commander.MobCommand;
+ javanet.minecraft.world.entity.ai.goal.Goal.Flagft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
@@ -25,7 +30,7 @@ public class CommanderControlledTargeting extends Goal {
 	/**
 	 * Goal owner.
 	 */
-	final CreatureEntity entity;
+	final PathfinderMob entity;
 
 	/**
 	 * Mob commander.
@@ -38,16 +43,16 @@ public class CommanderControlledTargeting extends Goal {
 	 * @param entity    commanded entity.
 	 * @param commander entity which commands entity.
 	 */
-	public CommanderControlledTargeting(CreatureEntity entity, LivingEntity commander) {
+	public CommanderControlledTargeting(PathfinderMob entity, LivingEntity commander) {
 		this.entity = entity;
 		this.commander = commander;
 
 		// "target" AI
-		setMutexFlags(EnumSet.of(TARGET));
+		setFlags(EnumSet.of(TARGET));
 	}
 
 	@Override
-	public boolean shouldExecute() {
+	public boolean canUse() {
 		try {
 			// register player and get command
 			MobCommanderRepository repository = getProxy().getServerMobCommanderRepository();

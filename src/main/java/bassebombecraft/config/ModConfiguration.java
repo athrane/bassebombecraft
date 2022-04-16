@@ -230,7 +230,7 @@ import bassebombecraft.projectile.action.SpawnCreeperArmy;
 import bassebombecraft.projectile.action.SpawnKittenArmy;
 import bassebombecraft.projectile.action.SpawnSkeletonArmy;
 import bassebombecraft.projectile.action.SpawnStairs;
-import net.minecraft.entity.EntityType;
+import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.config.ModConfig.Type;
@@ -2746,7 +2746,7 @@ public class ModConfiguration {
 		 * PLEASE NOTICE: The configuration value defined by the {@linkplain ProjectileEntityConfig}
 		 * is used, they are only defined when the item is rendered in the GUI. 
 		 */
-		name = EntityType.FIREBALL.getName().getString();
+		name = EntityType.FIREBALL.getDescription().getString();
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		splParticles = () -> getInstance(COMMON_BUILDER, "NOT-USED-BY_IMPLEMENTATION", 0, 0, 0, 0, 0,1.0);
 		largeFireballProjectileEntity = getInstance(COMMON_BUILDER, name, 1.0D, 6.0D, 50.0D, 0.0D, splParticles);
@@ -2761,7 +2761,7 @@ public class ModConfiguration {
 		 * PLEASE NOTICE: The configuration value defined by the {@linkplain ProjectileEntityConfig}
 		 * is used, they are only defined when the item is rendered in the GUI. 
 		 */
-		name = EntityType.SMALL_FIREBALL.getName().getString();
+		name = EntityType.SMALL_FIREBALL.getDescription().getString();
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		splParticles = () -> getInstance(COMMON_BUILDER, "NOT-USED-BY_IMPLEMENTATION", 0, 0, 0, 0, 0,1.0);
 		smallFireballProjectileEntity = getInstance(COMMON_BUILDER, name, 1.0D, 6.0D, 20.0D, 0.0D, splParticles);
@@ -2776,7 +2776,7 @@ public class ModConfiguration {
 		 * PLEASE NOTICE: The configuration value defined by the {@linkplain ProjectileEntityConfig}
 		 * is used, they are only defined when the item is rendered in the GUI. 
 		 */
-		name = EntityType.ARROW.getName().getString();
+		name = EntityType.ARROW.getDescription().getString();
 		COMMON_BUILDER.comment(name + " settings").push(name);
 		splParticles = () -> getInstance(COMMON_BUILDER, "NOT-USED-BY_IMPLEMENTATION", 0, 0, 0, 0, 0,1.0);
 		arrowProjectileEntity = getInstance(COMMON_BUILDER, name, 1.0D, 6.0D, 25.0D, 0.0D, splParticles);

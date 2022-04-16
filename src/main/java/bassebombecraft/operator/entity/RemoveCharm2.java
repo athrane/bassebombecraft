@@ -10,8 +10,8 @@ import bassebombecraft.entity.EntityUtils;
 import bassebombecraft.event.charm.ServerCharmedMobsRepository;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which removes entity
@@ -54,7 +54,7 @@ public class RemoveCharm2 implements Operator2 {
 			return;
 
 		// type cast
-		MobEntity mobEntity = (MobEntity) entity;
+		Mob mobEntity = (Mob) entity;
 
 		// remove from repository
 		getProxy().getServerCharmedMobsRepository().remove(mobEntity);

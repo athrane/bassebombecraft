@@ -8,10 +8,10 @@ import bassebombecraft.entity.EntityDistanceSorter;
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository.Commands;
 import bassebombecraft.util.function.DiscardTeamMembers;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.phys.AABB;
 
 /**
  * Attack nearest mob command.
@@ -61,14 +61,14 @@ public class AttackNearestMobCommand implements MobCommand {
 	}
 
 	@Override
-	public boolean shouldExecute(LivingEntity commander, CreatureEntity entity) {
+	public boolean shouldExecute(LivingEntity commander, PathfinderMob entity) {
 
 		// initialize filter
 		discardMembersFilter.set(entity);
 
 		// get list of mobs
-		AxisAlignedBB aabb = entity.getBoundingBox().grow(targetDistance, targetDistance, targetDistance);
-		List<MobEntity> targetList = entity.world.getEntitiesWithinAABB(MobEntity.class, aabb, discardMembersFilter);
+		AABB aabb = entity.getBoundingBox().inflate(targetDistance, targetDistance, targetDistance);
+		List<Mob> targetList = entity.level.getEntitiesOfClass(Mob.class, aabb, discardMembersFilter);
 
 		// exit if no targets where found
 		if (targetList.isEmpty())
@@ -79,10 +79,10 @@ public class AttackNearestMobCommand implements MobCommand {
 		Collections.sort(targetList, entityDistanceSorter);
 
 		// get target
-		MobEntity target = targetList.get(FIRST_INDEX);
+		Mob target = targetList.get(FIRST_INDEX);
 
 		// update target
-		entity.setAttackTarget(target);
+		entity.setTarget(target);
 
 		// exit if target is undefined
 		if (target == null)
@@ -96,7 +96,7 @@ public class AttackNearestMobCommand implements MobCommand {
 	}
 
 	@Override
-	public void tick(LivingEntity commander, CreatureEntity entity) {
+	public void tick(LivingEntity commander, PathfinderMob entity) {
 		// NO-OP
 	}
 

@@ -1,12 +1,12 @@
 package bassebombecraft.client.particles;
 
-import net.minecraft.client.particle.IAnimatedSprite;
-import net.minecraft.client.particle.IParticleFactory;
-import net.minecraft.client.particle.IParticleRenderType;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.SpriteTexturedParticle;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particles.BasicParticleType;
+import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.particles.SimpleParticleType;
 
 /**
  * Chicken particle.
@@ -15,7 +15,7 @@ import net.minecraft.particles.BasicParticleType;
  * 
  * The set of animation frames are defined in the the .json file.
  */
-public class ChickenParticle extends SpriteTexturedParticle {
+public class ChickenParticle extends TextureSheetParticle {
 
 	/**
 	 * Particle identifier.
@@ -23,16 +23,16 @@ public class ChickenParticle extends SpriteTexturedParticle {
 	public static final String NAME = ChickenParticle.class.getSimpleName();
 
 	/**
-	 * ¨ Sprite set.
+	 * ï¿½ Sprite set.
 	 */
-	IAnimatedSprite spriteSet;;
+	SpriteSet spriteSet;;
 
-	ChickenParticle(ClientWorld worldIn, double posXIn, double posYIn, double posZIn) {
+	ChickenParticle(ClientLevel worldIn, double posXIn, double posYIn, double posZIn) {
 		super(worldIn, posXIn, posYIn, posZIn);
 	}
 
-	ChickenParticle(ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn,
-			double ySpeedIn, double zSpeedIn, IAnimatedSprite spriteSet) {
+	ChickenParticle(ClientLevel worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn,
+			double ySpeedIn, double zSpeedIn, SpriteSet spriteSet) {
 		super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
 		this.spriteSet = spriteSet;
 
@@ -50,40 +50,40 @@ public class ChickenParticle extends SpriteTexturedParticle {
 		super.tick();
 
 		// animate particle based on age
-		if (!isExpired)
-			selectSpriteWithAge(spriteSet);
+		if (!removed)
+			setSpriteFromAge(spriteSet);
 	}
 
 	@Override
-	public IParticleRenderType getRenderType() {
-		return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
+	public ParticleRenderType getRenderType() {
+		return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
 	}
 
 	/**
 	 * Particle factory.
 	 */
-	public static class Factory implements IParticleFactory<BasicParticleType> {
+	public static class Factory implements ParticleProvider<SimpleParticleType> {
 
 		/**
 		 * Sprite set.
 		 */
-		IAnimatedSprite spriteSet;
+		SpriteSet spriteSet;
 
 		/**
 		 * Constructor
 		 * 
 		 * @param spriteSet sprite set.
 		 */
-		public Factory(IAnimatedSprite spriteSet) {
+		public Factory(SpriteSet spriteSet) {
 			this.spriteSet = spriteSet;
 		}
 
 		@Override
-		public Particle makeParticle(BasicParticleType typeIn, ClientWorld world, double x, double y, double z,
+		public Particle createParticle(SimpleParticleType typeIn, ClientLevel world, double x, double y, double z,
 				double xSpeed, double ySpeed, double zSpeed) {
 			ChickenParticle particle = new ChickenParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
 			particle.setColor(1.0f, 1.0f, 1.0f);
-			particle.selectSpriteWithAge(spriteSet);
+			particle.setSpriteFromAge(spriteSet);
 			return particle;
 		}
 

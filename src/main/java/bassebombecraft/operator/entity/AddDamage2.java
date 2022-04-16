@@ -9,9 +9,9 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.IndirectEntityDamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.IndirectEntityDamageSource;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which applies damage
@@ -79,7 +79,7 @@ public class AddDamage2 implements Operator2 {
 		// apply damage to target
 		float damage = fnGetDamage.apply(ports).floatValue();
 		DamageSource damageSource = new IndirectEntityDamageSource(DAMAGE_TYPE, source, NULL_INDIRECT_SOURCE);
-		target.attackEntityFrom(damageSource, damage);
+		target.hurt(damageSource, damage);
 	}
 
 }

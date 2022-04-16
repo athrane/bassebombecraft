@@ -1,6 +1,6 @@
 package bassebombecraft.entity.commander;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 
 /**
  * Interface for repository for mob commander.

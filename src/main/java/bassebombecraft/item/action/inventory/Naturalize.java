@@ -11,10 +11,10 @@ import java.util.List;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.geom.GeometryUtils;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
@@ -74,7 +74,7 @@ public class Naturalize implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
+	public void applyEffect(LivingEntity target, Level world, LivingEntity invoker) {
 
 		// calculate position
 		BlockPos targetPosition = calculatePostion(target);
@@ -83,7 +83,7 @@ public class Naturalize implements InventoryItemActionStrategy {
 		BlockPos groundPosition = locateGroundBlockPos(targetPosition, ITERATIONS_TO_QUERY_FOR_GROUND_BLOCK, world);
 
 		// create flower block
-		BlockPos flowerPos = groundPosition.up();
+		BlockPos flowerPos = groundPosition.above();
 		BlockDirective directive = createFlowerDirective(flowerPos, world);
 
 		// create block
@@ -103,12 +103,12 @@ public class Naturalize implements InventoryItemActionStrategy {
 		// initialize if no last position or a new position
 		if (spiralCenter == null)
 			initializeSpiral(target);
-		if (!spiralCenter.equals(target.getPosition()))
+		if (!spiralCenter.equals(target.blockPosition()))
 			initializeSpiral(target);
 
 		// exit if entire spiral is processed
 		if (spiralCounter >= spiralCoordinates.size())
-			return target.getPosition();
+			return target.blockPosition();
 
 		// get next spiral coordinate
 		BlockPos spiralCoord = spiralCoordinates.get(spiralCounter);
@@ -132,7 +132,7 @@ public class Naturalize implements InventoryItemActionStrategy {
 	 */
 	void initializeSpiral(Entity target) {
 		spiralCounter = 0;
-		spiralCenter = new BlockPos(target.getPosX(), target.getPosY(), target.getPosZ());
+		spiralCenter = new BlockPos(target.getX(), target.getY(), target.getZ());
 	}
 
 }

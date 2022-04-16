@@ -5,11 +5,11 @@ import static bassebombecraft.entity.attribute.RegisteredAttributes.IS_DECOY_ATT
 import static bassebombecraft.geom.GeometryUtils.oscillateWithDeltaTime;
 import static net.minecraft.util.math.MathHelper.interpolateAngle;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.renderer.entity.model.PlayerModel;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderLivingEvent.Post;
@@ -35,7 +35,7 @@ public class DecoyRenderer {
 	 * 
 	 * @param event rendering event.
 	 */
-	public static void handleRenderLivingEventPre(Pre<PlayerEntity, PlayerModel<PlayerEntity>> event) {
+	public static void handleRenderLivingEventPre(Pre<Player, PlayerModel<Player>> event) {
 		LivingEntity entity = event.getEntity();
 
 		// exit if entity attribute isn't defined
@@ -46,15 +46,15 @@ public class DecoyRenderer {
 		float scale = calculateSize(DECOY_SCALE, entity);
 
 		// get and push matrix stack
-		MatrixStack matrixStack = event.getMatrixStack();
-		matrixStack.push();
+		PoseStack matrixStack = event.getMatrixStack();
+		matrixStack.pushPose();
 
 		// calculate xz angle from positive z-axis
 		// https://gamedev.stackexchange.com/questions/14602/what-are-atan-and-atan2-used-for-in-games
 		float partialTicks = event.getPartialRenderTick();
-		float f = interpolateAngle(partialTicks, entity.prevRenderYawOffset, entity.renderYawOffset);
-		double x = entity.getPosX();
-		double z = entity.getPosZ();
+		float f = rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot);
+		double x = entity.getX();
+		double z = entity.getZ();
 		double zxAngle = Math.atan2(z, x);
 
 		// convert angle to radians
@@ -64,9 +64,9 @@ public class DecoyRenderer {
 		double angle2 = Math.floor((f - angle1) / 45.0D) * 45.0D;
 
 		// rotate xz, scale depth to "0", rotate back
-		matrixStack.rotate(Vector3f.YP.rotationDegrees((float) angle1));
+		matrixStack.mulPose(Vector3f.YP.rotationDegrees((float) angle1));
 		matrixStack.scale(THIN_DEPTH, scale, scale);
-		matrixStack.rotate(Vector3f.YP.rotationDegrees((float) angle2));
+		matrixStack.mulPose(Vector3f.YP.rotationDegrees((float) angle2));
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class DecoyRenderer {
 
 		// get and pop matrix stack
 		MatrixStack matrixStack = event.getMatrixStack();
-		matrixStack.pop();
+		matrixStack.popPose();
 	}
 
 	/**

@@ -20,8 +20,8 @@ import bassebombecraft.operator.conditional.IsEffectActive2;
 import bassebombecraft.operator.conditional.IsWorldAtServerSide2;
 import bassebombecraft.operator.entity.ReflectMobDamageAmplified2;
 import bassebombecraft.potion.effect.ReflectEffect;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -39,7 +39,7 @@ public class ReflectEffectEventHandler {
 	/**
 	 * Null effect instance.
 	 */
-	static final EffectInstance NO_EFFECT = null;
+	static final MobEffectInstance NO_EFFECT = null;
 
 	/**
 	 * Operator instance (can be null due to class loading).

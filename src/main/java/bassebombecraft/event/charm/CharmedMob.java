@@ -2,8 +2,8 @@ package bassebombecraft.event.charm;
 
 import java.util.Set;
 
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.PrioritizedGoal;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.WrappedGoal;
 
 /**
  * Charmed mob.
@@ -22,7 +22,7 @@ public interface CharmedMob {
 	 * 
 	 * @throws UnsupportedOperationException if operation isn't supported.
 	 */
-	public Set<PrioritizedGoal> getGoals() throws UnsupportedOperationException;
+	public Set<WrappedGoal> getGoals() throws UnsupportedOperationException;
 
 	/**
 	 * Return set of captured AI target goals.
@@ -31,14 +31,14 @@ public interface CharmedMob {
 	 * 
 	 * @throws UnsupportedOperationException if operation isn't supported.
 	 */
-	public Set<PrioritizedGoal> getTargetGoals() throws UnsupportedOperationException;
+	public Set<WrappedGoal> getTargetGoals() throws UnsupportedOperationException;
 
 	/**
 	 * Return charmed mob.
 	 * 
 	 * @return charmed mob
 	 */
-	public MobEntity getEntity();
+	public Mob getEntity();
 
 	/**
 	 * Return remaining duration of charm (in game ticks).

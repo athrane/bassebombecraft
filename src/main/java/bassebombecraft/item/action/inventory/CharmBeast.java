@@ -4,10 +4,10 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.entity.EntityUtils.isTypeMobEntity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
@@ -28,7 +28,7 @@ public class CharmBeast implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
+	public void applyEffect(LivingEntity target, Level world, LivingEntity invoker) {
 		try {
 			
 			// skip if entity can't be charmed, i.e. is a mob entity
@@ -36,7 +36,7 @@ public class CharmBeast implements InventoryItemActionStrategy {
 				return;
 
 			// type cast
-			MobEntity mobEntity = (MobEntity) target;
+			Mob mobEntity = (Mob) target;
 
 			// register mob as charmed
 			getProxy().getServerCharmedMobsRepository().add(mobEntity, invoker);

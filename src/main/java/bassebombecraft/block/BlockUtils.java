@@ -7,7 +7,7 @@ import static bassebombecraft.ModConstants.NULL_TILE_ENTITY;
 import static bassebombecraft.geom.BlockDirective.getInstance;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static net.minecraft.state.properties.BlockStateProperties.FACING;
-import static net.minecraft.state.properties.BlockStateProperties.HORIZONTAL_FACING;
+import staticnet.minecraft.world.level.block.state.properties.BlockStatePropertiess.HORIZONTAL_FACING;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -16,17 +16,17 @@ import bassebombecraft.event.block.temporary.DefaultTemporaryBlock;
 import bassebombecraft.event.block.temporary.TemporaryBlock;
 import bassebombecraft.event.block.temporary.TemporaryBlockRepository;
 import bassebombecraft.geom.BlockDirective;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.block.StairsBlock;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.level.Level;
 
 /**
  * Block utilities.
@@ -60,7 +60,7 @@ public class BlockUtils {
 	public static void createBlock(BlockDirective blockDirective) {
 
 		// get world
-		World world = blockDirective.getWorld();
+		Level world = blockDirective.getWorld();
 
 		// exit if handler is executed at client side
 		if (isLogicalClient(world))
@@ -75,11 +75,11 @@ public class BlockUtils {
 			BlockState blockState = getBlockStateFromPosition(blockPosition, world);
 
 			ItemStack emptyItemStack = new ItemStack(block);
-			Optional<PlayerEntity> optPlayer = blockDirective.getPlayer();
+			Optional<Player> optPlayer = blockDirective.getPlayer();
 
 			// will only harvest if player is defined
 			if (optPlayer.isPresent()) {
-				block.harvestBlock(world, optPlayer.get(), blockPosition, blockState, NULL_TILE_ENTITY, emptyItemStack);
+				block.playerDestroy(world, optPlayer.get(), blockPosition, blockState, NULL_TILE_ENTITY, emptyItemStack);
 			} else {
 				// log warning if player was undefined
 				String msg = new StringBuilder().append("Attempted to harvest block directive=").append(blockDirective)
@@ -89,7 +89,7 @@ public class BlockUtils {
 		}
 
 		// set block state
-		world.setBlockState(blockPosition, blockDirective.getState(), SEND_CHANGE_CLIENTS);
+		world.setBlock(blockPosition, blockDirective.getState(), SEND_CHANGE_CLIENTS);
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class BlockUtils {
 	 * @param world         world object.
 	 * @return block located at block position
 	 */
-	public static Block getBlockFromPosition(BlockPos blockPosition, World world) {
+	public static Block getBlockFromPosition(BlockPos blockPosition, Level world) {
 		BlockState blockState = world.getBlockState(blockPosition);
 		return blockState.getBlock();
 	}
@@ -112,7 +112,7 @@ public class BlockUtils {
 	 * 
 	 * @return block defined at position specified by block directive.
 	 */
-	public static Block getBlockFromPosition(BlockDirective blockDirective, World world) {
+	public static Block getBlockFromPosition(BlockDirective blockDirective, Level world) {
 		BlockPos blockPosition = blockDirective.getBlockPosition();
 		return getBlockFromPosition(blockPosition, world);
 	}
@@ -125,7 +125,7 @@ public class BlockUtils {
 	 * 
 	 * @return block state located at block position
 	 */
-	public static BlockState getBlockStateFromPosition(BlockPos blockPosition, World world) {
+	public static BlockState getBlockStateFromPosition(BlockPos blockPosition, Level world) {
 		return world.getBlockState(blockPosition);
 	}
 
@@ -159,13 +159,13 @@ public class BlockUtils {
 		if (hasFacingProperty(sourceState)) {
 
 			// get direction
-			Direction direction = sourceState.get(FACING);
+			Direction direction = sourceState.getValue(FACING);
 
 			// calculate new orientation
 			Direction newDirection = calculateFacingProperty(direction, orientation);
 
 			// create now rotated state
-			BlockState rotatedState = sourceState.with(FACING, newDirection);
+			BlockState rotatedState = sourceState.setValue(FACING, newDirection);
 
 			return rotatedState;
 		}
@@ -174,13 +174,13 @@ public class BlockUtils {
 		if (hasHorizontalFacingProperty(sourceState)) {
 
 			// get direction
-			Direction direction = sourceState.get(HORIZONTAL_FACING);
+			Direction direction = sourceState.getValue(HORIZONTAL_FACING);
 
 			// calculate new orientation
 			Direction newDirection = calculateFacingProperty(direction, orientation);
 
 			// create now rotated state
-			BlockState rotatedState = sourceState.with(HORIZONTAL_FACING, newDirection);
+			BlockState rotatedState = sourceState.setValue(HORIZONTAL_FACING, newDirection);
 
 			return rotatedState;
 		}
@@ -205,18 +205,18 @@ public class BlockUtils {
 			return direction;
 
 		if (orientation == 90) {
-			return direction.rotateY();
+			return direction.getClockWise();
 		}
 
 		if (orientation == 180) {
-			Direction d0 = direction.rotateY();
-			return d0.rotateY();
+			Direction d0 = direction.getClockWise();
+			return d0.getClockWise();
 		}
 
 		if (orientation == 270) {
-			Direction d0 = direction.rotateY();
-			Direction d1 = d0.rotateY();
-			return d1.rotateY();
+			Direction d0 = direction.getClockWise();
+			Direction d1 = d0.getClockWise();
+			return d1.getClockWise();
 		}
 
 		return direction;
@@ -254,7 +254,7 @@ public class BlockUtils {
 	 * 
 	 * @return true if if at least one block in the stream isn't of type air.
 	 */
-	public static boolean containsNonAirBlocks(Stream<BlockPos> blocks, World world) {
+	public static boolean containsNonAirBlocks(Stream<BlockPos> blocks, Level world) {
 		return blocks.map(bp -> getBlockFromPosition(bp, world)).anyMatch(b -> b != Blocks.AIR);
 	}
 
@@ -265,29 +265,29 @@ public class BlockUtils {
 	 * 
 	 * @return block position that was hit.
 	 */
-	public static BlockPos calculatePosition(BlockRayTraceResult result) {
+	public static BlockPos calculatePosition(BlockHitResult result) {
 
-		switch (result.getFace()) {
+		switch (result.getDirection()) {
 
 		case UP:
-			return result.getPos().up();
+			return result.getBlockPos().above();
 		case DOWN:
-			return result.getPos().down();
+			return result.getBlockPos().below();
 
 		case SOUTH:
-			return result.getPos().south();
+			return result.getBlockPos().south();
 
 		case NORTH:
-			return result.getPos().north();
+			return result.getBlockPos().north();
 
 		case EAST:
-			return result.getPos().east();
+			return result.getBlockPos().east();
 
 		case WEST:
-			return result.getPos().west();
+			return result.getBlockPos().west();
 
 		default:
-			return result.getPos().up();
+			return result.getBlockPos().above();
 		}
 	}
 
@@ -299,7 +299,7 @@ public class BlockUtils {
 	 * @param tempBlock temporary block to set.
 	 * @param duration  duration in game ticks for temporary block to exist.
 	 */
-	public static void setTemporaryBlock(World world, BlockPos pos, Block tempBlock, int duration) {
+	public static void setTemporaryBlock(Level world, BlockPos pos, Block tempBlock, int duration) {
 		BlockDirective tempDirective = getInstance(pos, tempBlock, DONT_HARVEST, world);
 		setTemporaryBlock(tempDirective, duration);
 	}
@@ -314,7 +314,7 @@ public class BlockUtils {
 	public static void setTemporaryBlock(BlockDirective tempDirective, int duration) {
 
 		// get world
-		World world = tempDirective.getWorld();
+		Level world = tempDirective.getWorld();
 
 		// create original block
 		Block block = BlockUtils.getBlockFromPosition(tempDirective.getBlockPosition(), world);
@@ -339,23 +339,23 @@ public class BlockUtils {
 		switch (colorSelector) {
 
 		case 0:
-			return Blocks.MAGENTA_WOOL.getDefaultState();
+			return Blocks.MAGENTA_WOOL.defaultBlockState();
 		case 1:
-			return Blocks.PURPLE_WOOL.getDefaultState();
+			return Blocks.PURPLE_WOOL.defaultBlockState();
 		case 2:
-			return Blocks.BLUE_WOOL.getDefaultState();
+			return Blocks.BLUE_WOOL.defaultBlockState();
 		case 3:
-			return Blocks.LIGHT_BLUE_WOOL.getDefaultState();
+			return Blocks.LIGHT_BLUE_WOOL.defaultBlockState();
 		case 4:
-			return Blocks.LIME_WOOL.getDefaultState();
+			return Blocks.LIME_WOOL.defaultBlockState();
 		case 5:
-			return Blocks.YELLOW_WOOL.getDefaultState();
+			return Blocks.YELLOW_WOOL.defaultBlockState();
 		case 6:
-			return Blocks.ORANGE_WOOL.getDefaultState();
+			return Blocks.ORANGE_WOOL.defaultBlockState();
 		case 7:
-			return Blocks.RED_WOOL.getDefaultState();
+			return Blocks.RED_WOOL.defaultBlockState();
 		default:
-			return Blocks.WHITE_WOOL.getDefaultState();
+			return Blocks.WHITE_WOOL.defaultBlockState();
 		}
 	}
 
@@ -372,11 +372,11 @@ public class BlockUtils {
 		switch (colorSelector) {
 
 		case 0:
-			return Blocks.PINK_WOOL.getDefaultState();
+			return Blocks.PINK_WOOL.defaultBlockState();
 		case 1:
-			return Blocks.MAGENTA_WOOL.getDefaultState();
+			return Blocks.MAGENTA_WOOL.defaultBlockState();
 		default:
-			return Blocks.PINK_WOOL.getDefaultState();
+			return Blocks.PINK_WOOL.defaultBlockState();
 		}
 	}
 
@@ -402,7 +402,7 @@ public class BlockUtils {
 	 * 
 	 * @return true if block is a water block.
 	 */
-	public static boolean hasWater(BlockPos position, World world) {
+	public static boolean hasWater(BlockPos position, Level world) {
 		BlockState state = world.getBlockState(position);
 		return (state.getBlock() == Blocks.WATER);
 	}

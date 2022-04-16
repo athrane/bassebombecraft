@@ -4,13 +4,13 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
 import java.util.Random;
 
-import net.minecraft.client.particle.IAnimatedSprite;
-import net.minecraft.client.particle.IParticleFactory;
-import net.minecraft.client.particle.IParticleRenderType;
+import net.minecraft.client.particle.SpriteSet;
+import net.minecraft.client.particle.ParticleProvider;
+import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.particle.SpriteTexturedParticle;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.particles.BasicParticleType;
+import net.minecraft.client.particle.TextureSheetParticle;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.particles.SimpleParticleType;
 
 /**
  * Player aggro particle.
@@ -19,7 +19,7 @@ import net.minecraft.particles.BasicParticleType;
  * 
  * The set of animation frame is defined in the the .json file.
  */
-public class PlayerAggroParticle extends SpriteTexturedParticle {
+public class PlayerAggroParticle extends TextureSheetParticle {
 
 	/**
 	 * Particle identifier.
@@ -27,16 +27,16 @@ public class PlayerAggroParticle extends SpriteTexturedParticle {
 	public static final String NAME = PlayerAggroParticle.class.getSimpleName();
 
 	/**
-	 * ¨ Sprite set.
+	 * ï¿½ Sprite set.
 	 */
-	IAnimatedSprite spriteSet;;
+	SpriteSet spriteSet;;
 
-	PlayerAggroParticle(ClientWorld worldIn, double posXIn, double posYIn, double posZIn) {
+	PlayerAggroParticle(ClientLevel worldIn, double posXIn, double posYIn, double posZIn) {
 		super(worldIn, posXIn, posYIn, posZIn);
 	}
 
-	PlayerAggroParticle(ClientWorld worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn,
-			double ySpeedIn, double zSpeedIn, IAnimatedSprite spriteSet) {
+	PlayerAggroParticle(ClientLevel worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn,
+			double ySpeedIn, double zSpeedIn, SpriteSet spriteSet) {
 		super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
 		this.spriteSet = spriteSet;
 
@@ -44,9 +44,9 @@ public class PlayerAggroParticle extends SpriteTexturedParticle {
 		Random random = getBassebombeCraft().getRandom();
 
 		// set speed
-		this.motionX = xSpeedIn * (random.nextDouble() * 2.0D - 1.0D);
-		this.motionY = ySpeedIn * (random.nextDouble() * 2.0D - 1.0D);
-		this.motionZ = zSpeedIn * (random.nextDouble() * 2.0D - 1.0D);
+		this.xd = xSpeedIn * (random.nextDouble() * 2.0D - 1.0D);
+		this.yd = ySpeedIn * (random.nextDouble() * 2.0D - 1.0D);
+		this.zd = zSpeedIn * (random.nextDouble() * 2.0D - 1.0D);
 	}
 
 	@Override
@@ -54,40 +54,40 @@ public class PlayerAggroParticle extends SpriteTexturedParticle {
 		super.tick();
 
 		// animate particle based on age
-		if (!isExpired)
-			selectSpriteWithAge(spriteSet);
+		if (!removed)
+			setSpriteFromAge(spriteSet);
 	}
 
 	@Override
-	public IParticleRenderType getRenderType() {
-		return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
+	public ParticleRenderType getRenderType() {
+		return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
 	}
 
 	/**
 	 * Particle factory.
 	 */
-	public static class Factory implements IParticleFactory<BasicParticleType> {
+	public static class Factory implements ParticleProvider<SimpleParticleType> {
 
 		/**
 		 * Sprite set.
 		 */
-		IAnimatedSprite spriteSet;
+		SpriteSet spriteSet;
 
 		/**
 		 * Constructor
 		 * 
 		 * @param spriteSet sprite set.
 		 */
-		public Factory(IAnimatedSprite spriteSet) {
+		public Factory(SpriteSet spriteSet) {
 			this.spriteSet = spriteSet;
 		}
 
 		@Override
-		public Particle makeParticle(BasicParticleType typeIn, ClientWorld world, double x, double y, double z,
+		public Particle createParticle(SimpleParticleType typeIn, ClientLevel world, double x, double y, double z,
 				double xSpeed, double ySpeed, double zSpeed) {
 			PlayerAggroParticle particle = new PlayerAggroParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, spriteSet);
 			particle.setColor(1.0f, 1.0f, 1.0f);
-			particle.selectSpriteWithAge(spriteSet);
+			particle.setSpriteFromAge(spriteSet);
 			return particle;
 		}
 

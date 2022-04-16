@@ -14,15 +14,15 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.SquidEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Squid;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which spawns an ice
@@ -56,12 +56,12 @@ public class SpawnSquid2 implements Operator2 {
 	/**
 	 * Function to get ray trace result.
 	 */
-	Function<Ports, RayTraceResult> fnGetRayTraceResult;
+	Function<Ports, HitResult> fnGetRayTraceResult;
 
 	/**
 	 * Function to get world from ports.
 	 */
-	Function<Ports, World> fnGetWorld;
+	Function<Ports, Level> fnGetWorld;
 
 	/**
 	 * Constructor.
@@ -69,7 +69,7 @@ public class SpawnSquid2 implements Operator2 {
 	 * @param splRayTraceResult function to get ray trace result.
 	 * @param fnGetWorld        function to get world.
 	 */
-	public SpawnSquid2(Function<Ports, RayTraceResult> fnGetRayTraceResult, Function<Ports, World> fnGetWorld) {
+	public SpawnSquid2(Function<Ports, HitResult> fnGetRayTraceResult, Function<Ports, Level> fnGetWorld) {
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 		this.fnGetWorld = fnGetWorld;
 	}
@@ -87,15 +87,15 @@ public class SpawnSquid2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
-		World world = applyV(fnGetWorld, ports);
+		HitResult result = applyV(fnGetRayTraceResult, ports);
+		Level world = applyV(fnGetWorld, ports);
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
 			return;
 
 		// declare variables
-		Vector3d posVec = null;
+		Vec3 posVec = null;
 		float yaw = 0;
 
 		// spawn squid around entity
@@ -106,14 +106,14 @@ public class SpawnSquid2 implements Operator2 {
 				return;
 
 			// get entity
-			Entity entity = ((EntityRayTraceResult) result).getEntity();
+			Entity entity = ((EntityHitResult) result).getEntity();
 
 			// get entity position
-			posVec = entity.getPositionVec();
-			posVec = posVec.add(0, entity.getHeight(), 0);
+			posVec = entity.position();
+			posVec = posVec.add(0, entity.getBbHeight(), 0);
 
 			// get entity yaw
-			yaw = entity.getYaw(PARTIAL_TICKS);
+			yaw = entity.getViewYRot(PARTIAL_TICKS);
 		}
 
 		// teleport to hit block
@@ -124,20 +124,20 @@ public class SpawnSquid2 implements Operator2 {
 				return;
 
 			// type cast
-			BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
+			BlockHitResult blockResult = (BlockHitResult) result;
 
 			// calculate spawn position
 			BlockPos spawnPosition = calculatePosition(blockResult);
-			posVec = new Vector3d(spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getZ());
+			posVec = new Vec3(spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getZ());
 		}
 
 		// spawn squid
-		SquidEntity entity = EntityType.SQUID.create(world);
+		Squid entity = EntityType.SQUID.create(world);
 		double lx = posVec.x;
 		double ly = posVec.y + Y_SPAWN_OFFSET;
 		double lz = posVec.z;
-		entity.setLocationAndAngles(lx, ly, lz, yaw, PITCH);
-		world.addEntity(entity);
+		entity.moveTo(lx, ly, lz, yaw, PITCH);
+		world.addFreshEntity(entity);
 	}
 
 }

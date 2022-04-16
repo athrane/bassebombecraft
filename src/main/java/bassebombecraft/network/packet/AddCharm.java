@@ -8,10 +8,10 @@ import java.util.function.Supplier;
 import bassebombecraft.client.event.charm.ClientCharmedMobsRepository;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
@@ -38,7 +38,7 @@ public class AddCharm {
 	 * 
 	 * @param buf packet buffer.
 	 */
-	public AddCharm(PacketBuffer buf) {
+	public AddCharm(FriendlyByteBuf buf) {
 		this.entityId = buf.readInt();
 	}
 
@@ -47,8 +47,8 @@ public class AddCharm {
 	 * 
 	 * @param entity entity which is charmed.
 	 */
-	public AddCharm(MobEntity entity) {
-		this.entityId = entity.getEntityId();
+	public AddCharm(Mob entity) {
+		this.entityId = entity.getId();
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class AddCharm {
 	 * 
 	 * @param buf packet buffer.
 	 */
-	public void encode(PacketBuffer buf) {
+	public void encode(FriendlyByteBuf buf) {
 		buf.writeInt(entityId);
 	}
 
@@ -83,13 +83,13 @@ public class AddCharm {
 
 			// get client side entity from ID
 			Minecraft mcClient = Minecraft.getInstance();
-			Entity entity = mcClient.world.getEntityByID(entityId);
+			Entity entity = mcClient.level.getEntity(entityId);
 
 			// exit if entity isn't defined
 			if(entity == null) return;
 			
 			// type cast
-			MobEntity mobEntity = (MobEntity) entity;
+			Mob mobEntity = (Mob) entity;
 
 			// register
 			CharmedMobsRepository repository = getProxy().getClientCharmedMobsRepository();

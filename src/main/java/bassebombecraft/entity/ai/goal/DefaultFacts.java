@@ -5,8 +5,8 @@ import static bassebombecraft.ModConstants.AI_COMPANION_ATTACK_MINIMUM_RANGE;
 import java.util.stream.Stream;
 
 import bassebombecraft.geom.GeometryUtils;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.core.BlockPos;
 
 /**
  * Implementation if the {@linkplain Facts} interface.

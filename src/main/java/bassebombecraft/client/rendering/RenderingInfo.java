@@ -1,6 +1,6 @@
 package bassebombecraft.client.rendering;
 
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.phys.HitResult;
 
 /**
  * Interface for rendering info needed to render the HUD item.
@@ -55,7 +55,7 @@ public interface RenderingInfo {
 	 * 
 	 * @return ray trace result
 	 */
-	RayTraceResult getResult();
+	HitResult getResult();
 
 	/**
 	 * Returns true if ray trace result is defined.

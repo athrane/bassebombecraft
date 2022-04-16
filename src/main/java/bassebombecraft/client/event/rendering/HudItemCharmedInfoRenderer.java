@@ -18,7 +18,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import bassebombecraft.client.operator.ClientPorts;
 import bassebombecraft.client.operator.rendering.RenderMultiLineTextBillboard2;
@@ -27,7 +27,7 @@ import bassebombecraft.event.charm.CharmedMob;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.operator.Operator2;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 /**
@@ -81,7 +81,7 @@ public class HudItemCharmedInfoRenderer {
 				return;
 
 			// get player
-			PlayerEntity player = getClientSidePlayer();
+			Player player = getClientSidePlayer();
 
 			// exit if HUD item isn't in hotbar
 			if (!isItemInHotbar(player, HUD.get()))
@@ -100,7 +100,7 @@ public class HudItemCharmedInfoRenderer {
 	 * @param matrixStack matrix static for rendering transforms.
 	 * @param player      player object.
 	 */
-	static void render(MatrixStack matrixStack, PlayerEntity player) {
+	static void render(PoseStack matrixStack, Player player) {
 
 		// get charmed entities
 		CharmedMobsRepository repository = getProxy().getClientCharmedMobsRepository();

@@ -15,8 +15,8 @@ import static net.minecraftforge.registries.ForgeRegistries.POTION_TYPES;
 
 import java.util.function.Supplier;
 
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.Potion;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 
@@ -47,7 +47,7 @@ public class RegisteredPotions {
 	 * 
 	 * @return registry object.
 	 */	
-	static RegistryObject<Potion> register(String key, RegistryObject<Effect> splEffect) {
+	static RegistryObject<Potion> register(String key, RegistryObject<MobEffect> splEffect) {
 		Supplier<Potion> splPotion = () -> getInstance(key, splEffect.get());
 		return POTION_REGISTRY.register(key.toLowerCase(), splPotion);
 	}

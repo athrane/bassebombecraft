@@ -11,8 +11,8 @@ import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.core.BlockPos;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which adds particles
@@ -61,7 +61,7 @@ public class AddParticlesFromEntityAtClient2 implements Operator2 {
 		LivingEntity entity = applyV(fnGetLivingEntity, ports);
 
 		// get entity position
-		BlockPos pos = entity.getPosition();
+		BlockPos pos = entity.blockPosition();
 
 		// iterate over rendering info's
 		for (ParticleRenderingInfo info : infos) {

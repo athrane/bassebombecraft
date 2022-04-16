@@ -21,11 +21,11 @@ import bassebombecraft.client.operator.rendering.RenderWireframeBoundingBox2;
 import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Sequence2;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.client.event.DrawHighlightEvent.HighlightBlock;
 
 /**
@@ -65,7 +65,7 @@ public class BuildMineBookRenderer {
 				return;
 
 			// get player
-			PlayerEntity player = getClientSidePlayer();
+			Player player = getClientSidePlayer();
 
 			// render if build mine book is in hand
 			if (!isItemHeldInEitherHands(player, MINE_BOOK.get()))
@@ -84,21 +84,21 @@ public class BuildMineBookRenderer {
 	 * @param event  the highlight block event.
 	 * @param player player object.
 	 */
-	static void render(HighlightBlock event, PlayerEntity player) {
+	static void render(HighlightBlock event, Player player) {
 
 		// get ray trace result
-		BlockRayTraceResult result = event.getTarget();
+		BlockHitResult result = event.getTarget();
 
 		// exit if player isn't looking at a block
 		if (result.getType() != BLOCK)
 			return;
 
 		// create aabb for block
-		BlockPos blockPos = result.getPos();
-		AxisAlignedBB aabb = new AxisAlignedBB(blockPos);
+		BlockPos blockPos = result.getBlockPos();
+		AABB aabb = new AABB(blockPos);
 
 		// get direction
-		Direction direction = result.getFace();
+		Direction direction = result.getDirection();
 
 		// generate message
 		String message = "N/A";

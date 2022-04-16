@@ -3,10 +3,10 @@ package bassebombecraft.entity.ai.goal;
 import static bassebombecraft.entity.EntityUtils.isMinimumDistanceReached;
 import static bassebombecraft.entity.ai.AiUtils.setMutexFlagsforMovementGoal;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Charge goal which moves entity towards target until target is within range.
@@ -27,7 +27,7 @@ public class ChargeTowardsGoal extends Goal {
 	/**
 	 * Goal owner.
 	 */
-	final MobEntity entity;
+	final Mob entity;
 
 	/**
 	 * Target.
@@ -46,7 +46,7 @@ public class ChargeTowardsGoal extends Goal {
 	 * @param target      target entity.
 	 * @param minDistance minimum distance to target to stop charging.
 	 */
-	public ChargeTowardsGoal(MobEntity entity, LivingEntity target, int minDistance) {
+	public ChargeTowardsGoal(Mob entity, LivingEntity target, int minDistance) {
 		this.entity = entity;
 		this.target = target;
 		this.minDistanceSqr = minDistance * minDistance;
@@ -54,7 +54,7 @@ public class ChargeTowardsGoal extends Goal {
 	}
 
 	@Override
-	public boolean shouldExecute() {
+	public boolean canUse() {
 
 		// exit if target is undefined
 		if (target == null)
@@ -77,15 +77,15 @@ public class ChargeTowardsGoal extends Goal {
 	public void tick() {
 
 		// move towards target
-		Vector3d Vector3d = target.getEyePosition(1.0F);
-		entity.getMoveHelper().setMoveTo(Vector3d.x, Vector3d.y, Vector3d.z, SPEED_MODIFIER);
+		Vec3 Vector3d = target.getEyePosition(1.0F);
+		entity.getMoveControl().setWantedPosition(Vector3d.x, Vector3d.y, Vector3d.z, SPEED_MODIFIER);
 
 		// update target
-		entity.setAttackTarget(target);
+		entity.setTarget(target);
 	}
 
 	@Override
-	public void resetTask() {
+	public void stop() {
 
 		// don't reset if target is undefined
 		if (target == null)

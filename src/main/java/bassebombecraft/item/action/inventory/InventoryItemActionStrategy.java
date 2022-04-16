@@ -1,8 +1,8 @@
 package bassebombecraft.item.action.inventory;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 
 /**
  * Strategy for inventory item action.
@@ -35,6 +35,6 @@ public interface InventoryItemActionStrategy {
 	 * @param world   world object.
 	 * @param invoker invoker entity.
 	 */
-	void applyEffect(LivingEntity target, World world, LivingEntity invoker);
+	void applyEffect(LivingEntity target, Level world, LivingEntity invoker);
 
 }

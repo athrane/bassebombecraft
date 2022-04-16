@@ -12,8 +12,8 @@ import bassebombecraft.entity.commander.command.AttackNearestPlayerCommand;
 import bassebombecraft.entity.commander.command.DanceCommand;
 import bassebombecraft.entity.commander.command.NullCommand;
 import static bassebombecraft.player.PlayerUtils.*;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 
 public class DefaultMobCommanderRepository implements MobCommanderRepository {
 
@@ -146,7 +146,7 @@ public class DefaultMobCommanderRepository implements MobCommanderRepository {
 		if (isTypePlayerEntity(entity)) {
 
 			// type cast
-			PlayerEntity player = (PlayerEntity) entity;
+			Player player = (Player) entity;
 
 			// send message
 			sendChatMessageToPlayer(player, "Krenko commands: " + command.getTitle());

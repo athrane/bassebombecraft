@@ -12,10 +12,10 @@ import static bassebombecraft.geom.GeometryUtils.oscillate;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 
 /**
  * Implementation of the {@linkplain BoundingBoxRenderer} for rendering the side
@@ -27,7 +27,7 @@ import net.minecraft.util.math.RayTraceResult;
 public class HitByRayTraceBoundingBoxRenderer implements BoundingBoxRenderer {
 
 	@Override
-	public void render(AxisAlignedBB aabb, RenderingInfo info) {
+	public void render(AABB aabb, RenderingInfo info) {
 		double x = info.getRveTranslatedViewX();
 		double y = info.getRveTranslatedViewYOffsetWithPlayerEyeHeight();
 		double z = info.getRveTranslatedViewZ();
@@ -41,27 +41,27 @@ public class HitByRayTraceBoundingBoxRenderer implements BoundingBoxRenderer {
 			return;
 
 		// get ray trace result
-		RayTraceResult result = info.getResult();
+		HitResult result = info.getResult();
 
 		// type cast
-		BlockRayTraceResult blockResult = (BlockRayTraceResult) result;
+		BlockHitResult blockResult = (BlockHitResult) result;
 
 		// get direction
-		Direction direction = blockResult.getFace();
+		Direction direction = blockResult.getDirection();
 
 		// grow box to avoid artifacts
-		aabb = aabb.grow(0.01);
+		aabb = aabb.inflate(0.01);
 
 		prepareSimpleRendering(x, y, z);
 
-		GlStateManager.enableBlend();
+		GlStateManager._enableBlend();
 		//GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
-		GlStateManager.disableTexture();
-		GlStateManager.depthMask(false);
+		GlStateManager._disableTexture();
+		GlStateManager._depthMask(false);
 
 		// oscillate alpha
 		float alpha = (float) oscillate(0.25F, 1.0F);
-		GlStateManager.color4f(0.75F, 0.75F, 0, alpha);
+		GlStateManager._color4f(0.75F, 0.75F, 0, alpha);
 
 		switch (direction) {
 		case UP:
@@ -90,7 +90,7 @@ public class HitByRayTraceBoundingBoxRenderer implements BoundingBoxRenderer {
 		default: // NO-OP
 		}
 
-		GlStateManager.depthMask(true);
+		GlStateManager._depthMask(true);
 		completeSimpleRendering();
 	}
 }

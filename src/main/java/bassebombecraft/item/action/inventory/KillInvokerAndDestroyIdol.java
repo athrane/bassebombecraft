@@ -2,10 +2,10 @@ package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.entity.EntityUtils.killEntity;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
@@ -24,14 +24,14 @@ public class KillInvokerAndDestroyIdol implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
+	public void applyEffect(LivingEntity target, Level world, LivingEntity invoker) {
 
 		// destroy idol
-		Iterable<ItemStack> heldEquipment = invoker.getHeldEquipment();
+		Iterable<ItemStack> heldEquipment = invoker.getHandSlots();
 
 		for (ItemStack equipment : heldEquipment) {
 			int damage = equipment.getMaxDamage();
-			equipment.setDamage(damage);
+			equipment.setDamageValue(damage);
 		}
 
 		// kill target

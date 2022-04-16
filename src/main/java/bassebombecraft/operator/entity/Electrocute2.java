@@ -26,9 +26,9 @@ import bassebombecraft.operator.ResetResult2;
 import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.client.rendering.AddGraphicalEffectAtClient2;
 import bassebombecraft.operator.conditional.IsFrequencyActive2;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which applies AOE
@@ -74,10 +74,10 @@ public class Electrocute2 implements Operator2 {
 		Function<Ports, Integer> fnGetFrequency = p -> electrocuteAoeFrequency.get().intValue();
 		
 		// FindEntities2: get source position from source entity
-		Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(fnGetSource, p).getPosition();
+		Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(fnGetSource, p).blockPosition();
 
 		// FindEntities2: get world from source entity
-		Function<Ports, World> fnGetWorld = p -> applyV(fnGetSource, p).getEntityWorld();
+		Function<Ports, Level> fnGetWorld = p -> applyV(fnGetSource, p).getCommandSenderWorld();
 
 		// FindEntities2: get function to create exclusion predicate using the true
 		// source entity

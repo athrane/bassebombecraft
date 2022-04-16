@@ -14,11 +14,11 @@ import static java.util.Optional.ofNullable;
 
 import java.util.Optional;
 
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.Effect;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.level.Level;
 
 /**
  * Effect which make the entity with the effect, "aggro" any player , e.g.
@@ -26,7 +26,7 @@ import net.minecraft.world.World;
  * 
  * The effect has no effect on the player.
  */
-public class AggroPlayerEffect extends Effect {
+public class AggroPlayerEffect extends MobEffect {
 
 	/**
 	 * Effect identifier.
@@ -41,7 +41,7 @@ public class AggroPlayerEffect extends Effect {
 	}
 
 	@Override
-	public void performEffect(LivingEntity entity, int amplifier) {
+	public void applyEffectTick(LivingEntity entity, int amplifier) {
 
 		// exit if entity is undefined
 		if (entity == null)
@@ -58,11 +58,11 @@ public class AggroPlayerEffect extends Effect {
 		// get target (either as creature or living entity)
 		LivingEntity target = null;
 		if (isTypeCreatureEntity(entity)) {
-			CreatureEntity entityCreature = (CreatureEntity) entity;
-			target = entityCreature.getAttackTarget();
+			PathfinderMob entityCreature = (PathfinderMob) entity;
+			target = entityCreature.getTarget();
 		} else {
 			LivingEntity entityLiving = (LivingEntity) entity;
-			target = entityLiving.getLastAttackedEntity();
+			target = entityLiving.getLastHurtMob();
 		}
 
 		// exit if target is defined, it is a player and it is alive
@@ -70,12 +70,12 @@ public class AggroPlayerEffect extends Effect {
 			return;
 
 		// get world
-		World world = entity.getEntityWorld();
+		Level world = entity.getCommandSenderWorld();
 
 		// get closet player
 		int arreaOfEffect = aggroPlayerEffectAreaOfEffect.get();
 		double searchDist = (double) arreaOfEffect;
-		Optional<PlayerEntity> optPlayer = ofNullable(world.getClosestPlayer(entity, searchDist));
+		Optional<Player> optPlayer = ofNullable(world.getNearestPlayer(entity, searchDist));
 
 		// exit if no targets where found
 		if (!optPlayer.isPresent())
@@ -89,7 +89,7 @@ public class AggroPlayerEffect extends Effect {
 	}
 
 	@Override
-	public boolean isReady(int duration, int amplifier) {
+	public boolean isDurationEffectTick(int duration, int amplifier) {
 		int updateFrequency = aggroPlayerEffectUpdateFrequency.get();
 		int moduloValue = duration % updateFrequency;
 		return (moduloValue == 0);

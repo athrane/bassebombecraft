@@ -9,16 +9,16 @@ import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 
 import static bassebombecraft.config.ModConfiguration.*;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.SkeletonEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Skeleton;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain ProjectileAction} which spawns a skeleton
@@ -55,25 +55,25 @@ public class SpawnSkeletonArmy implements ProjectileAction {
 	}
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult result) {
+	public void execute(ThrowableProjectile projectile, Level world, HitResult result) {
 		try {
 			// get shooter
-			Entity shooter = projectile.getShooter();
+			Entity shooter = projectile.getOwner();
 			
 			for (int i = 0; i < entities; i++) {
 
 				// create skeleton
-				SkeletonEntity entity = EntityType.SKELETON.create(world);
+				Skeleton entity = EntityType.SKELETON.create(world);
 
 				// calculate random spawn position
-				setRandomSpawnPosition(projectile.getPosition(), projectile.rotationYaw, spawnArea, entity);
+				setRandomSpawnPosition(projectile.blockPosition(), projectile.yRot, spawnArea, entity);
 
 				// add bow
-				entity.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(Items.BOW));
+				entity.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
 
 				// helmet
 				ItemStack helmetstack = new ItemStack(Items.DIAMOND_HELMET);
-				entity.setItemStackToSlot(EquipmentSlotType.HEAD, helmetstack);
+				entity.setItemSlot(EquipmentSlot.HEAD, helmetstack);
 
 				// if shooter is a living entity then add entity to shooters team
 				if (isTypeLivingEntity(shooter)) {
@@ -87,7 +87,7 @@ public class SpawnSkeletonArmy implements ProjectileAction {
 				}
 				
 				// spawn
-				world.addEntity(entity);
+				world.addFreshEntity(entity);
 			}
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

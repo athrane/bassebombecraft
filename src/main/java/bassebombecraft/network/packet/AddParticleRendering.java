@@ -10,9 +10,9 @@ import java.util.function.Supplier;
 import bassebombecraft.client.event.rendering.particle.ParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.BlockPos;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -68,15 +68,15 @@ public class AddParticleRendering {
 	/**
 	 * Particle type.
 	 */
-	BasicParticleType type;
+	SimpleParticleType type;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param buf packet buffer.
 	 */
-	public AddParticleRendering(PacketBuffer buf) {
-		this.id = buf.readString();
+	public AddParticleRendering(FriendlyByteBuf buf) {
+		this.id = buf.readUtf();
 		this.position = buf.readBlockPos();
 		this.duration = buf.readInt();
 		this.speed = buf.readDouble();
@@ -84,7 +84,7 @@ public class AddParticleRendering {
 		this.rgbRed = buf.readFloat();
 		this.rgbGreen = buf.readFloat();
 		this.rgbBlue = buf.readFloat();
-		this.type = (BasicParticleType) ForgeRegistries.PARTICLE_TYPES.getValue(buf.readResourceLocation());
+		this.type = (SimpleParticleType) ForgeRegistries.PARTICLE_TYPES.getValue(buf.readResourceLocation());
 	}
 
 	/**
@@ -109,8 +109,8 @@ public class AddParticleRendering {
 	 * 
 	 * @param buf packet buffer.
 	 */
-	public void encode(PacketBuffer buf) {
-		buf.writeString(id);
+	public void encode(FriendlyByteBuf buf) {
+		buf.writeUtf(id);
 		buf.writeBlockPos(position);
 		buf.writeInt(duration);
 		buf.writeDouble(speed);

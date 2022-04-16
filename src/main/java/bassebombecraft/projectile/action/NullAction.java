@@ -1,8 +1,8 @@
 package bassebombecraft.projectile.action;
 
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain ProjectileAction} which implements NO-OP action.
@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 public class NullAction implements ProjectileAction{
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {		
+	public void execute(ThrowableProjectile projectile, Level world, HitResult movObjPos) {		
 		// NO-OP
 	}
 

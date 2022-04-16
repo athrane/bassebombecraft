@@ -1,6 +1,6 @@
 package bassebombecraft.client.rendering;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 
 /**
  * Interface for rendering a single entity.

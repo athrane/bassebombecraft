@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 
 import bassebombecraft.client.event.rendering.particle.ParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRendering;
-import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.fml.network.NetworkEvent.Context;
 
@@ -29,8 +29,8 @@ public class RemoveParticleRendering {
 	 * 
 	 * @param buf packet buffer.
 	 */
-	public RemoveParticleRendering(PacketBuffer buf) {
-		this.id = buf.readString();
+	public RemoveParticleRendering(FriendlyByteBuf buf) {
+		this.id = buf.readUtf();
 	}
 
 	/**
@@ -47,8 +47,8 @@ public class RemoveParticleRendering {
 	 * 
 	 * @param buf packet buffer.
 	 */
-	public void encode(PacketBuffer buf) {
-		buf.writeString(id);
+	public void encode(FriendlyByteBuf buf) {
+		buf.writeUtf(id);
 	}
 
 	/**

@@ -14,7 +14,7 @@ import bassebombecraft.item.action.inventory.ExecuteOperatorOnTarget2;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import bassebombecraft.operator.entity.SetEntityAttribute2;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 
 /**
  * Respawn idol implementation.

@@ -1,7 +1,7 @@
 package bassebombecraft.client.player;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 
 /**
  * Utility for calculating information about the player.
@@ -32,7 +32,7 @@ public class ClientPlayerUtils {
 	 * 
 	 * @return player from Minecraft client.
 	 */
-	public static PlayerEntity getClientSidePlayer() {
+	public static Player getClientSidePlayer() {
 		if (!isClientSidePlayerDefined())
 			return null;
 		Minecraft mcClient = Minecraft.getInstance();
@@ -45,7 +45,7 @@ public class ClientPlayerUtils {
 	 * @return player UID.
 	 */
 	public static String getClientSidePlayerUId() {
-		return Minecraft.getInstance().getSession().getUsername();
+		return Minecraft.getInstance().getUser().getName();
 	}
 
 }

@@ -11,8 +11,8 @@ import java.util.stream.Stream;
 import bassebombecraft.event.charm.CharmedMob;
 import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.event.duration.DurationRepository;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 
 /**
  * CLIENT side implementation of the {@linkplain CharmedMobsRepository}.
@@ -39,7 +39,7 @@ public class ClientCharmedMobsRepository implements CharmedMobsRepository {
 	Map<String, CharmedMob> charmedMobs = new ConcurrentHashMap<String, CharmedMob>();
 
 	@Override
-	public void add(MobEntity entity, LivingEntity commander) {
+	public void add(Mob entity, LivingEntity commander) {
 
 		// create charmed mob container
 		int duration = charmDuration.get();
@@ -66,8 +66,8 @@ public class ClientCharmedMobsRepository implements CharmedMobsRepository {
 	}
 
 	@Override
-	public void remove(MobEntity entity) {
-		int id = entity.getEntityId();
+	public void remove(Mob entity) {
+		int id = entity.getId();
 		String idAsString = Integer.toString(id);
 		remove(idAsString);
 	}
@@ -78,8 +78,8 @@ public class ClientCharmedMobsRepository implements CharmedMobsRepository {
 	}
 
 	@Override
-	public boolean contains(MobEntity entity) {
-		int id = entity.getEntityId();
+	public boolean contains(Mob entity) {
+		int id = entity.getId();
 		String idAsString = Integer.toString(id);
 		return charmedMobs.containsKey(idAsString);
 	}

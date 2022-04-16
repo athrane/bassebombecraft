@@ -2,9 +2,9 @@ package bassebombecraft.item.action.inventory;
 
 import static bassebombecraft.config.ModConfiguration.addFlameEffectDuration;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
@@ -42,8 +42,8 @@ public class AddFlameEffect implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(LivingEntity target, World world, LivingEntity sinvoker) {
-		target.setFire(duration);
+	public void applyEffect(LivingEntity target, Level world, LivingEntity sinvoker) {
+		target.setSecondsOnFire(duration);
 	}
 
 }

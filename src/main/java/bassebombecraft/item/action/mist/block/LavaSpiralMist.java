@@ -6,9 +6,9 @@ import static bassebombecraft.config.ModConfiguration.lavaSpiralMistDuration;
 import static bassebombecraft.config.ModConfiguration.lavaSpiralMistParticleInfo;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import net.minecraft.block.Blocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of {@linkplain MistActionStrategy} for construction of mist
@@ -43,7 +43,7 @@ public class LavaSpiralMist implements BlockMistActionStrategy {
 	}
 
 	@Override
-	public void applyEffectToBlock(BlockPos target, World world) {
+	public void applyEffectToBlock(BlockPos target, Level world) {
 		setTemporaryBlock(world, target, Blocks.LAVA, duration);
 	}
 

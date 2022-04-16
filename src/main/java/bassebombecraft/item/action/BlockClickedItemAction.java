@@ -1,10 +1,10 @@
 package bassebombecraft.item.action;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.level.Level;
 
 /**
  * Interface for implementing item actions when block is clicked.
@@ -18,7 +18,7 @@ public interface BlockClickedItemAction {
 	 * 
 	 * @return action result..
 	 */
-	ActionResultType onItemUse(ItemUseContext context);
+	InteractionResult onItemUse(UseOnContext context);
 
 	/**
 	 * On item update.
@@ -29,6 +29,6 @@ public interface BlockClickedItemAction {
 	 * @param itemSlot
 	 * @param isSelected
 	 */
-	void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected);
+	void onUpdate(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected);
 
 }

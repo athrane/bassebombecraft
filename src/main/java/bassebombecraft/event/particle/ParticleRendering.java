@@ -2,8 +2,8 @@ package bassebombecraft.event.particle;
 
 import java.util.Random;
 
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.BlockPos;
 
 /**
  * Interface for rendering of particle.
@@ -29,7 +29,7 @@ public interface ParticleRendering {
 	 * 
 	 * @return particle type to render.
 	 */
-	BasicParticleType getParticleType();
+	SimpleParticleType getParticleType();
 
 	/**
 	 * Get number of particle instances to render per update.

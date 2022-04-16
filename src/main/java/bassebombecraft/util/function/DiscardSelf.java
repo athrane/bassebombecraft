@@ -2,7 +2,7 @@ package bassebombecraft.util.function;
 
 import com.google.common.base.Predicate;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 
 /**
  * Discard self filter.

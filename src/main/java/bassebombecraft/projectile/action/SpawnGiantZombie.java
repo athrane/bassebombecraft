@@ -6,13 +6,13 @@ import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.entity.ai.AiUtils.buildCharmedMobAi;
 import static bassebombecraft.entity.ai.AiUtils.clearAllAiGoals;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.GiantEntity;
-import net.minecraft.entity.projectile.ThrowableEntity;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Giant;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain ProjectileAction} which spawns a giant
@@ -21,12 +21,12 @@ import net.minecraft.world.World;
 public class SpawnGiantZombie implements ProjectileAction {
 
 	@Override
-	public void execute(ThrowableEntity projectile, World world, RayTraceResult movObjPos) {
+	public void execute(ThrowableProjectile projectile, Level world, HitResult movObjPos) {
 		try {
-			Entity shooter = projectile.getShooter();
-			GiantEntity entity = EntityType.GIANT.create(world);
-			entity.setLocationAndAngles(projectile.getPosX(), projectile.getPosY(), projectile.getPosZ(),
-					projectile.rotationYaw, projectile.rotationPitch);
+			Entity shooter = projectile.getOwner();
+			Giant entity = EntityType.GIANT.create(world);
+			entity.moveTo(projectile.getX(), projectile.getY(), projectile.getZ(),
+					projectile.yRot, projectile.xRot);
 
 			// if shooter is a living entity then add entity to shooters team
 			if (isTypeLivingEntity(shooter)) {
@@ -40,7 +40,7 @@ public class SpawnGiantZombie implements ProjectileAction {
 			}
 			
 			// spawn
-			world.addEntity(entity);
+			world.addFreshEntity(entity);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

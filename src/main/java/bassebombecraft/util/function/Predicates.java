@@ -8,9 +8,9 @@ import java.util.function.Predicate;
 
 import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.Effect;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffect;
 
 /**
  * Reusable predicates.
@@ -103,7 +103,7 @@ public class Predicates {
 				return true;
 
 			GenericCompositeProjectileEntity projectile = (GenericCompositeProjectileEntity) e1;
-			Entity shooter = projectile.getShooter();
+			Entity shooter = projectile.getOwner();
 			return !hasIdenticalUniqueID(shooter, e2);
 		};
 	}
@@ -117,8 +117,8 @@ public class Predicates {
 	 * @return {@linkplain Predicate} which returns true if
 	 *         {@linkplain LivingEntity} has active potion effect.
 	 */
-	public static Predicate<LivingEntity> hasPotionEffect(Effect effect) {
-		return e -> e.isPotionActive(effect);
+	public static Predicate<LivingEntity> hasPotionEffect(MobEffect effect) {
+		return e -> e.hasEffect(effect);
 	}
 
 	/**
@@ -130,8 +130,8 @@ public class Predicates {
 	 * @return {@linkplain Predicate} which returns true if
 	 *         {@linkplain LivingEntity} has active potion effect.
 	 */
-	public static Predicate<LivingEntity> hasNotPotionEffect(Effect effect) {
-		return e -> !(e.isPotionActive(effect));
+	public static Predicate<LivingEntity> hasNotPotionEffect(MobEffect effect) {
+		return e -> !(e.hasEffect(effect));
 	}
 	
 }

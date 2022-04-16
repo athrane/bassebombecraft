@@ -5,8 +5,8 @@ import static net.minecraftforge.registries.ForgeRegistries.SOUND_EVENTS;
 
 import java.util.function.Supplier;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
 import net.minecraftforge.fml.RegistryObject;;

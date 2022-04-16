@@ -5,11 +5,48 @@ import static bassebombecraft.entity.EntityUtils.isTypeCreatureEntity;
 import static bassebombecraft.event.charm.CharmedMob.IS_EXPIRED;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
-import static net.minecraft.entity.ai.goal.Goal.Flag.MOVE;
+import staticnet.minecraft.world.entity.ai.goal.Goal.Flagg.MOVE;
 import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
 
+importimport bassebombecraft.entity.EntityUtils;
+import bassebombecraft.entity.ai.goal.AttackInRangeGoal;
+import bassebombecraft.entity.ai.goal.ChargeTowardsGoal;
+import bassebombecraft.entity.ai.goal.CommanderControlledTargeting;
+import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
+import bassebombecraft.entity.ai.goal.CompanionAttack;
+import bassebombecraft.entity.ai.goal.FollowEntityGoal;
+import bassebombecraft.entity.ai.goal.SelfdestructWhenTargetDiesGoal;
+import bassebombecraft.event.duration.DurationRepository;
+import com.google.common.collect.Sets;
 import java.util.EnumSet;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Stream;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.goal.FleeSunGoal;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.GoalSelector;
+import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.OcelotAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RangedBowAttackGoal;
+import net.minecraft.world.entity.ai.goal.SitWhenOrderedToGoal;
+import net.minecraft.world.entity.ai.goal.SwellGoal;
+import net.minecraft.world.entity.ai.goal.WrappedGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.animal.Cat;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.monster.Skeleton;
+import net.minecraft.world.entity.player.Player;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+ javanet.minecraft.world.entity.ai.goal.Goal.Flagnal;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -95,9 +132,9 @@ public class AiUtils {
 	 * 
 	 * @return set of goals from goals selector.
 	 */
-	public static Set<PrioritizedGoal> captureGoals(GoalSelector selector) {
+	public static Set<WrappedGoal> captureGoals(GoalSelector selector) {
 		try {
-			return selector.goals;
+			return selector.availableGoals;
 		} catch (Exception e) {
 			logger.error("Failed to capture goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);
@@ -112,7 +149,7 @@ public class AiUtils {
 	 * 
 	 * @param entity whose goals are cleared.
 	 */
-	public static void clearAllAiGoals(MobEntity entity) {
+	public static void clearAllAiGoals(Mob entity) {
 		removeGoals(entity.goalSelector);
 		removeGoals(entity.targetSelector);
 	}
@@ -127,7 +164,7 @@ public class AiUtils {
 	 */
 	static void removeGoals(GoalSelector selector) {
 		try {
-			Set<PrioritizedGoal> goals = selector.goals;
+			Set<WrappedGoal> goals = selector.availableGoals;
 			goals.forEach(g -> selector.removeGoal(g));
 		} catch (Exception e) {
 			logger.error("Failed to remove goals due to the error: " + e.getMessage());
@@ -144,10 +181,10 @@ public class AiUtils {
 	 * @param entity entity to assign goals to.
 	 * @param goals  set of goals.
 	 */
-	public static void assignAiGoals(MobEntity entity, Set<PrioritizedGoal> goals) {
+	public static void assignAiGoals(Mob entity, Set<WrappedGoal> goals) {
 		try {
 			GoalSelector selector = entity.goalSelector;
-			selector.goals.addAll(goals);
+			selector.availableGoals.addAll(goals);
 		} catch (Exception e) {
 			logger.error("Failed to assign goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);
@@ -164,10 +201,10 @@ public class AiUtils {
 	 * @param entity entity to assign goals to.
 	 * @param goals  set of goals.
 	 */
-	public static void assignAiTargetGoals(MobEntity entity, Set<PrioritizedGoal> goals) {
+	public static void assignAiTargetGoals(Mob entity, Set<WrappedGoal> goals) {
 		try {
 			GoalSelector selector = entity.targetSelector;
-			selector.goals.addAll(goals);
+			selector.availableGoals.addAll(goals);
 		} catch (Exception e) {
 			logger.error("Failed to assign goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);
@@ -181,24 +218,24 @@ public class AiUtils {
 	 * @param entity    entity which will configured with charmed AI.
 	 * @param commander entity which charmed mob.
 	 */
-	public static void buildCharmedMobAi(MobEntity entity, LivingEntity commander) {
+	public static void buildCharmedMobAi(Mob entity, LivingEntity commander) {
 
 		// set goals
 		GoalSelector selector = entity.goalSelector;
-		selector.addGoal(0, new SwimGoal(entity));
+		selector.addGoal(0, new FloatGoal(entity));
 
 		// setup attacking if commander is player
 		if (isTypePlayerEntity(commander)) {
 
 			// type cast
-			PlayerEntity player = (PlayerEntity) commander;
+			Player player = (Player) commander;
 			selector.addGoal(2, new CompanionAttack(entity, player));
 		} else
 			selector.addGoal(2, new CompanionAttack(entity));
 
 		// setup remaining tasks
 		selector.addGoal(3, new FollowEntityGoal(entity, commander, AI_MOVE_SPEED, AI_MIN_DIST, AI_MAX_DIST));
-		selector.addGoal(5, new LookRandomlyGoal(entity));
+		selector.addGoal(5, new RandomLookAroundGoal(entity));
 
 		// exit setting target tasks if entity isn't a creature
 		// including commander controlled targeting
@@ -206,7 +243,7 @@ public class AiUtils {
 			return;
 
 		// set targeting goals
-		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);
+		PathfinderMob entityCreature = PathfinderMob.class.cast(entity);
 		setupTargetingTasks(entityCreature, commander);
 	}
 
@@ -216,19 +253,19 @@ public class AiUtils {
 	 * @param entity    entity which will configured with kitten army AI.
 	 * @param commander entity which commands skeleton.
 	 */
-	public static void buildKittenArmyAi(CatEntity entity, LivingEntity commander) {
+	public static void buildKittenArmyAi(Cat entity, LivingEntity commander) {
 
 		// set goals, priority is: attack then follow leader
 		GoalSelector selector = entity.goalSelector;
-		selector.addGoal(1, new SwimGoal(entity));
+		selector.addGoal(1, new FloatGoal(entity));
 		selector.addGoal(2, new LeapAtTargetGoal(entity, 0.3F));
 		selector.addGoal(3, new OcelotAttackGoal(entity));
 		selector.addGoal(4, new FollowEntityGoal(entity, commander, AI_MOVE_SPEED, AI_MIN_DIST, AI_MAX_DIST));
-		selector.addGoal(5, new SitGoal(entity));
-		selector.addGoal(6, new LookRandomlyGoal(entity));
+		selector.addGoal(5, new SitWhenOrderedToGoal(entity));
+		selector.addGoal(6, new RandomLookAroundGoal(entity));
 
 		// set targeting goals
-		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);
+		PathfinderMob entityCreature = PathfinderMob.class.cast(entity);
 		setupTargetingTasks(entityCreature, commander);
 	}
 
@@ -239,19 +276,19 @@ public class AiUtils {
 	 * @param commander entity which commands skeleton.
 	 * 
 	 */
-	public static void buildSkeletonArmyAi(SkeletonEntity entity, LivingEntity commander) {
+	public static void buildSkeletonArmyAi(Skeleton entity, LivingEntity commander) {
 
 		// set goals, priority is: attack then follow leader
 		GoalSelector selector = entity.goalSelector;
-		selector.addGoal(1, new SwimGoal(entity));
+		selector.addGoal(1, new FloatGoal(entity));
 		selector.addGoal(2, new FleeSunGoal(entity, 1.0D));
 		selector.addGoal(3, new RangedBowAttackGoal<>(entity, 1.0D, 20, 15.0F));
 		selector.addGoal(4, new FollowEntityGoal(entity, commander, AI_MOVE_SPEED, AI_MIN_DIST, AI_MAX_DIST));
-		selector.addGoal(5, new LookAtGoal(entity, PlayerEntity.class, 8.0F));
-		selector.addGoal(6, new LookRandomlyGoal(entity));
+		selector.addGoal(5, new LookAtPlayerGoal(entity, Player.class, 8.0F));
+		selector.addGoal(6, new RandomLookAroundGoal(entity));
 
 		// set targeting goals
-		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);
+		PathfinderMob entityCreature = PathfinderMob.class.cast(entity);
 		setupTargetingTasks(entityCreature, commander);
 	}
 
@@ -262,7 +299,7 @@ public class AiUtils {
 	 * @param target entity that entity will attack.
 	 * @param entity damage.
 	 */
-	public static void buildChargingAi(MobEntity entity, LivingEntity target, float damage) {
+	public static void buildChargingAi(Mob entity, LivingEntity target, float damage) {
 
 		// set goals
 		GoalSelector selector = entity.goalSelector;
@@ -281,19 +318,19 @@ public class AiUtils {
 	 * @param commander entity which commands skeleton.
 	 * 
 	 */
-	public static void buildCreeperArmyAi(CreeperEntity entity, LivingEntity commander) {
+	public static void buildCreeperArmyAi(Creeper entity, LivingEntity commander) {
 
 		// set goals, priority is: attack then follow leader
 		GoalSelector selector = entity.goalSelector;
-		selector.addGoal(1, new SwimGoal(entity));
-		selector.addGoal(2, new CreeperSwellGoal(entity));
+		selector.addGoal(1, new FloatGoal(entity));
+		selector.addGoal(2, new SwellGoal(entity));
 		selector.addGoal(3, new MeleeAttackGoal(entity, 1.0D, false));
 		selector.addGoal(4, new FollowEntityGoal(entity, commander, AI_MOVE_SPEED, AI_MIN_DIST, AI_MAX_DIST));
-		selector.addGoal(5, new LookAtGoal(entity, PlayerEntity.class, 8.0F));
-		selector.addGoal(6, new LookRandomlyGoal(entity));
+		selector.addGoal(5, new LookAtPlayerGoal(entity, Player.class, 8.0F));
+		selector.addGoal(6, new RandomLookAroundGoal(entity));
 
 		// type cast
-		CreatureEntity entityCreature = CreatureEntity.class.cast(entity);
+		PathfinderMob entityCreature = PathfinderMob.class.cast(entity);
 		setupTargetingTasks(entityCreature, commander);
 	}
 
@@ -305,13 +342,13 @@ public class AiUtils {
 	 * @param entity    entity to set targeting for.
 	 * @param commander commander (if defined).
 	 */
-	static void setupTargetingTasks(CreatureEntity entity, LivingEntity commander) {
+	static void setupTargetingTasks(PathfinderMob entity, LivingEntity commander) {
 
 		// setup targeting if commander is player entity
 		if (isTypePlayerEntity(commander)) {
 
 			// type cast
-			PlayerEntity player = (PlayerEntity) commander;
+			Player player = (Player) commander;
 
 			// set commander targeting
 			GoalSelector selector = entity.targetSelector;
@@ -342,15 +379,15 @@ public class AiUtils {
 			return "AI Target Goal: N/A";
 
 		// type cast
-		MobEntity mobEntity = (MobEntity) entity;
+		Mob mobEntity = (Mob) entity;
 
 		// get first target goal
-		Stream<PrioritizedGoal> targetGoals = mobEntity.targetSelector.getRunningGoals();
-		Optional<PrioritizedGoal> optFirstGoal = targetGoals.findFirst();
+		Stream<WrappedGoal> targetGoals = mobEntity.targetSelector.getRunningGoals();
+		Optional<WrappedGoal> optFirstGoal = targetGoals.findFirst();
 
 		// return name if goal is defined
 		if (optFirstGoal.isPresent()) {
-			PrioritizedGoal goal = optFirstGoal.get();
+			WrappedGoal goal = optFirstGoal.get();
 
 			// get embedded goal
 			Goal embbedGoal = goal.getGoal();
@@ -376,15 +413,15 @@ public class AiUtils {
 			return "AI Goal: N/A";
 
 		// type cast
-		MobEntity mobEntity = (MobEntity) entity;
+		Mob mobEntity = (Mob) entity;
 
 		// get first target goal
-		Stream<PrioritizedGoal> targetGoals = mobEntity.goalSelector.getRunningGoals();
-		Optional<PrioritizedGoal> optFirstGoal = targetGoals.findFirst();
+		Stream<WrappedGoal> targetGoals = mobEntity.goalSelector.getRunningGoals();
+		Optional<WrappedGoal> optFirstGoal = targetGoals.findFirst();
 
 		// return name if goal is defined
 		if (optFirstGoal.isPresent()) {
-			PrioritizedGoal goal = optFirstGoal.get();
+			WrappedGoal goal = optFirstGoal.get();
 
 			// get embedded goal
 			Goal embbedGoal = goal.getGoal();
@@ -401,7 +438,7 @@ public class AiUtils {
 	 * @param goal AI goal to set flags for.
 	 */
 	public static void setMutexFlagsforTargetingGoal(Goal goal) {
-		goal.setMutexFlags(EnumSet.of(TARGET));
+		goal.setFlags(EnumSet.of(TARGET));
 	}
 
 	/**
@@ -410,7 +447,7 @@ public class AiUtils {
 	 * @param goal AI goal to set flags for.
 	 */
 	public static void setMutexFlagsforAttackGoal(Goal goal) {
-		goal.setMutexFlags(EnumSet.of(MOVE, LOOK));
+		goal.setFlags(EnumSet.of(MOVE, LOOK));
 	}
 
 	/**
@@ -419,7 +456,7 @@ public class AiUtils {
 	 * @param goal AI goal to set flags for.
 	 */
 	public static void setMutexFlagsforMovementGoal(Goal goal) {
-		goal.setMutexFlags(EnumSet.of(MOVE, LOOK));
+		goal.setFlags(EnumSet.of(MOVE, LOOK));
 	}
 
 	/**

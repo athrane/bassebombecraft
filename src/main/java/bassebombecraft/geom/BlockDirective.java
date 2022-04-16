@@ -8,12 +8,12 @@ import static java.util.Optional.*;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Class for directing the creation/modification/harvesting of blocks.
@@ -43,12 +43,12 @@ public class BlockDirective {
 	/**
 	 * Player which perform any harvesting of the block.
 	 */
-	Optional<PlayerEntity> optPlayer;
+	Optional<Player> optPlayer;
 
 	/**
 	 * World object, where directive should be processed in.
 	 */
-	World world;
+	Level world;
 
 	/**
 	 * Constructor. Block is a copy of source block directive.
@@ -72,7 +72,7 @@ public class BlockDirective {
 	 * @param harvest  defines if block should be harvested.
 	 * @param world    world where directive should be processed.
 	 */
-	BlockDirective(BlockPos blockPos, Block block, boolean harvest, World world) {
+	BlockDirective(BlockPos blockPos, Block block, boolean harvest, Level world) {
 		this.blockPos = blockPos;
 		this.block = block;
 		this.harvest = harvest;
@@ -88,12 +88,12 @@ public class BlockDirective {
 	 * @param harvest  defines if block should be harvested.
 	 * @param player   player which should do the harvesting.
 	 */
-	BlockDirective(BlockPos blockPos, Block block, boolean harvest, PlayerEntity player) {
+	BlockDirective(BlockPos blockPos, Block block, boolean harvest, Player player) {
 		this.blockPos = blockPos;
 		this.block = block;
 		this.harvest = harvest;
 		this.optPlayer = ofNullable(player);
-		this.world = player.getEntityWorld();
+		this.world = player.getCommandSenderWorld();
 	}
 
 	/**
@@ -186,7 +186,7 @@ public class BlockDirective {
 	 * @return player. Is returned as {@linkplain Optional} is it will be undefined
 	 *         in many cases.
 	 */
-	public Optional<PlayerEntity> getPlayer() {
+	public Optional<Player> getPlayer() {
 		return optPlayer;
 	}
 
@@ -195,7 +195,7 @@ public class BlockDirective {
 	 * 
 	 * @return world where the directive should be processed in.
 	 */
-	public World getWorld() {
+	public Level getWorld() {
 		return world;
 	}
 
@@ -227,7 +227,7 @@ public class BlockDirective {
 	public BlockState getState() {
 		if (isStateful())
 			return state;
-		return block.getDefaultState();
+		return block.defaultBlockState();
 	}
 
 	/**
@@ -267,8 +267,8 @@ public class BlockDirective {
 	 *         position.
 	 */
 	public static BlockDirective getInstance(BlockPos blockPos, Block block, BlockState blockState, boolean harvest,
-			World world) {
-		BlockDirective directive = new BlockDirective(blockPos.toImmutable(), block, harvest, world);
+			Level world) {
+		BlockDirective directive = new BlockDirective(blockPos.immutable(), block, harvest, world);
 		directive.setState(blockState);
 		return directive;
 	}
@@ -287,8 +287,8 @@ public class BlockDirective {
 	 * @return block directive. The directive is created with a new immutable block
 	 *         position.
 	 */
-	public static BlockDirective getInstance(BlockPos blockPos, Block block, boolean harvest, World world) {
-		BlockDirective directive = new BlockDirective(blockPos.toImmutable(), block, harvest, world);
+	public static BlockDirective getInstance(BlockPos blockPos, Block block, boolean harvest, Level world) {
+		BlockDirective directive = new BlockDirective(blockPos.immutable(), block, harvest, world);
 		return directive;
 	}
 
@@ -308,8 +308,8 @@ public class BlockDirective {
 	 *         position.
 	 */
 	public static BlockDirective getInstance(BlockPos blockPos, Block block, BlockState blockState, boolean harvest,
-			PlayerEntity player) {
-		BlockDirective directive = new BlockDirective(blockPos.toImmutable(), block, harvest, player);
+			Player player) {
+		BlockDirective directive = new BlockDirective(blockPos.immutable(), block, harvest, player);
 		directive.setState(blockState);
 		return directive;
 	}
@@ -342,7 +342,7 @@ public class BlockDirective {
 	 */
 	public static BlockDirective getInstance(BlockDirective other, BlockPos blockPos) {
 		BlockDirective directive = getInstance(other);
-		directive.set(blockPos.toImmutable());
+		directive.set(blockPos.immutable());
 		return directive;
 	}
 	

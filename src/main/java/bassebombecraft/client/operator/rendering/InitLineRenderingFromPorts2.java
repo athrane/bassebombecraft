@@ -10,8 +10,8 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which reads the source
@@ -34,12 +34,12 @@ public class InitLineRenderingFromPorts2 implements Operator2 {
 	/**
 	 * Function to set line vertexes (as vectors).
 	 */
-	BiConsumer<Ports, Vector3d[]> bcSetLineVertexes;
+	BiConsumer<Ports, Vec3[]> bcSetLineVertexes;
 
 	/**
 	 * Vector array for line vertexes.
 	 */
-	Vector3d[] lineVertexes = new Vector3d[2];
+	Vec3[] lineVertexes = new Vec3[2];
 
 	/**
 	 * Constructor.
@@ -62,7 +62,7 @@ public class InitLineRenderingFromPorts2 implements Operator2 {
 	 * @param bcSetLineVertexes function to set line vertexes.
 	 */
 	public InitLineRenderingFromPorts2(Function<Ports, Entity> fnGetSource, Function<Ports, Entity> fnGetTarget,
-			BiConsumer<Ports, Vector3d[]> bcSetLineVertexes) {
+			BiConsumer<Ports, Vec3[]> bcSetLineVertexes) {
 		this.fnGetSource = fnGetSource;
 		this.fnGetTarget = fnGetTarget;
 		this.bcSetLineVertexes = bcSetLineVertexes;
@@ -74,8 +74,8 @@ public class InitLineRenderingFromPorts2 implements Operator2 {
 		Entity target = applyV(fnGetTarget, ports);
 
 		// add positions as vertex 0 and 1
-		lineVertexes[0] = source.getPositionVec();
-		lineVertexes[1] = target.getPositionVec();
+		lineVertexes[0] = source.position();
+		lineVertexes[1] = target.position();
 
 		// set line vertexes
 		bcSetLineVertexes.accept(ports, lineVertexes);

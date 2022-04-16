@@ -3,14 +3,14 @@ package bassebombecraft.client.event.rendering;
 import static bassebombecraft.geom.GeometryUtils.oscillateWithDeltaTime;
 import static bassebombecraft.potion.effect.RegisteredEffects.DECREASE_SIZE_EFFECT;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import bassebombecraft.potion.effect.DecreaseSizeEffect;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderLivingEvent.Post;
 import net.minecraftforge.client.event.RenderLivingEvent.Pre;
@@ -26,24 +26,24 @@ public class DecreaseSizeEffectRenderer {
 	 * 
 	 * @param event rendering event.
 	 */
-	public static void handleRenderLivingEventPre(Pre<PlayerEntity, PlayerModel<PlayerEntity>> event) {
+	public static void handleRenderLivingEventPre(Pre<Player, PlayerModel<Player>> event) {
 		LivingEntity entity = event.getEntity();
 
 		// exit if effect isn't active
-		if (!entity.isPotionActive(DECREASE_SIZE_EFFECT.get()))
+		if (!entity.hasEffect(DECREASE_SIZE_EFFECT.get()))
 			return;
 
 		// get calculated size
-		EffectInstance effectInstance = entity.getActivePotionEffect(DECREASE_SIZE_EFFECT.get());
+		MobEffectInstance effectInstance = entity.getEffect(DECREASE_SIZE_EFFECT.get());
 		float scale = calculateSize(effectInstance.getAmplifier(), entity);
 
 		// get and push matrix stack
-		MatrixStack matrixStack = event.getMatrixStack();
-		matrixStack.push();
+		PoseStack matrixStack = event.getMatrixStack();
+		matrixStack.pushPose();
 		matrixStack.scale(scale, scale, scale);
 
 		// set entity bounding box to size
-		AxisAlignedBB aabb = entity.getBoundingBox().shrink(scale);
+		AABB aabb = entity.getBoundingBox().deflate(scale);
 		entity.setBoundingBox(aabb);
 	}
 
@@ -52,16 +52,16 @@ public class DecreaseSizeEffectRenderer {
 	 * 
 	 * @param event rendering event.
 	 */
-	public static void handleRenderLivingEventPost(Post<PlayerEntity, PlayerModel<PlayerEntity>> event) {
+	public static void handleRenderLivingEventPost(Post<Player, PlayerModel<Player>> event) {
 		LivingEntity entity = event.getEntity();
 
 		// exit if effect isn't active
-		if (!entity.isPotionActive(DECREASE_SIZE_EFFECT.get()))
+		if (!entity.hasEffect(DECREASE_SIZE_EFFECT.get()))
 			return;
 
 		// get and pop matrix stack
-		MatrixStack matrixStack = event.getMatrixStack();
-		matrixStack.pop();
+		PoseStack matrixStack = event.getMatrixStack();
+		matrixStack.popPose();
 	}
 
 	/**

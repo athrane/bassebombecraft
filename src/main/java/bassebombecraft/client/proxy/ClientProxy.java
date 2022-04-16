@@ -327,7 +327,7 @@ public class ClientProxy implements Proxy {
 
 		// register the factory used client side to generate a screen corresponding to
 		// the container
-		registerFactory(COMPOSITE_ITEM_COMTAINER.get(), CompositeMagicItemScreen::new);
+		register(COMPOSITE_ITEM_COMTAINER.get(), CompositeMagicItemScreen::new);
 	}
 
 	@Override

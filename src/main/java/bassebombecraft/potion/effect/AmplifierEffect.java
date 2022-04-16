@@ -8,14 +8,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.Effect;
-import net.minecraft.potion.EffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 
 /**
  * Effect which amplifies existing effects.
  */
-public class AmplifierEffect extends Effect {
+public class AmplifierEffect extends MobEffect {
 
 	/**
 	 * Effect identifier.
@@ -30,21 +30,21 @@ public class AmplifierEffect extends Effect {
 	}
 
 	@Override
-	public void performEffect(LivingEntity entity, int amplifier) {
+	public void applyEffectTick(LivingEntity entity, int amplifier) {
 
 		// exit if entity is undefined
 		if (entity == null)
 			return;
 
 		// get active effects
-		Collection<EffectInstance> effects = entity.getActivePotionEffects();
+		Collection<MobEffectInstance> effects = entity.getActiveEffects();
 
 		// step 1: identify effects to be amplified
-		List<EffectInstance> toBeAmplifiedEffects = new ArrayList<EffectInstance>();
-		for (EffectInstance effectInstance : effects) {
+		List<MobEffectInstance> toBeAmplifiedEffects = new ArrayList<MobEffectInstance>();
+		for (MobEffectInstance effectInstance : effects) {
 
 			// skip replacement/amplification, if effect is amplifier effect
-			Effect currentEffect = effectInstance.getPotion();
+			MobEffect currentEffect = effectInstance.getEffect();
 			if (this.equals(currentEffect)) {
 				continue;
 			}
@@ -55,23 +55,23 @@ public class AmplifierEffect extends Effect {
 		}
 
 		// step 2: amplify identified effects
-		for (EffectInstance currentEffect : toBeAmplifiedEffects) {
+		for (MobEffectInstance currentEffect : toBeAmplifiedEffects) {
 
 			// remove effect
-			entity.removePotionEffect(currentEffect.getPotion());
+			entity.removeEffect(currentEffect.getEffect());
 
 			// create amplified effect
-			EffectInstance amplifiedEffect = new EffectInstance(currentEffect.getPotion(), currentEffect.getDuration(),
-					amplifier, currentEffect.isAmbient(), currentEffect.doesShowParticles(),
-					currentEffect.isShowIcon());
+			MobEffectInstance amplifiedEffect = new MobEffectInstance(currentEffect.getEffect(), currentEffect.getDuration(),
+					amplifier, currentEffect.isAmbient(), currentEffect.isVisible(),
+					currentEffect.showIcon());
 
 			// add amplified effect
-			entity.addPotionEffect(amplifiedEffect);
+			entity.addEffect(amplifiedEffect);
 		}
 	}
 
 	@Override
-	public boolean isReady(int duration, int amplifier) {
+	public boolean isDurationEffectTick(int duration, int amplifier) {
 		int updateFrequency = amplifierEffectUpdateFrequency.get();
 		int moduloValue = duration % updateFrequency;
 		return (moduloValue == 0);

@@ -6,8 +6,8 @@ import static bassebombecraft.entity.ai.AiUtils.getCharmDuration;
 
 import java.util.Set;
 
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.PrioritizedGoal;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.WrappedGoal;
 
 /**
  * SERVER side implementation of {@linkplain CharmedMob}. Used by
@@ -31,17 +31,17 @@ public class ServerCharmedMob implements CharmedMob {
 	/**
 	 * Captured AI goals.
 	 */
-	final Set<PrioritizedGoal> goals;
+	final Set<WrappedGoal> goals;
 
 	/**
 	 * Captured AI targeting goals.
 	 */
-	final Set<PrioritizedGoal> targetGoals;
+	final Set<WrappedGoal> targetGoals;
 
 	/**
 	 * Charmed mob.
 	 */
-	final MobEntity entity;
+	final Mob entity;
 
 	/**
 	 * Constructor.
@@ -49,23 +49,23 @@ public class ServerCharmedMob implements CharmedMob {
 	 * @param entity   charmed mob.
 	 * @param duration duration of charm in measured in ticks.
 	 */
-	ServerCharmedMob(MobEntity entity, int duration) {
+	ServerCharmedMob(Mob entity, int duration) {
 		this.entity = entity;
 		goals = captureGoals(entity.goalSelector);
 		targetGoals = captureGoals(entity.targetSelector);
-		id = Integer.toString(entity.getEntityId());
+		id = Integer.toString(entity.getId());
 		name = entity.getName().getString() + "/" + id;		
 	}
 
-	public Set<PrioritizedGoal> getGoals() throws UnsupportedOperationException {
+	public Set<WrappedGoal> getGoals() throws UnsupportedOperationException {
 		return goals;
 	}
 
-	public Set<PrioritizedGoal> getTargetGoals() throws UnsupportedOperationException {
+	public Set<WrappedGoal> getTargetGoals() throws UnsupportedOperationException {
 		return targetGoals;
 	}
 
-	public MobEntity getEntity() {
+	public Mob getEntity() {
 		return entity;
 	}
 
@@ -89,7 +89,7 @@ public class ServerCharmedMob implements CharmedMob {
 	 * @param entity   charmed mob.
 	 * @param duration duration of charm in measured in ticks.
 	 */
-	public static ServerCharmedMob getInstance(MobEntity entity, int duration) {
+	public static ServerCharmedMob getInstance(Mob entity, int duration) {
 		return new ServerCharmedMob(entity, duration);
 	}
 

@@ -8,18 +8,18 @@ import static bassebombecraft.entity.EntityUtils.explode;
 import java.util.List;
 import java.util.function.Supplier;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MoverType;
-import net.minecraft.potion.Effect;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 /**
  * Effect which shoots a mob along its view vector.
  */
-public class MobProjectileEffect extends Effect {
+public class MobProjectileEffect extends MobEffect {
 
 	/**
 	 * Effect identifier.
@@ -54,26 +54,26 @@ public class MobProjectileEffect extends Effect {
 	}
 
 	@Override
-	public void performEffect(LivingEntity entity, int amplifier) {
+	public void applyEffectTick(LivingEntity entity, int amplifier) {
 
 		if (entity == null)
 			return;
 
 		// get look vector
-		Vector3d lookVec = entity.getLookVec();
+		Vec3 lookVec = entity.getLookAngle();
 
 		// move entity i view direction
 		int force = splForce.get();
 		double x = lookVec.x * force;
 		double y = lookVec.y * force;
 		double z = lookVec.z * force;
-		Vector3d moveVec = new Vector3d(x, y, z);
+		Vec3 moveVec = new Vec3(x, y, z);
 		entity.move(MoverType.SELF, moveVec);
 
 		// get hit entities
-		World world = entity.getEntityWorld();
-		AxisAlignedBB aabb = entity.getBoundingBox();
-		List<LivingEntity> entities = world.getEntitiesWithinAABB(LivingEntity.class, aabb);
+		Level world = entity.getCommandSenderWorld();
+		AABB aabb = entity.getBoundingBox();
+		List<LivingEntity> entities = world.getEntitiesOfClass(LivingEntity.class, aabb);
 
 		splExplosion.get();
 
@@ -91,7 +91,7 @@ public class MobProjectileEffect extends Effect {
 
 				// kill projectile mob
 				DamageSource cause = DamageSource.MAGIC;
-				entity.onDeath(cause);
+				entity.die(cause);
 
 				return;
 			}
@@ -105,7 +105,7 @@ public class MobProjectileEffect extends Effect {
 	}
 
 	@Override
-	public boolean isReady(int duration, int amplifier) {
+	public boolean isDurationEffectTick(int duration, int amplifier) {
 		return true;
 	}
 

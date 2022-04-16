@@ -3,12 +3,12 @@ package bassebombecraft.item.action.mist.entity;
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of {@linkplain MistActionStrategy} for construction of mist
@@ -22,7 +22,7 @@ public class MovingWitherMist implements EntityMistActionStrategy {
 	/**
 	 * Particle rendering info.
 	 */	
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
+	static final SimpleParticleType PARTICLE_TYPE = ParticleTypes.EFFECT;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.0F;
@@ -37,13 +37,13 @@ public class MovingWitherMist implements EntityMistActionStrategy {
 	 * 
 	 * @return potion effect
 	 */
-	EffectInstance createEffect() {
-		return new EffectInstance(Effects.WITHER, getEffectDuration());
+	MobEffectInstance createEffect() {
+		return new MobEffectInstance(MobEffects.WITHER, getEffectDuration());
 	}
 
 	@Override
-	public void applyEffectToEntity(LivingEntity target, Vector3d mistPos, LivingEntity invoker) {
-		target.addPotionEffect(createEffect());
+	public void applyEffectToEntity(LivingEntity target, Vec3 mistPos, LivingEntity invoker) {
+		target.addEffect(createEffect());
 	}
 
 	@Override

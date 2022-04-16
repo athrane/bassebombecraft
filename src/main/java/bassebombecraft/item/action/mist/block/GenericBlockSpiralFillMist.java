@@ -21,11 +21,11 @@ import bassebombecraft.operator.block.CalculateSpiralPosition2;
 import bassebombecraft.operator.client.rendering.AddParticlesFromPosAtClient2;
 import bassebombecraft.operator.counter.SingleLoopIncreasingCounter2;
 import bassebombecraft.operator.job.ExecuteOperatorAsJob2;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain RightClickedItemAction} which creates an
@@ -81,7 +81,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 		Function<Ports, BlockPos> fnGetCenter = getFnGetBlockPosition1();
 		BiConsumer<Ports, BlockPos> bcSetSpiralPos = getBcSetBlockPosition2();
 		Function<Ports, BlockPos> fnGetSpiralPos = getFnGetBlockPosition2();
-		Function<Ports, World> fnGetWorld = getFnWorld1();
+		Function<Ports, Level> fnGetWorld = getFnWorld1();
 
 		// create operators
 		spiralOp = new Sequence2(new SingleLoopIncreasingCounter2(numberSpiralBlocks - 1),
@@ -91,7 +91,7 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 	}
 
 	@Override
-	public void onRightClick(World world, LivingEntity entity) {
+	public void onRightClick(Level world, LivingEntity entity) {
 
 		// create ports
 		Ports ports = getInstance();
@@ -101,17 +101,17 @@ public class GenericBlockSpiralFillMist implements RightClickedItemAction {
 		ports.setCounter(strategy.getSpiralOffset());
 
 		// set spiral centre
-		BlockPos center = new BlockPos(entity.getPosX(), entity.getPosY(), entity.getPosZ());		
+		BlockPos center = new BlockPos(entity.getX(), entity.getY(), entity.getZ());		
 		ports.setBlockPosition1(center);
 
 		// create and register job
 		Job job = new ExecuteOperatorAsJob2(ports, spiralOp);
-		String id = new StringBuilder().append(entity.getEntityString()).append(strategy.toString()).toString();
+		String id = new StringBuilder().append(entity.getEncodeId()).append(strategy.toString()).toString();
 		getProxy().getServerJobRepository().add(id, strategy.getEffectDuration(), job);
 	}
 
 	@Override
-	public void onUpdate(ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
+	public void onUpdate(ItemStack stack, Level world, Entity entity, int itemSlot, boolean isSelected) {
 		// NO-OP, update is done in the job
 	}
 

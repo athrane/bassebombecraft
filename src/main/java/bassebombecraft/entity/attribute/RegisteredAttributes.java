@@ -9,8 +9,8 @@ import static net.minecraftforge.registries.ForgeRegistries.ATTRIBUTES;
 import java.util.function.Supplier;
 
 import bassebombecraft.event.entity.attribute.EntityAttributeEventHandler;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.RangedAttribute;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.RangedAttribute;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 
@@ -46,7 +46,7 @@ public class RegisteredAttributes {
 	 */
 	static RegistryObject<Attribute> register(String key) {
 		Attribute attribute = new RangedAttribute(key, MARKER_ATTRIBUTE_ISNT_SET, MARKER_ATTRIBUTE_ISNT_SET,
-				MARKER_ATTRIBUTE_IS_SET).setShouldWatch(true);
+				MARKER_ATTRIBUTE_IS_SET).setSyncable(true);
 		Supplier<Attribute> splAttribute = () -> attribute;
 		return ATTRIBUTE_REGISTRY.register(key, splAttribute);
 	}

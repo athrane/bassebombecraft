@@ -3,10 +3,10 @@ package bassebombecraft.entity.ai.goal;
 import static bassebombecraft.entity.EntityUtils.isMinimumDistanceReached;
 import static bassebombecraft.entity.ai.AiUtils.setMutexFlagsforAttackGoal;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.util.DamageSource;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.damagesource.DamageSource;
 
 /**
  * Attack goal which attacks target if it is alive and within range.
@@ -23,7 +23,7 @@ public class AttackInRangeGoal extends Goal {
 	/**
 	 * Goal owner.
 	 */
-	final MobEntity entity;
+	final Mob entity;
 
 	/**
 	 * Target.
@@ -48,7 +48,7 @@ public class AttackInRangeGoal extends Goal {
 	 * @param minDistance minimum distance for attack.
 	 * @param damage      damage delivered on attack.
 	 */
-	public AttackInRangeGoal(MobEntity entity, LivingEntity target, float minDistance, float damage) {
+	public AttackInRangeGoal(Mob entity, LivingEntity target, float minDistance, float damage) {
 		this.entity = entity;
 		this.target = target;
 		this.minDistanceSqr = minDistance * minDistance;
@@ -57,7 +57,7 @@ public class AttackInRangeGoal extends Goal {
 	}
 
 	@Override
-	public boolean shouldExecute() {
+	public boolean canUse() {
 
 		// exit if target is undefined
 		if (target == null) {
@@ -80,11 +80,11 @@ public class AttackInRangeGoal extends Goal {
 	public void tick() {
 
 		// attack
-		target.attackEntityFrom(DamageSource.causeMobDamage(entity), damage);
+		target.hurt(DamageSource.mobAttack(entity), damage);
 	}
 
 	@Override
-	public void resetTask() {
+	public void stop() {
 
 		// don't reset if target is undefined
 		if (target == null)
@@ -95,7 +95,7 @@ public class AttackInRangeGoal extends Goal {
 			return;
 
 		// reset
-		entity.setAttackTarget(NO_TARGET);
+		entity.setTarget(NO_TARGET);
 		target = NO_TARGET;
 	}
 

@@ -4,7 +4,15 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 import static bassebombecraft.world.WorldUtils.addLightningAtBlockPos;
 import static net.minecraft.particles.ParticleTypes.CLOUD;
 
-import bassebombecraft.event.particle.ParticleRenderingInfo;
+imporimport bassebombecraft.event.particle.ParticleRenderingInfo;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
+
+t bassnet.minecraft.core.particles.ParticleTypesnderingInfo;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -36,20 +44,20 @@ public class LightningBoltMist implements EntityMistActionStrategy {
 		float g = 0.75F;
 		float b = 0.75F;
 		int numbers = 5;
-		BasicParticleType type = CLOUD;
+		SimpleParticleType type = CLOUD;
 		int duration = 20;
 		double speed = 0.1;
 		info = getInstance(type, numbers, duration, r, g, b, speed);
 	}
 
 	@Override
-	public void applyEffectToEntity(LivingEntity target, Vector3d mistPos, LivingEntity invoker) {
-		World world = target.getEntityWorld();
+	public void applyEffectToEntity(LivingEntity target, Vec3 mistPos, LivingEntity invoker) {
+		Level world = target.getCommandSenderWorld();
 
-		AxisAlignedBB aabb = target.getBoundingBox();
+		AABB aabb = target.getBoundingBox();
 		BlockPos min = new BlockPos(aabb.minX, aabb.minY, aabb.minZ);
 		BlockPos max = new BlockPos(aabb.maxX, aabb.maxY, aabb.maxZ);
-		BlockPos.getAllInBox(min, max).forEach(pos -> addLightningAtBlockPos(world, pos));
+		BlockPos.betweenClosedStream(min, max).forEach(pos -> addLightningAtBlockPos(world, pos));
 	}
 
 	@Override

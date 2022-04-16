@@ -8,8 +8,8 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which increases the
@@ -64,13 +64,13 @@ public class IncreaseGravityProjectilePath implements Operator2 {
 		double gravity = applyV(fnGetGravity, ports);
 
 		// get motion vector
-		Vector3d motionVector = projectile.getMotion();
+		Vec3 motionVector = projectile.getDeltaMovement();
 		if (motionVector == null)
 			return;
 
 		// update motion
 		double gravityIncrease = increaseGravityProjectilePathFactor.get() * gravity;
-		projectile.setMotion(motionVector.getX(), motionVector.getY() - gravityIncrease, motionVector.getZ());
+		projectile.setDeltaMovement(motionVector.x(), motionVector.y() - gravityIncrease, motionVector.z());
 	}
 
 }

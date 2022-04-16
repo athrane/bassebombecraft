@@ -19,10 +19,10 @@ import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.projectile.ShootCircleProjectile2;
 import bassebombecraft.operator.projectile.formation.RandomSingleProjectileFormation2;
 import bassebombecraft.operator.projectile.modifier.TagProjectileWithProjectileModifier;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which teleports a hit
@@ -52,14 +52,14 @@ public class TeleportMob2 implements Operator2 {
 	/**
 	 * Function to get ray trace result.
 	 */
-	Function<Ports, RayTraceResult> fnGetRayTraceResult;
+	Function<Ports, HitResult> fnGetRayTraceResult;
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param splRayTraceResult function to get ray trace result.
 	 */
-	public TeleportMob2(Function<Ports, RayTraceResult> fnGetRayTraceResult) {
+	public TeleportMob2(Function<Ports, HitResult> fnGetRayTraceResult) {
 		this.fnGetRayTraceResult = fnGetRayTraceResult;
 	}
 
@@ -74,7 +74,7 @@ public class TeleportMob2 implements Operator2 {
 
 	@Override
 	public void run(Ports ports) {
-		RayTraceResult result = applyV(fnGetRayTraceResult, ports);
+		HitResult result = applyV(fnGetRayTraceResult, ports);
 
 		// exit if nothing was hit
 		if (isNothingHit(result))
@@ -89,7 +89,7 @@ public class TeleportMob2 implements Operator2 {
 			return;
 
 		// get hit entity
-		Entity entity = ((EntityRayTraceResult) result).getEntity();
+		Entity entity = ((EntityHitResult) result).getEntity();
 
 		// exit if entity isn't a living entity
 		if (!EntityUtils.isTypeLivingEntity(entity))

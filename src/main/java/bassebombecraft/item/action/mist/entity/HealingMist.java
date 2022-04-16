@@ -5,10 +5,10 @@ import static bassebombecraft.config.ModConfiguration.healingMistDuration;
 import static bassebombecraft.config.ModConfiguration.healingMistParticleInfo;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of {@linkplain EntityMistActionStrategy} for construction of
@@ -44,13 +44,13 @@ public class HealingMist implements EntityMistActionStrategy {
 	 * 
 	 * @return potion effect
 	 */
-	EffectInstance createEffect() {
-		return new EffectInstance(Effects.REGENERATION, duration);
+	MobEffectInstance createEffect() {
+		return new MobEffectInstance(MobEffects.REGENERATION, duration);
 	}
 
 	@Override
-	public void applyEffectToEntity(LivingEntity target, Vector3d mistPos, LivingEntity invoker) {
-		target.addPotionEffect(createEffect());
+	public void applyEffectToEntity(LivingEntity target, Vec3 mistPos, LivingEntity invoker) {
+		target.addEffect(createEffect());
 	}
 
 	@Override

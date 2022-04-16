@@ -7,8 +7,8 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.Effect;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffect;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which updates the
@@ -24,7 +24,7 @@ public class IsEffectActive2 implements Operator2 {
 	/**
 	 * Effect to test for.
 	 */
-	Effect effect;
+	MobEffect effect;
 
 	/**
 	 * Constructor.
@@ -32,7 +32,7 @@ public class IsEffectActive2 implements Operator2 {
 	 * @param fnGetEntity function to get living entity.
 	 * @param effect      effect to test for.
 	 */
-	public IsEffectActive2(Function<Ports, LivingEntity> fnGetEntity, Effect effect) {
+	public IsEffectActive2(Function<Ports, LivingEntity> fnGetEntity, MobEffect effect) {
 		this.fnGetEntity = fnGetEntity;
 		this.effect = effect;
 	}
@@ -44,7 +44,7 @@ public class IsEffectActive2 implements Operator2 {
 	 * 
 	 * @param effect effect to test for.
 	 */
-	public IsEffectActive2(Effect effect) {
+	public IsEffectActive2(MobEffect effect) {
 		this(getFnGetLivingEntity1(), effect);
 	}
 
@@ -52,7 +52,7 @@ public class IsEffectActive2 implements Operator2 {
 	public void run(Ports ports) {
 		LivingEntity entity = applyV(fnGetEntity, ports);
 
-		if (entity.isPotionActive(effect))
+		if (entity.hasEffect(effect))
 			ports.setResultAsSucces();
 		else
 			ports.setResultAsFailed();

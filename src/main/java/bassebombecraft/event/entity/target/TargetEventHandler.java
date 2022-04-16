@@ -6,9 +6,9 @@ import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.player.PlayerUtils.isTypePlayerEntity;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
@@ -40,7 +40,7 @@ public class TargetEventHandler {
 
 		// delete commanders targets if dead entity is commander
 		if (isTypePlayerEntity(event.getEntityLiving())) {
-			PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+			Player player = (Player) event.getEntityLiving();
 
 			// exit if player isn't a commander
 			if (!repository.isCommander(player))
@@ -61,7 +61,7 @@ public class TargetEventHandler {
 				return;
 
 			// get player and target
-			PlayerEntity player = event.getPlayer();
+			Player player = event.getPlayer();
 			Entity target = event.getTarget();
 
 			// exit if target isn't a living entity

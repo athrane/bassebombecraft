@@ -37,18 +37,18 @@ import bassebombecraft.operator.conditional.IsNot2;
 import bassebombecraft.operator.entity.ApplyOperatorToEntity2;
 import bassebombecraft.operator.entity.FindEntities2;
 import bassebombecraft.operator.entity.potion.effect.AddEffect2;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.Effect;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Effect puts entity on fire and spreads the effect to nearby entities.
  * 
  * The effect has no effect on the player.
  */
-public class WildfireEffect extends Effect {
+public class WildfireEffect extends MobEffect {
 
 	/**
 	 * Effect identifier.
@@ -82,10 +82,10 @@ public class WildfireEffect extends Effect {
 		Function<Ports, Integer> fnGetFrequency = p -> wildfireEffectUpdateFrequency.get().intValue();
 
 		// FindEntities2: get source position from source entity
-		Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(getFnGetEntity1(), p).getPosition();
+		Function<Ports, BlockPos> fnGetSourcePos = p -> applyV(getFnGetEntity1(), p).blockPosition();
 
 		// FindEntities2: get world from source entity
-		Function<Ports, World> fnGetWorld = p -> applyV(getFnGetEntity1(), p).getEntityWorld();
+		Function<Ports, Level> fnGetWorld = p -> applyV(getFnGetEntity1(), p).getCommandSenderWorld();
 
 		// FindEntities2: get function to create exclusion predicate using entity #1
 		Function<Ports, Predicate<Entity>> fnGetPredicate = p -> hasDifferentIds(applyV(getFnGetEntity1(), p));
@@ -120,7 +120,7 @@ public class WildfireEffect extends Effect {
 	}
 
 	@Override
-	public void performEffect(LivingEntity entity, int amplifier) {
+	public void applyEffectTick(LivingEntity entity, int amplifier) {
 
 		// exit if entity is undefined
 		if (entity == null)
@@ -135,14 +135,14 @@ public class WildfireEffect extends Effect {
 		run(aoePorts, lazyInitAoeCoreOp);
 
 		// if not burning then set mob on fire
-		if (entity.isBurning())
+		if (entity.isOnFire())
 			return;
 
-		entity.setFire(wildfireEffectDuration.get());
+		entity.setSecondsOnFire(wildfireEffectDuration.get());
 	}
 
 	@Override
-	public boolean isReady(int duration, int amplifier) {
+	public boolean isDurationEffectTick(int duration, int amplifier) {
 		int frequency = wildfireEffectUpdateFrequency.get();
 		return getProxy().getServerFrequencyRepository().isActive(frequency);
 	}

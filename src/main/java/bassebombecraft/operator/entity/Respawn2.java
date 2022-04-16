@@ -20,11 +20,11 @@ import java.util.stream.IntStream;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which respawns any
@@ -80,7 +80,7 @@ public class Respawn2 implements Operator2 {
 	void spawnEntity(LivingEntity deadEntity) {
 
 		// get world
-		World world = deadEntity.getEntityWorld();
+		Level world = deadEntity.getCommandSenderWorld();
 
 		// get dead entity type
 		EntityType<?> type = deadEntity.getType();
@@ -88,20 +88,20 @@ public class Respawn2 implements Operator2 {
 		// create new entity
 		Entity spawnedEntity = type.create(world);
 		int spawnArea = respawnSpawnArea.get();
-		setRandomSpawnPosition(deadEntity.getPosition(), calculateRandomYaw(), spawnArea, spawnedEntity);
+		setRandomSpawnPosition(deadEntity.blockPosition(), calculateRandomYaw(), spawnArea, spawnedEntity);
 
 		// entity is a living entity then set IS_RESPAWNED attribute for rendering
 		if (isTypeLivingEntity(spawnedEntity))
 			setAttribute((LivingEntity) spawnedEntity, IS_RESPAWNED_ATTRIBUTE.get(), MARKER_ATTRIBUTE_IS_SET);
 
 		// spawn
-		world.addEntity(spawnedEntity);
+		world.addFreshEntity(spawnedEntity);
 
 		// clone equipment
 
 		// apply player aggro potion
 		LivingEntity livingEntity = (LivingEntity) spawnedEntity;
-		livingEntity.addPotionEffect(createEffect());
+		livingEntity.addEffect(createEffect());
 	}
 
 	/**
@@ -109,8 +109,8 @@ public class Respawn2 implements Operator2 {
 	 * 
 	 * @return potion effect
 	 */
-	EffectInstance createEffect() {
-		return new EffectInstance(AGGRO_PLAYER_EFFECT.get(), Integer.MAX_VALUE);
+	MobEffectInstance createEffect() {
+		return new MobEffectInstance(AGGRO_PLAYER_EFFECT.get(), Integer.MAX_VALUE);
 	}
 
 }

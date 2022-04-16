@@ -11,8 +11,8 @@ import java.util.function.Function;
 import bassebombecraft.BassebombeCraft;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which teleport the
@@ -66,7 +66,7 @@ public class TeleportProjectilePath implements Operator2 {
 		Entity projectile = applyV(fnGetProjectile, ports);
 
 		// get motion vector
-		Vector3d motionVector = projectile.getMotion();
+		Vec3 motionVector = projectile.getDeltaMovement();
 		if (motionVector == null)
 			return;
 
@@ -84,18 +84,18 @@ public class TeleportProjectilePath implements Operator2 {
 
 		// rotate
 		float angleRadians = (float) Math.toRadians(angleDegrees);
-		Vector3d newMotionVector = motionVector.rotateYaw(angleRadians);
+		Vec3 newMotionVector = motionVector.yRot(angleRadians);
 
 		// update motion
-		projectile.setMotion(newMotionVector.getX(), newMotionVector.getY(), newMotionVector.getZ());
+		projectile.setDeltaMovement(newMotionVector.x(), newMotionVector.y(), newMotionVector.z());
 
 		// calculate position delta vector
 		float length = lerp(oscValue, 1, 3);
-		Vector3d deltaVector = newMotionVector.normalize().scale(length);
-		Vector3d newPosVector = projectile.getPositionVec().add(deltaVector);
+		Vec3 deltaVector = newMotionVector.normalize().scale(length);
+		Vec3 newPosVector = projectile.position().add(deltaVector);
 
 		// update position
-		projectile.setPositionAndUpdate(newPosVector.getX(), newPosVector.getY(), newPosVector.getZ());
+		projectile.teleportTo(newPosVector.x(), newPosVector.y(), newPosVector.z());
 	}
 
 	/**

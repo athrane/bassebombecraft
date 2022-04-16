@@ -4,10 +4,10 @@ import static bassebombecraft.config.ModConfiguration.addMobsPrimingEffectDurati
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
 import static bassebombecraft.potion.effect.RegisteredEffects.MOB_PRIMING_EFFECT;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction
@@ -46,10 +46,10 @@ public class AddMobsPrimingEffect implements InventoryItemActionStrategy {
 	}
 
 	@Override
-	public void applyEffect(LivingEntity target, World world, LivingEntity invoker) {
+	public void applyEffect(LivingEntity target, Level world, LivingEntity invoker) {
 		if (isTypeLivingEntity(target)) {
 			LivingEntity entityLivingBase = (LivingEntity) target;
-			entityLivingBase.addPotionEffect(createEffect());
+			entityLivingBase.addEffect(createEffect());
 		}
 	}
 
@@ -58,8 +58,8 @@ public class AddMobsPrimingEffect implements InventoryItemActionStrategy {
 	 * 
 	 * @return potion effect
 	 */
-	EffectInstance createEffect() {
-		return new EffectInstance(MOB_PRIMING_EFFECT.get(), duration);
+	MobEffectInstance createEffect() {
+		return new MobEffectInstance(MOB_PRIMING_EFFECT.get(), duration);
 	}
 
 }

@@ -7,13 +7,13 @@ import static bassebombecraft.geom.GeometryUtils.oscillate;
 
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.OutlineLayerBuffer;
+import net.minecraft.client.renderer.OutlineBufferSource;
 import net.minecraft.client.renderer.entity.LivingRenderer;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderLivingEvent.Post;
 import net.minecraftforge.client.event.RenderLivingEvent.Pre;
@@ -104,15 +104,15 @@ public class RespawnedRenderer {
 
 		// get outline buffer and set color
 		Minecraft mcClient = Minecraft.getInstance();
-		OutlineLayerBuffer buffer = mcClient.getRenderTypeBuffers().getOutlineBufferSource();
+		OutlineBufferSource buffer = mcClient.renderBuffers().outlineBufferSource();
 		buffer.setColor(RGB_RED, RGB_GREEN, RGB_BLUE, ALPHA_OFFSET + alpha);
 
 		// get matrix stack
-		MatrixStack matrixStack = event.getMatrixStack();
+		PoseStack matrixStack = event.getMatrixStack();
 
 		// calculate yaw
 		float partialTicks = event.getPartialRenderTick();
-		float yaw = entity.getYaw(partialTicks);
+		float yaw = entity.getViewYRot(partialTicks);
 
 		// get light
 		int packedLight = event.getLight();
@@ -121,7 +121,7 @@ public class RespawnedRenderer {
 		event.getRenderer().render(entity, yaw, partialTicks, matrixStack, buffer, packedLight);
 
 		// should be maintained for outline buffer.
-		buffer.finish();
+		buffer.endOutlineBatch();
 	}
 
 	/**

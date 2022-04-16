@@ -10,20 +10,20 @@ import javax.annotation.Nullable;
 
 import bassebombecraft.config.ItemConfig;
 import bassebombecraft.item.action.RightClickedItemAction;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.CooldownTracker;
-import net.minecraft.util.Hand;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.ItemCooldowns;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -56,7 +56,7 @@ public class GenericNullItem extends Item {
 	 * @param action item action object which is invoked when item is right clicked.
 	 */
 	public GenericNullItem(ItemConfig config, RightClickedItemAction action) {
-		super(new Item.Properties().group(getItemGroup()));
+		super(new Item.Properties().tab(getItemGroup()));
 		this.action = action;
 
 		// get cooldown and tooltip
@@ -65,32 +65,32 @@ public class GenericNullItem extends Item {
 	}
 
 	@Override
-	public boolean hitEntity(ItemStack itemStack, LivingEntity entityTarget, LivingEntity entityUser) {
+	public boolean hurtEnemy(ItemStack itemStack, LivingEntity entityTarget, LivingEntity entityUser) {
 		return false;
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+	public InteractionResultHolder<ItemStack> use(Level worldIn, Player playerIn, InteractionHand handIn) {
 		// exit if invoked at client side
 		if (isLogicalClient(worldIn)) {
-			return super.onItemRightClick(worldIn, playerIn, handIn);
+			return super.use(worldIn, playerIn, handIn);
 		}
 
 		// post analytics
 		getProxy().postItemUsage(this.getRegistryName().toString(), playerIn.getGameProfile().getName());
 
 		// add cooldown
-		CooldownTracker tracker = playerIn.getCooldownTracker();
-		tracker.setCooldown(this, coolDown);
+		ItemCooldowns tracker = playerIn.getCooldowns();
+		tracker.addCooldown(this, coolDown);
 
 		// apply action
 		action.onRightClick(worldIn, playerIn);
 
-		return new ActionResult<ItemStack>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
+		return new InteractionResultHolder<ItemStack>(InteractionResult.SUCCESS, playerIn.getItemInHand(handIn));
 	}
 
 	@Override
-	public void inventoryTick(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
+	public void inventoryTick(ItemStack stack, Level worldIn, Entity entityIn, int itemSlot, boolean isSelected) {
 
 		// only update the action at server side since we updates the world
 		if (isLogicalClient(worldIn))
@@ -101,9 +101,9 @@ public class GenericNullItem extends Item {
 
 	@OnlyIn(Dist.CLIENT)
 	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip,
-			ITooltipFlag flagIn) {
-		ITextComponent text = new TranslationTextComponent(TextFormatting.GREEN + this.tooltip);
+	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip,
+			TooltipFlag flagIn) {
+		Component text = new TranslatableComponent(ChatFormatting.GREEN + this.tooltip);
 		tooltip.add(text);
 	}
 

@@ -7,12 +7,12 @@ import static bassebombecraft.geom.BlockDirective.getInstance;
 import bassebombecraft.event.block.BlockDirectivesRepository;
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import bassebombecraft.geom.BlockDirective;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of {@linkplain MistActionStrategy} for construction of mist
@@ -25,7 +25,7 @@ public class MovingRainbowMist implements BlockMistActionStrategy {
 	static final boolean DONT_HARVEST = false;
 	static final int EFFECT_DURATION = 200; // Measured in ticks
 
-	static final BasicParticleType PARTICLE_TYPE = ParticleTypes.NOTE;
+	static final SimpleParticleType PARTICLE_TYPE = ParticleTypes.NOTE;
 	static final int PARTICLE_NUMBER = 5;
 	static final int PARTICLE_DURATION = 20;
 	static final float R = 0.75F;
@@ -38,7 +38,7 @@ public class MovingRainbowMist implements BlockMistActionStrategy {
 	int colorCounter = 0;
 
 	@Override
-	public void applyEffectToBlock(BlockPos target, World world) {
+	public void applyEffectToBlock(BlockPos target, Level world) {
 		colorCounter++;
 
 		// create rainbow block
@@ -62,23 +62,23 @@ public class MovingRainbowMist implements BlockMistActionStrategy {
 		switch (colorSelector) {
 
 		case 0:
-			return Blocks.MAGENTA_WOOL.getDefaultState();
+			return Blocks.MAGENTA_WOOL.defaultBlockState();
 		case 1:
-			return Blocks.PURPLE_WOOL.getDefaultState();
+			return Blocks.PURPLE_WOOL.defaultBlockState();
 		case 2:
-			return Blocks.BLUE_WOOL.getDefaultState();
+			return Blocks.BLUE_WOOL.defaultBlockState();
 		case 3:
-			return Blocks.LIGHT_BLUE_WOOL.getDefaultState();
+			return Blocks.LIGHT_BLUE_WOOL.defaultBlockState();
 		case 4:
-			return Blocks.LIME_WOOL.getDefaultState();
+			return Blocks.LIME_WOOL.defaultBlockState();
 		case 5:
-			return Blocks.YELLOW_WOOL.getDefaultState();
+			return Blocks.YELLOW_WOOL.defaultBlockState();
 		case 6:
-			return Blocks.ORANGE_WOOL.getDefaultState();
+			return Blocks.ORANGE_WOOL.defaultBlockState();
 		case 7:
-			return Blocks.RED_WOOL.getDefaultState();
+			return Blocks.RED_WOOL.defaultBlockState();
 		default:
-			return Blocks.WHITE_WOOL.getDefaultState();
+			return Blocks.WHITE_WOOL.defaultBlockState();
 
 		}
 	}

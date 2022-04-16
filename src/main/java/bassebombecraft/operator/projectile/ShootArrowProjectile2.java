@@ -1,11 +1,11 @@
 package bassebombecraft.operator.projectile;
 
 import bassebombecraft.operator.Operator2;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which shoots arrow
@@ -24,13 +24,13 @@ public class ShootArrowProjectile2 extends GenericShootProjectile2 {
 	static final float PROJECTILE_FORCE = 15F;
 
 	@Override
-	Entity createProjectile(LivingEntity invoker, Vector3d orientation) {
+	Entity createProjectile(LivingEntity invoker, Vec3 orientation) {
 
-		ArrowEntity projectile = EntityType.ARROW.create(invoker.getEntityWorld());
-		projectile.setShooter(invoker);
-		projectile.setPosition(invoker.getPosX(), invoker.getPosY() + invoker.getEyeHeight(), invoker.getPosZ());
+		Arrow projectile = EntityType.ARROW.create(invoker.getCommandSenderWorld());
+		projectile.setOwner(invoker);
+		projectile.setPos(invoker.getX(), invoker.getY() + invoker.getEyeHeight(), invoker.getZ());
 		float velocity = PROJECTILE_FORCE * (float) orientation.length();
-		projectile.shoot(orientation.getX(), orientation.getY(), orientation.getZ(), velocity, PROJECTILE_INACCURACY);
+		projectile.shoot(orientation.x(), orientation.y(), orientation.z(), velocity, PROJECTILE_INACCURACY);
 
 		return projectile;
 	}

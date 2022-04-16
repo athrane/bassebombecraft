@@ -2,20 +2,20 @@ package bassebombecraft.tab;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * Sub class of {@linkplain ItemGroup} which defines creative tab.
  */
-public class BassebombeItemGroup extends ItemGroup {
+public class BassebombeItemGroup extends CreativeModeTab {
 
 	public BassebombeItemGroup(String label) {
 		super(label);
 	}
 
 	@Override
-	public ItemStack createIcon() {
+	public ItemStack makeIcon() {
 		return new ItemStack(getBassebombeCraft().getCreativeTabItem());
 	}
 

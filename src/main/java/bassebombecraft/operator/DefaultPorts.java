@@ -6,17 +6,17 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import bassebombecraft.color.Color4f;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector2f;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
 
 public class DefaultPorts implements Ports {
 
@@ -98,22 +98,22 @@ public class DefaultPorts implements Ports {
 	/**
 	 * Vector2f #1.
 	 */
-	Vector2f vector2f1;
+	Vec2 vector2f1;
 	
 	/**
 	 * Vector3d #1.
 	 */
-	Vector3d vector3d1;
+	Vec3 vector3d1;
 
 	/**
 	 * Vector3d array #1.
 	 */
-	Vector3d[] vectors3d1;
+	Vec3[] vectors3d1;
 
 	/**
 	 * Vector3d array #2.
 	 */
-	Vector3d[] vectors3d2;
+	Vec3[] vectors3d2;
 
 	/**
 	 * Color4f #1.
@@ -128,17 +128,17 @@ public class DefaultPorts implements Ports {
 	/**
 	 * Effect instance #1.
 	 */
-	EffectInstance effectInstance1;
+	MobEffectInstance effectInstance1;
 
 	/**
 	 * World object.
 	 */
-	World world;
+	Level world;
 
 	/**
 	 * Ray trace result #1.
 	 */
-	RayTraceResult rayTraceResult1;
+	HitResult rayTraceResult1;
 
 	/**
 	 * Result of operator execution.
@@ -153,7 +153,7 @@ public class DefaultPorts implements Ports {
 	/**
 	 * Axis aligned bounding box.
 	 */
-	AxisAlignedBB aabb;
+	AABB aabb;
 
 	/**
 	 * Damage source.
@@ -303,42 +303,42 @@ public class DefaultPorts implements Ports {
 	/**
 	 * Vector2f #1 getter.
 	 */
-	static Function<Ports, Vector2f> fnGetVector2f1 = p -> p.getVector2f1();
+	static Function<Ports, Vec2> fnGetVector2f1 = p -> p.getVector2f1();
 
 	/**
 	 * Vector2f #1 setter.
 	 */
-	static BiConsumer<Ports, Vector2f> bcSetVector2f1 = (p, v) -> p.setVector2f1(v);
+	static BiConsumer<Ports, Vec2> bcSetVector2f1 = (p, v) -> p.setVector2f1(v);
 	
 	/**
 	 * Vector3d #1 getter.
 	 */
-	static Function<Ports, Vector3d> fnGetVector3d1 = p -> p.getVector1();
+	static Function<Ports, Vec3> fnGetVector3d1 = p -> p.getVector1();
 
 	/**
 	 * Vector3d #1 setter.
 	 */
-	static BiConsumer<Ports, Vector3d> bcSetVector3d1 = (p, v) -> p.setVector1(v);
+	static BiConsumer<Ports, Vec3> bcSetVector3d1 = (p, v) -> p.setVector1(v);
 
 	/**
 	 * Vector3d array #1 setter.
 	 */
-	static BiConsumer<Ports, Vector3d[]> bcSetVectors3d1 = (p, v) -> p.setVectors1(v);
+	static BiConsumer<Ports, Vec3[]> bcSetVectors3d1 = (p, v) -> p.setVectors1(v);
 
 	/**
 	 * Vector3d array #1 getter.
 	 */
-	static Function<Ports, Vector3d[]> fnGetVectors3d1 = p -> p.getVectors1();
+	static Function<Ports, Vec3[]> fnGetVectors3d1 = p -> p.getVectors1();
 
 	/**
 	 * Vector3d array #2 setter.
 	 */
-	static BiConsumer<Ports, Vector3d[]> bcSetVectors3d2 = (p, v) -> p.setVectors2(v);
+	static BiConsumer<Ports, Vec3[]> bcSetVectors3d2 = (p, v) -> p.setVectors2(v);
 
 	/**
 	 * Vector3d array #2 getter.
 	 */
-	static Function<Ports, Vector3d[]> fnGetVectors3d2 = p -> p.getVectors2();
+	static Function<Ports, Vec3[]> fnGetVectors3d2 = p -> p.getVectors2();
 
 	/**
 	 * Color4f #1 getter.
@@ -363,42 +363,42 @@ public class DefaultPorts implements Ports {
 	/**
 	 * Ray trace result #1 getter.
 	 */
-	static Function<Ports, RayTraceResult> fnGetRayTraceResult1 = p -> p.getRayTraceResult1();
+	static Function<Ports, HitResult> fnGetRayTraceResult1 = p -> p.getRayTraceResult1();
 
 	/**
 	 * Ray trace result #1 setter.
 	 */
-	static BiConsumer<Ports, RayTraceResult> bcSetRayTraceResult1 = (p, r) -> p.setRayTraceResult1(r);
+	static BiConsumer<Ports, HitResult> bcSetRayTraceResult1 = (p, r) -> p.setRayTraceResult1(r);
 
 	/**
 	 * Effect instance #1 getter.
 	 */
-	static Function<Ports, EffectInstance> fnGetEffecInstance1 = p -> p.getEffectInstance1();
+	static Function<Ports, MobEffectInstance> fnGetEffecInstance1 = p -> p.getEffectInstance1();
 
 	/**
 	 * Effect instance #1 setter.
 	 */
-	static BiConsumer<Ports, EffectInstance> bcSetEffectInstance1 = (p, i) -> p.setEffectInstance1(i);
+	static BiConsumer<Ports, MobEffectInstance> bcSetEffectInstance1 = (p, i) -> p.setEffectInstance1(i);
 
 	/**
 	 * World #1 getter.
 	 */
-	static Function<Ports, World> fnGetWorld1 = p -> p.getWorld();
+	static Function<Ports, Level> fnGetWorld1 = p -> p.getWorld();
 
 	/**
 	 * World #1 setter.
 	 */
-	static BiConsumer<Ports, World> bcSetWorld1 = (p, w) -> p.setWorld(w);
+	static BiConsumer<Ports, Level> bcSetWorld1 = (p, w) -> p.setWorld(w);
 
 	/**
 	 * AABB #1 getter.
 	 */
-	static Function<Ports, AxisAlignedBB> fnGetAabb1 = p -> p.getAabb1();
+	static Function<Ports, AABB> fnGetAabb1 = p -> p.getAabb1();
 
 	/**
 	 * AABB #1 setter.
 	 */
-	static BiConsumer<Ports, AxisAlignedBB> bcSetAabb1 = (p, aabb) -> p.setAabb1(aabb);
+	static BiConsumer<Ports, AABB> bcSetAabb1 = (p, aabb) -> p.setAabb1(aabb);
 
 	/**
 	 * Damage source #1 getter.
@@ -588,45 +588,45 @@ public class DefaultPorts implements Ports {
 
 	
 	@Override
-	public Vector2f getVector2f1() {
+	public Vec2 getVector2f1() {
 		return vector2f1;
 	}
 
 	@Override
-	public Ports setVector2f1(Vector2f vec) {
+	public Ports setVector2f1(Vec2 vec) {
 		this.vector2f1 = vec;
 		return this;
 	}
 
 	@Override
-	public Vector3d getVector1() {
+	public Vec3 getVector1() {
 		return vector3d1;
 	}
 
 	@Override
-	public Ports setVector1(Vector3d vec) {
+	public Ports setVector1(Vec3 vec) {
 		this.vector3d1 = vec;
 		return this;
 	}
 
 	@Override
-	public Vector3d[] getVectors1() {
+	public Vec3[] getVectors1() {
 		return vectors3d1;
 	}
 
 	@Override
-	public Ports setVectors1(Vector3d[] vec) {
+	public Ports setVectors1(Vec3[] vec) {
 		this.vectors3d1 = vec;
 		return this;
 	}
 
 	@Override
-	public Vector3d[] getVectors2() {
+	public Vec3[] getVectors2() {
 		return vectors3d2;
 	}
 
 	@Override
-	public Ports setVectors2(Vector3d[] vec) {
+	public Ports setVectors2(Vec3[] vec) {
 		this.vectors3d2 = vec;
 		return this;
 	}
@@ -654,34 +654,34 @@ public class DefaultPorts implements Ports {
 	}
 
 	@Override
-	public RayTraceResult getRayTraceResult1() {
+	public HitResult getRayTraceResult1() {
 		return rayTraceResult1;
 	}
 
 	@Override
-	public Ports setRayTraceResult1(RayTraceResult rtr) {
+	public Ports setRayTraceResult1(HitResult rtr) {
 		this.rayTraceResult1 = rtr;
 		return this;
 	}
 
 	@Override
-	public EffectInstance getEffectInstance1() {
+	public MobEffectInstance getEffectInstance1() {
 		return effectInstance1;
 	}
 
 	@Override
-	public Ports setEffectInstance1(EffectInstance instance) {
+	public Ports setEffectInstance1(MobEffectInstance instance) {
 		this.effectInstance1 = instance;
 		return this;
 	}
 
 	@Override
-	public World getWorld() {
+	public Level getWorld() {
 		return world;
 	}
 
 	@Override
-	public Ports setWorld(World world) {
+	public Ports setWorld(Level world) {
 		this.world = world;
 		return this;
 	}
@@ -721,12 +721,12 @@ public class DefaultPorts implements Ports {
 	}
 
 	@Override
-	public AxisAlignedBB getAabb1() {
+	public AABB getAabb1() {
 		return aabb;
 	}
 
 	@Override
-	public Ports setAabb1(AxisAlignedBB aabb) {
+	public Ports setAabb1(AABB aabb) {
 		this.aabb = aabb;
 		return this;
 	}
@@ -906,35 +906,35 @@ public class DefaultPorts implements Ports {
 		return bcSetInteger1;
 	}
 
-	public static Function<Ports, Vector2f> getFnGetVector2f1() {
+	public static Function<Ports, Vec2> getFnGetVector2f1() {
 		return fnGetVector2f1;
 	}
 
-	public static BiConsumer<Ports, Vector2f> getBcSetVector2f1() {
+	public static BiConsumer<Ports, Vec2> getBcSetVector2f1() {
 		return bcSetVector2f1;
 	}
 	
-	public static Function<Ports, Vector3d> getFnGetVector1() {
+	public static Function<Ports, Vec3> getFnGetVector1() {
 		return fnGetVector3d1;
 	}
 
-	public static BiConsumer<Ports, Vector3d> getBcSetVector1() {
+	public static BiConsumer<Ports, Vec3> getBcSetVector1() {
 		return bcSetVector3d1;
 	}
 
-	public static Function<Ports, Vector3d[]> getFnGetVectors1() {
+	public static Function<Ports, Vec3[]> getFnGetVectors1() {
 		return fnGetVectors3d1;
 	}
 
-	public static BiConsumer<Ports, Vector3d[]> getBcSetVectors1() {
+	public static BiConsumer<Ports, Vec3[]> getBcSetVectors1() {
 		return bcSetVectors3d1;
 	}
 
-	public static Function<Ports, Vector3d[]> getFnGetVectors2() {
+	public static Function<Ports, Vec3[]> getFnGetVectors2() {
 		return fnGetVectors3d2;
 	}
 
-	public static BiConsumer<Ports, Vector3d[]> getBcSetVectors2() {
+	public static BiConsumer<Ports, Vec3[]> getBcSetVectors2() {
 		return bcSetVectors3d2;
 	}
 
@@ -954,35 +954,35 @@ public class DefaultPorts implements Ports {
 		return bcSetColor4f2;
 	}
 
-	public static Function<Ports, RayTraceResult> getFnGetRayTraceResult1() {
+	public static Function<Ports, HitResult> getFnGetRayTraceResult1() {
 		return fnGetRayTraceResult1;
 	}
 
-	public static BiConsumer<Ports, RayTraceResult> getBcSetRayTraceResult1() {
+	public static BiConsumer<Ports, HitResult> getBcSetRayTraceResult1() {
 		return bcSetRayTraceResult1;
 	}
 
-	public static Function<Ports, EffectInstance> getFnEffectInstance1() {
+	public static Function<Ports, MobEffectInstance> getFnEffectInstance1() {
 		return fnGetEffecInstance1;
 	}
 
-	public static BiConsumer<Ports, EffectInstance> getBcSetEffectInstance1() {
+	public static BiConsumer<Ports, MobEffectInstance> getBcSetEffectInstance1() {
 		return bcSetEffectInstance1;
 	}
 
-	public static Function<Ports, World> getFnWorld1() {
+	public static Function<Ports, Level> getFnWorld1() {
 		return fnGetWorld1;
 	}
 
-	public static BiConsumer<Ports, World> getBcSetWorld1() {
+	public static BiConsumer<Ports, Level> getBcSetWorld1() {
 		return bcSetWorld1;
 	}
 
-	public static Function<Ports, AxisAlignedBB> getFnAabb1() {
+	public static Function<Ports, AABB> getFnAabb1() {
 		return fnGetAabb1;
 	}
 
-	public static BiConsumer<Ports, AxisAlignedBB> getBcSetAabb1() {
+	public static BiConsumer<Ports, AABB> getBcSetAabb1() {
 		return bcSetAabb1;
 	}
 

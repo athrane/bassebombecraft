@@ -1,7 +1,7 @@
 package bassebombecraft.client.rendering;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.Vec3;
 
 /**
  * Interface for rendering stuff.
@@ -15,5 +15,5 @@ public interface Renderer {
 	 * @param player
 	 * @param playerPos
 	 */
-	public void render(PlayerEntity player, Vector3d playerPos);
+	public void render(Player player, Vec3 playerPos);
 }
