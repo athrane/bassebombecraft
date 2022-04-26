@@ -9,8 +9,8 @@ import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeBlockRayTr
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.item.action.build.BuildUtils.addSolidStairUp;
 import static bassebombecraft.item.action.build.BuildUtils.createInstance;
-import static net.minecraft.block.Blocks.STONE_BRICKS;
-import static net.minecraft.block.Blocks.STONE_BRICK_STAIRS;
+import static net.minecraft.world.level.block.Blocks.STONE_BRICKS;
+import static net.minecraft.world.level.block..Blocks.STONE_BRICK_STAIRS;
 import staticnet.minecraft.world.level.block.Blocksion.SOUTH;
 
 import java.util.List;

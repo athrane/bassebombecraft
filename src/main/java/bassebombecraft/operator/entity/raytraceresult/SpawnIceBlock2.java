@@ -11,7 +11,7 @@ import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeEntityRayT
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
 import static bassebombecraft.operator.DefaultPorts.getFnWorld1;
 import static bassebombecraft.operator.Operators2.applyV;
-import static net.minecraft.block.Blocks.ICE;
+import static net.minecraft.world.level.block.Blocks.ICE;
 
 import java.util.function.Function;
 
