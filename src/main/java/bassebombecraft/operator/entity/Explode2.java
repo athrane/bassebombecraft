@@ -15,7 +15,7 @@ import net.minecraft.world.phys.AABB;
 import static bassebombecraft.config.ModConfiguration.*;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

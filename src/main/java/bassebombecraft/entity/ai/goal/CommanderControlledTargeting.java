@@ -2,20 +2,20 @@ package bassebombecraft.entity.ai.goal;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
-import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
+import static net.minecraft.world.entity.ai.goal.Goal.Flag.TARGET;
 
-importimport bassebombecraft.entity.commander.MobCommand;
+import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import java.util.EnumSet;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 
- javanet.minecraft.world.entity.ai.goal.Goal.Flagft.entity.commander.MobCommand;
+import net.minecraft.world.entity.ai.goal.Goal.Flag;
 import bassebombecraft.entity.commander.MobCommanderRepository;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.Goal;
 
 /**
  * AI target acquisition goal which is commanded the by mob commander.

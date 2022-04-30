@@ -4,9 +4,9 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.entity.EntityUtils.hasTarget;
 import static bassebombecraft.entity.EntityUtils.selfDestruct;
-import static net.minecraft.entity.ai.goal.Goal.Flag.TARGET;
+import static net.minecraft.world.entity.ai.goal.Goal.Flag.TARGET;
 
-importimport bassebombecraft.event.entity.target.TargetRepository;
+import bassebombecraft.event.entity.target.TargetRepository;
 import java.util.EnumSet;
 import java.util.Optional;
 import net.minecraft.world.entity.LivingEntity;
@@ -18,7 +18,7 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import bassebombecraft.event.entity.target.TargetRepository;
 import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.Goal;
 
 /**
  * AI target acquisition goal which attacks commanders target.

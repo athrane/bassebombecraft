@@ -5,14 +5,14 @@ import static bassebombecraft.potion.effect.RegisteredEffects.AMPLIFIER_EFFECT;
 import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
 import static net.minecraft.item.Items.POTION;
-import staticnet.minecraft.world.item.ItemstionUtils.addPotionToItemStack;
+import static net.minecraft.world.item.ItemstionUtils.addPotionToItemStack;
 import static net.minecraftforge.common.brewing.BrewingRecipeRegistry.addRecipe;
 
 import java.util.Collection;
 import java.util.Optional;
 
 import bassebombecraft.config.ConfigUtils;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;

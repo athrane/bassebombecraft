@@ -15,9 +15,9 @@ import static bassebombecraft.operator.DefaultPorts.getBcSetLivingEntity2;
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 import static bassebombecraft.operator.DefaultPorts.getFnGetRayTraceResult1;
 import static bassebombecraft.operator.Operators2.applyV;
-import static net.minecraft.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE;
-import static net.minecraft.entity.ai.attributes.Attributes.MAX_HEALTH;
-import staticnet.minecraft.world.entity.ai.attributes.Attributess.MOVEMENT_SPEED;
+import static net.minecraft.world.entity.ai.attributes.Attributes.KNOCKBACK_RESISTANCE;
+import static net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH;
+import static net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED;
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;

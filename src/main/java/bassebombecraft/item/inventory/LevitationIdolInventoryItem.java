@@ -20,7 +20,8 @@ import java.util.function.Supplier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
-vanet.minecraft.world.effect.MobEffectsport java.util.function.Supplier;
+import net.minecraft.world.effect.MobEffect;
+import java.util.function.Supplier;
 
 import bassebombecraft.item.action.inventory.ExecuteOperatorOnInvoker2;
 import bassebombecraft.operator.Operator2;
@@ -29,7 +30,7 @@ import bassebombecraft.operator.Sequence2;
 import bassebombecraft.operator.conditional.IsEntityOfType2;
 import bassebombecraft.operator.entity.potion.effect.AddEffect2;
 import bassebombecraft.operator.sound.PlaySound2;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 
 /**

@@ -5,9 +5,9 @@ import static bassebombecraft.config.ModConfiguration.spawnKillerBeeMovementSpee
 import static bassebombecraft.entity.EntityUtils.resolveTarget;
 import static bassebombecraft.entity.EntityUtils.setAttribute;
 import static bassebombecraft.entity.ai.AiUtils.buildChargingAi;
-import static net.minecraft.entity.ai.attributes.Attributes.ATTACK_DAMAGE;
-import static net.minecraft.entity.ai.attributes.Attributes.FLYING_SPEED;
-import staticnet.minecraft.world.entity.ai.attributes.Attributess.MOVEMENT_SPEED;
+import static net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE;
+import static net.minecraft.world.entity.ai.attributes.Attributes.FLYING_SPEED;
+import static net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED;
 
 import java.util.Random;
 import java.util.function.Supplier;

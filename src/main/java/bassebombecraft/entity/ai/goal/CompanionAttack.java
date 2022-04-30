@@ -9,7 +9,7 @@ import static bassebombecraft.entity.EntityUtils.hasTarget;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntities1;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static java.util.Optional.ofNullable;
-import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
+import static net.minecraft.world.entity.ai.goal.Goal.Flag.LOOK;
 
 import java.util.ArrayList;
 import java.util.EnumSet;

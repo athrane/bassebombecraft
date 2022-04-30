@@ -5,9 +5,9 @@ import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.AI_PATH_RECALC_UPDATE_FREQUENCY;
 import static bassebombecraft.ModConstants.AI_TARGET_WATCH_DIST;
 import static bassebombecraft.entity.EntityUtils.isMinimumDistanceReached;
-import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
-import static net.minecraft.entity.ai.goal.Goal.Flag.MOVE;
-import staticnet.minecraft.world.entity.ai.goal.Goal.Flage.WATER;
+import static net.minecraft.world.entity.ai.goal.Goal.Flag.LOOK;
+import static net.minecraft.world.entity.ai.goal.Goal.Flag.MOVE;
+import static net.minecraft.world.level.pathfinder.BlockPathTypes.WATER;
 
 import java.util.EnumSet;
 

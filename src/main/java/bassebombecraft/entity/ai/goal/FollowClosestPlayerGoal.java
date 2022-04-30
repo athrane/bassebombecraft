@@ -5,10 +5,10 @@ import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ModConstants.AI_PATH_RECALC_UPDATE_FREQUENCY;
 import static bassebombecraft.ModConstants.AI_TARGET_WATCH_DIST;
 import static bassebombecraft.entity.EntityUtils.isMinimumDistanceReached;
-import static net.minecraft.entity.ai.goal.Goal.Flag.LOOK;
-import static net.minecraft.entity.ai.goal.Goal.Flag.MOVE;
+import static net.minecraft.world.entity.ai.goal.Goal.Flag.LOOK;
+import static net.minecraft.world.entity.ai.goal.Goal.Flag.MOVE;
 
-importimport bassebombecraft.event.frequency.FrequencyRepository;
+import bassebombecraft.event.frequency.FrequencyRepository;
 import java.util.EnumSet;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -17,7 +17,7 @@ import net.minecraft.world.entity.player.Player;
 
  javanet.minecraft.world.entity.ai.goal.Goal.Flagft.event.frequency.FrequencyRepository;
 import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.pathfinding.PathNavigator;
 

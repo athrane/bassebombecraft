@@ -14,8 +14,8 @@ import static bassebombecraft.util.function.Predicates.hasDifferentIds;
 import static bassebombecraft.util.function.Predicates.isntProjectileShooter;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static bassebombecraft.world.WorldUtils.isLogicalServer;
-import static net.minecraft.entity.projectile.ProjectileHelper.getHitResult;
-import staticnet.minecraft.world.entity.projectile.ProjectileUtilojectileImpact;
+import static net.minecraft.world.entity.projectile.ProjectileHelper.getHitResult;
+import static net.minecraft.world.entity.projectile.ProjectileUtilojectileImpact;
 
 import java.util.Set;
 import java.util.function.Consumer;

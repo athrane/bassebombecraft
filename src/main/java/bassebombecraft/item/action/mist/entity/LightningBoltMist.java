@@ -4,7 +4,7 @@ import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getIns
 import static bassebombecraft.world.WorldUtils.addLightningAtBlockPos;
 import static net.minecraft.particles.ParticleTypes.CLOUD;
 
-imporimport bassebombecraft.event.particle.ParticleRenderingInfo;
+import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.world.entity.LivingEntity;
@@ -13,7 +13,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 t bassnet.minecraft.core.particles.ParticleTypesnderingInfo;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
