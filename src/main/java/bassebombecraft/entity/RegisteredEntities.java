@@ -1,7 +1,7 @@
 package bassebombecraft.entity;
 
 import static bassebombecraft.ModConstants.MODID;
-import static net.minecraft.entity.EntityClassification.MISC;
+import static net.minecraft.world.entity.MobCategory.MISC;
 import static net.minecraftforge.registries.DeferredRegister.create;
 import static net.minecraftforge.registries.ForgeRegistries.ENTITIES;
 

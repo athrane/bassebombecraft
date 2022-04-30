@@ -6,22 +6,10 @@ import static bassebombecraft.config.ModConfiguration.levitationIdolInventoryIte
 import static bassebombecraft.operator.DefaultPorts.getFnGetLivingEntity1;
 import static bassebombecraft.operator.DefaultPorts.getInstance;
 import static bassebombecraft.operator.LazyInitOp2.of;
-import static net.minecraft.potion.Effects.LEVITATION;
+import static net.minecraft.world.effect.MobEffects.LEVITATION;
 
-import bassebombecraft.item.action.inventory.ExecuteOperatorOnInvoker2;
-import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.Ports;
-import bassebombecraft.operator.Sequence2;
-import bassebombecraft.operator.conditional.IsEntityOfType2;
-import bassebombecraft.operator.entity.potion.effect.AddEffect2;
-import bassebombecraft.operator.sound.PlaySound2;
 import java.util.function.Function;
 import java.util.function.Supplier;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-
-import net.minecraft.world.effect.MobEffect;
-import java.util.function.Supplier;
 
 import bassebombecraft.item.action.inventory.ExecuteOperatorOnInvoker2;
 import bassebombecraft.operator.Operator2;
@@ -31,7 +19,7 @@ import bassebombecraft.operator.conditional.IsEntityOfType2;
 import bassebombecraft.operator.entity.potion.effect.AddEffect2;
 import bassebombecraft.operator.sound.PlaySound2;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 
 /**
  * Levitation idol implementation.

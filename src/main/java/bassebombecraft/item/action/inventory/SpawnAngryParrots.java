@@ -7,11 +7,12 @@ import static bassebombecraft.entity.EntityUtils.resolveTarget;
 import static bassebombecraft.entity.EntityUtils.setAttribute;
 import static bassebombecraft.entity.ai.AiUtils.buildChargingAi;
 import static net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE;
-import static net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED;
 import static net.minecraft.world.entity.ai.attributes.Attributes.FLYING_SPEED;
+import static net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED;
+
+import java.util.Random;
 
 import bassebombecraft.BassebombeCraft;
-import java.util.Random;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
@@ -19,14 +20,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Parrot;
 import net.minecraft.world.level.Level;
-
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.entity.passive.ParrotEntity;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.World;
 
 /**
  * Implementation of {@linkplain InventoryItemActionStrategy} for construction

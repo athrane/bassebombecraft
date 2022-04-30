@@ -10,29 +10,19 @@ import static bassebombecraft.operator.Operators2.applyV;
 import static net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE;
 import static net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED;
 
-import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.Ports;
 import java.util.Random;
 import java.util.function.Function;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.animal.Pig;
-import net.minecraft.world.level.Level;
-
- javanet.minecraft.world.entity.ai.attributes.Attributestion;
 
 import bassebombecraft.event.entity.attribute.EntityAttributeEventHandler;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.entity.passive.PigEntity;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.animal.Pig;
+import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which spawn a war pig.
