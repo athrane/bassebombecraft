@@ -4,17 +4,12 @@ import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static net.minecraft.world.entity.ai.goal.Goal.Flag.TARGET;
 
+import java.util.EnumSet;
+
 import bassebombecraft.entity.commander.MobCommand;
 import bassebombecraft.entity.commander.MobCommanderRepository;
-import java.util.EnumSet;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.ai.goal.Goal;
-
-import net.minecraft.world.entity.ai.goal.Goal.Flag;
-import bassebombecraft.entity.commander.MobCommanderRepository;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 
 /**
@@ -59,8 +54,8 @@ public class CommanderControlledTargeting extends Goal {
 			MobCommand command = repository.getCommand(commander);
 
 			// initialize command
-			return command.shouldExecute(commander, entity);			
-		} catch(Exception e) {			
+			return command.shouldExecute(commander, entity);
+		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
 
 			// don't execute as we have a error
@@ -68,21 +63,20 @@ public class CommanderControlledTargeting extends Goal {
 		}
 	}
 
-	
 	@Override
 	public void tick() {
 		try {
 
-		// register player and get command
-		MobCommanderRepository repository = getProxy().getServerMobCommanderRepository();
-		MobCommand command = repository.getCommand(commander);
+			// register player and get command
+			MobCommanderRepository repository = getProxy().getServerMobCommanderRepository();
+			MobCommand command = repository.getCommand(commander);
 
-		// execute
-		command.tick(commander, entity);
-		
-		} catch(Exception e) {			
-			getBassebombeCraft().reportAndLogException(e);			
-		}		
+			// execute
+			command.tick(commander, entity);
+
+		} catch (Exception e) {
+			getBassebombeCraft().reportAndLogException(e);
+		}
 	}
 
 }

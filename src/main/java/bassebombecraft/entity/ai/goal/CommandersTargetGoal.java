@@ -6,18 +6,12 @@ import static bassebombecraft.entity.EntityUtils.hasTarget;
 import static bassebombecraft.entity.EntityUtils.selfDestruct;
 import static net.minecraft.world.entity.ai.goal.Goal.Flag.TARGET;
 
-import bassebombecraft.event.entity.target.TargetRepository;
 import java.util.EnumSet;
 import java.util.Optional;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.PathfinderMob;
-import net.minecraft.world.entity.ai.goal.Goal;
-
- javanet.minecraft.world.entity.ai.goal.Goal.Flagnal;
 
 import bassebombecraft.event.entity.target.TargetRepository;
-import net.minecraft.entity.CreatureEntity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.Goal;
 
 /**
