@@ -7,7 +7,7 @@ import static net.minecraftforge.registries.ForgeRegistries.PARTICLE_TYPES;
 import bassebombecraft.client.event.rendering.particle.ParticleFactoryRegistryEventHandler;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 
 /**

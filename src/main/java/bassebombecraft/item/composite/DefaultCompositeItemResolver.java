@@ -13,7 +13,7 @@ import bassebombecraft.operator.Sequence2;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fmllegacy.RegistryObject;
 
 /**
  * Default implementation of the {@linkplain CompositeItemsResolver} interface.

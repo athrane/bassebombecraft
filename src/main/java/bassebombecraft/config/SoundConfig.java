@@ -9,7 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
-import net.minecraftforge.fml.RegistryObject;;
+import net.minecraftforge.fmllegacy.RegistryObject;;
 
 /**
  * Class for defining sound information in configuration files.

@@ -7,7 +7,7 @@ import static net.minecraftforge.registries.ForgeRegistries.POTIONS;
 import java.util.function.Supplier;
 
 import net.minecraft.world.effect.MobEffect;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 
 /**
