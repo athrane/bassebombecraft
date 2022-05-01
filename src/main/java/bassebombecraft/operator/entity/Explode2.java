@@ -3,7 +3,7 @@ package bassebombecraft.operator.entity;
 import static bassebombecraft.config.ModConfiguration.explodeMinExplosionRadius;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
 import static bassebombecraft.operator.Operators2.applyV;
-import static net.minecraft.world.Explosion.Mode.DESTROY;
+import static net.minecraft.world.level.Explosion.BlockInteraction.DESTROY;
 
 import java.util.function.Function;
 
@@ -11,6 +11,7 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
@@ -19,7 +20,7 @@ import net.minecraft.world.phys.AABB;
  * explosion from a hit target.
  */
 public class Explode2 implements Operator2 {
-
+	
 	/**
 	 * Operator identifier.
 	 */
