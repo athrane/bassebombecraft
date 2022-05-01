@@ -4,8 +4,7 @@ import static bassebombecraft.ModConstants.POTIONS_CONFIGPATH;
 import static bassebombecraft.potion.effect.RegisteredEffects.AMPLIFIER_EFFECT;
 import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
-import static net.minecraft.item.Items.POTION;
-import static net.minecraft.world.item.ItemstionUtils.addPotionToItemStack;
+import static net.minecraft.world.item.Items.POTION;
 import static net.minecraftforge.common.brewing.BrewingRecipeRegistry.addRecipe;
 
 import java.util.Collection;
@@ -14,7 +13,7 @@ import java.util.Optional;
 import bassebombecraft.config.ConfigUtils;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -61,7 +60,7 @@ public class PotionUtils {
 		Potion targetPotion = splPotion.get();
 		Ingredient baseItem = Ingredient.of(setPotion(new ItemStack(POTION), basePotion));
 		Ingredient reagantItem = Ingredient.of(new ItemStack(reagent));
-		ItemStack out = setPotion(new ItemStack(POTION), targetPotion);
+		ItemStack out = setPotion(new ItemStack(Items.POTION), targetPotion);
 		addRecipe(new BrewingRecipe(baseItem, reagantItem, out));
 	}
 
