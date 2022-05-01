@@ -11,7 +11,7 @@ import static bassebombecraft.item.RegisteredItems.MINE_BOOK;
 import static bassebombecraft.operator.DefaultPorts.getFnGetString1;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.player.PlayerUtils.isItemHeldInEitherHands;
-import static net.minecraft.util.math.RayTraceResult.Type.BLOCK;
+import static net.minecraft.world.phys.HitResult.Type.BLOCK;
 
 import java.util.function.Supplier;
 

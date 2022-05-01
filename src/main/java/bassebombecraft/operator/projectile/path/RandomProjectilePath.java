@@ -3,7 +3,7 @@ package bassebombecraft.operator.projectile.path;
 import static bassebombecraft.geom.GeometryUtils.oscillateFloat;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
 import static bassebombecraft.operator.Operators2.applyV;
-import static net.minecraft.util.math.MathHelper.lerp;
+import static net.minecraft.util.Mth.lerp;
 
 import java.util.function.Function;
 

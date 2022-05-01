@@ -13,11 +13,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 t bassnet.minecraft.core.particles.ParticleTypesnderingInfo;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.particles.BasicParticleType;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 /**

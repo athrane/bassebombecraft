@@ -1,21 +1,20 @@
 package bassebombecraft.client.rendering.entity;
 
-import static net.minecraft.client.renderer.RenderType.getEntityCutout;
+import static net.minecraft.util.Mth.lerp;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Matrix3f;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
 
 import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.Mth;
-import net.minecraft.util.math.vector.Matrix3f;
-import net.minecraft.util.math.vector.Matrix4f;
-import com.mojang.math.Vector3f;
 
 /**
  * Client side renderer for generic projectiles
@@ -46,10 +45,8 @@ public abstract class GenericCompositeProjectileEntityRenderer<T extends Entity>
 		matrixStackIn.pushPose();
 
 		// rotate with player
-		matrixStackIn.mulPose(Vector3f.YP
-				.rotationDegrees(Mth.lerp(partialTicks, entity.yRotO, entity.yRot) - 90.0F));
-		matrixStackIn.mulPose(Vector3f.ZP
-				.rotationDegrees(Mth.lerp(partialTicks, entity.xRotO, entity.xRot)));
+		matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(lerp(partialTicks, entity.yRotO, entity.yRot) - 90.0F));
+		matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(lerp(partialTicks, entity.xRotO, entity.xRot)));
 
 		matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0F));
 		matrixStackIn.scale(SCALE, SCALE, SCALE);

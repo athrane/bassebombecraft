@@ -3,14 +3,14 @@ package bassebombecraft.client.event.rendering;
 import static bassebombecraft.entity.EntityUtils.isEntityAttributeSet;
 import static bassebombecraft.entity.attribute.RegisteredAttributes.IS_DECOY_ATTRIBUTE;
 import static bassebombecraft.geom.GeometryUtils.oscillateWithDeltaTime;
-import static net.minecraft.util.math.MathHelper.interpolateAngle;
+import static net.minecraft.util.Mth.rotLerp;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderLivingEvent.Post;
 import net.minecraftforge.client.event.RenderLivingEvent.Pre;
@@ -19,7 +19,7 @@ import net.minecraftforge.client.event.RenderLivingEvent.Pre;
  * Client side renderer for rendering entities with the decoy entity attribute.
  */
 public class DecoyRenderer {
-
+	
 	/**
 	 * Paper thing depth of decoy.
 	 */

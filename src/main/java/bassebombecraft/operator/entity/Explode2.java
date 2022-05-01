@@ -1,24 +1,18 @@
 package bassebombecraft.operator.entity;
 
+import static bassebombecraft.config.ModConfiguration.explodeMinExplosionRadius;
 import static bassebombecraft.operator.DefaultPorts.getFnGetEntity1;
 import static bassebombecraft.operator.Operators2.applyV;
 import static net.minecraft.world.Explosion.Mode.DESTROY;
 
+import java.util.function.Function;
+
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import java.util.function.Function;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-
-import static bassebombecraft.config.ModConfiguration.*;
-import bassebombecraft.operator.Operator2;
-import bassebombecraft.operator.Ports;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which creates an

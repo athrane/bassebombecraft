@@ -8,7 +8,6 @@ import java.util.function.BiConsumer;
 import bassebombecraft.color.Color4f;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import net.minecraft.util.math.vector.Vector4f;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which creates an color
