@@ -8,6 +8,17 @@ import static net.minecraft.world.entity.ai.goal.Goal.Flag.LOOK;
 import static net.minecraft.world.entity.ai.goal.Goal.Flag.MOVE;
 import static net.minecraft.world.entity.ai.goal.Goal.Flag.TARGET;
 
+import java.util.EnumSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Stream;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.google.common.collect.Sets;
+
+import bassebombecraft.BassebombeCraft;
 import bassebombecraft.entity.EntityUtils;
 import bassebombecraft.entity.ai.goal.AttackInRangeGoal;
 import bassebombecraft.entity.ai.goal.ChargeTowardsGoal;
@@ -17,11 +28,6 @@ import bassebombecraft.entity.ai.goal.CompanionAttack;
 import bassebombecraft.entity.ai.goal.FollowEntityGoal;
 import bassebombecraft.entity.ai.goal.SelfdestructWhenTargetDiesGoal;
 import bassebombecraft.event.duration.DurationRepository;
-import com.google.common.collect.Sets;
-import java.util.EnumSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Stream;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.PathfinderMob;
@@ -43,48 +49,6 @@ import net.minecraft.world.entity.animal.Cat;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.player.Player;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import java.util.Set;
-import java.util.stream.Stream;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.google.common.collect.Sets;
-
-import bassebombecraft.BassebombeCraft;
-import bassebombecraft.entity.EntityUtils;
-import bassebombecraft.entity.ai.goal.AttackInRangeGoal;
-import bassebombecraft.entity.ai.goal.ChargeTowardsGoal;
-import bassebombecraft.entity.ai.goal.CommanderControlledTargeting;
-import bassebombecraft.entity.ai.goal.CommandersTargetGoal;
-import bassebombecraft.entity.ai.goal.CompanionAttack;
-import bassebombecraft.entity.ai.goal.FollowEntityGoal;
-import bassebombecraft.entity.ai.goal.SelfdestructWhenTargetDiesGoal;
-import bassebombecraft.event.duration.DurationRepository;
-import net.minecraft.world.entity.CreatureEntity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobEntity;
-import net.minecraft.world.entity.ai.goal.CreeperSwellGoal;
-import net.minecraft.world.entity.ai.goal.FleeSunGoal;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.GoalSelector;
-import net.minecraft.world.entity.ai.goal.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
-import net.minecraft.world.entity.ai.goal.LookAtGoal;
-import net.minecraft.world.entity.ai.goal.LookRandomlyGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.OcelotAttackGoal;
-import net.minecraft.world.entity.ai.goal.PrioritizedGoal;
-import net.minecraft.world.entity.ai.goal.RangedBowAttackGoal;
-import net.minecraft.world.entity.ai.goal.SitGoal;
-import net.minecraft.world.entity.ai.goal.SwimGoal;
-import net.minecraft.world.entity.monster.CreeperEntity;
-import net.minecraft.world.entity.monster.SkeletonEntity;
-import net.minecraft.world.entity.passive.CatEntity;
-import net.minecraft.world.entity.player.PlayerEntity;
 
 /**
  * AI utility class.
