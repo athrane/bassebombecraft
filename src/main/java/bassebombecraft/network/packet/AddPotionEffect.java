@@ -10,8 +10,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
+import net.minecraftforge.fmllegacy.network.NetworkEvent.Context;
 
 /**
  * Add potion effect network packet.

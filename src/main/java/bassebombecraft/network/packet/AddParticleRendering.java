@@ -13,8 +13,8 @@ import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.BlockPos;
-import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
+import net.minecraftforge.fmllegacy.network.NetworkEvent.Context;
 import net.minecraftforge.registries.ForgeRegistries;
 
 /**

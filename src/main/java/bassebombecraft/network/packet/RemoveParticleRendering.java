@@ -8,8 +8,8 @@ import java.util.function.Supplier;
 import bassebombecraft.client.event.rendering.particle.ParticleRenderingRepository;
 import bassebombecraft.event.particle.ParticleRendering;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.fml.network.NetworkEvent;
-import net.minecraftforge.fml.network.NetworkEvent.Context;
+import net.minecraftforge.fmllegacy.network.NetworkEvent;
+import net.minecraftforge.fmllegacy.network.NetworkEvent.Context;
 
 /**
  * Remove particle rendering network packet.
