@@ -65,7 +65,7 @@ public class PlayerUtils {
 	 * @return player direction as an integer between 0 to 3.
 	 */
 	public static PlayerDirection getPlayerDirection(Player player) {
-		int direction = Mth.floor((double) ((player.yRot * 4F) / 360F) + 0.5D) & 3;
+		int direction = Mth.floor((double) ((player.getYRot() * 4F) / 360F) + 0.5D) & 3;
 		return PlayerDirection.getById(direction);
 	}
 

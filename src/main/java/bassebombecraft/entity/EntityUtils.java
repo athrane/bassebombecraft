@@ -57,8 +57,14 @@ public class EntityUtils {
 
 		// set spawn position
 		projectileEntity.setPos(x, y, z);
-		projectileEntity.yRotO = projectileEntity.yRot = projectileEntity.yHeadRot = entity.yRot;
-		projectileEntity.xRotO = projectileEntity.xRot = entity.xRot;
+		float yRot = entity.getYRot();
+		projectileEntity.yHeadRot = yRot;
+		projectileEntity.yRotO = yRot;
+		projectileEntity.setYRot(yRot);
+		
+		float xRot = entity.getXRot();
+		projectileEntity.xRotO = xRot;
+		projectileEntity.setXRot(xRot); 
 	}
 
 	/**
@@ -214,7 +220,7 @@ public class EntityUtils {
 	 * @return player direction as an integer between 0 to 3.
 	 */
 	public static PlayerDirection getEntityDirection(Entity entity) {
-		int direction = Mth.floor((double) ((entity.yRot * 4F) / 360F) + 0.5D) & 3;
+		int direction = Mth.floor((double) ((entity.getXRot() * 4F) / 360F) + 0.5D) & 3;
 		return PlayerDirection.getById(direction);
 	}
 

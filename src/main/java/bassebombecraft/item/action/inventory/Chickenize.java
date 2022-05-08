@@ -48,8 +48,8 @@ public class Chickenize implements InventoryItemActionStrategy {
 
 		// get entity position
 		BlockPos position = target.blockPosition();
-		float yaw = target.yRot;
-		float pitch = target.xRot;
+		float yaw = target.getYRot();
+		float pitch = target.getXRot();
 
 		// kill of entity
 		target.remove();

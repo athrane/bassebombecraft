@@ -65,7 +65,7 @@ public class SpawnCreeperArmy implements ProjectileAction {
 				Creeper entity = EntityType.CREEPER.create(world);
 
 				// calculate random spawn position
-				setRandomSpawnPosition(projectile.blockPosition(), projectile.yRot, spawnArea, entity);
+				setRandomSpawnPosition(projectile.blockPosition(), projectile.getYRot(), spawnArea, entity);
 
 				// if shooter is a living entity then add entity to shooters team
 				if (isTypeLivingEntity(shooter)) {

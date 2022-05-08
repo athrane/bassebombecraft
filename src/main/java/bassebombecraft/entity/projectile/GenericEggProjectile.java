@@ -140,10 +140,12 @@ public class GenericEggProjectile extends ThrowableItemProjectile {
 				.scale((double) velocity);
 		this.setDeltaMovement(vector3d);
 		float f = Mth.sqrt(getHorizontalDistanceSqr(vector3d));
-		this.yRot = (float) (Mth.atan2(vector3d.x, vector3d.z) * (double) (180F / (float) Math.PI));
-		this.xRot = (float) (Mth.atan2(vector3d.y, (double) f) * (double) (180F / (float) Math.PI));
-		this.yRotO = this.yRot;
-		this.xRotO = this.xRot;
+		float yRot = (float) (Mth.atan2(vector3d.x, vector3d.z) * (double) (180F / (float) Math.PI));
+		float xRot = (float) (Mth.atan2(vector3d.y, (double) f) * (double) (180F / (float) Math.PI));
+		setYRot(yRot);
+		setXRot(xRot);
+		this.yRotO = yRot;
+		this.xRotO = xRot;
 	}
 
 }

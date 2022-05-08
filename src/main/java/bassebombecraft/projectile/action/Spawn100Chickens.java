@@ -36,7 +36,7 @@ public class Spawn100Chickens implements ProjectileAction {
 			double positionY = projectile.getY() + randomY;
 			double positionZ = projectile.getZ() + randomZ;
 
-			entity.moveTo(positionX, positionY, positionZ, projectile.yRot, PITCH);
+			entity.moveTo(positionX, positionY, positionZ, projectile.getYRot(), PITCH);
 			world.addFreshEntity(entity);
 		}
 	}

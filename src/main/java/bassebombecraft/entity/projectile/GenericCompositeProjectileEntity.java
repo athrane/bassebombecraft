@@ -287,10 +287,12 @@ public class GenericCompositeProjectileEntity extends Projectile {
 		this.setDeltaMovement(x, y, z);
 		if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
 			float f = Mth.sqrt((float) (x * x + z * z));
-			this.yRot = (float) (Mth.atan2(x, z) * (double) (180F / (float) Math.PI));
-			this.xRot = (float) (Mth.atan2(y, (double) f) * (double) (180F / (float) Math.PI));
-			this.yRotO = this.yRot;
-			this.xRotO = this.xRot;
+			float yRot = (float) (Mth.atan2(x, z) * (double) (180F / (float) Math.PI));
+			float xRot = (float) (Mth.atan2(y, (double) f) * (double) (180F / (float) Math.PI));
+			setYRot(yRot);
+			setXRot(xRot);
+			this.yRotO = yRot;
+			this.xRotO = xRot;
 		}
 	}
 

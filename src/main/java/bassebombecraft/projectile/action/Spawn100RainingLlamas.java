@@ -38,7 +38,7 @@ public class Spawn100RainingLlamas implements ProjectileAction {
 			double positionY = projectile.getY() + randomY;
 			double positionZ = projectile.getZ() + randomZ;
 
-			entity.moveTo(positionX, positionY, positionZ, projectile.yRot, PITCH);
+			entity.moveTo(positionX, positionY, positionZ, projectile.getYRot(), PITCH);
 
 			// spawn
 			world.addFreshEntity(entity);

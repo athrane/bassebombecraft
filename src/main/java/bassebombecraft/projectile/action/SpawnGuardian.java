@@ -26,7 +26,7 @@ public class SpawnGuardian implements ProjectileAction {
 			Entity shooter = projectile.getOwner();
 			IronGolem entity = EntityType.IRON_GOLEM.create(world);
 			entity.moveTo(projectile.getX(), projectile.getY(), projectile.getZ(),
-					projectile.yRot, projectile.xRot);
+					projectile.getYRot(), projectile.getXRot());
 
 			// if shooter is a living entity then add entity to shooters team
 			if (isTypeLivingEntity(shooter)) {

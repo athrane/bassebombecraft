@@ -94,7 +94,7 @@ public class SpawnKittenArmy implements ProjectileAction {
 				}
 
 				// calculate random spawn position
-				setRandomSpawnPosition(projectile.blockPosition(), projectile.yRot, spawnSize, entity);
+				setRandomSpawnPosition(projectile.blockPosition(), projectile.getYRot(), spawnSize, entity);
 
 				// if shooter is a living entity then add entity to shooters team
 				if (isTypeLivingEntity(shooter)) {

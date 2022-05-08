@@ -27,7 +27,7 @@ public class SpawnManyCows implements ProjectileAction {
 			entity.setAge(GROWN_AGE);
 			
 			// calculate random spawn position
-			setRandomSpawnPosition(projectile.blockPosition(), projectile.yRot, SPAWN_SIZE, entity);
+			setRandomSpawnPosition(projectile.blockPosition(), projectile.getYRot(), SPAWN_SIZE, entity);
 
 			world.addFreshEntity(entity);
 		}

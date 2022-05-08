@@ -133,7 +133,7 @@ public class SpawnDecoy2 implements Operator2 {
 		// create entity
 		Panda entity = EntityType.PANDA.create(world);
 		entity.moveTo(spawnPosition.getX(), spawnPosition.getY(), spawnPosition.getZ(),
-				invoker.yRot, invoker.xRot);
+				invoker.getYRot(), invoker.getXRot());
 
 		// set entity attributes
 		setAttribute(entity, MOVEMENT_SPEED, 0);

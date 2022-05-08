@@ -45,8 +45,8 @@ public abstract class GenericCompositeProjectileEntityRenderer<T extends Entity>
 		matrixStackIn.pushPose();
 
 		// rotate with player
-		matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(lerp(partialTicks, entity.yRotO, entity.yRot) - 90.0F));
-		matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(lerp(partialTicks, entity.xRotO, entity.xRot)));
+		matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(lerp(partialTicks, entity.yRotO, entity.getYRot()) - 90.0F));
+		matrixStackIn.mulPose(Vector3f.ZP.rotationDegrees(lerp(partialTicks, entity.xRotO, entity.getXRot())));
 
 		matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(90.0F));
 		matrixStackIn.scale(SCALE, SCALE, SCALE);

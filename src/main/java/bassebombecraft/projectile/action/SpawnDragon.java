@@ -19,8 +19,8 @@ public class SpawnDragon implements ProjectileAction {
 	@Override
 	public void execute(ThrowableProjectile projectile, Level world, HitResult movObjPos) {
 		EnderDragon entity = EntityType.ENDER_DRAGON.create(world);
-		entity.moveTo(projectile.getX(), projectile.getY(), projectile.getZ(), projectile.yRot,
-				projectile.xRot);
+		entity.moveTo(projectile.getX(), projectile.getY(), projectile.getZ(), projectile.getYRot(),
+				projectile.getXRot());
 
 		// get shooter
 		Entity shooter = projectile.getOwner();

@@ -33,7 +33,7 @@ public class CreeperApocalypse implements ProjectileAction {
 			entity.setSwellDir(CREEPER_FUSED);
 			
 			// set position
-			setRandomSpawnPosition(projectile.blockPosition(), projectile.yRot, SPAWN_SIZE, entity);
+			setRandomSpawnPosition(projectile.blockPosition(), projectile.getYRot(), SPAWN_SIZE, entity);
 
 			// prime
 			entity.ignite();

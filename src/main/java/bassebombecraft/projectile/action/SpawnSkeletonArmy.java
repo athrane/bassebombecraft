@@ -66,7 +66,7 @@ public class SpawnSkeletonArmy implements ProjectileAction {
 				Skeleton entity = EntityType.SKELETON.create(world);
 
 				// calculate random spawn position
-				setRandomSpawnPosition(projectile.blockPosition(), projectile.yRot, spawnArea, entity);
+				setRandomSpawnPosition(projectile.blockPosition(), projectile.getYRot(), spawnArea, entity);
 
 				// add bow
 				entity.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
