@@ -1,19 +1,16 @@
 package bassebombecraft.entity.projectile;
 
+import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
+
 import java.util.Optional;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
-import net.minecraftforge.event.entity.ProjectileImpactEvent.Arrow;
-import net.minecraftforge.event.entity.ProjectileImpactEvent.Fireball;
-import net.minecraftforge.event.entity.ProjectileImpactEvent.Throwable;
 
 /**
  * Utility class for projectile calculations.
@@ -96,61 +93,14 @@ public class ProjectileUtils {
 	 *         optional is empty.
 	 */
 	public static Optional<LivingEntity> resolveShooter(ProjectileImpactEvent event) {
+		Projectile projectile = event.getProjectile();
+		Entity owner = projectile.getOwner(); // Or should it be getOwEffectSource()?
 
-		// resolve from arrow projectile
-		if (event instanceof ProjectileImpactEvent.Arrow) {
-
-			// type cast event and get invoker
-			Arrow arrowEvent = (ProjectileImpactEvent.Arrow) event;
-			AbstractArrow arrowProjectile = arrowEvent.getArrow();
-			Entity shooter = arrowProjectile.getOwner();
-
-			// return invoker as LivingEntity
-			if (shooter instanceof LivingEntity)
-				return Optional.of((LivingEntity) shooter);
-			else
-				return Optional.empty();
-		}
-
-		// resolve from fireball projectile
-		if (event instanceof ProjectileImpactEvent.Fireball) {
-
-			// type cast event and get invoker
-			Fireball fireballEvent = (ProjectileImpactEvent.Fireball) event;
-			AbstractHurtingProjectile fireballProjectile = fireballEvent.getFireball();
-			Entity shooter = fireballProjectile.getOwner();
-			
-			// return invoker as LivingEntity
-			if (shooter instanceof LivingEntity)
-				return Optional.of((LivingEntity) shooter);
-			else
-				return Optional.empty();
-		}
-
-		// resolve from throwable projectile
-		if (event instanceof ProjectileImpactEvent.Throwable) {
-
-			// type cast event and get invoker
-			Throwable throwableEvent = (ProjectileImpactEvent.Throwable) event;
-			ThrowableProjectile throwableProjectile = throwableEvent.getThrowable();
-			Entity shooter = throwableProjectile.getOwner();
-			
-			// return invoker as LivingEntity
-			if (shooter instanceof LivingEntity)
-				return Optional.of((LivingEntity) shooter);
-			else
-				return Optional.empty();
-		}
-
-		// resolve from GenericProjectileEntity
-		Entity projectile = event.getEntity();
-		if(projectile instanceof GenericCompositeProjectileEntity) {			
-			GenericCompositeProjectileEntity genericProjectile = (GenericCompositeProjectileEntity) projectile;
-			return Optional.of((LivingEntity) genericProjectile.getOwner());
-		}
-				
-		// return unhandled case
-		return Optional.empty();
+		// return owner as LivingEntity
+		if (isTypeLivingEntity(owner))
+			return Optional.of((LivingEntity) owner);
+		else
+			return Optional.empty();
 	}
 
 }
