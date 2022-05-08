@@ -9,9 +9,10 @@ import static bassebombecraft.entity.projectile.ProjectileUtils.isTypeBlockRayTr
 import static bassebombecraft.geom.GeometryUtils.calculateBlockDirectives;
 import static bassebombecraft.item.action.build.BuildUtils.addSolidStairUp;
 import static bassebombecraft.item.action.build.BuildUtils.createInstance;
+import static net.minecraft.core.Direction.SOUTH;
 import static net.minecraft.world.level.block.Blocks.STONE_BRICKS;
-import static net.minecraft.world.level.block..Blocks.STONE_BRICK_STAIRS;
-import staticnet.minecraft.world.level.block.Blocksion.SOUTH;
+import static net.minecraft.world.level.block.Blocks.STONE_BRICK_STAIRS;
+import static net.minecraft.world.level.block.StairBlock.FACING;
 
 import java.util.List;
 
@@ -21,14 +22,13 @@ import bassebombecraft.geom.BlockDirective;
 import bassebombecraft.item.action.build.tower.StairsMaterial;
 import bassebombecraft.player.PlayerDirection;
 import bassebombecraft.structure.CompositeStructure;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.StairBlock;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
-import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.level.Level;
 
 /**
  * Implementation of the {@linkplain ProjectileAction} which spawns a stairs to
@@ -86,7 +86,7 @@ public class SpawnStairs implements ProjectileAction {
 
 		// create material
 		CompositeStructure composite = new CompositeStructure();
-		BlockState state = STONE_BRICK_STAIRS.defaultBlockState().setValue(StairBlock.FACING, SOUTH);
+		BlockState state = STONE_BRICK_STAIRS.defaultBlockState().setValue(FACING, SOUTH);
 		StairsMaterial stairsMaterial = createInstance(state, STONE_BRICK_STAIRS, STONE_BRICKS);
 
 		// create stairs structure
