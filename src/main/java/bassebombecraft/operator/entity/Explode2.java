@@ -11,7 +11,6 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
@@ -20,7 +19,7 @@ import net.minecraft.world.phys.AABB;
  * explosion from a hit target.
  */
 public class Explode2 implements Operator2 {
-	
+
 	/**
 	 * Operator identifier.
 	 */

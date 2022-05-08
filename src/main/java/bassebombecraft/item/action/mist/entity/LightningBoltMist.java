@@ -2,7 +2,7 @@ package bassebombecraft.item.action.mist.entity;
 
 import static bassebombecraft.event.particle.DefaultParticleRenderingInfo.getInstance;
 import static bassebombecraft.world.WorldUtils.addLightningAtBlockPos;
-import static net.minecraft.particles.ParticleTypes.CLOUD;
+import static net.minecraft.core.particles.ParticleTypes.CLOUD;
 
 import bassebombecraft.event.particle.ParticleRenderingInfo;
 import net.minecraft.core.BlockPos;
@@ -11,10 +11,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-
-t bassnet.minecraft.core.particles.ParticleTypesnderingInfo;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.world.World;
 
 /**
  * Implementation of {@linkplain EntityMistActionStrategy} for construction of
