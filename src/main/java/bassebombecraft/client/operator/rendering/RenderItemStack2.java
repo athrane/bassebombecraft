@@ -103,7 +103,7 @@ public class RenderItemStack2 implements Operator2 {
 		matrixStack.pushPose();
 
 		// enable lightning
-		Lighting.turnBackOn();
+		// Lighting.turnBackOn(); // TODO: VERIFY and delete this
 
 		// calculate icon position
 		int xp = (int) (textAnchor.x + x);
@@ -113,7 +113,7 @@ public class RenderItemStack2 implements Operator2 {
 		itemRenderer.renderGuiItem(itemStack, xp, yp);
 
 		// disable lightning
-		Lighting.turnOff();
+		//Lighting.turnOff(); // TODO: VERIFY and delete this
 
 		// restore matrix
 		matrixStack.popPose();
