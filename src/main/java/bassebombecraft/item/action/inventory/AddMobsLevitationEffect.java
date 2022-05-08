@@ -3,11 +3,11 @@ package bassebombecraft.item.action.inventory;
 import static bassebombecraft.config.ModConfiguration.addMobsLevitationEffectAmplifier;
 import static bassebombecraft.config.ModConfiguration.addMobsLevitationEffectDuration;
 import static bassebombecraft.entity.EntityUtils.isTypeLivingEntity;
-import static net.minecraft.potion.Effects.LEVITATION;
+import static net.minecraft.world.effect.MobEffects.LEVITATION;
 
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.level.Level;
 
 /**
