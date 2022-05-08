@@ -138,7 +138,7 @@ public class RenderTextBillboard2 implements Operator2 {
 
 		// get rendering engine
 		EntityRenderDispatcher renderManager = mcClient.getEntityRenderDispatcher();
-s		Font fontRenderer = mcClient.font;
+		Font fontRenderer = mcClient.font;
 
 		// push matrix
 		matrixStack.pushPose();
