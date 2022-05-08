@@ -26,7 +26,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.client.event.DrawHighlightEvent.HighlightBlock;
+import static net.minecraftforge.client.event.DrawSelectionEvent.HighlightBlock;
 
 /**
  * Client side renderer for rendering construction of mine in the
