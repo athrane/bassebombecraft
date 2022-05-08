@@ -11,7 +11,7 @@ import static bassebombecraft.potion.effect.RegisteredEffects.AGGRO_MOB_EFFECT;
 import static bassebombecraft.potion.effect.RegisteredEffects.AMPLIFIER_EFFECT;
 import static bassebombecraft.potion.effect.RegisteredEffects.MOB_PRIMING_EFFECT;
 import static net.minecraftforge.registries.DeferredRegister.create;
-import static net.minecraftforge.registries.ForgeRegistries.POTION_TYPES;
+import static net.minecraftforge.registries.ForgeRegistries.POTIONS;
 
 import java.util.function.Supplier;
 
@@ -28,7 +28,7 @@ public class RegisteredPotions {
 	/**
 	 * Deferred registry for registration of potions.
 	 */
-	public static final DeferredRegister<Potion> POTION_REGISTRY = create(POTION_TYPES, MODID);
+	public static final DeferredRegister<Potion> POTION_REGISTRY = create(POTIONS, MODID);
 
 	/**
 	 * Registered potions.
