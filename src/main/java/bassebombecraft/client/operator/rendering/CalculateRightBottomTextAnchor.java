@@ -8,13 +8,13 @@ import static bassebombecraft.operator.Operators2.applyV;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+import com.mojang.blaze3d.platform.Window;
+
 import bassebombecraft.client.operator.ClientPorts;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
-import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.world.phys.Vec2;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
@@ -97,8 +97,7 @@ public class CalculateRightBottomTextAnchor implements Operator2 {
 
 		// get rendering engine
 		Minecraft mcClient = Minecraft.getInstance();
-		EntityRenderDispatcher renderManager = mcClient.getEntityRenderDispatcher();
-		Font fontRenderer = renderManager.getFont();
+		Font fontRenderer = mcClient.font;
 
 		// get text length
 		int textWidth = fontRenderer.width(message);

@@ -97,14 +97,15 @@ public class TeamEnityRenderer {
 
 	static void renderText(PoseStack matrixStack, MultiBufferSource buffer, float x, float y, String text) {
 		EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
-		Font fontrenderer = renderManager.getFont();
+		Minecraft mcClient = Minecraft.getInstance();
+		Font fontRenderer = mcClient.font;
 
 		matrixStack.pushPose();
 		matrixStack.scale(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);
 		matrixStack.mulPose(renderManager.cameraOrientation());
 		matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180));
 		Matrix4f positionMatrix = matrixStack.last().pose();
-		fontrenderer.drawInBatch(text, x, y, TEXT_COLOR, false, positionMatrix, buffer, false, 0, 0xf000f0);
+		fontRenderer.drawInBatch(text, x, y, TEXT_COLOR, false, positionMatrix, buffer, false, 0, 0xf000f0);
 		matrixStack.popPose();
 
 	}

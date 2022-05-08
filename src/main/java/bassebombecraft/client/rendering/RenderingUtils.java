@@ -380,7 +380,7 @@ public class RenderingUtils {
 	public static void renderBillboardText(PoseStack matrixStack, MultiBufferSource buffer, float x, float y,
 			String text) {
 		EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
-		Font fontRenderer = renderManager.getFont();
+		Font fontRenderer = Minecraft.getInstance().font;
 
 		matrixStack.pushPose();
 		matrixStack.scale(TEXT_SCALE, TEXT_SCALE, TEXT_SCALE);

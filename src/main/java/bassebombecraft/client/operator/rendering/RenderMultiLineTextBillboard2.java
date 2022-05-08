@@ -13,6 +13,8 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
 
 import bassebombecraft.client.operator.ClientPorts;
 import bassebombecraft.operator.Operator2;
@@ -21,16 +23,13 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which renders a text
  * billboard.
  * 
  * Supports rendering of billboard text in the renderer instances processing the
- * {@linkplain RenderWorldLastEvent}.
+ * {@linkplain }.
  */
 public class RenderMultiLineTextBillboard2 implements Operator2 {
 
@@ -143,7 +142,7 @@ public class RenderMultiLineTextBillboard2 implements Operator2 {
 
 		// get rendering engine
 		EntityRenderDispatcher renderManager = mcClient.getEntityRenderDispatcher();
-		Font fontRenderer = renderManager.getFont();
+		Font fontRenderer = mcClient.font;
 
 		// push matrix
 		matrixStack.pushPose();

@@ -15,7 +15,6 @@ import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.world.phys.Vec2;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
@@ -79,8 +78,8 @@ public class RenderOverlayText2 implements Operator2 {
 	 * @param y               y coordinate for placement of text.
 	 */
 	public RenderOverlayText2(Function<Ports, String> fnGetString,
-			Function<ClientPorts, RenderGameOverlayEvent> fnGetEvent, Function<Ports, Vec2> fnGetTextAnchor,
-			float x, float y) {
+			Function<ClientPorts, RenderGameOverlayEvent> fnGetEvent, Function<Ports, Vec2> fnGetTextAnchor, float x,
+			float y) {
 		this.fnGetString = fnGetString;
 		this.fnGetEvent = fnGetEvent;
 		this.fnGetTextAnchor = fnGetTextAnchor;
@@ -96,8 +95,7 @@ public class RenderOverlayText2 implements Operator2 {
 
 		// get rendering engine
 		Minecraft mcClient = Minecraft.getInstance();
-		EntityRenderDispatcher renderManager = mcClient.getEntityRenderDispatcher();
-		Font fontRenderer = renderManager.getFont();
+		Font fontRenderer = mcClient.font;
 
 		// push matrix
 		PoseStack matrixStack = event.getMatrixStack();
