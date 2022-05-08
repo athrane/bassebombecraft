@@ -8,10 +8,10 @@ import static bassebombecraft.item.action.build.BuildUtils.createInstance;
 import static bassebombecraft.item.action.build.BuildUtils.selectFloorMaterial;
 import static bassebombecraft.item.action.build.BuildUtils.selectWindowMaterial;
 import static bassebombecraft.structure.ChildStructure.createAirStructure;
+import static net.minecraft.core.Direction.SOUTH;
 import static net.minecraft.world.level.block.Blocks.STONE_BRICKS;
 import static net.minecraft.world.level.block.Blocks.STONE_BRICK_STAIRS;
 import static net.minecraft.world.level.block.StairBlock.FACING;
-import static net.minecraft.world.level.block.StairBlock.SOUTH;
 
 import java.util.Random;
 
@@ -19,9 +19,9 @@ import bassebombecraft.item.action.build.BuildUtils;
 import bassebombecraft.item.action.build.tower.Room.RoomType;
 import bassebombecraft.structure.ChildStructure;
 import bassebombecraft.structure.Structure;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.core.BlockPos;
 
 /**
  * Default implementation of the {@linkplain Builder} interface.
