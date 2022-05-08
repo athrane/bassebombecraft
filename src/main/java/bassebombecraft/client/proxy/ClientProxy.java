@@ -293,8 +293,6 @@ public class ClientProxy implements Proxy {
 
 	@Override
 	public void setupClientSideRendering() throws UnsupportedOperationException {
-		// register debug renderer classes
-		// EVENT_BUS.addListener(DebugRenderer::handleRenderGameOverlayEvent);
 
 		// register renderer classes for items
 		// EVENT_BUS.addListener(TeamInfoRenderer::handleRenderWorldLastEvent);
