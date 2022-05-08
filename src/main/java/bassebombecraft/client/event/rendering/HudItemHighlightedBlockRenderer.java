@@ -30,7 +30,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.event.DrawHighlightEvent.HighlightBlock;
+import net.minecraftforge.client.event.DrawSelectionEvent.HighlightBlock;
 
 /**
  * Client side renderer for rendering the highlighted block in the

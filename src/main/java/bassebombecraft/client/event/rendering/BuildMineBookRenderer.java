@@ -21,12 +21,12 @@ import bassebombecraft.client.operator.rendering.RenderWireframeBoundingBox2;
 import bassebombecraft.item.book.BuildMineBook;
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Sequence2;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.core.Direction;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
-import static net.minecraftforge.client.event.DrawSelectionEvent.HighlightBlock;
+import net.minecraftforge.client.event.DrawSelectionEvent.HighlightBlock;
 
 /**
  * Client side renderer for rendering construction of mine in the
@@ -48,7 +48,7 @@ public class BuildMineBookRenderer {
 	 * Rendering ports.
 	 */
 	static ClientPorts ports = getInstance();
-	
+
 	/**
 	 * Create operators.
 	 */
