@@ -5,19 +5,21 @@ import static bassebombecraft.potion.effect.RegisteredEffects.AMPLIFIER_EFFECT;
 import static java.util.Optional.empty;
 import static java.util.Optional.ofNullable;
 import static net.minecraft.world.item.Items.POTION;
+import static net.minecraft.world.item.alchemy.PotionUtils.setPotion;
 import static net.minecraftforge.common.brewing.BrewingRecipeRegistry.addRecipe;
 
 import java.util.Collection;
 import java.util.Optional;
 
 import bassebombecraft.config.ConfigUtils;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.brewing.BrewingRecipe;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 import net.minecraftforge.fmllegacy.RegistryObject;
@@ -85,7 +87,7 @@ public class PotionUtils {
 	 * @return {@linkplain Optional} containing the effect if it is active.
 	 *         Otherwise the optional is empty.
 	 */
-	public static Optional<EffectInstance> getEffectIfActive(LivingEntity entity, Effect effect) {
+	public static Optional<MobEffectInstance> getEffectIfActive(LivingEntity entity, MobEffect effect) {
 		if (entity == null)
 			return empty();
 		return ofNullable(entity.getEffect(effect));
@@ -100,7 +102,7 @@ public class PotionUtils {
 	 * @return true if effect is active on living entity.
 	 */
 	public static boolean isAmplifierEffectActive(LivingEntity entity) {
-		Optional<EffectInstance> optEffect = getEffectIfActive(entity, AMPLIFIER_EFFECT.get());
+		Optional<MobEffectInstance> optEffect = getEffectIfActive(entity, AMPLIFIER_EFFECT.get());
 		return optEffect.isPresent();
 	}
 
@@ -111,8 +113,8 @@ public class PotionUtils {
 	 * 
 	 * @return {@linkplain Optional} first effect. Otherwise the optional is empty.
 	 */
-	public static Optional<EffectInstance> resolveFirstEffect(LivingEntity entity) {
-		Collection<EffectInstance> effects = entity.getActiveEffects();
+	public static Optional<MobEffectInstance> resolveFirstEffect(LivingEntity entity) {
+		Collection<MobEffectInstance> effects = entity.getActiveEffects();
 		return effects.stream().findFirst();
 	}
 
