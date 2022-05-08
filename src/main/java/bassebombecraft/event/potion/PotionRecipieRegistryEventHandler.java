@@ -1,10 +1,18 @@
 package bassebombecraft.event.potion;
 
 import static bassebombecraft.potion.PotionUtils.registerPotionRecipe;
-import static bassebombecraft.potion.RegisteredPotions.*;
-import static net.minecraft.world.item.Items.*;
-import static net.minecraft.potion.Potions.AWKWARD;
-import staticnet.minecraft.world.item.alchemy.Potionson.Mod.EventBusSubscriber.Bus.MOD;
+import static bassebombecraft.potion.RegisteredPotions.AMPLIFICATION_POTION;
+import static bassebombecraft.potion.RegisteredPotions.MOB_AGGRO_POTION;
+import static bassebombecraft.potion.RegisteredPotions.MOB_PRIMING_POTION;
+import static bassebombecraft.potion.RegisteredPotions.SUPERIOR_AMPLIFICATION_POTION;
+import static bassebombecraft.potion.RegisteredPotions.WEAK_AMPLIFICATION_POTION;
+import static net.minecraft.world.item.Items.CHORUS_FRUIT;
+import static net.minecraft.world.item.Items.EMERALD;
+import static net.minecraft.world.item.Items.ENDER_PEARL;
+import static net.minecraft.world.item.Items.FIRE_CHARGE;
+import static net.minecraft.world.item.Items.NETHER_STAR;
+import static net.minecraft.world.item.alchemy.Potions.AWKWARD;
+import static net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus.MOD;
 
 import bassebombecraft.potion.RegisteredPotions;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
