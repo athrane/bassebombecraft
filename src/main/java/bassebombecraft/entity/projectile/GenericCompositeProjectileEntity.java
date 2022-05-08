@@ -286,7 +286,7 @@ public class GenericCompositeProjectileEntity extends Projectile {
 	public void lerpMotion(double x, double y, double z) {
 		this.setDeltaMovement(x, y, z);
 		if (this.xRotO == 0.0F && this.yRotO == 0.0F) {
-			float f = Mth.sqrt(x * x + z * z);
+			float f = Mth.sqrt((float) (x * x + z * z));
 			this.yRot = (float) (Mth.atan2(x, z) * (double) (180F / (float) Math.PI));
 			this.xRot = (float) (Mth.atan2(y, (double) f) * (double) (180F / (float) Math.PI));
 			this.yRotO = this.yRot;

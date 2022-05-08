@@ -47,7 +47,7 @@ public class ShootEgg implements InventoryItemActionStrategy {
 		double d0 = target.getX() - invoker.getX();
 		double d1 = target.getBoundingBox().minY + (double) (target.getBbHeight() / 3.0F) - invoker.getY();
 		double d2 = target.getZ() - invoker.getZ();
-		float f = Mth.sqrt(d0 * d0 + d2 * d2) * 0.2F;
+		float f = Mth.sqrt((float) (d0 * d0 + d2 * d2)) * 0.2F;
 		projectile.shoot(d0, d1 + (double) f, d2, 1.5F, 10.0F);
 		invoker.playSound(SOUND, 0.5F, 0.4F / random.nextFloat() * 0.4F + 0.8F);
 
