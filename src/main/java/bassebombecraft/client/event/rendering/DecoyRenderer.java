@@ -74,7 +74,7 @@ public class DecoyRenderer {
 	 * 
 	 * @param event rendering event.
 	 */
-	public static void handleRenderLivingEventPost(Post<PlayerEntity, PlayerModel<PlayerEntity>> event) {
+	public static void handleRenderLivingEventPost(Post<Player, PlayerModel<Player>> event) {
 		LivingEntity entity = event.getEntity();
 
 		// exit if entity attribute isn't defined
@@ -82,7 +82,7 @@ public class DecoyRenderer {
 			return;
 
 		// get and pop matrix stack
-		MatrixStack matrixStack = event.getMatrixStack();
+		PoseStack matrixStack = event.getMatrixStack();
 		matrixStack.popPose();
 	}
 
