@@ -85,7 +85,7 @@ public abstract class GenericCompositeProjectileEntityRenderer<T extends Entity>
 	 * @param normalY
 	 * @param lightmapUV
 	 */
-	public void drawTexture(Matrix4f matrix4f, Matrix3f matrix3f, IVertexBuilder vertexBuilder, int x, int y, int z,
+	public void drawTexture(Matrix4f matrix4f, Matrix3f matrix3f, VertexConsumer vertexBuilder, int x, int y, int z,
 			float u, float v, int normalX, int normalZ, int normalY, int lightmapUV) {
 
 		vertexBuilder.vertex(matrix4f, (float) x, (float) y, (float) z).color(255, 255, 255, 255).uv(u, v)
