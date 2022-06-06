@@ -3,6 +3,7 @@ package bassebombecraft.client.rendering.entity;
 import static net.minecraft.util.Mth.lerp;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.PoseStack.Pose;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
@@ -52,7 +53,7 @@ public abstract class GenericCompositeProjectileEntityRenderer<T extends Entity>
 		matrixStackIn.scale(SCALE, SCALE, SCALE);
 
 		VertexConsumer ivertexbuilder = bufferIn.getBuffer(entityCutout(getTextureLocation(entity)));
-		MatrixStack.Entry matrixstack$entry = matrixStackIn.last();
+		Pose matrixstack$entry = matrixStackIn.last();
 		Matrix4f matrix4f = matrixstack$entry.pose();
 		Matrix3f matrix3f = matrixstack$entry.normal();
 
