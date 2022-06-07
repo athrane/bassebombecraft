@@ -1,7 +1,5 @@
 package bassebombecraft.client.rendering;
 
-import static bassebombecraft.client.rendering.RenderingUtils.completeSimpleRendering;
-import static bassebombecraft.client.rendering.RenderingUtils.prepareSimpleRendering;
 import static bassebombecraft.client.rendering.RenderingUtils.renderSolidBoxBottom;
 import static bassebombecraft.client.rendering.RenderingUtils.renderSolidBoxEast;
 import static bassebombecraft.client.rendering.RenderingUtils.renderSolidBoxNorth;
@@ -52,16 +50,17 @@ public class HitByRayTraceBoundingBoxRenderer implements BoundingBoxRenderer {
 		// grow box to avoid artifacts
 		aabb = aabb.inflate(0.01);
 
-		prepareSimpleRendering(x, y, z);
+		// prepareSimpleRendering(x, y, z);
 
 		GlStateManager._enableBlend();
-		//GlStateManager.blendFunc(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA);
+		// GlStateManager.blendFunc(SourceFactor.SRC_ALPHA,
+		// DestFactor.ONE_MINUS_SRC_ALPHA);
 		GlStateManager._disableTexture();
 		GlStateManager._depthMask(false);
 
 		// oscillate alpha
 		float alpha = (float) oscillate(0.25F, 1.0F);
-		//GlStateManager._color4f(0.75F, 0.75F, 0, alpha);
+		// GlStateManager._color4f(0.75F, 0.75F, 0, alpha);
 
 		switch (direction) {
 		case UP:
@@ -91,6 +90,6 @@ public class HitByRayTraceBoundingBoxRenderer implements BoundingBoxRenderer {
 		}
 
 		GlStateManager._depthMask(true);
-		completeSimpleRendering();
+		// completeSimpleRendering();
 	}
 }

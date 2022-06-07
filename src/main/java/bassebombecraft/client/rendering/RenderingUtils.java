@@ -74,34 +74,6 @@ public class RenderingUtils {
 	}
 
 	/**
-	 * Prepare GL for rendering of simple lines.
-	 * 
-	 * @param x x-coordinate for translation.
-	 * @param y y-coordinate for translation.
-	 * @param z z-coordinate for translation.
-	 */
-	@Deprecated
-	public static void prepareSimpleRendering(double x, double y, double z) {
-		GlStateManager._pushMatrix();
-		GlStateManager._translated(x, y, z);
-		GlStateManager._disableLighting();
-		GlStateManager._enableBlend();
-		GlStateManager._blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-		GlStateManager._disableTexture();
-	}
-
-	/**
-	 * Complete rendering of simple lines.
-	 */
-	@Deprecated
-	public static void completeSimpleRendering() {
-		GlStateManager._enableTexture();
-		GlStateManager._disableBlend();
-		GlStateManager._enableLighting();
-		GlStateManager._popMatrix();
-	}
-
-	/**
 	 * Setup billboard rotation to face camera.
 	 */
 	public static void setupBillboardRotation() {

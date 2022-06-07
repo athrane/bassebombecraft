@@ -1,13 +1,9 @@
 package bassebombecraft.client.rendering;
 
 import static bassebombecraft.client.player.ClientPlayerUtils.getClientSidePlayer;
-import static bassebombecraft.client.rendering.RenderingUtils.completeSimpleRendering;
-import static bassebombecraft.client.rendering.RenderingUtils.prepareSimpleRendering;
 import static bassebombecraft.client.rendering.RenderingUtils.renderLine;
 import static bassebombecraft.entity.EntityUtils.getTarget;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
-
-import com.mojang.blaze3d.platform.GlStateManager;
 
 import bassebombecraft.entity.EntityUtils;
 import net.minecraft.world.entity.LivingEntity;
@@ -58,10 +54,10 @@ public class DefaultTargetEntityRenderer implements EntityRenderer {
 		Vec3 start = entity.getBoundingBox().getCenter();
 		Vec3 end = target.getBoundingBox().getCenter();
 
-		prepareSimpleRendering(x, y, z);
-		//GlStateManager._color4f(1F, 1F, 1F, 1F);
+		// prepareSimpleRendering(x, y, z);
+		// GlStateManager._color4f(1F, 1F, 1F, 1F);
 		renderLine(start, end);
-		completeSimpleRendering();
+		// completeSimpleRendering();
 	}
 
 }

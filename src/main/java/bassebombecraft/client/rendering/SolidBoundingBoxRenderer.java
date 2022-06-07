@@ -1,7 +1,5 @@
 package bassebombecraft.client.rendering;
 
-import static bassebombecraft.client.rendering.RenderingUtils.completeSimpleRendering;
-import static bassebombecraft.client.rendering.RenderingUtils.prepareSimpleRendering;
 import static bassebombecraft.client.rendering.RenderingUtils.renderSolidBox;
 import static bassebombecraft.geom.GeometryUtils.oscillate;
 
@@ -27,7 +25,7 @@ public class SolidBoundingBoxRenderer implements BoundingBoxRenderer {
 		// grow box to avoid artifacts
 		aabb = aabb.inflate(0.01);
 
-		prepareSimpleRendering(x, y, z);
+		// prepareSimpleRendering(x, y, z);
 
 		GlStateManager._enableBlend();
 		// GlStateManager.blendFunc(SourceFactor.SRC_ALPHA,
@@ -36,10 +34,10 @@ public class SolidBoundingBoxRenderer implements BoundingBoxRenderer {
 		GlStateManager._depthMask(false);
 
 		float alpha = (float) oscillate(0.25F, 1.0F);
-		//GlStateManager._color4f(0.75F, 0.75F, 0, alpha);
+		// GlStateManager._color4f(0.75F, 0.75F, 0, alpha);
 		renderSolidBox(aabb);
 
 		GlStateManager._depthMask(true);
-		completeSimpleRendering();
+		// completeSimpleRendering();
 	}
 }
