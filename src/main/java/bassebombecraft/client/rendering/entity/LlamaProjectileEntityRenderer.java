@@ -3,7 +3,7 @@ package bassebombecraft.client.rendering.entity;
 import static bassebombecraft.client.rendering.RenderingUtils.createEntityTextureResourceLocation;
 
 import bassebombecraft.entity.projectile.LlamaProjectileEntity;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.resources.ResourceLocation;
 
 /**
@@ -19,10 +19,10 @@ public class LlamaProjectileEntityRenderer extends GenericCompositeProjectileEnt
 	/**
 	 * Constructor
 	 * 
-	 * @param renderManager render manager.
+	 * @param renderer context context.
 	 */
-	public LlamaProjectileEntityRenderer(EntityRenderDispatcher renderManager) {
-		super(renderManager);
+	public LlamaProjectileEntityRenderer(EntityRendererProvider.Context context) {
+		super(context);
 	}
 
 	@Override

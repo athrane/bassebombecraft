@@ -13,7 +13,6 @@ import static bassebombecraft.entity.RegisteredEntities.SKULL_PROJECTILE;
 import static bassebombecraft.inventory.container.RegisteredContainers.COMPOSITE_ITEM_COMTAINER;
 import static net.minecraft.client.gui.ScreenManager.registerFactory;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
-import static net.minecraftforge.fml.client.registry.RenderingRegistry.registerEntityRenderingHandler;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -63,14 +62,16 @@ import bassebombecraft.event.job.DefaultJobReposiory;
 import bassebombecraft.event.job.JobRepository;
 import bassebombecraft.network.NetworkChannelHelper;
 import bassebombecraft.proxy.Proxy;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 
 /**
  * Implementation of the {@linkplain Proxy} interface for the physical client.
  * Physical side is determined by {@linkplain Dist}.
  */
 public class ClientProxy implements Proxy {
-
+	
 	/**
 	 * Meta data for block.
 	 */
@@ -317,11 +318,11 @@ public class ClientProxy implements Proxy {
 		EVENT_BUS.addListener(EffectRenderer::handleRenderWorldLastEvent);
 
 		// register entity rendering
-		registerEntityRenderingHandler(EGG_PROJECTILE.get(), EggProjectileEntityRenderer::new);
-		registerEntityRenderingHandler(LLAMA_PROJECTILE.get(), LlamaProjectileEntityRenderer::new);
-		registerEntityRenderingHandler(LIGHTNING_PROJECTILE.get(), LightningProjectileEntityRenderer::new);
-		registerEntityRenderingHandler(CIRCLE_PROJECTILE.get(), CircleProjectileEntityRenderer::new);
-		registerEntityRenderingHandler(SKULL_PROJECTILE.get(), SkullProjectileEntityRenderer::new);
+		EntityRenderers.register(EGG_PROJECTILE.get(), EggProjectileEntityRenderer::new);
+		EntityRenderers.register(LLAMA_PROJECTILE.get(), LlamaProjectileEntityRenderer::new);
+		EntityRenderers.register(LIGHTNING_PROJECTILE.get(), LightningProjectileEntityRenderer::new);
+		EntityRenderers.register(CIRCLE_PROJECTILE.get(), CircleProjectileEntityRenderer::new);
+		EntityRenderers.register(SKULL_PROJECTILE.get(), SkullProjectileEntityRenderer::new);
 
 		// register the factory used client side to generate a screen corresponding to
 		// the container

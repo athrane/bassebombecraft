@@ -13,6 +13,7 @@ import bassebombecraft.entity.projectile.GenericCompositeProjectileEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
@@ -33,12 +34,12 @@ public abstract class GenericCompositeProjectileEntityRenderer<T extends Entity>
 	/**
 	 * Constructor
 	 * 
-	 * @param renderManager render manager.
+	 * @param renderer context context.
 	 */
-	public GenericCompositeProjectileEntityRenderer(EntityRenderDispatcher renderManager) {
-		super(renderManager);
-	}
-
+	public GenericCompositeProjectileEntityRenderer(EntityRendererProvider.Context context) {
+		super(context);
+	}	
+	
 	@Override
 	public void render(T entity, float entityYaw, float partialTicks, PoseStack matrixStackIn,
 			MultiBufferSource bufferIn, int packedLightIn) {
