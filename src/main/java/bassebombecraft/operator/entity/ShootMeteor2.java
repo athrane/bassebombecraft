@@ -10,8 +10,9 @@ import java.util.function.Function;
 
 import bassebombecraft.operator.Operator2;
 import bassebombecraft.operator.Ports;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.LargeFireball;
+import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.level.Level;
 
 /**
@@ -64,7 +65,7 @@ public class ShootMeteor2 implements Operator2 {
 
 		// get random
 		Random random = getBassebombeCraft().getRandom();
-		
+
 		// get world
 		Level world = invoker.getCommandSenderWorld();
 
@@ -79,7 +80,14 @@ public class ShootMeteor2 implements Operator2 {
 		double d2 = target.getZ() - posZ;
 
 		// spawn projectile
-		LargeFireball projectile = new LargeFireball(world, invoker, d0, d1, d2);
+		AbstractHurtingProjectile projectile = EntityType.FIREBALL.create(invoker.getCommandSenderWorld());
+
+		// add acceleration
+		projectile.xPower = d0;
+		projectile.yPower = d1;
+		projectile.zPower = d2;
+
+		// set position
 		projectile.setPos(posX, posY, posZ);
 		world.addFreshEntity(projectile);
 	}
