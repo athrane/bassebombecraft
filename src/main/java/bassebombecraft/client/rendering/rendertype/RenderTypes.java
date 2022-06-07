@@ -7,6 +7,7 @@ import org.lwjgl.opengl.GL11;
 import net.minecraft.client.renderer.RenderType;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.client.renderer.RenderStateShard.LineStateShard;
 
@@ -18,9 +19,21 @@ import net.minecraft.client.renderer.RenderStateShard.LineStateShard;
  */
 public class RenderTypes extends RenderType {
 
-	public RenderTypes(String nameIn, VertexFormat formatIn, int drawModeIn, int bufferSizeIn, boolean useDelegateIn,
-			boolean needsSortingIn, Runnable setupTaskIn, Runnable clearTaskIn) {
-		super(nameIn, formatIn, drawModeIn, bufferSizeIn, useDelegateIn, needsSortingIn, setupTaskIn, clearTaskIn);
+	/**
+	 * Constructor.
+	 * 
+	 * @param name
+	 * @param format
+	 * @param mode
+	 * @param bufferSize
+	 * @param affectsCrumbling
+	 * @param sortOnUpload
+	 * @param setupState
+	 * @param clearState
+	 */
+	public RenderTypes(String name, VertexFormat format, Mode mode, int bufferSize, boolean affectsCrumbling,
+			boolean sortOnUpload, Runnable setupState, Runnable clearState) {
+		super(name, format, mode, bufferSize, affectsCrumbling, sortOnUpload, setupState, clearState);
 	}
 
 	static final LineStateShard THICK_LINES = new LineStateShard(OptionalDouble.of(3.0D));
