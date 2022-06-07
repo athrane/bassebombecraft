@@ -59,7 +59,7 @@ public class DefaultTargetEntityRenderer implements EntityRenderer {
 		Vec3 end = target.getBoundingBox().getCenter();
 
 		prepareSimpleRendering(x, y, z);
-		GlStateManager._color4f(1F, 1F, 1F, 1F);
+		//GlStateManager._color4f(1F, 1F, 1F, 1F);
 		renderLine(start, end);
 		completeSimpleRendering();
 	}

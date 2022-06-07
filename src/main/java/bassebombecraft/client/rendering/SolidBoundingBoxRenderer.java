@@ -36,7 +36,7 @@ public class SolidBoundingBoxRenderer implements BoundingBoxRenderer {
 		GlStateManager._depthMask(false);
 
 		float alpha = (float) oscillate(0.25F, 1.0F);
-		GlStateManager._color4f(0.75F, 0.75F, 0, alpha);
+		//GlStateManager._color4f(0.75F, 0.75F, 0, alpha);
 		renderSolidBox(aabb);
 
 		GlStateManager._depthMask(true);

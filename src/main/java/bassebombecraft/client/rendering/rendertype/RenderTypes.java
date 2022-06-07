@@ -1,7 +1,5 @@
 package bassebombecraft.client.rendering.rendertype;
 
-import static net.minecraft.client.renderer.RenderType.create;
-
 import java.util.OptionalDouble;
 
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;

@@ -65,7 +65,7 @@ public class DefaultTeamRenderer implements EntityRenderer {
 	void renderTeamEntity(LivingEntity entity, Vec3 playerPos, RenderingInfo info) {
 
 		Vec3 entityPos = entity.getBoundingBox().getCenter();
-		renderTriangleBillboard(playerPos, entityPos, ICON_BILLBOARD_ROTATION);
+		//renderTriangleBillboard(playerPos, entityPos, ICON_BILLBOARD_ROTATION);
 		// renderTextBillboard(playerPos, entityPos, TEAM_LABEL,
 		// TEXT_BILLBOARD_ROTATION);
 		entityPos = entityPos.add(0, -HUD_TEXT_DISP, 0);

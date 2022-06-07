@@ -61,7 +61,7 @@ public class HitByRayTraceBoundingBoxRenderer implements BoundingBoxRenderer {
 
 		// oscillate alpha
 		float alpha = (float) oscillate(0.25F, 1.0F);
-		GlStateManager._color4f(0.75F, 0.75F, 0, alpha);
+		//GlStateManager._color4f(0.75F, 0.75F, 0, alpha);
 
 		switch (direction) {
 		case UP:

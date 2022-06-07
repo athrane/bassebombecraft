@@ -24,7 +24,7 @@ public class WireframeBoundingBoxRenderer implements BoundingBoxRenderer {
 		double z = info.getRveTranslatedViewZ();
 
 		prepareSimpleRendering(x, y, z);
-		GlStateManager._color4f(1F, 1F, 1F, 1F);
+		//GlStateManager._color4f(1F, 1F, 1F, 1F);
 		renderWireframeBox(aabb);
 		completeSimpleRendering();
 	}
