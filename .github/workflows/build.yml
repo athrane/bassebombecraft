@@ -95,7 +95,7 @@ jobs:
       run: mkdir -p ${{ github.workspace }}/artifact
 
     - name: Download server jar artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4.1.7
       with:
         name: ${{ needs.build_job.outputs.server_jar_file}}
         path: ${{ github.workspace }}/artifact/
@@ -148,13 +148,13 @@ jobs:
       run: mkdir -p ${{ github.workspace }}/artifact    
 
     - name: Download jar artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4.1.7
       with:
         name: ${{ needs.build_job.outputs.jar_file}}
         path: ${{ github.workspace }}/artifact/
 
     - name: Download server jar artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4.1.7
       with:
         name: ${{ needs.build_job.outputs.server_jar_file}}
         path: ${{ github.workspace }}/artifact/
