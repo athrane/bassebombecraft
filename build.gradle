@@ -41,7 +41,7 @@ sonarqube {
 }
 
 // set source and target compatibility
-java.toolchain.languageVersion = JavaLanguageVersion.of(16)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 minecraft {
 	// Mappings can be found at: http://mcp.thiakil.com/
