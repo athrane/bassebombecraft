@@ -11,7 +11,7 @@ import static bassebombecraft.entity.RegisteredEntities.LIGHTNING_PROJECTILE;
 import static bassebombecraft.entity.RegisteredEntities.LLAMA_PROJECTILE;
 import static bassebombecraft.entity.RegisteredEntities.SKULL_PROJECTILE;
 import static bassebombecraft.inventory.container.RegisteredContainers.COMPOSITE_ITEM_COMTAINER;
-import static net.minecraft.client.gui.ScreenManager.registerFactory;
+import static net.minecraft.client.gui.screens.MenuScreens.register;
 import static net.minecraftforge.common.MinecraftForge.EVENT_BUS;
 
 import java.io.PrintWriter;
