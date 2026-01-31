@@ -74,13 +74,6 @@ public class RenderingUtils {
 	}
 
 	/**
-	 * Setup billboard rotation to face camera.
-	 */
-	public static void setupBillboardRotation() {
-		RenderSystem.rotatef(180, 0, 1, 0);
-	}
-
-	/**
 	 * Setup billboard rendering options.
 	 */
 	@Deprecated
