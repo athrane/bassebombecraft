@@ -3,7 +3,6 @@ package bassebombecraft.client.rendering;
 import static bassebombecraft.BassebombeCraft.getProxy;
 import static bassebombecraft.ClientModConstants.ICON_BILLBOARD_ROTATION;
 import static bassebombecraft.ModConstants.HUD_TEXT_DISP;
-import static bassebombecraft.client.rendering.RenderingUtils.renderTriangleBillboard;
 import static bassebombecraft.player.PlayerUtils.CalculatePlayerPosition;
 
 import java.util.Collection;
