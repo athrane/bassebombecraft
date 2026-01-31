@@ -1,5 +1,6 @@
 package bassebombecraft.client.rendering.entity;
 
+import static net.minecraft.client.renderer.RenderType.entityCutout;
 import static net.minecraft.util.Mth.lerp;
 
 import com.mojang.blaze3d.vertex.PoseStack;
