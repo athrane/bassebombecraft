@@ -1,7 +1,5 @@
 package bassebombecraft.client.rendering;
 
-import static bassebombecraft.client.rendering.RenderingUtils.completeSimpleRendering;
-import static bassebombecraft.client.rendering.RenderingUtils.prepareSimpleRendering;
 import static bassebombecraft.client.rendering.RenderingUtils.renderWireframeBox;
 
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -23,10 +21,10 @@ public class WireframeBoundingBoxRenderer implements BoundingBoxRenderer {
 		double y = info.getRveTranslatedViewYOffsetWithPlayerEyeHeight();
 		double z = info.getRveTranslatedViewZ();
 
-		prepareSimpleRendering(x, y, z);
+		// prepareSimpleRendering(x, y, z);
 		//GlStateManager._color4f(1F, 1F, 1F, 1F);
 		renderWireframeBox(aabb);
-		completeSimpleRendering();
+		// completeSimpleRendering();
 	}
 
 }
