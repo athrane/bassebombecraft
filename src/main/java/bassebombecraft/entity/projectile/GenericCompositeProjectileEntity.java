@@ -183,7 +183,7 @@ public class GenericCompositeProjectileEntity extends Projectile {
 	 * When invoked by the {@linkplain DurationRepository} the projectile will be
 	 * removed from the world..
 	 */
-	Consumer<String> cRemovalCallback = id -> remove();
+	Consumer<String> cRemovalCallback = id -> remove(Entity.RemovalReason.DISCARDED);
 
 	/**
 	 * Projectile modifier ports.
@@ -368,7 +368,7 @@ public class GenericCompositeProjectileEntity extends Projectile {
 
 		// Digging is handled by ProjectileModifierEventHandler. Which cancels the
 		// projectile impact event and exits this method prior to this point.
-		this.remove();
+		this.remove(Entity.RemovalReason.DISCARDED);
 	}
 
 	/**
