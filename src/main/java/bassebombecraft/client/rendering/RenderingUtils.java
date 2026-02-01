@@ -22,6 +22,7 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import net.minecraft.client.renderer.MultiBufferSource;
 import com.mojang.math.Matrix4f;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Vector3f;
 import com.mojang.math.Vector4f;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
@@ -131,7 +132,7 @@ public class RenderingUtils {
 	public static void renderWireframeBox(AABB aabb) {
 		Tesselator tessellator = Tesselator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuilder();
-		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormat.POSITION);
+		bufferBuilder.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION);
 
 		// AB
 		bufferBuilder.vertex(aabb.minX, aabb.minY, aabb.minZ).endVertex();
@@ -182,7 +183,7 @@ public class RenderingUtils {
 	public static void renderSolidBox(AABB aabb) {
 		Tesselator tessellator = Tesselator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuilder();
-		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormat.POSITION);
+		bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
 
 		// ABCD - bottom (clockwise)
 		bufferBuilder.vertex(aabb.minX, aabb.minY, aabb.minZ).endVertex();
@@ -231,7 +232,7 @@ public class RenderingUtils {
 	public static void renderSolidBoxTop(AABB aabb) {
 		Tesselator tessellator = Tesselator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuilder();
-		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormat.POSITION);
+		bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
 
 		// EFGH - top (anti-clockwise)
 		bufferBuilder.vertex(aabb.minX, aabb.maxY, aabb.minZ).endVertex();
@@ -250,7 +251,7 @@ public class RenderingUtils {
 	public static void renderSolidBoxBottom(AABB aabb) {
 		Tesselator tessellator = Tesselator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuilder();
-		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormat.POSITION);
+		bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
 
 		// ABCD - bottom (clockwise)
 		bufferBuilder.vertex(aabb.minX, aabb.minY, aabb.minZ).endVertex();
@@ -269,7 +270,7 @@ public class RenderingUtils {
 	public static void renderSolidBoxNorth(AABB aabb) {
 		Tesselator tessellator = Tesselator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuilder();
-		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormat.POSITION);
+		bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
 
 		// ADHE - back (clockwise)
 		bufferBuilder.vertex(aabb.minX, aabb.minY, aabb.minZ).endVertex();
@@ -288,7 +289,7 @@ public class RenderingUtils {
 	public static void renderSolidBoxSouth(AABB aabb) {
 		Tesselator tessellator = Tesselator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuilder();
-		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormat.POSITION);
+		bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
 
 		// BCGF - front (anti-clockwise)
 		bufferBuilder.vertex(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
@@ -307,7 +308,7 @@ public class RenderingUtils {
 	public static void renderSolidBoxEast(AABB aabb) {
 		Tesselator tessellator = Tesselator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuilder();
-		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormat.POSITION);
+		bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
 
 		// CDHG (anti-clockwise)
 		bufferBuilder.vertex(aabb.maxX, aabb.minY, aabb.maxZ).endVertex();
@@ -326,7 +327,7 @@ public class RenderingUtils {
 	public static void renderSolidBoxWest(AABB aabb) {
 		Tesselator tessellator = Tesselator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuilder();
-		bufferBuilder.begin(GL11.GL_QUADS, DefaultVertexFormat.POSITION);
+		bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION);
 
 		// BAEF (clockwise)
 		bufferBuilder.vertex(aabb.minX, aabb.minY, aabb.maxZ).endVertex();
@@ -346,7 +347,7 @@ public class RenderingUtils {
 	public static void renderLine(Vec3 start, Vec3 end) {
 		Tesselator tessellator = Tesselator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBuilder();
-		bufferBuilder.begin(GL11.GL_LINES, DefaultVertexFormat.POSITION);
+		bufferBuilder.begin(VertexFormat.Mode.LINES, DefaultVertexFormat.POSITION);
 		bufferBuilder.vertex(start.x, start.y, start.z).endVertex();
 		bufferBuilder.vertex(end.x, end.y, end.z).endVertex();
 		tessellator.end();
