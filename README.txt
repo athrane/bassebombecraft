@@ -47,7 +47,9 @@ If you prefer to use VS Code:
    type "Java: Clean Java Language Server Workspace", then reload VS Code
 8. Ensure the Java source path is correctly set to "src/main/java" in .vscode/settings.json:
    "java.project.sourcePaths": ["src/main/java"]
-9. Open any .java file - it should now show full IntelliSense and no "non-project file" errors
+9. If you see import errors for third-party libraries (net.minecraft, net.minecraftforge, etc.),
+   run: "./gradlew --refresh-dependencies build --no-daemon" to download all dependencies
+10. Open any .java file - it should now show full IntelliSense and no "non-project file" errors
 
 If at any point you are missing libraries in your IDE, or you've run into problems you can run "gradlew --refresh-dependencies" to refresh the local cache. "gradlew clean" to reset everything {this does not affect your code} and then start the processs again.
 
