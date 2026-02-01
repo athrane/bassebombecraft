@@ -182,8 +182,8 @@ public class CompositeMagicItemScreen extends AbstractContainerScreen<CompositeM
 	void renderSequenceHighlight(PoseStack matrixStack, CompositeMagicItemItemStackHandler compositeInventory) {
 		int length = validator.resolveLegalSequenceLength(compositeInventory);
 		float oscRgb = oscillateFloat(0.5F, 1);
-		RenderSystem.color4f(oscRgb, oscRgb, oscRgb, 1.0F);
-		getMinecraft().getTextureManager().bind(SEQUENCE_TEXTURE);
+		RenderSystem.setShaderColor(oscRgb, oscRgb, oscRgb, 1.0F);
+		RenderSystem.setShaderTexture(0, SEQUENCE_TEXTURE);
 		for (int index = 0; index < length; index++) {
 			int inventoryIndex = compositeInventory.getCompositeInventoryIndex() + index;
 			int xPos = SEQUENCE_ICON_XPOS + (inventoryIndex * SEQUENCE_ICON_XDELTA);
@@ -198,12 +198,12 @@ public class CompositeMagicItemScreen extends AbstractContainerScreen<CompositeM
 	 */
 	void renderDecoration(PoseStack matrixStack) {
 		float oscRgb = oscillateFloat(0.5F, 1);
-		RenderSystem.color4f(1.0F, oscRgb, 1.0F, 1.0F);
-		getMinecraft().getTextureManager().bind(DECORATION_TEXTURE);
+		RenderSystem.setShaderColor(1.0F, oscRgb, 1.0F, 1.0F);
+		RenderSystem.setShaderTexture(0, DECORATION_TEXTURE);
 		blit(matrixStack, 136, 55, 0, 0, SEQUENCE_TEXTURE_SIZE, SEQUENCE_TEXTURE_SIZE, 32, 32);
 
-		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		getMinecraft().getTextureManager().bind(DECORATION2_TEXTURE);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.setShaderTexture(0, DECORATION2_TEXTURE);
 		blit(matrixStack, 10, 65, 0, 0, SEQUENCE_TEXTURE_SIZE, SEQUENCE_TEXTURE_SIZE, 32, 32);
 
 	}
@@ -213,8 +213,8 @@ public class CompositeMagicItemScreen extends AbstractContainerScreen<CompositeM
 	 */
 	@Override
 	protected void renderBg(PoseStack matrixStack, float partialTicks, int x, int y) {
-		RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-		getMinecraft().getTextureManager().bind(BACKGROUND_TEXTURE);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.setShaderTexture(0, BACKGROUND_TEXTURE);
 		this.blit(matrixStack, getGuiLeft(), getGuiTop(), 0, 0, this.imageWidth, this.imageHeight);
 	}
 
