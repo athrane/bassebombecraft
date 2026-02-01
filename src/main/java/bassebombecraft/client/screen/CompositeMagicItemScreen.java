@@ -147,10 +147,10 @@ public class CompositeMagicItemScreen extends AbstractContainerScreen<CompositeM
 	 * @param matrixStack matrix stack.
 	 */
 	void renderGuiHeader(PoseStack matrixStack) {
-		RenderSystem.pushMatrix();
-		RenderSystem.scalef(1.0F, 1.0F, 1.0F);
+		matrixStack.pushPose();
+		matrixStack.scale(1.0F, 1.0F, 1.0F);
 		font.draw(matrixStack, guiHeader, HEADER_XPOS, HEADER_YPOS, TEXT_COLOR);		
-		RenderSystem.popMatrix();
+		matrixStack.popPose();
 	}
 
 	/**
@@ -160,8 +160,8 @@ public class CompositeMagicItemScreen extends AbstractContainerScreen<CompositeM
 	 */
 	void renderAdvice(PoseStack matrixStack) {
 		String[] advice = adviceGenerator.generate();
-		RenderSystem.pushMatrix();
-		RenderSystem.scalef(0.6F, 0.6F, 1.0F);
+		matrixStack.pushPose();
+		matrixStack.scale(0.6F, 0.6F, 1.0F);
 
 		int index = 0;
 		for (String message : advice) {
@@ -170,7 +170,7 @@ public class CompositeMagicItemScreen extends AbstractContainerScreen<CompositeM
 			index++;
 		}
 
-		RenderSystem.popMatrix();
+		matrixStack.popPose();
 	}
 
 	/**

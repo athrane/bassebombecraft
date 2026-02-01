@@ -78,27 +78,18 @@ public class RenderingUtils {
 	 */
 	@Deprecated
 	public static void resetBillboardRendering() {
-
-		// get matrix
-		RenderSystem.popMatrix();
-
-		// set attributes
-		RenderSystem.enableLighting();
-		GlStateManager._enableTexture();
-		GlStateManager._enableDepthTest();
+		// DEPRECATED: This method used RenderSystem.popMatrix() which no longer exists.
+		// Matrix operations should be done on PoseStack instances instead.
+		// This method is no longer used and should be removed.
 	}
 
 	/**
 	 * reset billboard rendering options.
 	 */
 	public static void setupBillboardRendering() {
-
-		// save matrix
-		RenderSystem.pushMatrix();
-
-		RenderSystem.disableLighting();
-		GlStateManager._disableTexture();
-		GlStateManager._disableDepthTest();
+		// DEPRECATED: This method used RenderSystem.pushMatrix() which no longer exists.
+		// Matrix operations should be done on PoseStack instances instead.
+		// This method is no longer used and should be removed.
 	}
 
 	/**
