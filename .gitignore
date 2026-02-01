@@ -4,3 +4,21 @@
 
 # Ignore build output
 build/
+.classpath
+.project
+runClient.launch
+runData.launch
+runServer.launch
+
+# Ignore Eclipse settings
+.settings/
+
+# Ignore log files
+logs/
+
+# Ignore binary files
+bin/
+
+# Ignore runtime files
+run/
+
