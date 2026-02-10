@@ -52,7 +52,7 @@ public class Chickenize implements InventoryItemActionStrategy {
 		float pitch = target.getXRot();
 
 		// kill of entity
-		target.remove();
+		target.remove(Entity.RemovalReason.DISCARDED);
 
 		// spawn chicken
 		Chicken entity = EntityType.CHICKEN.create(world);

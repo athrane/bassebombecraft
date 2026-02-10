@@ -108,7 +108,7 @@ public class GenericEggProjectile extends ThrowableItemProjectile {
 			getProxy().getNetworkChannel().sendAddParticleRenderingPacket(particle);
 
 			// remove this projectile
-			remove();
+			remove(Entity.RemovalReason.DISCARDED);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
