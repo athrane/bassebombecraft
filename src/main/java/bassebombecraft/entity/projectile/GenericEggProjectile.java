@@ -140,7 +140,7 @@ public class GenericEggProjectile extends ThrowableItemProjectile {
 						this.random.nextGaussian() * (double) 0.0075F * (double) inaccuracy)
 				.scale((double) velocity);
 		this.setDeltaMovement(vector3d);
-		float f = Mth.sqrt(getHorizontalDistanceSqr(vector3d));
+		float f = Mth.sqrt((float) (vector3d.x * vector3d.x + vector3d.z * vector3d.z));
 		float yRot = (float) (Mth.atan2(vector3d.x, vector3d.z) * (double) (180F / (float) Math.PI));
 		float xRot = (float) (Mth.atan2(vector3d.y, (double) f) * (double) (180F / (float) Math.PI));
 		setYRot(yRot);
