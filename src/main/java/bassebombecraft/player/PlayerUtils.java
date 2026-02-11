@@ -276,9 +276,7 @@ public class PlayerUtils {
 
 		// iterator over the items in the hotbar
 		for (int i = 0; i < 10; i++) {
-			ItemStack itemStackHotbar = player.inventory.getItem(i);
-			Item itemHotBar = itemStackHotbar.getItem();
-			if (itemHotBar.equals(item))
+		ItemStack itemStackHotbar = player.getInventory().getItem(i);
 				return true;
 		}
 
