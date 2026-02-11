@@ -3,6 +3,7 @@ package bassebombecraft.inventory.container;
 import static bassebombecraft.ModConstants.COMPOSITE_MAX_SIZE;
 
 import bassebombecraft.item.composite.CompositeMagicItem;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
@@ -48,14 +49,24 @@ public class CompositeMagicItemCapabilityProvider implements ICapabilitySerializ
 		return itemStackHandler;
 	}
 
+	/**
+	 * Serializes the item handler to NBT.
+	 * 
+	 * @return NBT tag containing the serialized inventory data
+	 */
 	@Override
 	public Tag serializeNBT() {
-		return CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.writeNBT(getCachedInventory(), NO_SPECIFIC_SIDE);
+		return getCachedInventory().serializeNBT();
 	}
 
+	/**
+	 * Deserializes the item handler from NBT.
+	 * 
+	 * @param nbt the NBT tag containing the inventory data to deserialize
+	 */
 	@Override
 	public void deserializeNBT(Tag nbt) {
-		CapabilityItemHandler.ITEM_HANDLER_CAPABILITY.readNBT(getCachedInventory(), NO_SPECIFIC_SIDE, nbt);
+		getCachedInventory().deserializeNBT((CompoundTag) nbt);
 	}
 
 	@Override
