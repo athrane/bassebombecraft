@@ -14,6 +14,8 @@ import java.util.Map;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.level.Level;
 
 /**
@@ -83,8 +85,8 @@ public class MobPrimingEffect extends MobEffect {
 				creeper.ignite();
 			}
 
-			// set glowing
-			entity.setGlowing(true);
+			// set glowing effect
+			entity.addEffect(new MobEffectInstance(MobEffects.GLOWING, countDown, 0));
 
 			return;
 		}
