@@ -85,7 +85,7 @@ jobs:
 
     env:
       DOCKER_BUILDKIT: 1
-      FORGE_VERSION: 36.1.0
+      FORGE_VERSION: 37.1.1
 
     steps:
     - name: Checkout
