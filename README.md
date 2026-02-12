@@ -54,10 +54,6 @@ Mod reviews from Youtube:
 
 [![CodeFactor](https://www.codefactor.io/repository/github/athrane/bassebombecraft/badge)](https://www.codefactor.io/repository/github/athrane/bassebombecraft)
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=athrane_bassebombecraft&metric=alert_status)](https://sonarcloud.io/dashboard?id=athrane_bassebombecraft)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=athrane_bassebombecraft&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=athrane_bassebombecraft)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=athrane_bassebombecraft&metric=ncloc)](https://sonarcloud.io/dashboard?id=athrane_bassebombecraft)
-
 # Technical stuff
 
 The technical aspects of the mod are documented on the project
