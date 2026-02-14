@@ -4,7 +4,11 @@
     "java.import.gradle.wrapper.enabled": true,
     "java.configuration.updateBuildConfiguration": "automatic",
     "java.project.sourcePaths": [
-        "src/main/java"
+        "src/main/java",
+        "src/test/java"
     ],
-    "java.dependency.syncWithFolderExplorer": false
+    "java.dependency.syncWithFolderExplorer": false,
+    "java.test.config": {
+        "workingDirectory": "${workspaceFolder}"
+    }
 }
