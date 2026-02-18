@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 import bassebombecraft.event.entity.attribute.EntityAttributeEventHandler;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.RangedAttribute;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 
 /**

@@ -7,7 +7,7 @@ import static net.minecraftforge.registries.ForgeRegistries.MOB_EFFECTS;
 import java.util.function.Supplier;
 
 import net.minecraft.world.effect.MobEffect;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 
 /**

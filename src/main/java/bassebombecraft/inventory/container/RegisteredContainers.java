@@ -6,7 +6,7 @@ import static net.minecraftforge.registries.ForgeRegistries.CONTAINERS;
 
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.common.extensions.IForgeContainerType;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 
 /**

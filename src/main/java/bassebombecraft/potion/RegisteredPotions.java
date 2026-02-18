@@ -17,7 +17,7 @@ import java.util.function.Supplier;
 
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.item.alchemy.Potion;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 
 /**
