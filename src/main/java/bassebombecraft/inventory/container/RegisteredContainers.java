@@ -5,7 +5,7 @@ import static net.minecraftforge.registries.DeferredRegister.create;
 import static net.minecraftforge.registries.ForgeRegistries.CONTAINERS;
 
 import net.minecraft.world.inventory.MenuType;
-import net.minecraftforge.common.extensions.IForgeContainerType;
+import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.registries.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 
@@ -24,6 +24,6 @@ public class RegisteredContainers {
 	 */
 	public static final RegistryObject<MenuType<CompositeMagicItemContainer>> COMPOSITE_ITEM_COMTAINER = CONTAINER_REGISTRY
 			.register(CompositeMagicItemContainer.NAME.toLowerCase(),
-					() -> IForgeContainerType.create(CompositeMagicItemContainer::new));
+					() -> IForgeMenuType.create(CompositeMagicItemContainer::new));
 
 }
