@@ -44,9 +44,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fmlserverevents.FMLServerAboutToStartEvent;
-import net.minecraftforge.fmlserverevents.FMLServerStartedEvent;
-import net.minecraftforge.fmlserverevents.FMLServerStoppedEvent;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
+import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
 
 @Mod(MODID)
 public class BassebombeCraft {
@@ -135,17 +135,17 @@ public class BassebombeCraft {
 	}
 
 	@SubscribeEvent
-	void serverAboutTostart(FMLServerAboutToStartEvent event) {
+	void serverAboutTostart(ServerAboutToStartEvent event) {
 		server = event.getServer();
 	}
 
 	@SubscribeEvent
-	void serverStarted(FMLServerStartedEvent event) {
+	void serverStarted(ServerStartedEvent event) {
 		proxy.startAnalyticsSession();
 	}
 
 	@SubscribeEvent
-	void serverStopped(FMLServerStoppedEvent event) {
+	void serverStopped(ServerStoppedEvent event) {
 		proxy.endAnalyticsSession();
 		server = null;
 	}
