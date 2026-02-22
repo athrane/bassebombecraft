@@ -10,8 +10,8 @@ import bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository.E
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraftforge.fmllegacy.network.NetworkEvent;
-import net.minecraftforge.fmllegacy.network.NetworkEvent.Context;
+import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.network.NetworkEvent.Context;
 
 /**
  * Add graphical effect network packet.

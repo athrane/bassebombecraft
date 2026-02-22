@@ -2,7 +2,7 @@ package bassebombecraft.network;
 
 import static bassebombecraft.BassebombeCraft.getBassebombeCraft;
 import static bassebombecraft.ModConstants.MODID;
-import static net.minecraftforge.fmllegacy.network.NetworkRegistry.newSimpleChannel;
+import static net.minecraftforge.network.NetworkRegistry.newSimpleChannel;
 
 import bassebombecraft.client.event.rendering.effect.GraphicalEffectRepository;
 import bassebombecraft.event.particle.ParticleRendering;
@@ -19,8 +19,8 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fmllegacy.network.PacketDistributor;
-import net.minecraftforge.fmllegacy.network.simple.SimpleChannel;
+import net.minecraftforge.network.PacketDistributor;
+import net.minecraftforge.network.simple.SimpleChannel;
 
 /**
  * Helper class for managing {@linkplain SimpleChannel}.

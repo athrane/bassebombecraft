@@ -7,7 +7,7 @@ import static bassebombecraft.config.ModConfiguration.compositeMagicItem;
 import static bassebombecraft.operator.Operators2.run;
 import static bassebombecraft.world.WorldUtils.isLogicalClient;
 import static net.minecraft.world.InteractionHand.MAIN_HAND;
-import static net.minecraftforge.fmllegacy.network.NetworkHooks.openGui;
+import static net.minecraftforge.network.NetworkHooks.openGui;
 
 import java.util.List;
 
