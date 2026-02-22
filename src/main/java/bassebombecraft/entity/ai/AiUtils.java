@@ -9,6 +9,7 @@ import static net.minecraft.world.entity.ai.goal.Goal.Flag.MOVE;
 import static net.minecraft.world.entity.ai.goal.Goal.Flag.TARGET;
 
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -97,7 +98,7 @@ public class AiUtils {
 	 */
 	public static Set<WrappedGoal> captureGoals(GoalSelector selector) {
 		try {
-			return selector.availableGoals;
+			return selector.getAvailableGoals();
 		} catch (Exception e) {
 			logger.error("Failed to capture goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);
@@ -127,7 +128,7 @@ public class AiUtils {
 	 */
 	static void removeGoals(GoalSelector selector) {
 		try {
-			Set<WrappedGoal> goals = selector.availableGoals;
+			Set<WrappedGoal> goals = new HashSet<>(selector.getAvailableGoals());
 			goals.forEach(g -> selector.removeGoal(g));
 		} catch (Exception e) {
 			logger.error("Failed to remove goals due to the error: " + e.getMessage());
@@ -147,7 +148,7 @@ public class AiUtils {
 	public static void assignAiGoals(Mob entity, Set<WrappedGoal> goals) {
 		try {
 			GoalSelector selector = entity.goalSelector;
-			selector.availableGoals.addAll(goals);
+			goals.forEach(g -> selector.addGoal(g.getPriority(), g.getGoal()));
 		} catch (Exception e) {
 			logger.error("Failed to assign goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);
@@ -167,7 +168,7 @@ public class AiUtils {
 	public static void assignAiTargetGoals(Mob entity, Set<WrappedGoal> goals) {
 		try {
 			GoalSelector selector = entity.targetSelector;
-			selector.availableGoals.addAll(goals);
+			goals.forEach(g -> selector.addGoal(g.getPriority(), g.getGoal()));
 		} catch (Exception e) {
 			logger.error("Failed to assign goals due to the error: " + e.getMessage());
 			getBassebombeCraft().reportException(e);
