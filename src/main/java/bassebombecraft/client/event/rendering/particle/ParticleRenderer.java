@@ -16,14 +16,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.RenderLevelLastEvent;
 
 /**
  * Client side renderer for rendering particles.
  */
 public class ParticleRenderer {
 
-	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
+	public static void handleRenderWorldLastEvent(RenderLevelLastEvent event) {
 		try {
 
 			// exit if player isn't defined

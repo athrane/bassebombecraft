@@ -8,7 +8,7 @@ import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayer
 import java.util.stream.Stream;
 
 import bassebombecraft.client.operator.ClientPorts;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.RenderLevelLastEvent;
 
 /**
  * Client side renderer for rendering graphical effects.
@@ -16,11 +16,11 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 public class EffectRenderer {
 
 	/**
-	 * Handle {@linkplain RenderWorldLastEvent} rendering event at client side.
+	 * Handle {@linkplain RenderLevelLastEvent} rendering event at client side.
 	 * 
 	 * @param event rendering event.
 	 */
-	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
+	public static void handleRenderWorldLastEvent(RenderLevelLastEvent event) {
 		try {
 
 			// exit if player isn't defined
@@ -29,7 +29,7 @@ public class EffectRenderer {
 
 			// create port
 			ClientPorts ports = getInstance();
-			ports.setMatrixStack1(event.getMatrixStack());
+			ports.setMatrixStack1(event.getPoseStack());
 
 			// get effects
 			GraphicalEffectRepository repository = getProxy().getClientGraphicalEffectRepository();

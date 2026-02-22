@@ -28,7 +28,7 @@ import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.operator.Operator2;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.RenderLevelLastEvent;
 
 /**
  * Rendering charmed information in the {@linkplain HudItem}.
@@ -69,11 +69,11 @@ public class HudItemCharmedInfoRenderer {
 	};
 
 	/**
-	 * Handle {@linkplain RenderWorldLastEvent}.
+	 * Handle {@linkplain RenderLevelLastEvent}.
 	 * 
 	 * @param event event to trigger rendering of information.
 	 */
-	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
+	public static void handleRenderWorldLastEvent(RenderLevelLastEvent event) {
 		try {
 
 			// exit if player is undefined
@@ -87,7 +87,7 @@ public class HudItemCharmedInfoRenderer {
 			if (!isItemInHotbar(player, HUD.get()))
 				return;
 
-			render(event.getMatrixStack(), player);
+			render(event.getPoseStack(), player);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

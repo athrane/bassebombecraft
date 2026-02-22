@@ -20,7 +20,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.RenderLevelLastEvent;
 
 /**
  * Rendering target information in the HUD item.
@@ -28,11 +28,11 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 public class TargetInfoRenderer {
 
 	/**
-	 * Handle {@linkplain RenderWorldLastEvent}.
+	 * Handle {@linkplain RenderLevelLastEvent}.
 	 * 
 	 * @param event event to trigger rendering of information.
 	 */
-	public static void handleRenderWorldLastEvent(RenderWorldLastEvent event) {
+	public static void handleRenderWorldLastEvent(RenderLevelLastEvent event) {
 		try {
 
 			// exit if player is undefined
@@ -46,7 +46,7 @@ public class TargetInfoRenderer {
 			if (!isItemInHotbar(player, HUD.get()))
 				return;
 
-			render(event.getMatrixStack(), player);
+			render(event.getPoseStack(), player);
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);
