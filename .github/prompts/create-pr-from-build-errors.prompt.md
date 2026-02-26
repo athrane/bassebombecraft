@@ -1,7 +1,6 @@
 ---
 description: 'Run the Gradle build, identify the top 3 compilation errors caused by a Minecraft/Forge version upgrade, and generate a PR requirement description for each error.'
 agent: 'agent'
-tools: ['run_in_terminal', 'read_file', 'create_file', 'file_search', 'grep_search']
 ---
 
 # Create PR Requirements from Gradle Build Errors
