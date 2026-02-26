@@ -41,5 +41,5 @@ public interface ClientPorts extends Ports {
 	 * @return ports.
 	 */
 	ClientPorts setRenderGameOverlayEvent1(RenderGameOverlayEvent event);
-		
+	
 }
