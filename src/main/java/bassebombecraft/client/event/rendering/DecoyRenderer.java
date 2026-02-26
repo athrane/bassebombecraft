@@ -51,7 +51,7 @@ public class DecoyRenderer {
 
 		// calculate xz angle from positive z-axis
 		// https://gamedev.stackexchange.com/questions/14602/what-are-atan-and-atan2-used-for-in-games
-		float partialTicks = event.getPartialRenderTick();
+		float partialTicks = event.getPartialTick();
 		float f = rotLerp(partialTicks, entity.yBodyRotO, entity.yBodyRot);
 		double x = entity.getX();
 		double z = entity.getZ();

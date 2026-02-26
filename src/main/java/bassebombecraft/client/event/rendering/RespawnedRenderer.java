@@ -110,11 +110,11 @@ public class RespawnedRenderer {
 		PoseStack matrixStack = event.getMatrixStack();
 
 		// calculate yaw
-		float partialTicks = event.getPartialRenderTick();
+		float partialTicks = event.getPartialTick();
 		float yaw = entity.getViewYRot(partialTicks);
 
 		// get light
-		int packedLight = event.getLight();
+		int packedLight = event.getPackedLight();
 
 		// render
 		event.getRenderer().render(entity, yaw, partialTicks, matrixStack, buffer, packedLight);
