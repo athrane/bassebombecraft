@@ -124,7 +124,7 @@ public class BuildMineBookRenderer {
 
 		// setup operator and execute
 		ports.setAabb1(aabb);
-		ports.setMatrixStack1(event.getMatrix());
+		ports.setMatrixStack1(event.getPoseStack());
 		ports.setString1(message);
 		run(ports, splOp.get());
 	}

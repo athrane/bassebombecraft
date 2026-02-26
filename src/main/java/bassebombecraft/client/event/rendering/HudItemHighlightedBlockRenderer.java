@@ -112,7 +112,7 @@ public class HudItemHighlightedBlockRenderer {
 		// setup operator and execute
 		ClientPorts ports = getInstance();
 		ports.setAabb1(aabb);
-		ports.setMatrixStack1(event.getMatrix());
+		ports.setMatrixStack1(event.getPoseStack());
 		ports.setString1(message);
 		ports.setString2(aabbCenter.toString());
 		run(ports, splOp.get());
