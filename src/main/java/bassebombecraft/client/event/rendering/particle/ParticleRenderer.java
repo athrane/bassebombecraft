@@ -16,15 +16,30 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 
 /**
  * Client side renderer for rendering particles.
  */
 public class ParticleRenderer {
 
-	public static void handleRenderWorldLastEvent(RenderLevelLastEvent event) {
+	/**
+	 * Handle {@linkplain RenderLevelStageEvent} rendering event at client side.
+	 * 
+	 * The stage {@linkplain RenderLevelStageEvent.Stage#AFTER_PARTICLES} is used
+	 * because it is the last stage that fires after all entity and particle
+	 * rendering is complete, preserving the original
+	 * {@code RenderLevelLastEvent} firing semantics. Note: Forge 40.3.0 does not
+	 * provide an {@code AFTER_ENTITIES} stage constant.
+	 * 
+	 * @param event rendering event.
+	 */
+	public static void handleRenderWorldLastEvent(RenderLevelStageEvent event) {
 		try {
+
+			// exit if not the correct render stage
+			if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES)
+				return;
 
 			// exit if player isn't defined
 			if (!isClientSidePlayerDefined())

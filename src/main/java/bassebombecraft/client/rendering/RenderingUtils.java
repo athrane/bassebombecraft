@@ -30,7 +30,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 
 /**
  * Rendering utilities.
@@ -97,7 +97,7 @@ public class RenderingUtils {
 	 * Render billboard text.
 	 * 
 	 * Supports rendering of billboard text in the renderer instances handling
-	 * processing the {@linkplain RenderLevelLastEvent}.
+	 * processing the {@linkplain RenderLevelStageEvent}.
 	 * 
 	 * @param matrixStack matrix stack
 	 * @param buffer      render buffer.

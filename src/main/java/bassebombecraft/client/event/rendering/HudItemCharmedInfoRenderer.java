@@ -28,7 +28,7 @@ import bassebombecraft.event.charm.CharmedMobsRepository;
 import bassebombecraft.item.basic.HudItem;
 import bassebombecraft.operator.Operator2;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 
 /**
  * Rendering charmed information in the {@linkplain HudItem}.
@@ -69,12 +69,22 @@ public class HudItemCharmedInfoRenderer {
 	};
 
 	/**
-	 * Handle {@linkplain RenderLevelLastEvent}.
+	 * Handle {@linkplain RenderLevelStageEvent}.
+	 * 
+	 * The stage {@linkplain RenderLevelStageEvent.Stage#AFTER_PARTICLES} is used
+	 * because it is the last stage that fires after all entity and particle
+	 * rendering is complete, preserving the original
+	 * {@code RenderLevelLastEvent} firing semantics. Note: Forge 40.3.0 does not
+	 * provide an {@code AFTER_ENTITIES} stage constant.
 	 * 
 	 * @param event event to trigger rendering of information.
 	 */
-	public static void handleRenderWorldLastEvent(RenderLevelLastEvent event) {
+	public static void handleRenderWorldLastEvent(RenderLevelStageEvent event) {
 		try {
+
+			// exit if not the correct render stage
+			if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES)
+				return;
 
 			// exit if player is undefined
 			if (!isClientSidePlayerDefined())

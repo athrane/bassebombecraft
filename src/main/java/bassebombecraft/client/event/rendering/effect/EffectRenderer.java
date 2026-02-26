@@ -8,7 +8,7 @@ import static bassebombecraft.client.player.ClientPlayerUtils.isClientSidePlayer
 import java.util.stream.Stream;
 
 import bassebombecraft.client.operator.ClientPorts;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 
 /**
  * Client side renderer for rendering graphical effects.
@@ -16,12 +16,22 @@ import net.minecraftforge.client.event.RenderLevelLastEvent;
 public class EffectRenderer {
 
 	/**
-	 * Handle {@linkplain RenderLevelLastEvent} rendering event at client side.
+	 * Handle {@linkplain RenderLevelStageEvent} rendering event at client side.
+	 * 
+	 * The stage {@linkplain RenderLevelStageEvent.Stage#AFTER_PARTICLES} is used
+	 * because it is the last stage that fires after all entity and particle
+	 * rendering is complete, preserving the original
+	 * {@code RenderLevelLastEvent} firing semantics. Note: Forge 40.3.0 does not
+	 * provide an {@code AFTER_ENTITIES} stage constant.
 	 * 
 	 * @param event rendering event.
 	 */
-	public static void handleRenderWorldLastEvent(RenderLevelLastEvent event) {
+	public static void handleRenderWorldLastEvent(RenderLevelStageEvent event) {
 		try {
+
+			// exit if not the correct render stage
+			if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES)
+				return;
 
 			// exit if player isn't defined
 			if (!isClientSidePlayerDefined())

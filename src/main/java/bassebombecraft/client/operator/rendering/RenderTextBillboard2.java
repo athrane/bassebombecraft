@@ -21,14 +21,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraftforge.client.event.RenderLevelLastEvent;
+import net.minecraftforge.client.event.RenderLevelStageEvent;
 
 /**
  * Implementation of the {@linkplain Operator2} interface which renders a text
  * billboard.
  * 
  * Supports rendering of billboard text in the renderer instances processing the
- * {@linkplain RenderLevelLastEvent}.
+ * {@linkplain RenderLevelStageEvent}.
  */
 public class RenderTextBillboard2 implements Operator2 {
 
