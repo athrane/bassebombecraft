@@ -17,7 +17,7 @@ import net.minecraftforge.client.event.RenderLivingEvent;
 public class DebugRenderer_MobLines {
 
 	public static void render(RenderLivingEvent.Post event) {
-		showMobs(event.getMatrixStack(), event.getEntity());
+		showMobs(event.getPoseStack(), event.getEntity());
 	}
 
 	private static void greenLine(VertexConsumer builder, Matrix4f positionMatrix, float dx1, float dy1, float dz1,

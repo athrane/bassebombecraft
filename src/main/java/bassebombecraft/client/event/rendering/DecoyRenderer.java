@@ -46,7 +46,7 @@ public class DecoyRenderer {
 		float scale = calculateSize(DECOY_SCALE, entity);
 
 		// get and push matrix stack
-		PoseStack matrixStack = event.getMatrixStack();
+		PoseStack matrixStack = event.getPoseStack();
 		matrixStack.pushPose();
 
 		// calculate xz angle from positive z-axis
@@ -82,7 +82,7 @@ public class DecoyRenderer {
 			return;
 
 		// get and pop matrix stack
-		PoseStack matrixStack = event.getMatrixStack();
+		PoseStack matrixStack = event.getPoseStack();
 		matrixStack.popPose();
 	}
 

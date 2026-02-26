@@ -38,7 +38,7 @@ public class IncreaseSizeEffectRenderer {
 		float scale = calculateSize(effectInstance.getAmplifier(), entity);
 
 		// get and push matrix stack
-		PoseStack matrixStack = event.getMatrixStack();
+		PoseStack matrixStack = event.getPoseStack();
 		matrixStack.pushPose();
 		matrixStack.scale(scale, scale, scale);
 
@@ -60,7 +60,7 @@ public class IncreaseSizeEffectRenderer {
 			return;
 
 		// get and pop matrix stack
-		PoseStack matrixStack = event.getMatrixStack();
+		PoseStack matrixStack = event.getPoseStack();
 		matrixStack.popPose();
 	}
 

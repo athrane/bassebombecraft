@@ -59,7 +59,7 @@ public class TeamEnityRenderer {
 			if (!repository.isMember(player, event.getEntity()))
 				return;
 
-			render(event.getMatrixStack(), event.getEntity());
+			render(event.getPoseStack(), event.getEntity());
 
 		} catch (Exception e) {
 			getBassebombeCraft().reportAndLogException(e);

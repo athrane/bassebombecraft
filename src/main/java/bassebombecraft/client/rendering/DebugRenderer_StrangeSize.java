@@ -12,7 +12,7 @@ public class DebugRenderer_StrangeSize {
 
 	public static void render(RenderLivingEvent.Pre event) {
 
-		PoseStack matrixStack = event.getMatrixStack();
+		PoseStack matrixStack = event.getPoseStack();
 		float w = (float) oscillate(0.5F, 2.0F);
 		matrixStack.scale(w, w, w);
 	}

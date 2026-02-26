@@ -107,7 +107,7 @@ public class RespawnedRenderer {
 		buffer.setColor(RGB_RED, RGB_GREEN, RGB_BLUE, ALPHA_OFFSET + alpha);
 
 		// get matrix stack
-		PoseStack matrixStack = event.getMatrixStack();
+		PoseStack matrixStack = event.getPoseStack();
 
 		// calculate yaw
 		float partialTicks = event.getPartialTick();
