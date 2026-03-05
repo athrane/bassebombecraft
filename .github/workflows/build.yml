@@ -61,9 +61,6 @@ jobs:
     - name: Make gradlew executable
       run: chmod +x ./gradlew
 
-    - name: Delete gradle.properties
-      run: rm ./gradle.properties
-
     - name: Build with Gradle
       run: ./gradlew build
 
