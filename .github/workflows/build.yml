@@ -30,27 +30,27 @@ jobs:
 
     - name: Read version.json into output variable
       id: read_version_json
-      run: echo ::set-output name=json::$(cat ./version.json | jq '.')
+      run: echo "json=$(cat ./version.json | jq '.')" >> $GITHUB_OUTPUT
 
     - name: Read MOD version into output variable
       id: read_mod_version
-      run: echo ::set-output name=version::$(cat ./version.json | jq -r '.modVersion')
+      run: echo "version=$(cat ./version.json | jq -r '.modVersion')" >> $GITHUB_OUTPUT
 
     - name: Read MC version into output variable
       id: read_mc_version
-      run: echo ::set-output name=version::$(cat ./version.json | jq -r '.minecraftVersion')
+      run: echo "version=$(cat ./version.json | jq -r '.minecraftVersion')" >> $GITHUB_OUTPUT
 
     - name: Read final version into output variable
       id: read_final_version
-      run: echo ::set-output name=version::${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}
+      run: echo "version=${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}" >> $GITHUB_OUTPUT
 
     - name: Read jar name into output variable
       id: read_jar_name
-      run: echo ::set-output name=jar_file::BasseBombeCraft-${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}.jar
+      run: echo "jar_file=BasseBombeCraft-${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}.jar" >> $GITHUB_OUTPUT
 
     - name: Read server jar name into output variable
       id: read_server_jar_name
-      run: echo ::set-output name=jar_file::BasseBombeCraft-${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}-server.jar
+      run: echo "jar_file=BasseBombeCraft-${{ steps.read_mc_version.outputs.version }}-${{ steps.read_mod_version.outputs.version }}-server.jar" >> $GITHUB_OUTPUT
 
     - name: Setup Java 17
       uses: actions/setup-java@v4
