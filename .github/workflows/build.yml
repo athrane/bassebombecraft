@@ -30,7 +30,7 @@ jobs:
 
     - name: Read version.json into output variable
       id: read_version_json
-      run: echo "json=$(cat ./version.json | jq '.')" >> $GITHUB_OUTPUT
+      run: echo "json=$(cat ./version.json | jq -c '.')" >> $GITHUB_OUTPUT
 
     - name: Read MOD version into output variable
       id: read_mod_version
