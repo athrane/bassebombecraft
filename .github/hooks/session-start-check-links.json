@@ -1,0 +1,11 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "powershell -NoProfile -ExecutionPolicy Bypass -File .github/scripts/check-skill-links.ps1",
+        "timeout": 10
+      }
+    ]
+  }
+}
