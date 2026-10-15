@@ -19,7 +19,7 @@ Structured workflow and reference knowledge for converting Minecraft Forge compi
 
 - Gradle wrapper (`./gradlew`) present and functional.
 - `.github/.requirements/pr/` directory exists (or will be created).
-- `.github/prompts/pr-template.md` present for PR description format.
+- [pr-template-generic.md](../00-00-create-pr/templates/pr-template-generic.md) present for PR description format.
 - Java compiler available on `PATH` (provided by the Forge toolchain).
 
 ## Step-by-Step Workflow
@@ -71,7 +71,7 @@ If the directory is empty, confirm the starting number with the user.
 
 ### 5. Create requirement files
 
-For each ranked bucket, create `.github/.requirements/pr/<nextNumber>-<kebab-name>.md` using the full template from [pr-template.md](../../prompts/pr-template.md). Populate every section:
+For each ranked bucket, create `.github/.requirements/pr/<nextNumber>-<kebab-name>.md` using the full template from [pr-template-generic.md](../00-00-create-pr/templates/pr-template-generic.md). Populate every section:
 
 - **Summary**: What the fix does (1–3 sentences).
 - **Motivation**: Which API was removed/changed and why.
@@ -103,4 +103,4 @@ After saving all three files confirm:
 ## References
 
 - [forge-api-migration-patterns.md](./references/forge-api-migration-patterns.md) — Catalogue of removed/renamed APIs and their replacements by Forge/Minecraft version
-- [pr-template.md](../../prompts/pr-template.md) — PR description template used for all output files
+- [pr-template-generic.md](../00-00-create-pr/templates/pr-template-generic.md) — PR description template used for all output files
