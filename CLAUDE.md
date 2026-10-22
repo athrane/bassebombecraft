@@ -40,7 +40,7 @@ Skills in `.claude/skills/` drive the workflow:
 | `00-01-implement-pr` | Implementing a requirements file and running the validation pipeline |
 | `00-06-sync-issue-description` | Pushing a requirements file to its GitHub issue |
 
-Do not commit, push or open a PR unless asked.
+Do not commit, push or open a PR unless asked. Commits and PR descriptions carry no Claude attribution: no `Co-Authored-By: Claude` trailer and no "Generated with Claude Code" line.
 
 ## Skill authoring
 
